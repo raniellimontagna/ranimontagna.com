@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X, Download, Mail, Github, Linkedin } from "lucide-react";
 
-export default function Header() {
+export function Header() {
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);

@@ -13,7 +13,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-export default function About() {
+export function About() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

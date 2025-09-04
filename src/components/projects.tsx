@@ -91,7 +91,7 @@ const filters = [
   { id: "api", label: "API", icon: Code },
 ];
 
-export default function Projects() {
+export function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const filteredProjects =

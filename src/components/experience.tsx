@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Building2, Calendar, MapPin, ChevronRight } from "lucide-react";
 
-export default function Experience() {
+export function Experience() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

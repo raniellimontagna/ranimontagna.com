@@ -11,7 +11,7 @@ import {
   Download,
 } from "lucide-react";
 
-export default function Contact() {
+export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",

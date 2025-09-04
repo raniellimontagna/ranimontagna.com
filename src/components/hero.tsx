@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { ArrowDown } from "lucide-react";
 
-export default function Hero() {
+export function Hero() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
