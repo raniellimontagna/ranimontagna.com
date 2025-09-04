@@ -78,7 +78,10 @@ export default function Experience() {
   ];
 
   return (
-    <section className="relative py-20 lg:py-32 bg-white dark:bg-slate-900 overflow-hidden">
+    <section
+      id="experience"
+      className="relative py-20 lg:py-32 bg-white dark:bg-slate-900 overflow-hidden"
+    >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
@@ -267,29 +270,6 @@ export default function Experience() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div
-          className={`text-center mt-16 transition-all duration-1000 delay-1200 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">
-              Interessado em trabalhar comigo?
-            </h3>
-            <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-2xl mx-auto">
-              Estou sempre aberto a novas oportunidades e desafios. Vamos
-              conversar sobre como posso agregar valor ao seu projeto.
-            </p>
-            <a
-              href="#contato"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all duration-300 bg-slate-900 dark:bg-slate-700 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
-            >
-              Vamos conversar
-              <ChevronRight className="ml-2 w-5 h-5" />
-            </a>
           </div>
         </div>
       </div>
