@@ -5,22 +5,18 @@ import { Menu, X, Download, Mail, Github, Linkedin } from 'lucide-react'
 
 import { useTranslations } from 'next-intl'
 
+import { LanguageSwitcher } from '@/components'
+
 export function Header() {
   const t = useTranslations('header')
-
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
     handleScroll()
-
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -30,35 +26,23 @@ export function Header() {
     { name: t('navigation.about'), href: '#about' },
     { name: t('navigation.experience'), href: '#experience' },
     { name: t('navigation.projects'), href: '#projects' },
-    // { name: t('navigation.github'), href: '#github' },
     { name: t('navigation.contact'), href: '#contact' },
   ]
 
   const socialLinks = [
-    {
-      name: 'GitHub',
-      href: 'https://github.com/RanielliMontagna',
-      icon: Github,
-      external: true,
-    },
+    { name: 'GitHub', href: 'https://github.com/RanielliMontagna', icon: Github, external: true },
     {
       name: 'LinkedIn',
       href: 'https://linkedin.com/in/ranimontagna',
       icon: Linkedin,
       external: true,
     },
-    {
-      name: 'Email',
-      href: 'mailto:raniellimontagna@hotmail.com',
-      icon: Mail,
-      external: false,
-    },
+    { name: 'Email', href: 'mailto:raniellimontagna@hotmail.com', icon: Mail, external: false },
   ]
 
   const scrollToSection = (href: string) => {
     const targetId = href.substring(1)
     const element = targetId ? document.getElementById(targetId) : null
-
     if (href === '#start') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (element) {
@@ -114,6 +98,7 @@ export function Header() {
           </div>
 
           <div className="hidden items-center space-x-4 lg:flex">
+            <LanguageSwitcher />
             <div className="flex items-center space-x-2">
               {socialLinks.map((social) => {
                 const IconComponent = social.icon
@@ -131,9 +116,7 @@ export function Header() {
                 )
               })}
             </div>
-
             <div className="h-6 w-px bg-slate-300 dark:bg-slate-600"></div>
-
             <a
               href="/cv_en.pdf"
               download={t('resume.downloadFilename')}
@@ -144,7 +127,8 @@ export function Header() {
             </a>
           </div>
 
-          <div className="lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSwitcher />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative rounded-lg p-2 text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
@@ -153,14 +137,10 @@ export function Header() {
               aria-expanded={isMenuOpen}
             >
               <Menu
-                className={`h-6 w-6 transition-transform duration-300 ease-in-out ${
-                  isMenuOpen ? 'scale-0 rotate-90' : 'scale-100 rotate-0'
-                }`}
+                className={`h-6 w-6 transition-transform duration-300 ease-in-out ${isMenuOpen ? 'scale-0 rotate-90' : 'scale-100 rotate-0'}`}
               />
               <X
-                className={`absolute top-2 left-2 h-6 w-6 transition-transform duration-300 ease-in-out ${
-                  isMenuOpen ? 'scale-100 rotate-0' : 'scale-0 -rotate-90'
-                }`}
+                className={`absolute top-2 left-2 h-6 w-6 transition-transform duration-300 ease-in-out ${isMenuOpen ? 'scale-100 rotate-0' : 'scale-0 -rotate-90'}`}
               />
             </button>
           </div>
@@ -168,9 +148,7 @@ export function Header() {
 
         <div
           id="mobile-menu"
-          className={`grid transition-all duration-500 ease-in-out lg:hidden ${
-            isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-          }`}
+          className={`grid transition-all duration-500 ease-in-out lg:hidden ${isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
         >
           <div className="overflow-hidden">
             <div className="space-y-2 border-t border-slate-200 pt-2 pb-4 dark:border-slate-700">
@@ -213,7 +191,6 @@ export function Header() {
                     )
                   })}
                 </div>
-
                 <a
                   href="/cv_en.pdf"
                   download={t('resume.downloadFilename')}
