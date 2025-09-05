@@ -3,58 +3,46 @@
 import { useEffect, useState } from 'react'
 import { Menu, X, Download, Mail, Github, Linkedin } from 'lucide-react'
 
+import { useTranslations } from 'next-intl'
+
+import { LanguageSwitcher } from '@/components'
+
 export function Header() {
+  const t = useTranslations('header')
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
     handleScroll()
-
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navigation = [
-    { name: 'Início', href: '#start' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Experiência', href: '#experience' },
-    { name: 'Projetos', href: '#projects' },
-    // { name: 'GitHub', href: '#github' },
-    { name: 'Contato', href: '#contact' },
+    { name: t('navigation.start'), href: '#start' },
+    { name: t('navigation.about'), href: '#about' },
+    { name: t('navigation.experience'), href: '#experience' },
+    { name: t('navigation.projects'), href: '#projects' },
+    { name: t('navigation.contact'), href: '#contact' },
   ]
 
   const socialLinks = [
-    {
-      name: 'GitHub',
-      href: 'https://github.com/RanielliMontagna',
-      icon: Github,
-      external: true,
-    },
+    { name: 'GitHub', href: 'https://github.com/RanielliMontagna', icon: Github, external: true },
     {
       name: 'LinkedIn',
       href: 'https://linkedin.com/in/ranimontagna',
       icon: Linkedin,
       external: true,
     },
-    {
-      name: 'Email',
-      href: 'mailto:raniellimontagna@hotmail.com',
-      icon: Mail,
-      external: false,
-    },
+    { name: 'Email', href: 'mailto:raniellimontagna@hotmail.com', icon: Mail, external: false },
   ]
 
   const scrollToSection = (href: string) => {
     const targetId = href.substring(1)
     const element = targetId ? document.getElementById(targetId) : null
-
     if (href === '#start') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (element) {
@@ -83,14 +71,14 @@ export function Header() {
               className="group flex items-center space-x-3 transition-all duration-300"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-slate-700 to-slate-900 shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl dark:from-slate-600 dark:to-slate-800">
-                <span className="text-lg font-bold text-white">RM</span>
+                <span className="text-lg font-bold text-white">{t('logo.initials')}</span>
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-slate-700 dark:text-slate-100 dark:group-hover:text-slate-300">
-                  Ranielli Montagna
+                  {t('logo.fullName')}
                 </h1>
                 <p className="text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300">
-                  Desenvolvedor Full Stack
+                  {t('logo.jobTitle')}
                 </p>
               </div>
             </button>
@@ -110,6 +98,7 @@ export function Header() {
           </div>
 
           <div className="hidden items-center space-x-4 lg:flex">
+            <LanguageSwitcher />
             <div className="flex items-center space-x-2">
               {socialLinks.map((social) => {
                 const IconComponent = social.icon
@@ -127,36 +116,31 @@ export function Header() {
                 )
               })}
             </div>
-
             <div className="h-6 w-px bg-slate-300 dark:bg-slate-600"></div>
-
             <a
               href="/cv_en.pdf"
-              download="Curriculo-Ranielli-Montagna.pdf"
+              download={t('resume.downloadFilename')}
               className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl dark:bg-slate-700 dark:hover:bg-slate-600"
             >
               <Download className="mr-2 h-4 w-4" />
-              Currículo
+              {t('resume.buttonDesktop')}
             </a>
           </div>
 
-          <div className="lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSwitcher />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative rounded-lg p-2 text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-              aria-label="Toggle menu"
+              aria-label={t('mobileMenu.toggleAriaLabel')}
               aria-controls="mobile-menu"
               aria-expanded={isMenuOpen}
             >
               <Menu
-                className={`h-6 w-6 transition-transform duration-300 ease-in-out ${
-                  isMenuOpen ? 'scale-0 rotate-90' : 'scale-100 rotate-0'
-                }`}
+                className={`h-6 w-6 transition-transform duration-300 ease-in-out ${isMenuOpen ? 'scale-0 rotate-90' : 'scale-100 rotate-0'}`}
               />
               <X
-                className={`absolute top-2 left-2 h-6 w-6 transition-transform duration-300 ease-in-out ${
-                  isMenuOpen ? 'scale-100 rotate-0' : 'scale-0 -rotate-90'
-                }`}
+                className={`absolute top-2 left-2 h-6 w-6 transition-transform duration-300 ease-in-out ${isMenuOpen ? 'scale-100 rotate-0' : 'scale-0 -rotate-90'}`}
               />
             </button>
           </div>
@@ -164,9 +148,7 @@ export function Header() {
 
         <div
           id="mobile-menu"
-          className={`grid transition-all duration-500 ease-in-out lg:hidden ${
-            isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-          }`}
+          className={`grid transition-all duration-500 ease-in-out lg:hidden ${isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
         >
           <div className="overflow-hidden">
             <div className="space-y-2 border-t border-slate-200 pt-2 pb-4 dark:border-slate-700">
@@ -209,14 +191,13 @@ export function Header() {
                     )
                   })}
                 </div>
-
                 <a
                   href="/cv_en.pdf"
-                  download="Curriculo-Ranielli-Montagna.pdf"
+                  download={t('resume.downloadFilename')}
                   className="flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600"
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  Baixar Currículo
+                  {t('resume.buttonMobile')}
                 </a>
               </div>
             </div>

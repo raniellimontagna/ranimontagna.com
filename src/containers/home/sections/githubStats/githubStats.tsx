@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Github, GitBranch, Star, Users, Code, TrendingUp } from 'lucide-react'
 import { LucideIcon } from 'lucide-react'
 
-export function GitHubStats() {
+export function GithubStats() {
   const [mounted, setMounted] = useState(false)
   const stats = {
     totalRepos: 47,

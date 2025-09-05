@@ -1,0 +1,247 @@
+{
+  "header": {
+    "logo": {
+      "initials": "RM",
+      "fullName": "Ranielli Montagna",
+      "jobTitle": "Full Stack Developer"
+    },
+    "navigation": {
+      "start": "Home",
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "contact": "Contact"
+    },
+    "socials": {
+      "githubAriaLabel": "GitHub",
+      "linkedinAriaLabel": "LinkedIn",
+      "emailAriaLabel": "Email"
+    },
+    "resume": {
+      "buttonDesktop": "Resume",
+      "buttonMobile": "Download Resume",
+      "downloadFilename": "Resume-Ranielli-Montagna.pdf"
+    },
+    "mobileMenu": {
+      "toggleAriaLabel": "Toggle menu"
+    }
+  },
+  "hero": {
+    "availability": "Available for new projects",
+    "greeting": "Hello, I'm",
+    "name": "Ranielli Montagna",
+    "passion": {
+      "part1": "A",
+      "highlight": "Full Stack Developer",
+      "part2": "passionate about creating exceptional digital experiences"
+    },
+    "description": "I have experience in developing web and mobile applications, with a focus on quality, performance, and usability.",
+    "cta": {
+      "projects": "See my projects",
+      "contact": "Get in touch"
+    },
+    "skills": {
+      "title": "Technologies I master",
+      "list": [
+        "React",
+        "React Native",
+        "TypeScript",
+        "Node.js",
+        "Tailwind CSS",
+        "Figma",
+        "PostgreSQL"
+      ]
+    }
+  },
+  "about": {
+    "badge": "Learn more about me",
+    "title": {
+      "part1": "About",
+      "part2": "Me"
+    },
+    "bio": {
+      "greeting": "Hello! I'm",
+      "name": "Ranielli Montagna",
+      "intro": "a full stack developer passionate about turning ideas into innovative digital solutions. With over 3 years of experience, I specialize in creating web and mobile applications that combine exceptional functionality with intuitive design.",
+      "journey": "My journey began with a curiosity about how things work on the web, and since then I have been developing projects that positively impact people's lives. I believe technology should be accessible and make a difference.",
+      "hobbies": "When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or planning my next development adventure."
+    },
+    "cta": {
+      "resume": "Download Resume",
+      "resumeFilename": "Resume-Ranielli-Montagna.pdf",
+      "contact": "Let's talk"
+    },
+    "stats": {
+      "experience": "Years of experience",
+      "projects": "Projects completed",
+      "dedication": "Dedication"
+    },
+    "skills": {
+      "title": "My main skills",
+      "categories": {
+        "frontend": "Frontend",
+        "backend": "Backend",
+        "design": "Design",
+        "tools": "Tools"
+      },
+      "technologies": {
+        "react": "React",
+        "nextjs": "Next.js",
+        "typescript": "TypeScript",
+        "tailwind": "Tailwind CSS",
+        "reactNative": "React Native",
+        "nodejs": "Node.js",
+        "express": "Express",
+        "postgresql": "PostgreSQL",
+        "prisma": "Prisma",
+        "jwt": "JWT",
+        "figma": "Figma",
+        "uiux": "UI/UX",
+        "prototyping": "Prototyping",
+        "designSystem": "Design System",
+        "git": "Git",
+        "docker": "Docker",
+        "vscode": "VS Code",
+        "postman": "Postman",
+        "vercel": "Vercel"
+      }
+    }
+  },
+  "experience": {
+    "badge": "My professional journey",
+    "title": {
+      "part1": "Professional",
+      "part2": "Experience"
+    },
+    "subtitle": "Over 3 years building innovative solutions in companies of different sizes and segments, always focused on delivering value and growing technically.",
+    "currentLabel": "Current",
+    "highlightsTitle": "Key achievements:",
+    "technologiesTitle": "Technologies used:",
+    "logoAlt": "{company} logo",
+    "jobs": {
+      "luizalabs": {
+        "company": "Luizalabs",
+        "position": "Mid-level Developer",
+        "period": "October 2023 - Present",
+        "location": "Remote",
+        "description": "I am part of the Luizalabs team, the technology innovation unit of Magalu, one of Brazil's largest retailers. I develop and maintain web and mobile applications for physical store operations, as well as robust and scalable APIs and backend solutions.",
+        "highlights": [
+          "Development of applications for retail operations",
+          "Maintenance of APIs and backend solutions",
+          "System integration in a high-impact environment",
+          "Work with modern and scalable technologies"
+        ]
+      },
+      "smarten": {
+        "company": "Smarten",
+        "position": "Front-end Tech Lead",
+        "period": "May 2022 - September 2023",
+        "location": "Remote",
+        "description": "I led a team of developers, ensuring code quality and application optimization. I created and maintained the corporate design system, and implemented monitoring and CI/CD solutions, boosting the efficiency and stability of the products.",
+        "highlights": [
+          "Technical leadership of a developer team",
+          "Creation and maintenance of a design system",
+          "Implementation of CI/CD and monitoring",
+          "Performance and scalability optimization"
+        ]
+      },
+      "sbsistemas": {
+        "company": "SBSistemas",
+        "position": "Front-end Developer",
+        "period": "May 2021 - May 2022",
+        "location": "On-site",
+        "description": "First professional experience in the technology field, where I consolidated my technical foundation in front-end development. I developed applications using modern technologies and implemented best development practices.",
+        "highlights": [
+          "First professional experience in tech",
+          "Development of front-end applications",
+          "Consolidation of a solid technical foundation",
+          "Implementation of best development practices"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "badge": "Project Portfolio",
+    "title": {
+      "part1": "My",
+      "part2": "Projects"
+    },
+    "subtitle": "A selection of my most recent works, including web, mobile, and API applications that demonstrate my technical skills.",
+    "featuredTitle": "Featured Projects",
+    "filters": {
+      "all": "All",
+      "web": "Web",
+      "mobile": "Mobile",
+      "api": "API"
+    },
+    "cta": {
+      "text": "Did you like what you saw? Let's talk about your next project!",
+      "button": "Get in Touch"
+    },
+    "list": {
+      "ecommerceApp": {
+        "title": "E-commerce Mobile App",
+        "description": "Complete e-commerce application with React Native, integrating PIX and card payments, coupon system, and push notifications."
+      },
+      "dashboardAnalytics": {
+        "title": "Analytics Dashboard",
+        "description": "Administrative dashboard with real-time data visualizations, interactive charts, and exportable reports."
+      },
+      "financeApi": {
+        "title": "Financial Management API",
+        "description": "REST API for personal financial management with JWT authentication, automatic expense categorization, and monthly reports."
+      },
+      "saasLanding": {
+        "title": "SaaS Landing Page",
+        "description": "Modern landing page for a SaaS product with fluid animations, optimized for conversion and SEO."
+      },
+      "deliveryApp": {
+        "title": "Delivery App",
+        "description": "Delivery application with real-time tracking, rating system, and map integration."
+      },
+      "blogCms": {
+        "title": "Blog CMS System",
+        "description": "Content management system for blogs with a rich text editor, automatic SEO, and multiple authors."
+      }
+    }
+  },
+  "contact": {
+    "badge": "Get in Touch",
+    "title": {
+      "part1": "Let's work",
+      "part2": "together"
+    },
+    "subtitle": "I'm interested in freelance or full-time opportunities. If you have a project in mind or just want to chat, I'd be happy to talk.",
+    "info": {
+      "title": "Contact Information",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "locationValue": "Paraí, Rio Grande do Sul, Brazil",
+      "socialsTitle": "Find me on social media",
+      "resumeButton": "Download Resume"
+    },
+    "form": {
+      "title": "Send a message",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Your name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "you@email.com"
+        },
+        "subject": {
+          "label": "Subject",
+          "placeholder": "Subject of the message"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Tell me about your project or idea..."
+        }
+      },
+      "submitButton": "Send Message"
+    }
+  }
+}

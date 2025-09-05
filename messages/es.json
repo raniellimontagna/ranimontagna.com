@@ -1,0 +1,247 @@
+{
+  "header": {
+    "logo": {
+      "initials": "RM",
+      "fullName": "Ranielli Montagna",
+      "jobTitle": "Desarrollador Full Stack"
+    },
+    "navigation": {
+      "start": "Inicio",
+      "about": "Sobre mí",
+      "experience": "Experiencia",
+      "projects": "Proyectos",
+      "contact": "Contacto"
+    },
+    "socials": {
+      "githubAriaLabel": "GitHub",
+      "linkedinAriaLabel": "LinkedIn",
+      "emailAriaLabel": "Email"
+    },
+    "resume": {
+      "buttonDesktop": "Currículum",
+      "buttonMobile": "Descargar Currículum",
+      "downloadFilename": "Curriculum-Ranielli-Montagna.pdf"
+    },
+    "mobileMenu": {
+      "toggleAriaLabel": "Alternar menú"
+    }
+  },
+  "hero": {
+    "availability": "Disponible para nuevos proyectos",
+    "greeting": "Hola, soy",
+    "name": "Ranielli Montagna",
+    "passion": {
+      "part1": "Desarrollador",
+      "highlight": "Full Stack",
+      "part2": "apasionado por crear experiencias digitales excepcionales"
+    },
+    "description": "Tengo experiencia en el desarrollo de aplicaciones web y móviles, con un enfoque en la calidad, el rendimiento y la facilidad de uso.",
+    "cta": {
+      "projects": "Ver mis proyectos",
+      "contact": "Ponte en contacto"
+    },
+    "skills": {
+      "title": "Tecnologías que domino",
+      "list": [
+        "React",
+        "React Native",
+        "TypeScript",
+        "Node.js",
+        "Tailwind CSS",
+        "Figma",
+        "PostgreSQL"
+      ]
+    }
+  },
+  "about": {
+    "badge": "Conoce más sobre mí",
+    "title": {
+      "part1": "Sobre",
+      "part2": "Mí"
+    },
+    "bio": {
+      "greeting": "¡Hola! Soy",
+      "name": "Ranielli Montagna",
+      "intro": "un desarrollador full stack apasionado por transformar ideas en soluciones digitales innovadoras. Con más de 3 años de experiencia, me especializo en crear aplicaciones web y móviles que combinan una funcionalidad excepcional con un diseño intuitivo.",
+      "journey": "Mi viaje comenzó con la curiosidad sobre cómo funcionan las cosas en la web, y desde entonces he estado desarrollando proyectos que impactan positivamente la vida de las personas. Creo que la tecnología debe ser accesible y marcar la diferencia.",
+      "hobbies": "Cuando no estoy programando, puedes encontrarme explorando nuevas tecnologías, contribuyendo a proyectos de código abierto o planeando mi próxima aventura de desarrollo."
+    },
+    "cta": {
+      "resume": "Descargar Currículum",
+      "resumeFilename": "Curriculum-Ranielli-Montagna.pdf",
+      "contact": "Hablemos"
+    },
+    "stats": {
+      "experience": "Años de experiencia",
+      "projects": "Proyectos completados",
+      "dedication": "Dedicación"
+    },
+    "skills": {
+      "title": "Mis principales competencias",
+      "categories": {
+        "frontend": "Frontend",
+        "backend": "Backend",
+        "design": "Diseño",
+        "tools": "Herramientas"
+      },
+      "technologies": {
+        "react": "React",
+        "nextjs": "Next.js",
+        "typescript": "TypeScript",
+        "tailwind": "Tailwind CSS",
+        "reactNative": "React Native",
+        "nodejs": "Node.js",
+        "express": "Express",
+        "postgresql": "PostgreSQL",
+        "prisma": "Prisma",
+        "jwt": "JWT",
+        "figma": "Figma",
+        "uiux": "UI/UX",
+        "prototyping": "Prototipos",
+        "designSystem": "Sistema de Diseño",
+        "git": "Git",
+        "docker": "Docker",
+        "vscode": "VS Code",
+        "postman": "Postman",
+        "vercel": "Vercel"
+      }
+    }
+  },
+  "experience": {
+    "badge": "Mi trayectoria profesional",
+    "title": {
+      "part1": "Experiencia",
+      "part2": "Profesional"
+    },
+    "subtitle": "Más de 3 años construyendo soluciones innovadoras en empresas de diferentes tamaños y segmentos, siempre enfocado en entregar valor y crecer técnicamente.",
+    "currentLabel": "Actual",
+    "highlightsTitle": "Logros principales:",
+    "technologiesTitle": "Tecnologías utilizadas:",
+    "logoAlt": "Logo de {company}",
+    "jobs": {
+      "luizalabs": {
+        "company": "Luizalabs",
+        "position": "Desarrollador Pleno",
+        "period": "Octubre 2023 - Actualmente",
+        "location": "Remoto",
+        "description": "Formo parte del equipo de Luizalabs, la unidad de innovación tecnológica de Magalu, uno de los minoristas más grandes de Brasil. Desarrollo y mantengo aplicaciones web y móviles para operaciones de tiendas físicas, así como APIs y soluciones backend robustas y escalables.",
+        "highlights": [
+          "Desarrollo de aplicaciones para operaciones minoristas",
+          "Mantenimiento de APIs y soluciones backend",
+          "Integración de sistemas en un entorno de alto impacto",
+          "Trabajo con tecnologías modernas y escalables"
+        ]
+      },
+      "smarten": {
+        "company": "Smarten",
+        "position": "Líder Técnico Front-end",
+        "period": "Mayo 2022 - Septiembre 2023",
+        "location": "Remoto",
+        "description": "Lideré un equipo de desarrolladores, garantizando la calidad del código y la optimización de las aplicaciones. Creé y mantuve el sistema de diseño corporativo, e implementé soluciones de monitoreo y CI/CD, impulsando la eficiencia y estabilidad de los productos.",
+        "highlights": [
+          "Liderazgo técnico de un equipo de desarrolladores",
+          "Creación y mantenimiento de un sistema de diseño",
+          "Implementación de CI/CD y monitoreo",
+          "Optimización del rendimiento y la escalabilidad"
+        ]
+      },
+      "sbsistemas": {
+        "company": "SBSistemas",
+        "position": "Desarrollador Front-end",
+        "period": "Mayo 2021 - Mayo 2022",
+        "location": "Presencial",
+        "description": "Primera experiencia profesional en el área de tecnología, donde consolidé mi base técnica en desarrollo front-end. Desarrollé aplicaciones utilizando tecnologías modernas e implementé buenas prácticas de desarrollo.",
+        "highlights": [
+          "Primera experiencia profesional en tecnología",
+          "Desarrollo de aplicaciones front-end",
+          "Consolidación de una base técnica sólida",
+          "Implementación de buenas prácticas de desarrollo"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "badge": "Portafolio de Proyectos",
+    "title": {
+      "part1": "Mis",
+      "part2": "Proyectos"
+    },
+    "subtitle": "Una selección de mis trabajos más recientes, incluyendo aplicaciones web, móviles y APIs que demuestran mis habilidades técnicas.",
+    "featuredTitle": "Proyectos Destacados",
+    "filters": {
+      "all": "Todos",
+      "web": "Web",
+      "mobile": "Móvil",
+      "api": "API"
+    },
+    "cta": {
+      "text": "¿Te gustó lo que viste? ¡Hablemos de tu próximo proyecto!",
+      "button": "Ponerse en Contacto"
+    },
+    "list": {
+      "ecommerceApp": {
+        "title": "App Móvil de E-commerce",
+        "description": "Aplicación de e-commerce completa con React Native, que integra pagos con PIX y tarjeta, sistema de cupones y notificaciones push."
+      },
+      "dashboardAnalytics": {
+        "title": "Dashboard de Analítica",
+        "description": "Dashboard administrativo con visualizaciones de datos en tiempo real, gráficos interactivos e informes exportables."
+      },
+      "financeApi": {
+        "title": "API de Gestión Financiera",
+        "description": "API REST para gestión financiera personal con autenticación JWT, categorización automática de gastos e informes mensuales."
+      },
+      "saasLanding": {
+        "title": "Landing Page para SaaS",
+        "description": "Landing page moderna para un producto SaaS con animaciones fluidas, optimizada para conversión y SEO."
+      },
+      "deliveryApp": {
+        "title": "App de Delivery",
+        "description": "Aplicación de delivery con seguimiento en tiempo real, sistema de valoraciones e integración con mapas."
+      },
+      "blogCms": {
+        "title": "Sistema CMS para Blog",
+        "description": "Sistema de gestión de contenido para blogs con editor de texto enriquecido, SEO automático y múltiples autores."
+      }
+    }
+  },
+  "contact": {
+    "badge": "Ponte en Contacto",
+    "title": {
+      "part1": "Trabajemos",
+      "part2": "juntos"
+    },
+    "subtitle": "Estoy interesado en oportunidades freelance o a tiempo completo. Si tienes un proyecto en mente o simplemente quieres charlar, estaré encantado de conversar.",
+    "info": {
+      "title": "Información de Contacto",
+      "email": "Email",
+      "phone": "Teléfono",
+      "location": "Ubicación",
+      "locationValue": "Paraí, Rio Grande do Sul, Brasil",
+      "socialsTitle": "Encuéntrame en las redes",
+      "resumeButton": "Descargar Currículum"
+    },
+    "form": {
+      "title": "Envía un mensaje",
+      "fields": {
+        "name": {
+          "label": "Nombre",
+          "placeholder": "Tu nombre"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "tu@email.com"
+        },
+        "subject": {
+          "label": "Asunto",
+          "placeholder": "Asunto del mensaje"
+        },
+        "message": {
+          "label": "Mensaje",
+          "placeholder": "Cuéntame sobre tu proyecto o idea..."
+        }
+      },
+      "submitButton": "Enviar Mensaje"
+    }
+  }
+}
