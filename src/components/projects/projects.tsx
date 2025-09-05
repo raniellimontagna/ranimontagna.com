@@ -1,14 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
 
-const projects = [
+const projectsData = [
   {
     id: 1,
-    title: 'E-commerce Mobile App',
-    description:
-      'Aplicativo de e-commerce completo com React Native, integrando pagamentos via PIX e cartão, sistema de cupons e notificações push.',
+    i18nKey: 'ecommerceApp',
     image: '/projects/ecommerce-app.jpg',
     technologies: ['React Native', 'TypeScript', 'Node.js', 'PostgreSQL', 'Stripe'],
     github: 'https://github.com/ranimontagna/ecommerce-app',
@@ -18,9 +17,7 @@ const projects = [
   },
   {
     id: 2,
-    title: 'Dashboard Analytics',
-    description:
-      'Dashboard administrativo com visualizações de dados em tempo real, gráficos interativos e relatórios exportáveis.',
+    i18nKey: 'dashboardAnalytics',
     image: '/projects/dashboard-analytics.jpg',
     technologies: ['React', 'Next.js', 'Chart.js', 'Tailwind CSS', 'Firebase'],
     github: 'https://github.com/ranimontagna/dashboard-analytics',
@@ -30,9 +27,7 @@ const projects = [
   },
   {
     id: 3,
-    title: 'API de Gestão Financeira',
-    description:
-      'API REST para gestão financeira pessoal com autenticação JWT, categorização automática de gastos e relatórios mensais.',
+    i18nKey: 'financeApi',
     image: '/projects/finance-api.jpg',
     technologies: ['Node.js', 'Express', 'PostgreSQL', 'JWT', 'Swagger'],
     github: 'https://github.com/ranimontagna/finance-api',
@@ -42,9 +37,7 @@ const projects = [
   },
   {
     id: 4,
-    title: 'Landing Page SaaS',
-    description:
-      'Landing page moderna para produto SaaS com animações fluidas, otimizada para conversão e SEO.',
+    i18nKey: 'saasLanding',
     image: '/projects/saas-landing.jpg',
     technologies: ['Next.js', 'Framer Motion', 'Tailwind CSS', 'Vercel'],
     github: 'https://github.com/ranimontagna/saas-landing',
@@ -54,9 +47,7 @@ const projects = [
   },
   {
     id: 5,
-    title: 'App de Delivery',
-    description:
-      'Aplicativo de delivery com rastreamento em tempo real, sistema de avaliações e integração com mapas.',
+    i18nKey: 'deliveryApp',
     image: '/projects/delivery-app.jpg',
     technologies: ['React Native', 'Firebase', 'Google Maps', 'Redux'],
     github: 'https://github.com/ranimontagna/delivery-app',
@@ -66,9 +57,7 @@ const projects = [
   },
   {
     id: 6,
-    title: 'Sistema de Blog CMS',
-    description:
-      'Sistema de gerenciamento de conteúdo para blogs com editor rich text, SEO automático e múltiplos autores.',
+    i18nKey: 'blogCms',
     image: '/projects/blog-cms.jpg',
     technologies: ['Next.js', 'Prisma', 'PostgreSQL', 'NextAuth', 'TinyMCE'],
     github: 'https://github.com/ranimontagna/blog-cms',
@@ -78,20 +67,27 @@ const projects = [
   },
 ]
 
-const filters = [
-  { id: 'all', label: 'Todos', icon: Code },
-  { id: 'web', label: 'Web', icon: Globe },
-  { id: 'mobile', label: 'Mobile', icon: Smartphone },
-  { id: 'api', label: 'API', icon: Code },
-]
-
 export function Projects() {
+  const t = useTranslations('projects')
   const [mounted, setMounted] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const projects = projectsData.map((p) => ({
+    ...p,
+    title: t(`list.${p.i18nKey}.title`),
+    description: t(`list.${p.i18nKey}.description`),
+  }))
+
+  const filters = [
+    { id: 'all', label: t('filters.all'), icon: Code },
+    { id: 'web', label: t('filters.web'), icon: Globe },
+    { id: 'mobile', label: t('filters.mobile'), icon: Smartphone },
+    { id: 'api', label: t('filters.api'), icon: Code },
+  ]
 
   const filteredProjects =
     activeFilter === 'all' ? projects : projects.filter((project) => project.type === activeFilter)
@@ -106,7 +102,6 @@ export function Projects() {
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
-
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20"></div>
         <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10"></div>
@@ -120,7 +115,7 @@ export function Projects() {
             }`}
           >
             <Code className="mr-2 h-4 w-4" />
-            Portfólio de projetos
+            {t('badge')}
           </div>
 
           <h2
@@ -128,9 +123,9 @@ export function Projects() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Meus{' '}
+            {t('title.part1')}{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Projetos
+              {t('title.part2')}
             </span>
           </h2>
           <p
@@ -138,8 +133,7 @@ export function Projects() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Uma seleção dos meus trabalhos mais recentes, incluindo aplicações web, mobile e APIs
-            que demonstram minhas habilidades técnicas.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -149,7 +143,7 @@ export function Projects() {
           }`}
         >
           <h3 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
-            Projetos em Destaque
+            {t('featuredTitle')}
           </h3>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((project, index) => (
@@ -344,14 +338,12 @@ export function Projects() {
             mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}
         >
-          <p className="mb-6 text-slate-600 dark:text-slate-300">
-            Gostou do que viu? Vamos conversar sobre seu próximo projeto!
-          </p>
+          <p className="mb-6 text-slate-600 dark:text-slate-300">{t('cta.text')}</p>
           <a
             href="#contact"
             className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
           >
-            Entrar em Contato
+            {t('cta.button')}
           </a>
         </div>
       </div>

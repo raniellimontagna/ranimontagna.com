@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import {
   Monitor,
   Server,
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react'
 
 export function About() {
+  const t = useTranslations('about')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -21,30 +23,53 @@ export function About() {
   }, [])
 
   const stats = [
-    { number: '3+', label: 'Anos de experiência' },
-    { number: '20+', label: 'Projetos concluídos' },
-    { number: '100%', label: 'Dedicação' },
+    { number: '3+', label: t('stats.experience') },
+    { number: '20+', label: t('stats.projects') },
+    { number: '100%', label: t('stats.dedication') },
   ]
 
   const skills = [
     {
-      category: 'Frontend',
-      technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'React Native'],
+      category: t('skills.categories.frontend'),
+      technologies: [
+        t('skills.technologies.react'),
+        t('skills.technologies.nextjs'),
+        t('skills.technologies.typescript'),
+        t('skills.technologies.tailwind'),
+        t('skills.technologies.reactNative'),
+      ],
       icon: Monitor,
     },
     {
-      category: 'Backend',
-      technologies: ['Node.js', 'Express', 'PostgreSQL', 'Prisma', 'JWT'],
+      category: t('skills.categories.backend'),
+      technologies: [
+        t('skills.technologies.nodejs'),
+        t('skills.technologies.express'),
+        t('skills.technologies.postgresql'),
+        t('skills.technologies.prisma'),
+        t('skills.technologies.jwt'),
+      ],
       icon: Server,
     },
     {
-      category: 'Design',
-      technologies: ['Figma', 'UI/UX', 'Prototipagem', 'Design System'],
+      category: t('skills.categories.design'),
+      technologies: [
+        t('skills.technologies.figma'),
+        t('skills.technologies.uiux'),
+        t('skills.technologies.prototyping'),
+        t('skills.technologies.designSystem'),
+      ],
       icon: Palette,
     },
     {
-      category: 'Ferramentas',
-      technologies: ['Git', 'Docker', 'VS Code', 'Postman', 'Vercel'],
+      category: t('skills.categories.tools'),
+      technologies: [
+        t('skills.technologies.git'),
+        t('skills.technologies.docker'),
+        t('skills.technologies.vscode'),
+        t('skills.technologies.postman'),
+        t('skills.technologies.vercel'),
+      ],
       icon: Settings,
     },
   ]
@@ -57,7 +82,6 @@ export function About() {
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
-
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl dark:bg-slate-700/20"></div>
         <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl dark:bg-slate-600/10"></div>
@@ -71,7 +95,7 @@ export function About() {
             }`}
           >
             <User className="mr-2 h-4 w-4" />
-            Conheça mais sobre mim
+            {t('badge')}
           </div>
 
           <h2
@@ -79,7 +103,8 @@ export function About() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Sobre <span className="text-slate-600 dark:text-slate-400">Mim</span>
+            {t('title.part1')}{' '}
+            <span className="text-slate-600 dark:text-slate-400">{t('title.part2')}</span>
           </h2>
         </div>
 
@@ -97,7 +122,7 @@ export function About() {
               <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-700 dark:bg-slate-800">
                 <Image
                   src="/photo.webp"
-                  alt="Ranielli Montagna"
+                  alt={t('bio.name')}
                   width={400}
                   height={400}
                   className="w-full rounded-xl object-cover"
@@ -113,42 +138,30 @@ export function About() {
           >
             <div className="space-y-4 text-lg leading-relaxed text-slate-600 dark:text-slate-300">
               <p>
-                Olá! Sou{' '}
-                <strong className="text-slate-900 dark:text-slate-100">Ranielli Montagna</strong>,
-                um desenvolvedor full stack apaixonado por transformar ideias em soluções digitais
-                inovadoras. Com mais de 3 anos de experiência, especializo-me em criar aplicações
-                web e mobile que combinam funcionalidade excepcional com design intuitivo.
+                {t('bio.greeting')}{' '}
+                <strong className="text-slate-900 dark:text-slate-100">{t('bio.name')}</strong>,{' '}
+                {t('bio.intro')}
               </p>
-
-              <p>
-                Minha jornada começou com curiosidade sobre como as coisas funcionam na web, e desde
-                então venho desenvolvendo projetos que impactam positivamente a vida das pessoas.
-                Acredito que a tecnologia deve ser acessível e fazer a diferença.
-              </p>
-
-              <p>
-                Quando não estou codando, você pode me encontrar explorando novas tecnologias,
-                contribuindo para projetos open source, ou planejando minha próxima aventura de
-                desenvolvimento.
-              </p>
+              <p>{t('bio.journey')}</p>
+              <p>{t('bio.hobbies')}</p>
             </div>
 
             <div className="flex flex-col gap-4 pt-6 sm:flex-row">
               <a
                 href="/cv_en.pdf"
-                download="Curriculo-Ranielli-Montagna.pdf"
+                download={t('cta.resumeFilename')}
                 className="group relative inline-flex items-center justify-center rounded-lg bg-slate-900 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none dark:bg-slate-700 dark:hover:bg-slate-600"
               >
                 <Download className="mr-2 h-5 w-5" />
-                Baixar Currículo
+                {t('cta.resume')}
               </a>
 
               <a
-                href="#contato"
+                href="#contact"
                 className="group inline-flex items-center justify-center rounded-lg border-2 border-slate-300 bg-transparent px-8 py-4 text-lg font-medium text-slate-700 transition-all duration-300 hover:border-slate-500 hover:text-slate-900 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none dark:border-slate-600 dark:text-slate-300 dark:hover:text-slate-100"
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
-                Vamos conversar
+                {t('cta.contact')}
               </a>
             </div>
           </div>
@@ -181,7 +194,7 @@ export function About() {
           }`}
         >
           <h3 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-slate-100">
-            Minhas principais competências
+            {t('skills.title')}
           </h3>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">

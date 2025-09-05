@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Download } from 'lucide-react'
 
 export function Contact() {
+  const t = useTranslations('contact')
   const [mounted, setMounted] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -18,6 +20,7 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    // A lógica de envio do formulário permanece a mesma
     console.log('Form submitted:', formData)
   }
 
@@ -36,7 +39,6 @@ export function Contact() {
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
-
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20"></div>
         <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10"></div>
@@ -50,7 +52,7 @@ export function Contact() {
             }`}
           >
             <Mail className="mr-2 h-4 w-4" />
-            Entre em contato
+            {t('badge')}
           </div>
 
           <h2
@@ -58,9 +60,9 @@ export function Contact() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Vamos trabalhar{' '}
+            {t('title.part1')}{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              juntos
+              {t('title.part2')}
             </span>
           </h2>
           <p
@@ -68,8 +70,7 @@ export function Contact() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Tenho interesse em oportunidades freelance ou full-time. Se você tem um projeto em mente
-            ou apenas quer bater um papo, ficarei feliz em conversar.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -83,7 +84,7 @@ export function Contact() {
               <div className="absolute -inset-4 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 dark:bg-slate-700"></div>
               <div className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-700 dark:bg-slate-800">
                 <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
-                  Informações de Contato
+                  {t('info.title')}
                 </h3>
 
                 <div className="space-y-6">
@@ -92,7 +93,9 @@ export function Contact() {
                       <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900 dark:text-white">Email</p>
+                      <p className="font-medium text-slate-900 dark:text-white">
+                        {t('info.email')}
+                      </p>
                       <a
                         href="mailto:raniellimontagna@hotmail.com"
                         className="text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
@@ -107,7 +110,9 @@ export function Contact() {
                       <Phone className="h-6 w-6 text-green-600 dark:text-green-400" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900 dark:text-white">Telefone</p>
+                      <p className="font-medium text-slate-900 dark:text-white">
+                        {t('info.phone')}
+                      </p>
                       <a
                         href="tel:+5554999790871"
                         className="text-slate-600 transition-colors hover:text-green-600 dark:text-slate-300 dark:hover:text-green-400"
@@ -122,9 +127,11 @@ export function Contact() {
                       <MapPin className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900 dark:text-white">Localização</p>
+                      <p className="font-medium text-slate-900 dark:text-white">
+                        {t('info.location')}
+                      </p>
                       <p className="text-slate-600 dark:text-slate-300">
-                        Paraí, Rio Grande do Sul, Brasil
+                        {t('info.locationValue')}
                       </p>
                     </div>
                   </div>
@@ -132,7 +139,7 @@ export function Contact() {
 
                 <div className="mt-8">
                   <h4 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                    Me encontre nas redes
+                    {t('info.socialsTitle')}
                   </h4>
                   <div className="flex space-x-4">
                     <a
@@ -161,7 +168,7 @@ export function Contact() {
                     className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
                   >
                     <Download className="mr-2 h-5 w-5" />
-                    Baixar Currículo
+                    {t('info.resumeButton')}
                   </a>
                 </div>
               </div>
@@ -177,7 +184,7 @@ export function Contact() {
               <div className="absolute -inset-4 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 dark:bg-slate-700"></div>
               <div className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-700 dark:bg-slate-800">
                 <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
-                  Envie uma mensagem
+                  {t('form.title')}
                 </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -186,7 +193,7 @@ export function Contact() {
                       htmlFor="name"
                       className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      Nome
+                      {t('form.fields.name.label')}
                     </label>
                     <input
                       type="text"
@@ -196,7 +203,7 @@ export function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder="Seu nome"
+                      placeholder={t('form.fields.name.placeholder')}
                     />
                   </div>
 
@@ -205,7 +212,7 @@ export function Contact() {
                       htmlFor="email"
                       className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      Email
+                      {t('form.fields.email.label')}
                     </label>
                     <input
                       type="email"
@@ -215,7 +222,7 @@ export function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder="seu@email.com"
+                      placeholder={t('form.fields.email.placeholder')}
                     />
                   </div>
 
@@ -224,7 +231,7 @@ export function Contact() {
                       htmlFor="subject"
                       className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      Assunto
+                      {t('form.fields.subject.label')}
                     </label>
                     <input
                       type="text"
@@ -234,7 +241,7 @@ export function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder="Assunto da mensagem"
+                      placeholder={t('form.fields.subject.placeholder')}
                     />
                   </div>
 
@@ -243,7 +250,7 @@ export function Contact() {
                       htmlFor="message"
                       className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      Mensagem
+                      {t('form.fields.message.label')}
                     </label>
                     <textarea
                       id="message"
@@ -253,7 +260,7 @@ export function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder="Conte-me sobre seu projeto ou ideia..."
+                      placeholder={t('form.fields.message.placeholder')}
                     />
                   </div>
 
@@ -262,7 +269,7 @@ export function Contact() {
                     className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
                   >
                     <Send className="mr-2 h-5 w-5" />
-                    Enviar Mensagem
+                    {t('form.submitButton')}
                   </button>
                 </form>
               </div>

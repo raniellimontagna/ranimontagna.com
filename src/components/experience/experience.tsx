@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { Building2, Calendar, MapPin, ChevronRight } from 'lucide-react'
 
 export function Experience() {
+  const t = useTranslations('experience')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -13,53 +15,35 @@ export function Experience() {
 
   const experiences = [
     {
-      company: 'Luizalabs',
-      position: 'Desenvolvedor Pleno',
-      period: 'Outubro 2023 - Atualmente',
-      location: 'Remoto',
+      company: t('jobs.luizalabs.company'),
+      position: t('jobs.luizalabs.position'),
+      period: t('jobs.luizalabs.period'),
+      location: t('jobs.luizalabs.location'),
       logo: '/companies/luizalabs.webp',
-      description:
-        'Integro a equipe da Luizalabs, unidade de inovação tecnológica do Magalu, uma das maiores varejistas do Brasil. Desenvolvo e mantenho aplicações web e móveis para operações das lojas físicas, além de APIs e soluções backend robustas e escaláveis.',
-      highlights: [
-        'Desenvolvimento de aplicações para operações de varejo',
-        'Manutenção de APIs e soluções backend',
-        'Integração de sistemas em ambiente de alto impacto',
-        'Trabalho com tecnologias modernas e escaláveis',
-      ],
+      description: t('jobs.luizalabs.description'),
+      highlights: t.raw('jobs.luizalabs.highlights') as string[],
       technologies: ['React', 'React Native', 'Node.js', 'Go', 'APIs REST'],
       current: true,
     },
     {
-      company: 'Smarten',
-      position: 'Tech Lead Front-end',
-      period: 'Maio 2022 - Setembro 2023',
-      location: 'Remoto',
+      company: t('jobs.smarten.company'),
+      position: t('jobs.smarten.position'),
+      period: t('jobs.smarten.period'),
+      location: t('jobs.smarten.location'),
       logo: '/companies/smarten.webp',
-      description:
-        'Liderei uma equipe de desenvolvedores, garantindo qualidade de código e otimização de aplicações. Criei e mantive design system corporativo, implementei soluções de monitoramento e CI/CD, impulsionando eficiência e estabilidade dos produtos.',
-      highlights: [
-        'Liderança técnica de equipe de desenvolvedores',
-        'Criação e manutenção de design system',
-        'Implementação de CI/CD e monitoramento',
-        'Otimização de performance e escalabilidade',
-      ],
+      description: t('jobs.smarten.description'),
+      highlights: t.raw('jobs.smarten.highlights') as string[],
       technologies: ['JavaScript', 'React', 'Design System', 'CI/CD', 'Monitoramento'],
       current: false,
     },
     {
-      company: 'SBSistemas',
-      position: 'Desenvolvedor Front-end',
-      period: 'Maio 2021 - Maio 2022',
-      location: 'Presencial',
+      company: t('jobs.sbsistemas.company'),
+      position: t('jobs.sbsistemas.position'),
+      period: t('jobs.sbsistemas.period'),
+      location: t('jobs.sbsistemas.location'),
       logo: '/companies/sbsistemas.svg',
-      description:
-        'Primeira experiência profissional na área de tecnologia, onde consolidei minha base técnica em desenvolvimento front-end. Desenvolvi aplicações utilizando tecnologias modernas e implementei boas práticas de desenvolvimento.',
-      highlights: [
-        'Primeira experiência profissional em tech',
-        'Desenvolvimento de aplicações front-end',
-        'Consolidação de base técnica sólida',
-        'Implementação de boas práticas de desenvolvimento',
-      ],
+      description: t('jobs.sbsistemas.description'),
+      highlights: t.raw('jobs.sbsistemas.highlights') as string[],
       technologies: ['React', 'Electron', 'TypeScript', 'JavaScript', 'Front-end'],
       current: false,
     },
@@ -73,7 +57,6 @@ export function Experience() {
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
-
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl dark:bg-slate-700/20"></div>
         <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl dark:bg-slate-600/10"></div>
@@ -87,7 +70,7 @@ export function Experience() {
             }`}
           >
             <Building2 className="mr-2 h-4 w-4" />
-            Minha jornada profissional
+            {t('badge')}
           </div>
 
           <h2
@@ -95,7 +78,8 @@ export function Experience() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Experiência <span className="text-slate-600 dark:text-slate-400">Profissional</span>
+            {t('title.part1')}{' '}
+            <span className="text-slate-600 dark:text-slate-400">{t('title.part2')}</span>
           </h2>
 
           <p
@@ -103,8 +87,7 @@ export function Experience() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Mais de 3 anos construindo soluções inovadoras em empresas de diferentes portes e
-            segmentos, sempre focado em entregar valor e crescer tecnicamente.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -141,7 +124,7 @@ export function Experience() {
                         <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-700">
                           <Image
                             src={exp.logo}
-                            alt={`${exp.company} logo`}
+                            alt={t('logoAlt', { company: exp.company })}
                             width={48}
                             height={48}
                             className="h-16 w-16 object-cover"
@@ -173,7 +156,7 @@ export function Experience() {
                           </div>
                           {exp.current && (
                             <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                              Atual
+                              {t('currentLabel')}
                             </span>
                           )}
                         </div>
@@ -190,7 +173,7 @@ export function Experience() {
 
                     <div className={`mb-6 ${index % 2 === 0 ? 'md:text-right' : ''}`}>
                       <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                        Principais conquistas:
+                        {t('highlightsTitle')}
                       </h4>
                       <ul className={`space-y-2 ${index % 2 === 0 ? 'md:text-right' : ''}`}>
                         {exp.highlights.map((highlight, idx) => (
@@ -215,7 +198,7 @@ export function Experience() {
 
                     <div className={`${index % 2 === 0 ? 'md:text-right' : ''}`}>
                       <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                        Tecnologias utilizadas:
+                        {t('technologiesTitle')}
                       </h4>
                       <div
                         className={`flex flex-wrap gap-2 ${

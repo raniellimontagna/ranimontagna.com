@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Menu, X, Download, Mail, Github, Linkedin } from 'lucide-react'
 
+import { useTranslations } from 'next-intl'
+
 export function Header() {
+  const t = useTranslations('header')
+
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,12 +26,12 @@ export function Header() {
   }, [])
 
   const navigation = [
-    { name: 'Início', href: '#start' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Experiência', href: '#experience' },
-    { name: 'Projetos', href: '#projects' },
-    // { name: 'GitHub', href: '#github' },
-    { name: 'Contato', href: '#contact' },
+    { name: t('navigation.start'), href: '#start' },
+    { name: t('navigation.about'), href: '#about' },
+    { name: t('navigation.experience'), href: '#experience' },
+    { name: t('navigation.projects'), href: '#projects' },
+    // { name: t('navigation.github'), href: '#github' },
+    { name: t('navigation.contact'), href: '#contact' },
   ]
 
   const socialLinks = [
@@ -83,14 +87,14 @@ export function Header() {
               className="group flex items-center space-x-3 transition-all duration-300"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-slate-700 to-slate-900 shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl dark:from-slate-600 dark:to-slate-800">
-                <span className="text-lg font-bold text-white">RM</span>
+                <span className="text-lg font-bold text-white">{t('logo.initials')}</span>
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-slate-700 dark:text-slate-100 dark:group-hover:text-slate-300">
-                  Ranielli Montagna
+                  {t('logo.fullName')}
                 </h1>
                 <p className="text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300">
-                  Desenvolvedor Full Stack
+                  {t('logo.jobTitle')}
                 </p>
               </div>
             </button>
@@ -132,11 +136,11 @@ export function Header() {
 
             <a
               href="/cv_en.pdf"
-              download="Curriculo-Ranielli-Montagna.pdf"
+              download={t('resume.downloadFilename')}
               className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl dark:bg-slate-700 dark:hover:bg-slate-600"
             >
               <Download className="mr-2 h-4 w-4" />
-              Currículo
+              {t('resume.buttonDesktop')}
             </a>
           </div>
 
@@ -144,7 +148,7 @@ export function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative rounded-lg p-2 text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
-              aria-label="Toggle menu"
+              aria-label={t('mobileMenu.toggleAriaLabel')}
               aria-controls="mobile-menu"
               aria-expanded={isMenuOpen}
             >
@@ -212,11 +216,11 @@ export function Header() {
 
                 <a
                   href="/cv_en.pdf"
-                  download="Curriculo-Ranielli-Montagna.pdf"
+                  download={t('resume.downloadFilename')}
                   className="flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600"
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  Baixar Currículo
+                  {t('resume.buttonMobile')}
                 </a>
               </div>
             </div>

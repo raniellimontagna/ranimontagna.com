@@ -1,15 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
+import { useTranslations } from 'next-intl'
 import { ArrowDown } from 'lucide-react'
 
 export function Hero() {
+  const t = useTranslations('hero')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const skillsList = t.raw('skills.list') as string[]
 
   return (
     <section
@@ -34,7 +37,7 @@ export function Hero() {
             }`}
           >
             <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-green-500"></span>
-            Disponível para novos projetos
+            {t('availability')}
           </div>
 
           <h1
@@ -42,9 +45,9 @@ export function Hero() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Olá, eu sou{' '}
+            {t('greeting')}{' '}
             <span className="animate-gradient bg-300% bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text bg-left text-transparent">
-              Ranielli Montagna
+              {t('name')}
             </span>
           </h1>
 
@@ -53,11 +56,11 @@ export function Hero() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Desenvolvedor{' '}
+            {t('passion.part1')}{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-semibold text-transparent">
-              Full Stack
+              {t('passion.highlight')}
             </span>{' '}
-            apaixonado por criar experiências digitais excepcionais
+            {t('passion.part2')}
           </p>
 
           <p
@@ -65,8 +68,7 @@ export function Hero() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            Tenho experiência no desenvolvimento de aplicações web e mobile, com foco em qualidade,
-            desempenho e facilidade de uso.
+            {t('description')}
           </p>
 
           <div
@@ -75,10 +77,10 @@ export function Hero() {
             }`}
           >
             <a
-              href="#about"
+              href="#projects"
               className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
             >
-              <span className="relative z-10">Ver meus projetos</span>
+              <span className="relative z-10">{t('cta.projects')}</span>
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
             </a>
 
@@ -86,7 +88,7 @@ export function Hero() {
               href="#contact"
               className="group inline-flex items-center justify-center rounded-lg border-2 border-gray-200 bg-white/80 px-8 py-4 text-lg font-medium text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-blue-500 hover:text-blue-600 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:text-blue-400"
             >
-              Entre em contato
+              {t('cta.contact')}
               <svg
                 className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"
@@ -108,17 +110,9 @@ export function Hero() {
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
-            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">Tecnologias que domino</p>
+            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">{t('skills.title')}</p>
             <div className="flex flex-wrap justify-center gap-3">
-              {[
-                'React',
-                'React Native',
-                'TypeScript',
-                'Node.js',
-                'Tailwind CSS',
-                'Figma',
-                'PostgreSQL',
-              ].map((tech, index) => (
+              {skillsList.map((tech, index) => (
                 <span
                   key={tech}
                   className="rounded-full border border-white/20 bg-white/80 px-4 py-2 text-sm font-medium text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:shadow-xl dark:border-gray-700/50 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20"
