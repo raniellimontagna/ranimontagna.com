@@ -12,7 +12,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['node_modules', './src/app/layout.tsx'],
+      exclude: ['node_modules', 'src/middleware.ts', '**/layout.tsx', '**/i18n/**'],
     },
   },
 })
