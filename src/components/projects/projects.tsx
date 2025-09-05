@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
 
 const projects = [
@@ -86,7 +86,12 @@ const filters = [
 ]
 
 export function Projects() {
+  const [mounted, setMounted] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const filteredProjects =
     activeFilter === 'all' ? projects : projects.filter((project) => project.type === activeFilter)
@@ -94,30 +99,64 @@ export function Projects() {
   const featuredProjects = projects.filter((project) => project.featured)
 
   return (
-    <section id="projects" className="bg-slate-50 py-20 dark:bg-slate-800/50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="projects"
+      className="relative overflow-hidden bg-slate-50 py-20 lg:py-32 dark:bg-slate-800/50"
+    >
+      <div className="absolute inset-0 opacity-30 dark:opacity-20">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      </div>
+
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20"></div>
+        <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10"></div>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="mb-6 text-4xl font-bold text-slate-900 sm:text-5xl dark:text-white">
+          <div
+            className={`mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-all duration-1000 dark:bg-slate-800 dark:text-slate-300 ${
+              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <Code className="mr-2 h-4 w-4" />
+            Portfólio de projetos
+          </div>
+
+          <h2
+            className={`mb-6 text-4xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-5xl lg:text-6xl dark:text-slate-100 ${
+              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
             Meus{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Projetos
             </span>
           </h2>
-          <p className="mx-auto max-w-3xl text-xl text-slate-600 dark:text-slate-300">
+          <p
+            className={`mx-auto max-w-3xl text-xl text-slate-600 transition-all delay-400 duration-1000 dark:text-slate-300 ${
+              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
             Uma seleção dos meus trabalhos mais recentes, incluindo aplicações web, mobile e APIs
             que demonstram minhas habilidades técnicas.
           </p>
         </div>
 
-        <div className="mb-16">
+        <div
+          className={`mb-16 transition-all delay-600 duration-1000 ${
+            mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
           <h3 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white">
             Projetos em Destaque
           </h3>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
+            {featuredProjects.map((project, index) => (
               <div
                 key={project.id}
-                className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+                className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+                style={{ animationDelay: `${600 + index * 200}ms` }}
               >
                 <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30">
                   <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-500/20 to-purple-500/20">
@@ -193,7 +232,11 @@ export function Projects() {
           </div>
         </div>
 
-        <div className="mb-12 flex justify-center">
+        <div
+          className={`mb-12 flex justify-center transition-all delay-800 duration-1000 ${
+            mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
           <div className="flex space-x-1 rounded-lg bg-white p-1 shadow-lg dark:bg-slate-900">
             {filters.map((filter) => (
               <button
@@ -212,11 +255,16 @@ export function Projects() {
           </div>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => (
+        <div
+          className={`grid gap-8 transition-all delay-1000 duration-1000 md:grid-cols-2 lg:grid-cols-3 ${
+            mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
+          {filteredProjects.map((project, index) => (
             <div
               key={project.id}
-              className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+              className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+              style={{ animationDelay: `${1000 + index * 150}ms` }}
             >
               <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30">
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-500/20 to-purple-500/20">
@@ -291,13 +339,17 @@ export function Projects() {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
+        <div
+          className={`mt-16 text-center transition-all delay-1200 duration-1000 ${
+            mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
           <p className="mb-6 text-slate-600 dark:text-slate-300">
             Gostou do que viu? Vamos conversar sobre seu próximo projeto!
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+            className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
           >
             Entrar em Contato
           </a>
