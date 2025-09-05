@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Download } from 'lucide-react'
 
@@ -18,23 +18,19 @@ export function Contact() {
     setMounted(true)
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    // A lógica de envio do formulário permanece a mesma
     console.log('Form submitted:', formData)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-white py-20 lg:py-32 dark:bg-slate-900"
+      className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -45,7 +41,7 @@ export function Contact() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-12 text-center lg:mb-16">
           <div
             className={`mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-all duration-1000 dark:bg-slate-800 dark:text-slate-300 ${
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
@@ -56,7 +52,7 @@ export function Contact() {
           </div>
 
           <h2
-            className={`mb-6 text-4xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-5xl lg:text-6xl dark:text-slate-100 ${
+            className={`mb-6 text-3xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-4xl lg:text-6xl dark:text-slate-100 ${
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
@@ -66,7 +62,7 @@ export function Contact() {
             </span>
           </h2>
           <p
-            className={`mx-auto max-w-3xl text-xl text-slate-600 transition-all delay-400 duration-1000 dark:text-slate-300 ${
+            className={`mx-auto max-w-3xl text-lg text-slate-600 transition-all delay-400 duration-1000 sm:text-xl dark:text-slate-300 ${
               mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
@@ -74,39 +70,39 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
           <div
             className={`transition-all delay-600 duration-1000 ${
               mounted ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
             }`}
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 dark:bg-slate-700"></div>
-              <div className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700"></div>
+              <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 dark:border-slate-700 dark:bg-slate-800">
                 <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
                   {t('info.title')}
                 </h3>
 
                 <div className="space-y-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                  <div className="flex items-start space-x-4 sm:items-center">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
                       <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-medium text-slate-900 dark:text-white">
                         {t('info.email')}
                       </p>
                       <a
                         href="mailto:raniellimontagna@hotmail.com"
-                        className="text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                        className="break-words text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
                       >
                         raniellimontagna@hotmail.com
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
+                  <div className="flex items-start space-x-4 sm:items-center">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
                       <Phone className="h-6 w-6 text-green-600 dark:text-green-400" />
                     </div>
                     <div>
@@ -122,8 +118,8 @@ export function Contact() {
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                  <div className="flex items-start space-x-4 sm:items-center">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
                       <MapPin className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
@@ -146,7 +142,7 @@ export function Contact() {
                       href="https://github.com/ranimontagna"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 transition-all duration-300 hover:scale-105 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+                      className="group flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 transition-all duration-300 hover:scale-105 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
                     >
                       <Github className="h-6 w-6 text-slate-600 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-white" />
                     </a>
@@ -165,7 +161,7 @@ export function Contact() {
                   <a
                     href="/cv_en.pdf"
                     download
-                    className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+                    className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
                   >
                     <Download className="mr-2 h-5 w-5" />
                     {t('info.resumeButton')}
@@ -181,92 +177,56 @@ export function Contact() {
             }`}
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 dark:bg-slate-700"></div>
-              <div className="relative rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700"></div>
+              <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 dark:border-slate-700 dark:bg-slate-800">
                 <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
                   {t('form.title')}
                 </h3>
-
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                    >
-                      {t('form.fields.name.label')}
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder={t('form.fields.name.placeholder')}
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                    >
-                      {t('form.fields.email.label')}
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder={t('form.fields.email.placeholder')}
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                    >
-                      {t('form.fields.subject.label')}
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder={t('form.fields.subject.placeholder')}
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300"
-                    >
-                      {t('form.fields.message.label')}
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-300 focus:scale-105 focus:border-transparent focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                      placeholder={t('form.fields.message.placeholder')}
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder={t('form.fields.name.placeholder')}
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
+                  />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder={t('form.fields.email.placeholder')}
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
+                  />
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    required
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder={t('form.fields.subject.placeholder')}
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
+                  />
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder={t('form.fields.message.placeholder')}
+                    className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
+                  />
 
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+                    className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white focus:outline-none dark:focus:ring-offset-slate-800"
                   >
                     <Send className="mr-2 h-5 w-5" />
                     {t('form.submitButton')}
