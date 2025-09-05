@@ -23,7 +23,7 @@ export function About() {
   }, [])
 
   const stats = [
-    { number: '3+', label: t('stats.experience') },
+    { number: new Date().getFullYear() - 2021 + '+', label: t('stats.experience') },
     { number: '20+', label: t('stats.projects') },
     { number: '100%', label: t('stats.dedication') },
   ]
