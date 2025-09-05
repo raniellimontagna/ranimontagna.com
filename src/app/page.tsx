@@ -1,9 +1,4 @@
-import { Hero } from '@/components/hero'
-import { About } from '@/components/about'
-import { Contact } from '@/components/contact'
-import { Projects } from '@/components/projects'
-import { Experience } from '@/components/experience'
-// import { GitHubStats } from '@/components/gitHubStats'
+import { About, Contact, Experience, Hero, Projects } from '@/components'
 
 export default function Home() {
   return (
@@ -12,7 +7,7 @@ export default function Home() {
       <About />
       <Experience />
       <Projects />
-      {/* <GitHubStats /> */}
+      {/* <GithubStats /> */}
       <Contact />
     </main>
   )
