@@ -296,7 +296,7 @@ export function Projects() {
             Gostou do que viu? Vamos conversar sobre seu próximo projeto!
           </p>
           <a
-            href="#contato"
+            href="#contact"
             className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
           >
             Entrar em Contato

@@ -72,7 +72,7 @@ export function Hero() {
             }`}
           >
             <a
-              href="#sobre"
+              href="#about"
               className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
             >
               <span className="relative z-10">Ver meus projetos</span>
@@ -80,7 +80,7 @@ export function Hero() {
             </a>
 
             <a
-              href="#contato"
+              href="#contact"
               className="group inline-flex items-center justify-center rounded-lg border-2 border-gray-200 bg-white/80 px-8 py-4 text-lg font-medium text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-blue-500 hover:text-blue-600 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:text-blue-400"
             >
               Entre em contato
