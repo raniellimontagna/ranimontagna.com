@@ -26,6 +26,7 @@ export function Header() {
     { name: 'Sobre', href: '#about' },
     { name: 'Experiência', href: '#experience' },
     { name: 'Projetos', href: '#projects' },
+    // { name: 'GitHub', href: '#github' },
     { name: 'Contato', href: '#contact' },
   ]
 
@@ -130,7 +131,7 @@ export function Header() {
             <div className="h-6 w-px bg-slate-300 dark:bg-slate-600"></div>
 
             <a
-              href="/curriculo-ranielli-montagna.pdf"
+              href="/cv_en.pdf"
               download="Curriculo-Ranielli-Montagna.pdf"
               className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl dark:bg-slate-700 dark:hover:bg-slate-600"
             >
@@ -210,7 +211,7 @@ export function Header() {
                 </div>
 
                 <a
-                  href="/curriculo-ranielli-montagna.pdf"
+                  href="/cv_en.pdf"
                   download="Curriculo-Ranielli-Montagna.pdf"
                   className="flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600"
                 >

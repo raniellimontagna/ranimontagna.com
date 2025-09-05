@@ -115,7 +115,7 @@ export function Contact() {
 
             <div className="mt-8">
               <a
-                href="/curriculo-ranielli-montagna.pdf"
+                href="/cv_en.pdf"
                 download
                 className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
               >

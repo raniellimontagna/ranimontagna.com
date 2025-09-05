@@ -136,7 +136,7 @@ export function About() {
 
             <div className="flex flex-col gap-4 pt-6 sm:flex-row">
               <a
-                href="/curriculo-ranielli-montagna.pdf"
+                href="/cv_en.pdf"
                 download="Curriculo-Ranielli-Montagna.pdf"
                 className="group relative inline-flex items-center justify-center rounded-lg bg-slate-900 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none dark:bg-slate-700 dark:hover:bg-slate-600"
               >
