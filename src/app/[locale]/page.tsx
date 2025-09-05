@@ -1,14 +1,5 @@
-import { About, Contact, Experience, Hero, Projects } from '@/components'
+import { Home } from '@/containers'
 
-export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      {/* <GithubStats /> */}
-      <Contact />
-    </main>
-  )
+export default function Page() {
+  return <Home />
 }
