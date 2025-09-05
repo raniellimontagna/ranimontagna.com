@@ -101,7 +101,6 @@ export function About() {
                   width={400}
                   height={400}
                   className="w-full rounded-xl object-cover"
-                  priority
                 />
               </div>
             </div>
