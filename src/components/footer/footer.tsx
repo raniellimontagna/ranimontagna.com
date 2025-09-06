@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { Github, Linkedin, Mail } from 'lucide-react'
 import Image from 'next/image'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 export function Footer() {
   const t = useTranslations('footer')
@@ -30,39 +31,59 @@ export function Footer() {
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="flex flex-col items-center not-md:gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center space-x-3">
-            <Image src="logo/white.svg" alt="Logo" width={40} height={40} className="rounded-lg" />
-            <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                {t('logo.fullName')}
-              </h3>
+          <FadeIn>
+            <div className="flex items-center space-x-3">
+              <Image
+                src="logo/white.svg"
+                alt="Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  {t('logo.fullName')}
+                </h3>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            {socialLinks.map((social) => {
-              const IconComponent = social.icon
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-10 w-10 items-center justify-center rounded-lg bg-slate-200 text-slate-600 transition-all duration-300 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-blue-600 dark:hover:text-white"
-                  aria-label={social.label}
-                >
-                  <IconComponent className="h-5 w-5" />
-                </a>
-              )
-            })}
-          </div>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <StaggerContainer staggerDelay={0.1}>
+              <div className="flex items-center space-x-4">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon
+
+                  return (
+                    <StaggerItem key={social.label}>
+                      <a
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex h-10 w-10 items-center justify-center rounded-lg bg-slate-200 text-slate-600 transition-all duration-300 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-blue-600 dark:hover:text-white"
+                        aria-label={social.label}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </a>
+                    </StaggerItem>
+                  )
+                })}
+              </div>
+            </StaggerContainer>
+          </FadeIn>
         </div>
 
         <div className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {t('copyright', { year: currentYear })}
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
+            <FadeIn>
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                {t('copyright', { year: currentYear })}
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
+            </FadeIn>
           </div>
         </div>
       </div>
