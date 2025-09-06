@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.0.0...v1.1.0) (2025-09-06)
+
+
+### Features
+
+* add branding and some adjusts ([649f67c](https://github.com/RanielliMontagna/ranimontagna.com/commit/649f67cae262ab2cdaa34c1da81f8f1f899618e4))
+* add english and portuguese cv files to the public directory ([b36b9d3](https://github.com/RanielliMontagna/ranimontagna.com/commit/b36b9d3467f8d8a57114b3c48b41a00a5a034f70))
+
 ## 1.0.0 (2025-09-05)
 
 
