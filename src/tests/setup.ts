@@ -20,3 +20,17 @@ vi.mock('next/navigation', async () => {
     useLocale: () => 'pt-BR',
   }
 })
+
+class IntersectionObserverMock {
+  constructor(private callback: IntersectionObserverCallback) {}
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+  takeRecords = vi.fn().mockReturnValue([])
+}
+
+Object.defineProperty(global, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserverMock,
+})

@@ -1,7 +1,7 @@
 'use client'
 
 import { useInView } from 'motion/react'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 interface UseScrollAnimationOptions {
   triggerOnce?: boolean
@@ -15,10 +15,21 @@ export function useScrollAnimation({
   delay = 0,
 }: UseScrollAnimationOptions = {}) {
   const ref = useRef(null)
-  const isInView = useInView(ref, {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const isInViewRaw = useInView(ref, {
     once: triggerOnce,
     amount: threshold,
   })
+
+  const isInView =
+    !isMounted || typeof window === 'undefined' || !('IntersectionObserver' in window)
+      ? true
+      : isInViewRaw
 
   const controls = {
     ref,
@@ -33,7 +44,6 @@ export function useScrollAnimation({
   return controls
 }
 
-// Hook mais específico para animações de scroll com diferentes tipos
 export function useScrollAnimationType(
   type: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale' | 'rotate' = 'fadeIn',
   options: UseScrollAnimationOptions = {},

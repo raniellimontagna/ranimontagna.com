@@ -1,58 +1,86 @@
 'use client'
 
-import { motion, HTMLMotionProps, useInView } from 'motion/react'
-import { ReactNode, useRef } from 'react'
+import { motion } from 'motion/react'
+import { useInView } from 'motion/react'
+import { useRef, useEffect, useState } from 'react'
 
-interface SlideInProps extends HTMLMotionProps<'div'> {
-  children: ReactNode
-  delay?: number
-  duration?: number
+interface SlideInProps {
+  children: React.ReactNode
   direction?: 'up' | 'down' | 'left' | 'right'
   distance?: number
-  className?: string
+  duration?: number
+  delay?: number
   triggerOnce?: boolean
+  className?: string
 }
 
 export function SlideIn({
   children,
-  delay = 0,
-  duration = 0.8,
   direction = 'up',
-  distance = 50,
-  className,
+  distance = 100,
+  duration = 0.8,
+  delay = 0,
   triggerOnce = true,
-  ...props
+  className = '',
 }: SlideInProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: triggerOnce, margin: '0px 0px -100px 0px' })
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const isInViewRaw = useInView(ref, {
+    once: triggerOnce,
+    amount: 0.1,
+  })
+
+  const isInView =
+    !isMounted || typeof window === 'undefined' || !('IntersectionObserver' in window)
+      ? true
+      : isInViewRaw
 
   const getInitialPosition = () => {
     switch (direction) {
       case 'up':
-        return { y: distance }
+        return { x: 0, y: distance }
       case 'down':
-        return { y: -distance }
+        return { x: 0, y: -distance }
       case 'left':
-        return { x: distance }
+        return { x: distance, y: 0 }
       case 'right':
-        return { x: -distance }
+        return { x: -distance, y: 0 }
       default:
-        return { y: distance }
+        return { x: 0, y: distance }
     }
+  }
+
+  const variants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+      ...getInitialPosition(),
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+    },
   }
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, ...getInitialPosition() }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }}
+      className={className}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      variants={variants}
       transition={{
         duration,
-        delay: isInView ? delay : 0,
-        ease: [0.175, 0.885, 0.32, 1.275], // easeOutBack
+        delay,
+        ease: 'easeOut',
       }}
-      className={className}
-      {...props}
     >
       {children}
     </motion.div>
