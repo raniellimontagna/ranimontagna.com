@@ -1,16 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Mail, Phone, Linkedin, MessageCircle, ExternalLink } from 'lucide-react'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 export function Contact() {
   const t = useTranslations('contact')
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const contactMethods = [
     {
@@ -54,91 +49,84 @@ export function Contact() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">
-          <div
-            className={`mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-all duration-1000 dark:bg-slate-800 dark:text-slate-300 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            <MessageCircle className="mr-2 h-4 w-4" />
-            {t('badge')}
-          </div>
+          <FadeIn delay={0.2}>
+            <div className="mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              <MessageCircle className="mr-2 h-4 w-4" />
+              {t('badge')}
+            </div>
+          </FadeIn>
 
-          <h2
-            className={`mb-6 text-3xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-4xl lg:text-6xl dark:text-slate-100 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            {t('title.part1')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {t('title.part2')}
-            </span>
-          </h2>
-          <p
-            className={`mx-auto max-w-3xl text-lg text-slate-600 transition-all delay-400 duration-1000 sm:text-xl dark:text-slate-300 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            {t('subtitle')}
-          </p>
+          <FadeIn delay={0.4}>
+            <h2 className="mb-6 text-3xl font-bold text-slate-900 sm:text-4xl lg:text-6xl dark:text-slate-100">
+              {t('title.part1')}{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {t('title.part2')}
+              </span>
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.6}>
+            <p className="mx-auto max-w-3xl text-lg text-slate-600 sm:text-xl dark:text-slate-300">
+              {t('subtitle')}
+            </p>
+          </FadeIn>
         </div>
 
-        <div
-          className={`mb-16 transition-all delay-600 duration-1000 lg:mb-20 ${
-            mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}
-        >
-          <h3 className="mb-10 text-center text-2xl font-bold text-slate-900 dark:text-slate-100">
-            {t('methods.title')}
-          </h3>
+        <FadeIn delay={0.8}>
+          <div className="mb-16 lg:mb-20">
+            <h3 className="mb-10 text-center text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {t('methods.title')}
+            </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {contactMethods.map((method, index) => {
-              const IconComponent = method.icon
-              return (
-                <div
-                  key={method.title}
-                  className="group rounded-xl border border-slate-200 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800"
-                  style={{ animationDelay: `${600 + index * 150}ms` }}
-                >
-                  <div
-                    className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${
-                      method.color === 'blue'
-                        ? 'bg-blue-100 dark:bg-blue-900/30'
-                        : 'bg-green-100 dark:bg-green-900/30'
-                    }`}
-                  >
-                    <IconComponent
-                      className={`h-6 w-6 ${
-                        method.color === 'blue'
-                          ? 'text-blue-600 dark:text-blue-400'
-                          : 'text-green-600 dark:text-green-400'
-                      }`}
-                    />
-                  </div>
-                  <h4 className="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
-                    {method.title}
-                  </h4>
-                  <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
-                    {method.description}
-                  </p>
-                  <a
-                    href={method.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center text-sm font-medium transition-colors ${
-                      method.color === 'blue'
-                        ? 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300'
-                        : 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300'
-                    }`}
-                  >
-                    {method.action}
-                    <ExternalLink className="ml-1 h-3 w-3" />
-                  </a>
-                </div>
-              )
-            })}
+            <StaggerContainer staggerDelay={0.15}>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                {contactMethods.map((method) => {
+                  const IconComponent = method.icon
+                  return (
+                    <StaggerItem key={method.title}>
+                      <div className="group rounded-xl border border-slate-200 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
+                        <div
+                          className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${
+                            method.color === 'blue'
+                              ? 'bg-blue-100 dark:bg-blue-900/30'
+                              : 'bg-green-100 dark:bg-green-900/30'
+                          }`}
+                        >
+                          <IconComponent
+                            className={`h-6 w-6 ${
+                              method.color === 'blue'
+                                ? 'text-blue-600 dark:text-blue-400'
+                                : 'text-green-600 dark:text-green-400'
+                            }`}
+                          />
+                        </div>
+                        <h4 className="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                          {method.title}
+                        </h4>
+                        <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
+                          {method.description}
+                        </p>
+                        <a
+                          href={method.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center text-sm font-medium transition-colors ${
+                            method.color === 'blue'
+                              ? 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300'
+                              : 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300'
+                          }`}
+                        >
+                          {method.action}
+                          <ExternalLink className="ml-1 h-3 w-3" />
+                        </a>
+                      </div>
+                    </StaggerItem>
+                  )
+                })}
+              </div>
+            </StaggerContainer>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   )
