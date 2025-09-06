@@ -75,15 +75,11 @@ export function Footer() {
 
         <div className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-            <FadeIn>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {t('copyright', { year: currentYear })}
-              </p>
-            </FadeIn>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {t('copyright', { year: currentYear })}
+            </p>
 
-            <FadeIn delay={0.2}>
-              <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
-            </FadeIn>
+            <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
           </div>
         </div>
       </div>

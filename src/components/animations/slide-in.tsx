@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, HTMLMotionProps } from 'motion/react'
-import { ReactNode } from 'react'
+import { motion, HTMLMotionProps, useInView } from 'motion/react'
+import { ReactNode, useRef } from 'react'
 
 interface SlideInProps extends HTMLMotionProps<'div'> {
   children: ReactNode
@@ -10,6 +10,7 @@ interface SlideInProps extends HTMLMotionProps<'div'> {
   direction?: 'up' | 'down' | 'left' | 'right'
   distance?: number
   className?: string
+  triggerOnce?: boolean
 }
 
 export function SlideIn({
@@ -19,8 +20,12 @@ export function SlideIn({
   direction = 'up',
   distance = 50,
   className,
+  triggerOnce = true,
   ...props
 }: SlideInProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: triggerOnce, margin: '0px 0px -100px 0px' })
+
   const getInitialPosition = () => {
     switch (direction) {
       case 'up':
@@ -38,11 +43,12 @@ export function SlideIn({
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, ...getInitialPosition() }}
-      animate={{ opacity: 1, y: 0, x: 0 }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }}
       transition={{
         duration,
-        delay,
+        delay: isInView ? delay : 0,
         ease: [0.175, 0.885, 0.32, 1.275], // easeOutBack
       }}
       className={className}
