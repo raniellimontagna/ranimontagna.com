@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 import type { FilterType, ProjectCardProps, ProjectType } from './projects.types'
 import { projectsData } from './project.static'
@@ -85,12 +86,7 @@ function ProjectCard({ project, animationDelay }: ProjectCardProps) {
 
 export function Projects() {
   const t = useTranslations('projects')
-  const [mounted, setMounted] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
@@ -125,85 +121,88 @@ export function Projects() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">
-          <div
-            className={`mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-all duration-1000 dark:bg-slate-800 dark:text-slate-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            <Code className="mr-2 h-4 w-4" />
-            {t('badge')}
-          </div>
-          <h2
-            className={`mb-6 text-3xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-4xl lg:text-6xl dark:text-slate-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            {t('title.part1')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {t('title.part2')}
-            </span>
-          </h2>
-          <p
-            className={`mx-auto max-w-3xl text-lg text-slate-600 transition-all delay-400 duration-1000 sm:text-xl dark:text-slate-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          >
-            {t('subtitle')}
-          </p>
+          <FadeIn delay={0.2}>
+            <div className="mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              <Code className="mr-2 h-4 w-4" />
+              {t('badge')}
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <h2 className="mb-6 text-3xl font-bold text-slate-900 sm:text-4xl lg:text-6xl dark:text-slate-100">
+              {t('title.part1')}{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {t('title.part2')}
+              </span>
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.6}>
+            <p className="mx-auto max-w-3xl text-lg text-slate-600 sm:text-xl dark:text-slate-300">
+              {t('subtitle')}
+            </p>
+          </FadeIn>
         </div>
 
-        <div
-          className={`mb-16 transition-all delay-600 duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-        >
-          <h3 className="mb-8 text-center text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
-            {t('featuredTitle')}
-          </h3>
+        <FadeIn delay={0.8}>
+          <div className="mb-16">
+            <h3 className="mb-8 text-center text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
+              {t('featuredTitle')}
+            </h3>
+            <StaggerContainer staggerDelay={0.15}>
+              <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {featuredProjects.map((project) => (
+                  <StaggerItem key={project.id}>
+                    <ProjectCard
+                      project={project}
+                      animationDelay="0ms"
+                      priority={featuredProjects.indexOf(project) < 3}
+                    />
+                  </StaggerItem>
+                ))}
+              </div>
+            </StaggerContainer>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={1.0}>
+          <div className="mb-12 flex justify-center">
+            <div className="flex flex-wrap justify-center gap-2 rounded-lg bg-white p-2 shadow-lg dark:bg-slate-900">
+              {filters.map((filter) => (
+                <button
+                  key={filter.id}
+                  onClick={() => setActiveFilter(filter.id)}
+                  className={`flex items-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 sm:px-5 sm:py-2.5 ${activeFilter === filter.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-400'}`}
+                >
+                  <filter.icon className="h-4 w-4" />
+                  <span className="ml-2 hidden sm:inline">{filter.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
+
+        <StaggerContainer staggerDelay={0.1}>
           <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                animationDelay={`${600 + index * 200}ms`}
-                priority={index < 3}
-              />
+            {filteredProjects.map((project) => (
+              <StaggerItem key={project.id}>
+                <ProjectCard project={project} animationDelay="0ms" />
+              </StaggerItem>
             ))}
           </div>
-        </div>
+        </StaggerContainer>
 
-        <div
-          className={`mb-12 flex justify-center transition-all delay-800 duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-        >
-          <div className="flex flex-wrap justify-center gap-2 rounded-lg bg-white p-2 shadow-lg dark:bg-slate-900">
-            {filters.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-                className={`flex items-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 sm:px-5 sm:py-2.5 ${activeFilter === filter.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-400'}`}
-              >
-                <filter.icon className="h-4 w-4" />
-                <span className="ml-2 hidden sm:inline">{filter.label}</span>
-              </button>
-            ))}
+        <FadeIn delay={1.4}>
+          <div className="mt-12 text-center lg:mt-16">
+            <p className="mb-6 text-slate-600 dark:text-slate-300">{t('cta.text')}</p>
+            <a
+              href="#contact"
+              className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+            >
+              {t('cta.button')}
+            </a>
           </div>
-        </div>
-
-        <div
-          className={`grid gap-6 transition-all delay-1000 duration-1000 md:grid-cols-2 md:gap-8 lg:grid-cols-3 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-        >
-          {filteredProjects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              animationDelay={`${1000 + index * 150}ms`}
-            />
-          ))}
-        </div>
-
-        <div
-          className={`mt-12 text-center transition-all delay-1200 duration-1000 lg:mt-16 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-        >
-          <p className="mb-6 text-slate-600 dark:text-slate-300">{t('cta.text')}</p>
-          <a
-            href="#contact"
-            className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
-          >
-            {t('cta.button')}
-          </a>
-        </div>
+        </FadeIn>
       </div>
     </section>
   )

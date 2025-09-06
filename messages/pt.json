@@ -212,36 +212,38 @@
       "part2": "juntos"
     },
     "subtitle": "Tenho interesse em oportunidades freelance ou full-time. Se você tem um projeto em mente ou apenas quer bater um papo, ficarei feliz em conversar.",
-    "info": {
-      "title": "Informações de Contato",
-      "email": "Email",
-      "phone": "Telefone",
-      "location": "Localização",
-      "locationValue": "Paraí, Rio Grande do Sul, Brasil",
-      "socialsTitle": "Me encontre nas redes",
-      "resumeButton": "Baixar Currículo"
-    },
-    "form": {
-      "title": "Envie uma mensagem",
-      "fields": {
-        "name": {
-          "label": "Nome",
-          "placeholder": "Seu nome"
-        },
-        "email": {
-          "label": "Email",
-          "placeholder": "seu@email.com"
-        },
-        "subject": {
-          "label": "Assunto",
-          "placeholder": "Assunto da mensagem"
-        },
-        "message": {
-          "label": "Mensagem",
-          "placeholder": "Conte-me sobre seu projeto ou ideia..."
-        }
+    "methods": {
+      "title": "Formas de contato",
+      "email": {
+        "title": "Email direto",
+        "description": "Para conversas mais detalhadas",
+        "action": "Enviar email"
       },
-      "submitButton": "Enviar Mensagem"
+      "linkedin": {
+        "title": "LinkedIn",
+        "description": "Vamos nos conectar profissionalmente",
+        "action": "Conectar"
+      },
+      "phone": {
+        "title": "WhatsApp",
+        "description": "Para conversas rápidas",
+        "action": "Enviar mensagem"
+      }
     }
+  },
+  "footer": {
+    "logo": {
+      "fullName": "Ranielli Montagna"
+    },
+    "social": {
+      "title": "Redes Sociais",
+      "links": {
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "email": "Email"
+      }
+    },
+    "copyright": "© {year} Ranielli Montagna. Todos os direitos reservados.",
+    "madeWith": "Feito com ❤️ usando Next.js, TypeScript e Tailwind CSS"
   }
 }

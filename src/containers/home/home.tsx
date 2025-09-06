@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@/components'
+import { Header, Footer } from '@/components'
 import { About, Contact, Experience, Hero, Projects } from './sections'
 
 export function Home() {
@@ -15,6 +15,7 @@ export function Home() {
         {/* <GithubStats /> */}
         <Contact />
       </main>
+      <Footer />
     </>
   )
 }

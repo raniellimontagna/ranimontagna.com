@@ -1,31 +1,38 @@
 'use client'
 
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react'
 import { useTranslations } from 'next-intl'
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Download } from 'lucide-react'
+import { Mail, Phone, Linkedin, MessageCircle, ExternalLink } from 'lucide-react'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 export function Contact() {
   const t = useTranslations('contact')
-  const [mounted, setMounted] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-  }
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const contactMethods = [
+    {
+      icon: Mail,
+      title: t('methods.email.title'),
+      description: t('methods.email.description'),
+      action: t('methods.email.action'),
+      href: 'mailto:raniellimontagna@hotmail.com',
+      color: 'blue',
+    },
+    {
+      icon: Linkedin,
+      title: t('methods.linkedin.title'),
+      description: t('methods.linkedin.description'),
+      action: t('methods.linkedin.action'),
+      href: 'https://linkedin.com/in/ranimontagna',
+      color: 'blue',
+    },
+    {
+      icon: Phone,
+      title: t('methods.phone.title'),
+      description: t('methods.phone.description'),
+      action: t('methods.phone.action'),
+      href: 'https://wa.me/5554999790871',
+      color: 'green',
+    },
+  ]
 
   return (
     <section
@@ -42,200 +49,84 @@ export function Contact() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">
-          <div
-            className={`mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-all duration-1000 dark:bg-slate-800 dark:text-slate-300 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            <Mail className="mr-2 h-4 w-4" />
-            {t('badge')}
-          </div>
+          <FadeIn delay={0.2}>
+            <div className="mb-6 inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              <MessageCircle className="mr-2 h-4 w-4" />
+              {t('badge')}
+            </div>
+          </FadeIn>
 
-          <h2
-            className={`mb-6 text-3xl font-bold text-slate-900 transition-all delay-200 duration-1000 sm:text-4xl lg:text-6xl dark:text-slate-100 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            {t('title.part1')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {t('title.part2')}
-            </span>
-          </h2>
-          <p
-            className={`mx-auto max-w-3xl text-lg text-slate-600 transition-all delay-400 duration-1000 sm:text-xl dark:text-slate-300 ${
-              mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            {t('subtitle')}
-          </p>
+          <FadeIn delay={0.4}>
+            <h2 className="mb-6 text-3xl font-bold text-slate-900 sm:text-4xl lg:text-6xl dark:text-slate-100">
+              {t('title.part1')}{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {t('title.part2')}
+              </span>
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.6}>
+            <p className="mx-auto max-w-3xl text-lg text-slate-600 sm:text-xl dark:text-slate-300">
+              {t('subtitle')}
+            </p>
+          </FadeIn>
         </div>
 
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
-          <div
-            className={`transition-all delay-600 duration-1000 ${
-              mounted ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
-            }`}
-          >
-            <div className="relative">
-              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700"></div>
-              <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 dark:border-slate-700 dark:bg-slate-800">
-                <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
-                  {t('info.title')}
-                </h3>
+        <FadeIn delay={0.8}>
+          <div className="mb-16 lg:mb-20">
+            <h3 className="mb-10 text-center text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {t('methods.title')}
+            </h3>
 
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4 sm:items-center">
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                      <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-medium text-slate-900 dark:text-white">
-                        {t('info.email')}
-                      </p>
-                      <a
-                        href="mailto:raniellimontagna@hotmail.com"
-                        className="break-words text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
-                      >
-                        raniellimontagna@hotmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 sm:items-center">
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
-                      <Phone className="h-6 w-6 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900 dark:text-white">
-                        {t('info.phone')}
-                      </p>
-                      <a
-                        href="tel:+5554999790871"
-                        className="text-slate-600 transition-colors hover:text-green-600 dark:text-slate-300 dark:hover:text-green-400"
-                      >
-                        +55 (54) 99979-0871
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 sm:items-center">
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                      <MapPin className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900 dark:text-white">
-                        {t('info.location')}
-                      </p>
-                      <p className="text-slate-600 dark:text-slate-300">
-                        {t('info.locationValue')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8">
-                  <h4 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                    {t('info.socialsTitle')}
-                  </h4>
-                  <div className="flex space-x-4">
-                    <a
-                      href="https://github.com/ranimontagna"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 transition-all duration-300 hover:scale-105 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
-                    >
-                      <Github className="h-6 w-6 text-slate-600 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-white" />
-                    </a>
-                    <a
-                      href="https://linkedin.com/in/ranimontagna"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 transition-all duration-300 hover:scale-105 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-900/50"
-                    >
-                      <Linkedin className="h-6 w-6 text-blue-600 group-hover:text-blue-700 dark:text-blue-400 dark:group-hover:text-blue-300" />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-8">
-                  <a
-                    href="/cv_en.pdf"
-                    download
-                    className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
-                  >
-                    <Download className="mr-2 h-5 w-5" />
-                    {t('info.resumeButton')}
-                  </a>
-                </div>
+            <StaggerContainer staggerDelay={0.15}>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                {contactMethods.map((method) => {
+                  const IconComponent = method.icon
+                  return (
+                    <StaggerItem key={method.title}>
+                      <div className="group rounded-xl border border-slate-200 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
+                        <div
+                          className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${
+                            method.color === 'blue'
+                              ? 'bg-blue-100 dark:bg-blue-900/30'
+                              : 'bg-green-100 dark:bg-green-900/30'
+                          }`}
+                        >
+                          <IconComponent
+                            className={`h-6 w-6 ${
+                              method.color === 'blue'
+                                ? 'text-blue-600 dark:text-blue-400'
+                                : 'text-green-600 dark:text-green-400'
+                            }`}
+                          />
+                        </div>
+                        <h4 className="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                          {method.title}
+                        </h4>
+                        <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
+                          {method.description}
+                        </p>
+                        <a
+                          href={method.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center text-sm font-medium transition-colors ${
+                            method.color === 'blue'
+                              ? 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300'
+                              : 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300'
+                          }`}
+                        >
+                          {method.action}
+                          <ExternalLink className="ml-1 h-3 w-3" />
+                        </a>
+                      </div>
+                    </StaggerItem>
+                  )
+                })}
               </div>
-            </div>
+            </StaggerContainer>
           </div>
-
-          <div
-            className={`transition-all delay-800 duration-1000 ${
-              mounted ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
-            }`}
-          >
-            <div className="relative">
-              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700"></div>
-              <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 dark:border-slate-700 dark:bg-slate-800">
-                <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
-                  {t('form.title')}
-                </h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder={t('form.fields.name.placeholder')}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
-                  />
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder={t('form.fields.email.placeholder')}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
-                  />
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder={t('form.fields.subject.placeholder')}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
-                  />
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder={t('form.fields.message.placeholder')}
-                    className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-shadow duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-blue-500"
-                  />
-
-                  <button
-                    type="submit"
-                    className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white focus:outline-none dark:focus:ring-offset-slate-800"
-                  >
-                    <Send className="mr-2 h-5 w-5" />
-                    {t('form.submitButton')}
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   )

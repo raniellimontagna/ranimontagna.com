@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Menu, X, Download, Mail, Github, Linkedin } from 'lucide-react'
 
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 import { LanguageSwitcher } from '@/components'
 
@@ -70,9 +71,13 @@ export function Header() {
               onClick={() => scrollToSection('#start')}
               className="group flex items-center space-x-3 transition-all duration-300"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-slate-700 to-slate-900 shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl dark:from-slate-600 dark:to-slate-800">
-                <span className="text-lg font-bold text-white">{t('logo.initials')}</span>
-              </div>
+              <Image
+                src="logo/white.svg"
+                alt="Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-slate-700 dark:text-slate-100 dark:group-hover:text-slate-300">
                   {t('logo.fullName')}
