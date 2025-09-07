@@ -93,10 +93,10 @@ export function Hero() {
           <div className="mt-12 lg:mt-16">
             <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">{t('skills.title')}</p>
             <StaggerContainer staggerDelay={0.08}>
-              <div className="flex flex-wrap justify-center gap-3">
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                 {skillsList.map((tech) => (
                   <StaggerItem key={tech}>
-                    <span className="rounded-full border border-white/20 bg-white/80 px-4 py-2 text-sm font-medium text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:shadow-xl dark:border-gray-700/50 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20">
+                    <span className="rounded-full border border-white/20 bg-white/80 px-3 py-1.5 text-xs font-medium text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:shadow-xl sm:px-4 sm:py-2 sm:text-sm dark:border-gray-700/50 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20">
                       {tech}
                     </span>
                   </StaggerItem>
@@ -119,8 +119,8 @@ export function Hero() {
           }
         }}
       >
-        <div className="group flex h-10 w-6 animate-bounce justify-center rounded-full border-2 border-gray-400 transition-colors hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400">
-          <ArrowDown className="mt-3 h-4 w-4 text-gray-400 transition-colors group-hover:text-blue-500 dark:text-gray-600 dark:group-hover:text-blue-400" />
+        <div className="group flex h-7 w-7 animate-bounce items-center justify-center rounded-full border-2 border-gray-400 transition-colors hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400">
+          <ArrowDown className="h-4 w-4 text-gray-400 transition-colors group-hover:text-blue-500 dark:text-gray-600 dark:group-hover:text-blue-400" />
         </div>
       </motion.div>
     </section>

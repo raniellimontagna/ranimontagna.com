@@ -135,7 +135,7 @@ export function About() {
                 <a
                   href="/cv_en.pdf"
                   download={t('cta.resumeFilename')}
-                  className="group relative inline-flex w-full items-center justify-center rounded-lg bg-slate-900 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none sm:w-auto dark:bg-slate-700 dark:hover:bg-slate-600"
+                  className="group relative inline-flex w-full items-center justify-center rounded-lg border-2 border-transparent bg-slate-900 px-8 py-4 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none sm:w-auto dark:bg-slate-700 dark:hover:bg-slate-600"
                 >
                   <Download className="mr-2 h-5 w-5" />
                   {t('cta.resume')}

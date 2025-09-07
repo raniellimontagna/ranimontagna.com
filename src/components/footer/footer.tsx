@@ -79,7 +79,9 @@ export function Footer() {
               {t('copyright', { year: currentYear })}
             </p>
 
-            <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
+            <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+              {t('madeWith')}
+            </p>
           </div>
         </div>
       </div>
