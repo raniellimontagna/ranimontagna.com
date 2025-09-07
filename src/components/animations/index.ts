@@ -2,7 +2,6 @@ export { MotionWrapper } from './motion-wrapper'
 export { StaggerContainer, StaggerItem } from './stagger-container'
 export { FadeIn } from './fade-in'
 export { SlideIn } from './slide-in'
-export { AnimatedPresence, ModalPresence, SlidePresence } from './animate-presence'
 
 export {
   InViewAnimation,
@@ -13,5 +12,3 @@ export {
   scaleVariants,
   rotateVariants,
 } from './in-view-animation'
-
-export { useScrollAnimation, useScrollAnimationType } from './use-scroll-animation'
