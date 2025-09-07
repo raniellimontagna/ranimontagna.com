@@ -33,6 +33,7 @@ export function LanguageSwitcher() {
   return (
     <div className="relative" ref={switcherRef}>
       <button
+        data-testid="language-switcher-button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 rounded-lg p-2 text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
         aria-label="Change language"
@@ -46,6 +47,7 @@ export function LanguageSwitcher() {
           <div className="p-1">
             {locales.map((loc) => (
               <button
+                data-testid={`language-option-${loc.code}`}
                 key={loc.code}
                 onClick={() => handleLocaleChange(loc.code)}
                 className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm font-medium transition-colors ${
