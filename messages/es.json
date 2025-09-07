@@ -91,7 +91,7 @@
         "tailwind": "Tailwind CSS",
         "reactNative": "React Native",
         "nodejs": "Node.js",
-        "express": "Express",
+        "fastify": "Fastify",
         "postgresql": "PostgreSQL",
         "prisma": "Prisma",
         "jwt": "JWT",
@@ -99,6 +99,7 @@
         "uiux": "UI/UX",
         "prototyping": "Prototipos",
         "designSystem": "Sistema de Diseño",
+        "accessibility": "Accesibilidad",
         "git": "Git",
         "docker": "Docker",
         "vscode": "VS Code",
@@ -179,29 +180,41 @@
       "button": "Ponerse en Contacto"
     },
     "list": {
-      "ecommerceApp": {
-        "title": "App Móvil de E-commerce",
-        "description": "Aplicación de e-commerce completa con React Native, que integra pagos con PIX y tarjeta, sistema de cupones y notificaciones push."
+      "northClinic": {
+        "title": "North Clinic - Sistema de Gestión",
+        "description": "Sistema completo para la gestión de clínicas y consultorios, con programación de citas en línea, historia clínica electrónica, control financiero y facturación."
       },
-      "dashboardAnalytics": {
-        "title": "Dashboard de Analítica",
-        "description": "Dashboard administrativo con visualizaciones de datos en tiempo real, gráficos interactivos e informes exportables."
+      "mobileEstoquista": {
+        "title": "Mobile Almacenista Magalu",
+        "description": "Superapp corporativa para almacenistas de las tiendas físicas de Magalu, optimizando el control de inventario, la recepción y el envío de mercancías."
       },
-      "financeApi": {
-        "title": "API de Gestión Financiera",
-        "description": "API REST para gestión financiera personal con autenticación JWT, categorización automática de gastos e informes mensuales."
+      "pratio": {
+        "title": "Pratio - TPV para Restaurantes",
+        "description": "Sistema de punto de venta (TPV) y gestión para bares y restaurantes, con control de mesas, comandas, emisión de NFC-e y menú digital."
       },
-      "saasLanding": {
-        "title": "Landing Page para SaaS",
-        "description": "Landing page moderna para un producto SaaS con animaciones fluidas, optimizada para conversión y SEO."
+      "smartDs": {
+        "title": "Smart Design System",
+        "description": "Sistema de diseño desarrollado sobre la base de Material Design, con el objetivo de estandarizar la interfaz de los productos para mejorar la experiencia del usuario."
       },
-      "deliveryApp": {
-        "title": "App de Delivery",
-        "description": "Aplicación de delivery con seguimiento en tiempo real, sistema de valoraciones e integración con mapas."
+      "sennaDs": {
+        "title": "Senna Design System",
+        "description": "Sistema de diseño utilizado para proyectos Next.js, con el objetivo de estandarizar la interfaz de los productos para potenciar la experiencia del usuario."
       },
-      "blogCms": {
-        "title": "Sistema CMS para Blog",
-        "description": "Sistema de gestión de contenido para blogs con editor de texto enriquecido, SEO automático y múltiples autores."
+      "alemDoArcoIrisApp": {
+        "title": "App Além do Arco-Íris",
+        "description": "La app 'Além do Arco-íris' ofrece el curso 'Ally: un enfoque holístico de la salud LGBT+' para capacitar a los profesionales de la salud en la atención a la comunidad LGBT+."
+      },
+      "motiviumBot": {
+        "title": "Motivium Bot",
+        "description": "Un bot de Discord personalizado construido con TypeScript y Discord.js. Utiliza APIs financieras para entregar actualizaciones de divisas automatizadas e incluye un sistema de mensajería programada."
+      },
+      "tabSwitch": {
+        "title": "Tab Switch",
+        "description": "Extensión de navegador que permite la rotación automática entre pestañas abiertas, cerrando otras pestañas no configuradas. Ideal para presentaciones, monitoreo de dashboards y otras situaciones donde se necesita rotación de pestañas."
+      },
+      "pdfGenerator": {
+        "title": "API Generadora de PDF",
+        "description": "API de alto rendimiento para la generación dinámica de PDFs, diseñada con Fastify, TypeScript y PDFKit. Emplea TypeBox para una validación de solicitudes robusta y con seguridad de tipos (type-safe), proporcionando un servicio escalable y fiable para la creación de documentos."
       }
     }
   },

@@ -91,7 +91,7 @@
         "tailwind": "Tailwind CSS",
         "reactNative": "React Native",
         "nodejs": "Node.js",
-        "express": "Express",
+        "fastify": "Fastify",
         "postgresql": "PostgreSQL",
         "prisma": "Prisma",
         "jwt": "JWT",
@@ -99,6 +99,7 @@
         "uiux": "UI/UX",
         "prototyping": "Prototyping",
         "designSystem": "Design System",
+        "accessibility": "Accessibility",
         "git": "Git",
         "docker": "Docker",
         "vscode": "VS Code",
@@ -179,29 +180,41 @@
       "button": "Get in Touch"
     },
     "list": {
-      "ecommerceApp": {
-        "title": "E-commerce Mobile App",
-        "description": "Complete e-commerce application with React Native, integrating PIX and card payments, coupon system, and push notifications."
+      "northClinic": {
+        "title": "North Clinic - Management System",
+        "description": "Complete management system for clinics and offices, with online scheduling, electronic health records, financial control, and billing."
       },
-      "dashboardAnalytics": {
-        "title": "Analytics Dashboard",
-        "description": "Administrative dashboard with real-time data visualizations, interactive charts, and exportable reports."
+      "mobileEstoquista": {
+        "title": "Magalu Stockist Mobile",
+        "description": "Corporate superapp for stockists at Magalu's physical stores, optimizing inventory control, goods receipt, and dispatch."
       },
-      "financeApi": {
-        "title": "Financial Management API",
-        "description": "REST API for personal financial management with JWT authentication, automatic expense categorization, and monthly reports."
+      "pratio": {
+        "title": "Pratio - POS for Restaurants",
+        "description": "Point of sale (POS) and management system for bars and restaurants, with table and order control, NFC-e issuing, and a digital menu."
       },
-      "saasLanding": {
-        "title": "SaaS Landing Page",
-        "description": "Modern landing page for a SaaS product with fluid animations, optimized for conversion and SEO."
+      "smartDs": {
+        "title": "Smart Design System",
+        "description": "A design system based on Material Design, aimed at standardizing product interfaces to improve the user experience."
       },
-      "deliveryApp": {
-        "title": "Delivery App",
-        "description": "Delivery application with real-time tracking, rating system, and map integration."
+      "sennaDs": {
+        "title": "Senna Design System",
+        "description": "A design system used for Next.js projects, with the goal of standardizing product interfaces to enhance the user experience."
       },
-      "blogCms": {
-        "title": "Blog CMS System",
-        "description": "Content management system for blogs with a rich text editor, automatic SEO, and multiple authors."
+      "alemDoArcoIrisApp": {
+        "title": "Além do Arco-Íris App",
+        "description": "The 'Além do Arco-íris' app offers the course 'Ally: a holistic approach to LGBT+ health' to empower healthcare professionals in assisting the LGBT+ community."
+      },
+      "motiviumBot": {
+        "title": "Motivium Bot",
+        "description": "A custom Discord bot built with TypeScript and Discord.js. It leverages financial APIs to deliver automated currency updates and includes a scheduled messaging system."
+      },
+      "tabSwitch": {
+        "title": "Tab Switch",
+        "description": "A browser extension that allows automatic rotation between open tabs, closing other non-configured tabs. Ideal for presentations, monitoring dashboards, and other situations where tab rotation is needed."
+      },
+      "pdfGenerator": {
+        "title": "PDF Generator API",
+        "description": "A high-performance API for dynamic PDF generation, engineered with Fastify, TypeScript, and PDFKit. It leverages TypeBox for robust, type-safe request validation, providing a scalable and reliable document creation service."
       }
     }
   },
