@@ -2,6 +2,8 @@ import { fireEvent, render } from '@/tests/functions'
 
 import { Hero } from './hero'
 
+window.HTMLElement.prototype.scrollIntoView = vi.fn()
+
 describe('Hero', () => {
   it('should render the Hero component', () => {
     const { container } = render(<Hero />)
