@@ -6,7 +6,7 @@ import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 import type { FilterType, ProjectCardProps, ProjectType } from './projects.types'
-import { projectsData } from './project.static'
+import { projectsData } from './projects.static'
 
 function ProjectCard({ project, animationDelay }: ProjectCardProps) {
   const Icon = {
