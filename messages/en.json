@@ -176,8 +176,12 @@
       "api": "API"
     },
     "cta": {
-      "text": "Did you like what you saw? Let's talk about your next project!",
-      "button": "Get in Touch"
+      "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
+      "button": "Explore on GitHub",
+      "stats": {
+        "repositories": "Public repositories",
+        "commits": "Commits this year"
+      }
     },
     "list": {
       "northClinic": {
