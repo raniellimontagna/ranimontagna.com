@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.1.0...v1.2.0) (2025-09-07)
+
+
+### Features
+
+* enhance project showcase with github stats and updated call-to-action ([91dfc0a](https://github.com/RanielliMontagna/ranimontagna.com/commit/91dfc0a12d308f10ad83db96bc5813de240c2b07))
+
 ## [1.1.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.0.0...v1.1.0) (2025-09-06)
 
 
