@@ -39,7 +39,7 @@ export function About() {
       category: t('skills.categories.backend'),
       technologies: [
         t('skills.technologies.nodejs'),
-        t('skills.technologies.express'),
+        t('skills.technologies.fastify'),
         t('skills.technologies.postgresql'),
         t('skills.technologies.prisma'),
         t('skills.technologies.jwt'),
@@ -53,6 +53,7 @@ export function About() {
         t('skills.technologies.uiux'),
         t('skills.technologies.prototyping'),
         t('skills.technologies.designSystem'),
+        t('skills.technologies.accessibility'),
       ],
       icon: Palette,
     },

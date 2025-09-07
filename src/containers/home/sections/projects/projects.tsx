@@ -17,7 +17,7 @@ function ProjectCard({ project, animationDelay }: ProjectCardProps) {
 
   return (
     <div
-      className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
       style={{ animationDelay }}
     >
       <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -93,6 +93,9 @@ export function Projects() {
     type: p.type as 'mobile' | 'web' | 'api',
     title: t(`list.${p.i18nKey}.title`),
     description: t(`list.${p.i18nKey}.description`),
+    image: p.image ?? '',
+    github: p.github ?? '',
+    demo: p.demo ?? '',
   }))
 
   const filters: FilterType[] = [
@@ -193,14 +196,45 @@ export function Projects() {
         </StaggerContainer>
 
         <FadeIn delay={1.4}>
-          <div className="mt-12 text-center lg:mt-16">
-            <p className="mb-6 text-slate-600 dark:text-slate-300">{t('cta.text')}</p>
-            <a
-              href="#contact"
-              className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
-            >
-              {t('cta.button')}
-            </a>
+          <div className="mt-16 lg:mt-20">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 p-8 text-center shadow-2xl lg:p-12">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_70%)]"></div>
+              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl"></div>
+              <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-500/20 blur-3xl"></div>
+
+              <div className="relative z-10">
+                <div className="mb-6 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm">
+                  <Github className="mr-2 h-4 w-4" />
+                  Open Source
+                </div>
+
+                <h3 className="mb-4 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
+                  {t('cta.text')}
+                </h3>
+
+                <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                  <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                    <div className="text-2xl font-bold text-white lg:text-3xl">50+</div>
+                    <div className="text-sm text-white/80">{t('cta.stats.repositories')}</div>
+                  </div>
+                  <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+                    <div className="text-2xl font-bold text-white lg:text-3xl">1K+</div>
+                    <div className="text-sm text-white/80">{t('cta.stats.commits')}</div>
+                  </div>
+                </div>
+
+                <a
+                  href="https://github.com/RanielliMontagna"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center rounded-lg bg-white px-8 py-4 font-medium text-slate-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-100 hover:shadow-xl"
+                >
+                  <Github className="mr-3 h-5 w-5" />
+                  {t('cta.button')}
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </a>
+              </div>
+            </div>
           </div>
         </FadeIn>
       </div>
