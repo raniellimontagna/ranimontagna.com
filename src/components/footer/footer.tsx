@@ -75,11 +75,13 @@ export function Footer() {
 
         <div className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-center text-sm text-slate-600 dark:text-slate-400">
               {t('copyright', { year: currentYear })}
             </p>
 
-            <p className="text-sm text-slate-600 dark:text-slate-400">{t('madeWith')}</p>
+            <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+              {t('madeWith')}
+            </p>
           </div>
         </div>
       </div>
