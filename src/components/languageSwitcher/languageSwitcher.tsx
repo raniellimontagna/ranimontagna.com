@@ -38,7 +38,6 @@ export function LanguageSwitcher() {
         aria-label="Change language"
       >
         <Globe className="h-5 w-5" />
-        {/* Alteração: Texto só aparece em telas grandes (lg) */}
         <span className="hidden text-sm font-medium lg:block">{locale.toUpperCase()}</span>
       </button>
 

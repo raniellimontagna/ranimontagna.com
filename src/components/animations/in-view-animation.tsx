@@ -61,7 +61,6 @@ export function InViewAnimation({
   )
 }
 
-// Variantes pré-definidas para diferentes tipos de animação
 export const fadeInVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
