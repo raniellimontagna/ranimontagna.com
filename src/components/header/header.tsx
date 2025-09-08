@@ -2,19 +2,21 @@
 
 import { useEffect, useState } from 'react'
 import { Menu, X, Download } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import Image from 'next/image'
 
 import { LanguageSwitcher } from '@/components'
-import { getSocialLinksAsArray } from '@/constants/socialLinks'
+import { getSocialLinksAsArray, getResumeByLocale } from '@/constants/socialLinks'
 
 export function Header() {
   const t = useTranslations('header')
+  const locale = useLocale()
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   const socialLinksArray = getSocialLinksAsArray()
+  const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
 
   useEffect(() => {
     setMounted(true)
@@ -113,12 +115,12 @@ export function Header() {
             </div>
             <div className="h-6 w-px bg-slate-300 dark:bg-slate-600"></div>
             <a
-              href="/cv_en.pdf"
-              download={t('resume.downloadFilename')}
+              href={resumeLink.href}
+              download={resumeLink.filename}
               className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-xl dark:bg-slate-700 dark:hover:bg-slate-600"
             >
               <Download className="mr-2 h-4 w-4" />
-              {t('resume.buttonDesktop')}
+              {resumeLink.name}
             </a>
           </div>
 
@@ -187,12 +189,12 @@ export function Header() {
                   })}
                 </div>
                 <a
-                  href="/cv_en.pdf"
-                  download={t('resume.downloadFilename')}
+                  href={resumeLink.href}
+                  download={resumeLink.filename}
                   className="flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600"
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  {t('resume.buttonMobile')}
+                  {resumeLink.name}
                 </a>
               </div>
             </div>

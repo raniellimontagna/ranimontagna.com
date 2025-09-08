@@ -17,11 +17,6 @@
       "linkedinAriaLabel": "LinkedIn",
       "emailAriaLabel": "Email"
     },
-    "resume": {
-      "buttonDesktop": "Currículum",
-      "buttonMobile": "Descargar Currículum",
-      "downloadFilename": "Curriculum-Ranielli-Montagna.pdf"
-    },
     "mobileMenu": {
       "toggleAriaLabel": "Alternar menú"
     }
@@ -66,11 +61,7 @@
       "journey": "Mi viaje comenzó con la curiosidad sobre cómo funcionan las cosas en la web, y desde entonces he estado desarrollando proyectos que impactan positivamente la vida de las personas. Creo que la tecnología debe ser accesible y marcar la diferencia.",
       "hobbies": "Cuando no estoy programando, puedes encontrarme explorando nuevas tecnologías, contribuyendo a proyectos de código abierto o planeando mi próxima aventura de desarrollo."
     },
-    "cta": {
-      "resume": "Descargar Currículum",
-      "resumeFilename": "Curriculum-Ranielli-Montagna.pdf",
-      "contact": "Hablemos"
-    },
+    "cta": { "contact": "Hablemos" },
     "stats": {
       "experience": "Años de experiencia",
       "projects": "Proyectos completados",

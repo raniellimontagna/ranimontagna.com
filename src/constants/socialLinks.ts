@@ -9,6 +9,14 @@ export interface SocialLink {
   ariaLabel?: string
 }
 
+export interface ResumeLink {
+  name: string
+  href: string
+  filename: string
+  language: string
+  locale: string
+}
+
 export const socialLinks = {
   github: {
     name: 'GitHub',
@@ -30,6 +38,33 @@ export const socialLinks = {
     icon: Mail,
     external: false,
     ariaLabel: 'Send email to Ranielli Montagna',
+  },
+} as const
+
+/**
+ * Resume/CV links configuration
+ */
+export const resumeLinks = {
+  en: {
+    name: 'Resume',
+    href: '/cv/en.pdf',
+    filename: 'Resume-Ranielli-Montagna.pdf',
+    language: 'English',
+    locale: 'en',
+  },
+  pt: {
+    name: 'Currículo',
+    href: '/cv/pt.pdf',
+    filename: 'Curriculo-Ranielli-Montagna.pdf',
+    language: 'Português',
+    locale: 'pt',
+  },
+  es: {
+    name: 'Currículum',
+    href: '/cv/es.pdf',
+    filename: 'Curriculum-Ranielli-Montagna.pdf',
+    language: 'Español',
+    locale: 'es',
   },
 } as const
 
@@ -69,6 +104,19 @@ export const getContactMethod = (id: keyof typeof contactMethods): SocialLink | 
 
 export const getWhatsAppUrl = (): string => {
   return contactMethods.whatsapp.href
+}
+
+/**
+ * Resume helper functions
+ */
+export const getResumeByLocale = (locale: 'en' | 'pt' | 'es') => {
+  return resumeLinks[locale as keyof typeof resumeLinks] || resumeLinks.en
+}
+
+export const getResumeLinksAsArray = () => Object.values(resumeLinks)
+
+export const getResumeUrl = (locale: 'en' | 'pt' | 'es') => {
+  return getResumeByLocale(locale).href
 }
 
 export const getSocialLinksAsArray = (): (SocialLink & { id: string })[] => {
