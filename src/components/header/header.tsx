@@ -6,13 +6,15 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { LanguageSwitcher } from '@/components'
-import { socialLinks } from '@/constants/socialLinks'
+import { getSocialLinksAsArray } from '@/constants/socialLinks'
 
 export function Header() {
   const t = useTranslations('header')
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const socialLinksArray = getSocialLinksAsArray()
 
   useEffect(() => {
     setMounted(true)
@@ -93,11 +95,11 @@ export function Header() {
           <div className="hidden items-center space-x-4 lg:flex">
             <LanguageSwitcher />
             <div className="flex items-center space-x-2">
-              {socialLinks.map((social) => {
+              {socialLinksArray.map((social) => {
                 const IconComponent = social.icon
                 return (
                   <a
-                    key={social.name}
+                    key={social.id}
                     href={social.href}
                     target={social.external ? '_blank' : undefined}
                     rel={social.external ? 'noopener noreferrer' : undefined}
@@ -168,11 +170,11 @@ export function Header() {
                 }}
               >
                 <div className="mb-4 flex items-center justify-center space-x-4">
-                  {socialLinks.map((social) => {
+                  {socialLinksArray.map((social) => {
                     const IconComponent = social.icon
                     return (
                       <a
-                        key={social.name}
+                        key={social.id}
                         href={social.href}
                         target={social.external ? '_blank' : undefined}
                         rel={social.external ? 'noopener noreferrer' : undefined}

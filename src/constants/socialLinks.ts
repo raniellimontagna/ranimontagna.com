@@ -2,7 +2,6 @@ import { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { Github, Linkedin, LucideProps, Mail, Phone } from 'lucide-react'
 
 export interface SocialLink {
-  id: string
   name: string
   href: string
   icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>
@@ -10,68 +9,72 @@ export interface SocialLink {
   ariaLabel?: string
 }
 
-export const socialLinks: SocialLink[] = [
-  {
-    id: 'github',
+export const socialLinks = {
+  github: {
     name: 'GitHub',
     href: 'https://github.com/RanielliMontagna',
     icon: Github,
     external: true,
     ariaLabel: 'GitHub Profile - Ranielli Montagna',
   },
-  {
-    id: 'linkedin',
+  linkedin: {
     name: 'LinkedIn',
     href: 'https://linkedin.com/in/rannimontagna',
     icon: Linkedin,
     external: true,
     ariaLabel: 'LinkedIn Profile - Ranielli Montagna',
   },
-  {
-    id: 'email',
+  email: {
     name: 'Email',
     href: 'mailto:raniellimontagna@hotmail.com',
     icon: Mail,
     external: false,
     ariaLabel: 'Send email to Ranielli Montagna',
   },
-]
+} as const
 
-export const contactMethods: SocialLink[] = [
-  {
-    id: 'whatsapp',
+export const contactMethods = {
+  whatsapp: {
     name: 'WhatsApp',
     href: 'https://wa.me/5554999790871',
     icon: Phone,
     external: true,
     ariaLabel: 'WhatsApp - Ranielli Montagna',
   },
-]
+} as const
 
-export const getSocialLink = (id: string): SocialLink | undefined => {
-  return socialLinks.find((link) => link.id === id)
+export const getSocialLink = (id: keyof typeof socialLinks): SocialLink | undefined => {
+  return socialLinks[id]
 }
 
 export const getExternalSocialLinks = (): SocialLink[] => {
-  return socialLinks.filter((link) => link.external)
+  return Object.values(socialLinks).filter((link) => link.external)
 }
 
 export const getGitHubUrl = (): string => {
-  return getSocialLink('github')?.href || ''
+  return socialLinks.github.href
 }
 
 export const getLinkedInUrl = (): string => {
-  return getSocialLink('linkedin')?.href || ''
+  return socialLinks.linkedin.href
 }
 
 export const getEmailUrl = (): string => {
-  return getSocialLink('email')?.href || ''
+  return socialLinks.email.href
 }
 
-export const getContactMethod = (id: string): SocialLink | undefined => {
-  return contactMethods.find((method) => method.id === id)
+export const getContactMethod = (id: keyof typeof contactMethods): SocialLink | undefined => {
+  return contactMethods[id]
 }
 
 export const getWhatsAppUrl = (): string => {
-  return getContactMethod('whatsapp')?.href || ''
+  return contactMethods.whatsapp.href
+}
+
+export const getSocialLinksAsArray = (): (SocialLink & { id: string })[] => {
+  return Object.entries(socialLinks).map(([id, link]) => ({ ...link, id }))
+}
+
+export const getContactMethodsAsArray = (): (SocialLink & { id: string })[] => {
+  return Object.entries(contactMethods).map(([id, method]) => ({ ...method, id }))
 }

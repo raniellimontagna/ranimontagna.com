@@ -3,11 +3,12 @@
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { socialLinks } from '@/constants/socialLinks'
+import { getSocialLinksAsArray } from '@/constants/socialLinks'
 
 export function Footer() {
   const t = useTranslations('footer')
   const currentYear = new Date().getFullYear()
+  const socialLinksArray = getSocialLinksAsArray()
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
@@ -33,7 +34,7 @@ export function Footer() {
           <FadeIn delay={0.2}>
             <StaggerContainer staggerDelay={0.1}>
               <div className="flex items-center space-x-4">
-                {socialLinks.map((social) => {
+                {socialLinksArray.map((social) => {
                   const Icon = social.icon
 
                   return (

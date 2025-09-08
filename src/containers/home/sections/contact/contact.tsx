@@ -3,16 +3,16 @@
 import { useTranslations } from 'next-intl'
 import { MessageCircle, ExternalLink } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { getSocialLink, getContactMethod } from '@/constants/socialLinks'
+import { socialLinks, contactMethods } from '@/constants/socialLinks'
 
 export function Contact() {
   const t = useTranslations('contact')
 
-  const emailLink = getSocialLink('email')!
-  const linkedinLink = getSocialLink('linkedin')!
-  const whatsappMethod = getContactMethod('whatsapp')!
+  const emailLink = socialLinks.email
+  const linkedinLink = socialLinks.linkedin
+  const whatsappMethod = contactMethods.whatsapp
 
-  const contactMethods = [
+  const contactMethodsArray = [
     {
       icon: emailLink.icon,
       title: t('methods.email.title'),
@@ -85,7 +85,7 @@ export function Contact() {
 
             <StaggerContainer staggerDelay={0.15}>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {contactMethods.map((method) => {
+                {contactMethodsArray.map((method) => {
                   const IconComponent = method.icon
                   return (
                     <StaggerItem key={method.title}>
