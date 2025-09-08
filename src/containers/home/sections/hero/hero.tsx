@@ -108,6 +108,7 @@ export function Hero() {
       </div>
 
       <motion.div
+        data-testid="scroll-down-indicator"
         className="absolute bottom-4 left-1/2 -translate-x-1/2 transform cursor-pointer"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

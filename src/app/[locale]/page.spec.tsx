@@ -1,4 +1,3 @@
-import { expect, test } from 'vitest'
 import { render, screen, waitFor } from '@/tests/functions'
 
 import Page from './page'

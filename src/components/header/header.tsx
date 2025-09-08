@@ -23,7 +23,6 @@ export function Header() {
   }, [])
 
   const navigation = [
-    { name: t('navigation.start'), href: '#start' },
     { name: t('navigation.about'), href: '#about' },
     { name: t('navigation.experience'), href: '#experience' },
     { name: t('navigation.projects'), href: '#projects' },
@@ -69,7 +68,7 @@ export function Header() {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('#start')}
-              className="group flex items-center space-x-3 transition-all duration-300"
+              className="group flex cursor-pointer items-center space-x-3 transition-all duration-300 hover:scale-105"
             >
               <Image
                 src="logo/white.svg"
@@ -79,10 +78,10 @@ export function Header() {
                 className="rounded-lg"
               />
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-slate-700 dark:text-slate-100 dark:group-hover:text-slate-300">
+                <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 dark:text-slate-100">
                   {t('logo.fullName')}
                 </h1>
-                <p className="text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300">
+                <p className="text-sm text-slate-600 transition-colors duration-300 dark:text-slate-400">
                   {t('logo.jobTitle')}
                 </p>
               </div>
