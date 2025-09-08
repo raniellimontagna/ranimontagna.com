@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { getGitHubUrl } from '@/constants/socialLinks'
 
 import type { FilterType, ProjectCardProps, ProjectType } from './projects.types'
 import { projectsData } from './projects.static'
@@ -224,7 +225,7 @@ export function Projects() {
                 </div>
 
                 <a
-                  href="https://github.com/RanielliMontagna"
+                  href={getGitHubUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center rounded-lg bg-white px-8 py-4 font-medium text-slate-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-slate-100 hover:shadow-xl"

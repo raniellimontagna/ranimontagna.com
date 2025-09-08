@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Menu, X, Download, Mail, Github, Linkedin } from 'lucide-react'
-
+import { Menu, X, Download } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { LanguageSwitcher } from '@/components'
+import { socialLinks } from '@/constants/socialLinks'
 
 export function Header() {
   const t = useTranslations('header')
@@ -27,17 +27,6 @@ export function Header() {
     { name: t('navigation.experience'), href: '#experience' },
     { name: t('navigation.projects'), href: '#projects' },
     { name: t('navigation.contact'), href: '#contact' },
-  ]
-
-  const socialLinks = [
-    { name: 'GitHub', href: 'https://github.com/RanielliMontagna', icon: Github, external: true },
-    {
-      name: 'LinkedIn',
-      href: 'https://linkedin.com/in/ranimontagna',
-      icon: Linkedin,
-      external: true,
-    },
-    { name: 'Email', href: 'mailto:raniellimontagna@hotmail.com', icon: Mail, external: false },
   ]
 
   const scrollToSection = (href: string) => {

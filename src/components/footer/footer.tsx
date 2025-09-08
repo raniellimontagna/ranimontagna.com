@@ -1,31 +1,13 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Github, Linkedin, Mail } from 'lucide-react'
 import Image from 'next/image'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { socialLinks } from '@/constants/socialLinks'
 
 export function Footer() {
   const t = useTranslations('footer')
   const currentYear = new Date().getFullYear()
-
-  const socialLinks = [
-    {
-      href: 'https://github.com/ranimontagna',
-      icon: Github,
-      label: t('social.links.github'),
-    },
-    {
-      href: 'https://linkedin.com/in/ranimontagna',
-      icon: Linkedin,
-      label: t('social.links.linkedin'),
-    },
-    {
-      href: 'mailto:raniellimontagna@hotmail.com',
-      icon: Mail,
-      label: t('social.links.email'),
-    },
-  ]
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
@@ -55,13 +37,13 @@ export function Footer() {
                   const Icon = social.icon
 
                   return (
-                    <StaggerItem key={social.label}>
+                    <StaggerItem key={social.id}>
                       <a
                         href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target={social.external ? '_blank' : undefined}
+                        rel={social.external ? 'noopener noreferrer' : undefined}
                         className="group flex h-10 w-10 items-center justify-center rounded-lg bg-slate-200 text-slate-600 transition-all duration-300 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-blue-600 dark:hover:text-white"
-                        aria-label={social.label}
+                        aria-label={social.ariaLabel || social.name}
                       >
                         <Icon className="h-5 w-5" />
                       </a>

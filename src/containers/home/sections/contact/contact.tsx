@@ -1,35 +1,40 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Mail, Phone, Linkedin, MessageCircle, ExternalLink } from 'lucide-react'
+import { MessageCircle, ExternalLink } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { getSocialLink, getContactMethod } from '@/constants/socialLinks'
 
 export function Contact() {
   const t = useTranslations('contact')
 
+  const emailLink = getSocialLink('email')!
+  const linkedinLink = getSocialLink('linkedin')!
+  const whatsappMethod = getContactMethod('whatsapp')!
+
   const contactMethods = [
     {
-      icon: Mail,
+      icon: emailLink.icon,
       title: t('methods.email.title'),
       description: t('methods.email.description'),
       action: t('methods.email.action'),
-      href: 'mailto:raniellimontagna@hotmail.com',
+      href: emailLink.href,
       color: 'blue',
     },
     {
-      icon: Linkedin,
+      icon: linkedinLink.icon,
       title: t('methods.linkedin.title'),
       description: t('methods.linkedin.description'),
       action: t('methods.linkedin.action'),
-      href: 'https://linkedin.com/in/ranimontagna',
+      href: linkedinLink.href,
       color: 'blue',
     },
     {
-      icon: Phone,
+      icon: whatsappMethod.icon,
       title: t('methods.phone.title'),
       description: t('methods.phone.description'),
       action: t('methods.phone.action'),
-      href: 'https://wa.me/5554999790871',
+      href: whatsappMethod.href,
       color: 'green',
     },
   ]
