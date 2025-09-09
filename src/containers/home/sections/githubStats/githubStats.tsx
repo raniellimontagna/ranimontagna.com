@@ -3,6 +3,7 @@
 import { Github, GitBranch, Star, Users, Code, TrendingUp } from 'lucide-react'
 import { LucideIcon } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { getGitHubUrl } from '@/constants/socialLinks'
 
 export function GithubStats() {
   const stats = {
@@ -73,7 +74,7 @@ export function GithubStats() {
 
           <FadeIn delay={0.6}>
             <a
-              href="https://github.com/RanielliMontagna"
+              href={getGitHubUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center rounded-lg bg-slate-900 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:bg-slate-800 hover:shadow-xl dark:bg-slate-800 dark:hover:bg-slate-700"
