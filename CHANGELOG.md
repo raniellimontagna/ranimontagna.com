@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.2.0...v1.2.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* correct email address in social links ([b947fa1](https://github.com/RanielliMontagna/ranimontagna.com/commit/b947fa111a7915e8324bc05709a1d93f5c1f24d4))
+
 ## [1.2.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.1.0...v1.2.0) (2025-09-07)
 
 
