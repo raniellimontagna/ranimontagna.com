@@ -3,7 +3,8 @@
     "logo": {
       "initials": "RM",
       "fullName": "Ranielli Montagna",
-      "jobTitle": "Desenvolvedor Full Stack"
+      "jobTitle": "Desenvolvedor Full Stack",
+      "ariaLabel": "Ir para o topo da página"
     },
     "navigation": {
       "about": "Sobre",

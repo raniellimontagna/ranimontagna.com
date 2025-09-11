@@ -47,6 +47,7 @@ export function LanguageSwitcher() {
           <div className="p-1">
             {locales.map((loc) => (
               <button
+                aria-label={`Change language to ${loc.name}`}
                 data-testid={`language-option-${loc.code}`}
                 key={loc.code}
                 onClick={() => handleLocaleChange(loc.code)}
