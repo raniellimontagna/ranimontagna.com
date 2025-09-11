@@ -13,6 +13,7 @@ export function Hero() {
     <section
       id="start"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4 pt-32 pb-20 sm:px-6 sm:pt-40 sm:pb-24 lg:px-8 dark:from-slate-900 dark:via-blue-900/20 dark:to-purple-900/20"
+      aria-label="Hero section - Ranielli Montagna introduction"
     >
       <div className="absolute inset-0 opacity-40 dark:opacity-30">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f615_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf615_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -34,6 +35,7 @@ export function Hero() {
 
         <FadeIn delay={0.4}>
           <h1 className="mb-6 text-4xl font-bold text-gray-900 sm:text-6xl lg:text-7xl dark:text-white">
+            <span className="sr-only">Full Stack Developer</span>
             {t('greeting')}{' '}
             <span className="animate-gradient bg-300% bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text bg-left text-transparent">
               {t('name')}

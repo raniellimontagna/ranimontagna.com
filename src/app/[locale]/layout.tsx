@@ -6,6 +6,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import { routing } from '@/i18n/routing'
+import { getSEOData, getAlternateLanguages } from '@/lib/seo'
+import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -17,46 +19,76 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-export const metadata: Metadata = {
-  title: 'Ranielli Montagna - Desenvolvedor Full Stack',
-  description:
-    'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas. Criando experiências digitais excepcionais.',
-  keywords:
-    'desenvolvedor full stack, react, nextjs, nodejs, typescript, ui/ux designer, portfolio, rani montagna, ranielli montagna, ranielli',
-  authors: [{ name: 'Rani Montagna' }],
-  creator: 'Ranielli Montagna',
-  publisher: 'Ranielli Montagna',
-  openGraph: {
-    type: 'website',
-    locale: 'pt_BR',
-    url: 'https://ranimontagna.com',
-    title: 'Ranielli Montagna - Desenvolvedor Full Stack ',
-    description:
-      'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.',
-    siteName: 'Ranielli Montagna Portfolio',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Ranielli Montagna - Desenvolvedor Full Stack ',
-    description:
-      'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
-
 type Props = {
   children: React.ReactNode
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const seo = getSEOData(locale)
+  const alternateLanguages = getAlternateLanguages()
+
+  return {
+    metadataBase: new URL('https://ranimontagna.com'),
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    authors: [{ name: 'Ranielli Montagna' }],
+    creator: 'Ranielli Montagna',
+    publisher: 'Ranielli Montagna',
+    category: 'Technology',
+    alternates: {
+      canonical: `https://ranimontagna.com/${locale}`,
+      languages: alternateLanguages,
+    },
+    openGraph: {
+      type: 'website',
+      locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
+      url: `https://ranimontagna.com/${locale}`,
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      siteName: 'Ranielli Montagna Portfolio',
+      images: [
+        {
+          url: 'https://ranimontagna.com/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: seo.ogTitle,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.twitterTitle,
+      description: seo.twitterDescription,
+      creator: '@rannimontagna',
+      images: ['https://ranimontagna.com/og-image.png'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    verification: {
+      google: 'your-google-verification-code',
+    },
+    manifest: '/manifest.json',
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: 'Ranielli Montagna',
+    },
+    formatDetection: {
+      telephone: false,
+    },
+  }
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
@@ -65,8 +97,25 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound()
   }
 
+  const personJsonLd = generatePersonJsonLd(locale)
+  const websiteJsonLd = generateWebsiteJsonLd(locale)
+
   return (
-    <html lang="pt-BR">
+    <html lang={locale}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

@@ -34,6 +34,7 @@ export const socialLinks = {
   },
   email: {
     name: 'Email',
+    direct: 'raniellimontagna@hotmail.com',
     href: 'mailto:raniellimontagna@hotmail.com',
     icon: Mail,
     external: false,
