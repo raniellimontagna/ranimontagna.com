@@ -12,7 +12,7 @@
     "test:coverage": "vitest --run --coverage",
     "lighthouse": "lhci autorun",
     "lighthouse:local": "lhci autorun --config=./lighthouserc.json",
-    "lighthouse:ci": "lhci autorun --upload.target=temporary-public-storage"
+    "lighthouse:ci": "lhci autorun --config=./lighthouserc.ci.json"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",
