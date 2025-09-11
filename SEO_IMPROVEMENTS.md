@@ -25,6 +25,7 @@
 
 - ✅ Web Vitals implementado com `web-vitals` package
 - ✅ Componente `WebVitals` para captura automática de métricas
+- ✅ Google Analytics GA4 integrado e configurado
 - ✅ Lighthouse CI configurado com `lighthouserc.json`
 
 ### 5. **Otimizações de Performance**
@@ -50,10 +51,10 @@
 # 2. Envie o sitemap: https://ranimontagna.com/sitemap.xml
 # 3. Configure o código de verificação no layout.tsx
 
-# Google Analytics (opcional)
-# 1. Crie uma propriedade GA4
-# 2. Adicione o ID no GoogleAnalytics component
-# 3. Importe o component no layout
+# Google Analytics - IMPLEMENTADO ✅
+# 1. ✅ Propriedade GA4 criada
+# 2. ✅ ID configurado no .env.local
+# 3. ✅ Component integrado no layout
 ```
 
 ### 2. **Imagem Open Graph Personalizada**
@@ -135,29 +136,30 @@ bun run dev                   # Web Vitals em tempo real (console)
 
 ## � **Próximos Passos para Monitoramento Contínuo**
 
-### **1. Integração com Analytics**
+### **1. Integração com Analytics - IMPLEMENTADO ✅**
 
 ```typescript
-// No layout.tsx, adicione (opcional):
-import { GoogleAnalytics } from '@/components/google-analytics'
+// No layout.tsx - JÁ IMPLEMENTADO ✅:
+import { GoogleAnalytics } from '@/components'
 
 // E no JSX:
-<GoogleAnalytics GA_MEASUREMENT_ID="G-XXXXXXXXXX" />
+<GoogleAnalytics />
 ```
 
-### **2. CI/CD Pipeline**
+### **2. CI/CD Pipeline - IMPLEMENTADO ✅**
 
 ```yaml
-# .github/workflows/lighthouse.yml
+# .github/workflows/lighthouse.yml - CRIADO ✅
 name: Lighthouse CI
 on: [push, pull_request]
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: npm ci && npm run build
-      - run: npm run lighthouse
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install && bun run build
+      - run: bun run lighthouse:ci
 ```
 
 ### **3. Monitoramento de Produção**
