@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.2.1...v1.3.0) (2025-09-11)
+
+
+### Features
+
+* add comprehensive seo improvements and performance optimizations ([b590990](https://github.com/RanielliMontagna/ranimontagna.com/commit/b59099061d03747b330dcca7f6d93302acce0d6b))
+* enhances seo, performance, and pwa support ([a78220c](https://github.com/RanielliMontagna/ranimontagna.com/commit/a78220c82a8e4fec1ce7798d0e2707d472857817))
+
 ## [1.2.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.2.0...v1.2.1) (2025-09-09)
 
 
