@@ -176,10 +176,13 @@ export function Projects() {
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
+                  aria-label={`Filter projects by ${filter.label}`}
+                  title={filter.label}
                   className={`flex items-center rounded-md px-4 py-2 text-sm font-medium transition-all duration-300 sm:px-5 sm:py-2.5 ${activeFilter === filter.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-400'}`}
                 >
-                  <filter.icon className="h-4 w-4" />
+                  <filter.icon className="h-4 w-4" aria-hidden="true" />
                   <span className="ml-2 hidden sm:inline">{filter.label}</span>
+                  <span className="sr-only sm:hidden">{filter.label}</span>
                 </button>
               ))}
             </div>

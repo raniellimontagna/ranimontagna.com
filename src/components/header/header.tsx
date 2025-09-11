@@ -61,6 +61,7 @@ export function Header() {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('#start')}
+              aria-label={t('logo.ariaLabel')}
               className="group flex cursor-pointer items-center space-x-3 transition-all duration-300 hover:scale-105"
             >
               <Image
@@ -86,6 +87,7 @@ export function Header() {
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
+                aria-label={`Go to ${item.name} section`}
                 className="group relative font-medium text-slate-700 transition-colors duration-300 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
               >
                 {item.name}
@@ -151,6 +153,7 @@ export function Header() {
             <div className="space-y-2 border-t border-slate-200 pt-2 pb-4 dark:border-slate-700">
               {navigation.map((item, index) => (
                 <button
+                  aria-label={`Go to ${item.name} section`}
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
                   className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-700 transition-all duration-300 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"

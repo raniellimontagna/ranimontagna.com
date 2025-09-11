@@ -92,7 +92,8 @@
 ### **Scripts Disponíveis**
 
 ```bash
-bun run lighthouse:local      # Auditoria Lighthouse local
+bun run lighthouse:local      # Auditoria Lighthouse local completa
+bun run lighthouse:ci    # Auditoria CI otimizada (performance, SEO, a11y)
 bun run dev                   # Web Vitals em tempo real (console)
 ```
 
@@ -146,20 +147,18 @@ import { GoogleAnalytics } from '@/components'
 <GoogleAnalytics />
 ```
 
-### **2. CI/CD Pipeline - IMPLEMENTADO ✅**
+### **2. CI/CD Pipeline - OTIMIZADO ✅**
 
 ```yaml
-# .github/workflows/lighthouse.yml - CRIADO ✅
-name: Lighthouse CI
+# .github/workflows/lint-ant-test.yml - INTEGRADO E OTIMIZADO ✅
+name: CI
 on: [push, pull_request]
 jobs:
-  lighthouse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
-      - run: bun install && bun run build
-      - run: bun run lighthouse:ci
+  test: # Lint + Tests (sempre executa)
+  lighthouse: # Lighthouse (só no push para main)
+    - ⚡ 1 run (mais rápido)
+    - 🎯 Só categorias essenciais
+    - 📊 Thresholds ajustados para CI
 ```
 
 ### **3. Monitoramento de Produção**

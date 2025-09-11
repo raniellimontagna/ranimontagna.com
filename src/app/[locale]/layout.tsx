@@ -6,7 +6,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import { routing } from '@/i18n/routing'
-import { getSEOData, getAlternateLanguages } from '@/lib/seo'
+import { getSEOData, getAlternateLanguages, getCanonicalUrl } from '@/lib/seo'
 import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
 
 import { WebVitals, GoogleAnalytics } from '@/components'
@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const seo = getSEOData(locale)
   const alternateLanguages = getAlternateLanguages()
+  const canonicalUrl = getCanonicalUrl(locale)
 
   return {
     metadataBase: new URL('https://ranimontagna.com'),
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     publisher: 'Ranielli Montagna',
     category: 'Technology',
     alternates: {
-      canonical: `https://ranimontagna.com/${locale}`,
+      canonical: canonicalUrl,
       languages: alternateLanguages,
     },
     openGraph: {

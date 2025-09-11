@@ -57,11 +57,19 @@ export function getSEOData(locale: string): SEOData {
 }
 
 export function getAlternateLanguages() {
-  return routing.locales.reduce(
+  const alternates = routing.locales.reduce(
     (acc, lang) => {
       acc[lang] = `https://ranimontagna.com/${lang}`
       return acc
     },
     {} as Record<string, string>,
   )
+
+  alternates['x-default'] = `https://ranimontagna.com/${routing.defaultLocale}`
+
+  return alternates
+}
+
+export function getCanonicalUrl(locale: string): string {
+  return `https://ranimontagna.com/${locale}`
 }
