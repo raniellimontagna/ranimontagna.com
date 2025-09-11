@@ -9,6 +9,8 @@ import { routing } from '@/i18n/routing'
 import { getSEOData, getAlternateLanguages } from '@/lib/seo'
 import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
 
+import { WebVitals } from '@/components'
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -76,9 +78,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
-    verification: {
-      google: 'your-google-verification-code',
-    },
     manifest: '/manifest.json',
     appleWebApp: {
       capable: true,
@@ -117,6 +116,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <WebVitals />
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
