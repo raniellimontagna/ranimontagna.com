@@ -48,7 +48,7 @@ jobs:
           bun run start &
           SERVER_PID=$!
           sleep 8
-          bun run lighthouse:ci:fast
+          bun run lighthouse:ci
           kill $SERVER_PID
         env:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
