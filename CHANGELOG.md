@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.3.0...v1.4.0) (2025-09-11)
+
+
+### Features
+
+* add google analytics integration and configuration ([ee4965d](https://github.com/RanielliMontagna/ranimontagna.com/commit/ee4965d66d4c704880c5f26f88b8f13e11f86609))
+* add lighthouse ci and web-vitals monitoring ([57cbff6](https://github.com/RanielliMontagna/ranimontagna.com/commit/57cbff6dac416a97230152e1ce97ab05ab705858))
+* monitoring and analytics ([1381b43](https://github.com/RanielliMontagna/ranimontagna.com/commit/1381b43eed59e6338c4dfef21f1ec12f3a75de0a))
+
 ## [1.3.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.2.1...v1.3.0) (2025-09-11)
 
 
