@@ -5,7 +5,7 @@ import { Menu, X, Download } from 'lucide-react'
 import { useTranslations, useLocale } from 'next-intl'
 import Image from 'next/image'
 
-import { LanguageSwitcher } from '@/components'
+import { LanguageSwitcher, ThemeToggle } from '@/components'
 import { getSocialLinksAsArray, getResumeByLocale } from '@/constants/socialLinks'
 
 export function Header() {
@@ -98,6 +98,7 @@ export function Header() {
 
           <div className="hidden items-center space-x-4 lg:flex">
             <LanguageSwitcher />
+            <ThemeToggle />
             <div className="flex items-center space-x-2">
               {socialLinksArray.map((social) => {
                 const IconComponent = social.icon
@@ -128,6 +129,7 @@ export function Header() {
 
           <div className="flex items-center gap-2 lg:hidden">
             <LanguageSwitcher />
+            <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative rounded-lg p-2 text-slate-600 transition-colors duration-300 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"

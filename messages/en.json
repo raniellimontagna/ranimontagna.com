@@ -20,6 +20,10 @@
     },
     "mobileMenu": {
       "toggleAriaLabel": "Toggle menu"
+    },
+    "themeToggle": {
+      "ariaLabel": "Switch to {mode} mode",
+      "tooltip": "Switch to {mode} mode"
     }
   },
   "hero": {
