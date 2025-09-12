@@ -19,6 +19,10 @@
     },
     "mobileMenu": {
       "toggleAriaLabel": "Toggle menu"
+    },
+    "themeToggle": {
+      "ariaLabel": "Mudar para modo {mode}",
+      "tooltip": "Mudar para modo {mode}"
     }
   },
   "hero": {

@@ -1,7 +1,9 @@
-export { Header } from './header/header'
-export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
 export { Footer } from './footer/footer'
+export { Header } from './header/header'
+export { ThemeToggle } from './themeToggle'
 export { WebVitals } from './web-vitals/web-vitals'
+export { ThemeProvider } from './themeProvider/themeProvider'
 export { GoogleAnalytics } from './google-analytics/google-analytics'
+export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
 
 export * from './animations'

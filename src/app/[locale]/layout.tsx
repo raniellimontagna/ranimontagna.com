@@ -9,7 +9,7 @@ import { routing } from '@/i18n/routing'
 import { getSEOData, getAlternateLanguages, getCanonicalUrl } from '@/lib/seo'
 import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
 
-import { WebVitals, GoogleAnalytics } from '@/components'
+import { WebVitals, GoogleAnalytics, ThemeProvider } from '@/components'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -117,11 +117,13 @@ export default async function LocaleLayout({ children, params }: Props) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <WebVitals />
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <ThemeProvider>
+          <WebVitals />
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          )}
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

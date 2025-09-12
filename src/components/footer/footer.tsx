@@ -1,12 +1,12 @@
-'use client'
-
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getSocialLinksAsArray } from '@/constants/socialLinks'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Footer() {
   const t = useTranslations('footer')
+  const { theme } = useTheme()
   const currentYear = new Date().getFullYear()
   const socialLinksArray = getSocialLinksAsArray()
 
@@ -17,7 +17,7 @@ export function Footer() {
           <FadeIn>
             <div className="flex items-center space-x-3">
               <Image
-                src="logo/white.svg"
+                src={`logo/${theme === 'dark' ? 'white' : 'black'}.svg`}
                 alt="Logo"
                 width={40}
                 height={40}
