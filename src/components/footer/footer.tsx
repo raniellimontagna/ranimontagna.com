@@ -6,7 +6,7 @@ import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Footer() {
   const t = useTranslations('footer')
-  const { isLight } = useTheme()
+  const { theme } = useTheme()
   const currentYear = new Date().getFullYear()
   const socialLinksArray = getSocialLinksAsArray()
 
@@ -17,7 +17,7 @@ export function Footer() {
           <FadeIn>
             <div className="flex items-center space-x-3">
               <Image
-                src={`logo/${isLight ? 'white' : 'black'}.svg`}
+                src={`logo/${theme === 'dark' ? 'white' : 'black'}.svg`}
                 alt="Logo"
                 width={40}
                 height={40}

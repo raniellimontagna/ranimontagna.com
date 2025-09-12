@@ -6,6 +6,4 @@ export interface ThemeStore {
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
   initTheme: () => void
-  isDark: boolean
-  isLight: boolean
 }

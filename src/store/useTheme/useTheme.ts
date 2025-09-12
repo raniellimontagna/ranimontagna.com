@@ -59,12 +59,6 @@ export const useTheme = create<ThemeStore>()(
           applyTheme(initialTheme)
         }
       },
-      get isDark() {
-        return get().theme === 'dark'
-      },
-      get isLight() {
-        return get().theme === 'light'
-      },
     }),
     {
       name: 'theme-storage',

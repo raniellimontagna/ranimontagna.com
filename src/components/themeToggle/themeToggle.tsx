@@ -6,7 +6,9 @@ import { useTheme } from '@/store/useTheme/useTheme'
 
 export function ThemeToggle() {
   const t = useTranslations('header')
-  const { isDark, toggleTheme, mounted } = useTheme()
+  const { theme, toggleTheme, mounted } = useTheme()
+
+  const isDark = theme === 'dark'
 
   if (!mounted) {
     return (

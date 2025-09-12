@@ -12,7 +12,7 @@ import { useTheme } from '@/store/useTheme/useTheme'
 export function Header() {
   const t = useTranslations('header')
   const locale = useLocale()
-  const { isLight, mounted } = useTheme()
+  const { theme, mounted } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -65,7 +65,7 @@ export function Header() {
               className="group flex cursor-pointer items-center space-x-3 transition-all duration-500 hover:scale-105"
             >
               <Image
-                src={`logo/${isLight ? 'white' : 'black'}.svg`}
+                src={`logo/${theme === 'dark' ? 'white' : 'black'}.svg`}
                 alt="Logo"
                 width={40}
                 height={40}
