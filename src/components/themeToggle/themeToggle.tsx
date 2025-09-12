@@ -2,11 +2,11 @@
 
 import { Sun, Moon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useTheme } from '@/hooks/useTheme'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function ThemeToggle() {
   const t = useTranslations('header')
-  const { theme, toggleTheme, mounted } = useTheme()
+  const { isDark, toggleTheme, mounted } = useTheme()
 
   if (!mounted) {
     return (
@@ -19,8 +19,6 @@ export function ThemeToggle() {
       </button>
     )
   }
-
-  const isDark = theme === 'dark'
 
   return (
     <button

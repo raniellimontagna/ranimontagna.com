@@ -7,19 +7,21 @@ import Image from 'next/image'
 
 import { LanguageSwitcher, ThemeToggle } from '@/components'
 import { getSocialLinksAsArray, getResumeByLocale } from '@/constants/socialLinks'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Header() {
   const t = useTranslations('header')
   const locale = useLocale()
-  const [mounted, setMounted] = useState(false)
+  const { isDark, mounted } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   const socialLinksArray = getSocialLinksAsArray()
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
 
+  const logoSrc = isDark ? 'logo/white.svg' : 'logo/black.svg'
+
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     handleScroll()
     window.addEventListener('scroll', handleScroll)
@@ -64,13 +66,7 @@ export function Header() {
               aria-label={t('logo.ariaLabel')}
               className="group flex cursor-pointer items-center space-x-3 transition-all duration-300 hover:scale-105"
             >
-              <Image
-                src="logo/white.svg"
-                alt="Logo"
-                width={40}
-                height={40}
-                className="rounded-lg"
-              />
+              <Image src={logoSrc} alt="Logo" width={40} height={40} className="rounded-lg" />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-slate-900 transition-colors duration-300 dark:text-slate-100">
                   {t('logo.fullName')}

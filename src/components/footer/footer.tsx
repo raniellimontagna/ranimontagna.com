@@ -4,11 +4,15 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getSocialLinksAsArray } from '@/constants/socialLinks'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Footer() {
   const t = useTranslations('footer')
+  const { isDark } = useTheme()
   const currentYear = new Date().getFullYear()
   const socialLinksArray = getSocialLinksAsArray()
+
+  const logoSrc = isDark ? 'logo/white.svg' : 'logo/black.svg'
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
@@ -16,13 +20,7 @@ export function Footer() {
         <div className="flex flex-col items-center not-md:gap-4 sm:flex-row sm:items-center sm:justify-between">
           <FadeIn>
             <div className="flex items-center space-x-3">
-              <Image
-                src="logo/white.svg"
-                alt="Logo"
-                width={40}
-                height={40}
-                className="rounded-lg"
-              />
+              <Image src={logoSrc} alt="Logo" width={40} height={40} className="rounded-lg" />
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {t('logo.fullName')}
