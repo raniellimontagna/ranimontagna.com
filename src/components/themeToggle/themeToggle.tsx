@@ -31,11 +31,13 @@ export function ThemeToggle() {
     >
       <div className="relative h-5 w-5">
         <Sun
+          data-testid="sun-icon"
           className={`absolute inset-0 h-5 w-5 transition-all duration-500 ${
             isDark ? 'scale-0 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'
           }`}
         />
         <Moon
+          data-testid="moon-icon"
           className={`absolute inset-0 h-5 w-5 transition-all duration-500 ${
             isDark ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'
           }`}

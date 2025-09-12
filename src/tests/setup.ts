@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom'
 import React from 'react'
 import { vi } from 'vitest'
 import mockRouter from 'next-router-mock'
