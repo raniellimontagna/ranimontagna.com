@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.5.0...v1.5.1) (2025-09-11)
+
+
+### Bug Fixes
+
+* update lighthouse ci command for accurate reporting ([7494c63](https://github.com/RanielliMontagna/ranimontagna.com/commit/7494c635cf42740ddae47a899ac860db794f3e9b))
+
 ## [1.5.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.4.0...v1.5.0) (2025-09-11)
 
 
