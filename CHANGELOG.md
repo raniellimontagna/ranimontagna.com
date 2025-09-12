@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.5.1...v1.6.0) (2025-09-12)
+
+
+### Features
+
+* implement light mode ([f519fe4](https://github.com/RanielliMontagna/ranimontagna.com/commit/f519fe4f506caf98cacfaae685eee3c10ac0a44b))
+
 ## [1.5.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.5.0...v1.5.1) (2025-09-11)
 
 
