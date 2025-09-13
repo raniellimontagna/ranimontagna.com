@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.6.0...v1.6.1) (2025-09-13)
+
+
+### Bug Fixes
+
+* replace router navigation with window location change ([6987c06](https://github.com/RanielliMontagna/ranimontagna.com/commit/6987c06ff4f852f00661c3d419b428fc935fa839))
+* replace router navigation with window location change ([db1d9f9](https://github.com/RanielliMontagna/ranimontagna.com/commit/db1d9f9cce60823a95d277cdca58e7024ff62c43))
+
 ## [1.6.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.5.1...v1.6.0) (2025-09-12)
 
 
