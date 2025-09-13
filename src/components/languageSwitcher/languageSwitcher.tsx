@@ -3,14 +3,13 @@
 import { useLocale } from 'next-intl'
 import { Globe, Check } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import { locales } from '@/i18n/routing'
 
 export function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
   const switcherRef = useRef<HTMLDivElement>(null)
 
@@ -26,7 +25,7 @@ export function LanguageSwitcher() {
 
   const handleLocaleChange = (newLocale: string) => {
     const newPathname = pathname.startsWith(`/${locale}`) ? pathname.substring(3) : pathname
-    router.replace(`/${newLocale}${newPathname || '/'}`)
+    window.location.href = `/${newLocale}${newPathname || '/'}`
     setIsOpen(false)
   }
 
