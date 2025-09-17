@@ -8,6 +8,7 @@
     },
     "navigation": {
       "about": "Sobre",
+      "services": "Serviços",
       "experience": "Experiência",
       "projects": "Projetos",
       "contact": "Contato"
@@ -257,5 +258,67 @@
     },
     "copyright": "© {year} Ranielli Montagna. Todos os direitos reservados.",
     "madeWith": "Feito com ❤️ usando Next.js, TypeScript e Tailwind CSS"
+  },
+  "services": {
+    "badge": "Serviços",
+    "title": {
+      "part1": "Como posso",
+      "part2": "ajudar seu projeto"
+    },
+    "subtitle": "Ofereço soluções completas em desenvolvimento, desde a concepção até a entrega, com foco em qualidade e resultados excepcionais.",
+    "popularBadge": "Mais Popular",
+    "includedTitle": "O que está incluído:",
+    "ctaButton": "Solicitar Orçamento",
+    "list": {
+      "web-development": {
+        "title": "Desenvolvimento Web",
+        "description": "Criação de aplicações web modernas, responsivas e performáticas usando as melhores tecnologias do mercado.",
+        "features": [
+          "Landing Pages de alta conversão",
+          "E-commerce completo",
+          "Dashboards administrativos",
+          "APIs REST e GraphQL",
+          "Integração com serviços externos"
+        ]
+      },
+      "mobile-development": {
+        "title": "Desenvolvimento Mobile",
+        "description": "Aplicativos nativos e híbridos para iOS e Android com experiência de usuário excepcional.",
+        "features": [
+          "Apps React Native",
+          "Interface nativa",
+          "Integração com APIs",
+          "Push notifications",
+          "Publicação nas lojas"
+        ]
+      },
+      "performance-optimization": {
+        "title": "Otimização de Performance",
+        "description": "Melhore a velocidade e performance do seu site ou aplicação existente.",
+        "features": [
+          "Auditoria completa",
+          "Otimização de imagens",
+          "Code splitting",
+          "Lazy loading",
+          "Core Web Vitals"
+        ]
+      },
+      "technical-consulting": {
+        "title": "Consultoria Técnica",
+        "description": "Orientação especializada para decisões técnicas, arquitetura e melhores práticas.",
+        "features": [
+          "Análise de arquitetura",
+          "Code review",
+          "Escolha de tecnologias",
+          "Mentoria técnica",
+          "Planejamento de projeto"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Pronto para começar seu projeto?",
+      "subtitle": "Vamos conversar sobre como posso ajudar a transformar sua ideia em realidade.",
+      "button": "Solicitar Orçamento Gratuito"
+    }
   }
 }

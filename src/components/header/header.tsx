@@ -28,6 +28,7 @@ export function Header() {
 
   const navigation = [
     { name: t('navigation.about'), href: '#about' },
+    { name: t('navigation.services'), href: '#services' },
     { name: t('navigation.experience'), href: '#experience' },
     { name: t('navigation.projects'), href: '#projects' },
     { name: t('navigation.contact'), href: '#contact' },
