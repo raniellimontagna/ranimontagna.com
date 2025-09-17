@@ -7,8 +7,8 @@
       "ariaLabel": "Go to top of page"
     },
     "navigation": {
-      "start": "Home",
       "about": "About",
+      "services": "Services",
       "experience": "Experience",
       "projects": "Projects",
       "contact": "Contact"
@@ -258,5 +258,67 @@
     },
     "copyright": "© {year} Ranielli Montagna. All rights reserved.",
     "madeWith": "Made with ❤️ using Next.js, TypeScript and Tailwind CSS"
+  },
+  "services": {
+    "badge": "Services",
+    "title": {
+      "part1": "How I can",
+      "part2": "help your project"
+    },
+    "subtitle": "I offer complete development solutions, from conception to delivery, focusing on quality and exceptional results.",
+    "popularBadge": "Most Popular",
+    "includedTitle": "What's included:",
+    "ctaButton": "Request Quote",
+    "list": {
+      "web-development": {
+        "title": "Web Development",
+        "description": "Creation of modern, responsive and performant web applications using the best market technologies.",
+        "features": [
+          "High-conversion landing pages",
+          "Complete e-commerce",
+          "Administrative dashboards",
+          "REST and GraphQL APIs",
+          "External services integration"
+        ]
+      },
+      "mobile-development": {
+        "title": "Mobile Development",
+        "description": "Native and hybrid applications for iOS and Android with exceptional user experience.",
+        "features": [
+          "React Native apps",
+          "Native interface",
+          "API integration",
+          "Push notifications",
+          "App store publishing"
+        ]
+      },
+      "performance-optimization": {
+        "title": "Performance Optimization",
+        "description": "Improve the speed and performance of your existing website or application.",
+        "features": [
+          "Complete audit",
+          "Image optimization",
+          "Code splitting",
+          "Lazy loading",
+          "Core Web Vitals"
+        ]
+      },
+      "technical-consulting": {
+        "title": "Technical Consulting",
+        "description": "Specialized guidance for technical decisions, architecture and best practices.",
+        "features": [
+          "Architecture analysis",
+          "Code review",
+          "Technology selection",
+          "Technical mentoring",
+          "Project planning"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Ready to start your project?",
+      "subtitle": "Let's talk about how I can help turn your idea into reality.",
+      "button": "Request Free Quote"
+    }
   }
 }

@@ -9,6 +9,7 @@
     "navigation": {
       "start": "Inicio",
       "about": "Sobre mí",
+      "services": "Servicios",
       "experience": "Experiencia",
       "projects": "Proyectos",
       "contact": "Contacto"
@@ -258,5 +259,67 @@
     },
     "copyright": "© {year} Ranielli Montagna. Todos los derechos reservados.",
     "madeWith": "Hecho con ❤️ usando Next.js, TypeScript y Tailwind CSS"
+  },
+  "services": {
+    "badge": "Servicios",
+    "title": {
+      "part1": "Cómo puedo",
+      "part2": "ayudar tu proyecto"
+    },
+    "subtitle": "Ofrezco soluciones completas de desarrollo, desde la concepción hasta la entrega, enfocándome en calidad y resultados excepcionales.",
+    "popularBadge": "Más Popular",
+    "includedTitle": "Qué está incluido:",
+    "ctaButton": "Solicitar Cotización",
+    "list": {
+      "web-development": {
+        "title": "Desarrollo Web",
+        "description": "Creación de aplicaciones web modernas, responsivas y de alto rendimiento usando las mejores tecnologías del mercado.",
+        "features": [
+          "Landing pages de alta conversión",
+          "E-commerce completo",
+          "Dashboards administrativos",
+          "APIs REST y GraphQL",
+          "Integración con servicios externos"
+        ]
+      },
+      "mobile-development": {
+        "title": "Desarrollo Mobile",
+        "description": "Aplicaciones nativas e híbridas para iOS y Android con experiencia de usuario excepcional.",
+        "features": [
+          "Apps React Native",
+          "Interfaz nativa",
+          "Integración con APIs",
+          "Push notifications",
+          "Publicación en tiendas"
+        ]
+      },
+      "performance-optimization": {
+        "title": "Optimización de Rendimiento",
+        "description": "Mejora la velocidad y rendimiento de tu sitio web o aplicación existente.",
+        "features": [
+          "Auditoría completa",
+          "Optimización de imágenes",
+          "Code splitting",
+          "Lazy loading",
+          "Core Web Vitals"
+        ]
+      },
+      "technical-consulting": {
+        "title": "Consultoría Técnica",
+        "description": "Orientación especializada para decisiones técnicas, arquitectura y mejores prácticas.",
+        "features": [
+          "Análisis de arquitectura",
+          "Code review",
+          "Selección de tecnologías",
+          "Mentoría técnica",
+          "Planificación de proyecto"
+        ]
+      }
+    },
+    "cta": {
+      "title": "¿Listo para comenzar tu proyecto?",
+      "subtitle": "Hablemos sobre cómo puedo ayudar a convertir tu idea en realidad.",
+      "button": "Solicitar Cotización Gratuita"
+    }
   }
 }
