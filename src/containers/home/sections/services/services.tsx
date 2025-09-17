@@ -71,7 +71,7 @@ function ServiceCard({ service, animationDelay }: ServiceCardProps) {
             className={`group flex w-full items-center justify-center rounded-lg px-6 py-3 font-medium transition-all duration-300 hover:scale-105 ${
               service.popular
                 ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl'
-                : 'bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
+                : 'bg-slate-500 text-white hover:bg-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-950'
             }`}
             onClick={() => {
               const contactSection = document.getElementById('contact')
