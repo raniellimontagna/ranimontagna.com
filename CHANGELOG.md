@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.6.1...v1.7.0) (2025-09-17)
+
+
+### Features
+
+* add services ([e5257e3](https://github.com/RanielliMontagna/ranimontagna.com/commit/e5257e3acf5238753db4376398c83f0b76a1248e))
+* add services section with localization and service cards ([534526d](https://github.com/RanielliMontagna/ranimontagna.com/commit/534526d425c3cbdd7f3f43d6e71132e9bf86633f))
+
+
+### Bug Fixes
+
+* update button styles for service cards to improve accessibility and visual consistency ([4fe5b95](https://github.com/RanielliMontagna/ranimontagna.com/commit/4fe5b95e4316b830565757a88511a1c0edd37e4a))
+
 ## [1.6.1](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.6.0...v1.6.1) (2025-09-13)
 
 
