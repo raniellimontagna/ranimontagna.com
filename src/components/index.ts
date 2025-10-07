@@ -7,3 +7,4 @@ export { GoogleAnalytics } from './google-analytics/google-analytics'
 export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
 
 export * from './animations'
+export * from './ui'
