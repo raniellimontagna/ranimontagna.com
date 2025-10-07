@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useTranslations } from 'next-intl'
+import { formlyEmailService } from '@/services/formly-email-service'
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -34,16 +35,19 @@ export function useContactForm() {
     setSubmitStatus('idle')
 
     try {
-      // TODO: Replace this with actual email sending logic if needed
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      const mailtoLink = `mailto:raniellimontagna@gmail.com?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}`)}`
-      window.open(mailtoLink)
+      await formlyEmailService.sendContactEmail(data)
 
       setSubmitStatus('success')
       reset()
-    } catch {
+    } catch (error) {
+      console.error('Erro ao enviar formulário via Formly:', error)
       setSubmitStatus('error')
+
+      const mailtoLink = formlyEmailService.createMailtoFallback(data)
+
+      setTimeout(() => {
+        window.open(mailtoLink)
+      }, 1500)
     } finally {
       setIsSubmitting(false)
     }

@@ -5,7 +5,6 @@ export { WebVitals } from './web-vitals/web-vitals'
 export { ThemeProvider } from './themeProvider/themeProvider'
 export { GoogleAnalytics } from './google-analytics/google-analytics'
 export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
-export { ContactForm } from './contactForm'
 
 export * from './animations'
 export * from './ui'

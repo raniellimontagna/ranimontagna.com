@@ -266,7 +266,7 @@
       "send": "Send message",
       "sending": "Sending...",
       "success": "Message sent successfully! I'll get back to you soon.",
-      "error": "Error sending message. Please try again or contact me directly.",
+      "error": "Automatic sending failed. Your email client will open as an alternative.",
       "validation": {
         "name": "Name must be at least 2 characters",
         "email": "Invalid email",

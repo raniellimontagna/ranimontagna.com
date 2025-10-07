@@ -267,7 +267,7 @@
       "send": "Enviar mensaje",
       "sending": "Enviando...",
       "success": "¡Mensaje enviado exitosamente! Te contactaré pronto.",
-      "error": "Error al enviar mensaje. Inténtalo de nuevo o contáctame directamente.",
+      "error": "Error en el envío automático. Tu cliente de correo se abrirá como alternativa.",
       "validation": {
         "name": "El nombre debe tener al menos 2 caracteres",
         "email": "Email inválido",

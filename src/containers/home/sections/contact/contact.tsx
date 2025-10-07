@@ -3,8 +3,10 @@
 import { useTranslations } from 'next-intl'
 import { MessageCircle, ExternalLink } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { ContactForm } from '@/components/contactForm'
+
 import { socialLinks, contactMethods } from '@/constants/socialLinks'
+
+import { ContactForm } from './contactForm/contactForm'
 
 export function Contact() {
   const t = useTranslations('contact')
