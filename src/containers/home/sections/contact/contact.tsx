@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { MessageCircle, ExternalLink } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { ContactForm } from '@/components/contactForm'
 import { socialLinks, contactMethods } from '@/constants/socialLinks'
 
 export function Contact() {
@@ -77,61 +78,71 @@ export function Contact() {
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.8}>
-          <div className="mb-16 lg:mb-20">
-            <h3 className="mb-10 text-center text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {t('methods.title')}
-            </h3>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+          <FadeIn delay={0.8} direction="left">
+            <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+              <div className="mb-6">
+                <h3 className="mb-2 text-2xl font-bold text-slate-900 dark:text-slate-100">
+                  {t('form.title')}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-300">{t('form.subtitle')}</p>
+              </div>
+              <ContactForm />
+            </div>
+          </FadeIn>
 
-            <StaggerContainer staggerDelay={0.15}>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {contactMethodsArray.map((method) => {
-                  const IconComponent = method.icon
-                  return (
-                    <StaggerItem key={method.title}>
-                      <div className="group rounded-xl border border-slate-200 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
-                        <div
-                          className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${
-                            method.color === 'blue'
-                              ? 'bg-blue-100 dark:bg-blue-900/30'
-                              : 'bg-green-100 dark:bg-green-900/30'
-                          }`}
-                        >
-                          <IconComponent
-                            className={`h-6 w-6 ${
-                              method.color === 'blue'
-                                ? 'text-blue-600 dark:text-blue-400'
-                                : 'text-green-600 dark:text-green-400'
-                            }`}
-                          />
-                        </div>
-                        <h4 className="mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
-                          {method.title}
-                        </h4>
-                        <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
-                          {method.description}
-                        </p>
+          <FadeIn delay={1.0} direction="right">
+            <div>
+              <h3 className="mb-6 text-2xl font-bold text-slate-900 dark:text-slate-100">
+                {t('methods.title')}
+              </h3>
+              <p className="mb-8 text-slate-600 dark:text-slate-300">{t('methods.subtitle')}</p>
+
+              <StaggerContainer staggerDelay={0.15}>
+                <div className="space-y-4">
+                  {contactMethodsArray.map((method) => {
+                    const IconComponent = method.icon
+                    return (
+                      <StaggerItem key={method.title}>
                         <a
                           href={method.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`inline-flex items-center text-sm font-medium transition-colors ${
-                            method.color === 'blue'
-                              ? 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300'
-                              : 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300'
-                          }`}
+                          className="group flex items-center rounded-lg border border-slate-200 bg-white p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800"
                         >
-                          {method.action}
-                          <ExternalLink className="ml-1 h-3 w-3" />
+                          <div
+                            className={`mr-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${
+                              method.color === 'blue'
+                                ? 'bg-blue-100 dark:bg-blue-900/30'
+                                : 'bg-green-100 dark:bg-green-900/30'
+                            }`}
+                          >
+                            <IconComponent
+                              className={`h-6 w-6 ${
+                                method.color === 'blue'
+                                  ? 'text-blue-600 dark:text-blue-400'
+                                  : 'text-green-600 dark:text-green-400'
+                              }`}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-slate-900 dark:text-slate-100">
+                              {method.title}
+                            </h4>
+                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                              {method.description}
+                            </p>
+                          </div>
+                          <ExternalLink className="h-4 w-4 text-slate-400 transition-colors group-hover:text-slate-600 dark:group-hover:text-slate-300" />
                         </a>
-                      </div>
-                    </StaggerItem>
-                  )
-                })}
-              </div>
-            </StaggerContainer>
-          </div>
-        </FadeIn>
+                      </StaggerItem>
+                    )
+                  })}
+                </div>
+              </StaggerContainer>
+            </div>
+          </FadeIn>
+        </div>
       </div>
     </section>
   )

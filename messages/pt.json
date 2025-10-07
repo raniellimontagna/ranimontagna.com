@@ -227,6 +227,7 @@
     "subtitle": "Tenho interesse em oportunidades freelance ou full-time. Se você tem um projeto em mente ou apenas quer bater um papo, ficarei feliz em conversar.",
     "methods": {
       "title": "Formas de contato",
+      "subtitle": "Prefere outro meio de contato? Escolha uma das opções abaixo:",
       "email": {
         "title": "Email direto",
         "description": "Para conversas mais detalhadas",
@@ -241,6 +242,36 @@
         "title": "WhatsApp",
         "description": "Para conversas rápidas",
         "action": "Enviar mensagem"
+      }
+    },
+    "form": {
+      "title": "Envie uma mensagem",
+      "subtitle": "Preencha o formulário abaixo e entrarei em contato o mais breve possível.",
+      "name": {
+        "label": "Nome completo",
+        "placeholder": "Seu nome completo"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "seu@email.com"
+      },
+      "subject": {
+        "label": "Assunto",
+        "placeholder": "Sobre o que você gostaria de conversar?"
+      },
+      "message": {
+        "label": "Mensagem",
+        "placeholder": "Descreva seu projeto ou dúvida..."
+      },
+      "send": "Enviar mensagem",
+      "sending": "Enviando...",
+      "success": "Mensagem enviada com sucesso! Entrarei em contato em breve.",
+      "error": "Erro ao enviar mensagem. Tente novamente ou entre em contato diretamente.",
+      "validation": {
+        "name": "Nome deve ter pelo menos 2 caracteres",
+        "email": "Email inválido",
+        "subject": "Assunto deve ter pelo menos 5 caracteres",
+        "message": "Mensagem deve ter pelo menos 10 caracteres"
       }
     }
   },
