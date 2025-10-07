@@ -8,3 +8,4 @@ export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
 export { ContactForm } from './contactForm'
 
 export * from './animations'
+export * from './ui'
