@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.8.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.7.0...v1.8.0) (2025-10-13)
+
+
+### Features
+
+* form contact ([6054c77](https://github.com/RanielliMontagna/ranimontagna.com/commit/6054c77384890fdd43f2ef37a38dbaacedc970a4))
+* implement contact form with validation and email service integration ([4b6daf6](https://github.com/RanielliMontagna/ranimontagna.com/commit/4b6daf68c4d9116e8bb49781a4f658829d1a2e8b))
+* implement contact form with validation and localization support ([c2d736f](https://github.com/RanielliMontagna/ranimontagna.com/commit/c2d736f26b3fcaecdf35bec7eee1feea850165e2))
+
 ## [1.7.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.6.1...v1.7.0) (2025-09-17)
 
 
