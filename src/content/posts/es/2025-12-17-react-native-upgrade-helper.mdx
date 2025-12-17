@@ -1,0 +1,49 @@
+---
+title: "React Native Upgrade Helper: Tu Mejor Amigo para Actualizaciones"
+date: "2025-12-17"
+description: "Descubre cómo el Upgrade Helper facilita la actualización de proyectos React Native, mostrando exactamente qué cambió entre versiones."
+tags: ["react-native", "herramientas", "mobile"]
+---
+
+Si alguna vez has trabajado con React Native, sabes que **actualizar la versión del framework puede ser una pesadilla**. Archivos de configuración nativos, dependencias, breaking changes... Es fácil perderse.
+
+## El Problema
+
+Cuando ejecutas `npx react-native upgrade`, las cosas no siempre funcionan como se espera. Conflictos de merge, archivos modificados manualmente, y la incertidumbre de saber exactamente qué cambió entre versiones.
+
+## La Solución: Upgrade Helper
+
+El [React Native Upgrade Helper](https://react-native-community.github.io/upgrade-helper/) es una herramienta de la comunidad que muestra un **diff visual** entre dos versiones de React Native.
+
+### Cómo Funciona
+
+1. Ve a [upgrade-helper.netlify.app](https://upgrade-helper.netlify.app/)
+2. Selecciona la versión actual de tu proyecto
+3. Selecciona la versión de destino
+4. Ve exactamente qué archivos cambiaron y qué necesita ser modificado
+
+### Por Qué Lo Uso
+
+- **Visualización clara**: Ve lado a lado qué cambió en cada archivo
+- **Comentarios útiles**: Algunos diffs incluyen notas explicando por qué se hizo el cambio
+- **Sin sorpresas**: Sabes exactamente qué esperar antes de comenzar
+- **Historial completo**: Funciona para cualquier combinación de versiones
+
+## Tip Pro
+
+Antes de actualizar, siempre:
+
+1. Abro el Upgrade Helper y analizo todos los cambios
+2. Creo una rama separada para la actualización
+3. Aplico cambios archivo por archivo, probando incrementalmente
+4. Ejecuto los tests y verifico la app en iOS y Android
+
+## Enlaces Útiles
+
+- 🔗 [Upgrade Helper (Web App)](https://upgrade-helper.netlify.app/)
+- 📦 [Repositorio en GitHub](https://github.com/react-native-community/upgrade-helper)
+- 📚 [Documentación Oficial de Upgrade](https://reactnative.dev/docs/upgrading)
+
+---
+
+El Upgrade Helper transformó mis actualizaciones de React Native de una tarea temida a un proceso controlado y predecible. ¡Muy recomendado para cualquier desarrollador React Native!

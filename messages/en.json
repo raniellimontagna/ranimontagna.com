@@ -11,6 +11,7 @@
       "services": "Services",
       "experience": "Experience",
       "projects": "Projects",
+      "blog": "Blog",
       "contact": "Contact"
     },
     "socials": {
@@ -365,5 +366,13 @@
     "contact": "Go to Contact",
     "light": "Light Mode",
     "dark": "Dark Mode"
+  },
+  "blog": {
+    "title": "Thinking Aloud.",
+    "subtitle": "Insights, tutorials, and updates from my journey as a developer. Exploring the web, one component at a time.",
+    "backToPortfolio": "Back to Portfolio",
+    "readFeaturedStory": "Read Featured Story",
+    "readArticle": "Read article",
+    "noPosts": "No posts found. Check back soon!"
   }
 }

@@ -12,6 +12,7 @@
       "services": "Servicios",
       "experience": "Experiencia",
       "projects": "Proyectos",
+      "blog": "Blog",
       "contact": "Contacto"
     },
     "socials": {
@@ -366,5 +367,13 @@
     "contact": "Ir a Contacto",
     "light": "Modo Claro",
     "dark": "Modo Oscuro"
+  },
+  "blog": {
+    "title": "Pensando en Voz Alta.",
+    "subtitle": "Insights, tutoriales y actualizaciones de mi viaje como desarrollador. Explorando la web, un componente a la vez.",
+    "backToPortfolio": "Volver al Portafolio",
+    "readFeaturedStory": "Leer Artículo Destacado",
+    "readArticle": "Leer artículo",
+    "noPosts": "No se encontraron publicaciones. ¡Vuelve pronto!"
   }
 }

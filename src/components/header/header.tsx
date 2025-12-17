@@ -3,6 +3,8 @@
 import { Command, Download, Menu, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { LanguageSwitcher, ThemeToggle } from '@/components'
@@ -13,12 +15,15 @@ import { useTheme } from '@/store/useTheme/useTheme'
 export function Header() {
   const t = useTranslations('header')
   const locale = useLocale()
+  const pathname = usePathname()
+  const router = useRouter()
   const { theme, mounted } = useTheme()
   const { setOpen: openCommandMenu } = useCommandMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
+  const isHomePage = pathname === `/${locale}` || pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -28,14 +33,20 @@ export function Header() {
   }, [])
 
   const navigation = [
-    { name: t('navigation.about'), href: '#about' },
-    { name: t('navigation.services'), href: '#services' },
-    { name: t('navigation.experience'), href: '#experience' },
-    { name: t('navigation.projects'), href: '#projects' },
-    { name: t('navigation.contact'), href: '#contact' },
+    { name: t('navigation.about'), href: '#about', type: 'scroll' },
+    { name: t('navigation.experience'), href: '#experience', type: 'scroll' },
+    { name: t('navigation.projects'), href: '#projects', type: 'scroll' },
+    { name: t('navigation.blog'), href: `/${locale}/blog`, type: 'link' },
+    { name: t('navigation.contact'), href: '#contact', type: 'scroll' },
   ]
 
   const scrollToSection = (href: string) => {
+    if (!isHomePage && href.startsWith('#')) {
+      router.push(`/${locale}${href}`)
+      setIsMenuOpen(false)
+      return
+    }
+
     const targetId = href.substring(1)
     const element = targetId ? document.getElementById(targetId) : null
     if (href === '#start') {
@@ -51,7 +62,7 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-        isScrolled || isMenuOpen
+        !isHomePage || isScrolled || isMenuOpen
           ? 'border-b border-slate-200/50 bg-white/70 py-2 shadow-sm backdrop-blur-md dark:border-slate-800/50 dark:bg-slate-900/70'
           : 'bg-transparent py-4'
       }`}
@@ -86,23 +97,40 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center space-x-1 lg:flex">
+          <div className="hidden items-center space-x-1 xl:flex">
             <div className="flex items-center rounded-full border border-slate-200 bg-white/50 p-1 px-2 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
-              {navigation.map((item) => (
-                <button
-                  type="button"
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navigation.map((item) => {
+                const isScrollItem = item.type === 'scroll'
+                if (isScrollItem && isHomePage) {
+                  return (
+                    <button
+                      type="button"
+                      key={item.name}
+                      onClick={() => scrollToSection(item.href)}
+                      className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
+                    >
+                      {item.name}
+                    </button>
+                  )
+                }
+
+                const href = isScrollItem ? `/${locale}${item.href}` : item.href
+                return (
+                  <Link
+                    key={item.name}
+                    href={href}
+                    className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
           {/* Right Actions */}
-          <div className="hidden items-center space-x-3 lg:flex">
+          <div className="hidden items-center space-x-3 xl:flex">
             <button
               type="button"
               onClick={() => openCommandMenu(true)}
@@ -127,7 +155,7 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <LanguageSwitcher />
             <ThemeToggle />
             <button
@@ -148,23 +176,40 @@ export function Header() {
 
         {/* Mobile Menu */}
         <div
-          className={`overflow-hidden transition-all duration-300 lg:hidden ${
+          className={`overflow-hidden transition-all duration-300 xl:hidden ${
             isMenuOpen
               ? 'max-h-[400px] border-t border-slate-200 pb-4 opacity-100 dark:border-slate-800'
               : 'max-h-0 opacity-0'
           }`}
         >
           <div className="space-y-1 pt-4 pb-2">
-            {navigation.map((item) => (
-              <button
-                type="button"
-                key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-              >
-                {item.name}
-              </button>
-            ))}
+            {navigation.map((item) => {
+              const isScrollItem = item.type === 'scroll'
+              if (isScrollItem && isHomePage) {
+                return (
+                  <button
+                    type="button"
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
+                  >
+                    {item.name}
+                  </button>
+                )
+              }
+
+              const href = isScrollItem ? `/${locale}${item.href}` : item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={href}
+                  className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </nav>

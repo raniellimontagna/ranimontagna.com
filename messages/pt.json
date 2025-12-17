@@ -11,6 +11,7 @@
       "services": "Serviços",
       "experience": "Experiência",
       "projects": "Projetos",
+      "blog": "Blog",
       "contact": "Contato"
     },
     "socials": {
@@ -365,5 +366,13 @@
     "contact": "Ir para Contato",
     "light": "Modo Claro",
     "dark": "Modo Escuro"
+  },
+  "blog": {
+    "title": "Pensando Alto.",
+    "subtitle": "Insights, tutoriais e atualizações da minha jornada como desenvolvedor. Explorando a web, um componente de cada vez.",
+    "backToPortfolio": "Voltar ao Portfólio",
+    "readFeaturedStory": "Ler Artigo em Destaque",
+    "readArticle": "Ler artigo",
+    "noPosts": "Nenhum post encontrado. Volte em breve!"
   }
 }
