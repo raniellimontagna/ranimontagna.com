@@ -36,13 +36,43 @@ const components = {
       className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
     />
   ),
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3
+      {...props}
+      className="mb-3 mt-6 text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
+    />
+  ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p {...props} className="mb-6 leading-relaxed text-slate-700 dark:text-slate-300" />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
     <ul {...props} className="mb-6 list-disc pl-6 text-slate-700 dark:text-slate-300" />
   ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li {...props} className="mb-2" />,
+  ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol {...props} className="mb-6 list-decimal pl-6 text-slate-700 dark:text-slate-300" />
+  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+    <li {...props} className="mb-2 text-slate-700 dark:text-slate-300" />
+  ),
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre
+      {...props}
+      className="mb-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-800 dark:bg-slate-950"
+    />
+  ),
+  code: (props: React.HTMLAttributes<HTMLElement>) => {
+    // Check if it's inline code (no className with language-)
+    const isInline = !props.className?.includes('language-')
+    if (isInline) {
+      return (
+        <code
+          {...props}
+          className="rounded bg-slate-100 px-1.5 py-0.5 text-sm font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-200"
+        />
+      )
+    }
+    return <code {...props} />
+  },
   // Add more components as needed
 }
 
