@@ -4,7 +4,7 @@ import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getGitHubUrl } from '@/constants/socialLinks'
 import { Code, ExternalLink, Github, Globe, Smartphone } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { projectsData } from './projects.static'
 import { ProjectCard } from './project-card'
@@ -14,6 +14,37 @@ import type { FilterType, ProjectType } from './projects.types'
 export function Projects() {
   const t = useTranslations('projects')
   const [activeFilter, setActiveFilter] = useState('all')
+  const [commandText, setCommandText] = useState('')
+  const [showOutput, setShowOutput] = useState(false)
+
+  useEffect(() => {
+    const text = 'cat open-source.md'
+    let currentIndex = 0
+    const timeoutIds: NodeJS.Timeout[] = []
+
+    // Start typing after a small delay
+    const startDelay = setTimeout(() => {
+      const typeChar = () => {
+        if (currentIndex < text.length) {
+          setCommandText(text.slice(0, currentIndex + 1))
+          currentIndex++
+          // Randomize typing speed slightly for realism
+          const nextDelay = Math.random() * 50 + 50
+          const id = setTimeout(typeChar, nextDelay)
+          timeoutIds.push(id)
+        } else {
+          // Finished typing, show output after a pause
+          const id = setTimeout(() => setShowOutput(true), 500)
+          timeoutIds.push(id)
+        }
+      }
+      typeChar()
+    }, 1000) // Wait 1s before starting
+
+    timeoutIds.push(startDelay)
+
+    return () => timeoutIds.forEach(clearTimeout)
+  }, [])
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
@@ -132,46 +163,61 @@ export function Projects() {
               <TerminalWindow title="ranni@portfolio:~/projects">
                 <div className="space-y-6">
                   {/* Command Input */}
-                  <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 h-6">
                     <span className="text-green-600 dark:text-green-400">➜</span>
                     <span className="text-blue-600 dark:text-blue-400">~</span>
-                    <span>$ cat open-source.md</span>
+                    <span className="flex items-center">
+                      $ {commandText}
+                      <span
+                        className={`ml-[1px] inline-block h-4 w-2 bg-slate-500/50 animate-pulse dark:bg-slate-400 ${showOutput ? 'hidden' : ''}`}
+                      />
+                    </span>
                   </div>
 
                   {/* Content */}
-                  <div className="space-y-4 pl-4">
-                    <p className="font-mono text-slate-700 dark:text-slate-300">{t('cta.text')}</p>
+                  {showOutput && (
+                    <div className="space-y-4 pl-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <p className="font-mono text-slate-700 dark:text-slate-300">
+                        {t('cta.text')}
+                      </p>
 
-                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/50">
-                      <pre className="font-mono text-sm leading-relaxed">
-                        <span className="text-purple-600 dark:text-purple-400">const</span>{' '}
-                        <span className="text-blue-600 dark:text-blue-400">githubStats</span>{' '}
-                        <span className="text-slate-500 dark:text-slate-400">=</span>{' '}
-                        <span className="text-yellow-600 dark:text-yellow-400">{'{'}</span>
-                        {'\n  '}
-                        <span className="text-blue-600 dark:text-blue-300">"repositories"</span>:{' '}
-                        <span className="text-green-600 dark:text-green-400">"50+"</span>,{'\n  '}
-                        <span className="text-blue-600 dark:text-blue-300">"commits_year"</span>:{' '}
-                        <span className="text-green-600 dark:text-green-400">"1K+"</span>
-                        {'\n'}
-                        <span className="text-yellow-600 dark:text-yellow-400">{'}'}</span>
-                      </pre>
-                    </div>
+                      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/50">
+                        <pre className="font-mono text-sm leading-relaxed overflow-x-auto">
+                          <span className="text-purple-600 dark:text-purple-400">const</span>{' '}
+                          <span className="text-blue-600 dark:text-blue-400">githubStats</span>{' '}
+                          <span className="text-slate-500 dark:text-slate-400">=</span>{' '}
+                          <span className="text-yellow-600 dark:text-yellow-400">{'{'}</span>
+                          {'\n  '}
+                          <span className="text-blue-600 dark:text-blue-300">"repositories"</span>:{' '}
+                          <span className="text-green-600 dark:text-green-400">"50+"</span>,{'\n  '}
+                          <span className="text-blue-600 dark:text-blue-300">"commits_year"</span>:{' '}
+                          <span className="text-green-600 dark:text-green-400">"1K+"</span>,{'\n  '}
+                          <span className="text-blue-600 dark:text-blue-300">"languages"</span>:{' '}
+                          <span className="text-yellow-600 dark:text-yellow-400">
+                            ['TypeScript', 'React', 'Node.js']
+                          </span>
+                          ,{'\n  '}
+                          <span className="text-blue-600 dark:text-blue-300">"status"</span>:{' '}
+                          <span className="text-green-600 dark:text-green-400">"Shipping 🚀"</span>
+                          {'\n'}
+                          <span className="text-yellow-600 dark:text-yellow-400">{'}'}</span>
+                        </pre>
+                      </div>
 
-                    <div className="pt-2">
-                      <a
-                        href={getGitHubUrl()}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center text-green-600 hover:text-green-700 hover:underline decoration-dashed transition-colors dark:text-green-400 dark:hover:text-green-300"
-                      >
-                        <Github className="mr-2 h-4 w-4" />
-                        <span>{t('cta.button')}</span>
-                        <ExternalLink className="ml-2 h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
-                      </a>
-                      <span className="inline-block w-2 h-4 bg-slate-400 ml-1 align-middle animate-pulse" />
+                      <div className="pt-2">
+                        <a
+                          href={getGitHubUrl()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group inline-flex items-center text-green-600 hover:text-green-700 hover:underline decoration-dashed transition-colors dark:text-green-400 dark:hover:text-green-300"
+                        >
+                          <Github className="mr-2 h-4 w-4" />
+                          <span>{t('cta.button')}</span>
+                          <ExternalLink className="ml-2 h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </TerminalWindow>
             </div>
