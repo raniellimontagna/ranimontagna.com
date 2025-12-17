@@ -1,7 +1,7 @@
 'use client'
 
 import { Footer, Header } from '@/components'
-import { About, Contact, Experience, Hero, Projects, Services } from './sections'
+import { About, Contact, Experience, Hero, Projects, Services, Skills } from './sections'
 
 export function Home() {
   return (
@@ -10,6 +10,7 @@ export function Home() {
       <main>
         <Hero />
         <About />
+        <Skills />
         <Services />
         <Experience />
         <Projects />
