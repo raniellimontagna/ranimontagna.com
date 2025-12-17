@@ -11,22 +11,24 @@ export function TerminalWindow({ children, className, title = 'bash' }: Terminal
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-lg border border-gray-200 bg-gray-900/95 shadow-xl backdrop-blur-md dark:border-gray-700/50 dark:bg-gray-900/90',
+        'overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl transition-all duration-300 dark:border-slate-800 dark:bg-slate-950/90',
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-gray-800 bg-gray-900/50 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/50">
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded-full bg-red-500/80" />
-          <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
-          <div className="h-3 w-3 rounded-full bg-green-500/80" />
+          <div className="h-3 w-3 rounded-full bg-red-400" />
+          <div className="h-3 w-3 rounded-full bg-yellow-400" />
+          <div className="h-3 w-3 rounded-full bg-green-400" />
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 text-xs font-mono text-gray-400 opacity-50">
+        <div className="absolute left-1/2 -translate-x-1/2 text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
           {title}
         </div>
         <div className="w-16" /> {/* Spacer for centering */}
       </div>
-      <div className="p-6 font-mono text-sm text-gray-300 md:text-base">{children}</div>
+      <div className="p-6 font-mono text-sm text-slate-700 md:text-base dark:text-slate-300">
+        {children}
+      </div>
     </div>
   )
 }

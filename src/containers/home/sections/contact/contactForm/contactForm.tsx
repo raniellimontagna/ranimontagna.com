@@ -47,7 +47,7 @@ export function ContactForm() {
           type="submit"
           loading={isSubmitting}
           icon={<Send className="h-5 w-5" />}
-          className="w-full"
+          className="w-full border-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-purple-500 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600"
         >
           {isSubmitting ? t('sending') : t('send')}
         </Button>
