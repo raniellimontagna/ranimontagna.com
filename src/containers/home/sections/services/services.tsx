@@ -1,9 +1,9 @@
 'use client'
 
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { ServiceCard } from '@/components/ui/service-card'
 import { ArrowRight, Star } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { ServiceCard } from '@/components/ui/service-card'
 
 import { servicesData } from './services.static'
 import type { ServiceType } from './services.types'

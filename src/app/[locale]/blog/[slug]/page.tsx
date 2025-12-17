@@ -1,8 +1,8 @@
-import { getAdjacentPosts, getPostBySlug, getAllPosts } from '@/lib/blog'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import dayjs from 'dayjs'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import { PostNavigation, ReadingProgressBar } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
+import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
 
 // Generate static params for all posts in all locales
 export async function generateStaticParams() {

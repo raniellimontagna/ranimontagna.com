@@ -1,14 +1,14 @@
 'use client'
 
-import { useCommandMenu } from '@/store/useCommandMenu/useCommandMenu'
-import { useTheme } from '@/store/useTheme/useTheme'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import { Command } from 'cmdk'
 import { Code, Github, Laptop, Linkedin, Mail, Moon, Search, Sun, User } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
+import { useCommandMenu } from '@/store/useCommandMenu/useCommandMenu'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function CommandMenu() {
   const { isOpen, setOpen, toggle } = useCommandMenu()

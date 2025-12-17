@@ -1,8 +1,8 @@
+import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getSocialLinksAsArray } from '@/constants/socialLinks'
 import { useTheme } from '@/store/useTheme/useTheme'
-import { useTranslations } from 'next-intl'
-import Image from 'next/image'
 
 export function Footer() {
   const t = useTranslations('footer')

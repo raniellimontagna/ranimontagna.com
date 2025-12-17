@@ -13,12 +13,12 @@ export {
   act,
   cleanup,
   fireEvent,
+  prettyDOM,
   render as rtlRender,
   renderHook as rtlRenderHook,
   screen,
   waitFor,
   within,
-  prettyDOM,
 } from '@testing-library/react'
 
 export { renderWithProviders as render, renderHookWithProviders as renderHook }

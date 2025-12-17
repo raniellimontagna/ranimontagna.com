@@ -1,14 +1,13 @@
 'use client'
 
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { getGitHubUrl } from '@/constants/socialLinks'
 import { Code, ExternalLink, Github, Globe, Smartphone } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
-
-import { projectsData } from './projects.static'
-import { ProjectCard } from './project-card'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { TerminalWindow } from '@/components/ui/terminal-window'
+import { getGitHubUrl } from '@/constants/socialLinks'
+import { ProjectCard } from './project-card'
+import { projectsData } from './projects.static'
 import type { FilterType, ProjectType } from './projects.types'
 
 export function Projects() {

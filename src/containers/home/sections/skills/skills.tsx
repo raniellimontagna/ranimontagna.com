@@ -1,6 +1,5 @@
 'use client'
 
-import { InfiniteMarquee } from '@/components/ui/infinite-marquee'
 import {
   Code2,
   Container,
@@ -14,6 +13,7 @@ import {
   Smartphone,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { InfiniteMarquee } from '@/components/ui/infinite-marquee'
 
 const skills = [
   { name: 'React', icon: Globe, category: 'Frontend' },

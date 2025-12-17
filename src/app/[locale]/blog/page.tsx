@@ -1,7 +1,7 @@
-import { getAllPosts } from '@/lib/blog'
-import { Breadcrumbs } from '@/components/ui'
-import { FeaturedPost, PostCard } from '@/components/blog'
 import { getTranslations } from 'next-intl/server'
+import { FeaturedPost, PostCard } from '@/components/blog'
+import { Breadcrumbs } from '@/components/ui'
+import { getAllPosts } from '@/lib/blog'
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

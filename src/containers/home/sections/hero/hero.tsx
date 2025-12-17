@@ -1,11 +1,11 @@
 'use client'
 
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { TerminalWindow } from '@/components/ui/terminal-window'
-import { TypingEffect } from '@/components/ui/typing-effect'
 import { ArrowDown } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { TerminalWindow } from '@/components/ui/terminal-window'
+import { TypingEffect } from '@/components/ui/typing-effect'
 
 export function Hero() {
   const t = useTranslations('hero')

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useMotionValue, useTransform, animate } from 'motion/react'
+import { animate, motion, useMotionValue, useTransform } from 'motion/react'
 import { useEffect } from 'react'
 
 interface TypingEffectProps {

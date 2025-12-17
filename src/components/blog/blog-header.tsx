@@ -1,9 +1,9 @@
 'use client'
 
-import { useLocale, useTranslations } from 'next-intl'
+import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { LanguageSwitcher, ThemeToggle } from '@/components'
 import { useTheme } from '@/store/useTheme/useTheme'
 

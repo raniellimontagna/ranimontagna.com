@@ -1,10 +1,10 @@
 'use client'
 
 import { Command, Download, Menu, X } from 'lucide-react'
-import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import { LanguageSwitcher, ThemeToggle } from '@/components'

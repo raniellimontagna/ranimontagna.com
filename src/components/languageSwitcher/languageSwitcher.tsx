@@ -1,8 +1,8 @@
 'use client'
 
 import { Check, Globe } from 'lucide-react'
-import { useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
 import { locales } from '@/i18n/routing'

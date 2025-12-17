@@ -1,8 +1,8 @@
 'use client'
 
-import { useTheme } from '@/store/useTheme/useTheme'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useTheme } from '@/store/useTheme/useTheme'
 
 export function ThemeToggle() {
   const t = useTranslations('header')

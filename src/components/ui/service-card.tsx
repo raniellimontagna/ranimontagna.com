@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
-import { Check } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { cn } from '@/lib/utils'
 
 interface ServiceCardProps {
   title: string

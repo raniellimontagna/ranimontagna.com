@@ -1,8 +1,8 @@
 'use client'
 
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { ExternalLink, MessageCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
 import { contactMethods, socialLinks } from '@/constants/socialLinks'
 

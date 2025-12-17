@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, Input, Textarea } from '@/components/ui'
 import { AlertCircle, CheckCircle, Send } from 'lucide-react'
+import { Button, Input, Textarea } from '@/components/ui'
 import { useContactForm } from './useContatoForm'
 
 export function ContactForm() {

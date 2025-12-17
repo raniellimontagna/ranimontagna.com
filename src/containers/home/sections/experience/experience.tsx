@@ -1,9 +1,9 @@
 'use client'
 
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { Building2, Calendar, MapPin } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { experiences } from './experience.static'
 
 export function Experience() {

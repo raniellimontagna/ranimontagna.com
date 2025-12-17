@@ -1,7 +1,7 @@
 'use client'
 
+import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
-import { type InputHTMLAttributes, type TextareaHTMLAttributes, forwardRef } from 'react'
 
 interface BaseInputProps {
   label: string

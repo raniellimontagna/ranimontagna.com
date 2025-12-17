@@ -1,10 +1,10 @@
 'use client'
 
+import { Download, MessageCircle, User } from 'lucide-react'
+import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { FadeIn } from '@/components/animations'
 import { getResumeByLocale } from '@/constants/socialLinks'
-import { Download, MessageCircle, User } from 'lucide-react'
-import { useLocale, useTranslations } from 'next-intl'
-import Image from 'next/image'
 
 export function About() {
   const t = useTranslations('about')
