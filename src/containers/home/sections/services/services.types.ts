@@ -6,7 +6,7 @@ export interface ServiceType {
   title: string
   description: string
   features: string[]
-  category: 'web' | 'mobile' | 'consulting' | 'optimization'
+  category: 'web' | 'mobile' | 'consulting' | 'optimization' | 'backend' | 'ai'
   popular?: boolean
 }
 

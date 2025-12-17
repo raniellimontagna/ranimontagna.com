@@ -1,10 +1,16 @@
+// @vitest-environment jsdom
 import { fireEvent, render } from '@/tests/functions'
 
 import { Hero } from './hero'
 
-window.HTMLElement.prototype.scrollIntoView = vi.fn()
-
 describe('Hero', () => {
+  beforeAll(() => {
+    Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+      writable: true,
+      value: vi.fn(),
+    })
+  })
+
   it('should render the Hero component', () => {
     const { container } = render(<Hero />)
 

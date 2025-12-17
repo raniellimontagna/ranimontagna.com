@@ -300,6 +300,7 @@
     "popularBadge": "Most Popular",
     "includedTitle": "What's included:",
     "ctaButton": "Request Quote",
+    "getStarted": "Get Started",
     "list": {
       "web-development": {
         "title": "Web Development",
@@ -323,26 +324,26 @@
           "App store publishing"
         ]
       },
-      "performance-optimization": {
-        "title": "Performance Optimization",
-        "description": "Improve the speed and performance of your existing website or application.",
+      "api-development": {
+        "title": "API Development",
+        "description": "Robust and scalable backend systems designed to power your applications with high performance.",
         "features": [
-          "Complete audit",
-          "Image optimization",
-          "Code splitting",
-          "Lazy loading",
-          "Core Web Vitals"
+          "RESTful & GraphQL APIs",
+          "Microservices Architecture",
+          "Database Design (SQL/NoSQL)",
+          "Secure Authentication (OAuth/JWT)",
+          "Cloud Infrastructure (AWS/Vercel)"
         ]
       },
-      "technical-consulting": {
-        "title": "Technical Consulting",
-        "description": "Specialized guidance for technical decisions, architecture and best practices.",
+      "ai-integration": {
+        "title": "AI Integration",
+        "description": "Smart solutions powered by Artificial Intelligence to automate processes and enhance user experience.",
         "features": [
-          "Architecture analysis",
-          "Code review",
-          "Technology selection",
-          "Technical mentoring",
-          "Project planning"
+          "LLM Integration (GPT/Claude)",
+          "Smart Chatbots & Assistants",
+          "Automated Workflows",
+          "Data Analysis & Insights",
+          "Custom AI Agents"
         ]
       }
     },
