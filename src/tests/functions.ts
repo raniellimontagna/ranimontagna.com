@@ -1,4 +1,4 @@
-import { render, renderHook, type RenderOptions } from '@testing-library/react'
+import { type RenderOptions, render, renderHook } from '@testing-library/react'
 import { Wrapper } from './wrapper'
 
 const renderWithProviders = (ui: React.ReactElement, options?: RenderOptions) =>

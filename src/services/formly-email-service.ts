@@ -76,11 +76,7 @@ class FormlyEmailService {
   createMailtoFallback(data: ContactFormData): string {
     const subject = encodeURIComponent(data.subject)
     const body = encodeURIComponent(
-      `Nome: ${data.name}\n` +
-        `Email: ${data.email}\n\n` +
-        `Mensagem:\n${data.message}\n\n` +
-        `---\n` +
-        `Enviado via formulário do site em ${new Date().toLocaleString()}`,
+      `Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n---\nEnviado via formulário do site em ${new Date().toLocaleString()}`,
     )
 
     return `mailto:raniellimontagna@gmail.com?subject=${subject}&body=${body}`

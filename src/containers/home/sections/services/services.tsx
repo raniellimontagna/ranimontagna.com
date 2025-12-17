@@ -1,11 +1,11 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { Check, ArrowRight, Star } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { ArrowRight, Check, Star } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
-import type { ServiceCardProps, ServiceType } from './services.types'
 import { servicesData } from './services.static'
+import type { ServiceCardProps, ServiceType } from './services.types'
 
 function ServiceCard({ service, animationDelay }: ServiceCardProps) {
   const t = useTranslations('services')
@@ -68,6 +68,7 @@ function ServiceCard({ service, animationDelay }: ServiceCardProps) {
 
         <div className="mt-auto">
           <button
+            type="button"
             className={`group flex w-full items-center justify-center rounded-lg px-6 py-3 font-medium transition-all duration-300 hover:scale-105 ${
               service.popular
                 ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl'
@@ -105,11 +106,11 @@ export function Services() {
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-32 left-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20"></div>
-        <div className="absolute right-32 bottom-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10"></div>
+        <div className="absolute top-32 left-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20" />
+        <div className="absolute right-32 bottom-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -150,9 +151,9 @@ export function Services() {
         <FadeIn delay={1.2}>
           <div className="mt-16 lg:mt-20">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-8 text-center shadow-xl lg:p-12 dark:from-slate-800 dark:via-blue-900/20 dark:to-purple-900/20">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1),transparent_70%)]"></div>
-              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-400/20 blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-400/20 blur-3xl"></div>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1),transparent_70%)]" />
+              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-400/20 blur-3xl" />
+              <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-400/20 blur-3xl" />
 
               <div className="relative z-10">
                 <h3 className="mb-4 text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl dark:text-white">
@@ -164,6 +165,7 @@ export function Services() {
                 </p>
 
                 <button
+                  type="button"
                   className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
                   onClick={() => {
                     const contactSection = document.getElementById('contact')

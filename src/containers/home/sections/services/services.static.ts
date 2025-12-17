@@ -1,4 +1,4 @@
-import { Globe, Smartphone, Settings, Zap } from 'lucide-react'
+import { Globe, Settings, Smartphone, Zap } from 'lucide-react'
 import type { ServiceType } from './services.types'
 
 export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features'>[] = [

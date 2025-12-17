@@ -1,9 +1,9 @@
 'use client'
 
+import { Check, Globe } from 'lucide-react'
 import { useLocale } from 'next-intl'
-import { Globe, Check } from 'lucide-react'
-import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
 import { locales } from '@/i18n/routing'
 
@@ -21,7 +21,7 @@ export function LanguageSwitcher() {
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [switcherRef])
+  }, [])
 
   const handleLocaleChange = (newLocale: string) => {
     const newPathname = pathname.startsWith(`/${locale}`) ? pathname.substring(3) : pathname
@@ -32,6 +32,7 @@ export function LanguageSwitcher() {
   return (
     <div className="relative" ref={switcherRef}>
       <button
+        type="button"
         data-testid="language-switcher-button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 rounded-lg p-2 text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
@@ -46,14 +47,15 @@ export function LanguageSwitcher() {
           <div className="p-1">
             {locales.map((loc) => (
               <button
+                type="button"
                 aria-label={`Change language to ${loc.name}`}
                 data-testid={`language-option-${loc.code}`}
                 key={loc.code}
                 onClick={() => handleLocaleChange(loc.code)}
-                className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm font-medium transition-colors ${
+                className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
                   locale === loc.code
-                    ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100'
-                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100'
+                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                    : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                 }`}
               >
                 {loc.name}

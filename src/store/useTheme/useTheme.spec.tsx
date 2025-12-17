@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, it, expect } from 'vitest'
 import { act } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useTheme } from './useTheme'
 
 const initialState = useTheme.getState()

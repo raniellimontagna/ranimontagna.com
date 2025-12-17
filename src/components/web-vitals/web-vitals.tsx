@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { onCLS, onFCP, onLCP, onTTFB, onINP, Metric } from 'web-vitals'
+import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 
 function sendToAnalytics(metric: Metric) {
   if (typeof window !== 'undefined' && window.gtag) {

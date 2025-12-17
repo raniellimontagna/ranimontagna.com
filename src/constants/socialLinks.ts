@@ -1,5 +1,5 @@
-import { ForwardRefExoticComponent, RefAttributes } from 'react'
-import { Github, Linkedin, LucideProps, Mail, Phone } from 'lucide-react'
+import { Github, Linkedin, type LucideProps, Mail, Phone } from 'lucide-react'
+import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface SocialLink {
   name: string

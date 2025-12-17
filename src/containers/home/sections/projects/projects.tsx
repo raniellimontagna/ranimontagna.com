@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import { useTranslations } from 'next-intl'
-import { Github, ExternalLink, Code, Smartphone, Globe } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getGitHubUrl } from '@/constants/socialLinks'
+import { Code, ExternalLink, Github, Globe, Smartphone } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
 
-import type { FilterType, ProjectCardProps, ProjectType } from './projects.types'
 import { projectsData } from './projects.static'
+import type { FilterType, ProjectCardProps, ProjectType } from './projects.types'
 
 function ProjectCard({ project, animationDelay }: ProjectCardProps) {
   const Icon = {
@@ -22,7 +22,7 @@ function ProjectCard({ project, animationDelay }: ProjectCardProps) {
       style={{ animationDelay }}
     >
       <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] [background-size:16px_16px] dark:bg-[radial-gradient(#475569_1px,transparent_1px)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] [background-size:16px_16px] dark:bg-[radial-gradient(#475569_1px,transparent_1px)]" />
         <Icon className="relative z-10 h-16 w-16 text-slate-400 transition-transform duration-500 group-hover:scale-110 dark:text-slate-600" />
       </div>
 
@@ -116,11 +116,11 @@ export function Projects() {
       className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20"></div>
-        <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10"></div>
+        <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-700/20" />
+        <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-purple-300/10 blur-3xl dark:bg-purple-600/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -174,6 +174,7 @@ export function Projects() {
             <div className="flex flex-wrap justify-center gap-2 rounded-lg bg-white p-2 shadow-lg dark:bg-slate-900">
               {filters.map((filter) => (
                 <button
+                  type="button"
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
                   aria-label={`Filter projects by ${filter.label}`}
@@ -202,9 +203,9 @@ export function Projects() {
         <FadeIn delay={1.4}>
           <div className="mt-16 lg:mt-20">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br p-8 text-center shadow-2xl lg:p-12 dark:from-slate-900 dark:via-blue-900 dark:to-purple-900">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_70%)]"></div>
-              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-500/20 blur-3xl"></div>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_70%)]" />
+              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
+              <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-500/20 blur-3xl" />
 
               <div className="relative z-10">
                 <div className="mb-6 inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">

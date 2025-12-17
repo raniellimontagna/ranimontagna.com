@@ -1,9 +1,9 @@
 'use client'
 
-import { Github, GitBranch, Star, Users, Code, TrendingUp } from 'lucide-react'
-import { LucideIcon } from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getGitHubUrl } from '@/constants/socialLinks'
+import { Code, GitBranch, Github, Star, TrendingUp, Users } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 export function GithubStats() {
   const stats = {
@@ -201,11 +201,11 @@ export function GithubStats() {
                   <div className="mt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span>Menos</span>
                     <div className="flex items-center space-x-1">
-                      <div className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-slate-800"></div>
-                      <div className="h-2 w-2 rounded-sm bg-green-200"></div>
-                      <div className="h-2 w-2 rounded-sm bg-green-300"></div>
-                      <div className="h-2 w-2 rounded-sm bg-green-400"></div>
-                      <div className="h-2 w-2 rounded-sm bg-green-500"></div>
+                      <div className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-slate-800" />
+                      <div className="h-2 w-2 rounded-sm bg-green-200" />
+                      <div className="h-2 w-2 rounded-sm bg-green-300" />
+                      <div className="h-2 w-2 rounded-sm bg-green-400" />
+                      <div className="h-2 w-2 rounded-sm bg-green-500" />
                     </div>
                     <span>Mais</span>
                   </div>

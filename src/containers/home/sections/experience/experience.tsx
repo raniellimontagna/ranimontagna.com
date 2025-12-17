@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
-import { useTranslations } from 'next-intl'
-import { Building2, Calendar, MapPin, ChevronRight } from 'lucide-react'
-import { experiences } from './experience.static'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { Building2, Calendar, ChevronRight, MapPin } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import { experiences } from './experience.static'
 
 export function Experience() {
   const t = useTranslations('experience')
@@ -15,11 +15,11 @@ export function Experience() {
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl dark:bg-slate-700/20"></div>
-        <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl dark:bg-slate-600/10"></div>
+        <div className="absolute top-32 right-32 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl dark:bg-slate-700/20" />
+        <div className="absolute bottom-32 left-32 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl dark:bg-slate-600/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -46,7 +46,7 @@ export function Experience() {
         </div>
 
         <div className="relative">
-          <div className="absolute top-0 bottom-0 left-6 w-0.5 transform bg-slate-200 md:left-1/2 md:-translate-x-px dark:bg-slate-700"></div>
+          <div className="absolute top-0 bottom-0 left-6 w-0.5 transform bg-slate-200 md:left-1/2 md:-translate-x-px dark:bg-slate-700" />
 
           <StaggerContainer staggerDelay={0.2}>
             <div className="space-y-12">
@@ -55,7 +55,7 @@ export function Experience() {
                   <div className="relative">
                     <div className="absolute left-4 z-10 h-4 w-4 transform rounded-full border-4 border-white bg-slate-600 md:left-1/2 md:-translate-x-1/2 dark:border-slate-900 dark:bg-slate-400">
                       {exp.current && (
-                        <div className="absolute inset-0 animate-pulse rounded-full bg-green-500"></div>
+                        <div className="absolute inset-0 animate-pulse rounded-full bg-green-500" />
                       )}
                     </div>
 

@@ -1,19 +1,19 @@
 'use client'
 
-import Image from 'next/image'
-import { useTranslations, useLocale } from 'next-intl'
-import {
-  Monitor,
-  Server,
-  Palette,
-  Settings,
-  Download,
-  MessageCircle,
-  User,
-  CheckCircle,
-} from 'lucide-react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { getResumeByLocale } from '@/constants/socialLinks'
+import {
+  CheckCircle,
+  Download,
+  MessageCircle,
+  Monitor,
+  Palette,
+  Server,
+  Settings,
+  User,
+} from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 export function About() {
   const t = useTranslations('about')
@@ -21,7 +21,7 @@ export function About() {
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
 
   const stats = [
-    { number: new Date().getFullYear() - 2021 + '+', label: t('stats.experience') },
+    { number: `${new Date().getFullYear() - 2021}+`, label: t('stats.experience') },
     { number: '20+', label: t('stats.projects') },
     { number: '100%', label: t('stats.dedication') },
   ]
@@ -79,11 +79,11 @@ export function About() {
       className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
       <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,#1e293b08_1px,transparent_1px),linear-gradient(-45deg,#64748b08_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-16 right-0 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl sm:top-32 sm:right-32 dark:bg-slate-700/20"></div>
-        <div className="absolute -bottom-16 left-0 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl sm:bottom-32 sm:left-32 dark:bg-slate-600/10"></div>
+        <div className="absolute -top-16 right-0 h-64 w-64 rounded-full bg-slate-200/20 blur-3xl sm:top-32 sm:right-32 dark:bg-slate-700/20" />
+        <div className="absolute -bottom-16 left-0 h-80 w-80 rounded-full bg-slate-300/10 blur-3xl sm:bottom-32 sm:left-32 dark:bg-slate-600/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -106,9 +106,9 @@ export function About() {
         <div className="mb-16 grid items-center gap-12 lg:mb-20 lg:grid-cols-2 lg:gap-16">
           <FadeIn delay={0.6} direction="left">
             <div className="relative">
-              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700"></div>
-              <div className="absolute -top-2 -right-2 h-12 w-12 rounded-full bg-slate-300/30 sm:-top-4 sm:-right-4 sm:h-16 sm:w-16 dark:bg-slate-600/30"></div>
-              <div className="absolute -bottom-2 -left-2 h-16 w-16 rounded-full bg-slate-400/20 sm:-bottom-4 sm:-left-4 sm:h-20 sm:w-20 dark:bg-slate-500/20"></div>
+              <div className="absolute -inset-2 rounded-2xl bg-slate-200 opacity-20 blur transition duration-1000 sm:-inset-4 dark:bg-slate-700" />
+              <div className="absolute -top-2 -right-2 h-12 w-12 rounded-full bg-slate-300/30 sm:-top-4 sm:-right-4 sm:h-16 sm:w-16 dark:bg-slate-600/30" />
+              <div className="absolute -bottom-2 -left-2 h-16 w-16 rounded-full bg-slate-400/20 sm:-bottom-4 sm:-left-4 sm:h-20 sm:w-20 dark:bg-slate-500/20" />
 
               <div className="relative rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:p-6 dark:border-slate-700 dark:bg-slate-800">
                 <Image

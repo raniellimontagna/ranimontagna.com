@@ -1,7 +1,10 @@
-import { NextConfig } from 'next'
+import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   images: {
     qualities: [50, 75, 100],
     formats: ['image/webp', 'image/avif'],
@@ -10,9 +13,6 @@ const nextConfig: NextConfig = {
   },
   compress: true,
   poweredByHeader: false,
-  experimental: {
-    optimizePackageImports: ['lucide-react'],
-  },
   headers: async () => {
     return [
       {

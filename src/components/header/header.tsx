@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Menu, X, Download } from 'lucide-react'
-import { useTranslations, useLocale } from 'next-intl'
+import { Download, Menu, X } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import { LanguageSwitcher, ThemeToggle } from '@/components'
-import { getSocialLinksAsArray, getResumeByLocale } from '@/constants/socialLinks'
+import { getResumeByLocale, getSocialLinksAsArray } from '@/constants/socialLinks'
 import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Header() {
@@ -61,6 +61,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between lg:h-20">
           <div className="flex-shrink-0">
             <button
+              type="button"
               onClick={() => scrollToSection('#start')}
               aria-label={t('logo.ariaLabel')}
               className="group flex cursor-pointer items-center space-x-3 transition-all duration-500 hover:scale-105"
@@ -86,13 +87,14 @@ export function Header() {
           <div className="hidden items-center space-x-8 lg:flex">
             {navigation.map((item) => (
               <button
+                type="button"
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
                 aria-label={`Go to ${item.name} section`}
                 className="group relative font-medium text-slate-700 transition-colors duration-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all duration-500 group-hover:w-full dark:bg-slate-100"></span>
+                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-slate-900 transition-all duration-500 group-hover:w-full dark:bg-slate-100" />
               </button>
             ))}
           </div>
@@ -117,7 +119,7 @@ export function Header() {
                 )
               })}
             </div>
-            <div className="h-6 w-px bg-slate-300 dark:bg-slate-600"></div>
+            <div className="h-6 w-px bg-slate-300 dark:bg-slate-600" />
             <a
               href={resumeLink.href}
               download={resumeLink.filename}
@@ -132,6 +134,7 @@ export function Header() {
             <LanguageSwitcher />
             <ThemeToggle />
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative rounded-lg p-2 text-slate-600 transition-colors duration-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
               aria-label={t('mobileMenu.toggleAriaLabel')}
@@ -156,6 +159,7 @@ export function Header() {
             <div className="space-y-2 border-t border-slate-200 pt-2 pb-4 dark:border-slate-700">
               {navigation.map((item, index) => (
                 <button
+                  type="button"
                   aria-label={`Go to ${item.name} section`}
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}

@@ -1,4 +1,4 @@
-import { screen, fireEvent, render } from '@/tests/functions'
+import { fireEvent, render, screen } from '@/tests/functions'
 import { ThemeToggle } from './themeToggle'
 
 import { useTheme } from '@/store'

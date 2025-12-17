@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
+import mockRouter from 'next-router-mock'
 import React from 'react'
 import { vi } from 'vitest'
-import mockRouter from 'next-router-mock'
 
 vi.mock('next/image', () => {
   return {

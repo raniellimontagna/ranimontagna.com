@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
+import { notFound } from 'next/navigation'
 
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import { routing } from '@/i18n/routing'
-import { getSEOData, getAlternateLanguages, getCanonicalUrl } from '@/lib/seo'
 import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
+import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/lib/seo'
 
-import { WebVitals, GoogleAnalytics, ThemeProvider } from '@/components'
+import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/components'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

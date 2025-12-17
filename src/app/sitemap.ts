@@ -1,5 +1,5 @@
-import { MetadataRoute } from 'next'
 import { locales } from '@/i18n/routing'
+import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://ranimontagna.com'

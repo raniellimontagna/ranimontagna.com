@@ -1,6 +1,6 @@
 'use client'
 
-import { Header, Footer } from '@/components'
+import { Footer, Header } from '@/components'
 import { About, Contact, Experience, Hero, Projects, Services } from './sections'
 
 export function Home() {
