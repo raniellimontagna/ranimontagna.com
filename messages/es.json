@@ -353,5 +353,18 @@
       "subtitle": "Hablemos sobre cómo puedo ayudar a convertir tu idea en realidad.",
       "button": "Solicitar Cotización Gratuita"
     }
+  },
+  "commandMenu": {
+    "placeholder": "Escribe un comando o busca...",
+    "noResults": "No se encontraron resultados.",
+    "sections": "Secciones",
+    "theme": "Tema",
+    "social": "Social",
+    "about": "Ir a Sobre mí",
+    "projects": "Ir a Proyectos",
+    "experience": "Ir a Experiencia",
+    "contact": "Ir a Contacto",
+    "light": "Modo Claro",
+    "dark": "Modo Oscuro"
   }
 }

@@ -352,5 +352,18 @@
       "subtitle": "Let's talk about how I can help turn your idea into reality.",
       "button": "Request Free Quote"
     }
+  },
+  "commandMenu": {
+    "placeholder": "Type a command or search...",
+    "noResults": "No results found.",
+    "sections": "Sections",
+    "theme": "Theme",
+    "social": "Social",
+    "about": "Go to About",
+    "projects": "Go to Projects",
+    "experience": "Go to Experience",
+    "contact": "Go to Contact",
+    "light": "Light Mode",
+    "dark": "Dark Mode"
   }
 }

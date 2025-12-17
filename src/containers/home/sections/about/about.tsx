@@ -33,6 +33,7 @@ export function About() {
                     src="/photo.webp"
                     alt={t('bio.name')}
                     fill
+                    sizes="(max-width: 768px) 100vw, 400px"
                     className="object-cover transition-transform duration-700 hover:scale-110"
                     priority
                   />

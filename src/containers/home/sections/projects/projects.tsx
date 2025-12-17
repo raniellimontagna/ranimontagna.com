@@ -8,6 +8,7 @@ import { useState } from 'react'
 
 import { projectsData } from './projects.static'
 import { ProjectCard } from './project-card'
+import { TerminalWindow } from '@/components/ui/terminal-window'
 import type { FilterType, ProjectType } from './projects.types'
 
 export function Projects() {
@@ -127,48 +128,52 @@ export function Projects() {
 
         <FadeIn delay={1.4}>
           <div className="mt-16 lg:mt-24">
-            <div className="relative overflow-hidden rounded-3xl bg-slate-900 p-8 text-center shadow-2xl lg:p-16 dark:bg-slate-800">
-              {/* Abstract Background */}
-              <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
-              <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl" />
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_100%,transparent_100%)]" />
+            <div className="mt-16 lg:mt-24 mx-auto max-w-4xl">
+              <TerminalWindow title="ranni@portfolio:~/projects">
+                <div className="space-y-6">
+                  {/* Command Input */}
+                  <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                    <span className="text-green-600 dark:text-green-400">➜</span>
+                    <span className="text-blue-600 dark:text-blue-400">~</span>
+                    <span>$ cat open-source.md</span>
+                  </div>
 
-              <div className="relative z-10">
-                <div className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-1.5 font-mono text-sm font-semibold text-white backdrop-blur-sm">
-                  <Github className="mr-2 h-4 w-4" />
-                  Open Source
-                </div>
+                  {/* Content */}
+                  <div className="space-y-4 pl-4">
+                    <p className="font-mono text-slate-700 dark:text-slate-300">{t('cta.text')}</p>
 
-                <h3 className="sm:text-3x mb-6 text-2xl font-bold tracking-tight text-white md:text-4xl">
-                  {t('cta.text')}
-                </h3>
+                    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/50">
+                      <pre className="font-mono text-sm leading-relaxed">
+                        <span className="text-purple-600 dark:text-purple-400">const</span>{' '}
+                        <span className="text-blue-600 dark:text-blue-400">githubStats</span>{' '}
+                        <span className="text-slate-500 dark:text-slate-400">=</span>{' '}
+                        <span className="text-yellow-600 dark:text-yellow-400">{'{'}</span>
+                        {'\n  '}
+                        <span className="text-blue-600 dark:text-blue-300">"repositories"</span>:{' '}
+                        <span className="text-green-600 dark:text-green-400">"50+"</span>,{'\n  '}
+                        <span className="text-blue-600 dark:text-blue-300">"commits_year"</span>:{' '}
+                        <span className="text-green-600 dark:text-green-400">"1K+"</span>
+                        {'\n'}
+                        <span className="text-yellow-600 dark:text-yellow-400">{'}'}</span>
+                      </pre>
+                    </div>
 
-                <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:px-20 lg:px-32">
-                  <div className="flex flex-col justify-center rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10">
-                    <div className="mb-1 text-3xl font-bold text-white md:text-4xl">50+</div>
-                    <div className="text-sm font-medium text-slate-400">
-                      {t('cta.stats.repositories')}
+                    <div className="pt-2">
+                      <a
+                        href={getGitHubUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center text-green-600 hover:text-green-700 hover:underline decoration-dashed transition-colors dark:text-green-400 dark:hover:text-green-300"
+                      >
+                        <Github className="mr-2 h-4 w-4" />
+                        <span>{t('cta.button')}</span>
+                        <ExternalLink className="ml-2 h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
+                      </a>
+                      <span className="inline-block w-2 h-4 bg-slate-400 ml-1 align-middle animate-pulse" />
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10">
-                    <div className="mb-1 text-3xl font-bold text-white md:text-4xl">1K+</div>
-                    <div className="text-sm font-medium text-slate-400">
-                      {t('cta.stats.commits')}
-                    </div>
-                  </div>
                 </div>
-
-                <a
-                  href={getGitHubUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-lg font-bold text-slate-900 transition-all hover:bg-blue-50 hover:ring-4 hover:ring-white/20"
-                >
-                  <Github className="mr-3 h-5 w-5 transition-transform group-hover:-translate-y-0.5" />
-                  {t('cta.button')}
-                  <ExternalLink className="ml-2 h-4 w-4 opacity-50 transition-opacity group-hover:opacity-100" />
-                </a>
-              </div>
+              </TerminalWindow>
             </div>
           </div>
         </FadeIn>

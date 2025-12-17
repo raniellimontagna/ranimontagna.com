@@ -352,5 +352,18 @@
       "subtitle": "Vamos conversar sobre como posso ajudar a transformar sua ideia em realidade.",
       "button": "Solicitar Orçamento Gratuito"
     }
+  },
+  "commandMenu": {
+    "placeholder": "Digite um comando ou busque...",
+    "noResults": "Nenhum resultado encontrado.",
+    "sections": "Seções",
+    "theme": "Tema",
+    "social": "Social",
+    "about": "Ir para Sobre",
+    "projects": "Ir para Projetos",
+    "experience": "Ir para Experiência",
+    "contact": "Ir para Contato",
+    "light": "Modo Claro",
+    "dark": "Modo Escuro"
   }
 }

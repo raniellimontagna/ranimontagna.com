@@ -1,22 +1,23 @@
 'use client'
 
-import { Download, Menu, X } from 'lucide-react'
+import { Command, Download, Menu, X } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { LanguageSwitcher, ThemeToggle } from '@/components'
-import { getResumeByLocale, getSocialLinksAsArray } from '@/constants/socialLinks'
+import { getResumeByLocale } from '@/constants/socialLinks'
+import { useCommandMenu } from '@/store/useCommandMenu/useCommandMenu'
 import { useTheme } from '@/store/useTheme/useTheme'
 
 export function Header() {
   const t = useTranslations('header')
   const locale = useLocale()
   const { theme, mounted } = useTheme()
+  const { setOpen: openCommandMenu } = useCommandMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
-  const socialLinksArray = getSocialLinksAsArray()
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
 
   useEffect(() => {
@@ -102,26 +103,17 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="hidden items-center space-x-3 lg:flex">
+            <button
+              type="button"
+              onClick={() => openCommandMenu(true)}
+              className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-500 transition-all hover:border-slate-300 hover:text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-300"
+            >
+              <Command className="h-3.5 w-3.5" />
+              <span className="font-mono text-xs">⌘K</span>
+            </button>
             <div className="flex items-center space-x-2 border-r border-slate-200 pr-4 dark:border-slate-800">
               <LanguageSwitcher />
               <ThemeToggle />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              {socialLinksArray.slice(0, 3).map((social) => {
-                const IconComponent = social.icon
-                return (
-                  <a
-                    key={social.id}
-                    href={social.href}
-                    target={social.external ? '_blank' : undefined}
-                    rel={social.external ? 'noopener noreferrer' : undefined}
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                  >
-                    <IconComponent className="h-4 w-4" />
-                  </a>
-                )
-              })}
             </div>
 
             <a
@@ -173,23 +165,6 @@ export function Header() {
                 {item.name}
               </button>
             ))}
-          </div>
-
-          <div className="mt-2 flex items-center justify-between border-t border-slate-200 pt-4 px-1 dark:border-slate-800">
-            <div className="flex space-x-2">
-              {socialLinksArray.slice(0, 3).map((social) => {
-                const IconComponent = social.icon
-                return (
-                  <a
-                    key={social.id}
-                    href={social.href}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-                  >
-                    <IconComponent className="h-4 w-4" />
-                  </a>
-                )
-              })}
-            </div>
           </div>
         </div>
       </nav>
