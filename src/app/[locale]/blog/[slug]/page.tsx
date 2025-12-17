@@ -1,4 +1,4 @@
-import { getAdjacentPosts, getPostBySlug, getPostSlugs } from '@/lib/blog'
+import { getAdjacentPosts, getPostBySlug, getAllPosts } from '@/lib/blog'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import dayjs from 'dayjs'
 import { PostNavigation, ReadingProgressBar } from '@/components/blog'
@@ -10,10 +10,10 @@ export async function generateStaticParams() {
   const params: { slug: string; locale: string }[] = []
 
   for (const locale of locales) {
-    const posts = getPostSlugs(locale)
-    for (const slug of posts) {
+    const posts = getAllPosts(locale)
+    for (const post of posts) {
       params.push({
-        slug: slug.replace(/\.mdx$/, ''),
+        slug: post.slug,
         locale,
       })
     }
