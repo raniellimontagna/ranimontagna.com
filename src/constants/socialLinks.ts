@@ -9,14 +9,6 @@ export interface SocialLink {
   ariaLabel?: string
 }
 
-export interface ResumeLink {
-  name: string
-  href: string
-  filename: string
-  language: string
-  locale: string
-}
-
 export const socialLinks = {
   github: {
     name: 'GitHub',
@@ -112,12 +104,6 @@ export const getWhatsAppUrl = (): string => {
  */
 export const getResumeByLocale = (locale: 'en' | 'pt' | 'es') => {
   return resumeLinks[locale as keyof typeof resumeLinks] || resumeLinks.en
-}
-
-export const getResumeLinksAsArray = () => Object.values(resumeLinks)
-
-export const getResumeUrl = (locale: 'en' | 'pt' | 'es') => {
-  return getResumeByLocale(locale).href
 }
 
 export const getSocialLinksAsArray = (): (SocialLink & { id: string })[] => {

@@ -9,8 +9,3 @@ export interface ServiceType {
   category: 'web' | 'mobile' | 'consulting' | 'optimization' | 'backend' | 'ai'
   popular?: boolean
 }
-
-export interface ServiceCardProps {
-  service: ServiceType
-  animationDelay?: string
-}

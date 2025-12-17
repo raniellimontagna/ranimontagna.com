@@ -55,28 +55,3 @@ declare global {
     ) => void
   }
 }
-
-export function useWebVitals() {
-  const measurePerformance = () => {
-    if (typeof window !== 'undefined' && 'performance' in window) {
-      const navigation = performance.getEntriesByType(
-        'navigation',
-      )[0] as PerformanceNavigationTiming
-
-      return {
-        // Time to First Byte
-        ttfb: navigation.responseStart - navigation.requestStart,
-        // DOM Content Loaded
-        domContentLoaded:
-          navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
-        // Load Event
-        loadEvent: navigation.loadEventEnd - navigation.loadEventStart,
-        // Total Page Load Time
-        pageLoadTime: navigation.loadEventEnd - navigation.fetchStart,
-      }
-    }
-    return null
-  }
-
-  return { measurePerformance }
-}
