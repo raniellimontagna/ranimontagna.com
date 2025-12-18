@@ -3,7 +3,18 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import { Command } from 'cmdk'
-import { Code, Github, Laptop, Linkedin, Mail, Moon, Search, Sun, User } from 'lucide-react'
+import {
+  BookOpen,
+  Code,
+  Github,
+  Laptop,
+  Linkedin,
+  Mail,
+  Moon,
+  Search,
+  Sun,
+  User,
+} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
@@ -121,6 +132,13 @@ export function CommandMenu() {
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   {t('contact')}
+                </Command.Item>
+                <Command.Item
+                  onSelect={() => navigateTo('/blog')}
+                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                >
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  {t('blog')}
                 </Command.Item>
               </Command.Group>
 
