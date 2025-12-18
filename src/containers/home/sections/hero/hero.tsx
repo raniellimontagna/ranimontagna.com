@@ -19,11 +19,11 @@ export async function Hero() {
       </div>
 
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 h-80 w-80 animate-pulse rounded-full bg-blue-500/10 blur-3xl sm:-top-40 sm:-right-40" />
-        <div className="absolute -bottom-20 -left-20 h-80 w-80 animate-pulse rounded-full bg-purple-500/10 blur-3xl delay-1000 sm:-bottom-40 sm:-left-40" />
+        <div className="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl sm:-top-40 sm:-right-40" />
+        <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-purple-500/10 blur-3xl sm:-bottom-40 sm:-left-40" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-5xl animate-[fadeIn_0.6s_ease-out]">
+      <div className="relative z-10 mx-auto max-w-5xl">
         <TerminalWindow title="ranielli.dev" className="w-full">
           <div className="flex flex-col gap-6 font-mono">
             <div className="flex flex-col gap-2">

@@ -1,8 +1,16 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { Footer, Header } from '@/components'
-import { CommandMenu } from '@/components/ui/command-menu'
+import { Header } from '@/components'
+
+// Lazy load CommandMenu as it's not needed immediately
+const CommandMenu = dynamic(
+  () => import('@/components/ui/command-menu').then((mod) => mod.CommandMenu),
+  { ssr: false },
+)
+
+// Lazy load Footer as it's below the fold
+const Footer = dynamic(() => import('@/components/footer/footer').then((mod) => mod.Footer))
 
 // Lazy load components below the fold to improve LCP
 const About = dynamic(() =>
