@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.9.0...v1.10.0) (2025-12-18)
+
+
+### Features
+
+* add DNS prefetch for Google Tag Manager and Google Analytics, optimize animation styles ([c63a8ed](https://github.com/raniellimontagna/ranimontagna.com/commit/c63a8ed1d79ae02f2abc3a0b00b7ade01c8926ec))
+* enhance hero component with animations and scroll indicator, update layout for better responsiveness ([905a485](https://github.com/raniellimontagna/ranimontagna.com/commit/905a485016c3ea1ce65d81ccfaf1c04c40cf94ce))
+
 ## [1.9.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.8.0...v1.9.0) (2025-12-18)
 
 
