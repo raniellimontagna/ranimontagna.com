@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.8.0...v1.9.0) (2025-12-18)
+
+
+### Features
+
+* add AI guidelines documentation and enhance blog post markdown rendering with new styling for headings, lists, and code blocks. ([06ed3c8](https://github.com/raniellimontagna/ranimontagna.com/commit/06ed3c854661c608b83f7fd7863d9bee7672744e))
+* Add multi-language blog post on React RSC vulnerability, introduce AI guidelines, and refactor blog post retrieval. ([c17cc1f](https://github.com/raniellimontagna/ranimontagna.com/commit/c17cc1f7434970cf92e22ad72067191af313a951))
+* add Skills section with infinite marquee component, revamp Experience section styling, and introduce AI guidelines. ([c3f69ca](https://github.com/raniellimontagna/ranimontagna.com/commit/c3f69ca0a807091fced0aaf309c1e3fc2c730b84))
+* Extract and enhance ProjectCard component, and add AI guidelines. ([f265b16](https://github.com/raniellimontagna/ranimontagna.com/commit/f265b16e25f0deae519dbad4a0051d357282db20))
+* Implement blog section with dedicated pages, components, and internationalized content. ([4c2fee4](https://github.com/raniellimontagna/ranimontagna.com/commit/4c2fee472fb5312b68cac5f990ca9d3a69461228))
+* implement command menu functionality and remove GitHub statistics section ([762fa5e](https://github.com/raniellimontagna/ranimontagna.com/commit/762fa5ec3dfd1095c2fb858788da04d92be5c49a))
+* Implement comprehensive SEO for blog pages and posts with metadata, JSON-LD, and sitemap updates, and add AI development guidelines. ([829dbeb](https://github.com/raniellimontagna/ranimontagna.com/commit/829dbeb3024a939eb8c7ffdd6cec7fa9b3cf8e90))
+* implement custom 404 pages with internationalization ([88a2c4e](https://github.com/raniellimontagna/ranimontagna.com/commit/88a2c4e846329916d820a26e865fedc60b0e4bae))
+* Implement GitHub-based blog content fetching with revalidation and add AI guidelines. ([9aaf464](https://github.com/raniellimontagna/ranimontagna.com/commit/9aaf464483fefa4f362ca3816feb89a2b922f8ec))
+* implement terminal typing animation in projects section and add project AI guidelines. ([d825377](https://github.com/raniellimontagna/ranimontagna.com/commit/d825377e92a4741ee16bf74bf3e2c73b8b235b58))
+* integrate knip for dependency analysis, update dependencies, and refine various ui components and pages. ([e287db5](https://github.com/raniellimontagna/ranimontagna.com/commit/e287db50fdddadd3dccdc55b46503752ae35cbed))
+* Introduce `TerminalWindow`, `ServiceCard`, and `TypingEffect` components, refactor the Services section, and update styling and translations. ([41a21e0](https://github.com/raniellimontagna/ranimontagna.com/commit/41a21e07408716d9803c1d7618c5753d0e5ff510))
+* introduce blog navigation option, add corresponding translations, and establish ai development guidelines. ([e608629](https://github.com/raniellimontagna/ranimontagna.com/commit/e608629483155178a8bfd5d1bf6d59585dadb563))
+* introduce numerous unit and integration tests for components, pages, and utilities, and update project dependencies and linting configuration. ([d11f43b](https://github.com/raniellimontagna/ranimontagna.com/commit/d11f43b62b96c357cdc8fd651fa79b8db767b238))
+
 ## [1.8.0](https://github.com/RanielliMontagna/ranimontagna.com/compare/v1.7.0...v1.8.0) (2025-10-13)
 
 
