@@ -60,5 +60,9 @@
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^6.0.2",
     "vitest": "^4.0.16"
-  }
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ]
 }
