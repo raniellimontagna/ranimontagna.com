@@ -1,4 +1,11 @@
-# Browsers that support ES modules natively
-# This avoids generating polyfills for modern features
-defaults and fully supports es6-module
-maintained node versions
+# Only modern browsers that support ES2022+ features natively
+
+# This eliminates polyfills for Array.at, Object.hasOwn, etc.
+
+chrome >= 92
+edge >= 92
+firefox >= 90
+safari >= 15.4
+ios >= 15.4
+not dead
+not op_mini all

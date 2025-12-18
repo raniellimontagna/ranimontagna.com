@@ -17,11 +17,11 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       style={{ animationDelay }}
     >
       {/* Glow Effect on Hover */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 opacity-0 transition-opacity duration-500 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 group-hover:opacity-100" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 opacity-0 transition-opacity duration-500 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 group-hover:opacity-100" />
 
       {/* Image Container */}
       <div className="relative aspect-video overflow-hidden border-b border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/50">
-        <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] [background-size:16px_16px] dark:bg-[radial-gradient(#334155_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[16px_16px] dark:bg-[radial-gradient(#334155_1px,transparent_1px)]" />
 
         {project.image ? (
           <Image
@@ -102,7 +102,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-500">
+            <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400">
               +{project.technologies.length - 4}
             </span>
           )}

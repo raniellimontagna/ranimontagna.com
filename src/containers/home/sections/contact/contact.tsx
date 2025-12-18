@@ -48,8 +48,8 @@ export function Contact() {
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
       {/* Background Decor */}
-      <div className="absolute top-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[120px]" />
-      <div className="absolute bottom-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/5 blur-[120px]" />
+      <div className="absolute top-0 left-0 -z-10 h-125 w-125 rounded-full bg-blue-500/5 blur-[120px]" />
+      <div className="absolute bottom-0 right-0 -z-10 h-125 w-125 rounded-full bg-purple-500/5 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">
@@ -63,7 +63,7 @@ export function Contact() {
           <FadeIn delay={0.4}>
             <h2 className="mb-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
               {t('title.part1')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+              <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
                 {t('title.part2')}
               </span>
             </h2>
@@ -114,7 +114,7 @@ export function Contact() {
                         >
                           {/* Hover Glow */}
                           <div
-                            className={`absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-r ${method.color === 'blue' ? 'from-blue-500/10 to-transparent' : 'from-green-500/10 to-transparent'}`}
+                            className={`absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-linear-to-r ${method.color === 'blue' ? 'from-blue-500/10 to-transparent' : 'from-green-500/10 to-transparent'}`}
                           />
 
                           <div
@@ -131,7 +131,7 @@ export function Contact() {
                               {method.title}
                               <ExternalLink className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-50" />
                             </h4>
-                            <p className="mb-1 text-sm text-slate-500 dark:text-slate-500">
+                            <p className="mb-1 text-sm text-slate-500 dark:text-slate-400">
                               {method.description}
                             </p>
                             <p

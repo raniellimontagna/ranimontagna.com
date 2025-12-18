@@ -50,7 +50,7 @@ export function Skills() {
               <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
                 {skill.name}
               </span>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-500">
+              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {skill.category}
               </span>
             </div>

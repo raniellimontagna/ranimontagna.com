@@ -13,7 +13,7 @@ export function Footer() {
   return (
     <footer className="relative border-t border-slate-200 bg-white pt-16 pb-8 dark:border-slate-800 dark:bg-slate-950">
       {/* Visual Top Highlight */}
-      <div className="absolute top-0 left-1/2 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50 dark:opacity-100" />
+      <div className="absolute top-0 left-1/2 h-px w-2/3 -translate-x-1/2 bg-linear-to-r from-transparent via-blue-500 to-transparent opacity-50 dark:opacity-100" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-0">
@@ -31,7 +31,7 @@ export function Footer() {
                 <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {t('logo.fullName')}
                 </h3>
-                <p className="text-sm font-medium text-slate-500 dark:text-slate-500">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                   Full Stack Engineer
                 </p>
               </div>
@@ -64,12 +64,12 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-4 border-t border-slate-200 pt-8 text-sm md:flex-row dark:border-slate-800">
-          <p className="text-slate-500 dark:text-slate-500">
+          <p className="text-slate-500 dark:text-slate-400">
             {t('copyright', { year: currentYear })}
           </p>
 
           <div className="flex items-center gap-6">
-            <p className="text-slate-500 dark:text-slate-500">{t('madeWith')}</p>
+            <p className="text-slate-500 dark:text-slate-400">{t('madeWith')}</p>
           </div>
         </div>
       </div>
