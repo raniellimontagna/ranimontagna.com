@@ -22,6 +22,51 @@ export async function generateStaticParams() {
   return params
 }
 
+// Generate metadata for SEO
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>
+}) {
+  const { slug, locale } = await params
+  const post = await getPostBySlug(slug, locale)
+
+  const baseUrl = 'https://ranimontagna.com'
+  const url = `${baseUrl}/${locale}/blog/${slug}`
+
+  return {
+    title: post.metadata.title,
+    description: post.metadata.description,
+    keywords: post.metadata.tags?.join(', '),
+    authors: [{ name: 'Ranielli Montagna' }],
+    openGraph: {
+      title: post.metadata.title,
+      description: post.metadata.description,
+      url,
+      siteName: 'Ranielli Montagna',
+      locale,
+      type: 'article',
+      publishedTime: post.metadata.date,
+      authors: ['Ranielli Montagna'],
+      tags: post.metadata.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.metadata.title,
+      description: post.metadata.description,
+      creator: '@raniellimontagna',
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        pt: `${baseUrl}/pt/blog/${slug}`,
+        en: `${baseUrl}/en/blog/${slug}`,
+        es: `${baseUrl}/es/blog/${slug}`,
+      },
+    },
+  }
+}
+
 // Components mapping for MDX
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -83,8 +128,44 @@ export default async function PostPage(props: {
   const post = await getPostBySlug(params.slug, params.locale)
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
+  const baseUrl = 'https://ranimontagna.com'
+  const url = `${baseUrl}/${params.locale}/blog/${params.slug}`
+
+  // JSON-LD structured data for SEO
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.metadata.title,
+    description: post.metadata.description,
+    datePublished: post.metadata.date,
+    dateModified: post.metadata.date,
+    author: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: 'https://ranimontagna.com',
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: 'https://ranimontagna.com',
+    },
+    url,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    keywords: post.metadata.tags?.join(', '),
+    articleSection: 'Technology',
+    inLanguage: params.locale,
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ReadingProgressBar />
       <article className="container mx-auto max-w-3xl px-4 py-24">
         <div className="mb-8">

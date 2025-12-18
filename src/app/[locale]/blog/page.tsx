@@ -3,6 +3,42 @@ import { FeaturedPost, PostCard } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
 import { getAllPosts } from '@/lib/blog'
 
+// Generate metadata for SEO
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations('blog')
+
+  const baseUrl = 'https://ranimontagna.com'
+  const url = `${baseUrl}/${locale}/blog`
+
+  return {
+    title: t('title'),
+    description: t('subtitle'),
+    openGraph: {
+      title: t('title'),
+      description: t('subtitle'),
+      url,
+      siteName: 'Ranielli Montagna',
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: t('title'),
+      description: t('subtitle'),
+      creator: '@raniellimontagna',
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        pt: `${baseUrl}/pt/blog`,
+        en: `${baseUrl}/en/blog`,
+        es: `${baseUrl}/es/blog`,
+      },
+    },
+  }
+}
+
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('blog')
