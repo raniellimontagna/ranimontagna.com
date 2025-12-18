@@ -34,6 +34,7 @@ export function StaggerContainer({
           },
         },
       }}
+      style={{ willChange: 'opacity' }}
       className={className}
       {...props}
     >
@@ -61,6 +62,7 @@ export function StaggerItem({ children, className, ...props }: StaggerItemProps)
           },
         },
       }}
+      style={{ willChange: 'transform, opacity' }}
       className={className}
       {...props}
     >
