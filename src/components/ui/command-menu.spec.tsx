@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react'
-import { CommandMenu } from './command-menu'
 import { useCommandMenu } from '@/store/useCommandMenu/useCommandMenu'
+import { CommandMenu } from './command-menu'
 
 // Mock ResizeObserver for cmdk
 class ResizeObserverMock {

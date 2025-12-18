@@ -1,8 +1,13 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import { Octokit } from '@octokit/rest'
 import matter from 'gray-matter'
+import { unstable_cache } from 'next/cache'
 
-const postsDirectory = path.join(process.cwd(), 'src/content/posts')
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+})
+
+const REPO_OWNER = process.env.GITHUB_OWNER || 'raniellimontagna'
+const REPO_NAME = process.env.GITHUB_REPO || 'ranimontagna-blog-content'
 
 export interface Post {
   slug: string
@@ -11,73 +16,184 @@ export interface Post {
     date: string
     description: string
     tags?: string[]
+    published?: boolean
   }
   content: string
 }
 
-// Pattern: YYYY-MM-DD-slug.mdx
-const DATE_PREFIX_REGEX = /^\d{4}-\d{2}-\d{2}-/
-
-function extractSlugFromFilename(filename: string): string {
-  const withoutExt = filename.replace(/\.mdx$/, '')
-  // Remove date prefix if present (e.g., "2025-12-17-welcome" -> "welcome")
-  return withoutExt.replace(DATE_PREFIX_REGEX, '')
+interface GitHubFile {
+  name: string
+  path: string
+  sha: string
+  type: 'file' | 'dir'
+  content?: string
 }
 
-function findPostFile(slug: string, locale: string): string | null {
-  const localeDir = path.join(postsDirectory, locale)
-  if (!fs.existsSync(localeDir)) return null
+/**
+ * Extract slug and date from filename
+ * Pattern: YYYY-MM-DD-slug.mdx
+ */
+function parseFilename(filename: string): { date: string; slug: string } | null {
+  const match = filename.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.mdx$/)
+  if (!match) return null
 
-  const files = fs.readdirSync(localeDir).filter((file) => file.endsWith('.mdx'))
-  // Find file that matches the slug (with or without date prefix)
-  const matchingFile = files.find((file) => extractSlugFromFilename(file) === slug)
-  return matchingFile || null
+  const [, date, slug] = match
+  return { date, slug }
 }
 
-export function getPostBySlug(slug: string, locale: string): Post {
-  const file = findPostFile(slug, locale)
-  if (!file) {
-    throw new Error(`Post not found: ${slug} (${locale})`)
-  }
-
-  const fullPath = path.join(postsDirectory, locale, file)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const { data, content } = matter(fileContents)
-
-  return {
-    slug: extractSlugFromFilename(file),
-    metadata: data as Post['metadata'],
-    content,
-  }
-}
-
-function getPostFiles(locale: string): string[] {
-  const localeDir = path.join(postsDirectory, locale)
-  if (!fs.existsSync(localeDir)) return []
-  return fs.readdirSync(localeDir).filter((file) => file.endsWith('.mdx'))
-}
-
-export function getAllPosts(locale: string): Post[] {
-  const files = getPostFiles(locale)
-  const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
-
-  const posts = files
-    .map((file: string) => {
-      const slug = extractSlugFromFilename(file)
-      return getPostBySlug(slug, locale)
+/**
+ * Fetch a specific post by slug and locale
+ */
+async function fetchPostBySlug(slug: string, locale: string): Promise<Post | null> {
+  try {
+    // List files in the locale directory
+    const { data } = await octokit.repos.getContent({
+      owner: REPO_OWNER,
+      repo: REPO_NAME,
+      path: `posts/${locale}`,
     })
-    // Filter out future posts (scheduled)
-    .filter((post: Post) => post.metadata.date <= today)
-    // Sort posts by date in descending order
-    .sort((post1: Post, post2: Post) => (post1.metadata.date > post2.metadata.date ? -1 : 1))
-  return posts
+
+    if (!Array.isArray(data)) return null
+
+    // Find the file that matches the slug
+    const file = (data as GitHubFile[]).find((f) => {
+      if (f.type !== 'file' || !f.name.endsWith('.mdx')) return false
+      const parsed = parseFilename(f.name)
+      return parsed?.slug === slug
+    })
+
+    if (!file) return null
+
+    // Fetch file content
+    const { data: fileData } = await octokit.repos.getContent({
+      owner: REPO_OWNER,
+      repo: REPO_NAME,
+      path: file.path,
+    })
+
+    if (!('content' in fileData) || !fileData.content) return null
+
+    const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+    const { data: frontmatter, content: markdown } = matter(content)
+
+    return {
+      slug,
+      metadata: {
+        title: frontmatter.title || '',
+        date: frontmatter.date || '',
+        description: frontmatter.description || '',
+        tags: frontmatter.tags || [],
+        published: frontmatter.published !== false, // Default true
+      },
+      content: markdown,
+    }
+  } catch (error) {
+    console.error(`Error fetching post ${slug} for locale ${locale}:`, error)
+    return null
+  }
 }
 
-export function getAdjacentPosts(
+/**
+ * Fetch all posts for a locale
+ */
+async function fetchAllPosts(locale: string): Promise<Post[]> {
+  try {
+    const { data } = await octokit.repos.getContent({
+      owner: REPO_OWNER,
+      repo: REPO_NAME,
+      path: `posts/${locale}`,
+    })
+
+    if (!Array.isArray(data)) return []
+
+    const posts: Post[] = []
+    const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
+
+    for (const file of data as GitHubFile[]) {
+      if (file.type !== 'file' || !file.name.endsWith('.mdx')) continue
+
+      const parsed = parseFilename(file.name)
+      if (!parsed) continue
+
+      // Fetch file content
+      const { data: fileData } = await octokit.repos.getContent({
+        owner: REPO_OWNER,
+        repo: REPO_NAME,
+        path: file.path,
+      })
+
+      if (!('content' in fileData) || !fileData.content) continue
+
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+      const { data: frontmatter, content: markdown } = matter(content)
+
+      // Filter unpublished and future posts
+      const isPublished = frontmatter.published !== false
+      const isFuture = frontmatter.date > today
+
+      if (!isPublished || isFuture) continue
+
+      posts.push({
+        slug: parsed.slug,
+        metadata: {
+          title: frontmatter.title || '',
+          date: frontmatter.date || parsed.date,
+          description: frontmatter.description || '',
+          tags: frontmatter.tags || [],
+          published: isPublished,
+        },
+        content: markdown,
+      })
+    }
+
+    // Sort by date (newest first)
+    return posts.sort((a, b) => (a.metadata.date > b.metadata.date ? -1 : 1))
+  } catch (error) {
+    console.error(`Error fetching posts for locale ${locale}:`, error)
+    return []
+  }
+}
+
+/**
+ * Fetch a post with cache (revalidates every 60 seconds)
+ */
+export const getPostBySlug = unstable_cache(
+  async (slug: string, locale: string) => {
+    const post = await fetchPostBySlug(slug, locale)
+    if (!post) {
+      throw new Error(`Post not found: ${slug} (${locale})`)
+    }
+    return post
+  },
+  ['post-by-slug'],
+  {
+    revalidate: 3600, // Revalidate every 1 hour
+    tags: ['posts'],
+  },
+)
+
+/**
+ * Fetch all posts with cache (revalidates every 60 seconds)
+ */
+export const getAllPosts = unstable_cache(
+  async (locale: string) => {
+    return await fetchAllPosts(locale)
+  },
+  ['all-posts'],
+  {
+    revalidate: 3600, // Revalidate every 1 hour
+    tags: ['posts'],
+  },
+)
+
+/**
+ * Fetch adjacent posts (previous and next)
+ */
+export async function getAdjacentPosts(
   slug: string,
   locale: string,
-): { prev: Post | null; next: Post | null } {
-  const posts = getAllPosts(locale)
+): Promise<{ prev: Post | null; next: Post | null }> {
+  const posts = await getAllPosts(locale)
   const index = posts.findIndex((post) => post.slug === slug)
 
   if (index === -1) {

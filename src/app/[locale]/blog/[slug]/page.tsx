@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   const params: { slug: string; locale: string }[] = []
 
   for (const locale of locales) {
-    const posts = getAllPosts(locale)
+    const posts = await getAllPosts(locale)
     for (const post of posts) {
       params.push({
         slug: post.slug,
@@ -80,8 +80,8 @@ export default async function PostPage(props: {
   params: Promise<{ slug: string; locale: string }>
 }) {
   const params = await props.params
-  const post = getPostBySlug(params.slug, params.locale)
-  const adjacentPosts = getAdjacentPosts(params.slug, params.locale)
+  const post = await getPostBySlug(params.slug, params.locale)
+  const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
