@@ -10,7 +10,7 @@ export interface SEOData {
   twitterDescription: string
 }
 
-export const seoData: Record<string, SEOData> = {
+const seoData: Record<string, SEOData> = {
   en: {
     title: 'Ranielli Montagna - Full Stack Developer',
     description:

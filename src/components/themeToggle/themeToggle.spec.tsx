@@ -1,7 +1,6 @@
-import { screen, fireEvent, render } from '@/tests/functions'
-import { ThemeToggle } from './themeToggle'
-
 import { useTheme } from '@/store'
+import { fireEvent, render, screen } from '@/tests/functions'
+import { ThemeToggle } from './themeToggle'
 
 vi.mock('@/store/useTheme/useTheme')
 const mockUseTheme = vi.mocked(useTheme)

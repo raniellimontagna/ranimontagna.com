@@ -4,31 +4,35 @@
   <img src="public/logo/white.svg" alt="Ranielli Montagna Logo" width="120" height="120"></img>
 </div>
 
-🌟 **Portfólio pessoal de Ranielli Montagna** - Um site moderno e responsivo desenvolvido com Next.js 15, apresentando projetos, experiências e habilidades como Full Stack Developer.
+🌟 **Portfólio pessoal de Ranielli Montagna** - Um site moderno e responsivo desenvolvido com Next.js 16, apresentando projetos, experiências e habilidades como Full Stack Developer.
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
-![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black.svg)
-![React](https://img.shields.io/badge/React-19.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black.svg)
+![React](https://img.shields.io/badge/React-19.2.3-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC.svg)
+![Biome](https://img.shields.io/badge/Biome-2.3.9-60A5FA.svg)
+![Bun](https://img.shields.io/badge/Bun-latest-fbf0df.svg)
 
 ## ✨ Características
 
 - 🌍 **Multilíngue**: Suporte completo para Português, Inglês e Espanhol
 - 🎨 **Design Moderno**: Interface clean e responsiva com Tailwind CSS
-- ⚡ **Performance**: Otimizado com Turbopack e Next.js 15
+- ⚡ **Performance**: Otimizado com Turbopack e Next.js 16
 - 🎭 **Animações**: Transições suaves com Motion (anteriormente Framer Motion)
 - 📱 **Mobile First**: Totalmente responsivo para todos os dispositivos
 - 🔍 **SEO Otimizado**: Meta tags e estrutura otimizada para motores de busca
 - ♿ **Acessibilidade**: Desenvolvido seguindo padrões de acessibilidade
 - 🧪 **Testado**: Cobertura de testes com Vitest e Testing Library
+- 🚀 **Bun**: Package manager ultra-rápido para instalação e execução
+- 🎯 **Biome**: Linter e formatter moderno e extremamente rápido
 
 ## 🛠️ Tecnologias
 
 ### Core
 
-- **Next.js 15.5.2** - Framework React com App Router
-- **React 19.1.0** - Biblioteca para interfaces de usuário
+- **Next.js 16.0.10** - Framework React com App Router e Turbopack
+- **React 19.2.3** - Biblioteca para interfaces de usuário
 - **TypeScript 5.x** - Superset tipado do JavaScript
 - **Tailwind CSS 4.x** - Framework CSS utilitário
 
@@ -36,21 +40,21 @@
 
 - **next-intl 4.3.6** - Internacionalização
 - **Motion 12.23.12** - Animações e transições
-- **Lucide React 0.542.0** - Ícones modernos
+- **Lucide React 0.561.0** - Ícones modernos
 
 ### Ferramentas de Desenvolvimento
 
-- **Vitest 3.2.4** - Framework de testes
-- **ESLint 9.x** - Linter de código
-- **Prettier 3.6.2** - Formatador de código
+- **Bun** - Package manager e runtime JavaScript ultrarrápido
+- **Biome 2.3.9** - Linter e formatter moderno e rápido
+- **Vitest 4.0.16** - Framework de testes
 - **Testing Library** - Testes de componentes React
 
 ## 🚀 Começando
 
 ### Pré-requisitos
 
-- **Node.js** 18.17 ou superior
-- **Bun** (recomendado) ou npm/yarn/pnpm
+- **Node.js** 20.9.0 ou superior (requerido pelo Next.js 16)
+- **Bun** (recomendado e configurado neste projeto)
 
 ### Instalação
 
@@ -89,17 +93,23 @@ bun run build
 # Executar versão de produção
 bun start
 
-# Linting
+# Linting com Biome
 bun run lint
 
-# Formatação de código
+# Formatação de código com Biome
 bun run format
+
+# Lint e format ao mesmo tempo (recomendado)
+bun run check
 
 # Executar testes
 bun test
 
 # Testes com cobertura
 bun run test:coverage
+
+# Lighthouse CI (performance)
+bun run lighthouse:local
 ```
 
 ## 📁 Estrutura do Projeto

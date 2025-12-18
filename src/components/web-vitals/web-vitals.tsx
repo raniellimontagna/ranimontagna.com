@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { onCLS, onFCP, onLCP, onTTFB, onINP, Metric } from 'web-vitals'
+import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 
 function sendToAnalytics(metric: Metric) {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -54,29 +54,4 @@ declare global {
       },
     ) => void
   }
-}
-
-export function useWebVitals() {
-  const measurePerformance = () => {
-    if (typeof window !== 'undefined' && 'performance' in window) {
-      const navigation = performance.getEntriesByType(
-        'navigation',
-      )[0] as PerformanceNavigationTiming
-
-      return {
-        // Time to First Byte
-        ttfb: navigation.responseStart - navigation.requestStart,
-        // DOM Content Loaded
-        domContentLoaded:
-          navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
-        // Load Event
-        loadEvent: navigation.loadEventEnd - navigation.loadEventStart,
-        // Total Page Load Time
-        pageLoadTime: navigation.loadEventEnd - navigation.fetchStart,
-      }
-    }
-    return null
-  }
-
-  return { measurePerformance }
 }

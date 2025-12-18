@@ -1,19 +1,29 @@
 'use client'
 
-import { Header, Footer } from '@/components'
-import { About, Contact, Experience, Hero, Projects, Services } from './sections'
+import { Footer, Header } from '@/components'
+import { CommandMenu } from '@/components/ui/command-menu'
+import {
+  About,
+  Contact,
+  Experience,
+  Hero,
+  Projects,
+  Services,
+  Skills,
+} from '@/containers/home/sections'
 
 export function Home() {
   return (
     <>
       <Header />
+      <CommandMenu />
       <main>
         <Hero />
         <About />
+        <Skills />
         <Services />
         <Experience />
         <Projects />
-        {/* <GithubStats /> */}
         <Contact />
       </main>
       <Footer />

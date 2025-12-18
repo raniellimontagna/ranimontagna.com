@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import sitemap from './sitemap'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { locales } from '@/i18n/routing'
+import sitemap from './sitemap'
 
 vi.mock('@/i18n/routing', () => ({ locales: [] }))
 

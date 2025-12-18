@@ -1,0 +1,62 @@
+---
+title: "Vulnerabilidade Crítica de Segurança no React Server Components"
+date: "2025-12-15"
+description: "O time do React divulgou uma vulnerabilidade crítica que permite execução remota de código em apps usando Server Components. Saiba como se proteger."
+tags: ["react", "segurança", "rsc"]
+---
+
+Em 3 de dezembro de 2025, o time do React divulgou uma **vulnerabilidade crítica de segurança** que afeta aplicações usando React Server Components (RSC). Essa é uma das vulnerabilidades mais sérias já encontradas no ecossistema React.
+
+## O Problema
+
+Um atacante não autenticado pode criar uma requisição HTTP maliciosa para qualquer endpoint de Server Function que, quando desserializada pelo React, **permite execução remota de código (RCE) no servidor**.
+
+Isso significa que um atacante pode potencialmente:
+- Executar comandos arbitrários no seu servidor
+- Acessar dados sensíveis
+- Comprometer toda a aplicação
+
+## Você é Afetado?
+
+Sua aplicação **NÃO é afetada** se:
+- Seu código React não usa um servidor
+- Você não usa um framework ou bundler que suporta React Server Components
+
+Sua aplicação **É afetada** se usa:
+- Next.js
+- React Router (com RSC)
+- Waku
+- @parcel/rsc
+- @vitejs/plugin-rsc
+- Redwood SDK (rwsdk)
+
+## Ação Imediata
+
+Atualize para uma das versões corrigidas:
+
+- **React 19.0.1**
+- **React 19.1.2**
+- **React 19.2.1**
+
+### Para Next.js
+
+```bash
+npm install next@latest
+```
+
+### Para React Router
+
+```bash
+npm install react-router@latest
+```
+
+## Links Importantes
+
+- 🔗 [Anúncio Oficial do React](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
+- 📦 [React 19.0.1](https://github.com/facebook/react/releases/tag/v19.0.1)
+- 📦 [React 19.1.2](https://github.com/facebook/react/releases/tag/v19.1.2)
+- 📦 [React 19.2.1](https://github.com/facebook/react/releases/tag/v19.2.1)
+
+---
+
+**Não espere!** Se você usa React Server Components, atualize agora. Essa vulnerabilidade é crítica e pode comprometer completamente seu servidor.

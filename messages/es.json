@@ -12,6 +12,7 @@
       "services": "Servicios",
       "experience": "Experiencia",
       "projects": "Proyectos",
+      "blog": "Blog",
       "contact": "Contacto"
     },
     "socials": {
@@ -301,6 +302,7 @@
     "popularBadge": "Más Popular",
     "includedTitle": "Qué está incluido:",
     "ctaButton": "Solicitar Cotización",
+    "getStarted": "Comenzar",
     "list": {
       "web-development": {
         "title": "Desarrollo Web",
@@ -324,26 +326,26 @@
           "Publicación en tiendas"
         ]
       },
-      "performance-optimization": {
-        "title": "Optimización de Rendimiento",
-        "description": "Mejora la velocidad y rendimiento de tu sitio web o aplicación existente.",
+      "api-development": {
+        "title": "Desarrollo de API",
+        "description": "Sistemas backend robustos y escalables, diseñados para potenciar tus aplicaciones con alto rendimiento.",
         "features": [
-          "Auditoría completa",
-          "Optimización de imágenes",
-          "Code splitting",
-          "Lazy loading",
-          "Core Web Vitals"
+          "APIs RESTful y GraphQL",
+          "Arquitectura de Microservicios",
+          "Diseño de Bases de Datos (SQL/NoSQL)",
+          "Autenticación Segura (OAuth/JWT)",
+          "Infraestructura en la Nube"
         ]
       },
-      "technical-consulting": {
-        "title": "Consultoría Técnica",
-        "description": "Orientación especializada para decisiones técnicas, arquitectura y mejores prácticas.",
+      "ai-integration": {
+        "title": "Integración de IA",
+        "description": "Soluciones inteligentes impulsadas por Inteligencia Artificial para automatizar procesos y mejorar la experiencia del usuario.",
         "features": [
-          "Análisis de arquitectura",
-          "Code review",
-          "Selección de tecnologías",
-          "Mentoría técnica",
-          "Planificación de proyecto"
+          "Integración de LLMs (GPT/Claude)",
+          "Chatbots y Asistentes Inteligentes",
+          "Flujos de Trabajo Automatizados",
+          "Análisis de Datos e Insights",
+          "Agentes de IA Personalizados"
         ]
       }
     },
@@ -352,5 +354,27 @@
       "subtitle": "Hablemos sobre cómo puedo ayudar a convertir tu idea en realidad.",
       "button": "Solicitar Cotización Gratuita"
     }
+  },
+  "commandMenu": {
+    "placeholder": "Escribe un comando o busca...",
+    "noResults": "No se encontraron resultados.",
+    "sections": "Secciones",
+    "theme": "Tema",
+    "social": "Social",
+    "about": "Ir a Sobre mí",
+    "projects": "Ir a Proyectos",
+    "experience": "Ir a Experiencia",
+    "contact": "Ir a Contacto",
+    "blog": "Ir a Blog",
+    "light": "Modo Claro",
+    "dark": "Modo Oscuro"
+  },
+  "blog": {
+    "title": "Pensando en Voz Alta.",
+    "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que hay entre medio.",
+    "backToPortfolio": "Volver al Portafolio",
+    "readFeaturedStory": "Leer Artículo Destacado",
+    "readArticle": "Leer artículo",
+    "noPosts": "No se encontraron publicaciones. ¡Vuelve pronto!"
   }
 }

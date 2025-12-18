@@ -1,4 +1,4 @@
-import { Globe, Smartphone, Settings, Zap } from 'lucide-react'
+import { Bot, Database, Globe, Smartphone } from 'lucide-react'
 import type { ServiceType } from './services.types'
 
 export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features'>[] = [
@@ -9,18 +9,19 @@ export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features
     popular: true,
   },
   {
+    id: 'api-development',
+    icon: Database,
+    category: 'backend',
+  },
+  {
+    id: 'ai-integration',
+    icon: Bot,
+    category: 'ai',
+    popular: true,
+  },
+  {
     id: 'mobile-development',
     icon: Smartphone,
     category: 'mobile',
-  },
-  {
-    id: 'performance-optimization',
-    icon: Zap,
-    category: 'optimization',
-  },
-  {
-    id: 'technical-consulting',
-    icon: Settings,
-    category: 'consulting',
   },
 ]

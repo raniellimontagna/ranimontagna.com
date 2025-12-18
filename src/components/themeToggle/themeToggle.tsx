@@ -1,6 +1,6 @@
 'use client'
 
-import { Sun, Moon } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useTheme } from '@/store/useTheme/useTheme'
 
@@ -13,6 +13,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <button
+        type="button"
         className="rounded-lg p-2 text-slate-600 transition-all duration-300 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
         disabled
         aria-label="Loading theme toggle"
@@ -24,6 +25,7 @@ export function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       className="group relative rounded-lg p-2 text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
       aria-label={t('themeToggle.ariaLabel', { mode: isDark ? 'light' : 'dark' })}

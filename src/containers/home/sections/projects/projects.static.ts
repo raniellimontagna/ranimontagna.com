@@ -72,7 +72,6 @@ export const projectsData = [
   {
     id: 8,
     i18nKey: 'pdfGenerator',
-    image: '/projects/pdf-generator.jpg',
     technologies: ['Node.js', 'Fastify', 'PDFKit', 'TypeBox'],
     github: 'https://github.com/RanielliMontagna/pdf-generator',
     demo: null,

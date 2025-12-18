@@ -1,17 +1,17 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import {
-  socialLinks,
   contactMethods,
-  getSocialLink,
+  getContactMethod,
+  getContactMethodsAsArray,
+  getEmailUrl,
   getExternalSocialLinks,
   getGitHubUrl,
   getLinkedInUrl,
-  getEmailUrl,
-  getContactMethod,
-  getWhatsAppUrl,
+  getSocialLink,
   getSocialLinksAsArray,
-  getContactMethodsAsArray,
+  getWhatsAppUrl,
+  socialLinks,
 } from './socialLinks'
 
 describe('Dados e funções de links sociais e de contato', () => {

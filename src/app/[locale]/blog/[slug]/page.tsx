@@ -1,0 +1,229 @@
+import dayjs from 'dayjs'
+import { MDXRemote } from 'next-mdx-remote/rsc'
+import { PostNavigation, ReadingProgressBar } from '@/components/blog'
+import { Breadcrumbs } from '@/components/ui'
+import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
+
+// Generate static params for all posts in all locales
+export async function generateStaticParams() {
+  const locales = ['pt', 'en', 'es']
+  const params: { slug: string; locale: string }[] = []
+
+  for (const locale of locales) {
+    const posts = await getAllPosts(locale)
+    for (const post of posts) {
+      params.push({
+        slug: post.slug,
+        locale,
+      })
+    }
+  }
+
+  return params
+}
+
+// Generate metadata for SEO
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>
+}) {
+  const { slug, locale } = await params
+  const post = await getPostBySlug(slug, locale)
+
+  const baseUrl = 'https://ranimontagna.com'
+  const url = `${baseUrl}/${locale}/blog/${slug}`
+
+  return {
+    title: post.metadata.title,
+    description: post.metadata.description,
+    keywords: post.metadata.tags?.join(', '),
+    authors: [{ name: 'Ranielli Montagna' }],
+    openGraph: {
+      title: post.metadata.title,
+      description: post.metadata.description,
+      url,
+      siteName: 'Ranielli Montagna',
+      locale,
+      type: 'article',
+      publishedTime: post.metadata.date,
+      authors: ['Ranielli Montagna'],
+      tags: post.metadata.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.metadata.title,
+      description: post.metadata.description,
+      creator: '@raniellimontagna',
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        pt: `${baseUrl}/pt/blog/${slug}`,
+        en: `${baseUrl}/en/blog/${slug}`,
+        es: `${baseUrl}/es/blog/${slug}`,
+      },
+    },
+  }
+}
+
+// Components mapping for MDX
+const components = {
+  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1
+      {...props}
+      className="mb-8 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
+    />
+  ),
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2
+      {...props}
+      className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
+    />
+  ),
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3
+      {...props}
+      className="mb-3 mt-6 text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
+    />
+  ),
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p {...props} className="mb-6 leading-relaxed text-slate-700 dark:text-slate-300" />
+  ),
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul {...props} className="mb-6 list-disc pl-6 text-slate-700 dark:text-slate-300" />
+  ),
+  ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol {...props} className="mb-6 list-decimal pl-6 text-slate-700 dark:text-slate-300" />
+  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+    <li {...props} className="mb-2 text-slate-700 dark:text-slate-300" />
+  ),
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre
+      {...props}
+      className="mb-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-800 dark:bg-slate-950"
+    />
+  ),
+  code: (props: React.HTMLAttributes<HTMLElement>) => {
+    // Check if it's inline code (no className with language-)
+    const isInline = !props.className?.includes('language-')
+    if (isInline) {
+      return (
+        <code
+          {...props}
+          className="rounded bg-slate-100 px-1.5 py-0.5 text-sm font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-200"
+        />
+      )
+    }
+    return <code {...props} />
+  },
+  // Add more components as needed
+}
+
+export default async function PostPage(props: {
+  params: Promise<{ slug: string; locale: string }>
+}) {
+  const params = await props.params
+  const post = await getPostBySlug(params.slug, params.locale)
+  const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
+
+  const baseUrl = 'https://ranimontagna.com'
+  const url = `${baseUrl}/${params.locale}/blog/${params.slug}`
+
+  // JSON-LD structured data for SEO
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.metadata.title,
+    description: post.metadata.description,
+    datePublished: post.metadata.date,
+    dateModified: post.metadata.date,
+    author: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: 'https://ranimontagna.com',
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: 'https://ranimontagna.com',
+    },
+    url,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    keywords: post.metadata.tags?.join(', '),
+    articleSection: 'Technology',
+    inLanguage: params.locale,
+  }
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-slate-950">
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ReadingProgressBar />
+      <article className="container mx-auto max-w-3xl px-4 py-24">
+        <div className="mb-8">
+          <Breadcrumbs
+            items={[
+              { label: 'Blog', href: `/${params.locale}/blog` },
+              { label: post.metadata.title },
+            ]}
+          />
+        </div>
+
+        <header className="mb-12">
+          <div className="mb-4 flex items-center gap-4">
+            <time className="text-sm text-slate-500 dark:text-slate-400">
+              {dayjs(post.metadata.date).format('MMMM DD, YYYY')}
+            </time>
+            <div className="flex gap-2">
+              {post.metadata.tags?.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            {post.metadata.title}
+          </h1>
+          <p className="mt-4 text-xl text-slate-600 dark:text-slate-400">
+            {post.metadata.description}
+          </p>
+        </header>
+
+        <div className="prose prose-slate mt-12 mb-20 max-w-none dark:prose-invert">
+          <MDXRemote source={post.content} components={components} />
+        </div>
+
+        <PostNavigation
+          prevPost={
+            adjacentPosts.prev
+              ? {
+                  slug: adjacentPosts.prev.slug,
+                  title: adjacentPosts.prev.metadata.title,
+                }
+              : undefined
+          }
+          nextPost={
+            adjacentPosts.next
+              ? {
+                  slug: adjacentPosts.next.slug,
+                  title: adjacentPosts.next.metadata.title,
+                }
+              : undefined
+          }
+        />
+      </article>
+    </div>
+  )
+}

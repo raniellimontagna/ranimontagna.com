@@ -1,5 +1,5 @@
-import { ForwardRefExoticComponent, RefAttributes } from 'react'
-import { Github, Linkedin, LucideProps, Mail, Phone } from 'lucide-react'
+import { Github, Linkedin, type LucideProps, Mail, Phone } from 'lucide-react'
+import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface SocialLink {
   name: string
@@ -7,14 +7,6 @@ export interface SocialLink {
   icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>
   external: boolean
   ariaLabel?: string
-}
-
-export interface ResumeLink {
-  name: string
-  href: string
-  filename: string
-  language: string
-  locale: string
 }
 
 export const socialLinks = {
@@ -112,12 +104,6 @@ export const getWhatsAppUrl = (): string => {
  */
 export const getResumeByLocale = (locale: 'en' | 'pt' | 'es') => {
   return resumeLinks[locale as keyof typeof resumeLinks] || resumeLinks.en
-}
-
-export const getResumeLinksAsArray = () => Object.values(resumeLinks)
-
-export const getResumeUrl = (locale: 'en' | 'pt' | 'es') => {
-  return getResumeByLocale(locale).href
 }
 
 export const getSocialLinksAsArray = (): (SocialLink & { id: string })[] => {

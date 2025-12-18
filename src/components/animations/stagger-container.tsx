@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, HTMLMotionProps, useInView } from 'motion/react'
-import { ReactNode, useRef } from 'react'
+import { type HTMLMotionProps, motion, useInView } from 'motion/react'
+import { type ReactNode, useRef } from 'react'
 
 interface StaggerContainerProps extends HTMLMotionProps<'div'> {
   children: ReactNode

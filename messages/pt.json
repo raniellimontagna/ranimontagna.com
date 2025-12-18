@@ -11,6 +11,7 @@
       "services": "Serviços",
       "experience": "Experiência",
       "projects": "Projetos",
+      "blog": "Blog",
       "contact": "Contato"
     },
     "socials": {
@@ -300,6 +301,7 @@
     "popularBadge": "Mais Popular",
     "includedTitle": "O que está incluído:",
     "ctaButton": "Solicitar Orçamento",
+    "getStarted": "Começar",
     "list": {
       "web-development": {
         "title": "Desenvolvimento Web",
@@ -323,26 +325,26 @@
           "Publicação nas lojas"
         ]
       },
-      "performance-optimization": {
-        "title": "Otimização de Performance",
-        "description": "Melhore a velocidade e performance do seu site ou aplicação existente.",
+      "api-development": {
+        "title": "Desenvolvimento de API",
+        "description": "Sistemas backend robustos e escaláveis, projetados para impulsionar suas aplicações com alta performance.",
         "features": [
-          "Auditoria completa",
-          "Otimização de imagens",
-          "Code splitting",
-          "Lazy loading",
-          "Core Web Vitals"
+          "APIs RESTful e GraphQL",
+          "Arquitetura de Microsserviços",
+          "Modelagem de Dados (SQL/NoSQL)",
+          "Autenticação Segura (OAuth/JWT)",
+          "Infraestrutura em Nuvem"
         ]
       },
-      "technical-consulting": {
-        "title": "Consultoria Técnica",
-        "description": "Orientação especializada para decisões técnicas, arquitetura e melhores práticas.",
+      "ai-integration": {
+        "title": "Integração de IA",
+        "description": "Soluções inteligentes impulsionadas por Inteligência Artificial para automatizar processos e melhorar a experiência do usuário.",
         "features": [
-          "Análise de arquitetura",
-          "Code review",
-          "Escolha de tecnologias",
-          "Mentoria técnica",
-          "Planejamento de projeto"
+          "Integração com LLMs (GPT/Claude)",
+          "Chatbots e Assistentes Inteligentes",
+          "Fluxos de Trabalho Automatizados",
+          "Análise de Dados e Insights",
+          "Agentes de IA Personalizados"
         ]
       }
     },
@@ -351,5 +353,27 @@
       "subtitle": "Vamos conversar sobre como posso ajudar a transformar sua ideia em realidade.",
       "button": "Solicitar Orçamento Gratuito"
     }
+  },
+  "commandMenu": {
+    "placeholder": "Digite um comando ou busque...",
+    "noResults": "Nenhum resultado encontrado.",
+    "sections": "Seções",
+    "theme": "Tema",
+    "social": "Social",
+    "about": "Ir para Sobre",
+    "projects": "Ir para Projetos",
+    "experience": "Ir para Experiência",
+    "contact": "Ir para Contato",
+    "blog": "Ir para Blog",
+    "light": "Modo Claro",
+    "dark": "Modo Escuro"
+  },
+  "blog": {
+    "title": "Pensando Alto.",
+    "subtitle": "Insights, tutoriais e reflexões sobre tecnologia, desenvolvimento e tudo que envolve esse universo.",
+    "backToPortfolio": "Voltar ao Portfólio",
+    "readFeaturedStory": "Ler Artigo em Destaque",
+    "readArticle": "Ler artigo",
+    "noPosts": "Nenhum post encontrado. Volte em breve!"
   }
 }

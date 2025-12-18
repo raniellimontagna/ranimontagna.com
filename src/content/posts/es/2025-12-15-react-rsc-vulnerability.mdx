@@ -1,0 +1,62 @@
+---
+title: "Vulnerabilidad Crítica de Seguridad en React Server Components"
+date: "2025-12-15"
+description: "El equipo de React divulgó una vulnerabilidad crítica que permite ejecución remota de código en apps usando Server Components. Aprende cómo protegerte."
+tags: ["react", "seguridad", "rsc"]
+---
+
+El 3 de diciembre de 2025, el equipo de React divulgó una **vulnerabilidad crítica de seguridad** que afecta aplicaciones usando React Server Components (RSC). Esta es una de las vulnerabilidades más serias jamás encontradas en el ecosistema React.
+
+## El Problema
+
+Un atacante no autenticado puede crear una solicitud HTTP maliciosa a cualquier endpoint de Server Function que, cuando es deserializada por React, **permite ejecución remota de código (RCE) en el servidor**.
+
+Esto significa que un atacante podría potencialmente:
+- Ejecutar comandos arbitrarios en tu servidor
+- Acceder a datos sensibles
+- Comprometer toda la aplicación
+
+## ¿Estás Afectado?
+
+Tu aplicación **NO está afectada** si:
+- Tu código React no usa un servidor
+- No usas un framework o bundler que soporta React Server Components
+
+Tu aplicación **ESTÁ afectada** si usas:
+- Next.js
+- React Router (con RSC)
+- Waku
+- @parcel/rsc
+- @vitejs/plugin-rsc
+- Redwood SDK (rwsdk)
+
+## Acción Inmediata
+
+Actualiza a una de las versiones corregidas:
+
+- **React 19.0.1**
+- **React 19.1.2**
+- **React 19.2.1**
+
+### Para Next.js
+
+```bash
+npm install next@latest
+```
+
+### Para React Router
+
+```bash
+npm install react-router@latest
+```
+
+## Enlaces Importantes
+
+- 🔗 [Anuncio Oficial de React](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
+- 📦 [React 19.0.1](https://github.com/facebook/react/releases/tag/v19.0.1)
+- 📦 [React 19.1.2](https://github.com/facebook/react/releases/tag/v19.1.2)
+- 📦 [React 19.2.1](https://github.com/facebook/react/releases/tag/v19.2.1)
+
+---
+
+**¡No esperes!** Si usas React Server Components, actualiza ahora. Esta vulnerabilidad es crítica y puede comprometer completamente tu servidor.

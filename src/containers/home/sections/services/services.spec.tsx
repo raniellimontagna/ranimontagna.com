@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { render } from '@/tests/functions'
 
 import { Services } from './services'
