@@ -375,5 +375,32 @@
     "readFeaturedStory": "Read Featured Story",
     "readArticle": "Read article",
     "noPosts": "No posts found. Check back soon!"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "code": "404",
+    "description": "Oops! The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to home",
+    "contact": "Get in touch",
+    "suggestions": "Maybe you're looking for:",
+    "visitSection": "Visit section",
+    "links": {
+      "about": {
+        "title": "About me",
+        "description": "Know my journey and skills"
+      },
+      "projects": {
+        "title": "Projects",
+        "description": "See what I've been building"
+      },
+      "blog": {
+        "title": "Blog",
+        "description": "Articles and tech thoughts"
+      },
+      "contact": {
+        "title": "Contact",
+        "description": "Let's talk about ideas"
+      }
+    }
   }
 }

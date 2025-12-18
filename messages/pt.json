@@ -375,5 +375,32 @@
     "readFeaturedStory": "Ler Artigo em Destaque",
     "readArticle": "Ler artigo",
     "noPosts": "Nenhum post encontrado. Volte em breve!"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "code": "404",
+    "description": "Ops! A página que você está procurando não existe ou foi movida.",
+    "backHome": "Voltar para o início",
+    "contact": "Entre em contato",
+    "suggestions": "Talvez você esteja procurando:",
+    "visitSection": "Visitar seção",
+    "links": {
+      "about": {
+        "title": "Sobre mim",
+        "description": "Conheça minha jornada e skills"
+      },
+      "projects": {
+        "title": "Projetos",
+        "description": "Veja o que tenho construído"
+      },
+      "blog": {
+        "title": "Blog",
+        "description": "Artigos e pensamentos tech"
+      },
+      "contact": {
+        "title": "Contato",
+        "description": "Vamos conversar sobre ideias"
+      }
+    }
   }
 }
