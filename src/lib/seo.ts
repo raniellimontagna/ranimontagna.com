@@ -59,17 +59,26 @@ export function getSEOData(locale: string): SEOData {
 export function getAlternateLanguages() {
   const alternates = routing.locales.reduce(
     (acc, lang) => {
-      acc[lang] = `https://ranimontagna.com/${lang}`
+      // Default locale points to root
+      if (lang === routing.defaultLocale) {
+        acc[lang] = 'https://ranimontagna.com'
+      } else {
+        acc[lang] = `https://ranimontagna.com/${lang}`
+      }
       return acc
     },
     {} as Record<string, string>,
   )
 
-  alternates['x-default'] = `https://ranimontagna.com/${routing.defaultLocale}`
+  alternates['x-default'] = 'https://ranimontagna.com'
 
   return alternates
 }
 
 export function getCanonicalUrl(locale: string): string {
+  // Default locale points to root domain
+  if (locale === routing.defaultLocale) {
+    return 'https://ranimontagna.com'
+  }
   return `https://ranimontagna.com/${locale}`
 }
