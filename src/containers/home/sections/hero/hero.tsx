@@ -1,7 +1,7 @@
 import { ArrowDown } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { TerminalWindow } from '@/components/ui/terminal-window'
-import { HeroAnimations, ScrollIndicator } from './hero-content'
+import { ScrollIndicator } from './hero-content'
 
 export async function Hero() {
   const t = await getTranslations('hero')
@@ -14,8 +14,8 @@ export async function Hero() {
       aria-label="Hero section - Ranielli Montagna introduction"
     >
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-70 dark:opacity-100" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent dark:from-gray-950" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] opacity-70 dark:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-t from-slate-50 via-transparent to-transparent dark:from-gray-950" />
       </div>
 
       <div className="absolute inset-0 overflow-hidden">
@@ -23,7 +23,7 @@ export async function Hero() {
         <div className="absolute -bottom-20 -left-20 h-80 w-80 animate-pulse rounded-full bg-purple-500/10 blur-3xl delay-1000 sm:-bottom-40 sm:-left-40" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-5xl animate-[fadeIn_0.6s_ease-out]">
         <TerminalWindow title="ranielli.dev" className="w-full">
           <div className="flex flex-col gap-6 font-mono">
             <div className="flex flex-col gap-2">
@@ -69,7 +69,16 @@ export async function Hero() {
                 <span>ls ./skills</span>
               </div>
               <div className="pl-4 pt-2">
-                <HeroAnimations skillsList={skillsList} />
+                <div className="flex flex-wrap gap-2">
+                  {skillsList.map((tech) => (
+                    <span
+                      key={tech}
+                      className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-blue-700 transition-colors hover:border-blue-300 hover:bg-blue-50 dark:border-slate-700 dark:bg-slate-800/50 dark:text-blue-300 dark:hover:border-blue-500/50 dark:hover:text-blue-200"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 

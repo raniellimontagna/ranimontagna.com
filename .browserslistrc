@@ -1,0 +1,4 @@
+# Browsers that support ES modules natively
+# This avoids generating polyfills for modern features
+defaults and fully supports es6-module
+maintained node versions
