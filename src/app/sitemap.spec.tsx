@@ -4,6 +4,11 @@ import sitemap from './sitemap'
 
 vi.mock('@/i18n/routing', () => ({ locales: [] }))
 
+// Mock getAllPosts to return empty array
+vi.mock('@/lib/blog', () => ({
+  getAllPosts: vi.fn(async () => []),
+}))
+
 const mockLocales = vi.mocked(locales)
 
 describe('sitemap', () => {
@@ -20,12 +25,12 @@ describe('sitemap', () => {
     vi.clearAllMocks()
   })
 
-  it('should generate a sitemap with a root URL and localized routes', () => {
+  it('should generate a sitemap with a root URL and localized routes', async () => {
     mockLocales.push({ code: 'en', name: 'English' }, { code: 'pt-BR', name: 'Português' })
 
-    const result = sitemap()
+    const result = await sitemap()
 
-    expect(result).toHaveLength(3)
+    expect(result).toHaveLength(5) // 1 root + 2 locales + 2 blog pages
     expect(result).toEqual(
       expect.arrayContaining([
         {
@@ -50,10 +55,10 @@ describe('sitemap', () => {
     )
   })
 
-  it('should only generate the root URL when there are no locales', () => {
+  it('should only generate the root URL when there are no locales', async () => {
     mockLocales.splice(0, mockLocales.length)
 
-    const result = sitemap()
+    const result = await sitemap()
 
     expect(result).toHaveLength(1)
     expect(result).toEqual([
@@ -66,12 +71,12 @@ describe('sitemap', () => {
     ])
   })
 
-  it('should handle a single locale correctly', () => {
+  it('should handle a single locale correctly', async () => {
     mockLocales.push({ code: 'es', name: 'Español' })
 
-    const result = sitemap()
+    const result = await sitemap()
 
-    expect(result).toHaveLength(2)
+    expect(result).toHaveLength(3) // 1 root + 1 locale + 1 blog page
     expect(result).toContainEqual({
       url: `${baseUrl}/es`,
       lastModified: fixedDate,
