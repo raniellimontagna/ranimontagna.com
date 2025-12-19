@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.11.0...v1.12.0) (2025-12-19)
+
+
+### Features
+
+* implement blog with mdx and gfn, switch to pnpm ([afc4296](https://github.com/raniellimontagna/ranimontagna.com/commit/afc42962b2212933599b7682b101aed320f360d4))
+
 ## [1.11.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.10.0...v1.11.0) (2025-12-19)
 
 
