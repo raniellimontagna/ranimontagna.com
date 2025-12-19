@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.10.0...v1.11.0) (2025-12-19)
+
+
+### Features
+
+* add AI development guidelines and remove redundant base URL from sitemap ([f65b7c3](https://github.com/raniellimontagna/ranimontagna.com/commit/f65b7c381317e6d78918950ae5b57e0017b6ec96))
+
 ## [1.10.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.9.0...v1.10.0) (2025-12-18)
 
 
