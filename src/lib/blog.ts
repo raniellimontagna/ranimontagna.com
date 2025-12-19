@@ -17,6 +17,7 @@ export interface Post {
     description: string
     tags?: string[]
     published?: boolean
+    coverImage?: string
   }
   content: string
 }
@@ -84,6 +85,7 @@ async function fetchPostBySlug(slug: string, locale: string): Promise<Post | nul
         description: frontmatter.description || '',
         tags: frontmatter.tags || [],
         published: frontmatter.published !== false, // Default true
+        coverImage: frontmatter.coverImage || undefined,
       },
       content: markdown,
     }
@@ -146,6 +148,7 @@ async function fetchAllPosts(locale: string): Promise<Post[]> {
             description: frontmatter.description || '',
             tags: frontmatter.tags || [],
             published: isPublished,
+            coverImage: frontmatter.coverImage || undefined,
           },
           content: markdown,
         } satisfies Post

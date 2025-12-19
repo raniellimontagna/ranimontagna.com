@@ -127,7 +127,22 @@ const components = {
       rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     />
   ),
-  // Add more components as needed
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <figure className="my-8">
+      {/* biome-ignore lint/a11y/useAltText: alt is passed from MDX via props spread */}
+      {/* biome-ignore lint/performance/noImgElement: next/image cannot be used with MDX dynamic props */}
+      <img
+        {...props}
+        className="w-full rounded-xl border border-slate-200 shadow-lg dark:border-slate-800"
+        loading="lazy"
+      />
+      {props.alt && (
+        <figcaption className="mt-3 text-center text-sm italic text-slate-500 dark:text-slate-400">
+          {props.alt}
+        </figcaption>
+      )}
+    </figure>
+  ),
 }
 
 export default async function PostPage(props: {
@@ -208,6 +223,19 @@ export default async function PostPage(props: {
           <p className="mt-4 text-xl text-slate-600 dark:text-slate-400">
             {post.metadata.description}
           </p>
+          {post.metadata.coverImage && (
+            <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
+              <div className="relative aspect-[21/9] sm:aspect-[2/1] w-full">
+                {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
+                <img
+                  src={post.metadata.coverImage}
+                  alt={post.metadata.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent dark:from-slate-950/30" />
+              </div>
+            </div>
+          )}
         </header>
 
         <div className="prose prose-slate mt-12 mb-20 max-w-none dark:prose-invert">
