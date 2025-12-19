@@ -106,47 +106,60 @@ async function fetchAllPosts(locale: string): Promise<Post[]> {
 
     if (!Array.isArray(data)) return []
 
-    const posts: Post[] = []
     const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
 
-    for (const file of data as GitHubFile[]) {
-      if (file.type !== 'file' || !file.name.endsWith('.mdx')) continue
+    // Filter valid MDX files
+    const validFiles = (data as GitHubFile[]).filter((file) => {
+      if (file.type !== 'file' || !file.name.endsWith('.mdx')) return false
+      return parseFilename(file.name) !== null
+    })
 
+    // Fetch all file contents in parallel
+    const postPromises = validFiles.map(async (file) => {
       const parsed = parseFilename(file.name)
-      if (!parsed) continue
+      if (!parsed) return null
 
-      // Fetch file content
-      const { data: fileData } = await octokit.repos.getContent({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
-        path: file.path,
-      })
+      try {
+        // Fetch file content
+        const { data: fileData } = await octokit.repos.getContent({
+          owner: REPO_OWNER,
+          repo: REPO_NAME,
+          path: file.path,
+        })
 
-      if (!('content' in fileData) || !fileData.content) continue
+        if (!('content' in fileData) || !fileData.content) return null
 
-      const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
-      const { data: frontmatter, content: markdown } = matter(content)
+        const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+        const { data: frontmatter, content: markdown } = matter(content)
 
-      // Filter unpublished and future posts
-      const isPublished = frontmatter.published !== false
-      const isFuture = frontmatter.date > today
+        // Filter unpublished and future posts
+        const isPublished = frontmatter.published !== false
+        const isFuture = frontmatter.date > today
 
-      if (!isPublished || isFuture) continue
+        if (!isPublished || isFuture) return null
 
-      posts.push({
-        slug: parsed.slug,
-        metadata: {
-          title: frontmatter.title || '',
-          date: frontmatter.date || parsed.date,
-          description: frontmatter.description || '',
-          tags: frontmatter.tags || [],
-          published: isPublished,
-        },
-        content: markdown,
-      })
-    }
+        return {
+          slug: parsed.slug,
+          metadata: {
+            title: frontmatter.title || '',
+            date: frontmatter.date || parsed.date,
+            description: frontmatter.description || '',
+            tags: frontmatter.tags || [],
+            published: isPublished,
+          },
+          content: markdown,
+        } satisfies Post
+      } catch (error) {
+        console.error(`Error fetching post ${file.name}:`, error)
+        return null
+      }
+    })
 
-    // Sort by date (newest first)
+    // Wait for all posts to be fetched
+    const postsResults = await Promise.all(postPromises)
+
+    // Filter out null results and sort by date (newest first)
+    const posts = postsResults.filter((post) => post !== null) as Post[]
     return posts.sort((a, b) => (a.metadata.date > b.metadata.date ? -1 : 1))
   } catch (error) {
     console.error(`Error fetching posts for locale ${locale}:`, error)

@@ -31,7 +31,7 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
             <time className="rounded-full border border-slate-200 px-3 py-1 font-medium text-slate-500 dark:border-slate-800 dark:text-slate-400">
               {dayjs(post.metadata.date).format('MMMM D, YYYY')}
             </time>
-            <span className="flex gap-2">
+            <span className="flex flex-wrap gap-2">
               {post.metadata.tags?.map((tag) => (
                 <span key={tag} className="font-medium text-purple-600 dark:text-purple-400">
                   #{tag}
