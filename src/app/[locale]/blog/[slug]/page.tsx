@@ -35,6 +35,11 @@ export async function generateMetadata({
   const baseUrl = 'https://ranimontagna.com'
   const url = `${baseUrl}/${locale}/blog/${slug}`
 
+  // Fallback image when no coverImage is set
+  const defaultOgImage =
+    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
+  const ogImage = post.metadata.coverImage || defaultOgImage
+
   return {
     title: post.metadata.title,
     description: post.metadata.description,
@@ -50,12 +55,21 @@ export async function generateMetadata({
       publishedTime: post.metadata.date,
       authors: ['Ranielli Montagna'],
       tags: post.metadata.tags,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.metadata.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.metadata.title,
       description: post.metadata.description,
       creator: '@raniellimontagna',
+      images: [ogImage],
     },
     alternates: {
       canonical: url,

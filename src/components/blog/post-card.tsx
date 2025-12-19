@@ -11,8 +11,12 @@ interface PostCardProps {
   index: number
 }
 
+// Default fallback image for posts without coverImage
+const DEFAULT_COVER_IMAGE = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80'
+
 export function PostCard({ post, index }: PostCardProps) {
   const t = useTranslations('blog')
+  const coverImage = post.metadata.coverImage || DEFAULT_COVER_IMAGE
 
   return (
     <motion.div
@@ -24,17 +28,15 @@ export function PostCard({ post, index }: PostCardProps) {
         href={`/blog/${post.slug}`}
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900/80"
       >
-        {post.metadata.coverImage && (
-          <div className="relative h-40 overflow-hidden">
-            {/* biome-ignore lint/a11y/useAltText: alt is provided */}
-            <img
-              src={post.metadata.coverImage}
-              alt={post.metadata.title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-        )}
-        <div className={`flex flex-col flex-grow p-6 ${post.metadata.coverImage ? 'pt-4' : ''}`}>
+        <div className="relative h-40 overflow-hidden">
+          {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
+          <img
+            src={coverImage}
+            alt={post.metadata.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <div className="flex flex-col flex-grow p-6 pt-4">
           <div className="mb-4 flex items-center justify-between gap-4">
             <time className="text-sm font-medium text-slate-500 dark:text-slate-400">
               {dayjs(post.metadata.date).format('MMM D, YYYY')}

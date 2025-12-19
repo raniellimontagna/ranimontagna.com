@@ -10,8 +10,12 @@ interface FeaturedPostProps {
   post: Post
 }
 
+// Default fallback image for posts without coverImage
+const DEFAULT_COVER_IMAGE = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80'
+
 export function FeaturedPost({ post }: FeaturedPostProps) {
   const t = useTranslations('blog')
+  const coverImage = post.metadata.coverImage || DEFAULT_COVER_IMAGE
 
   return (
     <motion.div
@@ -24,18 +28,16 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
         href={`/blog/${post.slug}`}
         className="group relative block overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all hover:shadow-2xl dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900/80"
       >
-        {post.metadata.coverImage && (
-          <div className="relative h-48 sm:h-64 overflow-hidden">
-            {/* biome-ignore lint/a11y/useAltText: alt is provided */}
-            <img
-              src={post.metadata.coverImage}
-              alt={post.metadata.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-slate-900" />
-          </div>
-        )}
-        <div className={`p-8 md:p-12 ${post.metadata.coverImage ? 'pt-6 md:pt-8' : ''}`}>
+        <div className="relative h-48 sm:h-64 overflow-hidden">
+          {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
+          <img
+            src={coverImage}
+            alt={post.metadata.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-slate-900" />
+        </div>
+        <div className="p-8 md:p-12 pt-6 md:pt-8">
           <div className="absolute top-0 right-0 -mt-16 -mr-16 h-64 w-64 rounded-full bg-gradient-to-br from-purple-500/10 to-blue-500/10 blur-3xl transition-all group-hover:scale-150" />
 
           <div className="relative">
