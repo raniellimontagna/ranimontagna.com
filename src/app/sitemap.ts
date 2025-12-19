@@ -6,15 +6,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://ranimontagna.com'
   const languages = locales.map((loc) => loc.code)
 
-  const routes = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 1,
-    },
-  ]
-
   const localizedRoutes = languages.flatMap((lang) => [
     {
       url: `${baseUrl}/${lang}`,
@@ -44,5 +35,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  return [...routes, ...localizedRoutes, ...blogPosts]
+  return [...localizedRoutes, ...blogPosts]
 }
