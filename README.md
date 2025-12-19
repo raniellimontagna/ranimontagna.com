@@ -6,13 +6,13 @@
 
 🌟 **Portfólio pessoal de Ranielli Montagna** - Um site moderno e responsivo desenvolvido com Next.js 16, apresentando projetos, experiências e habilidades como Full Stack Developer.
 
-![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.11.0-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black.svg)
 ![React](https://img.shields.io/badge/React-19.2.3-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC.svg)
-![Biome](https://img.shields.io/badge/Biome-2.3.9-60A5FA.svg)
-![Bun](https://img.shields.io/badge/Bun-latest-fbf0df.svg)
+![Biome](https://img.shields.io/badge/Biome-2.3.10-60A5FA.svg)
+![pnpm](https://img.shields.io/badge/pnpm-10.x-F69220.svg)
 
 ## ✨ Características
 
@@ -24,7 +24,7 @@
 - 🔍 **SEO Otimizado**: Meta tags e estrutura otimizada para motores de busca
 - ♿ **Acessibilidade**: Desenvolvido seguindo padrões de acessibilidade
 - 🧪 **Testado**: Cobertura de testes com Vitest e Testing Library
-- 🚀 **Bun**: Package manager ultra-rápido para instalação e execução
+- 📝 **Blog**: Sistema de blog com suporte a MDX e GitHub Flavored Markdown
 - 🎯 **Biome**: Linter e formatter moderno e extremamente rápido
 
 ## 🛠️ Tecnologias
@@ -38,14 +38,16 @@
 
 ### Bibliotecas
 
-- **next-intl 4.3.6** - Internacionalização
-- **Motion 12.23.12** - Animações e transições
+- **next-intl 4.6.1** - Internacionalização
+- **Motion 12.23.26** - Animações e transições
 - **Lucide React 0.561.0** - Ícones modernos
+- **next-mdx-remote 5.0.0** - Renderização de MDX
+- **remark-gfm 4.0.1** - Suporte a GitHub Flavored Markdown
 
 ### Ferramentas de Desenvolvimento
 
-- **Bun** - Package manager e runtime JavaScript ultrarrápido
-- **Biome 2.3.9** - Linter e formatter moderno e rápido
+- **pnpm 10.x** - Package manager rápido e eficiente
+- **Biome 2.3.10** - Linter e formatter moderno e rápido
 - **Vitest 4.0.16** - Framework de testes
 - **Testing Library** - Testes de componentes React
 
@@ -54,7 +56,7 @@
 ### Pré-requisitos
 
 - **Node.js** 20.9.0 ou superior (requerido pelo Next.js 16)
-- **Bun** (recomendado e configurado neste projeto)
+- **pnpm** 10.x ou superior (recomendado)
 
 ### Instalação
 
@@ -68,13 +70,13 @@
 2. **Instale as dependências**
 
    ```bash
-   bun install
+   pnpm install
    ```
 
 3. **Execute o servidor de desenvolvimento**
 
    ```bash
-   bun dev
+   pnpm dev
    ```
 
 4. **Abra no navegador**
@@ -85,31 +87,31 @@
 
 ```bash
 # Desenvolvimento com Turbopack
-bun dev
+pnpm dev
 
 # Build para produção
-bun run build
+pnpm build
 
 # Executar versão de produção
-bun start
+pnpm start
 
 # Linting com Biome
-bun run lint
+pnpm lint
 
 # Formatação de código com Biome
-bun run format
+pnpm format
 
 # Lint e format ao mesmo tempo (recomendado)
-bun run check
+pnpm check
 
 # Executar testes
-bun test
+pnpm test
 
 # Testes com cobertura
-bun run test:coverage
+pnpm test:coverage
 
 # Lighthouse CI (performance)
-bun run lighthouse:local
+pnpm lighthouse:local
 ```
 
 ## 📁 Estrutura do Projeto
@@ -117,28 +119,37 @@ bun run lighthouse:local
 ```
 src/
 ├── app/                    # App Router do Next.js
-│   └── [locale]/          # Rotas internacionalizadas
+│   ├── [locale]/          # Rotas internacionalizadas
+│   │   ├── blog/         # Sistema de blog
+│   │   │   └── [slug]/   # Páginas de posts
+│   │   └── page.tsx      # Página inicial
+│   └── sitemap.ts        # Sitemap XML
 ├── components/            # Componentes reutilizáveis
 │   ├── animations/        # Componentes de animação
+│   ├── blog/             # Componentes do blog
 │   ├── footer/           # Footer do site
 │   ├── header/           # Header com navegação
+│   ├── ui/               # Componentes de UI
 │   └── languageSwitcher/ # Seletor de idioma
 ├── containers/           # Containers de páginas
 │   └── home/            # Container da página inicial
 │       └── sections/    # Seções da home
 ├── contexts/            # Context providers
 ├── i18n/               # Configuração de internacionalização
-└── tests/              # Configuração de testes
+├── lib/                # Utilities e helpers
+│   ├── blog.ts        # Funções para gerenciar blog
+│   └── seo.ts         # Utilities de SEO
+└── tests/             # Configuração de testes
 
-messages/               # Traduções
-├── en.json            # Inglês
-├── es.json            # Espanhol
-└── pt.json            # Português
+messages/              # Traduções
+├── en.json           # Inglês
+├── es.json           # Espanhol
+└── pt.json           # Português
 
-public/                # Arquivos estáticos
-├── cv/               # Currículos em PDF
-├── companies/        # Logos das empresas
-└── logo/            # Logo do site
+public/               # Arquivos estáticos
+├── cv/              # Currículos em PDF
+├── companies/       # Logos das empresas
+└── logo/           # Logo do site
 ```
 
 ## 🌍 Internacionalização
@@ -151,13 +162,21 @@ O site suporta três idiomas:
 
 As traduções estão localizadas na pasta `messages/` e são gerenciadas pelo `next-intl`.
 
-## 🎨 Seções do Portfólio
+## 🎨 Seções do Site
 
+### Portfólio
 - **Hero**: Apresentação inicial com call-to-actions
 - **Sobre**: Informações pessoais e profissionais
 - **Experiência**: Histórico profissional e habilidades
 - **Projetos**: Showcase dos principais projetos
 - **Contato**: Formulário e informações de contato
+
+### Blog
+- **Sistema de Blog**: Posts em MDX com suporte a múltiplos idiomas
+- **GitHub Flavored Markdown**: Autolinks, tabelas, task lists e mais
+- **Navegação entre posts**: Links para posts anteriores e seguintes
+- **Reading progress**: Barra de progresso de leitura
+- **SEO otimizado**: Meta tags, JSON-LD e sitemap automático
 
 ## 🧪 Testes
 
@@ -165,13 +184,13 @@ O projeto utiliza Vitest para testes unitários e de componentes:
 
 ```bash
 # Executar todos os testes
-bun test
+pnpm test
 
 # Executar testes com cobertura
-bun run test:coverage
+pnpm test:coverage
 
-# Executar testes em modo watch
-bun test --watch
+# Executar testes em modo watch (durante desenvolvimento)
+vitest
 ```
 
 ## 📄 Licença

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
 import { PostNavigation, ReadingProgressBar } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
@@ -118,6 +119,14 @@ const components = {
     }
     return <code {...props} />
   },
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a
+      {...props}
+      className="font-medium text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-700 hover:decoration-blue-700/50 dark:text-blue-400 dark:decoration-blue-400/30 dark:hover:text-blue-300 dark:hover:decoration-blue-300/50"
+      target={props.href?.startsWith('http') ? '_blank' : undefined}
+      rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+    />
+  ),
   // Add more components as needed
 }
 
@@ -202,7 +211,15 @@ export default async function PostPage(props: {
         </header>
 
         <div className="prose prose-slate mt-12 mb-20 max-w-none dark:prose-invert">
-          <MDXRemote source={post.content} components={components} />
+          <MDXRemote
+            source={post.content}
+            components={components}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+              },
+            }}
+          />
         </div>
 
         <PostNavigation
