@@ -25,20 +25,14 @@ describe('sitemap', () => {
     vi.clearAllMocks()
   })
 
-  it('should generate a sitemap with a root URL and localized routes', async () => {
+  it('should generate a sitemap with localized routes', async () => {
     mockLocales.push({ code: 'en', name: 'English' }, { code: 'pt-BR', name: 'Português' })
 
     const result = await sitemap()
 
-    expect(result).toHaveLength(5) // 1 root + 2 locales + 2 blog pages
+    expect(result).toHaveLength(4) // 2 locales + 2 blog pages
     expect(result).toEqual(
       expect.arrayContaining([
-        {
-          url: baseUrl,
-          lastModified: fixedDate,
-          changeFrequency: 'monthly',
-          priority: 1,
-        },
         {
           url: `${baseUrl}/en`,
           lastModified: fixedDate,
@@ -46,29 +40,34 @@ describe('sitemap', () => {
           priority: 0.9,
         },
         {
+          url: `${baseUrl}/en/blog`,
+          lastModified: fixedDate,
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        },
+        {
           url: `${baseUrl}/pt-BR`,
           lastModified: fixedDate,
           changeFrequency: 'monthly',
           priority: 0.9,
         },
+        {
+          url: `${baseUrl}/pt-BR/blog`,
+          lastModified: fixedDate,
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        },
       ]),
     )
   })
 
-  it('should only generate the root URL when there are no locales', async () => {
+  it('should return empty array when there are no locales', async () => {
     mockLocales.splice(0, mockLocales.length)
 
     const result = await sitemap()
 
-    expect(result).toHaveLength(1)
-    expect(result).toEqual([
-      {
-        url: baseUrl,
-        lastModified: fixedDate,
-        changeFrequency: 'monthly',
-        priority: 1,
-      },
-    ])
+    expect(result).toHaveLength(0)
+    expect(result).toEqual([])
   })
 
   it('should handle a single locale correctly', async () => {
@@ -76,7 +75,7 @@ describe('sitemap', () => {
 
     const result = await sitemap()
 
-    expect(result).toHaveLength(3) // 1 root + 1 locale + 1 blog page
+    expect(result).toHaveLength(2) // 1 locale + 1 blog page
     expect(result).toContainEqual({
       url: `${baseUrl}/es`,
       lastModified: fixedDate,
@@ -84,10 +83,10 @@ describe('sitemap', () => {
       priority: 0.9,
     })
     expect(result).toContainEqual({
-      url: baseUrl,
+      url: `${baseUrl}/es/blog`,
       lastModified: fixedDate,
-      changeFrequency: 'monthly',
-      priority: 1,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     })
   })
 })
