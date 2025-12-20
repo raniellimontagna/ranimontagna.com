@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.13.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.12.0...v1.13.0) (2025-12-20)
+
+
+### Features
+
+* add cover image support for blog posts ([c6f6353](https://github.com/raniellimontagna/ranimontagna.com/commit/c6f6353d46a71876bad52b927b4d8e9bdf6a83a1))
+* add language flags and enhance language switcher component with improved accessibility and styling ([0c25d0e](https://github.com/raniellimontagna/ranimontagna.com/commit/0c25d0e6f05bc37b066bc668bcb2dbcb9e195ec0))
+* add ScrollToTop component for improved user navigation and update blog post layout ([3e77905](https://github.com/raniellimontagna/ranimontagna.com/commit/3e77905b080751afa1c55ac52fa6c7164c4abd00))
+* enhance contact form with improved accessibility, styling, and status indicators ([3387be7](https://github.com/raniellimontagna/ranimontagna.com/commit/3387be7fad89e21bc6bbfec9752af333e913f132))
+* enhance service card styling with improved hover effects and layout ([1157227](https://github.com/raniellimontagna/ranimontagna.com/commit/1157227224d164b2695f1348e9689b5b4f3f2fc7))
+* implement fallback cover images for blog posts with enhanced Open Graph and Twitter metadata. ([094dbd5](https://github.com/raniellimontagna/ranimontagna.com/commit/094dbd550d017c264b4713a2a59541978778aec8))
+* parallelize blog post content fetching for improved performance ([ad0ed97](https://github.com/raniellimontagna/ranimontagna.com/commit/ad0ed97fb19e1306e46fb8a2bc8643314cb3fbce))
+
 ## [1.12.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.11.0...v1.12.0) (2025-12-19)
 
 
