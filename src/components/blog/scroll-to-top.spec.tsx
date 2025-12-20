@@ -115,4 +115,3 @@ describe('ScrollToTop', () => {
     expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function))
   })
 })
-
