@@ -246,6 +246,10 @@
         "action": "Enviar mensaje"
       }
     },
+    "status": {
+      "available": "Disponible para proyectos",
+      "response": "Tiempo de respuesta: ~24h"
+    },
     "form": {
       "title": "Envía un mensaje",
       "subtitle": "Completa el formulario a continuación y te contactaré lo antes posible.",
@@ -267,8 +271,10 @@
       },
       "send": "Enviar mensaje",
       "sending": "Enviando...",
-      "success": "¡Mensaje enviado exitosamente! Te contactaré pronto.",
-      "error": "Error en el envío automático. Tu cliente de correo se abrirá como alternativa.",
+      "successTitle": "¡Mensaje enviado!",
+      "success": "Gracias por contactarme. Responderé lo antes posible.",
+      "errorTitle": "Error en el envío",
+      "error": "No se pudo enviar automáticamente. Se abrirá tu cliente de correo.",
       "validation": {
         "name": "El nombre debe tener al menos 2 caracteres",
         "email": "Email inválido",

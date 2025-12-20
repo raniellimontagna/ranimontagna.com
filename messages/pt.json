@@ -245,6 +245,10 @@
         "action": "Enviar mensagem"
       }
     },
+    "status": {
+      "available": "Disponível para projetos",
+      "response": "Tempo de resposta: ~24h"
+    },
     "form": {
       "title": "Envie uma mensagem",
       "subtitle": "Preencha o formulário abaixo e entrarei em contato o mais breve possível.",
@@ -266,8 +270,10 @@
       },
       "send": "Enviar mensagem",
       "sending": "Enviando...",
-      "success": "Mensagem enviada com sucesso! Entrarei em contato em breve.",
-      "error": "Erro no envio automático. Seu cliente de email será aberto como alternativa.",
+      "successTitle": "Mensagem enviada!",
+      "success": "Obrigado pelo contato. Responderei o mais breve possível.",
+      "errorTitle": "Erro no envio",
+      "error": "Não foi possível enviar automaticamente. Seu cliente de email será aberto.",
       "validation": {
         "name": "Nome deve ter pelo menos 2 caracteres",
         "email": "Email inválido",

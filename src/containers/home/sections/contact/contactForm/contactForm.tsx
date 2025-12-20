@@ -1,7 +1,7 @@
 'use client'
 
-import { AlertCircle, CheckCircle, Send } from 'lucide-react'
-import { Button, Input, Textarea } from '@/components/ui'
+import { AlertCircle, ArrowRight, CheckCircle, Loader2 } from 'lucide-react'
+import { Input, Textarea } from '@/components/ui'
 import { useContactForm } from './useContatoForm'
 
 export function ContactForm() {
@@ -9,8 +9,8 @@ export function ContactForm() {
     useContactForm()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" data-testid="contact-form">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" data-testid="contact-form">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Input
           label={t('name.label')}
           placeholder={t('name.placeholder')}
@@ -37,33 +37,62 @@ export function ContactForm() {
       <Textarea
         label={t('message.label')}
         placeholder={t('message.placeholder')}
-        rows={5}
+        rows={4}
         error={errors.message ? t('validation.message') : undefined}
         {...register('message')}
       />
 
-      <div>
-        <Button
-          type="submit"
-          loading={isSubmitting}
-          icon={<Send className="h-5 w-5" />}
-          className="w-full border-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-blue-700 hover:to-purple-700 hover:shadow-xl focus:ring-purple-500 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600"
-        >
-          {isSubmitting ? t('sending') : t('send')}
-        </Button>
-      </div>
+      {/* Submit Button - Professional Design */}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="group relative w-full overflow-hidden rounded-xl bg-slate-900 px-6 py-4 font-semibold text-white transition-all duration-300 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 dark:focus:ring-white"
+      >
+        {/* Hover effect */}
+        <span className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-full dark:via-slate-900/10" />
 
+        <span className="relative flex items-center justify-center gap-2">
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span>{t('sending')}</span>
+            </>
+          ) : (
+            <>
+              <span>{t('send')}</span>
+              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </>
+          )}
+        </span>
+      </button>
+
+      {/* Success Message */}
       {submitStatus === 'success' && (
-        <div className="flex items-center rounded-lg bg-green-50 p-4 text-green-700 dark:bg-green-900/20 dark:text-green-400">
-          <CheckCircle className="mr-3 h-5 w-5" />
-          <span className="text-sm">{t('success')}</span>
+        <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-800/50 dark:bg-emerald-900/20">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+            <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <div>
+            <p className="font-medium text-emerald-800 dark:text-emerald-300">
+              {t('successTitle') || 'Mensagem enviada!'}
+            </p>
+            <p className="mt-0.5 text-sm text-emerald-700 dark:text-emerald-400">{t('success')}</p>
+          </div>
         </div>
       )}
 
+      {/* Error Message */}
       {submitStatus === 'error' && (
-        <div className="flex items-center rounded-lg bg-red-50 p-4 text-red-700 dark:bg-red-900/20 dark:text-red-400">
-          <AlertCircle className="mr-3 h-5 w-5" />
-          <span className="text-sm">{t('error')}</span>
+        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+            <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+          </div>
+          <div>
+            <p className="font-medium text-red-800 dark:text-red-300">
+              {t('errorTitle') || 'Erro no envio'}
+            </p>
+            <p className="mt-0.5 text-sm text-red-700 dark:text-red-400">{t('error')}</p>
+          </div>
         </div>
       )}
     </form>
