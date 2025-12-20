@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import { PostNavigation, ReadingProgressBar } from '@/components/blog'
+import { PostNavigation, ReadingProgressBar, ScrollToTop } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
 
@@ -136,7 +136,7 @@ const components = {
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       {...props}
-      className="font-medium text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-700 hover:decoration-blue-700/50 dark:text-blue-400 dark:decoration-blue-400/30 dark:hover:text-blue-300 dark:hover:decoration-blue-300/50"
+      className="font-medium text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-700 hover:decoration-blue-700/50 dark:text-blue-400 dark:decoration-blue-400/30 dark:hover:text-blue-300 dark:hover:decoration-blue-300/50 wrap-break-word [word-break:break-word]"
       target={props.href?.startsWith('http') ? '_blank' : undefined}
       rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     />
@@ -198,14 +198,15 @@ export default async function PostPage(props: {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen overflow-x-hidden bg-white dark:bg-slate-950">
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ReadingProgressBar />
-      <article className="container mx-auto max-w-3xl px-4 py-24">
+      <ScrollToTop />
+      <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 py-24">
         <div className="mb-8">
           <Breadcrumbs
             items={[
@@ -216,11 +217,11 @@ export default async function PostPage(props: {
         </div>
 
         <header className="mb-12">
-          <div className="mb-4 flex items-center gap-4">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <time className="text-sm text-slate-500 dark:text-slate-400">
               {dayjs(post.metadata.date).format('MMMM DD, YYYY')}
             </time>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {post.metadata.tags?.map((tag) => (
                 <span
                   key={tag}
@@ -252,7 +253,7 @@ export default async function PostPage(props: {
           )}
         </header>
 
-        <div className="prose prose-slate mt-12 mb-20 max-w-none dark:prose-invert">
+        <div className="prose prose-slate mt-12 mb-20 max-w-none overflow-x-hidden dark:prose-invert">
           <MDXRemote
             source={post.content}
             components={components}
