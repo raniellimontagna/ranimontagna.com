@@ -5,6 +5,9 @@ interface PersonJsonLd {
   '@context': string
   '@type': string
   name: string
+  givenName: string
+  familyName: string
+  alternateName: string[]
   jobTitle: string
   url: string
   image: string
@@ -13,9 +16,17 @@ interface PersonJsonLd {
     '@type': string
     name: string
   }
+  alumniOf: {
+    '@type': string
+    name: string
+  }
   knowsAbout: string[]
   email: string
   description: string
+  nationality: {
+    '@type': string
+    name: string
+  }
 }
 
 interface WebsiteJsonLd {
@@ -48,27 +59,45 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Ranielli Montagna',
+    givenName: 'Ranielli',
+    familyName: 'Montagna',
+    alternateName: ['Rani Montagna', 'Ranni Montagna'],
     jobTitle: jobTitles[locale as keyof typeof jobTitles] || jobTitles.en,
     url: BASE_URL,
     image: `${BASE_URL}/photo.webp`,
-    sameAs: ['https://github.com/RanielliMontagna', 'https://linkedin.com/in/rannimontagna'],
+    sameAs: [
+      'https://github.com/RanielliMontagna',
+      'https://linkedin.com/in/rannimontagna',
+      'https://twitter.com/rannimontagna',
+    ],
     worksFor: {
       '@type': 'Organization',
-      name: 'Freelancer',
+      name: 'Luizalabs - Magazine Luiza',
+    },
+    alumniOf: {
+      '@type': 'Organization',
+      name: 'Smarten',
     },
     knowsAbout: [
       'React',
+      'React Native',
       'Node.js',
       'TypeScript',
       'JavaScript',
+      'Next.js',
       'UI/UX Design',
       'Full Stack Development',
       'Frontend Development',
       'Backend Development',
       'Web Development',
+      'Mobile Development',
     ],
     email: socialLinks.email.direct,
     description: descriptions[locale as keyof typeof descriptions] || descriptions.en,
+    nationality: {
+      '@type': 'Country',
+      name: 'Brazil',
+    },
   }
 }
 
