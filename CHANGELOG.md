@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.14.0...v1.15.0) (2025-12-27)
+
+
+### Features
+
+* expand PersonJsonLd interface with additional properties for enhanced schema support ([34f30f2](https://github.com/raniellimontagna/ranimontagna.com/commit/34f30f285a14e04649d571234b1747fa98dd1b52))
+
 ## [1.14.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.13.0...v1.14.0) (2025-12-27)
 
 
