@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.13.0...v1.14.0) (2025-12-27)
+
+
+### Features
+
+* add seo redirection documentation, standardize BASE_URL usage across the project ([2b9f76c](https://github.com/raniellimontagna/ranimontagna.com/commit/2b9f76c291d7eef67328c6c8a041efb5fbf87b3b))
+* add URL redirection for blog to default locale (pt) for improved SEO ([a37d587](https://github.com/raniellimontagna/ranimontagna.com/commit/a37d5872ea07414a15854846834b89823998a0c1))
+
 ## [1.13.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.12.0...v1.13.0) (2025-12-20)
 
 
