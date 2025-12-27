@@ -5,6 +5,21 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion', 'motion'],
   },
+  // Redirect URLs without locale to default locale (pt) with 301 permanent
+  redirects: async () => {
+    return [
+      {
+        source: '/blog',
+        destination: '/pt/blog',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/pt/blog/:slug',
+        permanent: true,
+      },
+    ]
+  },
   images: {
     qualities: [50, 75, 100],
     formats: ['image/webp', 'image/avif'],
