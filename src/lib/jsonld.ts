@@ -1,4 +1,5 @@
 import { socialLinks } from '@/constants/socialLinks'
+import { BASE_URL } from './constants'
 
 interface PersonJsonLd {
   '@context': string
@@ -48,8 +49,8 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     '@type': 'Person',
     name: 'Ranielli Montagna',
     jobTitle: jobTitles[locale as keyof typeof jobTitles] || jobTitles.en,
-    url: 'https://ranimontagna.com',
-    image: 'https://ranimontagna.com/photo.webp',
+    url: BASE_URL,
+    image: `${BASE_URL}/photo.webp`,
     sameAs: ['https://github.com/RanielliMontagna', 'https://linkedin.com/in/rannimontagna'],
     worksFor: {
       '@type': 'Organization',
@@ -82,7 +83,7 @@ export function generateWebsiteJsonLd(locale: string): WebsiteJsonLd {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Ranielli Montagna Portfolio',
-    url: 'https://ranimontagna.com',
+    url: BASE_URL,
     description: descriptions[locale as keyof typeof descriptions] || descriptions.en,
     author: {
       '@type': 'Person',

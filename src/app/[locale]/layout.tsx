@@ -6,6 +6,7 @@ import './globals.css'
 
 import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/components'
 import { routing } from '@/i18n/routing'
+import { BASE_URL } from '@/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/lib/seo'
 
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalUrl = getCanonicalUrl(locale)
 
   return {
-    metadataBase: new URL('https://ranimontagna.com'),
+    metadataBase: new URL(BASE_URL),
     title: seo.title,
     description: seo.description,
     keywords: seo.keywords,
@@ -50,13 +51,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: 'website',
       locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
-      url: `https://ranimontagna.com/${locale}`,
+      url: `${BASE_URL}/${locale}`,
       title: seo.ogTitle,
       description: seo.ogDescription,
       siteName: 'Ranielli Montagna Portfolio',
       images: [
         {
-          url: 'https://ranimontagna.com/og-image.png',
+          url: `${BASE_URL}/og-image.png`,
           width: 1200,
           height: 630,
           alt: seo.ogTitle,
@@ -68,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: seo.twitterTitle,
       description: seo.twitterDescription,
       creator: '@rannimontagna',
-      images: ['https://ranimontagna.com/og-image.png'],
+      images: [`${BASE_URL}/og-image.png`],
     },
     robots: {
       index: true,

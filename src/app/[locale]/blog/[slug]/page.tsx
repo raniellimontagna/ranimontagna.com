@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm'
 import { PostNavigation, ReadingProgressBar, ScrollToTop } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
+import { BASE_URL } from '@/lib/constants'
 
 // Generate static params for all posts in all locales
 export async function generateStaticParams() {
@@ -32,8 +33,7 @@ export async function generateMetadata({
   const { slug, locale } = await params
   const post = await getPostBySlug(slug, locale)
 
-  const baseUrl = 'https://ranimontagna.com'
-  const url = `${baseUrl}/${locale}/blog/${slug}`
+  const url = `${BASE_URL}/${locale}/blog/${slug}`
 
   // Fallback image when no coverImage is set
   const defaultOgImage =
@@ -74,9 +74,9 @@ export async function generateMetadata({
     alternates: {
       canonical: url,
       languages: {
-        pt: `${baseUrl}/pt/blog/${slug}`,
-        en: `${baseUrl}/en/blog/${slug}`,
-        es: `${baseUrl}/es/blog/${slug}`,
+        pt: `${BASE_URL}/pt/blog/${slug}`,
+        en: `${BASE_URL}/en/blog/${slug}`,
+        es: `${BASE_URL}/es/blog/${slug}`,
       },
     },
   }
@@ -166,8 +166,7 @@ export default async function PostPage(props: {
   const post = await getPostBySlug(params.slug, params.locale)
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
-  const baseUrl = 'https://ranimontagna.com'
-  const url = `${baseUrl}/${params.locale}/blog/${params.slug}`
+  const url = `${BASE_URL}/${params.locale}/blog/${params.slug}`
 
   // JSON-LD structured data for SEO
   const jsonLd = {
@@ -180,12 +179,12 @@ export default async function PostPage(props: {
     author: {
       '@type': 'Person',
       name: 'Ranielli Montagna',
-      url: 'https://ranimontagna.com',
+      url: BASE_URL,
     },
     publisher: {
       '@type': 'Person',
       name: 'Ranielli Montagna',
-      url: 'https://ranimontagna.com',
+      url: BASE_URL,
     },
     url,
     mainEntityOfPage: {
@@ -240,14 +239,14 @@ export default async function PostPage(props: {
           </p>
           {post.metadata.coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
-              <div className="relative aspect-[21/9] sm:aspect-[2/1] w-full">
+              <div className="relative aspect-21/9 sm:aspect-2/1 w-full">
                 {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
                 <img
                   src={post.metadata.coverImage}
                   alt={post.metadata.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent dark:from-slate-950/30" />
+                <div className="absolute inset-0 bg-linear-to-t from-white/20 to-transparent dark:from-slate-950/30" />
               </div>
             </div>
           )}

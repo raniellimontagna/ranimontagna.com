@@ -2,14 +2,14 @@ import { getTranslations } from 'next-intl/server'
 import { FeaturedPost, PostCard } from '@/components/blog'
 import { Breadcrumbs } from '@/components/ui'
 import { getAllPosts } from '@/lib/blog'
+import { BASE_URL } from '@/lib/constants'
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('blog')
 
-  const baseUrl = 'https://ranimontagna.com'
-  const url = `${baseUrl}/${locale}/blog`
+  const url = `${BASE_URL}/${locale}/blog`
 
   return {
     title: t('title'),
@@ -31,9 +31,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     alternates: {
       canonical: url,
       languages: {
-        pt: `${baseUrl}/pt/blog`,
-        en: `${baseUrl}/en/blog`,
-        es: `${baseUrl}/es/blog`,
+        pt: `${BASE_URL}/pt/blog`,
+        en: `${BASE_URL}/en/blog`,
+        es: `${BASE_URL}/es/blog`,
       },
     },
   }
@@ -54,7 +54,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
         </div>
 
         <header className="mb-16 max-w-3xl">
-          <h1 className="mb-6 bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl dark:from-white dark:to-slate-400">
+          <h1 className="mb-6 bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl dark:from-white dark:to-slate-400">
             {t('title')}
           </h1>
           <p className="text-xl leading-relaxed text-slate-600 dark:text-slate-400">

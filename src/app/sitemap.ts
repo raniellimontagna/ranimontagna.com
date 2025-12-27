@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { locales } from '@/i18n/routing'
 import { getAllPosts } from '@/lib/blog'
+import { BASE_URL } from '@/lib/constants'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://ranimontagna.com'
+  const baseUrl = BASE_URL
   const languages = locales.map((loc) => loc.code)
 
   const localizedRoutes = languages.flatMap((lang) => [

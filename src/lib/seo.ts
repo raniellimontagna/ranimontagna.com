@@ -1,4 +1,5 @@
 import { routing } from '@/i18n/routing'
+import { BASE_URL } from './constants'
 
 export interface SEOData {
   title: string
@@ -61,16 +62,16 @@ export function getAlternateLanguages() {
     (acc, lang) => {
       // Default locale points to root
       if (lang === routing.defaultLocale) {
-        acc[lang] = 'https://ranimontagna.com'
+        acc[lang] = BASE_URL
       } else {
-        acc[lang] = `https://ranimontagna.com/${lang}`
+        acc[lang] = `${BASE_URL}/${lang}`
       }
       return acc
     },
     {} as Record<string, string>,
   )
 
-  alternates['x-default'] = 'https://ranimontagna.com'
+  alternates['x-default'] = BASE_URL
 
   return alternates
 }
@@ -78,7 +79,7 @@ export function getAlternateLanguages() {
 export function getCanonicalUrl(locale: string): string {
   // Default locale points to root domain
   if (locale === routing.defaultLocale) {
-    return 'https://ranimontagna.com'
+    return BASE_URL
   }
-  return `https://ranimontagna.com/${locale}`
+  return `${BASE_URL}/${locale}`
 }
