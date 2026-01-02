@@ -3,7 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion', 'motion'],
+    optimizePackageImports: ['@solar-icons/react', 'framer-motion', 'motion'],
   },
   // Redirect URLs without locale to default locale (pt) with 301 permanent
   redirects: async () => {

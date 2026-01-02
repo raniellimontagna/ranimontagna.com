@@ -2,30 +2,30 @@
 
 import {
   Code2,
-  Container,
+  Box,
   Database,
   Figma,
-  GitBranch,
-  Globe,
-  Layout,
+  Global,
+  Widget,
   Palette,
   Server,
   Smartphone,
-} from 'lucide-react'
+  BranchingPathsUp,
+} from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { InfiniteMarquee } from '@/components/ui/infinite-marquee'
 
 const skills = [
-  { name: 'React', icon: Globe, category: 'Frontend' },
-  { name: 'Next.js', icon: Layout, category: 'Fullstack' },
+  { name: 'React', icon: Global, category: 'Frontend' },
+  { name: 'Next.js', icon: Widget, category: 'Fullstack' },
   { name: 'TypeScript', icon: Code2, category: 'Language' },
   { name: 'Node.js', icon: Server, category: 'Backend' },
   { name: 'Tailwind CSS', icon: Palette, category: 'Styling' },
   { name: 'React Native', icon: Smartphone, category: 'Mobile' },
   { name: 'PostgreSQL', icon: Database, category: 'Database' },
   { name: 'Figma', icon: Figma, category: 'UX/Design' },
-  { name: 'Docker', icon: Container, category: 'DevOps' },
-  { name: 'Git', icon: GitBranch, category: 'Version Control' },
+  { name: 'Docker', icon: Box, category: 'DevOps' },
+  { name: 'Git', icon: BranchingPathsUp, category: 'Version Control' },
 ]
 
 export function Skills() {

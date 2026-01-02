@@ -1,6 +1,6 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
+import { Restart } from '@solar-icons/react/ssr'
 import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -54,7 +54,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <Restart className="mr-2 h-5 w-5 animate-spin" />
         ) : icon ? (
           <span className="mr-2">{icon}</span>
         ) : null}

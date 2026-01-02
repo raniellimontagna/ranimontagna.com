@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Globe } from 'lucide-react'
+import { CheckCircle, Global } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useLocale } from 'next-intl'
@@ -97,7 +97,7 @@ export function LanguageSwitcher() {
           >
             {/* Header */}
             <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-800/50">
-              <Globe className="h-4 w-4 text-slate-400" />
+              <Global className="h-4 w-4 text-slate-400" />
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Select Language
               </span>
@@ -160,7 +160,7 @@ export function LanguageSwitcher() {
                     {/* Check com animação */}
                     {isSelected && (
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 dark:bg-slate-900/20">
-                        <Check className="h-3 w-3" strokeWidth={3} />
+                        <CheckCircle className="h-3 w-3" />
                       </div>
                     )}
 

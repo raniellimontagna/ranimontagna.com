@@ -1,10 +1,10 @@
-import { Bot, Database, Globe, Smartphone } from 'lucide-react'
+import { Cpu, Database, Global, Smartphone } from '@solar-icons/react/ssr'
 import type { ServiceType } from './services.types'
 
 export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features'>[] = [
   {
     id: 'web-development',
-    icon: Globe,
+    icon: Global,
     category: 'web',
     popular: true,
   },
@@ -15,7 +15,7 @@ export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features
   },
   {
     id: 'ai-integration',
-    icon: Bot,
+    icon: Cpu,
     category: 'ai',
     popular: true,
   },

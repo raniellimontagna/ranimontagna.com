@@ -1,5 +1,5 @@
-import type { LucideIcon } from 'lucide-react'
-import { ArrowRight, Check, Sparkles } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
+import { ArrowRight, CheckCircle, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 
@@ -7,7 +7,7 @@ interface ServiceCardProps {
   title: string
   description: string
   features: string[]
-  icon: LucideIcon
+  icon: ComponentType<SVGProps<SVGSVGElement>>
   className?: string
   popular?: boolean
 }
@@ -39,7 +39,7 @@ export function ServiceCard({
       {popular && (
         <div className="absolute -top-3 right-6 z-10">
           <div className="flex items-center gap-1.5 rounded-full bg-linear-to-r from-blue-600 to-blue-500 px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-blue-500/30">
-            <Sparkles className="h-3 w-3" />
+            <StarFall className="h-3 w-3" />
             {t('popularBadge')}
           </div>
         </div>
@@ -78,7 +78,7 @@ export function ServiceCard({
               className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300"
             >
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                <Check className="h-3 w-3" strokeWidth={3} />
+                <CheckCircle className="h-3 w-3" />
               </span>
               <span className="leading-tight">{feature}</span>
             </li>

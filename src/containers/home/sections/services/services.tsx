@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 import { ServiceCard } from '@/components/ui/service-card'
@@ -38,7 +38,7 @@ export function Services() {
         <div className="mb-16 text-center lg:mb-20">
           <FadeIn delay={0.2}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-300">
-              <Sparkles className="h-4 w-4" />
+              <StarFall className="h-4 w-4" />
               {t('badge')}
             </div>
           </FadeIn>
@@ -85,7 +85,7 @@ export function Services() {
 
               <div className="relative z-10 text-center">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-300">
-                  <Sparkles className="h-3 w-3" />
+                  <StarFall className="h-3 w-3" />
                   {t('cta.badge')}
                 </div>
 

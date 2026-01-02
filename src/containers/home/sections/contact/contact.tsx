@@ -1,6 +1,6 @@
 'use client'
 
-import { Code2, ExternalLink, Terminal } from 'lucide-react'
+import { Code2, SquareArrowRightUp, Monitor } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 
@@ -101,7 +101,7 @@ export function Contact() {
                   <div className="h-3 w-3 rounded-full bg-green-500" />
                 </div>
                 <div className="ml-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <Terminal className="h-3.5 w-3.5" />
+                  <Monitor className="h-3.5 w-3.5" />
                   <span className="font-mono">contact-form.tsx</span>
                 </div>
               </div>
@@ -172,7 +172,7 @@ export function Contact() {
                                 /api/contact/{method.title.toLowerCase().replace(/\s/g, '-')}
                               </span>
                             </div>
-                            <ExternalLink className="h-3.5 w-3.5 text-slate-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                            <SquareArrowRightUp className="h-3.5 w-3.5 text-slate-400 opacity-0 transition-opacity group-hover:opacity-100" />
                           </div>
 
                           {/* Content */}

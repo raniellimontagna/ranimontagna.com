@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertCircle } from 'lucide-react'
+import { DangerCircle } from '@solar-icons/react/ssr'
 import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes, useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -84,7 +84,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {/* Error message */}
         {error && (
           <div className="mt-2 flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400">
-            <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+            <DangerCircle className="h-3.5 w-3.5 shrink-0" />
             <span>{error}</span>
           </div>
         )}
@@ -161,7 +161,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {/* Error message */}
         {error && (
           <div className="mt-2 flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400">
-            <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+            <DangerCircle className="h-3.5 w-3.5 shrink-0" />
             <span>{error}</span>
           </div>
         )}

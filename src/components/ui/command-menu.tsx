@@ -4,17 +4,16 @@ import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import { Command } from 'cmdk'
 import {
-  BookOpen,
+  BookMinimalistic,
   Code,
-  Github,
   Laptop,
-  Linkedin,
-  Mail,
+  Letter,
+  Magnifer,
   Moon,
-  Search,
   Sun,
   User,
-} from 'lucide-react'
+} from '@solar-icons/react/ssr'
+import { GithubIcon, LinkedinIcon } from '@/components/icons/brands'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
@@ -87,7 +86,7 @@ export function CommandMenu() {
             label="Global Command Menu"
           >
             <div className="flex items-center border-b border-slate-200 px-3 dark:border-slate-800">
-              <Search className="mr-2 h-5 w-5 text-slate-400" />
+              <Magnifer className="mr-2 h-5 w-5 text-slate-400" />
               <Command.Input
                 placeholder={t('placeholder')}
                 className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-slate-400 dark:text-slate-100"
@@ -130,14 +129,14 @@ export function CommandMenu() {
                   onSelect={() => navigateTo('#contact')}
                   className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
                 >
-                  <Mail className="mr-2 h-4 w-4" />
+                  <Letter className="mr-2 h-4 w-4" />
                   {t('contact')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('/blog')}
                   className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
                 >
-                  <BookOpen className="mr-2 h-4 w-4" />
+                  <BookMinimalistic className="mr-2 h-4 w-4" />
                   {t('blog')}
                 </Command.Item>
               </Command.Group>
@@ -170,14 +169,14 @@ export function CommandMenu() {
                   onSelect={() => navigateTo('https://github.com/raniellimontagna')}
                   className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
                 >
-                  <Github className="mr-2 h-4 w-4" />
+                  <GithubIcon className="mr-2 h-4 w-4" />
                   GitHub
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('https://linkedin.com/in/raniellimontagna')}
                   className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
                 >
-                  <Linkedin className="mr-2 h-4 w-4" />
+                  <LinkedinIcon className="mr-2 h-4 w-4" />
                   LinkedIn
                 </Command.Item>
               </Command.Group>

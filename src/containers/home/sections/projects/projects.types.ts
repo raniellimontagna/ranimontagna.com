@@ -1,4 +1,4 @@
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
 
 export type ProjectType = {
   id: number
@@ -22,5 +22,5 @@ export type ProjectCardProps = {
 export type FilterType = {
   id: string
   label: string
-  icon: LucideIcon
+  icon: ComponentType<SVGProps<SVGSVGElement>>
 }

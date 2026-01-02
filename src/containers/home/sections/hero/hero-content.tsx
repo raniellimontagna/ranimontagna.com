@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown } from '@solar-icons/react/ssr'
 
 export function ScrollIndicator() {
   const handleScroll = () => {

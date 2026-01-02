@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertCircle, ArrowRight, CheckCircle, Loader2 } from 'lucide-react'
+import { DangerCircle, ArrowRight, CheckCircle, Restart } from '@solar-icons/react/ssr'
 import { Input, Textarea } from '@/components/ui'
 import { useContactForm } from './useContatoForm'
 
@@ -54,7 +54,7 @@ export function ContactForm() {
         <span className="relative flex items-center justify-center gap-2">
           {isSubmitting ? (
             <>
-              <Loader2 className="h-5 w-5 animate-spin" />
+              <Restart className="h-5 w-5 animate-spin" />
               <span>{t('sending')}</span>
             </>
           ) : (
@@ -85,7 +85,7 @@ export function ContactForm() {
       {submitStatus === 'error' && (
         <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
-            <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+            <DangerCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
           </div>
           <div>
             <p className="font-medium text-red-800 dark:text-red-300">

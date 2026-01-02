@@ -1,6 +1,6 @@
 'use client'
 
-import { Building2, Calendar, MapPin } from 'lucide-react'
+import { Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
@@ -22,7 +22,7 @@ export function Experience() {
         <div className="mb-12 text-center lg:mb-16">
           <FadeIn delay={0.2}>
             <div className="mb-6 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 font-mono text-sm font-semibold text-blue-700 dark:border-blue-900 dark:bg-blue-900/30 dark:text-blue-300">
-              <Building2 className="mr-2 h-4 w-4" />
+              <Buildings className="mr-2 h-4 w-4" />
               {t('badge')}
             </div>
           </FadeIn>
@@ -107,7 +107,7 @@ export function Experience() {
                             <div
                               className={`mt-1 flex items-center gap-1 text-xs text-slate-400 ${index % 2 === 0 ? 'md:justify-end' : ''}`}
                             >
-                              <MapPin className="h-3 w-3" />
+                              <MapPoint className="h-3 w-3" />
                               {exp.location}
                             </div>
                           </div>

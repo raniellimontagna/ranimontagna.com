@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft, ArrowRight, Briefcase, FileText, Mail, User } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Suitcase, Document, Letter, User } from '@solar-icons/react/ssr'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
@@ -69,7 +69,7 @@ export default function NotFoundPage() {
                 href="#contact"
                 className="group inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-base font-medium text-slate-700 shadow-sm transition-all hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
               >
-                <Mail className="mr-2 h-4 w-4" />
+                <Letter className="mr-2 h-4 w-4" />
                 {t('contact')}
               </Link>
             </div>
@@ -102,7 +102,7 @@ export default function NotFoundPage() {
                 {
                   key: 'projects',
                   href: '/#projects',
-                  icon: Briefcase,
+                  icon: Suitcase,
                   color: 'text-purple-500',
                   bg: 'bg-purple-500/10 dark:bg-purple-500/20',
                   borderColor: 'group-hover:border-purple-500/50',
@@ -111,7 +111,7 @@ export default function NotFoundPage() {
                 {
                   key: 'blog',
                   href: '/blog',
-                  icon: FileText,
+                  icon: Document,
                   color: 'text-pink-500',
                   bg: 'bg-pink-500/10 dark:bg-pink-500/20',
                   borderColor: 'group-hover:border-pink-500/50',
@@ -120,7 +120,7 @@ export default function NotFoundPage() {
                 {
                   key: 'contact',
                   href: '/#contact',
-                  icon: Mail,
+                  icon: Letter,
                   color: 'text-green-500',
                   bg: 'bg-green-500/10 dark:bg-green-500/20',
                   borderColor: 'group-hover:border-green-500/50',

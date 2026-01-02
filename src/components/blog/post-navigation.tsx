@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from '@solar-icons/react/ssr'
 import Link from 'next/link'
 
 interface PostLink {

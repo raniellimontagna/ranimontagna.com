@@ -1,6 +1,6 @@
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { useTheme } from '@/store/useTheme/useTheme'
 

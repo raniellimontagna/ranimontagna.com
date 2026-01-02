@@ -1,6 +1,6 @@
 'use client'
 
-import { Download, MessageCircle, User } from 'lucide-react'
+import { Download, ChatRound, User } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { FadeIn } from '@/components/animations'
@@ -87,7 +87,7 @@ export function About() {
                   href="#contact"
                   className="group inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-8 py-3.5 text-base font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:ring-4 hover:ring-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:bg-slate-800 dark:hover:ring-slate-800"
                 >
-                  <MessageCircle className="mr-2 h-5 w-5 transition-transform group-hover:-translate-y-0.5" />
+                  <ChatRound className="mr-2 h-5 w-5 transition-transform group-hover:-translate-y-0.5" />
                   {t('cta.contact')}
                 </a>
               </div>

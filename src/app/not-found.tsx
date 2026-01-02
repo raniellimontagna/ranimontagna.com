@@ -1,6 +1,6 @@
 'use client'
 
-import { Home } from 'lucide-react'
+import { Home } from '@solar-icons/react/ssr'
 import Link from 'next/link'
 
 export default function NotFound() {

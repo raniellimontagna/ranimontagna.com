@@ -1,6 +1,7 @@
 'use client'
 
-import { Code, ExternalLink, Github, Globe, Smartphone } from 'lucide-react'
+import { Code, SquareArrowRightUp, Global, Smartphone } from '@solar-icons/react/ssr'
+import { GithubIcon } from '@/components/icons/brands'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
@@ -57,7 +58,7 @@ export function Projects() {
 
   const filters: FilterType[] = [
     { id: 'all', label: t('filters.all'), icon: Code },
-    { id: 'web', label: t('filters.web'), icon: Globe },
+    { id: 'web', label: t('filters.web'), icon: Global },
     { id: 'mobile', label: t('filters.mobile'), icon: Smartphone },
     { id: 'api', label: t('filters.api'), icon: Code },
   ]
@@ -210,9 +211,9 @@ export function Projects() {
                           rel="noopener noreferrer"
                           className="group inline-flex items-center text-green-600 hover:text-green-700 hover:underline decoration-dashed transition-colors dark:text-green-400 dark:hover:text-green-300"
                         >
-                          <Github className="mr-2 h-4 w-4" />
+                          <GithubIcon className="mr-2 h-4 w-4" />
                           <span>{t('cta.button')}</span>
-                          <ExternalLink className="ml-2 h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
+                          <SquareArrowRightUp className="ml-2 h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
                         </a>
                       </div>
                     </div>

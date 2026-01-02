@@ -1,12 +1,13 @@
 'use client'
 
-import { Code, ExternalLink, Github, Globe, Smartphone } from 'lucide-react'
+import { Code, SquareArrowRightUp, Global, Smartphone } from '@solar-icons/react/ssr'
+import { GithubIcon } from '@/components/icons/brands'
 import Image from 'next/image'
 import type { ProjectCardProps } from './projects.types'
 
 export function ProjectCard({ project, animationDelay, priority = false }: ProjectCardProps) {
   const Icon = {
-    web: Globe,
+    web: Global,
     mobile: Smartphone,
     api: Code,
   }[project.type]
@@ -48,7 +49,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                   : 'border-purple-200/50 bg-purple-50/90 text-purple-700 dark:border-purple-900/50 dark:bg-purple-900/80 dark:text-purple-300'
             }`}
           >
-            {project.type === 'web' && <Globe className="mr-1.5 h-3 w-3" />}
+            {project.type === 'web' && <Global className="mr-1.5 h-3 w-3" />}
             {project.type === 'mobile' && <Smartphone className="mr-1.5 h-3 w-3" />}
             {project.type === 'api' && <Code className="mr-1.5 h-3 w-3" />}
             {project.type.charAt(0).toUpperCase() + project.type.slice(1)}
@@ -71,7 +72,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                 aria-label={`${project.title} GitHub repository`}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-all hover:border-blue-500 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
               >
-                <Github className="h-4 w-4" />
+                <GithubIcon className="h-4 w-4" />
               </a>
             )}
             {project.demo && (
@@ -82,7 +83,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                 aria-label={`${project.title} live demo`}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-all hover:border-blue-500 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
               >
-                <ExternalLink className="h-4 w-4" />
+                <SquareArrowRightUp className="h-4 w-4" />
               </a>
             )}
           </div>

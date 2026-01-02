@@ -1,4 +1,4 @@
-import { ChevronRight, Home } from 'lucide-react'
+import { AltArrowRight, Home } from '@solar-icons/react/ssr'
 import Link from 'next/link'
 
 interface BreadcrumbItem {
@@ -25,7 +25,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         </li>
         {items.map((item) => (
           <li key={item.label} className="flex items-center">
-            <ChevronRight className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <AltArrowRight className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             {item.href ? (
               <Link
                 href={item.href}

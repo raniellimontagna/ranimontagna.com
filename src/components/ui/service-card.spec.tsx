@@ -1,4 +1,4 @@
-import { Code } from 'lucide-react'
+import { Code } from '@solar-icons/react/ssr'
 import { render, screen } from '@/tests/functions'
 import { ServiceCard } from './service-card'
 

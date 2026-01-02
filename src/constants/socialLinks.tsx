@@ -1,26 +1,38 @@
-import { Github, Linkedin, type LucideProps, Mail, Phone } from 'lucide-react'
-import type { ForwardRefExoticComponent, RefAttributes } from 'react'
+import { Phone } from '@solar-icons/react/ssr'
+import type { ComponentType, SVGProps } from 'react'
+import { GithubIcon, LinkedinIcon } from '@/components/icons/brands'
+
+// Create a custom mail icon
+function MailIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  )
+}
 
 export interface SocialLink {
   name: string
   href: string
-  icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>
+  icon: ComponentType<SVGProps<SVGSVGElement>>
   external: boolean
   ariaLabel?: string
+  direct?: string
 }
 
 export const socialLinks = {
   github: {
     name: 'GitHub',
     href: 'https://github.com/RanielliMontagna',
-    icon: Github,
+    icon: GithubIcon,
     external: true,
     ariaLabel: 'GitHub Profile - Ranielli Montagna',
   },
   linkedin: {
     name: 'LinkedIn',
     href: 'https://linkedin.com/in/rannimontagna',
-    icon: Linkedin,
+    icon: LinkedinIcon,
     external: true,
     ariaLabel: 'LinkedIn Profile - Ranielli Montagna',
   },
@@ -28,7 +40,7 @@ export const socialLinks = {
     name: 'Email',
     direct: 'raniellimontagna@hotmail.com',
     href: 'mailto:raniellimontagna@hotmail.com',
-    icon: Mail,
+    icon: MailIcon,
     external: false,
     ariaLabel: 'Send email to Ranielli Montagna',
   },

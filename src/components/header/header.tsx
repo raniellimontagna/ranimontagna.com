@@ -1,6 +1,6 @@
 'use client'
 
-import { Command, Download, Menu, X } from 'lucide-react'
+import { Download, HamburgerMenu, CloseCircle, SquareAltArrowUp } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -136,7 +136,7 @@ export function Header() {
               onClick={() => openCommandMenu(true)}
               className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-500 transition-all hover:border-slate-300 hover:text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-300"
             >
-              <Command className="h-3.5 w-3.5" />
+              <SquareAltArrowUp className="h-3.5 w-3.5" />
               <span className="font-mono text-xs">⌘K</span>
             </button>
             <div className="flex items-center space-x-2 border-r border-slate-200 pr-4 dark:border-slate-800">
@@ -164,10 +164,10 @@ export function Header() {
               className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
               aria-label={t('mobileMenu.toggleAriaLabel')}
             >
-              <Menu
+              <HamburgerMenu
                 className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
               />
-              <X
+              <CloseCircle
                 className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
               />
             </button>

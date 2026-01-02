@@ -1,4 +1,4 @@
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown } from '@solar-icons/react/ssr'
 import { getTranslations } from 'next-intl/server'
 import { TerminalWindow } from '@/components/ui/terminal-window'
 import { ScrollIndicator } from './hero-content'

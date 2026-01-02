@@ -1,8 +1,8 @@
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
 
 export interface ServiceType {
   id: string
-  icon: LucideIcon
+  icon: ComponentType<SVGProps<SVGSVGElement>>
   title: string
   description: string
   features: string[]

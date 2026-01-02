@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowUp } from 'lucide-react'
+import { ArrowUp } from '@solar-icons/react/ssr'
 import { useEffect, useState } from 'react'
 
 interface ScrollToTopProps {
