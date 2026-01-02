@@ -2,7 +2,6 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
-import { Command } from 'cmdk'
 import {
   BookMinimalistic,
   Code,
@@ -13,10 +12,11 @@ import {
   Sun,
   User,
 } from '@solar-icons/react/ssr'
-import { GithubIcon, LinkedinIcon } from '@/components/icons/brands'
+import { Command } from 'cmdk'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
+import { GithubIcon, LinkedinIcon } from '@/components/icons/brands'
 import { useCommandMenu } from '@/store/useCommandMenu/useCommandMenu'
 import { useTheme } from '@/store/useTheme/useTheme'
 

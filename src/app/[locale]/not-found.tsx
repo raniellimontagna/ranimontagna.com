@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft, ArrowRight, Suitcase, Document, Letter, User } from '@solar-icons/react/ssr'
+import { ArrowLeft, ArrowRight, Document, Letter, Suitcase, User } from '@solar-icons/react/ssr'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'

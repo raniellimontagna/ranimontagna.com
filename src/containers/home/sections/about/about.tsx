@@ -1,6 +1,6 @@
 'use client'
 
-import { Download, ChatRound, User } from '@solar-icons/react/ssr'
+import { ChatRound, Download, User } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { FadeIn } from '@/components/animations'

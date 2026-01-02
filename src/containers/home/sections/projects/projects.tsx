@@ -1,10 +1,11 @@
 'use client'
 
-import { Code, SquareArrowRightUp, Global, Smartphone } from '@solar-icons/react/ssr'
-import { GithubIcon } from '@/components/icons/brands'
+import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import { AnimatePresence, motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
+import { FadeIn } from '@/components/animations'
+import { GithubIcon } from '@/components/icons/brands'
 import { TerminalWindow } from '@/components/ui/terminal-window'
 import { getGitHubUrl } from '@/constants/socialLinks'
 import { ProjectCard } from './project-card'
@@ -65,7 +66,6 @@ export function Projects() {
 
   const filteredProjects =
     activeFilter === 'all' ? projects : projects.filter((project) => project.type === activeFilter)
-  const featuredProjects = projects.filter((project) => project.featured)
 
   return (
     <section
@@ -102,27 +102,6 @@ export function Projects() {
         </div>
 
         <FadeIn delay={0.8}>
-          <div className="mb-16">
-            <h3 className="mb-8 text-center text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
-              {t('featuredTitle')}
-            </h3>
-            <StaggerContainer staggerDelay={0.15}>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {featuredProjects.map((project) => (
-                  <StaggerItem key={project.id}>
-                    <ProjectCard
-                      project={project}
-                      animationDelay="0ms"
-                      priority={featuredProjects.indexOf(project) < 3}
-                    />
-                  </StaggerItem>
-                ))}
-              </div>
-            </StaggerContainer>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={1.0}>
           <div className="mb-12 flex justify-center">
             <div className="flex flex-wrap justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-800 dark:bg-slate-900/50">
               {filters.map((filter) => (
@@ -147,15 +126,22 @@ export function Projects() {
           </div>
         </FadeIn>
 
-        <StaggerContainer staggerDelay={0.1}>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div layout className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
-              <StaggerItem key={project.id}>
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+              >
                 <ProjectCard project={project} animationDelay="0ms" />
-              </StaggerItem>
+              </motion.div>
             ))}
-          </div>
-        </StaggerContainer>
+          </AnimatePresence>
+        </motion.div>
 
         <FadeIn delay={1.4}>
           <div className="mt-16 lg:mt-24">

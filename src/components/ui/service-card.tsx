@@ -1,6 +1,6 @@
-import type { ComponentType, SVGProps } from 'react'
 import { ArrowRight, CheckCircle, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
+import type { ComponentType, SVGProps } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ServiceCardProps {

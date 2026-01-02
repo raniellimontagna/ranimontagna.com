@@ -173,6 +173,10 @@
       "mobile": "Móvil",
       "api": "API"
     },
+    "card": {
+      "featuredBadge": "Destacado",
+      "moreCount": "+{count} más"
+    },
     "cta": {
       "text": "¿Quieres ver más proyectos? ¡Explora mi repositorio de GitHub con más de 100 proyectos open source!",
       "button": "Explorar en GitHub",

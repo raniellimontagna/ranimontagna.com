@@ -1,16 +1,16 @@
 'use client'
 
 import {
-  Code2,
   Box,
+  BranchingPathsUp,
+  Code2,
   Database,
   Figma,
   Global,
-  Widget,
   Palette,
   Server,
   Smartphone,
-  BranchingPathsUp,
+  Widget,
 } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { InfiniteMarquee } from '@/components/ui/infinite-marquee'

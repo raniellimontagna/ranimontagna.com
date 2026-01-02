@@ -1,6 +1,6 @@
 'use client'
 
-import { Code2, SquareArrowRightUp, Monitor } from '@solar-icons/react/ssr'
+import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
 

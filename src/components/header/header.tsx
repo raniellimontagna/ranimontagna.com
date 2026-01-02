@@ -1,6 +1,6 @@
 'use client'
 
-import { Download, HamburgerMenu, CloseCircle, SquareAltArrowUp } from '@solar-icons/react/ssr'
+import { CloseCircle, Download, HamburgerMenu, SquareAltArrowUp } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'

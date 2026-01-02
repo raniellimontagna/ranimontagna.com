@@ -172,6 +172,10 @@
       "mobile": "Mobile",
       "api": "API"
     },
+    "card": {
+      "featuredBadge": "Featured",
+      "moreCount": "+{count} more"
+    },
     "cta": {
       "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
       "button": "Explore on GitHub",
