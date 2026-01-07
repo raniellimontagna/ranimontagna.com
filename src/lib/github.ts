@@ -135,7 +135,7 @@ export function getLanguagesFromRepos(repos: Repository[]): string[] {
 /**
  * Cached version of getRepositories (revalidates every hour)
  */
-export const getRepositories = unstable_cache(
+const getRepositories = unstable_cache(
   async () => {
     return await fetchRepositories()
   },

@@ -1,5 +1,4 @@
 export * from './animations'
-export { Footer } from './footer/footer'
 export { GoogleAnalytics } from './google-analytics/google-analytics'
 export { Header } from './header/header'
 export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'

@@ -1,7 +1,4 @@
 export { CTASection } from './cta-section'
-export { FeaturedProject } from './featured-project'
 export { GitHubStats } from './github-stats'
-export { LanguageFilter } from './language-filter'
-export { ProjectCard } from './project-card'
 export { ProjectsHeader } from './projects-header'
 export { ProjectsList } from './projects-list'

@@ -1,7 +1,1 @@
-export { About } from './about/about'
-export { Contact } from './contact/contact'
-export { Experience } from './experience/experience'
 export { Hero } from './hero/hero'
-export { Projects } from './projects/projects'
-export { Services } from './services/services'
-export { Skills } from './skills/skills'

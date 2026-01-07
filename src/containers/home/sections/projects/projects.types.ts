@@ -1,5 +1,3 @@
-import type { ComponentType, SVGProps } from 'react'
-
 export type ProjectType = {
   id: number
   i18nKey: string
@@ -17,10 +15,4 @@ export type ProjectCardProps = {
   project: ProjectType
   animationDelay: string
   priority?: boolean
-}
-
-export type FilterType = {
-  id: string
-  label: string
-  icon: ComponentType<SVGProps<SVGSVGElement>>
 }

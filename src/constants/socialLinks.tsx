@@ -62,7 +62,7 @@ export const socialLinks = {
 /**
  * Resume/CV links configuration
  */
-export const resumeLinks = {
+const resumeLinks = {
   en: {
     name: 'Resume',
     href: '/cv/en.pdf',

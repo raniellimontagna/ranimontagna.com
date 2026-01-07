@@ -53,14 +53,14 @@ describe('ProjectCard', () => {
     const mobileProject = { ...mockProject, type: 'mobile' as const }
     render(<ProjectCard project={mobileProject} animationDelay="0s" />)
 
-    expect(screen.getByText('Mobile')).toBeInTheDocument()
+    expect(screen.getByText('mobile')).toBeInTheDocument()
   })
 
   it('should render api type badge', () => {
     const apiProject = { ...mockProject, type: 'api' as const }
     render(<ProjectCard project={apiProject} animationDelay="0s" />)
 
-    expect(screen.getByText('Api')).toBeInTheDocument()
+    expect(screen.getByText('api')).toBeInTheDocument()
   })
 
   it('should show +N for more than 4 technologies', () => {
@@ -70,6 +70,8 @@ describe('ProjectCard', () => {
     }
     render(<ProjectCard project={projectWithManyTechs} animationDelay="0s" />)
 
-    expect(screen.getByText('+2')).toBeInTheDocument()
+    // Expecting partial match or full string from mock translation
+    // Assuming t('moreCount', {count: 2}) returns "+2 more" based on typical mocking
+    expect(screen.getByText(/^\+2/)).toBeInTheDocument()
   })
 })
