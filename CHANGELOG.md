@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.16.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.15.0...v1.16.0) (2026-01-07)
+
+
+### Features
+
+* add modern styling for table, thead, tbody, tr, th, and td components ([2b3fc8c](https://github.com/raniellimontagna/ranimontagna.com/commit/2b3fc8c34271d94a744f9f1516286739f938a81b))
+* enhance project cards with tech stack badges and new translation keys for featured projects. ([b9d7f2e](https://github.com/raniellimontagna/ranimontagna.com/commit/b9d7f2e047914c0d10e1bda9aa567229cbce2e62))
+* migrate icon library from Lucide to Solar Icons, add brand icons, and remove SEO redirects. ([aed3403](https://github.com/raniellimontagna/ranimontagna.com/commit/aed3403d3e9818ce65a2bfbede1c0a541fe8ccb3))
+
 ## [1.15.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.14.0...v1.15.0) (2025-12-27)
 
 
