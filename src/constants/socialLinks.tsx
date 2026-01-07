@@ -96,34 +96,6 @@ export const contactMethods = {
   },
 } as const
 
-export const getSocialLink = (id: keyof typeof socialLinks): SocialLink | undefined => {
-  return socialLinks[id]
-}
-
-export const getExternalSocialLinks = (): SocialLink[] => {
-  return Object.values(socialLinks).filter((link) => link.external)
-}
-
-export const getGitHubUrl = (): string => {
-  return socialLinks.github.href
-}
-
-export const getLinkedInUrl = (): string => {
-  return socialLinks.linkedin.href
-}
-
-export const getEmailUrl = (): string => {
-  return socialLinks.email.href
-}
-
-export const getContactMethod = (id: keyof typeof contactMethods): SocialLink | undefined => {
-  return contactMethods[id]
-}
-
-export const getWhatsAppUrl = (): string => {
-  return contactMethods.whatsapp.href
-}
-
 /**
  * Resume helper functions
  */
@@ -133,8 +105,4 @@ export const getResumeByLocale = (locale: 'en' | 'pt' | 'es') => {
 
 export const getSocialLinksAsArray = (): (SocialLink & { id: string })[] => {
   return Object.entries(socialLinks).map(([id, link]) => ({ ...link, id }))
-}
-
-export const getContactMethodsAsArray = (): (SocialLink & { id: string })[] => {
-  return Object.entries(contactMethods).map(([id, method]) => ({ ...method, id }))
 }
