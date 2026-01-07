@@ -157,6 +157,36 @@ const components = {
       )}
     </figure>
   ),
+  // Table components with modern styling
+  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
+    <div className="my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+      <table
+        {...props}
+        className="w-full min-w-full divide-y divide-slate-200 dark:divide-slate-700"
+      />
+    </div>
+  ),
+  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead {...props} className="bg-slate-50 dark:bg-slate-800/50" />
+  ),
+  tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <tbody
+      {...props}
+      className="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900"
+    />
+  ),
+  tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
+    <tr {...props} className="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50" />
+  ),
+  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+    <th
+      {...props}
+      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+    />
+  ),
+  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+    <td {...props} className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300" />
+  ),
 }
 
 export default async function PostPage(props: {
