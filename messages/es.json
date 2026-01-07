@@ -166,6 +166,7 @@
       "part2": "Proyectos"
     },
     "subtitle": "Una selección de mis trabajos más recientes, incluyendo aplicaciones web, móviles y APIs que demuestran mis habilidades técnicas.",
+    "viewAll": "Ver todos los proyectos",
     "featuredTitle": "Proyectos Destacados",
     "filters": {
       "all": "Todos",
@@ -197,30 +198,6 @@
       "pratio": {
         "title": "Pratio - TPV para Restaurantes",
         "description": "Sistema de punto de venta (TPV) y gestión para bares y restaurantes, con control de mesas, comandas, emisión de NFC-e y menú digital."
-      },
-      "smartDs": {
-        "title": "Smart Design System",
-        "description": "Sistema de diseño desarrollado sobre la base de Material Design, con el objetivo de estandarizar la interfaz de los productos para mejorar la experiencia del usuario."
-      },
-      "sennaDs": {
-        "title": "Senna Design System",
-        "description": "Sistema de diseño utilizado para proyectos Next.js, con el objetivo de estandarizar la interfaz de los productos para potenciar la experiencia del usuario."
-      },
-      "alemDoArcoIrisApp": {
-        "title": "App Além do Arco-Íris",
-        "description": "La app 'Além do Arco-íris' ofrece el curso 'Ally: un enfoque holístico de la salud LGBT+' para capacitar a los profesionales de la salud en la atención a la comunidad LGBT+."
-      },
-      "motiviumBot": {
-        "title": "Motivium Bot",
-        "description": "Un bot de Discord personalizado construido con TypeScript y Discord.js. Utiliza APIs financieras para entregar actualizaciones de divisas automatizadas e incluye un sistema de mensajería programada."
-      },
-      "tabSwitch": {
-        "title": "Tab Switch",
-        "description": "Extensión de navegador que permite la rotación automática entre pestañas abiertas, cerrando otras pestañas no configuradas. Ideal para presentaciones, monitoreo de dashboards y otras situaciones donde se necesita rotación de pestañas."
-      },
-      "pdfGenerator": {
-        "title": "API Generadora de PDF",
-        "description": "API de alto rendimiento para la generación dinámica de PDFs, diseñada con Fastify, TypeScript y PDFKit. Emplea TypeBox para una validación de solicitudes robusta y con seguridad de tipos (type-safe), proporcionando un servicio escalable y fiable para la creación de documentos."
       }
     }
   },

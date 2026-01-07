@@ -6,6 +6,8 @@ import { GithubIcon, LinkedinIcon } from '@/components/icons/brands'
 function MailIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-label="Email"
+      role="img"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"

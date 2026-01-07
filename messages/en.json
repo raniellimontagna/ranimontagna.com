@@ -164,7 +164,8 @@
       "part1": "My",
       "part2": "Projects"
     },
-    "subtitle": "A selection of my most recent works, including web, mobile, and API applications that demonstrate my technical skills.",
+    "subtitle": "A selection of my most recent work, including web, mobile applications, and APIs that demonstrate my technical skills.",
+    "viewAll": "View all projects",
     "featuredTitle": "Featured Projects",
     "filters": {
       "all": "All",
@@ -196,30 +197,6 @@
       "pratio": {
         "title": "Pratio - POS for Restaurants",
         "description": "Point of sale (POS) and management system for bars and restaurants, with table and order control, NFC-e issuing, and a digital menu."
-      },
-      "smartDs": {
-        "title": "Smart Design System",
-        "description": "A design system based on Material Design, aimed at standardizing product interfaces to improve the user experience."
-      },
-      "sennaDs": {
-        "title": "Senna Design System",
-        "description": "A design system used for Next.js projects, with the goal of standardizing product interfaces to enhance the user experience."
-      },
-      "alemDoArcoIrisApp": {
-        "title": "Além do Arco-Íris App",
-        "description": "The 'Além do Arco-íris' app offers the course 'Ally: a holistic approach to LGBT+ health' to empower healthcare professionals in assisting the LGBT+ community."
-      },
-      "motiviumBot": {
-        "title": "Motivium Bot",
-        "description": "A custom Discord bot built with TypeScript and Discord.js. It leverages financial APIs to deliver automated currency updates and includes a scheduled messaging system."
-      },
-      "tabSwitch": {
-        "title": "Tab Switch",
-        "description": "A browser extension that allows automatic rotation between open tabs, closing other non-configured tabs. Ideal for presentations, monitoring dashboards, and other situations where tab rotation is needed."
-      },
-      "pdfGenerator": {
-        "title": "PDF Generator API",
-        "description": "A high-performance API for dynamic PDF generation, engineered with Fastify, TypeScript, and PDFKit. It leverages TypeBox for robust, type-safe request validation, providing a scalable and reliable document creation service."
       }
     }
   },
