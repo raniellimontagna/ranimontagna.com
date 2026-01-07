@@ -1,8 +1,8 @@
 'use client'
 
 import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 import { GithubIcon } from '@/components/icons/brands'
 import type { ProjectCardProps } from './projects.types'

@@ -413,5 +413,34 @@
         "description": "Let's talk about ideas"
       }
     }
+  },
+  "projectsPage": {
+    "title": "My Projects",
+    "subtitle": "A collection of my open source repositories on GitHub. Explore projects in different languages and areas.",
+    "breadcrumb": "Projects",
+    "backToPortfolio": "Back to Portfolio",
+    "featured": "Featured",
+    "stars": "stars",
+    "forks": "forks",
+    "updated": "Updated",
+    "noDescription": "No description available",
+    "visitSite": "Visit site",
+    "filterByLanguage": "Filter by language",
+    "featuredTitle": "Featured Projects",
+    "allProjectsTitle": "All Projects",
+    "noProjectsFound": "No projects found for this language.",
+    "filters": {
+      "all": "All"
+    },
+    "stats": {
+      "repos": "Repositories",
+      "stars": "Total stars",
+      "followers": "Followers"
+    },
+    "cta": {
+      "title": "Want to see more projects?",
+      "subtitle": "Explore all my repositories on GitHub, including private projects and open source contributions.",
+      "button": "View on GitHub"
+    }
   }
 }
