@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.17.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.16.0...v1.17.0) (2026-01-08)
+
+
+### Features
+
+* add a new projects page with GitHub integration, project filtering, display components, and internationalization support. ([f537c76](https://github.com/raniellimontagna/ranimontagna.com/commit/f537c763f2fe2a20e870b63446e10dacf146d7cb))
+* add vitest and test structure ([1e091e2](https://github.com/raniellimontagna/ranimontagna.com/commit/1e091e2b8b2a38da2901350df1fd9e24c0bb7513))
+* projects ([dd1bb84](https://github.com/raniellimontagna/ranimontagna.com/commit/dd1bb84b441cdceb2ebed86222387c793f6f01e0))
+
 ## [1.16.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.15.0...v1.16.0) (2026-01-07)
 
 
