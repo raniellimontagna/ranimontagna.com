@@ -14,6 +14,7 @@ export function About() {
   return (
     <section
       id="about"
+      data-testid="about"
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
       {/* Background Decor */}

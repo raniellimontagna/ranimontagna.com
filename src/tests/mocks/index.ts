@@ -64,5 +64,9 @@ export const setupDOMMocks = () => {
   window.ResizeObserver = ResizeObserverMock
   window.IntersectionObserver = IntersectionObserverMock as unknown as typeof IntersectionObserver
 
+  // Mock scrollIntoView for RadixCMDK
+  Element.prototype.scrollIntoView = vi.fn()
+  HTMLElement.prototype.scrollIntoView = vi.fn()
+
   return { localStorageMock }
 }

@@ -2,6 +2,11 @@
 
 To maintain consistency and code quality, please adhere to these standards.
 
+## General Principles
+
+-   **Comments**: Only use comments when absolutely necessary to explain *why* something is done, not *what* is done. Code should be self-documenting.
+-   **Simplicity**: Keep code simple and readable.
+
 ## Naming Conventions
 
 - **Files & Folders**: Use `kebab-case.ts` (e.g., `project-card.tsx`, `use-theme.ts`).

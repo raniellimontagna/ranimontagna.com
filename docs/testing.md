@@ -13,10 +13,14 @@ This project follows a strict testing strategy to ensure reliability and maintai
 
 | Category | Coverage | Status |
 |----------|----------|--------|
-| **Total** | **14.52%** | 📈 Increasing |
+| **Total** | **~70-75%** | 📈 Increasing |
 | **Shared Utils** | ~90% | ✅ Excellent |
-| **Shared UI** | ~50% | 🔄 In Progress |
+| **Shared UI Components** | > 95% | ✅ Excellent |
+| **Shared Layout (Header/Footer)** | > 80% | ✅ Excellent |
 | **I18n** | 100% | ✅ Excellent |
+| **Features: Home** | > 90% | ✅ Excellent |
+| **Features: Blog** | > 90% | ✅ Excellent |
+| **Features: Projects** | > 80% | ✅ Excellent |
 
 ## Key Principles
 

@@ -10,6 +10,7 @@ export async function Hero() {
   return (
     <section
       id="start"
+      data-testid="hero"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-50 px-4 pt-32 pb-20 sm:px-6 sm:pt-40 sm:pb-24 lg:px-8 dark:bg-gray-950"
       aria-label="Hero section - Ranielli Montagna introduction"
     >

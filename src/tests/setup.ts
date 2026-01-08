@@ -4,7 +4,12 @@ import { setupDOMMocks } from './mocks'
 setupDOMMocks()
 
 vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
+  useTranslations: () => {
+    const t = (key: string) => key
+    t.raw = (key: string) => [key]
+    t.rich = (key: string) => key
+    return t
+  },
   useLocale: () => 'pt',
 }))
 

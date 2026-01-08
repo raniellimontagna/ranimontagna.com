@@ -32,7 +32,10 @@ export function Skills() {
   const t = useTranslations('about.skills')
 
   return (
-    <section className="border-y border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950">
+    <section
+      data-testid="skills"
+      className="border-y border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950"
+    >
       <div className="mb-8 text-center">
         <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           {t('title')}
