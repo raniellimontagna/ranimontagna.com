@@ -3,7 +3,7 @@
 import { ArrowRight, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
-import { ServiceCard } from '@/shared/components/ui/service-card'
+import { ServiceCard } from '@/shared/components/ui'
 
 import { servicesData } from './services.static'
 import type { ServiceType } from './services.types'

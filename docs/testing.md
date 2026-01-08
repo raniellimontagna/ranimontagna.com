@@ -9,10 +9,19 @@ This project follows a strict testing strategy to ensure reliability and maintai
 - **React Testing**: @testing-library/react
 - **Coverage**: V8
 
+## Coverage Status (Updated: 2026-01-08)
+
+| Category | Coverage | Status |
+|----------|----------|--------|
+| **Total** | **14.52%** | 📈 Increasing |
+| **Shared Utils** | ~90% | ✅ Excellent |
+| **Shared UI** | ~50% | 🔄 In Progress |
+| **I18n** | 100% | ✅ Excellent |
+
 ## Key Principles
 
 1. **Globals Enabled**: `describe`, `it`, `expect` are available globally.
-2. **Co-location**: Tests live in `__tests__` folders next to the source files.
+2. **Co-location**: Tests live in `__tests__` folders next to the source files within component folders (e.g., `button/__tests__/button.test.tsx`).
 3. **No Overmocking**: Mock only external boundaries (API calls, browser APIs).
 4. **Behavior Driven**: Test user interactions and outcomes, not implementation details.
 
@@ -23,14 +32,17 @@ src/
 ├── features/
 │   └── feature-name/
 │       └── components/
-│           ├── my-component.tsx
-│           └── __tests__/
-│               └── my-component.test.tsx
+│           ├── my-component/
+│           │   ├── my-component.tsx
+│           │   └── __tests__/
+│           │       └── my-component.test.tsx
 ├── shared/
-│   └── lib/
-│       ├── utils.ts
-│       └── __tests__/
-│           └── utils.test.ts
+│   └── components/
+│       └── ui/
+│           └── button/
+│               ├── button.tsx
+│               └── __tests__/
+│                   └── button.test.tsx
 └── tests/                  # Global setup
     ├── setup.ts            # Global mocks (Next.js, browser APIs)
     ├── test-utils.tsx      # Custom render wrapper

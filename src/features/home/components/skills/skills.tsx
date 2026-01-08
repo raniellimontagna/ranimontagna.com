@@ -13,7 +13,7 @@ import {
   Widget,
 } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import { InfiniteMarquee } from '@/shared/components/ui/infinite-marquee'
+import { InfiniteMarquee } from '@/shared/components/ui'
 
 const skills = [
   { name: 'React', icon: Global, category: 'Frontend' },

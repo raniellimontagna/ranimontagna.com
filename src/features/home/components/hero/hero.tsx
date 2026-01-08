@@ -1,6 +1,6 @@
 import { ArrowDown } from '@solar-icons/react/ssr'
 import { getTranslations } from 'next-intl/server'
-import { TerminalWindow } from '@/shared/components/ui/terminal-window'
+import { TerminalWindow } from '@/shared/components/ui'
 import { ScrollIndicator } from './hero-content'
 
 export async function Hero() {

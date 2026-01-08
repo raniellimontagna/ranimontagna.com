@@ -4,8 +4,8 @@ import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
-import { GithubIcon } from '@/shared/components/icons/brands'
 import type { ProjectCardProps } from '@/features/projects/types/projects.types'
+import { GithubIcon } from '@/shared/components/icons/brands'
 
 // Tech stack colors for visual variety
 const techColors: Record<string, string> = {

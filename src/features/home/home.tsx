@@ -5,7 +5,7 @@ import { Header } from '@/shared'
 
 // Lazy load CommandMenu as it's not needed immediately
 const CommandMenu = dynamic(
-  () => import('@/shared/components/ui/command-menu').then((mod) => mod.CommandMenu),
+  () => import('@/shared/components/ui/command-menu/command-menu').then((mod) => mod.CommandMenu),
   { ssr: false },
 )
 
