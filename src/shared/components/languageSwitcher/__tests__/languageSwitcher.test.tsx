@@ -92,4 +92,16 @@ describe('LanguageSwitcher', () => {
     // Component sets window.location.href directly
     expect(window.location.href).toBe('/pt/about')
   })
+
+  it('closes menu when overlay is clicked', () => {
+    render(<LanguageSwitcher />)
+    fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
+    expect(screen.getByRole('menu')).toBeInTheDocument()
+
+    // Click the overlay (backdrop)
+    const overlay = screen.getByLabelText('Close language menu')
+    fireEvent.click(overlay)
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
 })

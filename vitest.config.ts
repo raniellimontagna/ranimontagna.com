@@ -19,6 +19,8 @@ export default defineConfig({
         'src/app/**',
         'src/**/*.types.ts',
         'src/**/index.ts',
+        'src/proxy.ts', // Next.js middleware, no testable logic
+        'src/middleware.ts', // Next.js middleware
       ],
     },
   },

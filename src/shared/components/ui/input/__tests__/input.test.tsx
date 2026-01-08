@@ -50,4 +50,18 @@ describe('Textarea Component', () => {
     const area = screen.getByLabelText(/Notes/)
     expect(area).toHaveClass('border-red-300')
   })
+
+  it('handles focus/blur events', () => {
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+    render(<Textarea label="Description" id="desc" onFocus={onFocus} onBlur={onBlur} />)
+
+    const textarea = screen.getByLabelText(/Description/)
+
+    fireEvent.focus(textarea)
+    expect(onFocus).toHaveBeenCalled()
+
+    fireEvent.blur(textarea)
+    expect(onBlur).toHaveBeenCalled()
+  })
 })

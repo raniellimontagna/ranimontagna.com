@@ -1,4 +1,4 @@
-export const createLocalStorageMock = () => {
+const createLocalStorageMock = () => {
   let store: Record<string, string> = {}
 
   return {
@@ -23,7 +23,7 @@ export const createLocalStorageMock = () => {
   }
 }
 
-export const createMatchMediaMock = (matches = false) => {
+const createMatchMediaMock = (matches = false) => {
   return vi.fn().mockImplementation((query: string) => ({
     matches,
     media: query,
@@ -36,13 +36,13 @@ export const createMatchMediaMock = (matches = false) => {
   }))
 }
 
-export class ResizeObserverMock {
+class ResizeObserverMock {
   observe = vi.fn()
   unobserve = vi.fn()
   disconnect = vi.fn()
 }
 
-export class IntersectionObserverMock {
+class IntersectionObserverMock {
   readonly root: Element | null = null
   readonly rootMargin: string = ''
   readonly thresholds: readonly number[] = []

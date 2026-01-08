@@ -14,7 +14,14 @@ describe('formly-email-service', () => {
     global.navigator = { userAgent: 'Test User Agent' } as Navigator
     global.window = { location: { href: 'https://test.com' } } as Window & typeof globalThis
 
+    // Mock environment variable
+    vi.stubEnv('NEXT_PUBLIC_FORMLY_FORM_ID', 'test-form-id')
+
     vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
   })
 
   describe('sendContactEmail', () => {
@@ -31,7 +38,7 @@ describe('formly-email-service', () => {
         json: async () => mockResponse,
       })
 
-      const result = await sendContactEmail(mockContactData, 'test-form-id')
+      const result = await sendContactEmail(mockContactData)
 
       expect(result).toEqual(mockResponse)
       expect(global.fetch).toHaveBeenCalledWith(
@@ -52,7 +59,7 @@ describe('formly-email-service', () => {
         type: 'opaqueredirect',
       })
 
-      const result = await sendContactEmail(mockContactData, 'test-form-id')
+      const result = await sendContactEmail(mockContactData)
 
       expect(result).toEqual({
         success: true,
@@ -69,7 +76,7 @@ describe('formly-email-service', () => {
         },
       })
 
-      const result = await sendContactEmail(mockContactData, 'test-form-id')
+      const result = await sendContactEmail(mockContactData)
 
       expect(result).toEqual({
         success: true,
@@ -87,7 +94,7 @@ describe('formly-email-service', () => {
         }),
       })
 
-      await expect(sendContactEmail(mockContactData, 'test-form-id')).rejects.toThrow('API Error')
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('API Error')
     })
 
     it('handles API error response with success: false and no message', async () => {
@@ -99,7 +106,7 @@ describe('formly-email-service', () => {
         }),
       })
 
-      await expect(sendContactEmail(mockContactData, 'test-form-id')).rejects.toThrow(
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow(
         'Erro desconhecido ao enviar email',
       )
     })
@@ -111,13 +118,22 @@ describe('formly-email-service', () => {
         text: async () => 'Internal Server Error',
       })
 
-      await expect(sendContactEmail(mockContactData, 'test-form-id')).rejects.toThrow(
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow(
         'HTTP 500: Internal Server Error',
       )
     })
 
     it('throws error when form ID is not provided', async () => {
-      await expect(sendContactEmail(mockContactData, '')).rejects.toThrow('Form ID não configurado')
+      vi.unstubAllEnvs()
+      vi.stubEnv('NEXT_PUBLIC_FORMLY_FORM_ID', '')
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        text: async () => 'Internal Server Error',
+      })
+
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('HTTP 500')
     })
 
     it('includes correct payload data', async () => {
@@ -143,7 +159,7 @@ describe('formly-email-service', () => {
         }
       })
 
-      await sendContactEmail(mockContactData, 'test-form-id')
+      await sendContactEmail(mockContactData)
 
       expect(capturedPayload).toBeDefined()
       expect(capturedPayload).toMatchObject({

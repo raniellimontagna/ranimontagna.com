@@ -15,8 +15,6 @@ const contactSchema = z.object({
   message: z.string().min(10),
 })
 
-type ContactFormData = z.infer<typeof contactSchema>
-
 export function useContactForm() {
   const t = useTranslations('contact.form')
   const [isSubmitting, setIsSubmitting] = useState(false)

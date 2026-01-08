@@ -131,5 +131,40 @@ describe('useTheme store', () => {
 
       expect(useTheme.getState().theme).toBe('dark')
     })
+
+    it('defaults to dark if localStorage has theme but no state.theme', () => {
+      window.localStorage.setItem('theme-storage', JSON.stringify({ state: {} }))
+      const { initTheme } = useTheme.getState()
+
+      initTheme()
+
+      expect(useTheme.getState().theme).toBe('dark')
+    })
+  })
+
+  describe('SSR scenarios', () => {
+    it('handles applyTheme when document is undefined', () => {
+      const originalDocument = global.document
+      // biome-ignore lint/suspicious/noExplicitAny: Testing SSR scenario
+      ;(global as any).document = undefined
+
+      const { setTheme } = useTheme.getState()
+      // Should not throw error
+      expect(() => setTheme('light')).not.toThrow()
+
+      global.document = originalDocument
+    })
+
+    it('handles initTheme when window is undefined', () => {
+      const originalWindow = global.window
+      // biome-ignore lint/suspicious/noExplicitAny: Testing SSR scenario
+      ;(global as any).window = undefined
+
+      const { initTheme } = useTheme.getState()
+      // Should not throw error and not change state
+      expect(() => initTheme()).not.toThrow()
+
+      global.window = originalWindow
+    })
   })
 })

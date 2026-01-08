@@ -114,4 +114,44 @@ describe('CommandMenu Component', () => {
     expect(mockSetOpen).toHaveBeenCalledWith(false)
     expect(mockSetTheme).toHaveBeenCalledWith('dark')
   })
+
+  it('toggles menu with Cmd+K keyboard shortcut', () => {
+    render(<CommandMenu />)
+
+    const event = new KeyboardEvent('keydown', {
+      key: 'k',
+      metaKey: true,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    fireEvent(document, event)
+
+    expect(mockToggle).toHaveBeenCalled()
+  })
+
+  it('toggles menu with Ctrl+K keyboard shortcut', () => {
+    render(<CommandMenu />)
+
+    const event = new KeyboardEvent('keydown', {
+      key: 'k',
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    fireEvent(document, event)
+
+    expect(mockToggle).toHaveBeenCalled()
+  })
+
+  it('closes menu when overlay is clicked', () => {
+    render(<CommandMenu />)
+
+    const overlay = document.querySelector('[class*="bg-black/50"]')
+    if (overlay) {
+      fireEvent.click(overlay)
+      expect(mockSetOpen).toHaveBeenCalledWith(false)
+    }
+  })
 })

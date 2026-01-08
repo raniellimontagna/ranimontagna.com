@@ -14,31 +14,11 @@ interface FormlyResponse {
 const FORMLY_BASE_URL = 'https://formly.email'
 
 /**
- * Get the Formly form ID from environment variables
- */
-function getFormId(): string {
-  const formId = process.env.NEXT_PUBLIC_FORMLY_FORM_ID || ''
-
-  if (!formId) {
-    console.warn('NEXT_PUBLIC_FORMLY_FORM_ID não configurado. Configure no arquivo .env.local')
-  }
-
-  return formId
-}
-
-/**
  * Send contact email via Formly API
  */
-export async function sendContactEmail(
-  data: ContactFormData,
-  formId: string = getFormId(),
-): Promise<FormlyResponse> {
-  if (!formId) {
-    throw new Error('Form ID não configurado. Configure NEXT_PUBLIC_FORMLY_FORM_ID no .env.local')
-  }
-
+export async function sendContactEmail(data: ContactFormData): Promise<FormlyResponse> {
   const payload = {
-    access_key: formId,
+    access_key: process.env.NEXT_PUBLIC_FORMLY_FORM_ID,
     name: data.name,
     email: data.email,
     subject: data.subject,
