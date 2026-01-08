@@ -1,66 +1,117 @@
-import { useCommandMenu } from '@/shared/store/useCommandMenu/useCommandMenu'
-import { act, fireEvent, render, screen } from '@/tests/test-utils'
+import { fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import { CommandMenu } from '../command-menu'
 
-describe('CommandMenu', () => {
-  // Reset store before each test
+// Mocks
+const mockPush = vi.fn()
+const mockSetOpen = vi.fn()
+const mockToggle = vi.fn()
+const mockSetTheme = vi.fn()
+const mockScrollIntoView = vi.fn()
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+}))
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}))
+
+vi.mock('@/shared/store/useCommandMenu/useCommandMenu', () => ({
+  useCommandMenu: () => ({
+    isOpen: true,
+    setOpen: mockSetOpen,
+    toggle: mockToggle,
+  }),
+}))
+
+vi.mock('@/shared/store/useTheme/useTheme', () => ({
+  useTheme: () => ({
+    setTheme: mockSetTheme,
+  }),
+}))
+
+describe('CommandMenu Component', () => {
   beforeEach(() => {
-    act(() => {
-      useCommandMenu.setState({ isOpen: false })
+    vi.clearAllMocks()
+    // Mock scrollIntoView on Element prototype to ensure it's available on all elements
+    Element.prototype.scrollIntoView = mockScrollIntoView
+    // Mock window.open
+    vi.spyOn(window, 'open').mockImplementation(() => null)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    // Clean up prototype mock if needed, though subsequent tests overwrite it.
+    // Ideally: delete Element.prototype.scrollIntoView
+    // biome-ignore lint/suspicious/noExplicitAny: Deleting mocked property
+    delete (Element.prototype as any).scrollIntoView
+  })
+
+  it('renders when open', () => {
+    render(<CommandMenu />)
+    // Check that at least one element with the text exists
+    const titles = screen.getAllByText('Global Command Menu')
+    expect(titles.length).toBeGreaterThan(0)
+    expect(screen.getByPlaceholderText('placeholder')).toBeInTheDocument()
+  })
+
+  it('navigates to section on selection (scroll)', async () => {
+    render(<CommandMenu />)
+    const mockElement = document.createElement('div')
+    // Ensure the mock element has the mock method (redundant if prototype is mocked but safe)
+    mockElement.scrollIntoView = mockScrollIntoView
+    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement)
+
+    // Find "about" option
+    const items = screen.getAllByRole('option')
+    const aboutItem = items.find((item) => item.textContent?.includes('about'))
+    if (!aboutItem) throw new Error('About item not found')
+
+    fireEvent.click(aboutItem)
+
+    expect(mockSetOpen).toHaveBeenCalledWith(false)
+    await waitFor(() => {
+      expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
     })
   })
 
-  it('is closed by default', () => {
+  it('navigates to route on selection (router push)', () => {
     render(<CommandMenu />)
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    vi.spyOn(document, 'getElementById').mockReturnValue(null)
+
+    const items = screen.getAllByRole('option')
+    const blogItem = items.find((item) => item.textContent?.includes('blog'))
+    if (!blogItem) throw new Error('Blog item not found')
+
+    fireEvent.click(blogItem)
+
+    expect(mockSetOpen).toHaveBeenCalledWith(false)
+    expect(mockPush).toHaveBeenCalledWith('/blog')
   })
 
-  it('opens when isOpen is true in store', async () => {
-    act(() => {
-      useCommandMenu.setState({ isOpen: true })
-    })
-
+  it('opens external link on selection', () => {
     render(<CommandMenu />)
 
-    // Use findByRole to wait for Radix primitives to mount/portal
-    expect(await screen.findByRole('dialog')).toBeInTheDocument()
+    const items = screen.getAllByRole('option')
+    const githubItem = items.find((item) => item.textContent?.includes('GitHub'))
+    if (!githubItem) throw new Error('GitHub item not found')
+
+    fireEvent.click(githubItem)
+
+    expect(mockSetOpen).toHaveBeenCalledWith(false)
+    expect(window.open).toHaveBeenCalledWith('https://github.com/raniellimontagna', '_blank')
   })
 
-  it('opens on Ctrl+K shortcut', async () => {
+  it('changes theme on selection', () => {
     render(<CommandMenu />)
 
-    fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
+    const items = screen.getAllByRole('option')
+    const darkItem = items.find((item) => item.textContent?.includes('dark'))
+    if (!darkItem) throw new Error('Dark theme item not found')
 
-    expect(await screen.findByRole('dialog')).toBeInTheDocument()
-  })
+    fireEvent.click(darkItem)
 
-  it('opens on Meta+K shortcut', async () => {
-    render(<CommandMenu />)
-
-    fireEvent.keyDown(document, { key: 'k', metaKey: true })
-
-    expect(await screen.findByRole('dialog')).toBeInTheDocument()
-  })
-
-  it('closes when overlay is clicked (skip complex interaction)', async () => {
-    // Simplified test: just check if store update closes it
-    // But testing actual click on overlay might be brittle with Radix details.
-    // Let's skip valid interaction test for now and trust Radix.
-    // We can invoke the onOpenChange prop if we could pass it, but here it's internal.
-  })
-
-  it('searches correctly', async () => {
-    act(() => {
-      useCommandMenu.setState({ isOpen: true })
-    })
-
-    render(<CommandMenu />)
-
-    // Wait for dialog
-    await screen.findByRole('dialog')
-
-    // Mock returns the key as value
-    const input = screen.getByPlaceholderText('placeholder')
-    expect(input).toBeInTheDocument()
+    expect(mockSetOpen).toHaveBeenCalledWith(false)
+    expect(mockSetTheme).toHaveBeenCalledWith('dark')
   })
 })

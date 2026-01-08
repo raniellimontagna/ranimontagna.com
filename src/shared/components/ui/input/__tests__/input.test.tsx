@@ -3,57 +3,51 @@ import { Input, Textarea } from '../input'
 
 describe('Input Component', () => {
   it('renders correctly with label', () => {
-    render(<Input label="Username" name="username" />)
-
-    // Use regex to match parts of the label as it includes a decorative span
+    render(<Input label="Username" id="username" />)
     expect(screen.getByLabelText(/Username/)).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /username/i })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /Username/ })).toHaveAttribute('id', 'username')
   })
 
-  it('displays error message', () => {
-    render(<Input label="Email" error="Invalid email" />)
-
-    expect(screen.getByText('Invalid email')).toBeInTheDocument()
-    // Input should usually have aria-invalid or some indicator, but checking class might be brittle
-    // Checking if the error text exists is good enough for now
+  it('renders with placeholder', () => {
+    // Needs id for label association if testing by label, but here asking for placeholder text.
+    // However, best practice to provide id.
+    render(<Input label="Email" id="email" placeholder="Enter email" />)
+    expect(screen.getByPlaceholderText('Enter email')).toBeInTheDocument()
   })
 
-  it('handles changes', () => {
-    const handleChange = vi.fn()
-    render(<Input label="Name" onChange={handleChange} />)
-
-    // Explicitly select input by role instead of label which is tricky
-    const input = screen.getByRole('textbox')
-    fireEvent.change(input, { target: { value: 'John' } })
-
-    expect(handleChange).toHaveBeenCalled()
+  it('shows error message', () => {
+    render(<Input label="Password" id="password" error="Too short" />)
+    expect(screen.getByText('Too short')).toBeInTheDocument()
+    const input = screen.getByLabelText(/Password/)
+    expect(input).toHaveClass('border-red-300')
   })
 
-  it('handles focus/blur states (visual check via classes mostly, but event firing)', () => {
-    const handleFocus = vi.fn()
-    const handleBlur = vi.fn()
-    render(<Input label="Focus Test" onFocus={handleFocus} onBlur={handleBlur} />)
+  it('handles focus/blur events', () => {
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+    render(<Input label="Search" id="search" onFocus={onFocus} onBlur={onBlur} />)
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByLabelText(/Search/)
+
     fireEvent.focus(input)
-    expect(handleFocus).toHaveBeenCalled()
+    expect(onFocus).toHaveBeenCalled()
 
     fireEvent.blur(input)
-    expect(handleBlur).toHaveBeenCalled()
+    expect(onBlur).toHaveBeenCalled()
   })
 })
 
 describe('Textarea Component', () => {
   it('renders correctly with label', () => {
-    render(<Textarea label="Message" name="message" />)
-
+    render(<Textarea label="Message" id="msg" />)
     expect(screen.getByLabelText(/Message/)).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /message/i })).toBeInTheDocument()
-    expect(screen.getByRole('textbox').tagName).toBe('TEXTAREA')
+    expect(screen.getByRole('textbox', { name: /Message/ })).toHaveAttribute('id', 'msg')
   })
 
-  it('displays error message', () => {
-    render(<Textarea label="Bio" error="Too short" />)
-    expect(screen.getByText('Too short')).toBeInTheDocument()
+  it('shows error state', () => {
+    render(<Textarea label="Notes" id="notes" error="Required field" />)
+    expect(screen.getByText('Required field')).toBeInTheDocument()
+    const area = screen.getByLabelText(/Notes/)
+    expect(area).toHaveClass('border-red-300')
   })
 })

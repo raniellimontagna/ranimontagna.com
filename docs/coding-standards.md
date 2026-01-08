@@ -60,3 +60,4 @@ export function Button({ label, onClick }: ButtonProps) {
 ## Linting & Formatting
 
 - The project typically uses Prettier/ESLint. Ensure your editor is configured to format on save.
+- **Post-Test Check**: Always run lint checks or verify there are no lint errors (like `any`) after implementing tests.
