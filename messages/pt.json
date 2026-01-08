@@ -165,6 +165,7 @@
       "part2": "Projetos"
     },
     "subtitle": "Uma seleção dos meus trabalhos mais recentes, incluindo aplicações web, mobile e APIs que demonstram minhas habilidades técnicas.",
+    "viewAll": "Ver todos os projetos",
     "featuredTitle": "Projetos em Destaque",
     "filters": {
       "all": "Todos",
@@ -196,30 +197,6 @@
       "pratio": {
         "title": "Pratio - PDV para Restaurantes",
         "description": "Sistema de ponto de venda (PDV) e gestão para bares e restaurantes, com controle de mesas, comandas, emissão de NFC-e e cardápio digital."
-      },
-      "smartDs": {
-        "title": "Smart Design System",
-        "description": "Design system desenvolvido com base no Material Design, com o objetivo de padronizar a interface dos produtos para aprimorar a experiência do usuário."
-      },
-      "sennaDs": {
-        "title": "Senna Design System",
-        "description": "Design system utilizado para projetos Next.js, com o objetivo de padronizar a interface dos produtos para aprimorar a experiência do usuário."
-      },
-      "alemDoArcoIrisApp": {
-        "title": "App Além do Arco-Íris",
-        "description": "O app 'Além do Arco-íris' oferece o curso 'Ally: uma abordagem holística à saúde LGBT+' para capacitar profissionais de saúde na assistência à comunidade LGBT+."
-      },
-      "motiviumBot": {
-        "title": "Motivium Bot",
-        "description": "Bot para Discord construído com TypeScript e Discord.js. Ele utiliza APIs financeiras para fornecer atualizações de moedas de forma automatizada e possui um sistema de agendamento de mensagens."
-      },
-      "tabSwitch": {
-        "title": "Tab Switch",
-        "description": "Extensão de navegador que permite a rotação automática entre abas abertas, fechando outras abas não configuradas. Ideal para apresentações, monitoramento de dashboards e outras situações que necessitem de rotação de abas."
-      },
-      "pdfGenerator": {
-        "title": "API Geradora de PDF",
-        "description": "API de alta performance para geração dinâmica de PDFs, desenvolvida com Fastify, TypeScript e PDFKit. Utiliza TypeBox para validação robusta e type-safe de requisições, oferecendo um serviço escalável e confiável para a criação de documentos."
       }
     }
   },
@@ -412,6 +389,35 @@
         "title": "Contato",
         "description": "Vamos conversar sobre ideias"
       }
+    }
+  },
+  "projectsPage": {
+    "title": "Meus Projetos",
+    "subtitle": "Uma coleção dos meus repositórios open source no GitHub. Explore projetos em diferentes linguagens e áreas de atuação.",
+    "breadcrumb": "Projetos",
+    "backToPortfolio": "Voltar ao Portfólio",
+    "featured": "Destaque",
+    "stars": "estrelas",
+    "forks": "forks",
+    "updated": "Atualizado",
+    "noDescription": "Sem descrição disponível",
+    "visitSite": "Visitar site",
+    "filterByLanguage": "Filtrar por linguagem",
+    "featuredTitle": "Projetos em Destaque",
+    "allProjectsTitle": "Todos os Projetos",
+    "noProjectsFound": "Nenhum projeto encontrado para esta linguagem.",
+    "filters": {
+      "all": "Todos"
+    },
+    "stats": {
+      "repos": "Repositórios",
+      "stars": "Estrelas totais",
+      "followers": "Seguidores"
+    },
+    "cta": {
+      "title": "Quer ver mais projetos?",
+      "subtitle": "Explore todos os meus repositórios no GitHub, incluindo projetos privados e contribuições para open source.",
+      "button": "Ver no GitHub"
     }
   }
 }

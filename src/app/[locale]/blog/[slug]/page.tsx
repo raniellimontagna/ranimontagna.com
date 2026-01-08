@@ -1,10 +1,10 @@
 import dayjs from 'dayjs'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import { PostNavigation, ReadingProgressBar, ScrollToTop } from '@/components/blog'
-import { Breadcrumbs } from '@/components/ui'
-import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/blog'
-import { BASE_URL } from '@/lib/constants'
+import { PostNavigation, ReadingProgressBar, ScrollToTop } from '@/features/blog/components'
+import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
+import { Breadcrumbs } from '@/shared/components/ui'
+import { BASE_URL } from '@/shared/lib/constants'
 
 // Generate static params for all posts in all locales
 export async function generateStaticParams() {

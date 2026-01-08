@@ -1,61 +1,38 @@
-import '@testing-library/jest-dom'
-import mockRouter from 'next-router-mock'
-import React from 'react'
-import { vi } from 'vitest'
+import '@testing-library/jest-dom/vitest'
+import { setupDOMMocks } from './mocks'
 
-vi.mock('next/image', () => {
-  return {
-    __esModule: true,
-    default: (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
-      React.createElement('img', { ...props }),
-  }
-})
+setupDOMMocks()
 
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual<typeof import('next/navigation')>('next/navigation')
-  return {
-    ...actual,
-    useRouter: () => mockRouter,
-    usePathname: () => mockRouter.asPath,
-    useSearchParams: () => new URLSearchParams(),
-    useLocale: () => 'pt-BR',
-  }
-})
-
-class IntersectionObserverMock {
-  constructor(private callback: IntersectionObserverCallback) {}
-  observe = vi.fn()
-  unobserve = vi.fn()
-  disconnect = vi.fn()
-  takeRecords = vi.fn().mockReturnValue([])
-}
-
-Object.defineProperty(global, 'IntersectionObserver', {
-  writable: true,
-  configurable: true,
-  value: IntersectionObserverMock,
-})
-
-Object.defineProperty(global, 'localStorage', {
-  value: {
-    getItem: vi.fn(),
-    setItem: vi.fn(),
-    removeItem: vi.fn(),
-    clear: vi.fn(),
+vi.mock('next-intl', () => ({
+  useTranslations: () => {
+    const t = (key: string) => key
+    t.raw = (key: string) => [key]
+    t.rich = (key: string) => key
+    return t
   },
-  writable: true,
+  useLocale: () => 'pt',
+}))
+
+vi.mock('next-intl/routing', () => ({
+  defineRouting: vi.fn((config: Record<string, unknown>) => config),
+}))
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
+beforeAll(() => {
+  vi.spyOn(console, 'log').mockImplementation(() => {})
 })
 
-Object.defineProperty(global, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
+afterAll(() => {
+  vi.restoreAllMocks()
 })

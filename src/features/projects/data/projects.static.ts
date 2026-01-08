@@ -1,0 +1,32 @@
+export const projectsData = [
+  {
+    id: 1,
+    i18nKey: 'northClinic',
+    image: null,
+    technologies: ['Javascript', 'Golang', 'REST API'],
+    github: null,
+    demo: 'https://northclinic.com.br',
+    type: 'web',
+    featured: true,
+  },
+  {
+    id: 2,
+    i18nKey: 'mobileEstoquista',
+    image: null,
+    technologies: ['React Native', 'TypeScript', 'Micro-frontend'],
+    github: null,
+    demo: null,
+    type: 'mobile',
+    featured: true,
+  },
+  {
+    id: 3,
+    i18nKey: 'pratio',
+    image: null,
+    technologies: ['React', 'Electron', 'TypeScript'],
+    github: null,
+    demo: 'https://pratio.com.br',
+    type: 'web',
+    featured: true,
+  },
+]

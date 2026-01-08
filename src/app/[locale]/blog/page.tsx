@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
-import { FeaturedPost, PostCard } from '@/components/blog'
-import { Breadcrumbs } from '@/components/ui'
-import { getAllPosts } from '@/lib/blog'
-import { BASE_URL } from '@/lib/constants'
+import { FeaturedPost, PostCard } from '@/features/blog/components'
+import { getAllPosts } from '@/features/blog/lib/blog'
+import { Breadcrumbs } from '@/shared/components/ui'
+import { BASE_URL } from '@/shared/lib/constants'
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {

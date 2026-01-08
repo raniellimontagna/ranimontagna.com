@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, Document, Letter, Suitcase, User } from '@solar-
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { StaggerContainer, StaggerItem } from '@/components/animations'
+import { StaggerContainer, StaggerItem } from '@/shared/components/animations'
 
 export default function NotFoundPage() {
   const t = useTranslations('notFound')
