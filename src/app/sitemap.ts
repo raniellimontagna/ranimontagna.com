@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
-import { locales } from '@/i18n/routing'
-import { getAllPosts } from '@/lib/blog'
-import { BASE_URL } from '@/lib/constants'
+import { getAllPosts } from '@/features/blog/lib/blog'
+import { locales } from '@/shared/config/i18n/routing'
+import { BASE_URL } from '@/shared/lib/constants'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = BASE_URL

@@ -1,8 +1,12 @@
 import { getTranslations } from 'next-intl/server'
-import { CTASection, GitHubStats, ProjectsList } from '@/components/projects'
-import { Breadcrumbs } from '@/components/ui'
-import { BASE_URL } from '@/lib/constants'
-import { getFeaturedRepositories, getGitHubStats, getRegularRepositories } from '@/lib/github'
+import { CTASection, GitHubStats, ProjectsList } from '@/features/projects/components'
+import {
+  getFeaturedRepositories,
+  getGitHubStats,
+  getRegularRepositories,
+} from '@/features/projects/lib/github'
+import { Breadcrumbs } from '@/shared/components/ui'
+import { BASE_URL } from '@/shared/lib/constants'
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {

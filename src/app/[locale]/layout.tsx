@@ -4,11 +4,11 @@ import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import './globals.css'
 
-import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/components'
-import { routing } from '@/i18n/routing'
-import { BASE_URL } from '@/lib/constants'
-import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/lib/jsonld'
-import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/lib/seo'
+import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
+import { routing } from '@/shared/config/i18n/routing'
+import { BASE_URL } from '@/shared/lib/constants'
+import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/shared/lib/jsonld'
+import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

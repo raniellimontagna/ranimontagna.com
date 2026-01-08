@@ -1,4 +1,4 @@
-import { BlogHeader } from '@/components/blog'
+import { BlogHeader } from '@/features/blog/components'
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (

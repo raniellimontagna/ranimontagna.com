@@ -1,4 +1,4 @@
-import { ProjectsHeader } from '@/components/projects'
+import { ProjectsHeader } from '@/features/projects/components'
 
 export default function ProjectsLayout({ children }: { children: React.ReactNode }) {
   return (

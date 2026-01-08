@@ -1,8 +1,0 @@
-export * from './animations'
-export { GoogleAnalytics } from './google-analytics/google-analytics'
-export { Header } from './header/header'
-export { LanguageSwitcher } from './languageSwitcher/languageSwitcher'
-export { ThemeProvider } from './themeProvider/themeProvider'
-export { ThemeToggle } from './themeToggle'
-export * from './ui'
-export { WebVitals } from './web-vitals/web-vitals'
