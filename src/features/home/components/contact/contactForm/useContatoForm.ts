@@ -5,11 +5,12 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { formlyEmailService } from '@/shared/services/formly-email-service'
+import type { ContactFormData } from '@/shared/services/formly-email-service'
+import { createMailtoFallback, sendContactEmail } from '@/shared/services/formly-email-service'
 
 const contactSchema = z.object({
   name: z.string().min(2),
-  email: z.email(),
+  email: z.string().email(), // Changed to z.string().email() for consistency with z.email()
   subject: z.string().min(5),
   message: z.string().min(10),
 })
@@ -35,7 +36,7 @@ export function useContactForm() {
     setSubmitStatus('idle')
 
     try {
-      await formlyEmailService.sendContactEmail(data)
+      await sendContactEmail(data)
 
       setSubmitStatus('success')
       reset()
@@ -43,7 +44,7 @@ export function useContactForm() {
       console.error('Erro ao enviar formulário via Formly:', error)
       setSubmitStatus('error')
 
-      const mailtoLink = formlyEmailService.createMailtoFallback(data)
+      const mailtoLink = createMailtoFallback(data)
 
       setTimeout(() => {
         window.open(mailtoLink)

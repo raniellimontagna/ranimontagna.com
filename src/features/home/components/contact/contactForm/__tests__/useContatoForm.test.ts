@@ -7,17 +7,13 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-// Mock formlyEmailService
-const { mockSendContactEmail, mockCreateMailtoFallback } = vi.hoisted(() => ({
-  mockSendContactEmail: vi.fn(),
-  mockCreateMailtoFallback: vi.fn(),
-}))
+const mockSendContactEmail = vi.fn()
+const mockCreateMailtoFallback = vi.fn()
 
+// Mock formly email service functions
 vi.mock('@/shared/services/formly-email-service', () => ({
-  formlyEmailService: {
-    sendContactEmail: mockSendContactEmail,
-    createMailtoFallback: mockCreateMailtoFallback,
-  },
+  sendContactEmail: (...args: unknown[]) => mockSendContactEmail(...args),
+  createMailtoFallback: (...args: unknown[]) => mockCreateMailtoFallback(...args),
 }))
 
 describe('useContactForm', () => {

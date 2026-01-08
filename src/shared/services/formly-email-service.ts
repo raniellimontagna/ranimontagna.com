@@ -11,76 +11,92 @@ interface FormlyResponse {
   id?: string
 }
 
-class FormlyEmailService {
-  private readonly baseUrl = 'https://formly.email'
-  private readonly formId: string
+const FORMLY_BASE_URL = 'https://formly.email'
 
-  constructor() {
-    this.formId = process.env.NEXT_PUBLIC_FORMLY_FORM_ID || ''
+/**
+ * Get the Formly form ID from environment variables
+ */
+function getFormId(): string {
+  const formId = process.env.NEXT_PUBLIC_FORMLY_FORM_ID || ''
 
-    if (!this.formId) {
-      console.warn('NEXT_PUBLIC_FORMLY_FORM_ID não configurado. Configure no arquivo .env.local')
-    }
+  if (!formId) {
+    console.warn('NEXT_PUBLIC_FORMLY_FORM_ID não configurado. Configure no arquivo .env.local')
   }
 
-  async sendContactEmail(data: ContactFormData): Promise<FormlyResponse> {
-    if (!this.formId) {
-      throw new Error('Form ID não configurado. Configure NEXT_PUBLIC_FORMLY_FORM_ID no .env.local')
-    }
+  return formId
+}
 
-    const payload = {
-      access_key: this.formId,
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
-      message: data.message,
+/**
+ * Send contact email via Formly API
+ */
+export async function sendContactEmail(
+  data: ContactFormData,
+  formId: string = getFormId(),
+): Promise<FormlyResponse> {
+  if (!formId) {
+    throw new Error('Form ID não configurado. Configure NEXT_PUBLIC_FORMLY_FORM_ID no .env.local')
+  }
 
-      source: 'Portfolio Website - Raniellimontagna.com',
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
-    }
+  const payload = {
+    access_key: formId,
+    name: data.name,
+    email: data.email,
+    subject: data.subject,
+    message: data.message,
 
-    const response = await fetch(`${this.baseUrl}/submit`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-      redirect: 'manual',
-    })
+    source: 'Portfolio Website - Ranimontagna.com',
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    url: window.location.href,
+  }
 
-    if (response.type === 'opaqueredirect') {
+  const response = await fetch(`${FORMLY_BASE_URL}/submit`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+    redirect: 'manual',
+  })
+
+  if (response.type === 'opaqueredirect') {
+    return { success: true, message: 'Email enviado com sucesso!' }
+  }
+
+  if (response.ok) {
+    let result: FormlyResponse
+
+    try {
+      result = await response.json()
+    } catch {
+      // JSON parsing failed, but response was ok, treat as success
       return { success: true, message: 'Email enviado com sucesso!' }
     }
 
-    if (response.ok) {
-      try {
-        const result: FormlyResponse = await response.json()
-
-        if (!result.success) {
-          throw new Error(result.message || 'Erro desconhecido ao enviar email')
-        }
-
-        return result
-      } catch {
-        return { success: true, message: 'Email enviado com sucesso!' }
-      }
+    // Check if API returned success: false
+    if (!result.success) {
+      throw new Error(result.message || 'Erro desconhecido ao enviar email')
     }
 
-    const errorText = await response.text()
-    throw new Error(`HTTP ${response.status}: ${errorText}`)
+    return result
   }
 
-  createMailtoFallback(data: ContactFormData): string {
-    const subject = encodeURIComponent(data.subject)
-    const body = encodeURIComponent(
-      `Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n---\nEnviado via formulário do site em ${new Date().toLocaleString()}`,
-    )
-
-    return `mailto:raniellimontagna@gmail.com?subject=${subject}&body=${body}`
-  }
+  const errorText = await response.text()
+  throw new Error(`HTTP ${response.status}: ${errorText}`)
 }
 
-export const formlyEmailService = new FormlyEmailService()
+/**
+ * Create mailto fallback link for when Formly API fails
+ */
+export function createMailtoFallback(data: ContactFormData): string {
+  const subject = encodeURIComponent(data.subject)
+  const body = encodeURIComponent(
+    `Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n---\nEnviado via formulário do site em ${new Date().toLocaleString()}`,
+  )
+
+  return `mailto:raniellimontagna@gmail.com?subject=${subject}&body=${body}`
+}
+
+// Export types
+export type { ContactFormData, FormlyResponse }
