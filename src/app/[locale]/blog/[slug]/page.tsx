@@ -1,7 +1,13 @@
 import dayjs from 'dayjs'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import { PostNavigation, ReadingProgressBar, ScrollToTop } from '@/features/blog/components'
+import {
+  ImageWithLightbox,
+  MermaidDiagram,
+  PostNavigation,
+  ReadingProgressBar,
+  ScrollToTop,
+} from '@/features/blog/components'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -114,12 +120,24 @@ const components = {
   li: (props: React.HTMLAttributes<HTMLLIElement>) => (
     <li {...props} className="mb-2 text-slate-700 dark:text-slate-300" />
   ),
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      {...props}
-      className="mb-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-800 dark:bg-slate-950"
-    />
-  ),
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => {
+    // Check if this is a mermaid code block
+    const children = props.children as React.ReactElement
+    const className = (children?.props as { className?: string })?.className || ''
+    const code = (children?.props as { children?: string })?.children || ''
+
+    if (className.includes('language-mermaid')) {
+      return <MermaidDiagram chart={String(code).trim()} />
+    }
+
+    // Regular code block
+    return (
+      <pre
+        {...props}
+        className="mb-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-800 dark:bg-slate-950"
+      />
+    )
+  },
   code: (props: React.HTMLAttributes<HTMLElement>) => {
     // Check if it's inline code (no className with language-)
     const isInline = !props.className?.includes('language-')
@@ -142,20 +160,7 @@ const components = {
     />
   ),
   img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <figure className="my-8">
-      {/* biome-ignore lint/a11y/useAltText: alt is passed from MDX via props spread */}
-      {/* biome-ignore lint/performance/noImgElement: next/image cannot be used with MDX dynamic props */}
-      <img
-        {...props}
-        className="w-full rounded-xl border border-slate-200 shadow-lg dark:border-slate-800"
-        loading="lazy"
-      />
-      {props.alt && (
-        <figcaption className="mt-3 text-center text-sm italic text-slate-500 dark:text-slate-400">
-          {props.alt}
-        </figcaption>
-      )}
-    </figure>
+    <ImageWithLightbox src={props.src?.toString()} alt={props.alt} />
   ),
   // Table components with modern styling
   table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
