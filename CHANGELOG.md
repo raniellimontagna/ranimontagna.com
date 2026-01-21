@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.17.0...v1.18.0) (2026-01-21)
+
+
+### Features
+
+* enable image lightboxes and mermaid diagram rendering in blog post mdx. ([009fc92](https://github.com/raniellimontagna/ranimontagna.com/commit/009fc92e16f7fc5074777c0456aaa232645710c8))
+
 ## [1.17.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.16.0...v1.17.0) (2026-01-08)
 
 
