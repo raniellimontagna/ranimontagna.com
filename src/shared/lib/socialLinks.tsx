@@ -51,8 +51,8 @@ export const socialLinks = {
   },
   email: {
     name: 'Email',
-    direct: 'raniellimontagna@hotmail.com',
-    href: 'mailto:raniellimontagna@hotmail.com',
+    direct: 'contato@ranimontagna.com',
+    href: 'mailto:contato@ranimontagna.com',
     icon: MailIcon,
     external: false,
     ariaLabel: 'Send email to Ranielli Montagna',

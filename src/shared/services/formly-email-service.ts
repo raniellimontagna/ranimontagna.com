@@ -75,7 +75,7 @@ export function createMailtoFallback(data: ContactFormData): string {
     `Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n---\nEnviado via formulário do site em ${new Date().toLocaleString()}`,
   )
 
-  return `mailto:raniellimontagna@gmail.com?subject=${subject}&body=${body}`
+  return `mailto:contato@ranimontagna.com?subject=${subject}&body=${body}`
 }
 
 // Export types

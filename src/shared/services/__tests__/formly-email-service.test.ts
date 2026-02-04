@@ -180,7 +180,7 @@ describe('formly-email-service', () => {
     it('creates correct mailto link', () => {
       const result = createMailtoFallback(mockContactData)
 
-      expect(result).toContain('mailto:raniellimontagna@gmail.com')
+      expect(result).toContain('mailto:contato@ranimontagna.com')
       expect(result).toContain('subject=Test%20Subject')
       expect(result).toContain('Nome%3A%20John%20Doe')
       expect(result).toContain('Email%3A%20john%40example.com')
@@ -198,7 +198,7 @@ describe('formly-email-service', () => {
 
       const result = createMailtoFallback(specialData)
 
-      expect(result).toContain('mailto:raniellimontagna@gmail.com')
+      expect(result).toContain('mailto:contato@ranimontagna.com')
       expect(result).toContain('subject=Test%3A%20Special%20%26%20Characters!')
       expect(result).toContain('Jo%C3%A3o%20%26%20Maria')
     })
