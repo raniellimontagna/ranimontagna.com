@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.18.0...v1.19.0) (2026-02-04)
+
+
+### Features
+
+* updates primary contact email address ([45c9cf2](https://github.com/raniellimontagna/ranimontagna.com/commit/45c9cf290e154ec69df73066bddab841e840386a))
+
 ## [1.18.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.17.0...v1.18.0) (2026-01-21)
 
 
