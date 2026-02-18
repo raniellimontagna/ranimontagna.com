@@ -5,18 +5,16 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import type { Post } from '@/features/blog/lib/blog'
+import { SafeImage } from './safe-image'
 
 interface PostCardProps {
   post: Post
   index: number
 }
 
-// Default fallback image for posts without coverImage
-const DEFAULT_COVER_IMAGE = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80'
-
 export function PostCard({ post, index }: PostCardProps) {
   const t = useTranslations('blog')
-  const coverImage = post.metadata.coverImage || DEFAULT_COVER_IMAGE
+  const coverImage = post.metadata.coverImage
 
   return (
     <motion.div
@@ -29,14 +27,13 @@ export function PostCard({ post, index }: PostCardProps) {
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900/80"
       >
         <div className="relative h-40 overflow-hidden">
-          {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
-          <img
+          <SafeImage
             src={coverImage}
             alt={post.metadata.title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
-        <div className="flex flex-col flex-grow p-6 pt-4">
+        <div className="flex flex-col grow p-6 pt-4">
           <div className="mb-4 flex items-center justify-between gap-4">
             <time className="text-sm font-medium text-slate-500 dark:text-slate-400">
               {dayjs(post.metadata.date).format('MMM D, YYYY')}
@@ -57,7 +54,7 @@ export function PostCard({ post, index }: PostCardProps) {
             {post.metadata.title}
           </h3>
 
-          <p className="mb-6 flex-grow text-base text-slate-600 dark:text-slate-400">
+          <p className="mb-6 grow text-base text-slate-600 dark:text-slate-400">
             {post.metadata.description}
           </p>
 

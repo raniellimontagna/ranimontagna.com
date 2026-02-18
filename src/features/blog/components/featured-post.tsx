@@ -5,17 +5,15 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import type { Post } from '@/features/blog/lib/blog'
+import { SafeImage } from './safe-image'
 
 interface FeaturedPostProps {
   post: Post
 }
 
-// Default fallback image for posts without coverImage
-const DEFAULT_COVER_IMAGE = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80'
-
 export function FeaturedPost({ post }: FeaturedPostProps) {
   const t = useTranslations('blog')
-  const coverImage = post.metadata.coverImage || DEFAULT_COVER_IMAGE
+  const coverImage = post.metadata.coverImage
 
   return (
     <motion.div
@@ -29,16 +27,15 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
         className="group relative block overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all hover:shadow-2xl dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900/80"
       >
         <div className="relative h-48 sm:h-64 overflow-hidden">
-          {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
-          <img
+          <SafeImage
             src={coverImage}
             alt={post.metadata.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-slate-900" />
+          <div className="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent dark:from-slate-900" />
         </div>
         <div className="p-8 md:p-12 pt-6 md:pt-8">
-          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-64 w-64 rounded-full bg-gradient-to-br from-purple-500/10 to-blue-500/10 blur-3xl transition-all group-hover:scale-150" />
+          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-64 w-64 rounded-full bg-linear-to-br from-purple-500/10 to-blue-500/10 blur-3xl transition-all group-hover:scale-150" />
 
           <div className="relative">
             <div className="mb-6 flex flex-wrap items-center gap-4 text-sm">
@@ -55,7 +52,7 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
             </div>
 
             <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
-              <span className="bg-gradient-to-r from-slate-900 to-slate-600 bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-500 group-hover:bg-[length:100%_2px] dark:from-white dark:to-slate-300">
+              <span className="bg-linear-to-r from-slate-900 to-slate-600 bg-size-[0%_2px] bg-bottom-left bg-no-repeat transition-all duration-500 group-hover:bg-size-[100%_2px] dark:from-white dark:to-slate-300">
                 {post.metadata.title}
               </span>
             </h2>

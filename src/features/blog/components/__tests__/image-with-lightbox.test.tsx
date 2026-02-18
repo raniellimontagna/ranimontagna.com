@@ -1,5 +1,5 @@
-import { render, screen } from '@/tests/test-utils'
 import { fireEvent } from '@testing-library/react'
+import { render, screen } from '@/tests/test-utils'
 import { ImageWithLightbox } from '../image-with-lightbox'
 
 interface LightboxProps {
