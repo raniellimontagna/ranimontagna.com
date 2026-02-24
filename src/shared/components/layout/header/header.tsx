@@ -7,13 +7,13 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
-import { LanguageSwitcher } from '@/shared/components/languageSwitcher/languageSwitcher'
-import { ThemeToggle } from '@/shared/components/themeToggle/themeToggle'
-import { getResumeByLocale } from '@/shared/lib/socialLinks'
-import { useCommandMenu } from '@/shared/store/useCommandMenu/useCommandMenu'
-import { useTheme } from '@/shared/store/useTheme/useTheme'
+import { LanguageSwitcher } from '@/shared/components/language-switcher/language-switcher'
+import { ThemeToggle } from '@/shared/components/theme-toggle/theme-toggle'
+import { getResumeByLocale } from '@/shared/lib/social-links'
+import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
+import { useTheme } from '@/shared/store/use-theme/use-theme'
 
-export function Header() {
+export const Header = (): React.ReactElement | null => {
   const t = useTranslations('header')
   const locale = useLocale()
   const pathname = usePathname()
@@ -70,7 +70,7 @@ export function Header() {
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <button
               type="button"
               onClick={() => scrollToSection('#start')}

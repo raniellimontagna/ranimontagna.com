@@ -17,21 +17,21 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }))
 
-vi.mock('@/shared/components/languageSwitcher/languageSwitcher', () => ({
+vi.mock('@/shared/components/language-switcher/language-switcher', () => ({
   LanguageSwitcher: () => <div data-testid="language-switcher">LanguageSwitcher</div>,
 }))
 
-vi.mock('@/shared/components/themeToggle/themeToggle', () => ({
+vi.mock('@/shared/components/theme-toggle/theme-toggle', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
 }))
 
-vi.mock('@/shared/store/useCommandMenu/useCommandMenu', () => ({
+vi.mock('@/shared/store/use-command-menu/use-command-menu', () => ({
   useCommandMenu: () => ({
     setOpen: mockSetOpen,
   }),
 }))
 
-vi.mock('@/shared/store/useTheme/useTheme', () => ({
+vi.mock('@/shared/store/use-theme/use-theme', () => ({
   useTheme: () => ({
     theme: 'light',
     mounted: true,

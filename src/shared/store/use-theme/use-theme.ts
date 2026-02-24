@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import type { Theme, ThemeStore } from './useTheme.types'
+import type { Theme, ThemeStore } from './use-theme.types'
 
 const applyTheme = (theme: Theme) => {
   if (typeof document !== 'undefined') {

@@ -1,10 +1,10 @@
-import type { ThemeStore } from '@/shared/store/useTheme/useTheme.types'
+import type { ThemeStore } from '@/shared/store/use-theme/use-theme.types'
 import { render } from '@/tests/test-utils'
-import { ThemeProvider } from '../themeProvider'
+import { ThemeProvider } from '../theme-provider'
 
 // Mock useTheme
 const mockInitTheme = vi.fn()
-vi.mock('@/shared/store/useTheme/useTheme', () => ({
+vi.mock('@/shared/store/use-theme/use-theme', () => ({
   useTheme: <T,>(selector: (state: ThemeStore) => T) => {
     // Mock the selector logic if needed, or just return mock object
     // The component calls useTheme((state) => state.initTheme)

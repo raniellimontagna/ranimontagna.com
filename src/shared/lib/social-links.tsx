@@ -59,9 +59,6 @@ export const socialLinks = {
   },
 } as const
 
-/**
- * Resume/CV links configuration
- */
 const resumeLinks = {
   en: {
     name: 'Resume',
@@ -96,9 +93,6 @@ export const contactMethods = {
   },
 } as const
 
-/**
- * Resume helper functions
- */
 export const getResumeByLocale = (locale: 'en' | 'pt' | 'es') => {
   return resumeLinks[locale as keyof typeof resumeLinks] || resumeLinks.en
 }

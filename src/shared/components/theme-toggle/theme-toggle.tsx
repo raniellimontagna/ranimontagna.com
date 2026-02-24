@@ -2,9 +2,9 @@
 
 import { Moon, Sun } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import { useTheme } from '@/shared/store/useTheme/useTheme'
+import { useTheme } from '@/shared/store/use-theme/use-theme'
 
-export function ThemeToggle() {
+export const ThemeToggle = (): React.ReactElement => {
   const t = useTranslations('header')
   const { theme, toggleTheme, mounted } = useTheme()
 

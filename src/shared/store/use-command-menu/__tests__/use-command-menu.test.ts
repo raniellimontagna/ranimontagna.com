@@ -1,4 +1,4 @@
-import { useCommandMenu } from '../useCommandMenu'
+import { useCommandMenu } from '../use-command-menu'
 
 describe('useCommandMenu store', () => {
   beforeEach(() => {

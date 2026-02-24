@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { LanguageSwitcher, ThemeToggle } from '@/shared'
-import { useTheme } from '@/shared/store/useTheme/useTheme'
+import { useTheme } from '@/shared/store/use-theme/use-theme'
 
 export function ProjectsHeader() {
   const t = useTranslations('projectsPage')
@@ -27,7 +27,7 @@ export function ProjectsHeader() {
               />
             </div>
           </Link>
-          <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-700" />
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
           <Link
             href={`/${locale}/projects`}
             className="text-sm font-semibold text-slate-900 transition-colors hover:text-purple-600 dark:text-slate-100 dark:hover:text-purple-400"

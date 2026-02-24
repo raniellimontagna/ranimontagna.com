@@ -17,8 +17,8 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
 import { GithubIcon, LinkedinIcon } from '@/shared/components/icons/brands'
-import { useCommandMenu } from '@/shared/store/useCommandMenu/useCommandMenu'
-import { useTheme } from '@/shared/store/useTheme/useTheme'
+import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
+import { useTheme } from '@/shared/store/use-theme/use-theme'
 
 export function CommandMenu() {
   const { isOpen, setOpen, toggle } = useCommandMenu()
@@ -69,7 +69,7 @@ export function CommandMenu() {
 
         {/* Content */}
         <Dialog.Content
-          className="fixed inset-0 z-[51] pointer-events-none flex items-start justify-center p-4 pt-[15vh] sm:pt-[20vh]"
+          className="fixed inset-0 z-51 pointer-events-none flex items-start justify-center p-4 pt-[15vh] sm:pt-[20vh]"
           onInteractOutside={() => setOpen(false)}
         >
           {/* Visually hidden title and description for accessibility */}

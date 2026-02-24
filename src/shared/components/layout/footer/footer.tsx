@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
-import { getSocialLinksAsArray } from '@/shared/lib/socialLinks'
-import { useTheme } from '@/shared/store/useTheme/useTheme'
+import type { SocialLink } from '@/shared/lib/social-links'
+import { getSocialLinksAsArray } from '@/shared/lib/social-links'
+import { useTheme } from '@/shared/store/use-theme/use-theme'
 
-export function Footer() {
+export const Footer = (): React.ReactElement => {
   const t = useTranslations('footer')
   const { theme } = useTheme()
   const currentYear = new Date().getFullYear()
@@ -41,7 +42,7 @@ export function Footer() {
           <FadeIn delay={0.2}>
             <StaggerContainer staggerDelay={0.1}>
               <div className="flex items-center gap-3">
-                {socialLinksArray.map((social) => {
+                {socialLinksArray.map((social: SocialLink & { id: string }) => {
                   const Icon = social.icon
 
                   return (

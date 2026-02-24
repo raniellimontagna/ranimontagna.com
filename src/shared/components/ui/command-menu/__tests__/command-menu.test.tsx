@@ -16,7 +16,7 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-vi.mock('@/shared/store/useCommandMenu/useCommandMenu', () => ({
+vi.mock('@/shared/store/use-command-menu/use-command-menu', () => ({
   useCommandMenu: () => ({
     isOpen: true,
     setOpen: mockSetOpen,
@@ -24,7 +24,7 @@ vi.mock('@/shared/store/useCommandMenu/useCommandMenu', () => ({
   }),
 }))
 
-vi.mock('@/shared/store/useTheme/useTheme', () => ({
+vi.mock('@/shared/store/use-theme/use-theme', () => ({
   useTheme: () => ({
     setTheme: mockSetTheme,
   }),

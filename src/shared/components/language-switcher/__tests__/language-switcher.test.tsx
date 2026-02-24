@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@/tests/test-utils'
-import { LanguageSwitcher } from '../languageSwitcher'
+import { LanguageSwitcher } from '../language-switcher'
 
 // Mocks
 const mockReplace = vi.fn()

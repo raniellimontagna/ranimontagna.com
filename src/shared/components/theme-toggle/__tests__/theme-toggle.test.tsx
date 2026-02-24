@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@/tests/test-utils'
-import { ThemeToggle } from '../themeToggle'
+import { ThemeToggle } from '../theme-toggle'
 
 const mockToggleTheme = vi.fn()
 let mockTheme = 'light'
 let mockMounted = true
 
-vi.mock('@/shared/store/useTheme/useTheme', () => ({
+vi.mock('@/shared/store/use-theme/use-theme', () => ({
   useTheme: () => ({
     theme: mockTheme,
     toggleTheme: mockToggleTheme,

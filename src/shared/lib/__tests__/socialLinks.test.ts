@@ -3,7 +3,7 @@ import {
   getResumeByLocale,
   getSocialLinksAsArray,
   socialLinks,
-} from '../socialLinks'
+} from '../social-links'
 
 describe('socialLinks', () => {
   describe('socialLinks object', () => {

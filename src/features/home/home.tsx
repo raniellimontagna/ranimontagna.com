@@ -1,20 +1,18 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import type React from 'react'
 import { Header } from '@/shared'
 
-// Lazy load CommandMenu as it's not needed immediately
 const CommandMenu = dynamic(
   () => import('@/shared/components/ui/command-menu/command-menu').then((mod) => mod.CommandMenu),
   { ssr: false },
 )
 
-// Lazy load Footer as it's below the fold
 const Footer = dynamic(() =>
   import('@/shared/components/layout/footer/footer').then((mod) => mod.Footer),
 )
 
-// Lazy load components below the fold to improve LCP
 const About = dynamic(() =>
   import('@/features/home/components/about/about').then((mod) => mod.About),
 )
@@ -38,7 +36,7 @@ interface HomeProps {
   heroContent: React.ReactNode
 }
 
-export function Home({ heroContent }: HomeProps) {
+export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
   return (
     <>
       <Header />

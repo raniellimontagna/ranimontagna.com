@@ -4,7 +4,7 @@ import { ChatRound, Download, User } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { FadeIn } from '@/shared/components/animations'
-import { getResumeByLocale } from '@/shared/lib/socialLinks'
+import { getResumeByLocale } from '@/shared/lib/social-links'
 
 export function About() {
   const t = useTranslations('about')
@@ -41,8 +41,8 @@ export function About() {
                 </div>
 
                 {/* Decorative Elements */}
-                <div className="absolute -top-6 -right-6 z-0 h-24 w-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-20 blur-xl" />
-                <div className="absolute -bottom-6 -left-6 z-0 h-24 w-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 opacity-20 blur-xl" />
+                <div className="absolute -top-6 -right-6 z-0 h-24 w-24 rounded-full bg-linear-to-br from-blue-500 to-purple-500 opacity-20 blur-xl" />
+                <div className="absolute -bottom-6 -left-6 z-0 h-24 w-24 rounded-full bg-linear-to-br from-purple-500 to-pink-500 opacity-20 blur-xl" />
               </div>
             </div>
           </FadeIn>
@@ -57,7 +57,7 @@ export function About() {
 
               <h2 className="mb-8 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
                 {t('title.part1')}{' '}
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+                <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
                   {t('title.part2')}
                 </span>
               </h2>

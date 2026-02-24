@@ -20,7 +20,7 @@ const shortNames: Record<string, string> = {
   es: 'ES',
 }
 
-export function LanguageSwitcher() {
+export const LanguageSwitcher = (): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false)
   const locale = useLocale()
   const pathname = usePathname()

@@ -4,11 +4,11 @@ import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 
-import { contactMethods, socialLinks } from '@/shared/lib/socialLinks'
+import { contactMethods, socialLinks } from '@/shared/lib/social-links'
 
 import { ContactForm } from './contactForm/contactForm'
 
-export function Contact() {
+export const Contact = (): React.ReactElement => {
   const t = useTranslations('contact')
 
   const emailLink = socialLinks.email
@@ -53,7 +53,7 @@ export function Contact() {
       {/* Background */}
       <div className="pointer-events-none absolute inset-0">
         {/* Code pattern background */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.03)_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(rgba(51,65,85,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.2)_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.03)_1px,transparent_1px)] bg-size-[24px_24px] dark:bg-[linear-gradient(rgba(51,65,85,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.2)_1px,transparent_1px)]" />
 
         {/* Gradient orbs */}
         <div className="absolute top-1/4 left-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />

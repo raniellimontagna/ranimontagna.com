@@ -1,4 +1,4 @@
-import { socialLinks } from '@/shared/lib/socialLinks'
+import { socialLinks } from '@/shared/lib/social-links'
 import { BASE_URL } from './constants'
 
 interface PersonJsonLd {

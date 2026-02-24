@@ -15,7 +15,7 @@ vi.mock('@/shared/components/animations', () => ({
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-vi.mock('@/shared/store/useTheme/useTheme', () => ({
+vi.mock('@/shared/store/use-theme/use-theme', () => ({
   useTheme: () => ({
     theme: 'light',
   }),

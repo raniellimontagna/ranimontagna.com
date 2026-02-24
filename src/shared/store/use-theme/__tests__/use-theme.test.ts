@@ -1,4 +1,4 @@
-import { useTheme } from '../useTheme'
+import { useTheme } from '../use-theme'
 
 describe('useTheme store', () => {
   beforeEach(() => {
