@@ -59,31 +59,42 @@ export const useChat = create<ChatState>((set, get) => ({
 
       let buffer = ''
 
+      const processLine = (rawLine: string): void => {
+        const line = rawLine.trim()
+        if (!line.startsWith('data:')) return
+
+        const jsonStr = line.slice(5).trim()
+        if (!jsonStr || jsonStr === '[DONE]') return
+
+        try {
+          const parsed = JSON.parse(jsonStr)
+          if (parsed.text) {
+            set((state) => ({
+              messages: state.messages.map((m) =>
+                m.id === assistantMessage.id ? { ...m, content: m.content + parsed.text } : m,
+              ),
+            }))
+          }
+        } catch {
+          // Skip malformed chunks
+        }
+      }
+
       while (true) {
         const { done, value } = await reader.read()
-        if (done) break
+        if (done) {
+          if (buffer.trim()) {
+            processLine(buffer)
+          }
+          break
+        }
 
         buffer += decoder.decode(value, { stream: true })
-        const lines = buffer.split('\n')
+        const lines = buffer.split(/\r?\n/)
         buffer = lines.pop() ?? ''
 
         for (const line of lines) {
-          if (!line.startsWith('data: ')) continue
-          const jsonStr = line.slice(6).trim()
-          if (!jsonStr || jsonStr === '[DONE]') continue
-
-          try {
-            const parsed = JSON.parse(jsonStr)
-            if (parsed.text) {
-              set((state) => ({
-                messages: state.messages.map((m) =>
-                  m.id === assistantMessage.id ? { ...m, content: m.content + parsed.text } : m,
-                ),
-              }))
-            }
-          } catch {
-            // Skip malformed chunks
-          }
+          processLine(line)
         }
       }
 
