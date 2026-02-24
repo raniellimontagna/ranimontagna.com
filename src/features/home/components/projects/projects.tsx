@@ -14,13 +14,9 @@ export function Projects() {
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
-    // Cast strict string union from static file to simpler string type if needed,
-    // or keep as is if types match.
-    // projectsData types are inferred, ProjectType has specific union for 'type'.
     type: p.type as 'mobile' | 'web' | 'api',
     title: t(`list.${p.i18nKey}.title`),
     description: t(`list.${p.i18nKey}.description`),
-    // Use fallback empty strings if null
     image: p.image ?? '',
     github: p.github ?? '',
     demo: p.demo ?? '',
@@ -33,7 +29,6 @@ export function Projects() {
       id="projects"
       className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
-      {/* Background Decor */}
       <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[120px]" />
       <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/5 blur-[120px]" />
 
@@ -49,7 +44,7 @@ export function Projects() {
           <FadeIn delay={0.4}>
             <h2 className="mb-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
               {t('title.part1')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+              <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
                 {t('title.part2')}
               </span>
             </h2>
@@ -62,7 +57,6 @@ export function Projects() {
           </FadeIn>
         </div>
 
-        {/* Featured Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.map((project, index) => (
             <FadeIn key={project.id} delay={0.8 + index * 0.1} className="h-full">
@@ -71,7 +65,6 @@ export function Projects() {
           ))}
         </div>
 
-        {/* See All Button */}
         <FadeIn delay={1.2}>
           <div className="mt-16 flex justify-center">
             <Link

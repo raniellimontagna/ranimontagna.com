@@ -15,7 +15,6 @@ export function BlogHeader() {
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-100 bg-white py-3 shadow-sm dark:border-slate-800/50 dark:bg-slate-900/90">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: Logo & Blog Brand */}
         <div className="flex items-center gap-4">
           <Link href={`/${locale}`} className="group flex items-center gap-3">
             <div className="relative h-8 w-8 overflow-hidden transition-transform duration-300 group-hover:scale-105">
@@ -36,7 +35,6 @@ export function BlogHeader() {
           </Link>
         </div>
 
-        {/* Right: Actions */}
         <div className="flex items-center gap-3">
           <Link
             href={`/${locale}`}

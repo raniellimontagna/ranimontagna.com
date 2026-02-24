@@ -9,7 +9,6 @@ interface GitHubStatsProps {
   stats: GitHubStatsType
 }
 
-// Component to animate number counting
 function Counter({ value }: { value: number }) {
   const count = useMotionValue(0)
   const rounded = useTransform(count, (latest) => Math.round(latest))
@@ -99,20 +98,17 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
           whileHover={{ y: -5, scale: 1.02 }}
           className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white/50 p-6 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50"
         >
-          {/* Gradient Background Glow */}
           <div
-            className={`absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
+            className={`absolute -right-6 -top-6 h-24 w-24 rounded-full bg-linear-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
           />
 
           <div className="relative z-10 flex items-center gap-5">
-            {/* Icon Container */}
             <div
               className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${item.bgSync} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}
             >
               {item.icon}
             </div>
 
-            {/* Text Content */}
             <div className="flex flex-col">
               <span className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 <Counter value={item.value} />

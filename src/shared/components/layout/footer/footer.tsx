@@ -13,7 +13,6 @@ export const Footer = (): React.ReactElement => {
 
   return (
     <footer className="relative border-t border-slate-200 bg-white pt-16 pb-8 dark:border-slate-800 dark:bg-slate-950">
-      {/* Visual Top Highlight */}
       <div className="absolute top-0 left-1/2 h-px w-2/3 -translate-x-1/2 bg-linear-to-r from-transparent via-blue-500 to-transparent opacity-50 dark:opacity-100" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -50,18 +50,14 @@ export const Contact = (): React.ReactElement => {
       id="contact"
       className="relative overflow-hidden bg-slate-50 py-20 sm:py-28 lg:py-36 dark:bg-slate-950"
     >
-      {/* Background */}
       <div className="pointer-events-none absolute inset-0">
-        {/* Code pattern background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.03)_1px,transparent_1px)] bg-size-[24px_24px] dark:bg-[linear-gradient(rgba(51,65,85,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.2)_1px,transparent_1px)]" />
 
-        {/* Gradient orbs */}
         <div className="absolute top-1/4 left-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
         <div className="absolute bottom-1/4 right-0 h-[600px] w-[600px] translate-x-1/2 rounded-full bg-emerald-500/5 blur-3xl dark:bg-emerald-500/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-16 text-center lg:mb-20">
           <FadeIn delay={0.2}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 font-mono text-sm font-medium text-emerald-700 dark:border-emerald-800/50 dark:bg-emerald-900/20 dark:text-emerald-300">
@@ -90,10 +86,8 @@ export const Contact = (): React.ReactElement => {
         </div>
 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Form - Terminal Style */}
           <FadeIn delay={0.8} direction="left">
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-2xl dark:border-slate-800/60 dark:bg-slate-900">
-              {/* Terminal Header */}
               <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-100 px-4 py-3 dark:border-slate-800 dark:bg-slate-800/80">
                 <div className="flex gap-1.5">
                   <div className="h-3 w-3 rounded-full bg-red-500" />
@@ -106,9 +100,7 @@ export const Contact = (): React.ReactElement => {
                 </div>
               </div>
 
-              {/* Form Content */}
               <div className="p-6 sm:p-8">
-                {/* Code comment style header */}
                 <div className="mb-6 font-mono text-sm text-slate-500 dark:text-slate-400">
                   <p className="text-emerald-600 dark:text-emerald-400">
                     {'// '}
@@ -126,10 +118,8 @@ export const Contact = (): React.ReactElement => {
             </div>
           </FadeIn>
 
-          {/* Contact Methods - API Style */}
           <FadeIn delay={1.0} direction="right">
             <div className="flex flex-col justify-center">
-              {/* Header */}
               <div className="mb-8">
                 <div className="mb-3 flex items-center gap-2">
                   <Code2 className="h-5 w-5 text-slate-400" />
@@ -143,7 +133,6 @@ export const Contact = (): React.ReactElement => {
                 <p className="text-slate-600 dark:text-slate-400">{t('methods.subtitle')}</p>
               </div>
 
-              {/* Methods as API Cards */}
               <StaggerContainer staggerDelay={0.15}>
                 <div className="space-y-4">
                   {contactMethodsArray.map((method) => {
@@ -156,7 +145,6 @@ export const Contact = (): React.ReactElement => {
                           rel="noopener noreferrer"
                           className="group relative block overflow-hidden rounded-xl border border-slate-200/60 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80 dark:hover:border-slate-700"
                         >
-                          {/* Top bar with endpoint method */}
                           <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-4 py-2 dark:border-slate-800 dark:bg-slate-800/50">
                             <div className="flex items-center gap-2">
                               <span
@@ -175,7 +163,6 @@ export const Contact = (): React.ReactElement => {
                             <SquareArrowRightUp className="h-3.5 w-3.5 text-slate-400 opacity-0 transition-opacity group-hover:opacity-100" />
                           </div>
 
-                          {/* Content */}
                           <div className="flex items-center gap-4 p-4">
                             <div
                               className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
@@ -213,7 +200,6 @@ export const Contact = (): React.ReactElement => {
                 </div>
               </StaggerContainer>
 
-              {/* Status indicator */}
               <FadeIn delay={1.4}>
                 <div className="mt-8 rounded-xl border border-slate-200/60 bg-slate-100/50 p-4 dark:border-slate-800/60 dark:bg-slate-800/30">
                   <div className="flex items-center gap-3">

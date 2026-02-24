@@ -97,7 +97,6 @@ export const Header = (): React.ReactElement | null => {
             </button>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden items-center space-x-1 xl:flex">
             <div className="flex items-center rounded-full border border-slate-200 bg-white/50 p-1 px-2 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
               {navigation.map((item) => {
@@ -130,7 +129,6 @@ export const Header = (): React.ReactElement | null => {
             </div>
           </div>
 
-          {/* Right Actions */}
           <div className="hidden items-center space-x-3 xl:flex">
             <button
               type="button"
@@ -155,7 +153,6 @@ export const Header = (): React.ReactElement | null => {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 xl:hidden">
             <LanguageSwitcher />
             <ThemeToggle />
@@ -175,7 +172,6 @@ export const Header = (): React.ReactElement | null => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <div
           className={`overflow-hidden transition-all duration-300 xl:hidden ${
             isMenuOpen

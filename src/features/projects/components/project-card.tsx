@@ -43,13 +43,11 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         rel="noopener noreferrer"
         className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition-all hover:border-purple-200 hover:shadow-xl hover:shadow-purple-500/10 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-purple-500/30"
       >
-        {/* Glow Effect on Hover */}
         <div
-          className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
+          className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-linear-to-br from-purple-500 to-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
           style={{ background: `linear-gradient(to bottom right, ${languageColor}, transparent)` }}
         />
 
-        {/* Header */}
         <div className="relative z-10 mb-4 flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <div
@@ -110,12 +108,10 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
           )}
         </div>
 
-        {/* Description */}
-        <p className="relative z-10 mb-6 line-clamp-2 flex-grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="relative z-10 mb-6 line-clamp-2 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
           {repo.description || t('noDescription')}
         </p>
 
-        {/* Topics */}
         {repo.topics.length > 0 && (
           <div className="relative z-10 mb-6 flex flex-wrap gap-2">
             {repo.topics.slice(0, 3).map((topic) => (
@@ -134,10 +130,8 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
           </div>
         )}
 
-        {/* Footer */}
         <div className="relative z-10 mt-auto flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
           <div className="flex items-center gap-4">
-            {/* Stars */}
             <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
               <svg
                 className="h-4 w-4 text-yellow-500"
@@ -150,7 +144,6 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               <span>{repo.stargazers_count}</span>
             </div>
 
-            {/* Forks */}
             <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
               <svg
                 className="h-4 w-4 text-slate-400 group-hover:text-blue-500"
@@ -170,7 +163,6 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
             </div>
           </div>
 
-          {/* Language Indicator */}
           {repo.language && (
             <div className="flex items-center gap-2 rounded-full bg-slate-50 px-2.5 py-1 dark:bg-slate-800">
               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: languageColor }} />

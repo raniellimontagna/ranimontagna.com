@@ -23,18 +23,14 @@ export function Services() {
       id="services"
       className="relative overflow-hidden bg-slate-50 py-20 sm:py-28 lg:py-36 dark:bg-slate-950"
     >
-      {/* Background patterns */}
       <div className="pointer-events-none absolute inset-0">
-        {/* Gradient orbs */}
         <div className="absolute top-0 left-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
         <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-purple-500/5 blur-3xl dark:bg-purple-500/10" />
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-[size:60px_60px] dark:bg-[linear-gradient(rgba(51,65,85,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.3)_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-size-[60px_60px] dark:bg-[linear-gradient(rgba(51,65,85,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.3)_1px,transparent_1px)]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-16 text-center lg:mb-20">
           <FadeIn delay={0.2}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-300">
@@ -59,7 +55,6 @@ export function Services() {
           </FadeIn>
         </div>
 
-        {/* Service Cards Grid */}
         <StaggerContainer staggerDelay={0.1}>
           <div className="grid gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-4">
             {services.map((service) => (
@@ -76,11 +71,9 @@ export function Services() {
           </div>
         </StaggerContainer>
 
-        {/* CTA Section */}
         <FadeIn delay={1.2}>
           <div className="mt-20 lg:mt-28">
             <div className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xl sm:p-10 lg:p-14 dark:border-slate-800/60 dark:bg-slate-900/80">
-              {/* CTA Background gradient */}
               <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-blue-50 via-transparent to-purple-50 dark:from-blue-900/20 dark:via-transparent dark:to-purple-900/20" />
 
               <div className="relative z-10 text-center">

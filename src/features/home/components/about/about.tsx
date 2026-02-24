@@ -17,17 +17,14 @@ export function About() {
       data-testid="about"
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
-      {/* Background Decor */}
       <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/10 blur-[120px] dark:bg-blue-500/5" />
       <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/10 blur-[120px] dark:bg-purple-500/5" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          {/* Left Column: Image with Glass Frame */}
           <FadeIn delay={0.2} direction="right">
             <div className="relative mx-auto max-w-[400px] lg:mx-0 lg:max-w-none">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900">
-                {/* Glass Frame Effect */}
                 <div className="absolute inset-0 z-10 rounded-2xl border border-white/20 bg-white/10 shadow-2xl backdrop-blur-[2px] dark:border-white/10 dark:bg-white/5" />
                 <div className="absolute inset-4 z-20 overflow-hidden rounded-xl">
                   <Image
@@ -40,14 +37,12 @@ export function About() {
                   />
                 </div>
 
-                {/* Decorative Elements */}
                 <div className="absolute -top-6 -right-6 z-0 h-24 w-24 rounded-full bg-linear-to-br from-blue-500 to-purple-500 opacity-20 blur-xl" />
                 <div className="absolute -bottom-6 -left-6 z-0 h-24 w-24 rounded-full bg-linear-to-br from-purple-500 to-pink-500 opacity-20 blur-xl" />
               </div>
             </div>
           </FadeIn>
 
-          {/* Right Column: Content */}
           <FadeIn delay={0.4} direction="left">
             <div className="text-center lg:text-left">
               <div className="mb-6 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 font-mono text-sm font-semibold text-blue-700 dark:border-blue-900 dark:bg-blue-900/30 dark:text-blue-300">

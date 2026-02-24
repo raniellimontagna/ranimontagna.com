@@ -14,7 +14,6 @@ export function Experience() {
       id="experience"
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
-      {/* Background Decor */}
       <div className="absolute top-1/2 left-0 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-blue-500/5 blur-[120px]" />
       <div className="absolute top-1/2 right-0 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-purple-500/5 blur-[120px]" />
 
@@ -30,7 +29,7 @@ export function Experience() {
           <FadeIn delay={0.4}>
             <h2 className="mb-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
               {t('title.part1')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+              <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
                 {t('title.part2')}
               </span>
             </h2>
@@ -44,15 +43,13 @@ export function Experience() {
         </div>
 
         <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute top-0 bottom-0 left-6 w-px transform bg-gradient-to-b from-blue-500/20 via-purple-500/20 to-transparent md:left-1/2 md:-translate-x-px" />
+          <div className="absolute top-0 bottom-0 left-6 w-px transform bg-linear-to-b from-blue-500/20 via-purple-500/20 to-transparent md:left-1/2 md:-translate-x-px" />
 
           <StaggerContainer staggerDelay={0.2}>
             <div className="space-y-12">
               {experiences(t).map((exp, index) => (
                 <StaggerItem key={exp.company}>
                   <div className="relative">
-                    {/* Timeline Dot */}
                     <div className="absolute left-6 z-10 flex h-8 w-8 -translate-x-1/2 transform items-center justify-center rounded-full border-4 border-white bg-white shadow-lg md:left-1/2 dark:border-slate-950 dark:bg-slate-950">
                       <div
                         className={`h-3 w-3 rounded-full ${exp.current ? 'bg-green-500 animate-pulse' : 'bg-blue-500'}`}
@@ -65,8 +62,7 @@ export function Experience() {
                       } md:w-1/2 ${index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'}`}
                     >
                       <div className="group relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
-                        {/* Glow Effect on Hover */}
-                        <div className="absolute -inset-px -z-10 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 blur-sm" />
+                        <div className="absolute -inset-px -z-10 rounded-2xl bg-linear-to-r from-blue-500 to-purple-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 blur-sm" />
                         <div className="absolute inset-0 -z-10 rounded-2xl bg-white dark:bg-slate-900" />
 
                         <div
@@ -74,8 +70,7 @@ export function Experience() {
                             index % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'
                           }`}
                         >
-                          {/* Logo */}
-                          <div className={`flex-shrink-0 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
+                          <div className={`shrink-0 ${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
                             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-slate-50 shadow-sm sm:h-14 sm:w-14 dark:border-slate-800 dark:bg-slate-800">
                               <Image
                                 src={exp.logo}
@@ -121,7 +116,6 @@ export function Experience() {
                           {exp.description}
                         </p>
 
-                        {/* Highlights */}
                         <div className="mb-6 space-y-3">
                           {exp.highlights.map((highlight, idx) => (
                             <div
@@ -129,22 +123,21 @@ export function Experience() {
                               className={`flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 ${index % 2 === 0 ? 'md:justify-end' : ''}`}
                             >
                               {index % 2 !== 0 && (
-                                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
                               )}
                               <span className={index % 2 === 0 ? 'md:text-right' : ''}>
                                 {highlight}
                               </span>
                               {index % 2 === 0 && (
-                                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500 hidden md:block" />
+                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500 hidden md:block" />
                               )}
                               {index % 2 === 0 && (
-                                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500 md:hidden" />
+                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500 md:hidden" />
                               )}
                             </div>
                           ))}
                         </div>
 
-                        {/* Technologies */}
                         <div
                           className={`flex flex-wrap gap-2 ${
                             index % 2 === 0 ? 'md:justify-end' : ''
