@@ -87,7 +87,10 @@ export const callOpenRouter = async (
   if (!apiKey) return null
 
   try {
-    const openRouterModel = 'google/gemma-3-4b-it:free'
+    const openRouterModels = [
+      process.env.OPENROUTER_MODEL_PRIMARY ?? 'google/gemma-3-4b-it:free',
+      process.env.OPENROUTER_MODEL_FALLBACK ?? 'openrouter/auto',
+    ]
 
     const promptAsUserContext = [
       'Use these instructions as your operating policy for this conversation:',
@@ -102,35 +105,46 @@ export const callOpenRouter = async (
       })),
     ]
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://ranimontagna.com',
-        'X-Title': 'Rani Digital',
-      },
-      body: JSON.stringify({
-        model: openRouterModel,
-        messages: openRouterMessages,
-        stream: true,
-        max_tokens: 1024,
-        temperature: 0.7,
-      }),
-    })
+    for (const model of openRouterModels) {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+          'HTTP-Referer': 'https://ranimontagna.com',
+          'X-Title': 'Rani Digital',
+        },
+        body: JSON.stringify({
+          model,
+          messages: openRouterMessages,
+          stream: true,
+          max_tokens: 1024,
+          temperature: 0.7,
+        }),
+      })
 
-    if (!response.ok) {
+      if (response.ok) {
+        if (model !== openRouterModels[0]) {
+          Sentry.captureMessage('OpenRouter fallback model was used', {
+            level: 'info',
+            tags: { feature: 'chatbot', provider: 'openrouter' },
+            extra: { model },
+          })
+        }
+
+        return response
+      }
+
       const errorBody = await response.text()
-      console.error('OpenRouter API error:', errorBody)
+      console.error(`OpenRouter API error (${model}):`, errorBody)
       Sentry.captureMessage('OpenRouter API returned non-OK response', {
         level: 'warning',
         tags: { feature: 'chatbot', provider: 'openrouter' },
-        extra: { status: response.status, statusText: response.statusText, errorBody },
+        extra: { model, status: response.status, statusText: response.statusText, errorBody },
       })
-      return null
     }
 
-    return response
+    return null
   } catch (error) {
     console.error('OpenRouter call failed:', error)
     Sentry.captureException(error, {
