@@ -1,3 +1,5 @@
+export { useChat } from './use-chat/use-chat'
+export type { ChatMessage, ChatState } from './use-chat/use-chat.types'
 export { useCommandMenu } from './use-command-menu/use-command-menu'
 export { useTheme } from './use-theme/use-theme'
 export type { Theme, ThemeStore } from './use-theme/use-theme.types'

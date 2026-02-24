@@ -430,5 +430,22 @@
       "subtitle": "Explore todos os meus repositórios no GitHub, incluindo projetos privados e contribuições para open source.",
       "button": "Ver no GitHub"
     }
+  },
+  "chat": {
+    "title": "Rani",
+    "status": "Versão IA · Online",
+    "fabTooltip": "Fale com meu eu digital",
+    "placeholder": "Pergunte algo ao Rani...",
+    "send": "Enviar mensagem",
+    "close": "Fechar chat",
+    "clear": "Limpar conversa",
+    "welcome": "Oi! Eu sou o Rani 👋",
+    "welcomeSubtitle": "Sou a versão IA do Ranielli — me pergunte sobre minha experiência, projetos ou skills!",
+    "error": "Ocorreu um erro. Tente novamente.",
+    "suggestions": {
+      "skills": "Quais são suas principais skills?",
+      "experience": "Me conte sobre sua experiência profissional",
+      "projects": "Quais projetos você já desenvolveu?"
+    }
   }
 }

@@ -9,6 +9,11 @@ const CommandMenu = dynamic(
   { ssr: false },
 )
 
+const ChatWidget = dynamic(
+  () => import('@/shared/components/ui/chat-widget/chat-widget').then((mod) => mod.ChatWidget),
+  { ssr: false },
+)
+
 const Footer = dynamic(() =>
   import('@/shared/components/layout/footer/footer').then((mod) => mod.Footer),
 )
@@ -51,6 +56,7 @@ export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
         <Contact />
       </main>
       <Footer />
+      <ChatWidget />
     </>
   )
 }
