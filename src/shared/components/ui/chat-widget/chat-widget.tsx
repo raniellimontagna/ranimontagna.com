@@ -202,7 +202,7 @@ export const ChatWidget = (): React.ReactElement => {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className={cn(
                 'fixed z-50 flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900',
-                'inset-4 sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[540px] sm:w-[400px]',
+                'inset-4 sm:inset-auto sm:right-6 sm:bottom-6 sm:h-135 sm:w-100',
               )}
             >
               {/* Header */}
@@ -260,6 +260,9 @@ export const ChatWidget = (): React.ReactElement => {
                       </p>
                       <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                         {t('welcomeSubtitle')}
+                      </p>
+                      <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
+                        {t('betaNotice')}
                       </p>
                     </div>
                     <div className="flex flex-col gap-2">

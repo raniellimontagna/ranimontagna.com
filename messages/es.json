@@ -435,6 +435,7 @@
   "chat": {
     "title": "Rani",
     "status": "Versión IA · Online",
+    "betaNotice": "El chat está en fase beta y puede presentar problemas.",
     "fabTooltip": "Habla con mi yo digital",
     "placeholder": "Pregunta algo a Rani...",
     "send": "Enviar mensaje",
