@@ -154,6 +154,60 @@ export const callOpenRouter = async (
   }
 }
 
+export const callGroq = async (
+  systemPrompt: string,
+  messages: ParsedRequest['messages'],
+): Promise<Response | null> => {
+  const apiKey = process.env.GROQ_API_KEY
+  if (!apiKey) return null
+
+  try {
+    const model = process.env.GROQ_MODEL ?? 'llama-3.1-8b-instant'
+
+    const groqMessages: OpenRouterMessage[] = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map((msg) => ({
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content,
+      })),
+    ]
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: groqMessages,
+        stream: true,
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.text()
+      console.error(`Groq API error (${model}):`, errorBody)
+      Sentry.captureMessage('Groq API returned non-OK response', {
+        level: 'warning',
+        tags: { feature: 'chatbot', provider: 'groq' },
+        extra: { model, status: response.status, statusText: response.statusText, errorBody },
+      })
+      return null
+    }
+
+    return response
+  } catch (error) {
+    console.error('Groq call failed:', error)
+    Sentry.captureException(error, {
+      tags: { feature: 'chatbot', provider: 'groq' },
+    })
+    return null
+  }
+}
+
 export const buildGeminiStream = (response: Response): ReadableStream => {
   return new ReadableStream({
     async start(controller) {

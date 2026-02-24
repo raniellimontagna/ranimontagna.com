@@ -7,6 +7,7 @@ import {
   buildGeminiStream,
   buildOpenRouterStream,
   callGemini,
+  callGroq,
   callOpenRouter,
   checkRateLimit,
 } from './chat.utils'
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     const { messages, locale } = parsed.data
     const systemPrompt = getSystemPrompt(locale)
 
-    // Provider chain: Gemini → OpenRouter → Graceful fallback
+    // Provider chain: Gemini → OpenRouter → Groq → Graceful fallback
     const geminiResponse = await callGemini(systemPrompt, messages)
     if (geminiResponse) {
       return new Response(buildGeminiStream(geminiResponse), { headers: SSE_HEADERS })
@@ -59,6 +60,12 @@ export async function POST(request: NextRequest): Promise<Response> {
       return new Response(buildOpenRouterStream(openRouterResponse), { headers: SSE_HEADERS })
     }
 
+    console.warn('OpenRouter unavailable, trying Groq...')
+    const groqResponse = await callGroq(systemPrompt, messages)
+    if (groqResponse) {
+      return new Response(buildOpenRouterStream(groqResponse), { headers: SSE_HEADERS })
+    }
+
     console.warn('All providers unavailable, returning fallback message')
     Sentry.captureMessage('Chat API fallback triggered: all providers unavailable', {
       level: 'warning',
@@ -67,6 +74,7 @@ export async function POST(request: NextRequest): Promise<Response> {
         locale,
         hasGeminiApiKey: Boolean(process.env.GEMINI_API_KEY),
         hasOpenRouterApiKey: Boolean(process.env.OPENROUTER_API_KEY),
+        hasGroqApiKey: Boolean(process.env.GROQ_API_KEY),
       },
     })
     return new Response(buildFallbackStream(locale), { headers: SSE_HEADERS })
