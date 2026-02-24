@@ -37,6 +37,7 @@
       "part2": "passionate about creating exceptional digital experiences"
     },
     "description": "I have experience in developing web and mobile applications, with a focus on quality, performance, and usability.",
+    "seoDescription": "I work from planning to delivery, building fast, accessible interfaces aligned with business outcomes, while applying technical SEO and performance best practices.",
     "cta": {
       "projects": "See my projects",
       "contact": "Get in touch"
@@ -413,6 +414,16 @@
       "repos": "Repositories",
       "stars": "Total stars",
       "followers": "Followers"
+    },
+    "content": {
+      "title": "How I build web projects",
+      "paragraph1": "On this page, you can explore real projects I built with a focus on user experience, performance, and code quality. Each project starts from a concrete problem and is structured to remain scalable and maintainable.",
+      "paragraph2": "Beyond implementation, I also prioritize architecture, observability, and documentation. The goal is to deliver digital products that run well in production and can evolve safely over time.",
+      "points": [
+        "Modular architecture with reusable components and strong typing.",
+        "Performance and Core Web Vitals integrated into the development workflow.",
+        "Testing, linting, and CI standards to keep quality consistent."
+      ]
     },
     "cta": {
       "title": "Want to see more projects?",

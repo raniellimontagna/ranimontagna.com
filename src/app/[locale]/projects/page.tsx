@@ -53,6 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ProjectsPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
   const t = await getTranslations('projectsPage')
+  const contentPoints = t.raw('content.points') as string[]
 
   const [featuredRepos, repos, stats] = await Promise.all([
     getFeaturedRepositories(),
@@ -75,6 +76,23 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
             {t('subtitle')}
           </p>
         </header>
+
+        <section className="mb-12 max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/40">
+          <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            {t('content.title')}
+          </h2>
+          <p className="mb-3 leading-relaxed text-slate-600 dark:text-slate-400">
+            {t('content.paragraph1')}
+          </p>
+          <p className="mb-4 leading-relaxed text-slate-600 dark:text-slate-400">
+            {t('content.paragraph2')}
+          </p>
+          <ul className="list-disc space-y-2 pl-6 text-slate-600 dark:text-slate-400">
+            {contentPoints.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        </section>
 
         {/* GitHub Stats */}
         <section className="mb-16">

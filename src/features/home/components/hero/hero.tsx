@@ -60,6 +60,9 @@ export async function Hero() {
                 <p className="mt-2 italic text-slate-500 dark:text-slate-400">
                   &quot;{t('description')}&quot;
                 </p>
+                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
+                  {t('seoDescription')}
+                </p>
               </div>
             </div>
 

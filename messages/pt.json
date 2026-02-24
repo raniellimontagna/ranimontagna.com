@@ -37,6 +37,7 @@
       "part2": "apaixonado por criar experiências digitais excepcionais"
     },
     "description": "Tenho experiência no desenvolvimento de aplicações web e mobile, com foco em qualidade, desempenho e facilidade de uso.",
+    "seoDescription": "Atuo do planejamento à entrega, construindo interfaces rápidas, acessíveis e orientadas a resultados de negócio, com boas práticas de SEO técnico e performance.",
     "cta": {
       "projects": "Ver meus projetos",
       "contact": "Entre em contato"
@@ -413,6 +414,16 @@
       "repos": "Repositórios",
       "stars": "Estrelas totais",
       "followers": "Seguidores"
+    },
+    "content": {
+      "title": "Como eu construo projetos web",
+      "paragraph1": "Nesta página você encontra projetos reais que desenvolvi com foco em experiência do usuário, performance e qualidade de código. Cada projeto nasce de um problema concreto e é estruturado para ser escalável e fácil de manter.",
+      "paragraph2": "Além da implementação, também priorizo arquitetura, observabilidade e documentação. O objetivo é entregar produtos digitais que funcionem bem em produção e continuem evoluindo com segurança.",
+      "points": [
+        "Arquitetura modular com componentes reutilizáveis e tipagem forte.",
+        "Performance e Core Web Vitals como parte do processo de desenvolvimento.",
+        "Padrões de testes, lint e CI para manter qualidade contínua."
+      ]
     },
     "cta": {
       "title": "Quer ver mais projetos?",
