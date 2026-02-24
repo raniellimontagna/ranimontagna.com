@@ -1,7 +1,13 @@
-import { FALLBACK_MESSAGES, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from './chat.constants'
+import {
+  CHAT_PROVIDER_TIMEOUT_MS,
+  FALLBACK_MESSAGES,
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
+} from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const isAbortError = (error: unknown): boolean => error instanceof Error && error.name === 'AbortError'
 
 export const checkRateLimit = (ip: string): boolean => {
   const now = Date.now()
@@ -28,6 +34,9 @@ export const callGemini = async (
   if (!apiKey) return null
 
   try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
+
     const contents: GeminiContent[] = messages.map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: msg.content }],
@@ -54,8 +63,11 @@ export const callGemini = async (
             { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
           ],
         }),
+        signal: controller.signal,
       },
     )
+
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errorBody = await response.text()
@@ -65,6 +77,11 @@ export const callGemini = async (
 
     return response
   } catch (error) {
+    if (isAbortError(error)) {
+      console.warn(`Gemini request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
+      return null
+    }
+
     console.error('Gemini call failed:', error)
     return null
   }
@@ -97,6 +114,9 @@ export const callOpenRouter = async (
     ]
 
     for (const model of openRouterModels) {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
+
       const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -112,7 +132,10 @@ export const callOpenRouter = async (
           max_tokens: 1024,
           temperature: 0.7,
         }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       if (response.ok) {
         return response
@@ -124,6 +147,11 @@ export const callOpenRouter = async (
 
     return null
   } catch (error) {
+    if (isAbortError(error)) {
+      console.warn(`OpenRouter request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
+      return null
+    }
+
     console.error('OpenRouter call failed:', error)
     return null
   }
@@ -138,6 +166,8 @@ export const callGroq = async (
 
   try {
     const model = process.env.GROQ_MODEL ?? 'llama-3.1-8b-instant'
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
 
     const groqMessages: OpenRouterMessage[] = [
       { role: 'system', content: systemPrompt },
@@ -160,7 +190,10 @@ export const callGroq = async (
         max_tokens: 1024,
         temperature: 0.7,
       }),
+      signal: controller.signal,
     })
+
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errorBody = await response.text()
@@ -170,6 +203,11 @@ export const callGroq = async (
 
     return response
   } catch (error) {
+    if (isAbortError(error)) {
+      console.warn(`Groq request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
+      return null
+    }
+
     console.error('Groq call failed:', error)
     return null
   }
