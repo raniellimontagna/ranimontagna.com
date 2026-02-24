@@ -23,6 +23,7 @@
     "@octokit/rest": "^22.0.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-visually-hidden": "^1.2.4",
+    "@sentry/nextjs": "^10.40.0",
     "@solar-icons/react": "^1.1.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

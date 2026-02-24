@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { FALLBACK_MESSAGES, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
@@ -58,13 +59,22 @@ export const callGemini = async (
     )
 
     if (!response.ok) {
-      console.error('Gemini API error:', await response.text())
+      const errorBody = await response.text()
+      console.error('Gemini API error:', errorBody)
+      Sentry.captureMessage('Gemini API returned non-OK response', {
+        level: 'warning',
+        tags: { feature: 'chatbot', provider: 'gemini' },
+        extra: { status: response.status, statusText: response.statusText, errorBody },
+      })
       return null
     }
 
     return response
   } catch (error) {
     console.error('Gemini call failed:', error)
+    Sentry.captureException(error, {
+      tags: { feature: 'chatbot', provider: 'gemini' },
+    })
     return null
   }
 }
@@ -77,8 +87,15 @@ export const callOpenRouter = async (
   if (!apiKey) return null
 
   try {
+    const openRouterModel = 'google/gemma-3-4b-it:free'
+
+    const promptAsUserContext = [
+      'Use these instructions as your operating policy for this conversation:',
+      systemPrompt,
+    ].join('\n\n')
+
     const openRouterMessages: OpenRouterMessage[] = [
-      { role: 'system', content: systemPrompt },
+      { role: 'user', content: promptAsUserContext },
       ...messages.map((msg) => ({
         role: msg.role as 'user' | 'assistant',
         content: msg.content,
@@ -94,7 +111,7 @@ export const callOpenRouter = async (
         'X-Title': 'Rani Digital',
       },
       body: JSON.stringify({
-        model: 'google/gemma-3-4b-it:free',
+        model: openRouterModel,
         messages: openRouterMessages,
         stream: true,
         max_tokens: 1024,
@@ -103,13 +120,22 @@ export const callOpenRouter = async (
     })
 
     if (!response.ok) {
-      console.error('OpenRouter API error:', await response.text())
+      const errorBody = await response.text()
+      console.error('OpenRouter API error:', errorBody)
+      Sentry.captureMessage('OpenRouter API returned non-OK response', {
+        level: 'warning',
+        tags: { feature: 'chatbot', provider: 'openrouter' },
+        extra: { status: response.status, statusText: response.statusText, errorBody },
+      })
       return null
     }
 
     return response
   } catch (error) {
     console.error('OpenRouter call failed:', error)
+    Sentry.captureException(error, {
+      tags: { feature: 'chatbot', provider: 'openrouter' },
+    })
     return null
   }
 }

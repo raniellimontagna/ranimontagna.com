@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
 import { SSE_HEADERS, SYSTEM_PROMPT_EN, SYSTEM_PROMPT_ES, SYSTEM_PROMPT_PT } from './chat.constants'
 import { requestSchema } from './chat.schema'
@@ -59,9 +60,19 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     console.warn('All providers unavailable, returning fallback message')
+    Sentry.captureMessage('Chat API fallback triggered: all providers unavailable', {
+      level: 'warning',
+      tags: { feature: 'chatbot' },
+      extra: {
+        locale,
+        hasGeminiApiKey: Boolean(process.env.GEMINI_API_KEY),
+        hasOpenRouterApiKey: Boolean(process.env.OPENROUTER_API_KEY),
+      },
+    })
     return new Response(buildFallbackStream(locale), { headers: SSE_HEADERS })
   } catch (error) {
     console.error('Chat API error:', error)
+    Sentry.captureException(error, { tags: { feature: 'chatbot' } })
     return Response.json(
       {
         error: 'Internal server error',
