@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.20.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.19.0...v1.20.0) (2026-02-24)
+
+
+### Features
+
+* add AI chat persona documentation and refine system prompts for contact and availability ([8e7b173](https://github.com/raniellimontagna/ranimontagna.com/commit/8e7b173464c6acc6301caeb4c3c6ca0e5cfc48ff))
+* add resume link to blog and projects headers ([77fffea](https://github.com/raniellimontagna/ranimontagna.com/commit/77fffeafa960fa2ec2aa83d08446ccb74c12a597))
+* adds beta notice to chat widget and updates commercial discovery rules ([568702a](https://github.com/raniellimontagna/ranimontagna.com/commit/568702a8ed3af19efed7e1c471ec7f1d12954326))
+* adds configurable timeout for chat providers ([0d5cce3](https://github.com/raniellimontagna/ranimontagna.com/commit/0d5cce3edf0d983f375af0d414a722caf281076d))
+* adds fallback model support to OpenRouter call ([3066b9f](https://github.com/raniellimontagna/ranimontagna.com/commit/3066b9feda918e0e30651b5f9f96930615d090ee))
+* adds Groq as fallback chat provider after OpenRouter ([fa6f349](https://github.com/raniellimontagna/ranimontagna.com/commit/fa6f349bcf40824ff2876a94e85f1f02abbfc96d))
+* adds project methodology and SEO-focused descriptions ([f9d22ce](https://github.com/raniellimontagna/ranimontagna.com/commit/f9d22cecbcfe3c0347c069417be1ba5fa3da4de3))
+* adds request timeouts to chat provider API calls ([7b1f8eb](https://github.com/raniellimontagna/ranimontagna.com/commit/7b1f8eb4d93a240c1b5c024095ae839b22a594c2))
+* adds sentry error monitoring and reporting ([341f47b](https://github.com/raniellimontagna/ranimontagna.com/commit/341f47b91412fde7f4414fff3d326a586b9a200a))
+* enhance AI chat persona with additional personal details and add new AI chat documentation. ([3d76367](https://github.com/raniellimontagna/ranimontagna.com/commit/3d76367ae45ac8d1a4f94aaa5deca2e8684c5196))
+* enhances SEO, AI, and i18n with structured data and routing ([a605350](https://github.com/raniellimontagna/ranimontagna.com/commit/a6053506f2801b1c319cbc9bfb8625982a08d11e))
+* implement ai chat functionality with personalized, multi-language system prompts, schemas, utilities, and documentation. ([2ac350e](https://github.com/raniellimontagna/ranimontagna.com/commit/2ac350e56dd84c70019a5a8c161d2cf3f12e32a6))
+* improves email link handling for contact and footer ([1912de6](https://github.com/raniellimontagna/ranimontagna.com/commit/1912de6d201b1008484730c06d020bf1ae4ec680))
+* introduce AI chat widget with dedicated API, state management, and multi-language support. ([c5fb6a6](https://github.com/raniellimontagna/ranimontagna.com/commit/c5fb6a630e6fa3ad60f32c817e1fbf583db2051c))
+* remove sentry error monitoring from API calls in chat.utils ([1981895](https://github.com/raniellimontagna/ranimontagna.com/commit/19818957b87c784a254378ba1f5f03dc44ed2aea))
+* standardizes file and directory naming to kebab-case ([121a33e](https://github.com/raniellimontagna/ranimontagna.com/commit/121a33e2e0572fb18206d8128c75621a12172125))
+* updates translations for passion, description, and seo description in multiple languages ([ed96618](https://github.com/raniellimontagna/ranimontagna.com/commit/ed9661899477763e5a61dba6e5af8f78c89e7f16))
+
 ## [1.19.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.18.0...v1.19.0) (2026-02-04)
 
 
