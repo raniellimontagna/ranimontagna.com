@@ -53,7 +53,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ProjectsPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
   const t = await getTranslations('projectsPage')
-  const contentPoints = t.raw('content.points') as string[]
+  const maybeRaw = t as unknown as { raw?: (key: string) => unknown }
+  const rawPoints = maybeRaw.raw?.('content.points')
+  const contentPoints = Array.isArray(rawPoints)
+    ? rawPoints.filter((point): point is string => typeof point === 'string')
+    : []
 
   const [featuredRepos, repos, stats] = await Promise.all([
     getFeaturedRepositories(),
