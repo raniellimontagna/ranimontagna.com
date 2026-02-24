@@ -6,14 +6,20 @@ import {
   getRegularRepositories,
 } from '@/features/projects/lib/github'
 import { Breadcrumbs } from '@/shared/components/ui'
+import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+
+function getProjectsUrl(locale: string): string {
+  const isDefault = locale === routing.defaultLocale
+  return isDefault ? `${BASE_URL}/projects` : `${BASE_URL}/${locale}/projects`
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('projectsPage')
 
-  const url = `${BASE_URL}/${locale}/projects`
+  const url = getProjectsUrl(locale)
 
   return {
     title: t('title'),
@@ -23,19 +29,20 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t('subtitle'),
       url,
       siteName: 'Ranielli Montagna',
-      locale,
+      locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: t('title'),
       description: t('subtitle'),
-      creator: '@raniellimontagna',
+      creator: '@rannimontagna',
     },
     alternates: {
       canonical: url,
       languages: {
-        pt: `${BASE_URL}/pt/projects`,
+        'x-default': `${BASE_URL}/projects`,
+        pt: `${BASE_URL}/projects`,
         en: `${BASE_URL}/en/projects`,
         es: `${BASE_URL}/es/projects`,
       },

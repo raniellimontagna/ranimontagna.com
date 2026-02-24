@@ -2,36 +2,47 @@ import { getTranslations } from 'next-intl/server'
 import { FeaturedPost, PostCard } from '@/features/blog/components'
 import { getAllPosts } from '@/features/blog/lib/blog'
 import { Breadcrumbs } from '@/shared/components/ui'
+import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+
+function getBlogUrl(locale: string): string {
+  const isDefault = locale === routing.defaultLocale
+  return isDefault ? `${BASE_URL}/blog` : `${BASE_URL}/${locale}/blog`
+}
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('blog')
 
-  const url = `${BASE_URL}/${locale}/blog`
+  const url = getBlogUrl(locale)
+  const keywords = t.has('keywords') ? t('keywords') : undefined
 
   return {
     title: t('title'),
     description: t('subtitle'),
+    keywords,
+    authors: [{ name: 'Ranielli Montagna', url: BASE_URL }],
+    creator: 'Ranielli Montagna',
     openGraph: {
       title: t('title'),
       description: t('subtitle'),
       url,
       siteName: 'Ranielli Montagna',
-      locale,
+      locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: t('title'),
       description: t('subtitle'),
-      creator: '@raniellimontagna',
+      creator: '@rannimontagna',
     },
     alternates: {
       canonical: url,
       languages: {
-        pt: `${BASE_URL}/pt/blog`,
+        'x-default': `${BASE_URL}/blog`,
+        pt: `${BASE_URL}/blog`,
         en: `${BASE_URL}/en/blog`,
         es: `${BASE_URL}/es/blog`,
       },
@@ -46,8 +57,47 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   const featuredPost = posts[0]
   const remainingPosts = posts.slice(1)
 
+  const blogUrl = getBlogUrl(locale)
+
+  const blogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${blogUrl}#blog`,
+    name: 'Ranielli Montagna Blog',
+    description: t('subtitle'),
+    url: blogUrl,
+    author: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      '@id': `${BASE_URL}/#person`,
+      url: BASE_URL,
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: BASE_URL,
+    },
+    inLanguage: locale,
+    blogPost: posts.slice(0, 10).map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.metadata.title,
+      description: post.metadata.description,
+      datePublished: post.metadata.date,
+      url: `${blogUrl}/${post.slug}`,
+      author: {
+        '@type': 'Person',
+        name: 'Ranielli Montagna',
+      },
+      keywords: post.metadata.tags?.join(', '),
+    })),
+  }
+
   return (
     <div className="bg-slate-50 pb-24 dark:bg-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
       <div className="container mx-auto max-w-6xl px-4 pt-8">
         <div className="mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />

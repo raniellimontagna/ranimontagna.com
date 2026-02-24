@@ -1,21 +1,35 @@
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 
+const projectRoot = dirname(fileURLToPath(import.meta.url))
+
 const nextConfig: NextConfig = {
+  turbopack: { root: projectRoot },
   experimental: {
     optimizePackageImports: ['@solar-icons/react', 'framer-motion', 'motion'],
   },
-  // Redirect URLs without locale to default locale (pt) with 301 permanent
   redirects: async () => {
     return [
       {
-        source: '/blog',
-        destination: '/pt/blog',
+        source: '/pt',
+        destination: '/',
         permanent: true,
       },
       {
-        source: '/blog/:slug',
-        destination: '/pt/blog/:slug',
+        source: '/pt/blog',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        source: '/pt/blog/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
+      {
+        source: '/pt/projects',
+        destination: '/projects',
         permanent: true,
       },
     ]

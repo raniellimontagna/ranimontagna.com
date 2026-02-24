@@ -15,41 +15,41 @@ const seoData: Record<string, SEOData> = {
   en: {
     title: 'Ranielli Montagna - Full Stack Developer',
     description:
-      'Portfolio of Ranielli Montagna - Full Stack Developer specializing in React, Next.js, Node.js and modern interface design. Creating exceptional digital experiences.',
+      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Portfolio, blog articles and open source projects.',
     keywords:
-      'full stack developer, react, nextjs, nodejs, typescript, ui/ux designer, portfolio, rani montagna, ranielli montagna, ranielli, frontend developer, backend developer, web developer, javascript developer, brazil developer',
+      'Ranielli Montagna, Ranielli, Rani Montagna, full stack developer, react developer, nextjs developer, nodejs developer, typescript developer, ui/ux designer, portfolio, frontend developer, backend developer, web developer, javascript developer, brazil developer, ranimontagna',
     ogTitle: 'Ranielli Montagna - Full Stack Developer',
     ogDescription:
-      'Portfolio of Ranielli Montagna - Full Stack Developer specializing in React, Next.js, Node.js and modern interface design.',
+      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Explore the portfolio, blog and projects.',
     twitterTitle: 'Ranielli Montagna - Full Stack Developer',
     twitterDescription:
-      'Portfolio of Ranielli Montagna - Full Stack Developer specializing in React, Next.js, Node.js and modern interface design.',
+      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript.',
   },
   pt: {
     title: 'Ranielli Montagna - Desenvolvedor Full Stack',
     description:
-      'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas. Criando experiências digitais excepcionais.',
+      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript. Portfolio, artigos no blog e projetos open source.',
     keywords:
-      'desenvolvedor full stack, react, nextjs, nodejs, typescript, ui/ux designer, portfolio, rani montagna, ranielli montagna, ranielli, desenvolvedor frontend, desenvolvedor backend, desenvolvedor web, desenvolvedor javascript, desenvolvedor brasil',
+      'Ranielli Montagna, Ranielli, Rani Montagna, desenvolvedor full stack, desenvolvedor react, desenvolvedor nextjs, desenvolvedor nodejs, typescript, ui/ux designer, portfolio, desenvolvedor frontend, desenvolvedor backend, desenvolvedor web, desenvolvedor javascript, desenvolvedor brasil, ranimontagna',
     ogTitle: 'Ranielli Montagna - Desenvolvedor Full Stack',
     ogDescription:
-      'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.',
+      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript. Explore o portfolio, blog e projetos.',
     twitterTitle: 'Ranielli Montagna - Desenvolvedor Full Stack',
     twitterDescription:
-      'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.',
+      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript.',
   },
   es: {
     title: 'Ranielli Montagna - Desarrollador Full Stack',
     description:
-      'Portfolio de Ranielli Montagna - Desarrollador Full Stack especializado en React, Next.js, Node.js y diseño de interfaces modernas. Creando experiencias digitales excepcionales.',
+      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript. Portfolio, artículos del blog y proyectos open source.',
     keywords:
-      'desarrollador full stack, react, nextjs, nodejs, typescript, ui/ux designer, portfolio, rani montagna, ranielli montagna, ranielli, desarrollador frontend, desarrollador backend, desarrollador web, desarrollador javascript, desarrollador brasil',
+      'Ranielli Montagna, Ranielli, Rani Montagna, desarrollador full stack, desarrollador react, desarrollador nextjs, desarrollador nodejs, typescript, ui/ux designer, portfolio, desarrollador frontend, desarrollador backend, desarrollador web, desarrollador javascript, desarrollador brasil, ranimontagna',
     ogTitle: 'Ranielli Montagna - Desarrollador Full Stack',
     ogDescription:
-      'Portfolio de Ranielli Montagna - Desarrollador Full Stack especializado en React, Next.js, Node.js y diseño de interfaces modernas.',
+      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript. Explora el portfolio, blog y proyectos.',
     twitterTitle: 'Ranielli Montagna - Desarrollador Full Stack',
     twitterDescription:
-      'Portfolio de Ranielli Montagna - Desarrollador Full Stack especializado en React, Next.js, Node.js y diseño de interfaces modernas.',
+      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript.',
   },
 }
 

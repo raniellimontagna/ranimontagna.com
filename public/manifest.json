@@ -1,7 +1,7 @@
 {
   "name": "Ranielli Montagna - Full Stack Developer",
-  "short_name": "Ranielli Portfolio",
-  "description": "Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.",
+  "short_name": "Ranielli Montagna",
+  "description": "Portfolio of Ranielli Montagna - Full Stack Developer specializing in React, Next.js and Node.js.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e293b",
@@ -11,7 +11,19 @@
       "src": "/logo/white.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/white.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "lang": "pt-BR",

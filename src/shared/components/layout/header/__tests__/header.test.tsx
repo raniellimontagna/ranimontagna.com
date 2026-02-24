@@ -17,8 +17,11 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }))
 
-vi.mock('@/shared', () => ({
+vi.mock('@/shared/components/languageSwitcher/languageSwitcher', () => ({
   LanguageSwitcher: () => <div data-testid="language-switcher">LanguageSwitcher</div>,
+}))
+
+vi.mock('@/shared/components/themeToggle/themeToggle', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
 }))
 

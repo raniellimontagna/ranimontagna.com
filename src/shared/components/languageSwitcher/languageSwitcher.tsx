@@ -2,20 +2,18 @@
 
 import { CheckCircle, Global } from '@solar-icons/react/ssr'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
+import { usePathname, useRouter } from '@/shared/config/i18n/navigation'
 import { locales } from '@/shared/config/i18n/routing'
 
-// Mapping de códigos de idioma para códigos de bandeiras
 const flagMap: Record<string, string> = {
   pt: 'br',
   en: 'us',
   es: 'es',
 }
 
-// Nome curto do idioma
 const shortNames: Record<string, string> = {
   pt: 'PT-BR',
   en: 'EN-US',
@@ -26,6 +24,7 @@ export function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
   const locale = useLocale()
   const pathname = usePathname()
+  const router = useRouter()
   const switcherRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -39,12 +38,10 @@ export function LanguageSwitcher() {
   }, [])
 
   const handleLocaleChange = (newLocale: string) => {
-    const newPathname = pathname.startsWith(`/${locale}`) ? pathname.substring(3) : pathname
-    window.location.href = `/${newLocale}${newPathname || '/'}`
+    router.replace(pathname, { locale: newLocale })
     setIsOpen(false)
   }
 
-  // Função para fechar o dropdown ao pressionar Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIsOpen(false)
@@ -59,7 +56,6 @@ export function LanguageSwitcher() {
 
   return (
     <div className="relative" ref={switcherRef}>
-      {/* Botão padronizado com ThemeToggle */}
       <button
         type="button"
         data-testid="language-switcher-button"
@@ -82,7 +78,6 @@ export function LanguageSwitcher() {
 
       {isOpen && (
         <>
-          {/* Overlay para mobile */}
           <button
             type="button"
             className="fixed inset-0 z-40 cursor-default bg-black/20 backdrop-blur-sm md:hidden"
@@ -95,7 +90,6 @@ export function LanguageSwitcher() {
             role="menu"
             aria-orientation="vertical"
           >
-            {/* Header */}
             <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-800/50">
               <Global className="h-4 w-4 text-slate-400" />
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -103,7 +97,6 @@ export function LanguageSwitcher() {
               </span>
             </div>
 
-            {/* Options */}
             <div className="p-2">
               {locales.map((loc, index) => {
                 const isSelected = locale === loc.code
@@ -126,7 +119,6 @@ export function LanguageSwitcher() {
                       animationDelay: `${index * 50}ms`,
                     }}
                   >
-                    {/* Bandeira com efeito */}
                     <div
                       className={`relative h-8 w-8 shrink-0 overflow-hidden rounded-full transition-all duration-300 ${
                         isSelected
@@ -143,7 +135,6 @@ export function LanguageSwitcher() {
                       />
                     </div>
 
-                    {/* Texto */}
                     <div className="flex-1 text-left">
                       <p className="text-sm font-semibold leading-tight">{loc.name}</p>
                       <p
@@ -157,14 +148,12 @@ export function LanguageSwitcher() {
                       </p>
                     </div>
 
-                    {/* Check com animação */}
                     {isSelected && (
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 dark:bg-slate-900/20">
                         <CheckCircle className="h-3 w-3" />
                       </div>
                     )}
 
-                    {/* Hover indicator para não selecionados */}
                     {!isSelected && (
                       <div className="h-5 w-5 rounded-full border-2 border-slate-200 opacity-0 transition-opacity group-hover:opacity-100 dark:border-slate-700" />
                     )}
@@ -173,7 +162,6 @@ export function LanguageSwitcher() {
               })}
             </div>
 
-            {/* Footer */}
             <div className="border-t border-slate-100 bg-slate-50/50 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-800/30">
               <p className="text-center text-[10px] font-medium text-slate-400 dark:text-slate-500">
                 Content will reload in selected language

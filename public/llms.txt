@@ -1,0 +1,52 @@
+# Ranielli Montagna
+
+> Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Portfolio, blog and open source projects.
+
+Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Developer with over 3 years of experience building web and mobile applications. He works at Luizalabs (a technology division of Magazine Luiza, one of the largest retailers in Brazil) and specializes in creating high-quality digital experiences using modern JavaScript technologies.
+
+## Identity
+
+- Full name: Ranielli Montagna
+- Also known as: Rani Montagna, Ranni Montagna, Ranielli
+- Nationality: Brazilian
+- Location: Brazil
+- Role: Full Stack Developer
+- Employer: Luizalabs - Magazine Luiza
+- GitHub: https://github.com/RanielliMontagna
+- LinkedIn: https://linkedin.com/in/rannimontagna
+- Twitter/X: https://twitter.com/rannimontagna
+
+## Skills
+
+- Frontend: React, Next.js, TypeScript, JavaScript, Tailwind CSS, React Native
+- Backend: Node.js, REST APIs, GraphQL, PostgreSQL
+- Tools: Figma, Git, Docker
+- Languages: Portuguese (native), English (professional)
+
+## Portfolio
+
+- [Portfolio & Home](https://ranimontagna.com): Main portfolio page of Ranielli Montagna with about, experience, skills and contact sections
+- [Blog](https://ranimontagna.com/blog): Technical blog with articles on React, Next.js, Node.js, TypeScript and web development best practices
+- [Projects](https://ranimontagna.com/projects): Open source projects and GitHub repositories by Ranielli Montagna
+
+## Blog
+
+The blog at https://ranimontagna.com/blog contains technical articles authored by Ranielli Montagna covering:
+- React and Next.js development
+- Node.js and backend architecture
+- TypeScript patterns and best practices
+- UI/UX design for developers
+- Web performance and modern tooling
+
+For a full list of blog posts with descriptions, see: https://ranimontagna.com/llms-full.txt
+
+## Localization
+
+This site is available in three languages:
+- Portuguese (default): https://ranimontagna.com
+- English: https://ranimontagna.com/en
+- Spanish: https://ranimontagna.com/es
+
+## Optional
+
+- [Full content with all blog posts](https://ranimontagna.com/llms-full.txt)

@@ -2,13 +2,13 @@ import { fireEvent, render, screen } from '@/tests/test-utils'
 import { LanguageSwitcher } from '../languageSwitcher'
 
 // Mocks
-const mockPush = vi.fn()
+const mockReplace = vi.fn()
 const mockUsePathname = vi.fn()
 const mockUseLocale = vi.fn()
 
-vi.mock('next/navigation', () => ({
+vi.mock('@/shared/config/i18n/navigation', () => ({
   usePathname: () => mockUsePathname(),
-  useRouter: () => ({ push: mockPush }),
+  useRouter: () => ({ replace: mockReplace }),
 }))
 
 vi.mock('next/image', () => ({
@@ -33,12 +33,9 @@ vi.mock('@/shared/config/i18n/routing', () => ({
 describe('LanguageSwitcher', () => {
   beforeEach(() => {
     mockUseLocale.mockReturnValue('en')
-    mockUsePathname.mockReturnValue('/en/about')
-    // Mock window.location
-    Object.defineProperty(window, 'location', {
-      value: { href: '' },
-      writable: true,
-    })
+    // next-intl's usePathname returns path WITHOUT locale prefix
+    mockUsePathname.mockReturnValue('/about')
+    mockReplace.mockClear()
   })
 
   it('renders correctly with current locale flag', () => {
@@ -80,8 +77,8 @@ describe('LanguageSwitcher', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
-  it('navigates to new locale on selection', () => {
-    mockUsePathname.mockReturnValue('/en/about') // Current path
+  it('navigates to new locale on selection using router.replace', () => {
+    mockUsePathname.mockReturnValue('/about') // Path WITHOUT locale prefix (next-intl behaviour)
 
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
@@ -89,8 +86,8 @@ describe('LanguageSwitcher', () => {
     const ptButton = screen.getByRole('menuitem', { name: /Change language to Português/i })
     fireEvent.click(ptButton)
 
-    // Component sets window.location.href directly
-    expect(window.location.href).toBe('/pt/about')
+    // next-intl router.replace handles locale prefix logic internally
+    expect(mockReplace).toHaveBeenCalledWith('/about', { locale: 'pt' })
   })
 
   it('closes menu when overlay is clicked', () => {

@@ -23,7 +23,12 @@ describe('jsonld', () => {
       const jsonld = generatePersonJsonLd('en')
 
       expect(jsonld.url).toBe(BASE_URL)
-      expect(jsonld.image).toBe(`${BASE_URL}/photo.webp`)
+      expect(jsonld.image).toMatchObject({
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/photo.webp`,
+        width: 800,
+        height: 800,
+      })
     })
 
     it('includes social links', () => {

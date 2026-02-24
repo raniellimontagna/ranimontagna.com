@@ -9,4 +9,5 @@ export const locales = [
 export const routing = defineRouting({
   locales: locales.map((loc) => loc.code),
   defaultLocale: locales[0].code,
+  localePrefix: 'as-needed',
 })

@@ -10,7 +10,13 @@ import {
 } from '@/features/blog/components'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
 import { Breadcrumbs } from '@/shared/components/ui'
+import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+
+function getPostUrl(locale: string, slug: string): string {
+  const isDefault = locale === routing.defaultLocale
+  return isDefault ? `${BASE_URL}/blog/${slug}` : `${BASE_URL}/${locale}/blog/${slug}`
+}
 
 // Generate static params for all posts in all locales
 export async function generateStaticParams() {
@@ -39,7 +45,7 @@ export async function generateMetadata({
   const { slug, locale } = await params
   const post = await getPostBySlug(slug, locale)
 
-  const url = `${BASE_URL}/${locale}/blog/${slug}`
+  const url = getPostUrl(locale, slug)
 
   // Fallback image when no coverImage is set
   const defaultOgImage =
@@ -49,14 +55,17 @@ export async function generateMetadata({
   return {
     title: post.metadata.title,
     description: post.metadata.description,
-    keywords: post.metadata.tags?.join(', '),
-    authors: [{ name: 'Ranielli Montagna' }],
+    keywords: post.metadata.tags
+      ? `${post.metadata.tags.join(', ')}, Ranielli Montagna, Ranielli`
+      : 'Ranielli Montagna',
+    authors: [{ name: 'Ranielli Montagna', url: BASE_URL }],
+    creator: 'Ranielli Montagna',
     openGraph: {
       title: post.metadata.title,
       description: post.metadata.description,
       url,
       siteName: 'Ranielli Montagna',
-      locale,
+      locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'article',
       publishedTime: post.metadata.date,
       authors: ['Ranielli Montagna'],
@@ -74,16 +83,11 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: post.metadata.title,
       description: post.metadata.description,
-      creator: '@raniellimontagna',
+      creator: '@rannimontagna',
       images: [ogImage],
     },
     alternates: {
       canonical: url,
-      languages: {
-        pt: `${BASE_URL}/pt/blog/${slug}`,
-        en: `${BASE_URL}/en/blog/${slug}`,
-        es: `${BASE_URL}/es/blog/${slug}`,
-      },
     },
   }
 }
@@ -201,34 +205,76 @@ export default async function PostPage(props: {
   const post = await getPostBySlug(params.slug, params.locale)
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
-  const url = `${BASE_URL}/${params.locale}/blog/${params.slug}`
+  const url = getPostUrl(params.locale, params.slug)
 
   // JSON-LD structured data for SEO
+  const postOgImage =
+    post.metadata.coverImage ||
+    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
+
+  // Estimate word count from markdown content (strip MDX/markdown syntax)
+  const wordCount = post.content
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/[#*`[\]()>_~]/g, '')
+    .split(/\s+/)
+    .filter(Boolean).length
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
+    '@id': `${url}#blogposting`,
     headline: post.metadata.title,
     description: post.metadata.description,
+    image: {
+      '@type': 'ImageObject',
+      url: postOgImage,
+      width: 1200,
+      height: 630,
+    },
     datePublished: post.metadata.date,
     dateModified: post.metadata.date,
+    wordCount,
     author: {
       '@type': 'Person',
       name: 'Ranielli Montagna',
       url: BASE_URL,
+      '@id': `${BASE_URL}/#person`,
     },
     publisher: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: 'Ranielli Montagna',
       url: BASE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/logo/white.svg`,
+      },
     },
     url,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': url,
     },
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': `${BASE_URL}/blog`,
+      name: 'Ranielli Montagna Blog',
+      url: `${BASE_URL}/blog`,
+    },
     keywords: post.metadata.tags?.join(', '),
     articleSection: 'Technology',
     inLanguage: params.locale,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '.prose p:first-of-type'],
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog` },
+        { '@type': 'ListItem', position: 3, name: post.metadata.title, item: url },
+      ],
+    },
   }
 
   return (

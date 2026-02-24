@@ -7,7 +7,11 @@ import './globals.css'
 import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
-import { generatePersonJsonLd, generateWebsiteJsonLd } from '@/shared/lib/jsonld'
+import {
+  generatePersonJsonLd,
+  generateProfilePageJsonLd,
+  generateWebsiteJsonLd,
+} from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 
 const geistSans = Geist({
@@ -51,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: 'website',
       locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
-      url: `${BASE_URL}/${locale}`,
+      url: canonicalUrl,
       title: seo.ogTitle,
       description: seo.ogDescription,
       siteName: 'Ranielli Montagna Portfolio',
@@ -83,6 +87,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     manifest: '/manifest.json',
+    icons: {
+      icon: [{ url: '/logo/white.svg', type: 'image/svg+xml' }],
+      apple: '/logo/white.svg',
+      shortcut: '/logo/white.svg',
+    },
     appleWebApp: {
       capable: true,
       statusBarStyle: 'default',
@@ -102,6 +111,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)
+  const profilePageJsonLd = generateProfilePageJsonLd(locale)
 
   return (
     <html lang={locale}>
@@ -121,6 +131,12 @@ export default async function LocaleLayout({ children, params }: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(profilePageJsonLd),
           }}
         />
       </head>
