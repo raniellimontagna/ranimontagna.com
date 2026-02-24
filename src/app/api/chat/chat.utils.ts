@@ -7,7 +7,46 @@ import {
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
-const isAbortError = (error: unknown): boolean => error instanceof Error && error.name === 'AbortError'
+
+const hasTimeoutCode = (value: unknown): boolean => {
+  if (!value || typeof value !== 'object') return false
+
+  const maybeCode = (value as { code?: unknown }).code
+  if (
+    typeof maybeCode === 'string' &&
+    ['ETIMEDOUT', 'UND_ERR_CONNECT_TIMEOUT', 'ECONNABORTED'].includes(maybeCode)
+  ) {
+    return true
+  }
+
+  const maybeErrors = (value as { errors?: unknown }).errors
+  if (Array.isArray(maybeErrors) && maybeErrors.some((error) => hasTimeoutCode(error))) {
+    return true
+  }
+
+  const maybeCause = (value as { cause?: unknown }).cause
+  return hasTimeoutCode(maybeCause)
+}
+
+const isTimeoutError = (error: unknown): boolean => {
+  if (!(error instanceof Error)) return false
+
+  if (error.name === 'AbortError') return true
+  if (/timeout|timed out|etimedout/i.test(error.message)) return true
+
+  return hasTimeoutCode(error)
+}
+
+const fetchWithTimeout = async (url: string, init: RequestInit): Promise<Response> => {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
+
+  try {
+    return await fetch(url, { ...init, signal: controller.signal })
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
 
 export const checkRateLimit = (ip: string): boolean => {
   const now = Date.now()
@@ -34,15 +73,12 @@ export const callGemini = async (
   if (!apiKey) return null
 
   try {
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
-
     const contents: GeminiContent[] = messages.map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: msg.content }],
     }))
 
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:streamGenerateContent?alt=sse&key=${apiKey}`,
       {
         method: 'POST',
@@ -63,11 +99,8 @@ export const callGemini = async (
             { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
           ],
         }),
-        signal: controller.signal,
       },
     )
-
-    clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errorBody = await response.text()
@@ -77,7 +110,7 @@ export const callGemini = async (
 
     return response
   } catch (error) {
-    if (isAbortError(error)) {
+    if (isTimeoutError(error)) {
       console.warn(`Gemini request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
       return null
     }
@@ -114,44 +147,44 @@ export const callOpenRouter = async (
     ]
 
     for (const model of openRouterModels) {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
+      try {
+        const response = await fetchWithTimeout('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+            'HTTP-Referer': 'https://ranimontagna.com',
+            'X-Title': 'Rani Digital',
+          },
+          body: JSON.stringify({
+            model,
+            messages: openRouterMessages,
+            stream: true,
+            max_tokens: 1024,
+            temperature: 0.7,
+          }),
+        })
 
-      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-          'HTTP-Referer': 'https://ranimontagna.com',
-          'X-Title': 'Rani Digital',
-        },
-        body: JSON.stringify({
-          model,
-          messages: openRouterMessages,
-          stream: true,
-          max_tokens: 1024,
-          temperature: 0.7,
-        }),
-        signal: controller.signal,
-      })
+        if (response.ok) {
+          return response
+        }
 
-      clearTimeout(timeoutId)
+        const errorBody = await response.text()
+        console.error(`OpenRouter API error (${model}):`, errorBody)
+      } catch (error) {
+        if (isTimeoutError(error)) {
+          console.warn(
+            `OpenRouter request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms (${model})`,
+          )
+          continue
+        }
 
-      if (response.ok) {
-        return response
+        console.error(`OpenRouter call failed (${model}):`, error)
       }
-
-      const errorBody = await response.text()
-      console.error(`OpenRouter API error (${model}):`, errorBody)
     }
 
     return null
   } catch (error) {
-    if (isAbortError(error)) {
-      console.warn(`OpenRouter request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
-      return null
-    }
-
     console.error('OpenRouter call failed:', error)
     return null
   }
@@ -166,8 +199,6 @@ export const callGroq = async (
 
   try {
     const model = process.env.GROQ_MODEL ?? 'llama-3.1-8b-instant'
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), CHAT_PROVIDER_TIMEOUT_MS)
 
     const groqMessages: OpenRouterMessage[] = [
       { role: 'system', content: systemPrompt },
@@ -177,7 +208,7 @@ export const callGroq = async (
       })),
     ]
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetchWithTimeout('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -190,10 +221,7 @@ export const callGroq = async (
         max_tokens: 1024,
         temperature: 0.7,
       }),
-      signal: controller.signal,
     })
-
-    clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errorBody = await response.text()
@@ -203,7 +231,7 @@ export const callGroq = async (
 
     return response
   } catch (error) {
-    if (isAbortError(error)) {
+    if (isTimeoutError(error)) {
       console.warn(`Groq request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
       return null
     }
