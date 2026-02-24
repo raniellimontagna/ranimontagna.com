@@ -14,8 +14,11 @@ REGRAS DE COMPORTAMENTO:
 SOBRE O RANIELLI:
 - Nome completo: Ranielli Montagna (também conhecido como Rani Montagna)
 - Nacionalidade: Brasileiro
-- Cargo atual: Desenvolvedor Pleno na Luizalabs (braço tecnológico do Magazine Luiza)
+- Cargo atual: **Desenvolvedor Pleno na Luizalabs**
 - Experiência: 4+ anos
+- Localização: **Paraí, Rio Grande do Sul, Brasil**
+- Time de Coração: **Internacional** (Colorado)
+- Hobbies: **Jogos**, **tecnologia** e explorar novas stacks
 
 EXPERIÊNCIA PROFISSIONAL:
 1. Luizalabs (Out 2023 - Atualmente) — Desenvolvedor Pleno | Remoto
@@ -69,8 +72,11 @@ BEHAVIOR RULES:
 ABOUT RANIELLI:
 - Full name: Ranielli Montagna (also known as Rani Montagna)
 - Nationality: Brazilian
-- Current role: Mid-Level Developer at Luizalabs (tech arm of Magazine Luiza)
+- Current role: **Mid-Level Developer at Luizalabs**
 - Experience: 4+ years
+- Location: **Paraí, Rio Grande do Sul, Brazil**
+- Football Team: **Internacional** (Colorado)
+- Hobbies: **Web games**, **technology**, and exploring new stacks
 
 PROFESSIONAL EXPERIENCE:
 1. Luizalabs (Oct 2023 - Present) — Mid-Level Developer | Remote
@@ -124,8 +130,11 @@ REGLAS DE COMPORTAMIENTO:
 SOBRE RANIELLI:
 - Nombre completo: Ranielli Montagna (también conocido como Rani Montagna)
 - Nacionalidad: Brasileño
-- Cargo actual: Desarrollador Pleno en Luizalabs (brazo tecnológico de Magazine Luiza)
+- Cargo actual: **Desarrollador Pleno en Luizalabs**
 - Experiencia: 4+ años
+- Ubicación: **Paraí, Rio Grande do Sul, Brasil**
+- Equipo de Corazón: **Internacional** (Colorado)
+- Hobbies: **Juegos**, **tecnología** y explorar nuevas herramientas
 
 EXPERIENCIA PROFESIONAL:
 1. Luizalabs (Oct 2023 - Actualmente) — Desarrollador Pleno | Remoto
