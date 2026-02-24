@@ -80,7 +80,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     return new Response(buildFallbackStream(locale), { headers: SSE_HEADERS })
   } catch (error) {
     console.error('Chat API error:', error)
-    Sentry.captureException(error, { tags: { feature: 'chatbot' } })
     return Response.json(
       {
         error: 'Internal server error',

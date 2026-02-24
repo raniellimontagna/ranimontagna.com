@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import { FALLBACK_MESSAGES, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
@@ -61,20 +60,12 @@ export const callGemini = async (
     if (!response.ok) {
       const errorBody = await response.text()
       console.error('Gemini API error:', errorBody)
-      Sentry.captureMessage('Gemini API returned non-OK response', {
-        level: 'warning',
-        tags: { feature: 'chatbot', provider: 'gemini' },
-        extra: { status: response.status, statusText: response.statusText, errorBody },
-      })
       return null
     }
 
     return response
   } catch (error) {
     console.error('Gemini call failed:', error)
-    Sentry.captureException(error, {
-      tags: { feature: 'chatbot', provider: 'gemini' },
-    })
     return null
   }
 }
@@ -124,32 +115,16 @@ export const callOpenRouter = async (
       })
 
       if (response.ok) {
-        if (model !== openRouterModels[0]) {
-          Sentry.captureMessage('OpenRouter fallback model was used', {
-            level: 'info',
-            tags: { feature: 'chatbot', provider: 'openrouter' },
-            extra: { model },
-          })
-        }
-
         return response
       }
 
       const errorBody = await response.text()
       console.error(`OpenRouter API error (${model}):`, errorBody)
-      Sentry.captureMessage('OpenRouter API returned non-OK response', {
-        level: 'warning',
-        tags: { feature: 'chatbot', provider: 'openrouter' },
-        extra: { model, status: response.status, statusText: response.statusText, errorBody },
-      })
     }
 
     return null
   } catch (error) {
     console.error('OpenRouter call failed:', error)
-    Sentry.captureException(error, {
-      tags: { feature: 'chatbot', provider: 'openrouter' },
-    })
     return null
   }
 }
@@ -190,20 +165,12 @@ export const callGroq = async (
     if (!response.ok) {
       const errorBody = await response.text()
       console.error(`Groq API error (${model}):`, errorBody)
-      Sentry.captureMessage('Groq API returned non-OK response', {
-        level: 'warning',
-        tags: { feature: 'chatbot', provider: 'groq' },
-        extra: { model, status: response.status, statusText: response.statusText, errorBody },
-      })
       return null
     }
 
     return response
   } catch (error) {
     console.error('Groq call failed:', error)
-    Sentry.captureException(error, {
-      tags: { feature: 'chatbot', provider: 'groq' },
-    })
     return null
   }
 }
