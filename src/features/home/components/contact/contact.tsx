@@ -4,7 +4,7 @@ import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 
-import { contactMethods, socialLinks } from '@/shared/lib/social-links'
+import { contactMethods, openEmailClient, socialLinks } from '@/shared/lib/social-links'
 
 import { ContactForm } from './contactForm/contactForm'
 
@@ -17,29 +17,35 @@ export const Contact = (): React.ReactElement => {
 
   const contactMethodsArray = [
     {
+      id: 'email',
       icon: emailLink.icon,
       title: t('methods.email.title'),
       description: t('methods.email.description'),
       action: t('methods.email.action'),
       href: emailLink.href,
+      external: emailLink.external,
       color: 'blue' as const,
       endpoint: 'POST',
     },
     {
+      id: 'linkedin',
       icon: linkedinLink.icon,
       title: t('methods.linkedin.title'),
       description: t('methods.linkedin.description'),
       action: t('methods.linkedin.action'),
       href: linkedinLink.href,
+      external: linkedinLink.external,
       color: 'blue' as const,
       endpoint: 'CONNECT',
     },
     {
+      id: 'whatsapp',
       icon: whatsappMethod.icon,
       title: t('methods.phone.title'),
       description: t('methods.phone.description'),
       action: t('methods.phone.action'),
       href: whatsappMethod.href,
+      external: whatsappMethod.external,
       color: 'green' as const,
       endpoint: 'SEND',
     },
@@ -53,8 +59,8 @@ export const Contact = (): React.ReactElement => {
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.03)_1px,transparent_1px)] bg-size-[24px_24px] dark:bg-[linear-gradient(rgba(51,65,85,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.2)_1px,transparent_1px)]" />
 
-        <div className="absolute top-1/4 left-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
-        <div className="absolute bottom-1/4 right-0 h-[600px] w-[600px] translate-x-1/2 rounded-full bg-emerald-500/5 blur-3xl dark:bg-emerald-500/10" />
+        <div className="absolute top-1/4 left-0 h-150 w-150 -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
+        <div className="absolute bottom-1/4 right-0 h-150 w-150 translate-x-1/2 rounded-full bg-emerald-500/5 blur-3xl dark:bg-emerald-500/10" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -141,8 +147,13 @@ export const Contact = (): React.ReactElement => {
                       <StaggerItem key={method.title}>
                         <a
                           href={method.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target={method.external ? '_blank' : undefined}
+                          rel={method.external ? 'noopener noreferrer' : undefined}
+                          onClick={(event) => {
+                            if (method.id !== 'email') return
+                            event.preventDefault()
+                            openEmailClient()
+                          }}
                           className="group relative block overflow-hidden rounded-xl border border-slate-200/60 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80 dark:hover:border-slate-700"
                         >
                           <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-4 py-2 dark:border-slate-800 dark:bg-slate-800/50">

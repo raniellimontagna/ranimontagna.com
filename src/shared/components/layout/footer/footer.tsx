@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import type { SocialLink } from '@/shared/lib/social-links'
-import { getSocialLinksAsArray } from '@/shared/lib/social-links'
+import { getSocialLinksAsArray, openEmailClient } from '@/shared/lib/social-links'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 
 export const Footer = (): React.ReactElement => {
@@ -50,6 +50,11 @@ export const Footer = (): React.ReactElement => {
                         href={social.href}
                         target={social.external ? '_blank' : undefined}
                         rel={social.external ? 'noopener noreferrer' : undefined}
+                        onClick={(event) => {
+                          if (social.id !== 'email') return
+                          event.preventDefault()
+                          openEmailClient()
+                        }}
                         className="group flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
                         aria-label={social.ariaLabel || social.name}
                       >

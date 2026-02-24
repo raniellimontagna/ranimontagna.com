@@ -21,7 +21,7 @@ describe('socialLinks', () => {
 
     it('contains email link', () => {
       expect(socialLinks.email.name).toBe('Email')
-      expect(socialLinks.email.href).toContain('mailto:')
+      expect(socialLinks.email.href).toBe('#contact')
       expect(socialLinks.email.external).toBe(false)
     })
 

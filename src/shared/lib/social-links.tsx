@@ -52,12 +52,20 @@ export const socialLinks = {
   email: {
     name: 'Email',
     direct: 'contato@ranimontagna.com',
-    href: 'mailto:contato@ranimontagna.com',
+    href: '#contact',
     icon: MailIcon,
     external: false,
     ariaLabel: 'Send email to Ranielli Montagna',
   },
 } as const
+
+export function openEmailClient() {
+  if (typeof window === 'undefined') return
+
+  const emailUser = 'contato'
+  const emailDomain = 'ranimontagna.com'
+  window.location.href = `mailto:${emailUser}@${emailDomain}`
+}
 
 const resumeLinks = {
   en: {
