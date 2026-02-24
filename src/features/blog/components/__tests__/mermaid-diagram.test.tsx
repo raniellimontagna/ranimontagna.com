@@ -241,7 +241,7 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('handles very long chart definition', async () => {
-      const longChart = 'graph TD\n' + 'A --> B\n'.repeat(100)
+      const longChart = `graph TD\n${'A --> B\n'.repeat(100)}`
       render(<MermaidDiagram chart={longChart} />)
 
       await waitFor(() => {
