@@ -5,12 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
 import { LanguageSwitcher, ThemeToggle } from '@/shared'
+import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 
 export function BlogHeader() {
   const t = useTranslations('blog')
   const locale = useLocale()
   const { theme } = useTheme()
+  const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-100 bg-white py-3 shadow-sm dark:border-slate-800/50 dark:bg-slate-900/90">
@@ -36,6 +38,12 @@ export function BlogHeader() {
         </div>
 
         <div className="flex items-center gap-3">
+          <a
+            href={resumeLink.href}
+            className="hidden items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900 sm:flex dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
+          >
+            {resumeLink.name}
+          </a>
           <Link
             href={`/${locale}`}
             className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
