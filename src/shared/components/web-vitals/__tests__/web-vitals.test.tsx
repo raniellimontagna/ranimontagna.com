@@ -75,6 +75,41 @@ describe('WebVitals Component', () => {
     })
   })
 
+  it('queues and flushes metrics when analytics loads later', () => {
+    vi.useFakeTimers()
+
+    window.gtag = undefined as unknown as Window['gtag']
+    window.va = undefined
+
+    render(<WebVitals />)
+
+    const callback = mockOnINP.mock.calls[0][0]
+    const metric: Metric = {
+      name: 'INP',
+      value: 120,
+      id: 'v4-100',
+      rating: 'good',
+      delta: 120,
+      entries: [],
+      navigationType: 'navigate',
+    }
+
+    callback(metric)
+
+    const lateGtag = vi.fn()
+    window.gtag = lateGtag
+
+    vi.advanceTimersByTime(1000)
+
+    expect(lateGtag).toHaveBeenCalledWith('event', 'INP', {
+      event_category: 'Web Vitals',
+      event_label: 'v4-100',
+      value: 120,
+    })
+
+    vi.useRealTimers()
+  })
+
   it('sends metrics to va (Vercel) if available', () => {
     render(<WebVitals />)
     const callback = mockOnFCP.mock.calls[0][0]

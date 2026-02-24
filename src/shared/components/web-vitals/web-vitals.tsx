@@ -3,7 +3,22 @@
 import { useEffect } from 'react'
 import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 
-function sendToAnalytics(metric: Metric) {
+const pendingMetrics: Metric[] = []
+const MAX_PENDING_METRICS = 50
+
+function hasAnalyticsProvider() {
+  return typeof window !== 'undefined' && (Boolean(window.gtag) || Boolean(window.va))
+}
+
+function pushPendingMetric(metric: Metric) {
+  if (pendingMetrics.length >= MAX_PENDING_METRICS) {
+    pendingMetrics.shift()
+  }
+
+  pendingMetrics.push(metric)
+}
+
+function sendMetric(metric: Metric) {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', metric.name, {
       event_category: 'Web Vitals',
@@ -30,6 +45,28 @@ function sendToAnalytics(metric: Metric) {
   }
 }
 
+function flushPendingMetrics() {
+  if (!hasAnalyticsProvider() || pendingMetrics.length === 0) {
+    return
+  }
+
+  while (pendingMetrics.length > 0) {
+    const metric = pendingMetrics.shift()
+    if (metric) {
+      sendMetric(metric)
+    }
+  }
+}
+
+function sendToAnalytics(metric: Metric) {
+  if (!hasAnalyticsProvider()) {
+    pushPendingMetric(metric)
+    return
+  }
+
+  sendMetric(metric)
+}
+
 export function WebVitals() {
   useEffect(() => {
     onCLS(sendToAnalytics)
@@ -37,6 +74,13 @@ export function WebVitals() {
     onLCP(sendToAnalytics)
     onTTFB(sendToAnalytics)
     onINP(sendToAnalytics)
+
+    flushPendingMetrics()
+    const interval = window.setInterval(flushPendingMetrics, 1000)
+
+    return () => {
+      window.clearInterval(interval)
+    }
   }, [])
 
   return null
