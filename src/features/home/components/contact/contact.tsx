@@ -68,7 +68,7 @@ export const Contact = (): React.ReactElement => {
 
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:h-fit">
+          <div className="lg:col-span-2">
             <FadeIn delay={0.15}>
               <div className="editorial-kicker mb-6">
                 <span className="relative flex h-2.5 w-2.5">
@@ -81,15 +81,17 @@ export const Contact = (): React.ReactElement => {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
+              className="w-full max-w-none font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35}>
-              <p className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
+              <p className="mt-6 w-full max-w-none text-base leading-8 text-muted sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
+          </div>
 
+          <div className="lg:sticky lg:top-28 lg:h-fit">
             <FadeIn delay={0.45} blur scale>
               <div className="surface-panel-strong mt-8 overflow-hidden rounded-3xl p-6 shadow-card">
                 <div className="flex items-center gap-2">

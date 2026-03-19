@@ -57,7 +57,7 @@ export function ServiceCard({
         </div>
 
         {popular && (
-          <div className="inline-flex h-fit self-start items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-strong dark:text-lime-300 sm:h-fit">
+          <div className="inline-flex h-fit self-start items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-strong dark:text-accent-ice sm:h-fit">
             <StarFall className="h-3 w-3" />
             {t('popularBadge')}
           </div>
@@ -71,19 +71,22 @@ export function ServiceCard({
 
         <p className="mt-3 text-sm leading-7 text-muted">{description}</p>
 
-        <ul className="mt-7 flex flex-col gap-3.5">
-          {features.map((feature, i) => (
-            <li
-              key={i}
-              className="flex min-w-0 items-start gap-3 rounded-2xl border border-line bg-surface px-3.5 py-3 text-sm text-foreground"
-            >
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-                <CheckCircle className="h-3 w-3" />
-              </span>
-              <span className="min-w-0 leading-tight wrap-break-word">{feature}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-7 rounded-2xl border border-line/60 bg-canvas/50 p-1">
+          <ul className="flex flex-col">
+            {features.map((feature, i) => (
+              <li
+                key={i}
+                className={cn(
+                  'flex min-w-0 items-center gap-3 px-3.5 py-2.5 text-sm text-foreground',
+                  i !== features.length - 1 && 'border-b border-line/40',
+                )}
+              >
+                <CheckCircle className="h-4 w-4 shrink-0 text-accent dark:text-accent-ice" />
+                <span className="min-w-0 leading-snug wrap-break-word">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className="relative mt-8 pt-6">
@@ -91,9 +94,10 @@ export function ServiceCard({
         <a
           href="#contact"
           className={cn(
-            'group/btn flex w-full items-center justify-between gap-2 rounded-full border border-line bg-surface-strong px-4 py-3 text-sm font-semibold text-foreground transition-all duration-300',
-            'hover:border-foreground/24 hover:bg-foreground hover:text-background',
-            popular && 'border-accent/35 bg-accent/12',
+            'group/btn flex w-full items-center justify-between gap-2 rounded-full px-5 py-3.5 text-sm font-semibold transition-all duration-300',
+            popular
+              ? 'bg-accent text-white hover:bg-accent-strong dark:bg-accent-ice dark:text-background dark:hover:bg-accent-ice/85'
+              : 'border border-line bg-surface-strong text-foreground hover:border-foreground/24 hover:bg-foreground hover:text-background',
           )}
         >
           {t('getStarted')}
