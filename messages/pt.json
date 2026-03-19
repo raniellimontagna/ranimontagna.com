@@ -165,7 +165,50 @@
     },
     "card": {
       "featuredBadge": "Destaque",
-      "moreCount": "+{count} mais"
+      "moreCount": "+{count} mais",
+      "role": {
+        "fullstack": "Full Stack",
+        "frontend": "Front-end",
+        "backend": "Back-end"
+      },
+      "category": {
+        "saas": "SaaS",
+        "enterprise": "Enterprise"
+      },
+      "highlights": {
+        "agenda": "Agendamento",
+        "clientManagement": "Gestão de Clientes",
+        "sales": "Vendas",
+        "financial": "Financeiro",
+        "inventory": "Estoque",
+        "leads": "Leads",
+        "reports": "Relatórios",
+        "dashboard": "Dashboard",
+        "orderPicking": "Retirada de Pedidos",
+        "separation": "Separação",
+        "dispatch": "Expedição",
+        "goodsReceipt": "Recebimento",
+        "inventoryControl": "Controle de Inventário",
+        "barcodeScanning": "Leitura de Código",
+        "offlineSupport": "Modo Offline",
+        "posSystem": "Frente de Caixa",
+        "nfceIssuance": "Emissão NFC-e",
+        "tableControl": "Controle de Mesas",
+        "orderManagement": "Comandas",
+        "digitalMenu": "Cardápio Digital",
+        "delivery": "Delivery",
+        "scaleIntegration": "Integração Balança",
+        "salesHistory": "Histórico de Vendas",
+        "cashierControl": "Controle de Caixa",
+        "propertyManagement": "Gestão de Imóveis",
+        "tokenizedSharing": "Links Tokenizados",
+        "clientGate": "Captação de Leads",
+        "brokerDashboard": "Painel do Corretor",
+        "analytics": "Analytics",
+        "publicCatalog": "Catálogo Público",
+        "imageGallery": "Galeria de Imagens",
+        "lgpdCompliance": "Conformidade LGPD"
+      }
     },
     "cta": {
       "text": "Quer ver mais projetos? Explore meu repositório no GitHub com mais de 100 projetos open source!",
@@ -187,6 +230,10 @@
       "pratio": {
         "title": "Pratio - PDV para Restaurantes",
         "description": "Sistema de ponto de venda (PDV) e gestão para bares e restaurantes, com controle de mesas, comandas, emissão de NFC-e e cardápio digital."
+      },
+      "paludoImoveis": {
+        "title": "Paludo Imóveis - Plataforma Imobiliária",
+        "description": "Plataforma para corretores de imóveis com catálogo público, compartilhamento via links tokenizados, captação de leads e dashboard analítico."
       }
     }
   },

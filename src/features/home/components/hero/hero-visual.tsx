@@ -64,7 +64,7 @@ export function HeroVisual() {
                 <p className="text-muted">
                   web, mobile, SEO tecnico, acessibilidade e performance.
                 </p>
-                <div className="flex items-center gap-2 text-accent">
+                <div className="flex items-center gap-2 text-pretty">
                   <span>&gt;</span>
                   <span>status --ready</span>
                 </div>

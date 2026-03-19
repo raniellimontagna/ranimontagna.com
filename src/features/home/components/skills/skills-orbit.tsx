@@ -122,39 +122,41 @@ function SkillNode({ skill, duration }: { skill: Skill; duration: number }) {
 
 export function SkillsOrbit() {
   return (
-    <div className="relative flex h-[700px] w-full items-center justify-center overflow-hidden">
-      {/* Center Core */}
-      <div className="absolute z-10 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface/80 shadow-lg backdrop-blur-md">
-        <div className="h-8 w-8 rounded-full bg-foreground shadow-[0_0_20px_var(--color-foreground)] animate-pulse" />
+    <div className="relative flex h-125 w-full items-center justify-center overflow-hidden sm:h-150 md:h-175">
+      <div className="absolute inset-0 flex scale-[0.52] items-center justify-center sm:scale-[0.65] md:scale-100">
+        {/* Center Core */}
+        <div className="absolute z-10 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface/80 shadow-lg backdrop-blur-md">
+          <div className="h-8 w-8 rounded-full bg-foreground shadow-[0_0_20px_var(--color-foreground)] animate-pulse" />
+        </div>
+
+        {/* Rings */}
+        {['inner', 'middle', 'outer'].map((ringName, index) => {
+          const radius = [120, 220, 320][index]
+          const duration = ORBIT_DURATIONS[ringName as keyof typeof ORBIT_DURATIONS]
+          const ringSkills = skillsData.filter((s) => s.ring === ringName)
+
+          return (
+            <motion.div
+              key={ringName}
+              animate={{ rotate: 360 }}
+              transition={{
+                duration,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+              style={{
+                width: radius * 2,
+                height: radius * 2,
+              }}
+              className="pointer-events-none absolute rounded-full border border-line border-dashed"
+            >
+              {ringSkills.map((skill) => (
+                <SkillNode key={skill.name} skill={skill} duration={duration} />
+              ))}
+            </motion.div>
+          )
+        })}
       </div>
-
-      {/* Rings */}
-      {['inner', 'middle', 'outer'].map((ringName, index) => {
-        const radius = [120, 220, 320][index]
-        const duration = ORBIT_DURATIONS[ringName as keyof typeof ORBIT_DURATIONS]
-        const ringSkills = skillsData.filter((s) => s.ring === ringName)
-
-        return (
-          <motion.div
-            key={ringName}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            style={{
-              width: radius * 2,
-              height: radius * 2,
-            }}
-            className="pointer-events-none absolute rounded-full border border-line border-dashed"
-          >
-            {ringSkills.map((skill) => (
-              <SkillNode key={skill.name} skill={skill} duration={duration} />
-            ))}
-          </motion.div>
-        )
-      })}
     </div>
   )
 }

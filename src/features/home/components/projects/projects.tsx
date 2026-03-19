@@ -1,5 +1,14 @@
 import { SiGithub } from '@icons-pack/react-simple-icons'
-import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import {
+  Code,
+  Global,
+  Monitor,
+  Smartphone,
+  SquareArrowRightUp,
+  Buildings,
+  Calendar,
+  User,
+} from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import type { ProjectType } from '@/features/projects/types/projects.types'
@@ -8,12 +17,20 @@ import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
 import { ProjectCard } from './project-card'
 
+const typeIcons = {
+  web: Global,
+  mobile: Smartphone,
+  desktop: Monitor,
+}
+
 export function Projects() {
   const t = useTranslations('projects')
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
-    type: p.type as 'mobile' | 'web' | 'api',
+    type: p.type as ProjectType['type'],
+    role: p.role as ProjectType['role'],
+    category: p.category as ProjectType['category'],
     title: t(`list.${p.i18nKey}.title`),
     description: t(`list.${p.i18nKey}.description`),
     image: p.image ?? '',
@@ -23,13 +40,7 @@ export function Projects() {
 
   const featuredProjects = projects.filter((p) => p.featured)
   const [leadProject, ...secondaryProjects] = featuredProjects
-  const LeadIcon = leadProject
-    ? {
-        web: Global,
-        mobile: Smartphone,
-        api: Code,
-      }[leadProject.type]
-    : Global
+  const LeadIcon = leadProject ? typeIcons[leadProject.type] : Global
 
   return (
     <section id="projects" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
@@ -108,8 +119,41 @@ export function Projects() {
                         {leadProject.description}
                       </p>
 
+                      <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-muted">
+                        <span className="inline-flex items-center gap-1.5">
+                          <User className="h-3.5 w-3.5" />
+                          {t(`card.role.${leadProject.role}`)}
+                        </span>
+                        <span className="h-3 w-px bg-line" />
+                        <span className="inline-flex items-center gap-1.5">
+                          <Buildings className="h-3.5 w-3.5" />
+                          {leadProject.company}
+                        </span>
+                        <span className="h-3 w-px bg-line" />
+                        <span className="inline-flex items-center gap-1.5">
+                          <Calendar className="h-3.5 w-3.5" />
+                          {leadProject.year}
+                        </span>
+                      </div>
+
+                      <div className="mt-5 flex flex-wrap gap-1.5">
+                        {leadProject.highlights.slice(0, 5).map((h) => (
+                          <span
+                            key={h}
+                            className="rounded-full border border-accent/20 bg-accent/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent-foreground dark:text-accent-ice"
+                          >
+                            {t(`card.highlights.${h}`)}
+                          </span>
+                        ))}
+                        {leadProject.highlights.length > 5 && (
+                          <span className="rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+                            +{leadProject.highlights.length - 5}
+                          </span>
+                        )}
+                      </div>
+
                       <div className="mt-7 flex flex-wrap gap-2">
-                        {leadProject.technologies.map((tech) => (
+                        {leadProject.technologies.slice(0, 5).map((tech) => (
                           <span
                             key={tech}
                             className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
@@ -117,6 +161,13 @@ export function Projects() {
                             {tech}
                           </span>
                         ))}
+                        {leadProject.technologies.length > 5 && (
+                          <span className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-muted">
+                            {t('card.moreCount', {
+                              count: leadProject.technologies.length - 5,
+                            })}
+                          </span>
+                        )}
                       </div>
 
                       <div className="mt-8 flex flex-wrap gap-4">

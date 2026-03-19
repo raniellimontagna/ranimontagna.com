@@ -165,7 +165,50 @@
     },
     "card": {
       "featuredBadge": "Featured",
-      "moreCount": "+{count} more"
+      "moreCount": "+{count} more",
+      "role": {
+        "fullstack": "Full Stack",
+        "frontend": "Front-end",
+        "backend": "Back-end"
+      },
+      "category": {
+        "saas": "SaaS",
+        "enterprise": "Enterprise"
+      },
+      "highlights": {
+        "agenda": "Scheduling",
+        "clientManagement": "Client Management",
+        "sales": "Sales",
+        "financial": "Financial",
+        "inventory": "Inventory",
+        "leads": "Leads",
+        "reports": "Reports",
+        "dashboard": "Dashboard",
+        "orderPicking": "Order Picking",
+        "separation": "Separation",
+        "dispatch": "Dispatch",
+        "goodsReceipt": "Goods Receipt",
+        "inventoryControl": "Inventory Control",
+        "barcodeScanning": "Barcode Scanning",
+        "offlineSupport": "Offline Mode",
+        "posSystem": "Point of Sale",
+        "nfceIssuance": "NFC-e Issuing",
+        "tableControl": "Table Control",
+        "orderManagement": "Order Tickets",
+        "digitalMenu": "Digital Menu",
+        "delivery": "Delivery",
+        "scaleIntegration": "Scale Integration",
+        "salesHistory": "Sales History",
+        "cashierControl": "Cashier Control",
+        "propertyManagement": "Property Management",
+        "tokenizedSharing": "Tokenized Links",
+        "clientGate": "Lead Capture",
+        "brokerDashboard": "Broker Dashboard",
+        "analytics": "Analytics",
+        "publicCatalog": "Public Catalog",
+        "imageGallery": "Image Gallery",
+        "lgpdCompliance": "LGPD Compliance"
+      }
     },
     "cta": {
       "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
@@ -187,6 +230,10 @@
       "pratio": {
         "title": "Pratio - POS for Restaurants",
         "description": "Point of sale (POS) and management system for bars and restaurants, with table and order control, NFC-e issuing, and a digital menu."
+      },
+      "paludoImoveis": {
+        "title": "Paludo Imóveis - Real Estate Platform",
+        "description": "Platform for real estate brokers with public catalog, tokenized link sharing, lead capture, and analytics dashboard."
       }
     }
   },

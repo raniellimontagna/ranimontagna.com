@@ -38,13 +38,13 @@ export function RevealText({
       ref={ref}
       className={cn(
         mode === 'word'
-          ? 'inline-flex flex-wrap gap-x-[0.28em] gap-y-[0.16em]'
+          ? 'inline-flex flex-wrap gap-x-[0.28em]'
           : 'inline-flex flex-wrap',
         className,
       )}
     >
       {segments.map((segment, index) => (
-        <span key={`${segment}-${index}`} className="overflow-hidden">
+        <span key={`${segment}-${index}`} className="overflow-hidden py-[0.15em]">
           <motion.span
             className={mode === 'char' ? 'inline-block whitespace-pre' : 'inline-block'}
             initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '112%' }}

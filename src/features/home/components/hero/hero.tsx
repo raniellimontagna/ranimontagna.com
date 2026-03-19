@@ -40,14 +40,17 @@ export async function Hero() {
                 {t('greeting')}
               </p>
 
-              <h1 className="max-w-[12ch] text-5xl leading-[0.88] font-semibold tracking-[-0.07em] text-foreground sm:text-7xl lg:text-[5.6rem]">
+              <h1 className="max-w-[12ch] text-5xl leading-[0.95] font-semibold tracking-[-0.07em] text-foreground sm:text-7xl lg:text-[5.6rem]">
                 <RevealText text={t('name')} mode="word" stagger={0.06} />
               </h1>
             </div>
 
             <div className="max-w-3xl flex flex-col gap-5">
               <p className="text-xl leading-[1.08] font-medium text-foreground sm:text-3xl lg:text-[2.6rem]">
-                {t('passion.part1')} <span className="text-accent">{t('passion.highlight')}</span>{' '}
+                {t('passion.part1')}{' '}
+                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-foreground dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
+                  {t('passion.highlight')}
+                </span>{' '}
                 {t('passion.part2')}
               </p>
 

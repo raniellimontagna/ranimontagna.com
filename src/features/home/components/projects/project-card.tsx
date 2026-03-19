@@ -1,7 +1,15 @@
 'use client'
 
 import { SiGithub } from '@icons-pack/react-simple-icons'
-import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import {
+  Buildings,
+  Calendar,
+  Global,
+  Monitor,
+  Smartphone,
+  SquareArrowRightUp,
+  User,
+} from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
@@ -58,15 +66,17 @@ const techColors: Record<string, string> = {
     'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
   Sass: 'border-pink-500/20 bg-pink-500/10 text-pink-700 dark:border-pink-400/20 dark:bg-pink-400/10 dark:text-pink-300',
   Expo: 'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
+  Electron:
+    'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
+  'Micro-frontend':
+    'border-purple-500/20 bg-purple-500/10 text-purple-700 dark:border-purple-400/20 dark:bg-purple-400/10 dark:text-purple-300',
 }
 
 const defaultTechColor = 'border-line bg-surface text-muted'
 
 function getTechColor(tech: string): string {
-  // Check for exact match first
   if (techColors[tech]) return techColors[tech]
 
-  // Check for partial match
   for (const [key, value] of Object.entries(techColors)) {
     if (tech.toLowerCase().includes(key.toLowerCase())) return value
   }
@@ -83,7 +93,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
   const Icon = {
     web: Global,
     mobile: Smartphone,
-    api: Code,
+    desktop: Monitor,
   }[project.type]
 
   const typeStyles = {
@@ -97,9 +107,10 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
       glow: 'group-hover:shadow-emerald-500/15 dark:group-hover:shadow-emerald-400/10',
     },
-    api: {
-      badge: 'border-accent/30 bg-accent/12 text-lime-800 dark:text-lime-300',
-      glow: 'group-hover:shadow-lime-500/15 dark:group-hover:shadow-lime-400/10',
+    desktop: {
+      badge:
+        'border-violet-500/20 bg-violet-500/10 text-violet-700 dark:border-violet-400/20 dark:bg-violet-400/10 dark:text-violet-300',
+      glow: 'group-hover:shadow-violet-500/15 dark:group-hover:shadow-violet-400/10',
     },
   }
 
@@ -112,7 +123,6 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
     const centerX = rect.width / 2
     const centerY = rect.height / 2
 
-    // Calculate rotation (max 6 degrees)
     const rotateX = ((y - centerY) / centerY) * -6
     const rotateY = ((x - centerX) / centerX) * 6
 
@@ -267,11 +277,46 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       </div>
 
       <div className="flex flex-1 flex-col p-6">
+        <div className="mb-3 flex flex-wrap items-center gap-2 text-[11px] text-muted">
+          <span className="inline-flex items-center gap-1">
+            <Buildings className="h-3 w-3" />
+            {project.company}
+          </span>
+          <span className="h-2.5 w-px bg-line" />
+          <span className="inline-flex items-center gap-1">
+            <User className="h-3 w-3" />
+            {t(`role.${project.role}`)}
+          </span>
+          <span className="h-2.5 w-px bg-line" />
+          <span className="inline-flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            {project.year}
+          </span>
+        </div>
+
         <h3 className="mb-2 text-xl font-semibold tracking-[-0.05em] text-foreground transition-colors duration-300">
           {project.title}
         </h3>
 
-        <p className="mb-5 flex-1 text-sm leading-7 text-muted">{project.description}</p>
+        <p className="mb-4 flex-1 text-sm leading-7 text-muted">{project.description}</p>
+
+        {project.highlights.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-1.5">
+            {project.highlights.slice(0, 4).map((h) => (
+              <span
+                key={h}
+                className="rounded-full border border-accent/20 bg-accent/8 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-accent-foreground dark:text-accent-ice"
+              >
+                {t(`highlights.${h}`)}
+              </span>
+            ))}
+            {project.highlights.length > 4 && (
+              <span className="rounded-full border border-line bg-surface px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-muted">
+                +{project.highlights.length - 4}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="flex flex-wrap items-center gap-2 pt-2">
           {project.technologies.slice(0, 4).map((tech) => (
