@@ -1,6 +1,7 @@
 import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import {
+  BlurReveal,
   FadeIn,
   MagneticHover,
   ParallaxLayer,
@@ -89,7 +90,7 @@ export const Contact = (): React.ReactElement => {
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.45}>
+            <FadeIn delay={0.45} blur scale>
               <div className="surface-panel-strong mt-8 overflow-hidden rounded-3xl p-6 shadow-card">
                 <div className="flex items-center gap-2">
                   <Code2 className="h-4 w-4 text-muted" />
@@ -194,7 +195,7 @@ export const Contact = (): React.ReactElement => {
               </div>
             </FadeIn>
           </div>
-          <FadeIn delay={0.6} direction="right">
+          <BlurReveal delay={0.5}>
             <ParallaxLayer offset={26}>
               <div className="surface-panel-strong relative overflow-hidden rounded-4xl shadow-card">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.16),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.14),transparent_28%)]" />
@@ -234,7 +235,7 @@ export const Contact = (): React.ReactElement => {
                 </div>
               </div>
             </ParallaxLayer>
-          </FadeIn>
+          </BlurReveal>
         </div>
       </div>
     </section>

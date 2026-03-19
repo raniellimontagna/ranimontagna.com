@@ -1,7 +1,14 @@
 import { ChatRound, Download, User } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { FadeIn, MagneticHover, ParallaxLayer, RevealText } from '@/shared/components/animations'
+import {
+  BlurReveal,
+  CountUp,
+  FadeIn,
+  MagneticHover,
+  ParallaxLayer,
+  RevealText,
+} from '@/shared/components/animations'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 
 export function About() {
@@ -9,9 +16,9 @@ export function About() {
   const locale = useLocale()
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
   const stats = [
-    { value: '04+', label: t('stats.experience') },
-    { value: '20+', label: t('stats.projects') },
-    { value: '100%', label: t('stats.dedication') },
+    { value: 4, suffix: '+', label: t('stats.experience') },
+    { value: 20, suffix: '+', label: t('stats.projects') },
+    { value: 100, suffix: '%', label: t('stats.dedication') },
   ]
 
   return (
@@ -40,7 +47,7 @@ export function About() {
                 className="font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-7xl"
               />
 
-              <FadeIn delay={0.3}>
+              <FadeIn delay={0.3} blur>
                 <div className="mt-8 flex flex-col gap-5 text-base leading-8 text-muted sm:text-lg">
                   <p>
                     {t('bio.greeting')}{' '}
@@ -54,14 +61,17 @@ export function About() {
 
               <FadeIn delay={0.45}>
                 <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                  {stats.map((stat) => (
+                  {stats.map((stat, index) => (
                     <div
                       key={stat.label}
                       className="surface-panel rounded-3xl px-5 py-5 backdrop-blur-sm"
                     >
-                      <p className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground">
-                        {stat.value}
-                      </p>
+                      <CountUp
+                        value={stat.value}
+                        suffix={stat.suffix}
+                        delay={0.5 + index * 0.15}
+                        className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground"
+                      />
                       <p className="mt-2 text-sm leading-6 text-muted">{stat.label}</p>
                     </div>
                   ))}
@@ -95,7 +105,7 @@ export function About() {
             </div>
           </div>
 
-          <FadeIn delay={0.25} direction="left" className="order-1 lg:order-2">
+          <BlurReveal delay={0.2} className="order-1 lg:order-2">
             <div className="relative mx-auto w-full max-w-125 lg:max-w-none">
               <ParallaxLayer offset={30}>
                 <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 shadow-card sm:p-6">
@@ -117,7 +127,7 @@ export function About() {
                 </div>
               </ParallaxLayer>
             </div>
-          </FadeIn>
+          </BlurReveal>
         </div>
       </div>
     </section>

@@ -12,7 +12,13 @@ import {
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import type { ProjectType } from '@/features/projects/types/projects.types'
-import { FadeIn, MagneticHover, ParallaxLayer, RevealText } from '@/shared/components/animations'
+import {
+  BlurReveal,
+  FadeIn,
+  MagneticHover,
+  ParallaxLayer,
+  RevealText,
+} from '@/shared/components/animations'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
 import { ProjectCard } from './project-card'
@@ -97,7 +103,7 @@ export function Projects() {
 
         {/* Lead Project — full width */}
         {leadProject && (
-          <FadeIn delay={0.45} className="mt-14">
+          <BlurReveal delay={0.35} className="mt-14">
             <ParallaxLayer offset={28}>
               <article className="surface-panel-strong relative overflow-hidden rounded-4xl p-6 shadow-(--shadow-card) sm:p-8 lg:p-10">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.16),transparent_30%)]" />
@@ -219,13 +225,13 @@ export function Projects() {
                 </div>
               </article>
             </ParallaxLayer>
-          </FadeIn>
+          </BlurReveal>
         )}
 
         {/* Secondary Projects — 3-column grid */}
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {secondaryProjects.map((project, index) => (
-            <FadeIn key={project.id} delay={0.55 + index * 0.1} className="h-full">
+            <FadeIn key={project.id} delay={0.45 + index * 0.12} blur scale className="h-full">
               <ProjectCard project={project} animationDelay="0ms" />
             </FadeIn>
           ))}

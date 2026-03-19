@@ -1,6 +1,7 @@
 'use client'
 
 import { Moon, Sun } from '@solar-icons/react/ssr'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 
@@ -12,14 +13,7 @@ export const ThemeToggle = (): React.ReactElement => {
 
   if (!mounted) {
     return (
-      <button
-        type="button"
-        className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 transition-all duration-300 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
-        disabled
-        aria-label="Loading theme toggle"
-      >
-        <div className="h-5 w-5" />
-      </button>
+      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface-strong/50 opacity-20" />
     )
   }
 
@@ -27,24 +21,29 @@ export const ThemeToggle = (): React.ReactElement => {
     <button
       type="button"
       onClick={toggleTheme}
-      className="group relative flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+      className="group relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl text-muted transition-all duration-300 hover:bg-surface-strong hover:text-accent-strong active:scale-90"
       aria-label={t('themeToggle.ariaLabel', { mode: isDark ? 'light' : 'dark' })}
       title={t('themeToggle.tooltip', { mode: isDark ? 'light' : 'dark' })}
     >
-      <div className="relative h-5 w-5">
-        <Sun
-          data-testid="sun-icon"
-          className={`absolute inset-0 h-5 w-5 transition-all duration-500 ${
-            isDark ? 'scale-0 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100'
-          }`}
-        />
-        <Moon
-          data-testid="moon-icon"
-          className={`absolute inset-0 h-5 w-5 transition-all duration-500 ${
-            isDark ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0'
-          }`}
-        />
-      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={theme}
+          initial={{ y: 20, opacity: 0, rotate: -90 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          exit={{ y: -20, opacity: 0, rotate: 90 }}
+          transition={{ duration: 0.3, ease: 'backOut' }}
+          className="relative flex h-5 w-5 items-center justify-center"
+        >
+          {isDark ? (
+            <Moon className="h-5 w-5 fill-current" />
+          ) : (
+            <Sun className="h-5 w-5 fill-current" />
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Subtle background glow on hover */}
+      <div className="absolute inset-0 -z-10 bg-accent/5 opacity-0 transition-opacity group-hover:opacity-100" />
     </button>
   )
 }

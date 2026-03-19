@@ -151,14 +151,14 @@ export function CommandMenu() {
               >
                 <Command.Item
                   onSelect={() => runCommand(() => setTheme('light'))}
-                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-accent/10 aria-selected:text-accent-strong"
                 >
                   <Sun className="h-4 w-4" />
                   {t('light')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => runCommand(() => setTheme('dark'))}
-                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-accent/10 aria-selected:text-accent-strong"
                 >
                   <Moon className="h-4 w-4" />
                   {t('dark')}

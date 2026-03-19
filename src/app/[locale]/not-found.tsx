@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, Document, Letter, Suitcase, User, Home } from '@solar-icons/react/ssr'
+import { ArrowRight, Document, Home, Letter, Suitcase, User } from '@solar-icons/react/ssr'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { StaggerContainer, StaggerItem } from '@/shared/components/animations'

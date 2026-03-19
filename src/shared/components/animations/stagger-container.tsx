@@ -54,17 +54,22 @@ export function StaggerItem({ children, className, ...props }: StaggerItemProps)
   return (
     <motion.div
       variants={{
-        hidden: { opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 20 },
+        hidden: {
+          opacity: prefersReducedMotion ? 1 : 0,
+          y: prefersReducedMotion ? 0 : 24,
+          filter: prefersReducedMotion ? 'blur(0px)' : 'blur(8px)',
+        },
         visible: {
           opacity: 1,
           y: 0,
+          filter: 'blur(0px)',
           transition: {
-            duration: prefersReducedMotion ? 0 : 0.6,
-            ease: [0.25, 0.46, 0.45, 0.94],
+            duration: prefersReducedMotion ? 0 : 0.7,
+            ease: [0.19, 1, 0.22, 1],
           },
         },
       }}
-      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
+      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity, filter' }}
       className={className}
       {...props}
     >

@@ -89,7 +89,10 @@ export function ErrorContent({
               <div className="group mt-8 flex items-center justify-center gap-2">
                 <div className="h-px w-4 bg-line transition-all group-hover:w-8" />
                 <p className="font-mono text-[10px] text-muted/60 uppercase tracking-widest">
-                  ID: <code className="text-muted font-bold transition-colors group-hover:text-foreground">{errorId}</code>
+                  ID:{' '}
+                  <code className="text-muted font-bold transition-colors group-hover:text-foreground">
+                    {errorId}
+                  </code>
                 </p>
                 <div className="h-px w-4 bg-line transition-all group-hover:w-8" />
               </div>

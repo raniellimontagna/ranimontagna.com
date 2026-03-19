@@ -43,7 +43,7 @@ export function Services() {
               className="max-w-3xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
             />
 
-            <FadeIn delay={0.35}>
+            <FadeIn delay={0.35} blur>
               <p className="mt-6 max-w-2xl text-base leading-8 text-muted sm:text-lg">
                 {t('subtitle')}
               </p>

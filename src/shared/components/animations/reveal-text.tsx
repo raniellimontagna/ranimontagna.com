@@ -42,13 +42,17 @@ export function RevealText({
       )}
     >
       {segments.map((segment, index) => (
-        <span key={`${segment}-${index}`} className="overflow-hidden py-[0.15em]">
+        <span
+          key={`${segment}-${index}`}
+          className="overflow-hidden py-[0.15em]"
+          style={{ perspective: '600px' }}
+        >
           <motion.span
             className={mode === 'char' ? 'inline-block whitespace-pre' : 'inline-block'}
-            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '112%' }}
-            animate={isInView ? { opacity: 1, y: 0 } : undefined}
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: '112%', rotateX: 45 }}
+            animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : undefined}
             transition={{
-              duration: prefersReducedMotion ? 0.2 : 0.7,
+              duration: prefersReducedMotion ? 0.2 : 0.8,
               delay: delay + index * stagger,
               ease: [0.19, 1, 0.22, 1],
             }}

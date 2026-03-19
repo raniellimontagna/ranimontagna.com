@@ -23,6 +23,7 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
 }))
 
 vi.mock('@/shared/components/animations', () => ({
+  BlurReveal: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,

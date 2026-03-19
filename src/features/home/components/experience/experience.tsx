@@ -42,7 +42,7 @@ export function Experience() {
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.45}>
+            <FadeIn delay={0.45} blur>
               <div className="mt-10 flex flex-col gap-3">
                 {items.map((exp, index) => (
                   <div
