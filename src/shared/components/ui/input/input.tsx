@@ -33,8 +33,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             error
               ? 'text-red-600 dark:text-red-400'
               : isFocused
-                ? 'text-slate-900 dark:text-white'
-                : 'text-slate-600 dark:text-slate-400',
+                ? 'text-foreground'
+                : 'text-muted',
           )}
         >
           <span
@@ -43,8 +43,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               error
                 ? 'text-red-400 dark:text-red-500'
                 : isFocused
-                  ? 'text-emerald-500'
-                  : 'text-slate-300 dark:text-slate-600',
+                  ? 'text-accent'
+                  : 'text-line-strong/40 dark:text-line-strong/20',
             )}
           >
             $
@@ -66,16 +66,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }}
           className={cn(
             'block w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200',
-            'bg-slate-50 text-slate-900 placeholder:text-slate-400',
-            'dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500',
+            'bg-surface-strong text-foreground placeholder:text-muted/50',
+            'dark:bg-background dark:text-foreground dark:placeholder:text-muted/40',
             'focus:outline-none',
             error
               ? 'border-red-300 ring-2 ring-red-100 focus:border-red-500 focus:ring-red-100 dark:border-red-800 dark:ring-red-900/30 dark:focus:border-red-500'
               : [
-                  'border-slate-200 dark:border-slate-800',
-                  'hover:border-slate-300 dark:hover:border-slate-700',
-                  'focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10',
-                  'dark:focus:border-emerald-400 dark:focus:ring-emerald-400/10',
+                  'border-line',
+                  'hover:border-foreground/20',
+                  'focus:border-accent focus:ring-2 focus:ring-ring',
+                  'dark:focus:border-accent dark:focus:ring-ring',
                 ],
           )}
           {...props}
@@ -110,8 +110,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             error
               ? 'text-red-600 dark:text-red-400'
               : isFocused
-                ? 'text-slate-900 dark:text-white'
-                : 'text-slate-600 dark:text-slate-400',
+                ? 'text-foreground'
+                : 'text-muted',
           )}
         >
           <span
@@ -120,8 +120,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               error
                 ? 'text-red-400 dark:text-red-500'
                 : isFocused
-                  ? 'text-emerald-500'
-                  : 'text-slate-300 dark:text-slate-600',
+                  ? 'text-accent'
+                  : 'text-line-strong/40 dark:text-line-strong/20',
             )}
           >
             $
@@ -143,16 +143,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           }}
           className={cn(
             'block w-full resize-none rounded-lg border px-4 py-3 text-sm transition-all duration-200',
-            'bg-slate-50 text-slate-900 placeholder:text-slate-400',
-            'dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500',
+            'bg-surface-strong text-foreground placeholder:text-muted/50',
+            'dark:bg-background dark:text-foreground dark:placeholder:text-muted/40',
             'focus:outline-none',
             error
               ? 'border-red-300 ring-2 ring-red-100 focus:border-red-500 focus:ring-red-100 dark:border-red-800 dark:ring-red-900/30 dark:focus:border-red-500'
               : [
-                  'border-slate-200 dark:border-slate-800',
-                  'hover:border-slate-300 dark:hover:border-slate-700',
-                  'focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10',
-                  'dark:focus:border-emerald-400 dark:focus:ring-emerald-400/10',
+                  'border-line',
+                  'hover:border-foreground/20',
+                  'focus:border-accent focus:ring-2 focus:ring-ring',
+                  'dark:focus:border-accent dark:focus:ring-ring',
                 ],
           )}
           {...props}
