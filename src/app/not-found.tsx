@@ -1,34 +1,24 @@
 'use client'
 
 import { Home } from '@solar-icons/react/ssr'
-import Link from 'next/link'
+import { ErrorLayout } from '@/shared/components/ui/error-view'
 
 export default function NotFound() {
   return (
-    <html lang="en">
-      <body className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 dark:bg-gray-950">
-        <div className="text-center">
-          <span className="mb-8 block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text font-mono text-[120px] leading-none font-bold text-transparent sm:text-[150px]">
-            404
-          </span>
-
-          <h1 className="mb-4 text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
-            Page not found
-          </h1>
-
-          <p className="mb-8 text-slate-600 dark:text-slate-400">
-            The page you&apos;re looking for doesn&apos;t exist or has been moved.
-          </p>
-
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:shadow-xl"
-          >
-            <Home className="h-5 w-5" />
-            Back to home
-          </Link>
-        </div>
-      </body>
-    </html>
+    <ErrorLayout
+      code="404"
+      lang="en"
+      title="Página não encontrada"
+      description="O endereço que você tentou acessar não existe ou foi removido. Que tal voltar para o início?"
+    >
+      <a
+        href="/"
+        className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-foreground px-10 py-4 font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
+      >
+        <Home className="h-5 w-5" />
+        <span>Voltar ao Início</span>
+        <div className="absolute inset-0 -z-10 bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+      </a>
+    </ErrorLayout>
   )
 }

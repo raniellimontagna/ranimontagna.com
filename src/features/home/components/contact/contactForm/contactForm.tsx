@@ -9,7 +9,11 @@ export function ContactForm() {
     useContactForm()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" data-testid="contact-form">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-5"
+      data-testid="contact-form"
+    >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Input
           label={t('name.label')}

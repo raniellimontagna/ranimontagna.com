@@ -4,12 +4,10 @@ import { ProjectCard } from '../project-card'
 
 // Mocks
 vi.mock('next-intl', () => ({
-  useTranslations:
-    () =>
-    (key: string, params?: Record<string, unknown>) => {
-      if (params?.count !== undefined) return `+${params.count} more`
-      return key.split('.').pop() ?? key
-    },
+  useTranslations: () => (key: string, params?: Record<string, unknown>) => {
+    if (params?.count !== undefined) return `+${params.count} more`
+    return key.split('.').pop() ?? key
+  },
 }))
 
 // Mock next/image

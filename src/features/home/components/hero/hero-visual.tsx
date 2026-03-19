@@ -57,14 +57,14 @@ export function HeroVisual() {
           <div className="relative mt-6 grid gap-3 sm:mt-8 sm:grid-cols-[1.1fr_0.9fr]">
             <TerminalWindow title="delivery.state" className="h-full">
               <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-accent-ice">
+                <div className="flex items-center gap-2 font-bold text-accent-strong">
                   <span>&gt;</span>
                   <span>stack --ship</span>
                 </div>
                 <p className="text-muted">
                   web, mobile, SEO tecnico, acessibilidade e performance.
                 </p>
-                <div className="flex items-center gap-2 text-pretty">
+                <div className="flex items-center gap-2 font-bold text-accent-strong">
                   <span>&gt;</span>
                   <span>status --ready</span>
                 </div>

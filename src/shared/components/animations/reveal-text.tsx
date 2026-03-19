@@ -37,9 +37,7 @@ export function RevealText({
     <span
       ref={ref}
       className={cn(
-        mode === 'word'
-          ? 'inline-flex flex-wrap gap-x-[0.28em]'
-          : 'inline-flex flex-wrap',
+        mode === 'word' ? 'inline-flex flex-wrap gap-x-[0.28em]' : 'inline-flex flex-wrap',
         className,
       )}
     >

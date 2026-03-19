@@ -30,11 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           htmlFor={inputId}
           className={cn(
             'mb-2 flex items-center gap-2 text-sm font-medium transition-colors duration-200',
-            error
-              ? 'text-red-600 dark:text-red-400'
-              : isFocused
-                ? 'text-foreground'
-                : 'text-muted',
+            error ? 'text-red-600 dark:text-red-400' : isFocused ? 'text-foreground' : 'text-muted',
           )}
         >
           <span
@@ -107,11 +103,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           htmlFor={textareaId}
           className={cn(
             'mb-2 flex items-center gap-2 text-sm font-medium transition-colors duration-200',
-            error
-              ? 'text-red-600 dark:text-red-400'
-              : isFocused
-                ? 'text-foreground'
-                : 'text-muted',
+            error ? 'text-red-600 dark:text-red-400' : isFocused ? 'text-foreground' : 'text-muted',
           )}
         >
           <span
