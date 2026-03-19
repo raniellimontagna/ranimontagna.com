@@ -1,30 +1,9 @@
-import {
-  Box,
-  BranchingPathsUp,
-  Code2,
-  Database,
-  Figma,
-  Global,
-  Palette,
-  Server,
-  Smartphone,
-  Widget,
-} from '@solar-icons/react/ssr'
-import { useTranslations } from 'next-intl'
-import { InfiniteMarquee } from '@/shared/components/ui'
+'use client'
 
-const skills = [
-  { name: 'React', icon: Global, category: 'Frontend' },
-  { name: 'Next.js', icon: Widget, category: 'Fullstack' },
-  { name: 'TypeScript', icon: Code2, category: 'Language' },
-  { name: 'Node.js', icon: Server, category: 'Backend' },
-  { name: 'Tailwind CSS', icon: Palette, category: 'Styling' },
-  { name: 'React Native', icon: Smartphone, category: 'Mobile' },
-  { name: 'PostgreSQL', icon: Database, category: 'Database' },
-  { name: 'Figma', icon: Figma, category: 'UX/Design' },
-  { name: 'Docker', icon: Box, category: 'DevOps' },
-  { name: 'Git', icon: BranchingPathsUp, category: 'Version Control' },
-]
+import { useTranslations } from 'next-intl'
+import { FadeIn } from '@/shared/components/animations'
+import { ParallaxLayer } from '@/shared/components/animations/parallax-layer'
+import { SkillsOrbit } from './skills-orbit'
 
 export function Skills() {
   const t = useTranslations('about.skills')
@@ -32,30 +11,32 @@ export function Skills() {
   return (
     <section
       data-testid="skills"
-      className="relative overflow-hidden border-y border-line bg-background py-12"
+      className="relative overflow-hidden border-y border-line bg-background py-16 md:py-24"
     >
-      <div className="mb-8 text-center">
-        <p className="font-mono text-sm font-semibold uppercase tracking-[0.24em] text-muted">
-          {t('title')}
-        </p>
-      </div>
+      <ParallaxLayer
+        offset={30}
+        className="pointer-events-none absolute top-0 right-[10%] h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-ambient-blue blur-[120px] opacity-20"
+      />
+      <ParallaxLayer
+        offset={-20}
+        axis="x"
+        className="pointer-events-none absolute bottom-0 left-[10%] h-[300px] w-[300px] translate-y-1/2 rounded-full bg-ambient-lime blur-[100px] opacity-10"
+      />
 
-      <InfiniteMarquee speed="slow" pauseOnHover className="[--gap:1rem]">
-        {skills.map((skill) => (
-          <div
-            key={skill.name}
-            className="flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 transition-colors hover:border-foreground/30 hover:bg-surface-strong"
-          >
-            <skill.icon className="h-5 w-5 text-muted" />
-            <div className="flex flex-col">
-              <span className="text-sm font-bold text-foreground">{skill.name}</span>
-              <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-                {skill.category}
-              </span>
-            </div>
-          </div>
-        ))}
-      </InfiniteMarquee>
+      <div className="relative z-10 mx-auto max-w-6xl px-4 md:px-8 lg:px-12">
+        <div className="mb-12 md:mb-16 text-center">
+          <p className="font-mono text-sm font-semibold uppercase tracking-[0.24em] text-muted">
+            {t('title')}
+          </p>
+          <h2 className="mx-auto mt-4 text-3xl font-display font-medium leading-tight md:text-5xl text-foreground max-w-3xl">
+            A precise tech stack tailored for global demands.
+          </h2>
+        </div>
+
+        <FadeIn delay={0.2}>
+          <SkillsOrbit />
+        </FadeIn>
+      </div>
     </section>
   )
 }

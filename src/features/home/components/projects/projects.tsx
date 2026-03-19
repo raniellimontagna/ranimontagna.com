@@ -180,28 +180,6 @@ export function Projects() {
           </div>
         </div>
 
-        <FadeIn delay={0.85}>
-          <div className="surface-panel mt-8 grid gap-6 rounded-[1.75rem] px-6 py-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
-                {socialLinks.github.name}
-              </p>
-              <p className="mt-3 max-w-3xl text-base leading-8 text-muted">{t('cta.text')}</p>
-            </div>
-
-            <MagneticHover strength={12}>
-              <a
-                href={socialLinks.github.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-line bg-surface-strong px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30"
-              >
-                <GithubIcon className="h-4 w-4" />
-                {t('cta.button')}
-              </a>
-            </MagneticHover>
-          </div>
-        </FadeIn>
       </div>
     </section>
   )

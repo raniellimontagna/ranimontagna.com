@@ -31,9 +31,9 @@ export function ParallaxLayer({
       : { y: movement, willChange: 'transform' as const }
 
   let safeClassName = 'relative'
-  
+
   if (className) {
-    const hasPosition = ['absolute', 'fixed', 'relative'].some(pos => className.includes(pos))
+    const hasPosition = ['absolute', 'fixed', 'relative'].some((pos) => className.includes(pos))
     safeClassName = hasPosition ? className : `relative ${className}`
   }
 
