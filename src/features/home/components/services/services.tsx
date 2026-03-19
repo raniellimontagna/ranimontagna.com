@@ -31,8 +31,8 @@ export function Services() {
   return (
     <section id="services" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
-      <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-[color:var(--accent-ice)]/12 blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-[color:var(--accent)]/10 blur-3xl" />
+      <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/12 blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
 
       <div className="section-shell relative z-10">
         <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.78fr)_minmax(0,1.22fr)] lg:gap-16">
@@ -46,11 +46,11 @@ export function Services() {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-[color:var(--foreground)] sm:text-5xl lg:text-6xl"
+              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35}>
-              <p className="mt-6 max-w-xl text-base leading-8 text-[color:var(--muted)] sm:text-lg">
+              <p className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
@@ -62,10 +62,10 @@ export function Services() {
                     key={service.id}
                     className="surface-panel flex items-center justify-between rounded-[1.2rem] px-4 py-3"
                   >
-                    <span className="text-sm font-semibold text-[color:var(--foreground)]">
+                    <span className="text-sm font-semibold text-foreground">
                       {service.title}
                     </span>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                       {service.category.toUpperCase()}
                     </span>
                   </div>
@@ -93,19 +93,19 @@ export function Services() {
             </StaggerContainer>
 
             <FadeIn delay={0.7}>
-              <div className="surface-panel-strong mt-8 overflow-hidden rounded-[2rem] p-6 shadow-[var(--shadow-card)] sm:p-8">
+              <div className="surface-panel-strong mt-8 overflow-hidden rounded-4xl p-6 shadow-card sm:p-8">
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                   <div>
-                    <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                       <StarFall className="h-3.5 w-3.5" />
                       {t('cta.badge')}
                     </div>
 
-                    <h3 className="mt-5 text-2xl font-semibold tracking-[-0.05em] text-[color:var(--foreground)] sm:text-3xl">
+                    <h3 className="mt-5 text-2xl font-semibold tracking-[-0.05em] text-foreground sm:text-3xl">
                       {t('cta.title')}
                     </h3>
 
-                    <p className="mt-3 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
+                    <p className="mt-3 max-w-2xl text-base leading-8 text-muted">
                       {t('cta.subtitle')}
                     </p>
                   </div>
@@ -113,7 +113,7 @@ export function Services() {
                   <MagneticHover strength={12}>
                     <a
                       href="#contact"
-                      className="inline-flex min-h-13 items-center gap-2 rounded-full bg-[color:var(--foreground)] px-6 py-3 text-sm font-semibold text-[color:var(--background)] transition-transform duration-300 hover:-translate-y-0.5"
+                      className="inline-flex min-h-13 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
                     >
                       {t('cta.button')}
                       <ArrowRight className="h-4 w-4" />

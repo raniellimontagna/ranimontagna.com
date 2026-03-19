@@ -27,8 +27,8 @@ export function About() {
       className="relative overflow-hidden py-20 sm:py-24 lg:py-32"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-60" />
-      <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-[color:var(--accent)]/10 blur-[140px]" />
-      <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-[color:var(--accent-ice)]/16 blur-[140px]" />
+      <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-accent/10 blur-[140px]" />
+      <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-accent-ice/16 blur-[140px]" />
 
       <div className="section-shell relative z-10">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start lg:gap-18">
@@ -43,14 +43,14 @@ export function About() {
             <div className="max-w-3xl">
               <RevealText
                 text={`${t('title.part1')} ${t('title.part2')}`}
-                className="font-heading text-4xl font-semibold tracking-[-0.08em] text-[color:var(--foreground)] sm:text-5xl lg:text-7xl"
+                className="font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-7xl"
               />
 
               <FadeIn delay={0.3}>
-                <div className="mt-8 space-y-5 text-base leading-8 text-[color:var(--muted)] sm:text-lg">
+                <div className="mt-8 space-y-5 text-base leading-8 text-muted sm:text-lg">
                   <p>
                     {t('bio.greeting')}{' '}
-                    <strong className="font-semibold text-[color:var(--foreground)]">
+                    <strong className="font-semibold text-foreground">
                       {t('bio.name')}
                     </strong>
                     , {t('bio.intro')}
@@ -65,12 +65,12 @@ export function About() {
                   {stats.map((stat) => (
                     <div
                       key={stat.label}
-                      className="surface-panel rounded-[1.5rem] px-5 py-5 backdrop-blur-sm"
+                      className="surface-panel rounded-3xl px-5 py-5 backdrop-blur-sm"
                     >
-                      <p className="font-heading text-3xl font-semibold tracking-[-0.08em] text-[color:var(--foreground)]">
+                      <p className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground">
                         {stat.value}
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                      <p className="mt-2 text-sm leading-6 text-muted">
                         {stat.label}
                       </p>
                     </div>
@@ -84,7 +84,7 @@ export function About() {
                     <a
                       href={resumeLink.href}
                       download={resumeLink.filename}
-                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-[color:var(--foreground)] px-7 py-3 text-sm font-semibold text-[color:var(--background)] transition-transform duration-300 hover:-translate-y-0.5"
+                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
                     >
                       <Download className="h-4 w-4" />
                       {resumeLink.name}
@@ -94,7 +94,7 @@ export function About() {
                   <MagneticHover strength={14}>
                     <a
                       href="#contact"
-                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-7 py-3 text-sm font-semibold text-[color:var(--foreground)] transition-colors hover:border-[color:var(--foreground)]/30 hover:bg-[color:var(--surface-strong)]"
+                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-line bg-surface px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
                     >
                       <ChatRound className="h-4 w-4" />
                       {t('cta.contact')}
@@ -108,9 +108,9 @@ export function About() {
           <FadeIn delay={0.25} direction="left" className="order-1 lg:order-2">
             <div className="relative mx-auto w-full max-w-125 lg:max-w-none">
               <ParallaxLayer offset={30}>
-                <div className="surface-panel-strong relative overflow-hidden rounded-[2rem] p-4 shadow-[var(--shadow-card)] sm:p-6">
+                <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 shadow-card sm:p-6">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.2),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.22),transparent_35%)]" />
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/50 bg-[color:var(--canvas)] dark:border-white/10">
+                  <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
                     <Image
                       src="/photo.webp"
                       alt={t('bio.name')}
@@ -125,15 +125,15 @@ export function About() {
                     {t('bio.name')}
                   </div>
 
-                  <div className="absolute inset-x-4 bottom-4 rounded-[1.5rem] border border-white/55 bg-white/85 p-4 shadow-2xl backdrop-blur sm:right-8 sm:bottom-8 sm:left-auto sm:max-w-72 dark:border-white/10 dark:bg-slate-950/78">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                  <div className="absolute inset-x-4 bottom-4 rounded-3xl border border-white/55 bg-white/85 p-4 shadow-2xl backdrop-blur sm:right-8 sm:bottom-8 sm:left-auto sm:max-w-72 dark:border-white/10 dark:bg-slate-950/78">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                       {t('skills.title')}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {focusAreas.map((item) => (
                         <span
                           key={item}
-                          className="rounded-full border border-[color:var(--line)] bg-[color:var(--surface-strong)] px-3 py-1.5 text-xs font-medium text-[color:var(--foreground)]"
+                          className="rounded-full border border-line bg-surface-strong px-3 py-1.5 text-xs font-medium text-foreground"
                         >
                           {item}
                         </span>

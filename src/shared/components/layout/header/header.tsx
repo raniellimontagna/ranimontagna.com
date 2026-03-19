@@ -98,13 +98,13 @@ export const Header = (): React.ReactElement | null => {
       className="fixed top-0 right-0 left-0 z-50 px-4 pt-4 sm:px-6 lg:px-8"
     >
       <nav
-        className={`mx-auto max-w-7xl rounded-[2rem] border px-3 py-3 transition-all duration-500 ${
+        className={`mx-auto max-w-7xl rounded-4xl border px-3 py-3 transition-all duration-500 ${
           headerState === 'elevated'
-            ? 'surface-panel border-[color:var(--line)] shadow-[var(--shadow-panel)]'
+            ? 'surface-panel border-line shadow-panel'
             : 'border-white/20 bg-white/45 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/6'
         }`}
       >
-        <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-[color:var(--accent-ice)] to-transparent opacity-60" />
+        <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent-ice to-transparent opacity-60" />
         <div className="flex items-center justify-between">
           <MagneticHover className="shrink-0">
             <button
@@ -130,10 +130,10 @@ export const Header = (): React.ReactElement | null => {
                 />
               </div>
               <div className="hidden min-w-0 sm:block">
-                <h1 className="text-base font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">
+                <h1 className="text-base font-semibold tracking-[-0.03em] text-foreground">
                   {t('logo.fullName')}
                 </h1>
-                <p className="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-[color:var(--muted)] uppercase">
+                <p className="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-muted uppercase">
                   {t('logo.jobTitle')}
                 </p>
               </div>
@@ -145,7 +145,7 @@ export const Header = (): React.ReactElement | null => {
               {navigation.map((item) =>
                 renderNavigationItem(
                   item,
-                  'rounded-full px-4 py-2 text-sm font-medium text-[color:var(--muted)] transition-all hover:bg-[color:var(--surface-strong)] hover:text-[color:var(--foreground)]',
+                  'rounded-full px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground',
                 ),
               )}
             </div>
@@ -156,7 +156,7 @@ export const Header = (): React.ReactElement | null => {
               <button
                 type="button"
                 onClick={() => openCommandMenu(true)}
-                className="surface-panel flex items-center gap-2 rounded-2xl px-3 py-2 text-sm text-[color:var(--muted)]"
+                className="surface-panel flex items-center gap-2 rounded-2xl px-3 py-2 text-sm text-muted"
               >
                 <SquareAltArrowUp className="h-3.5 w-3.5" />
                 <span className="font-mono text-xs">⌘K</span>
@@ -171,7 +171,7 @@ export const Header = (): React.ReactElement | null => {
               <a
                 href={resumeLink.href}
                 download={resumeLink.filename}
-                className="inline-flex items-center rounded-full border border-[color:var(--line)] bg-[color:var(--foreground)] px-5 py-2.5 text-sm font-semibold text-[color:var(--background)] shadow-[var(--shadow-soft)]"
+                className="inline-flex items-center rounded-full border border-line bg-foreground px-5 py-2.5 text-sm font-semibold text-background shadow-soft"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {resumeLink.name}
@@ -187,7 +187,7 @@ export const Header = (): React.ReactElement | null => {
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="surface-panel relative flex h-11 w-11 items-center justify-center rounded-2xl text-[color:var(--foreground)]"
+              className="surface-panel relative flex h-11 w-11 items-center justify-center rounded-2xl text-foreground"
               aria-label={t('mobileMenu.toggleAriaLabel')}
             >
               <HamburgerMenu
@@ -203,7 +203,7 @@ export const Header = (): React.ReactElement | null => {
         <div
           className={`overflow-hidden transition-all duration-300 xl:hidden ${
             isMenuOpen
-              ? 'mt-3 max-h-100 border-t border-[color:var(--line)] pt-4 pb-2 opacity-100'
+              ? 'mt-3 max-h-100 border-t border-line pt-4 pb-2 opacity-100'
               : 'max-h-0 opacity-0'
           }`}
         >
@@ -211,7 +211,7 @@ export const Header = (): React.ReactElement | null => {
             {navigation.map((item) =>
               renderNavigationItem(
                 item,
-                'block w-full rounded-2xl px-4 py-3 text-left font-medium text-[color:var(--foreground)] hover:bg-[color:var(--surface-strong)]',
+                'block w-full rounded-2xl px-4 py-3 text-left font-medium text-foreground hover:bg-surface-strong',
               ),
             )}
           </div>

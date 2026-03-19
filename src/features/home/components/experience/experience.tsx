@@ -18,8 +18,8 @@ export function Experience() {
   return (
     <section id="experience" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-50" />
-      <div className="absolute top-1/3 left-0 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-[color:var(--accent-ice)]/14 blur-[140px]" />
-      <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-[color:var(--accent)]/10 blur-[140px]" />
+      <div className="absolute top-1/3 left-0 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/14 blur-[140px]" />
+      <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-[140px]" />
 
       <div className="section-shell relative z-10">
         <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.75fr)_minmax(0,1.25fr)] lg:gap-16">
@@ -33,11 +33,11 @@ export function Experience() {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-[color:var(--foreground)] sm:text-5xl lg:text-6xl"
+              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35}>
-              <p className="mt-6 max-w-xl text-base leading-8 text-[color:var(--muted)] sm:text-lg">
+              <p className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
@@ -50,14 +50,14 @@ export function Experience() {
                     className="surface-panel flex items-center justify-between rounded-[1.25rem] px-4 py-3"
                   >
                     <div className="min-w-0">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                         {String(index + 1).padStart(2, '0')}
                       </p>
-                      <p className="truncate text-sm font-semibold text-[color:var(--foreground)]">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {exp.company}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-[color:var(--muted)]">
+                    <div className="flex items-center gap-2 text-xs text-muted">
                       <Calendar className="h-3.5 w-3.5" />
                       <span className="font-mono">{exp.period}</span>
                     </div>
@@ -69,23 +69,23 @@ export function Experience() {
 
           <StaggerContainer staggerDelay={0.14}>
             <div className="relative space-y-6 lg:pt-6">
-              <div className="absolute top-0 bottom-0 left-8 hidden w-px bg-linear-to-b from-[color:var(--line)]/20 via-[color:var(--foreground)]/12 to-transparent lg:block" />
+              <div className="absolute top-0 bottom-0 left-8 hidden w-px bg-linear-to-b from-line/20 via-foreground/12 to-transparent lg:block" />
 
               {items.map((exp, index) => (
                 <StaggerItem key={exp.company}>
                   <ParallaxLayer offset={18 + index * 4}>
                     <article
                       className={cn(
-                        'surface-panel-strong relative overflow-hidden rounded-[2rem] p-6 shadow-[var(--shadow-card)] sm:p-8',
+                        'surface-panel-strong relative overflow-hidden rounded-4xl p-6 shadow-card sm:p-8',
                         index % 2 === 1 ? 'lg:ml-10' : 'lg:mr-10',
                       )}
                     >
-                      <div className="absolute top-0 right-0 h-28 w-28 rounded-full bg-[color:var(--accent)]/12 blur-3xl" />
-                      <div className="absolute top-8 left-8 hidden h-4 w-4 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] lg:block" />
+                      <div className="absolute top-0 right-0 h-28 w-28 rounded-full bg-accent/12 blur-3xl" />
+                      <div className="absolute top-8 left-8 hidden h-4 w-4 rounded-full border border-line bg-surface lg:block" />
 
                       <div className="relative flex flex-wrap items-start justify-between gap-4">
                         <div className="flex items-start gap-4">
-                          <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-[1.25rem] border border-[color:var(--line)] bg-[color:var(--surface)] shadow-sm">
+                          <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
                             <Image
                               src={exp.logo}
                               alt={t('logoAlt', { company: exp.company })}
@@ -96,22 +96,22 @@ export function Experience() {
                           </div>
 
                           <div className="min-w-0">
-                            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                               {String(index + 1).padStart(2, '0')}
                             </p>
-                            <h3 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-[color:var(--foreground)] sm:text-2xl">
+                            <h3 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-foreground sm:text-2xl">
                               {exp.position}
                             </h3>
-                            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted)]">
-                              <span className="font-semibold text-[color:var(--foreground)]">
+                            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
+                              <span className="font-semibold text-foreground">
                                 {exp.company}
                               </span>
-                              <span className="hidden h-1 w-1 rounded-full bg-[color:var(--muted)]/50 sm:block" />
+                              <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
                               <span className="flex items-center gap-1">
                                 <Calendar className="h-3.5 w-3.5" />
                                 {exp.period}
                               </span>
-                              <span className="hidden h-1 w-1 rounded-full bg-[color:var(--muted)]/50 sm:block" />
+                              <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
                               <span className="flex items-center gap-1">
                                 <MapPoint className="h-3.5 w-3.5" />
                                 {exp.location}
@@ -131,20 +131,20 @@ export function Experience() {
                         )}
                       </div>
 
-                      <p className="relative mt-7 text-base leading-8 text-[color:var(--muted)]">
+                      <p className="relative mt-7 text-base leading-8 text-muted">
                         {exp.description}
                       </p>
 
                       <div className="relative mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
                         <div>
-                          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                             {t('highlightsTitle')}
                           </p>
                           <div className="mt-4 grid gap-3 md:grid-cols-2">
                             {exp.highlights.map((highlight) => (
                               <div
                                 key={highlight}
-                                className="rounded-[1.1rem] border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-sm leading-6 text-[color:var(--foreground)]"
+                                className="rounded-2xl border border-line bg-surface px-4 py-3 text-sm leading-6 text-foreground"
                               >
                                 {highlight}
                               </div>
@@ -153,14 +153,14 @@ export function Experience() {
                         </div>
 
                         <div className="xl:max-w-72">
-                          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                             {t('technologiesTitle')}
                           </p>
                           <div className="mt-4 flex flex-wrap gap-2">
                             {exp.technologies.map((tech) => (
                               <span
                                 key={tech}
-                                className="rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-3 py-1.5 text-xs font-medium text-[color:var(--foreground)]"
+                                className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
                               >
                                 {tech}
                               </span>

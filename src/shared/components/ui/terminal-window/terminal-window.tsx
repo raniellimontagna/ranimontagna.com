@@ -15,18 +15,18 @@ export function TerminalWindow({ children, className, title = 'bash' }: Terminal
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-[color:var(--line)] bg-[color:var(--surface-strong)] px-4 py-3">
+      <div className="flex items-center justify-between border-b border-line bg-surface-strong px-4 py-3">
         <div className="flex items-center gap-2">
           <div className="h-3 w-3 rounded-full bg-red-400" />
           <div className="h-3 w-3 rounded-full bg-yellow-400" />
           <div className="h-3 w-3 rounded-full bg-green-400" />
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 font-mono text-xs font-medium text-[color:var(--muted)]">
+        <div className="absolute left-1/2 -translate-x-1/2 font-mono text-xs font-medium text-muted">
           {title}
         </div>
         <div className="w-16" />
       </div>
-      <div className="p-6 font-mono text-sm text-[color:var(--foreground)] md:text-base">
+      <div className="p-6 font-mono text-sm text-foreground md:text-base">
         {children}
       </div>
     </div>
