@@ -91,7 +91,6 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               <h3 className="font-semibold text-foreground transition-colors group-hover:text-foreground/90">
                 {repo.name}
               </h3>
-              <p className="text-xs font-medium text-muted">{dayjs(repo.updated_at).fromNow()}</p>
             </div>
           </div>
 

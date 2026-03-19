@@ -1,7 +1,6 @@
 import { SiGithub } from '@icons-pack/react-simple-icons'
 import {
   Buildings,
-  Calendar,
   Code,
   Global,
   Monitor,
@@ -130,15 +129,9 @@ export function Projects() {
                         <User className="h-3.5 w-3.5" />
                         {t(`card.role.${leadProject.role}`)}
                       </span>
-                      <span className="h-3 w-px bg-line" />
                       <span className="inline-flex items-center gap-1.5">
                         <Buildings className="h-3.5 w-3.5" />
                         {leadProject.company}
-                      </span>
-                      <span className="h-3 w-px bg-line" />
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {leadProject.year}
                       </span>
                     </div>
 
@@ -146,7 +139,7 @@ export function Projects() {
                       {leadProject.highlights.slice(0, 6).map((h) => (
                         <span
                           key={h}
-                          className="rounded-full border border-accent/20 bg-accent/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent-foreground dark:text-accent-ice"
+                          className="rounded-full border border-accent/20 bg-accent/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent-strong dark:text-accent-ice"
                         >
                           {t(`card.highlights.${h}`)}
                         </span>

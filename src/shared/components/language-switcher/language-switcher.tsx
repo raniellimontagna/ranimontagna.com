@@ -144,9 +144,7 @@ export const LanguageSwitcher = (): React.ReactElement => {
 
                       <div className="flex-1 text-left">
                         <p className="text-xs font-bold leading-tight">{loc.name}</p>
-                        <p className="text-[9px] font-medium opacity-60">
-                          {shortNames[loc.code]}
-                        </p>
+                        <p className="text-[9px] font-medium opacity-60">{shortNames[loc.code]}</p>
                       </div>
 
                       {isSelected && <CheckCircle className="h-3.5 w-3.5" />}

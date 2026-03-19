@@ -57,7 +57,7 @@ export function ServiceCard({
         </div>
 
         {popular && (
-          <div className="inline-flex h-fit self-start items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-lime-800 dark:text-lime-300 sm:h-fit">
+          <div className="inline-flex h-fit self-start items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-strong dark:text-lime-300 sm:h-fit">
             <StarFall className="h-3 w-3" />
             {t('popularBadge')}
           </div>

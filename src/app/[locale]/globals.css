@@ -7,15 +7,15 @@
   --canvas: #eaede6;
   --surface: rgb(252 252 248 / 72%);
   --surface-strong: #fffef8;
-  --line: rgb(145 156 150 / 34%);
-  --line-strong: rgb(16 20 20 / 12%);
-  --muted: #5d6863;
-  --accent: #d5ff57;
-  --accent-strong: #c4ff2f;
-  --accent-ice: #88d8ff;
-  --ring: rgb(136 216 255 / 55%);
-  --ambient-lime: rgb(213 255 87 / 12%);
-  --ambient-ice: rgb(136 216 255 / 12%);
+  --line: rgb(130 142 136 / 38%);
+  --line-strong: rgb(16 20 20 / 14%);
+  --muted: #4d5a55;
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --accent-ice: #818cf8;
+  --ring: rgb(129 140 248 / 50%);
+  --ambient-lime: rgb(79 70 229 / 10%);
+  --ambient-ice: rgb(129 140 248 / 12%);
   --shadow-soft: 0 24px 80px -48px rgb(7 12 11 / 18%);
   --shadow-panel: 0 30px 120px -56px rgb(7 12 11 / 22%);
 }
@@ -147,6 +147,10 @@ button {
 
 ::selection {
   background: var(--accent);
+  color: #fff;
+}
+
+.dark ::selection {
   color: #091113;
 }
 

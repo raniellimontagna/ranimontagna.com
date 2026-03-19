@@ -40,7 +40,7 @@ export async function Hero() {
                 {t('greeting')}
               </p>
 
-              <h1 className="max-w-[12ch] text-5xl leading-[0.95] font-semibold tracking-[-0.07em] text-foreground sm:text-7xl lg:text-[5.6rem]">
+              <h1 className="max-w-[12ch] text-[clamp(2.5rem,12vw,3rem)] leading-[0.95] font-semibold tracking-[-0.07em] text-foreground sm:text-7xl lg:text-[5.6rem]">
                 <RevealText text={t('name')} mode="word" stagger={0.06} />
               </h1>
             </div>
@@ -48,7 +48,7 @@ export async function Hero() {
             <div className="max-w-3xl flex flex-col gap-5">
               <p className="text-xl leading-[1.08] font-medium text-foreground sm:text-3xl lg:text-[2.6rem]">
                 {t('passion.part1')}{' '}
-                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-foreground dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
+                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-white dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
                   {t('passion.highlight')}
                 </span>{' '}
                 {t('passion.part2')}
@@ -64,21 +64,21 @@ export async function Hero() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
-            <MagneticHover>
+          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+            <MagneticHover className="w-full sm:w-auto">
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full border border-line bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-(--shadow-soft)"
+                className="group flex w-full items-center justify-center gap-2 rounded-full border border-line bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-(--shadow-soft) sm:inline-flex sm:w-auto"
               >
                 <span>{t('cta.projects')}</span>
                 <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               </a>
             </MagneticHover>
 
-            <MagneticHover>
+            <MagneticHover className="w-full sm:w-auto">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground"
+                className="group flex w-full items-center justify-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground sm:inline-flex sm:w-auto"
               >
                 <span>{t('cta.contact')}</span>
                 <SquareArrowRightUp className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -86,7 +86,7 @@ export async function Hero() {
             </MagneticHover>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:justify-start">
             {socialLinks.map((social) => {
               const Icon = social.icon
 

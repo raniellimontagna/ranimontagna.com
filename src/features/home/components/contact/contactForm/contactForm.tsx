@@ -55,10 +55,10 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="group relative w-full overflow-hidden rounded-xl bg-slate-900 px-6 py-4 font-semibold text-white transition-all duration-300 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 dark:focus:ring-white"
+        className="group relative w-full overflow-hidden rounded-xl bg-foreground px-6 py-4 font-semibold text-background transition-all duration-300 hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {/* Hover effect */}
-        <span className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-full dark:via-slate-900/10" />
+        <span className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover:translate-x-full dark:via-background/10" />
 
         <span className="relative flex items-center justify-center gap-2">
           {isSubmitting ? (

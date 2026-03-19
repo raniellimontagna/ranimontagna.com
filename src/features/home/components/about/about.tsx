@@ -80,21 +80,21 @@ export function About() {
 
               <FadeIn delay={0.55}>
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                  <MagneticHover strength={16}>
+                  <MagneticHover strength={16} className="w-full sm:w-auto">
                     <a
                       href={resumeLink.href}
                       download={resumeLink.filename}
-                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
+                      className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-semibold text-background transition-transform duration-300 sm:inline-flex sm:w-auto hover:-translate-y-0.5"
                     >
                       <Download className="h-4 w-4" />
                       {resumeLink.name}
                     </a>
                   </MagneticHover>
 
-                  <MagneticHover strength={14}>
+                  <MagneticHover strength={14} className="w-full sm:w-auto">
                     <a
                       href="#contact"
-                      className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-line bg-surface px-7 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
+                      className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full border border-line bg-surface px-7 py-3 text-sm font-semibold text-foreground transition-colors sm:inline-flex sm:w-auto hover:border-foreground/30 hover:bg-surface-strong"
                     >
                       <ChatRound className="h-4 w-4" />
                       {t('cta.contact')}

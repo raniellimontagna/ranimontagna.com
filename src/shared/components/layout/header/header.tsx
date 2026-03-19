@@ -131,20 +131,20 @@ export const Header = ({
                 aria-label={t('logo.ariaLabel')}
                 className="group flex cursor-pointer items-center gap-3 rounded-[1.4rem] px-2 py-1.5 text-left"
               >
-                <div className="surface-panel-strong relative flex h-11 w-11 items-center justify-center rounded-[1.2rem]">
+                <div className="surface-panel-strong relative flex h-10 w-10 items-center justify-center rounded-xl sm:h-11 sm:w-11 sm:rounded-[1.2rem]">
                   <Image
                     src="/logo/black.svg"
                     alt="Logo"
-                    width={32}
-                    height={32}
-                    className="h-7 w-7 block dark:hidden"
+                    width={28}
+                    height={28}
+                    className="h-6 w-6 block sm:h-7 sm:w-7 dark:hidden"
                   />
                   <Image
                     src="/logo/white.svg"
                     alt="Logo"
-                    width={32}
-                    height={32}
-                    className="hidden h-7 w-7 dark:block"
+                    width={28}
+                    height={28}
+                    className="hidden h-6 w-6 sm:h-7 sm:w-7 dark:block"
                   />
                 </div>
                 <div className="hidden min-w-0 sm:block">
@@ -268,6 +268,17 @@ export const Header = ({
                 'block w-full rounded-2xl px-4 py-3 text-left font-medium text-foreground hover:bg-surface-strong',
               ),
             )}
+
+            <div className="mt-4 px-2 pb-2">
+              <a
+                href={resumeLink.href}
+                download={resumeLink.filename}
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-5 text-sm font-semibold text-background shadow-soft transition-all active:scale-95"
+              >
+                <Download className="h-4 w-4" />
+                {resumeLink.name}
+              </a>
+            </div>
           </div>
         </div>
       </nav>

@@ -68,9 +68,9 @@ export function CTASection() {
                 href="https://github.com/raniellimontagna"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-foreground px-6 py-3 font-semibold text-background transition-all hover:-translate-y-1 hover:bg-foreground/90 hover:shadow-lg hover:shadow-foreground/20"
+                className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-foreground px-6 py-3 font-semibold text-background transition-all sm:inline-flex sm:w-auto hover:-translate-y-1 hover:bg-foreground/90 hover:shadow-lg hover:shadow-foreground/20"
               >
-                <span className="relative z-10 flex items-center gap-2">
+                <div className="relative z-10 flex items-center gap-2 text-sm sm:text-base">
                   <svg
                     className="h-5 w-5"
                     fill="currentColor"
@@ -83,10 +83,9 @@ export function CTASection() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  {t('cta.button')}
-                </span>
+                  <span>{t('cta.button')}</span>
+                </div>
 
-                {/* Button Shine Effect */}
                 <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
               </a>
             </div>
