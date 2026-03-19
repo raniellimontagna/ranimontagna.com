@@ -2,6 +2,21 @@ import { fireEvent, render, screen } from '@/tests/test-utils'
 import { Hero } from '../hero'
 import { ScrollIndicator } from '../hero-content'
 
+vi.mock('next/image', () => ({
+  default: ({
+    alt,
+    fill: _fill,
+    priority: _priority,
+    ...props
+  }: React.ImgHTMLAttributes<HTMLImageElement> & {
+    fill?: boolean
+    priority?: boolean
+  }) => (
+    // biome-ignore lint/performance/noImgElement: Test double for next/image.
+    <img alt={alt} {...props} />
+  ),
+}))
+
 vi.mock('@/shared/components/ui', () => ({
   TerminalWindow: ({ children, title }: { children: React.ReactNode; title: string }) => (
     <div data-testid="terminal-window" title={title}>
@@ -28,12 +43,14 @@ describe('Hero Component', () => {
     render(hero)
 
     expect(screen.getByTestId('hero')).toBeInTheDocument()
+    expect(screen.getAllByText('availability').length).toBeGreaterThan(0)
     expect(screen.getByTestId('terminal-window')).toBeInTheDocument()
     expect(screen.getByText('name')).toBeInTheDocument()
     expect(screen.getByText('greeting')).toBeInTheDocument()
 
-    expect(screen.getByText('React')).toBeInTheDocument()
-    expect(screen.getByText('Next.js')).toBeInTheDocument()
+    expect(screen.getAllByText('React').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Next.js').length).toBeGreaterThan(0)
+    expect(screen.getByText('cta.projects')).toBeInTheDocument()
   })
 })
 
