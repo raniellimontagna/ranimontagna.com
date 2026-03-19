@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
 import {
   RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
   SSE_HEADERS,
   SYSTEM_PROMPT_EN,
   SYSTEM_PROMPT_ES,
@@ -33,7 +34,12 @@ const getSystemPrompt = (locale: string): string => {
 export async function POST(request: NextRequest): Promise<Response> {
   try {
     const rateLimitIdentifier = getRateLimitIdentifier(request.headers)
-    const rateLimit = await checkRateLimit(rateLimitIdentifier)
+    const rateLimit = await checkRateLimit({
+      identifier: rateLimitIdentifier,
+      keyPrefix: process.env.CHAT_RATE_LIMIT_PREFIX?.trim() || 'chat:rate-limit',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
     if (!rateLimit.allowed) {
       const retryAfterSeconds = Math.max(1, Math.ceil((rateLimit.resetAt - Date.now()) / 1000))

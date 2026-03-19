@@ -1,9 +1,9 @@
-import { RATE_LIMIT_MAX } from '../chat.constants'
 import {
   checkRateLimit,
   getRateLimitIdentifier,
   resetRateLimitStateForTests,
 } from '../chat.utils'
+import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '../chat.constants'
 
 describe('chat rate limit utilities', () => {
   beforeEach(() => {
@@ -44,13 +44,28 @@ describe('chat rate limit utilities', () => {
   })
 
   it('falls back to in-memory rate limiting when no persistent backend is configured', async () => {
-    let lastResult = await checkRateLimit('ip:127.0.0.1')
+    let lastResult = await checkRateLimit({
+      identifier: 'ip:127.0.0.1',
+      keyPrefix: 'chat:rate-limit',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
     for (let attempt = 2; attempt <= RATE_LIMIT_MAX; attempt++) {
-      lastResult = await checkRateLimit('ip:127.0.0.1')
+      lastResult = await checkRateLimit({
+        identifier: 'ip:127.0.0.1',
+        keyPrefix: 'chat:rate-limit',
+        max: RATE_LIMIT_MAX,
+        windowMs: RATE_LIMIT_WINDOW_MS,
+      })
     }
 
-    const blockedResult = await checkRateLimit('ip:127.0.0.1')
+    const blockedResult = await checkRateLimit({
+      identifier: 'ip:127.0.0.1',
+      keyPrefix: 'chat:rate-limit',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
     expect(lastResult.allowed).toBe(true)
     expect(lastResult.source).toBe('memory')
@@ -71,7 +86,12 @@ describe('chat rate limit utilities', () => {
       )
       .mockResolvedValueOnce(new Response(JSON.stringify([{ result: 1 }]), { status: 200 }))
 
-    const result = await checkRateLimit('ip:198.51.100.8')
+    const result = await checkRateLimit({
+      identifier: 'ip:198.51.100.8',
+      keyPrefix: 'custom-prefix',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
     expect(result.allowed).toBe(true)
     expect(result.source).toBe('upstash')
@@ -91,7 +111,7 @@ describe('chat rate limit utilities', () => {
       2,
       'https://example.upstash.io/pipeline',
       expect.objectContaining({
-        body: JSON.stringify([['PEXPIRE', 'custom-prefix:ip:198.51.100.8', 60_000]]),
+        body: JSON.stringify([['PEXPIRE', 'custom-prefix:ip:198.51.100.8', RATE_LIMIT_WINDOW_MS]]),
       }),
     )
   })
@@ -102,7 +122,12 @@ describe('chat rate limit utilities', () => {
 
     global.fetch = vi.fn().mockRejectedValue(new Error('network error'))
 
-    const result = await checkRateLimit('ip:192.0.2.55')
+    const result = await checkRateLimit({
+      identifier: 'ip:192.0.2.55',
+      keyPrefix: 'chat:rate-limit',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
     expect(result.allowed).toBe(true)
     expect(result.source).toBe('memory')

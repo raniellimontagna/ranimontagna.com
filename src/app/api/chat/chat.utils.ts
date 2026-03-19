@@ -1,192 +1,17 @@
-import { createHash } from 'node:crypto'
+import {
+  checkRateLimit,
+  getRateLimitIdentifier,
+  resetRateLimitStateForTests,
+  type RateLimitResult,
+} from '@/shared/lib/rate-limit'
 import {
   CHAT_PROVIDER_TIMEOUT_MS,
   FALLBACK_MESSAGES,
-  RATE_LIMIT_MAX,
-  RATE_LIMIT_WINDOW_MS,
 } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
-const RATE_LIMIT_KEY_PREFIX = 'chat:rate-limit'
-const RATE_LIMIT_UPSTASH_PATH = '/pipeline'
-
-type RateLimitSource = 'memory' | 'upstash'
-
-export interface RateLimitResult {
-  allowed: boolean
-  remaining: number
-  resetAt: number
-  source: RateLimitSource
-}
-
-interface UpstashConfig {
-  url: string
-  token: string
-}
-
-type UpstashResult = {
-  result?: number | string | null
-  error?: string
-}
-
-const getUpstashConfig = (): UpstashConfig | null => {
-  const url = process.env.UPSTASH_REDIS_REST_URL?.trim()
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim()
-
-  if (!url || !token) {
-    return null
-  }
-
-  return { url, token }
-}
-
-const getRateLimitStoragePrefix = (): string => {
-  const prefix = process.env.CHAT_RATE_LIMIT_PREFIX?.trim()
-  return prefix || RATE_LIMIT_KEY_PREFIX
-}
-
-const getRateLimitKey = (identifier: string): string => {
-  return `${getRateLimitStoragePrefix()}:${identifier}`
-}
-
-const sanitizeForwardedIp = (value: string | null): string | null => {
-  if (!value) {
-    return null
-  }
-
-  const firstIp = value.split(',')[0]?.trim()
-  if (!firstIp || firstIp.toLowerCase() === 'unknown') {
-    return null
-  }
-
-  return firstIp
-}
-
-const createAnonymousFingerprint = (headers: Headers): string => {
-  const userAgent = headers.get('user-agent')?.trim() || 'unknown'
-  const acceptLanguage = headers.get('accept-language')?.trim() || 'unknown'
-  const host = headers.get('host')?.trim() || 'unknown'
-
-  return createHash('sha256')
-    .update(`${userAgent}|${acceptLanguage}|${host}`)
-    .digest('hex')
-    .slice(0, 24)
-}
-
-export const getRateLimitIdentifier = (headers: Headers): string => {
-  const candidates = [
-    headers.get('cf-connecting-ip'),
-    headers.get('x-forwarded-for'),
-    headers.get('x-real-ip'),
-    headers.get('true-client-ip'),
-  ]
-
-  for (const candidate of candidates) {
-    const ip = sanitizeForwardedIp(candidate)
-    if (ip) {
-      return `ip:${ip}`
-    }
-  }
-
-  return `anon:${createAnonymousFingerprint(headers)}`
-}
-
-const parseUpstashResult = (entry: UpstashResult, label: string): number => {
-  if (entry.error) {
-    throw new Error(`Upstash ${label} failed: ${entry.error}`)
-  }
-
-  const value = Number(entry.result)
-  if (!Number.isFinite(value)) {
-    throw new Error(`Upstash ${label} returned an invalid result`)
-  }
-
-  return value
-}
-
-const callUpstashPipeline = async (
-  config: UpstashConfig,
-  commands: Array<Array<string | number>>,
-): Promise<UpstashResult[]> => {
-  const response = await fetch(`${config.url}${RATE_LIMIT_UPSTASH_PATH}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${config.token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(commands),
-  })
-
-  if (!response.ok) {
-    const errorBody = await response.text()
-    throw new Error(`Upstash pipeline request failed with HTTP ${response.status}: ${errorBody}`)
-  }
-
-  const payload = (await response.json()) as UpstashResult[]
-  if (!Array.isArray(payload)) {
-    throw new Error('Upstash pipeline response is not an array')
-  }
-
-  return payload
-}
-
-const checkUpstashRateLimit = async (
-  identifier: string,
-  config: UpstashConfig,
-): Promise<RateLimitResult> => {
-  const key = getRateLimitKey(identifier)
-  const now = Date.now()
-
-  const [incrementResult, ttlResult] = await callUpstashPipeline(config, [
-    ['INCR', key],
-    ['PTTL', key],
-  ])
-
-  const count = parseUpstashResult(incrementResult, 'INCR')
-  let ttl = parseUpstashResult(ttlResult, 'PTTL')
-
-  if (ttl < 0) {
-    const [expireResult] = await callUpstashPipeline(config, [
-      ['PEXPIRE', key, RATE_LIMIT_WINDOW_MS],
-    ])
-    parseUpstashResult(expireResult, 'PEXPIRE')
-    ttl = RATE_LIMIT_WINDOW_MS
-  }
-
-  return {
-    allowed: count <= RATE_LIMIT_MAX,
-    remaining: Math.max(0, RATE_LIMIT_MAX - count),
-    resetAt: now + ttl,
-    source: 'upstash',
-  }
-}
-
-const checkMemoryRateLimit = (identifier: string): RateLimitResult => {
-  const now = Date.now()
-  const entry = rateLimitMap.get(identifier)
-
-  if (!entry || now > entry.resetAt) {
-    const resetAt = now + RATE_LIMIT_WINDOW_MS
-    rateLimitMap.set(identifier, { count: 1, resetAt })
-
-    return {
-      allowed: true,
-      remaining: RATE_LIMIT_MAX - 1,
-      resetAt,
-      source: 'memory',
-    }
-  }
-
-  entry.count++
-
-  return {
-    allowed: entry.count <= RATE_LIMIT_MAX,
-    remaining: Math.max(0, RATE_LIMIT_MAX - entry.count),
-    resetAt: entry.resetAt,
-    source: 'memory',
-  }
-}
+export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }
+export type { RateLimitResult }
 
 const hasTimeoutCode = (value: unknown): boolean => {
   if (!value || typeof value !== 'object') return false
@@ -226,24 +51,6 @@ const fetchWithTimeout = async (url: string, init: RequestInit): Promise<Respons
   } finally {
     clearTimeout(timeoutId)
   }
-}
-
-export const checkRateLimit = async (identifier: string): Promise<RateLimitResult> => {
-  const upstashConfig = getUpstashConfig()
-
-  if (upstashConfig) {
-    try {
-      return await checkUpstashRateLimit(identifier, upstashConfig)
-    } catch (error) {
-      console.error('Persistent chat rate limit failed, falling back to memory storage:', error)
-    }
-  }
-
-  return checkMemoryRateLimit(identifier)
-}
-
-export const resetRateLimitStateForTests = (): void => {
-  rateLimitMap.clear()
 }
 
 export const callGemini = async (

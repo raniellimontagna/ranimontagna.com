@@ -42,6 +42,17 @@ export function ContactForm() {
         {...register('message')}
       />
 
+      <div className="sr-only" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          type="text"
+          autoComplete="off"
+          tabIndex={-1}
+          {...register('website')}
+        />
+      </div>
+
       {/* Submit Button - Professional Design */}
       <button
         type="submit"
