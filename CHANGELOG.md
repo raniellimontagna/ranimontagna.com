@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.21.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.20.0...v1.21.0) (2026-03-19)
+
+
+### Features
+
+* adds explicit locale setting for SSR locale pages ([3d449f4](https://github.com/raniellimontagna/ranimontagna.com/commit/3d449f47d4797f347f77b7a99cb2856051e666e1))
+* adds persistent chat rate limiting via Upstash Redis ([44287c7](https://github.com/raniellimontagna/ranimontagna.com/commit/44287c74dc2f6620e12c05d4f3df1ac1d9e508ff))
+* adds secure webhook auth and route tests for revalidation ([3838f22](https://github.com/raniellimontagna/ranimontagna.com/commit/3838f222bf2d8adb17e4f127b0d752be1f355f65))
+* adds server-side contact api with rate limiting & honeypot ([9f067b4](https://github.com/raniellimontagna/ranimontagna.com/commit/9f067b404f27769484c7521209a7218f03972170))
+* portfolio improvements ([e0faddd](https://github.com/raniellimontagna/ranimontagna.com/commit/e0faddd6472a3f38d88f19ee996663ae90ca25cf))
+
 ## [1.20.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.19.0...v1.20.0) (2026-02-24)
 
 
