@@ -10,12 +10,36 @@ vi.mock('next-intl', () => ({
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    section: ({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    section: ({
+      children,
+      className,
+      initial: _initial,
+      animate: _animate,
+      exit: _exit,
+      transition: _transition,
+      viewport: _viewport,
+      whileHover: _whileHover,
+      whileTap: _whileTap,
+      whileInView: _whileInView,
+      ...props
+    }: React.HTMLAttributes<HTMLElement> & Record<string, unknown>) => (
       <section className={className} {...props}>
         {children}
       </section>
     ),
-    div: ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    div: ({
+      children,
+      className,
+      initial: _initial,
+      animate: _animate,
+      exit: _exit,
+      transition: _transition,
+      viewport: _viewport,
+      whileHover: _whileHover,
+      whileTap: _whileTap,
+      whileInView: _whileInView,
+      ...props
+    }: React.HTMLAttributes<HTMLDivElement> & Record<string, unknown>) => (
       <div className={className} {...props}>
         {children}
       </div>

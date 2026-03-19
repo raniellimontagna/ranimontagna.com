@@ -132,8 +132,7 @@ describe('WebVitals Component', () => {
     })
   })
 
-  it('logs to console in development', () => {
-    // Mock environment
+  it('does not emit console noise in development', () => {
     vi.stubEnv('NODE_ENV', 'development')
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
@@ -151,13 +150,7 @@ describe('WebVitals Component', () => {
 
     callback(metric)
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      '📊 Web Vitals:',
-      expect.objectContaining({
-        name: 'LCP',
-        value: 2000,
-      }),
-    )
+    expect(consoleSpy).not.toHaveBeenCalled()
 
     consoleSpy.mockRestore()
   })

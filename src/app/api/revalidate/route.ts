@@ -66,8 +66,6 @@ export async function POST(request: NextRequest) {
 
     revalidateTag('posts', 'max')
 
-    console.log('Blog posts cache revalidated successfully')
-
     return NextResponse.json({
       revalidated: true,
       timestamp: new Date().toISOString(),

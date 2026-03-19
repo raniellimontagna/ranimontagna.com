@@ -34,15 +34,6 @@ function sendMetric(metric: Metric) {
       id: metric.id,
     })
   }
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log('📊 Web Vitals:', {
-      name: metric.name,
-      value: metric.value,
-      id: metric.id,
-      rating: metric.rating,
-    })
-  }
 }
 
 function flushPendingMetrics() {

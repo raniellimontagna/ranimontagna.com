@@ -9,9 +9,16 @@ vi.mock('next-intl', () => ({
 
 // Mock next/image
 vi.mock('next/image', () => ({
-  // biome-ignore lint/performance/noImgElement: Mock component
-  // biome-ignore lint/a11y/useAltText: Mock component
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
+  default: ({
+    alt,
+    fill: _fill,
+    priority: _priority,
+    ...props
+  }: React.ImgHTMLAttributes<HTMLImageElement> & {
+    fill?: boolean
+    priority?: boolean
+    // biome-ignore lint/performance/noImgElement: This is a test environment and we want to keep it simple.
+  }) => <img alt={alt} {...props} />,
 }))
 
 const mockProject: ProjectType = {

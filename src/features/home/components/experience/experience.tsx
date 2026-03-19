@@ -76,7 +76,6 @@ export function Experience() {
                                 width={48}
                                 height={48}
                                 className="h-10 w-10 object-contain sm:h-12 sm:w-12"
-                                quality={100}
                               />
                             </div>
                           </div>
