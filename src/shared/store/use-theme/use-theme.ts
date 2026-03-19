@@ -5,6 +5,49 @@ import { persist } from 'zustand/middleware'
 
 import type { Theme, ThemeStore } from './use-theme.types'
 
+const THEME_STORAGE_KEY = 'theme-storage'
+const DEFAULT_THEME: Theme = 'dark'
+
+const getStoredTheme = (): Theme => {
+  if (typeof window === 'undefined') {
+    return DEFAULT_THEME
+  }
+
+  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+  if (!savedTheme) {
+    return DEFAULT_THEME
+  }
+
+  try {
+    const parsed = JSON.parse(savedTheme)
+    const theme = parsed?.state?.theme
+    return theme === 'light' || theme === 'dark' ? theme : DEFAULT_THEME
+  } catch {
+    return DEFAULT_THEME
+  }
+}
+
+const getThemeFromDom = (): Theme | null => {
+  if (typeof document === 'undefined') {
+    return null
+  }
+
+  const html = document.documentElement
+  if (html.classList.contains('light')) {
+    return 'light'
+  }
+
+  if (html.classList.contains('dark')) {
+    return 'dark'
+  }
+
+  return null
+}
+
+const getInitialTheme = (): Theme => {
+  return getThemeFromDom() ?? getStoredTheme()
+}
+
 const applyTheme = (theme: Theme) => {
   if (typeof document !== 'undefined') {
     const html = document.documentElement
@@ -15,14 +58,14 @@ const applyTheme = (theme: Theme) => {
       html.classList.remove('dark')
       html.classList.add('light')
     }
-    console.log('DOM classes after apply:', html.classList.toString())
+    html.style.colorScheme = theme
   }
 }
 
 export const useTheme = create<ThemeStore>()(
   persist(
     (set, get) => ({
-      theme: 'dark',
+      theme: getInitialTheme(),
       mounted: false,
       setTheme: (theme: Theme) => {
         set({ theme })
@@ -31,7 +74,6 @@ export const useTheme = create<ThemeStore>()(
       toggleTheme: () => {
         const { theme } = get()
         const newTheme = theme === 'light' ? 'dark' : 'light'
-        console.log('Toggle theme from', theme, 'to', newTheme)
         set({ theme: newTheme })
         applyTheme(newTheme)
       },
@@ -41,19 +83,7 @@ export const useTheme = create<ThemeStore>()(
             return
           }
 
-          const savedTheme = localStorage.getItem('theme-storage')
-          let initialTheme: Theme = 'dark'
-
-          if (savedTheme) {
-            try {
-              const parsed = JSON.parse(savedTheme)
-              initialTheme = parsed.state?.theme || 'dark'
-            } catch {
-              initialTheme = 'dark'
-            }
-          } else {
-            initialTheme = 'dark'
-          }
+          const initialTheme = getInitialTheme()
 
           set({ theme: initialTheme, mounted: true })
           applyTheme(initialTheme)
@@ -61,7 +91,7 @@ export const useTheme = create<ThemeStore>()(
       },
     }),
     {
-      name: 'theme-storage',
+      name: THEME_STORAGE_KEY,
       partialize: (state) => ({ theme: state.theme }),
     },
   ),

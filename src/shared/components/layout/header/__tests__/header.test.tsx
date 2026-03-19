@@ -31,13 +31,6 @@ vi.mock('@/shared/store/use-command-menu/use-command-menu', () => ({
   }),
 }))
 
-vi.mock('@/shared/store/use-theme/use-theme', () => ({
-  useTheme: () => ({
-    theme: 'light',
-    mounted: true,
-  }),
-}))
-
 vi.mock('next/image', () => ({
   default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // biome-ignore lint/a11y/useAltText: Mock component
@@ -59,7 +52,7 @@ describe('Header Component', () => {
   it('renders correctly', () => {
     render(<Header />)
     expect(screen.getByRole('banner')).toBeInTheDocument()
-    expect(screen.getByAltText('Logo')).toBeInTheDocument()
+    expect(screen.getAllByAltText('Logo').length).toBeGreaterThan(0)
     expect(screen.getAllByText('navigation.about')[0]).toBeInTheDocument()
   })
 

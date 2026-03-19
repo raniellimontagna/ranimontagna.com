@@ -11,14 +11,12 @@ import { LanguageSwitcher } from '@/shared/components/language-switcher/language
 import { ThemeToggle } from '@/shared/components/theme-toggle/theme-toggle'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
-import { useTheme } from '@/shared/store/use-theme/use-theme'
 
 export const Header = (): React.ReactElement | null => {
   const t = useTranslations('header')
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
-  const { theme, mounted } = useTheme()
   const { setOpen: openCommandMenu } = useCommandMenu()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -58,8 +56,6 @@ export const Header = (): React.ReactElement | null => {
     setIsMenuOpen(false)
   }
 
-  if (!mounted) return null
-
   return (
     <header
       className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
@@ -79,11 +75,18 @@ export const Header = (): React.ReactElement | null => {
             >
               <div className="relative overflow-hidden transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src={`logo/${theme === 'dark' ? 'white' : 'black'}.svg`}
+                  src="logo/black.svg"
                   alt="Logo"
                   width={32}
                   height={32}
-                  className="h-8 w-8"
+                  className="h-8 w-8 dark:hidden"
+                />
+                <Image
+                  src="logo/white.svg"
+                  alt="Logo"
+                  width={32}
+                  height={32}
+                  className="hidden h-8 w-8 dark:block"
                 />
               </div>
               <div className="hidden sm:block">
@@ -175,7 +178,7 @@ export const Header = (): React.ReactElement | null => {
         <div
           className={`overflow-hidden transition-all duration-300 xl:hidden ${
             isMenuOpen
-              ? 'max-h-[400px] border-t border-slate-200 pb-4 opacity-100 dark:border-slate-800'
+              ? 'max-h-100 border-t border-slate-200 pb-4 opacity-100 dark:border-slate-800'
               : 'max-h-0 opacity-0'
           }`}
         >
