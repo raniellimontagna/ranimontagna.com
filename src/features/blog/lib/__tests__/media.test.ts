@@ -12,8 +12,6 @@ describe('blog media helpers', () => {
   })
 
   it('converts relative cover image paths to absolute urls', () => {
-    expect(resolveBlogImageUrl('/blog/cover.png')).toBe(
-      'https://ranimontagna.com/blog/cover.png',
-    )
+    expect(resolveBlogImageUrl('/blog/cover.png')).toBe('https://ranimontagna.com/blog/cover.png')
   })
 })

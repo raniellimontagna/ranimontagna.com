@@ -9,8 +9,8 @@ import {
   ReadingProgressBar,
   ScrollToTop,
 } from '@/features/blog/components'
-import { resolveBlogImageUrl } from '@/features/blog/lib/media'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
+import { resolveBlogImageUrl } from '@/features/blog/lib/media'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
