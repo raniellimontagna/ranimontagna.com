@@ -16,6 +16,11 @@
   --ring: rgb(129 140 248 / 50%);
   --ambient-lime: rgb(79 70 229 / 10%);
   --ambient-ice: rgb(129 140 248 / 12%);
+  --glow-accent: color-mix(in srgb, var(--accent) 16%, transparent);
+  --glow-accent-strong: color-mix(in srgb, var(--accent) 20%, transparent);
+  --glow-ice: color-mix(in srgb, var(--accent-ice) 18%, transparent);
+  --glow-ice-strong: color-mix(in srgb, var(--accent-ice) 22%, transparent);
+  --glow-ice-subtle: color-mix(in srgb, var(--accent-ice) 8%, transparent);
   --shadow-soft: 0 24px 80px -48px rgb(7 12 11 / 18%);
   --shadow-panel: 0 30px 120px -56px rgb(7 12 11 / 22%);
 }
@@ -52,8 +57,150 @@
   --ring: rgb(148 215 255 / 48%);
   --ambient-lime: rgb(221 255 111 / 11%);
   --ambient-ice: rgb(148 215 255 / 12%);
+  --glow-accent: color-mix(in srgb, var(--accent) 18%, transparent);
+  --glow-accent-strong: color-mix(in srgb, var(--accent) 22%, transparent);
+  --glow-ice: color-mix(in srgb, var(--accent-ice) 20%, transparent);
+  --glow-ice-strong: color-mix(in srgb, var(--accent-ice) 24%, transparent);
+  --glow-ice-subtle: color-mix(in srgb, var(--accent-ice) 8%, transparent);
   --shadow-soft: 0 28px 96px -56px rgb(0 0 0 / 48%);
   --shadow-panel: 0 40px 140px -62px rgb(0 0 0 / 56%);
+}
+
+/* ── Color theme overrides ── */
+:root[data-color-theme="ocean"] {
+  --accent: #0284c7;
+  --accent-strong: #0369a1;
+  --accent-ice: #38bdf8;
+  --ring: rgb(56 189 248 / 50%);
+  --ambient-lime: rgb(2 132 199 / 10%);
+  --ambient-ice: rgb(56 189 248 / 12%);
+}
+:root[data-color-theme="ocean"].dark {
+  --accent: #38bdf8;
+  --accent-strong: #7dd3fc;
+  --accent-ice: #0ea5e9;
+  --ring: rgb(56 189 248 / 48%);
+  --ambient-lime: rgb(56 189 248 / 11%);
+  --ambient-ice: rgb(14 165 233 / 12%);
+}
+
+:root[data-color-theme="rose"] {
+  --accent: #e11d48;
+  --accent-strong: #be123c;
+  --accent-ice: #fb7185;
+  --ring: rgb(251 113 133 / 50%);
+  --ambient-lime: rgb(225 29 72 / 10%);
+  --ambient-ice: rgb(251 113 133 / 12%);
+}
+:root[data-color-theme="rose"].dark {
+  --accent: #fb7185;
+  --accent-strong: #fda4af;
+  --accent-ice: #f43f5e;
+  --ring: rgb(251 113 133 / 48%);
+  --ambient-lime: rgb(251 113 133 / 11%);
+  --ambient-ice: rgb(244 63 94 / 12%);
+}
+
+:root[data-color-theme="emerald"] {
+  --accent: #059669;
+  --accent-strong: #047857;
+  --accent-ice: #34d399;
+  --ring: rgb(52 211 153 / 50%);
+  --ambient-lime: rgb(5 150 105 / 10%);
+  --ambient-ice: rgb(52 211 153 / 12%);
+}
+:root[data-color-theme="emerald"].dark {
+  --accent: #34d399;
+  --accent-strong: #6ee7b7;
+  --accent-ice: #10b981;
+  --ring: rgb(52 211 153 / 48%);
+  --ambient-lime: rgb(52 211 153 / 11%);
+  --ambient-ice: rgb(16 185 129 / 12%);
+}
+
+:root[data-color-theme="amber"] {
+  --accent: #d97706;
+  --accent-strong: #b45309;
+  --accent-ice: #fbbf24;
+  --ring: rgb(251 191 36 / 50%);
+  --ambient-lime: rgb(217 119 6 / 10%);
+  --ambient-ice: rgb(251 191 36 / 12%);
+}
+:root[data-color-theme="amber"].dark {
+  --accent: #fbbf24;
+  --accent-strong: #fcd34d;
+  --accent-ice: #f59e0b;
+  --ring: rgb(251 191 36 / 48%);
+  --ambient-lime: rgb(251 191 36 / 11%);
+  --ambient-ice: rgb(245 158 11 / 12%);
+}
+
+:root[data-color-theme="violet"] {
+  --accent: #7c3aed;
+  --accent-strong: #6d28d9;
+  --accent-ice: #a78bfa;
+  --ring: rgb(167 139 250 / 50%);
+  --ambient-lime: rgb(124 58 237 / 10%);
+  --ambient-ice: rgb(167 139 250 / 12%);
+}
+:root[data-color-theme="violet"].dark {
+  --accent: #a78bfa;
+  --accent-strong: #c4b5fd;
+  --accent-ice: #8b5cf6;
+  --ring: rgb(167 139 250 / 48%);
+  --ambient-lime: rgb(167 139 250 / 11%);
+  --ambient-ice: rgb(139 92 246 / 12%);
+}
+
+:root[data-color-theme="mono"] {
+  --accent: #525252;
+  --accent-strong: #404040;
+  --accent-ice: #a3a3a3;
+  --ring: rgb(163 163 163 / 50%);
+  --ambient-lime: rgb(82 82 82 / 8%);
+  --ambient-ice: rgb(163 163 163 / 10%);
+}
+:root[data-color-theme="mono"].dark {
+  --accent: #d4d4d4;
+  --accent-strong: #e5e5e5;
+  --accent-ice: #a3a3a3;
+  --ring: rgb(212 212 212 / 48%);
+  --ambient-lime: rgb(212 212 212 / 9%);
+  --ambient-ice: rgb(163 163 163 / 10%);
+}
+
+:root[data-color-theme="sunset"] {
+  --accent: #ea580c;
+  --accent-strong: #c2410c;
+  --accent-ice: #f97316;
+  --ring: rgb(249 115 22 / 50%);
+  --ambient-lime: rgb(234 88 12 / 10%);
+  --ambient-ice: rgb(249 115 22 / 12%);
+}
+:root[data-color-theme="sunset"].dark {
+  --accent: #fb923c;
+  --accent-strong: #fdba74;
+  --accent-ice: #f97316;
+  --ring: rgb(251 146 60 / 48%);
+  --ambient-lime: rgb(251 146 60 / 11%);
+  --ambient-ice: rgb(249 115 22 / 12%);
+}
+
+:root[data-color-theme="cherry"] {
+  --accent: #db2777;
+  --accent-strong: #be185d;
+  --accent-ice: #f472b6;
+  --ring: rgb(244 114 182 / 50%);
+  --ambient-lime: rgb(219 39 119 / 10%);
+  --ambient-ice: rgb(244 114 182 / 12%);
+}
+:root[data-color-theme="cherry"].dark {
+  --accent: #f472b6;
+  --accent-strong: #f9a8d4;
+  --accent-ice: #ec4899;
+  --ring: rgb(244 114 182 / 48%);
+  --ambient-lime: rgb(244 114 182 / 11%);
+  --ambient-ice: rgb(236 72 153 / 12%);
 }
 
 html {
@@ -159,6 +306,48 @@ button {
   outline-offset: 3px;
 }
 
+.interactive-field-shell {
+  border: 1px solid var(--line);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.interactive-field-shell:hover {
+  border-color: color-mix(in srgb, var(--line) 74%, var(--foreground) 26%);
+}
+
+.interactive-field-shell:focus-within {
+  border-color: color-mix(in srgb, var(--accent-ice) 56%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 72%, transparent);
+}
+
+.interactive-field-input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.interactive-field-input:focus,
+.interactive-field-input:focus-visible,
+.interactive-field-input:active {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+
+.interactive-field-input::-webkit-search-decoration,
+.interactive-field-input::-webkit-search-cancel-button,
+.interactive-field-input::-webkit-search-results-button,
+.interactive-field-input::-webkit-search-results-decoration {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 /* Visual foundation utilities */
 .surface-panel {
   border: 1px solid var(--line);
@@ -203,6 +392,79 @@ button {
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--accent-ice) 18%, transparent),
     0 24px 90px -50px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* Reusable gradient tints that respond to color theme */
+.glow-gradient {
+  background:
+    radial-gradient(circle at top right, var(--glow-ice), transparent 30%),
+    radial-gradient(circle at bottom left, var(--glow-accent), transparent 34%);
+}
+
+.glow-gradient-strong {
+  background:
+    radial-gradient(circle at top right, var(--glow-ice-strong), transparent 28%),
+    radial-gradient(circle at bottom left, var(--glow-accent-strong), transparent 30%);
+}
+
+.glow-gradient-subtle {
+  background:
+    radial-gradient(circle at top right, var(--glow-ice-subtle), transparent 40%),
+    radial-gradient(circle at bottom left, color-mix(in srgb, var(--accent) 8%, transparent), transparent 40%);
+}
+
+.glow-gradient-hero {
+  background:
+    radial-gradient(circle at top left, var(--glow-accent), transparent 30%),
+    radial-gradient(circle at 85% 12%, var(--glow-ice), transparent 28%),
+    linear-gradient(180deg, transparent 0%, rgb(7 11 12 / 5%) 100%);
+}
+
+.dark .glow-gradient-hero {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 14%, transparent), transparent 28%),
+    radial-gradient(circle at 85% 12%, color-mix(in srgb, var(--accent-ice) 16%, transparent), transparent 30%),
+    linear-gradient(180deg, transparent 0%, rgb(0 0 0 / 22%) 100%);
+}
+
+.glow-gradient-photo {
+  background:
+    radial-gradient(circle at top left, var(--glow-accent-strong), transparent 35%),
+    radial-gradient(circle at bottom right, var(--glow-ice-strong), transparent 35%);
+}
+
+.glow-gradient-card-placeholder {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 15%, transparent), transparent 36%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--accent-ice) 20%, transparent), transparent 34%),
+    linear-gradient(135deg, rgb(255 255 255 / 90%), rgb(244 247 250 / 96%));
+}
+
+.dark .glow-gradient-card-placeholder {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 14%, transparent), transparent 38%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--accent-ice) 18%, transparent), transparent 32%),
+    linear-gradient(135deg, rgb(15 23 42 / 96%), rgb(2 6 23 / 98%));
+}
+
+.glow-gradient-preview {
+  background:
+    radial-gradient(circle at top, var(--glow-ice), transparent 38%),
+    radial-gradient(circle at bottom, var(--glow-accent), transparent 38%),
+    linear-gradient(135deg, rgb(15 23 42 / 4%), rgb(15 23 42 / 12%));
+}
+
+.dark .glow-gradient-preview {
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--accent-ice) 16%, transparent), transparent 40%),
+    radial-gradient(circle at bottom, color-mix(in srgb, var(--accent) 14%, transparent), transparent 36%),
+    linear-gradient(135deg, rgb(15 23 42 / 90%), rgb(2 6 23 / 92%));
+}
+
+.glow-gradient-portrait {
+  background:
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--accent-ice) 20%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 100%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 36%);
 }
 
 /* Motion tokens and animations */

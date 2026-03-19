@@ -105,7 +105,7 @@ export function Projects() {
           <BlurReveal delay={0.35} className="mt-14">
             <ParallaxLayer offset={28}>
               <article className="surface-panel-strong relative overflow-hidden rounded-4xl p-6 shadow-(--shadow-card) sm:p-8 lg:p-10">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.16),transparent_30%)]" />
+                <div className="absolute inset-0 glow-gradient-strong" />
                 <div className="absolute top-8 right-8 h-32 w-32 rounded-full border border-white/45 bg-white/65 backdrop-blur dark:border-white/10 dark:bg-white/5" />
                 <div className="absolute right-14 bottom-14 h-52 w-52 rounded-full border border-line/50 bg-surface/65 backdrop-blur" />
 
@@ -208,7 +208,7 @@ export function Projects() {
                         </span>
                       </div>
 
-                      <div className="relative mt-8 flex h-[calc(100%-4rem)] items-center justify-center overflow-hidden rounded-[1.25rem] bg-[radial-gradient(circle_at_top,rgba(111,202,255,0.18),transparent_38%),radial-gradient(circle_at_bottom,rgba(162,255,61,0.18),transparent_38%),linear-gradient(135deg,rgba(15,23,42,0.04),rgba(15,23,42,0.12))] dark:bg-[radial-gradient(circle_at_top,rgba(111,202,255,0.16),transparent_40%),radial-gradient(circle_at_bottom,rgba(162,255,61,0.14),transparent_36%),linear-gradient(135deg,rgba(15,23,42,0.9),rgba(2,6,23,0.92))]">
+                      <div className="relative mt-8 flex h-[calc(100%-4rem)] items-center justify-center overflow-hidden rounded-[1.25rem] glow-gradient-preview">
                         <div className="absolute left-6 top-6 h-18 w-18 rounded-full border border-white/40 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5" />
                         <div className="absolute right-6 bottom-6 h-14 w-14 rounded-2xl border border-line bg-surface" />
                         <LeadIcon className="h-20 w-20 text-foreground/75" />

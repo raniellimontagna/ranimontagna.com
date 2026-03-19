@@ -14,6 +14,7 @@ import type { ComponentProps } from 'react'
 import { useEffect, useState } from 'react'
 
 import { MagneticHover } from '@/shared/components/animations'
+import { ColorThemePicker } from '@/shared/components/color-theme-picker/color-theme-picker'
 import { LanguageSwitcher } from '@/shared/components/language-switcher/language-switcher'
 import { ThemeToggle } from '@/shared/components/theme-toggle/theme-toggle'
 import { getPathname, Link, usePathname } from '@/shared/config/i18n/navigation'
@@ -207,6 +208,7 @@ export const Header = ({
             )}
             <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
               <LanguageSwitcher />
+              <ColorThemePicker />
               <ThemeToggle />
             </div>
 
@@ -234,6 +236,7 @@ export const Header = ({
             )}
             <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
               <LanguageSwitcher />
+              <ColorThemePicker />
               <ThemeToggle />
             </div>
             {!title && (

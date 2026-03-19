@@ -24,7 +24,7 @@ export async function Hero() {
       aria-label="Hero section - Ranielli Montagna introduction"
     >
       <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(221,255,111,0.16),transparent_30%),radial-gradient(circle_at_85%_12%,rgba(148,215,255,0.18),transparent_28%),linear-gradient(180deg,transparent_0%,rgba(7,11,12,0.05)_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(221,255,111,0.14),transparent_28%),radial-gradient(circle_at_85%_12%,rgba(148,215,255,0.16),transparent_30%),linear-gradient(180deg,transparent_0%,rgba(0,0,0,0.22)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 glow-gradient-hero" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-background to-transparent" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">

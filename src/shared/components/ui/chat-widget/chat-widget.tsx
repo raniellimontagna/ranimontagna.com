@@ -302,7 +302,7 @@ export const ChatWidget = (): React.ReactElement => {
 
               {/* Input */}
               <div className="border-t border-line bg-surface p-3">
-                <div className="flex items-center gap-2 rounded-2xl border border-line bg-background p-2 transition-all hover:border-foreground/20 hover:bg-surface-strong focus-within:border-accent-ice/50 focus-within:bg-surface-strong focus-within:outline-2 focus-within:outline-accent-ice/35 focus-within:outline-offset-0">
+                <div className="interactive-field-shell flex items-center gap-2 rounded-2xl bg-background p-2 hover:bg-surface-strong focus-within:bg-surface-strong">
                   <input
                     ref={inputRef}
                     type="text"
@@ -313,7 +313,7 @@ export const ChatWidget = (): React.ReactElement => {
                     disabled={isLoading}
                     maxLength={500}
                     aria-label={t('placeholder')}
-                    className="flex-1 bg-transparent px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus-visible:outline-none disabled:opacity-50"
+                    className="interactive-field-input flex-1 px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none disabled:opacity-50"
                   />
                   <button
                     type="button"

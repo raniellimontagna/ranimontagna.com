@@ -189,7 +189,7 @@ export const Contact = (): React.ReactElement => {
           <BlurReveal delay={0.5}>
             <ParallaxLayer offset={26}>
               <div className="surface-panel-strong relative overflow-hidden rounded-4xl shadow-card">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.16),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.14),transparent_28%)]" />
+                <div className="absolute inset-0 glow-gradient" />
 
                 <div className="relative flex items-center gap-2 border-b border-line bg-surface-strong px-5 py-4">
                   <div className="flex gap-1.5">

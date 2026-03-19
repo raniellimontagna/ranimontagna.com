@@ -194,7 +194,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
             <div className="absolute inset-0 bg-linear-to-t from-slate-950/45 via-transparent to-white/10 opacity-85" />
           </>
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.15),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.9),rgba(244,247,250,0.96))] dark:bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.14),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.18),transparent_32%),linear-gradient(135deg,rgba(15,23,42,0.96),rgba(2,6,23,0.98))]">
+          <div className="flex h-full w-full items-center justify-center glow-gradient-card-placeholder">
             <div className="relative">
               <div className="absolute inset-0 blur-2xl opacity-50 transition-opacity duration-500 group-hover:opacity-80">
                 <Icon className="h-20 w-20 text-slate-400 dark:text-slate-500" />

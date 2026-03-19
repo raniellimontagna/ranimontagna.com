@@ -30,7 +30,7 @@ export function HeroVisual() {
               <div className="relative h-96 w-[18rem] rounded-4xl border border-line bg-[linear-gradient(180deg,rgba(255,255,255,0.22),transparent)] p-3 shadow-(--shadow-panel) dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)] sm:h-104 sm:w-78">
                 <div className="absolute inset-x-12 top-3 h-10 rounded-full bg-ambient-ice blur-2xl" />
                 <div className="absolute inset-3 overflow-hidden rounded-[1.55rem] border border-line-strong bg-canvas">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(148,215,255,0.2),transparent_32%),radial-gradient(circle_at_80%_100%,rgba(221,255,111,0.18),transparent_36%)]" />
+                  <div className="absolute inset-0 glow-gradient-portrait" />
                   <Image
                     src="/photo.webp"
                     alt="Ranielli Montagna portrait"

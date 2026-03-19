@@ -91,7 +91,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
         <BlurReveal delay={0.4}>
           <section className="surface-panel-strong relative mb-16 overflow-hidden rounded-4xl border border-line p-6 shadow-sm sm:p-10">
             {/* Subtle Glow inside the intro card */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.08),transparent_40%)]" />
+            <div className="pointer-events-none absolute inset-0 glow-gradient-subtle" />
 
             <div className="relative z-10">
               <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">

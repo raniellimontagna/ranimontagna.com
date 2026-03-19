@@ -108,7 +108,7 @@ export function About() {
             <div className="relative mx-auto w-full max-w-125 lg:max-w-none">
               <ParallaxLayer offset={30}>
                 <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 shadow-card sm:p-6">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.2),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.22),transparent_35%)]" />
+                  <div className="absolute inset-0 glow-gradient-photo" />
                   <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
                     <Image
                       src="/photo.webp"

@@ -40,7 +40,7 @@ export function ErrorContent({
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="surface-panel-strong relative max-w-xl w-full shrink-0 overflow-hidden rounded-4xl border border-line p-8 text-center shadow-2xl sm:p-10"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(113,205,255,0.05),transparent_40%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--glow-ice-subtle),transparent_40%)]" />
 
           <div className="relative z-10">
             {/* Error Code Bubble */}

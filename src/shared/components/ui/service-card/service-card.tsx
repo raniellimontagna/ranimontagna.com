@@ -33,7 +33,7 @@ export function ServiceCard({
         className,
       )}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.16),transparent_34%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-0 glow-gradient opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
@@ -52,7 +52,7 @@ export function ServiceCard({
             >
               <Icon className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
             </div>
-            <div className="absolute -inset-2 -z-10 rounded-3xl bg-[radial-gradient(circle,rgba(111,202,255,0.2),transparent_58%)] opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-100" />
+            <div className="absolute -inset-2 -z-10 rounded-3xl bg-[radial-gradient(circle,var(--glow-ice-strong),transparent_58%)] opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-100" />
           </div>
         </div>
 

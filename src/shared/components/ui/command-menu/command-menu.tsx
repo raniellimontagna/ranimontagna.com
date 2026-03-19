@@ -84,14 +84,16 @@ export function CommandMenu() {
             className="surface-panel pointer-events-auto relative w-full max-w-lg overflow-hidden rounded-2xl border border-line shadow-panel animate-in zoom-in-95 duration-200"
             label="Global Command Menu"
           >
-            <div className="flex items-center border-b border-line px-4">
-              <Magnifer className="mr-3 h-5 w-5 text-muted" />
-              <Command.Input
-                placeholder={t('placeholder')}
-                className="flex h-14 w-full rounded-md bg-transparent py-4 text-sm font-medium text-foreground outline-none placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none"
-              />
-              <div className="hidden rounded-md bg-surface-strong border border-line px-1.5 py-0.5 text-[10px] font-mono font-medium text-muted uppercase tracking-widest sm:block">
-                Esc
+            <div className="border-b border-line px-3 py-3">
+              <div className="interactive-field-shell flex items-center gap-3 rounded-xl bg-surface/55 px-4">
+                <Magnifer className="h-5 w-5 shrink-0 text-muted" />
+                <Command.Input
+                  placeholder={t('placeholder')}
+                  className="interactive-field-input flex h-12 min-w-0 flex-1 py-3 text-sm font-medium text-foreground placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none"
+                />
+                <div className="hidden rounded-md border border-line bg-surface-strong px-1.5 py-0.5 text-[10px] font-mono font-medium uppercase tracking-widest text-muted sm:block">
+                  Esc
+                </div>
               </div>
             </div>
 
