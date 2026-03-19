@@ -7,11 +7,14 @@ import { HeroVisual } from './hero-visual'
 
 export async function Hero() {
   const t = await getTranslations('hero')
-  const socialLinks = getSocialLinksAsArray().map((social) =>
-    social.id === 'email' && social.direct
-      ? { ...social, href: `mailto:${social.direct}` }
-      : social,
-  )
+  const heroSocialLinkIds = ['github', 'linkedin', 'email']
+  const socialLinks = getSocialLinksAsArray()
+    .filter((social) => heroSocialLinkIds.includes(social.id))
+    .map((social) =>
+      social.id === 'email' && social.direct
+        ? { ...social, href: `mailto:${social.direct}` }
+        : social,
+    )
 
   return (
     <section
@@ -31,8 +34,8 @@ export async function Hero() {
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(22rem,0.95fr)] lg:gap-10">
         <div className="relative">
-          <div className="mt-8 space-y-6 sm:mt-10">
-            <div className="space-y-4">
+          <div className="mt-8 flex flex-col gap-6 sm:mt-10">
+            <div className="flex flex-col gap-4">
               <p className="font-mono text-sm font-medium tracking-[0.24em] text-muted uppercase">
                 {t('greeting')}
               </p>
@@ -42,7 +45,7 @@ export async function Hero() {
               </h1>
             </div>
 
-            <div className="max-w-3xl space-y-5">
+            <div className="max-w-3xl flex flex-col gap-5">
               <p className="text-xl leading-[1.08] font-medium text-foreground sm:text-3xl lg:text-[2.6rem]">
                 {t('passion.part1')} <span className="text-accent">{t('passion.highlight')}</span>{' '}
                 {t('passion.part2')}

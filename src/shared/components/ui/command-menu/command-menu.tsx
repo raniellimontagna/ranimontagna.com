@@ -16,7 +16,7 @@ import { Command } from 'cmdk'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
-import { GithubIcon, LinkedinIcon } from '@/shared/components/icons/brands'
+import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 
@@ -25,6 +25,9 @@ export function CommandMenu() {
   const { setTheme } = useTheme()
   const router = useRouter()
   const t = useTranslations('commandMenu')
+  const commandSocialLinks = getSocialLinksAsArray().filter((social) =>
+    ['github', 'linkedin', 'twitter', 'instagram'].includes(social.id),
+  )
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -92,13 +95,15 @@ export function CommandMenu() {
               </div>
             </div>
 
-            <Command.List className="max-h-[300px] overflow-y-auto overflow-x-hidden p-2 scrollbar-thin">
+            <Command.List className="max-h-75 overflow-y-auto overflow-x-hidden p-2 scrollbar-thin">
               <Command.Empty className="py-8 text-center text-sm text-muted">
                 {t('noResults')}
               </Command.Empty>
 
               <Command.Group
-                heading={<span className="font-bold uppercase tracking-widest">{t('sections')}</span>}
+                heading={
+                  <span className="font-bold uppercase tracking-widest">{t('sections')}</span>
+                }
                 className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
               >
                 <Command.Item
@@ -166,20 +171,20 @@ export function CommandMenu() {
                 heading={<span className="font-bold uppercase tracking-widest">{t('social')}</span>}
                 className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
               >
-                <Command.Item
-                  onSelect={() => navigateTo('https://github.com/raniellimontagna')}
-                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
-                >
-                  <GithubIcon className="h-4 w-4" />
-                  GitHub
-                </Command.Item>
-                <Command.Item
-                  onSelect={() => navigateTo('https://linkedin.com/in/raniellimontagna')}
-                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
-                >
-                  <LinkedinIcon className="h-4 w-4" />
-                  LinkedIn
-                </Command.Item>
+                {commandSocialLinks.map((social) => {
+                  const Icon = social.icon
+
+                  return (
+                    <Command.Item
+                      key={social.id}
+                      onSelect={() => navigateTo(social.href)}
+                      className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {social.name}
+                    </Command.Item>
+                  )
+                })}
               </Command.Group>
             </Command.List>
           </Command>

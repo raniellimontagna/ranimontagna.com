@@ -1,11 +1,11 @@
 'use client'
 
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 import type { ProjectCardProps } from '@/features/projects/types/projects.types'
-import { GithubIcon } from '@/shared/components/icons/brands'
 
 // Tech stack colors for visual variety
 const techColors: Record<string, string> = {
@@ -240,7 +240,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                 aria-label="View Source on GitHub"
                 title="View Source code"
               >
-                <GithubIcon className="h-5 w-5" />
+                <SiGithub className="h-5 w-5" />
               </a>
             )}
             {project.demo && (

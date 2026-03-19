@@ -27,7 +27,7 @@ export function ServiceCard({
   return (
     <div
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-line bg-surface/94 p-6 shadow-card transition-all duration-500 backdrop-blur-sm sm:p-7',
+        'group relative flex min-w-0 flex-col overflow-hidden rounded-4xl border border-line bg-surface/94 p-6 shadow-card transition-all duration-500 backdrop-blur-sm sm:p-7',
         'hover:-translate-y-1 hover:border-foreground/12 hover:shadow-2xl',
         popular && 'border-accent/35',
         className,
@@ -35,8 +35,8 @@ export function ServiceCard({
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.16),transparent_34%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="relative flex items-start justify-between gap-4">
-        <div>
+      <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
           {eyebrow && (
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
               {eyebrow}
@@ -46,7 +46,7 @@ export function ServiceCard({
           <div className="relative mt-4 inline-flex">
             <div
               className={cn(
-                'flex h-14 w-14 items-center justify-center rounded-[1.2rem] border border-line bg-surface-strong text-foreground transition-all duration-300',
+                'flex h-14 w-14 items-center justify-center rounded-3xl border border-line bg-surface-strong text-foreground transition-all duration-300',
                 'group-hover:scale-105 group-hover:bg-foreground group-hover:text-background',
               )}
             >
@@ -57,28 +57,30 @@ export function ServiceCard({
         </div>
 
         {popular && (
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-lime-800 dark:text-lime-300">
+          <div className="inline-flex h-fit self-start items-center gap-1.5 rounded-full border border-accent/35 bg-accent/12 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-lime-800 dark:text-lime-300 sm:h-fit">
             <StarFall className="h-3 w-3" />
             {t('popularBadge')}
           </div>
         )}
       </div>
 
-      <div className="relative flex-1">
-        <h3 className="mt-8 text-2xl font-semibold tracking-[-0.05em] text-foreground">{title}</h3>
+      <div className="relative flex-1 min-w-0">
+        <h3 className="mt-8 text-balance text-2xl font-semibold tracking-[-0.05em] text-foreground">
+          {title}
+        </h3>
 
         <p className="mt-3 text-sm leading-7 text-muted">{description}</p>
 
-        <ul className="mt-7 space-y-3.5">
+        <ul className="mt-7 flex flex-col gap-3.5">
           {features.map((feature, i) => (
             <li
               key={i}
-              className="flex items-start gap-3 rounded-2xl border border-line bg-surface px-3.5 py-3 text-sm text-foreground"
+              className="flex min-w-0 items-start gap-3 rounded-2xl border border-line bg-surface px-3.5 py-3 text-sm text-foreground"
             >
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
                 <CheckCircle className="h-3 w-3" />
               </span>
-              <span className="leading-tight">{feature}</span>
+              <span className="min-w-0 leading-tight wrap-break-word">{feature}</span>
             </li>
           ))}
         </ul>

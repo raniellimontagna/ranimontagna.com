@@ -20,7 +20,7 @@ export const Footer = (): React.ReactElement => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-0">
           <FadeIn>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background">
                 <Image
                   src="logo/white.svg"

@@ -1,9 +1,9 @@
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { Code, Global, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import type { ProjectType } from '@/features/projects/types/projects.types'
 import { FadeIn, MagneticHover, ParallaxLayer, RevealText } from '@/shared/components/animations'
-import { GithubIcon } from '@/shared/components/icons/brands'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
 import { ProjectCard } from './project-card'
@@ -75,7 +75,7 @@ export function Projects() {
                     rel="noopener noreferrer"
                     className="inline-flex min-h-13 items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
                   >
-                    <GithubIcon className="h-4 w-4" />
+                    <SiGithub className="h-4 w-4" />
                     {t('cta.button')}
                   </a>
                 </MagneticHover>
@@ -139,7 +139,7 @@ export function Projects() {
                             rel="noopener noreferrer"
                             className="inline-flex min-h-12 items-center gap-2 rounded-full border border-line bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
                           >
-                            <GithubIcon className="h-4 w-4" />
+                            <SiGithub className="h-4 w-4" />
                             {t('cta.button')}
                           </a>
                         )}

@@ -169,7 +169,7 @@ export const Header = ({
 
           {/* Desktop Navigation */}
           {!title && (
-            <div className="hidden items-center space-x-1 xl:flex">
+            <div className="hidden items-center gap-1 xl:flex">
               <div className="surface-panel flex items-center rounded-full p-1.5">
                 {navigation.map((item) =>
                   renderNavigationItem(
@@ -181,7 +181,7 @@ export const Header = ({
             </div>
           )}
 
-          <div className="hidden items-center space-x-3 xl:flex">
+          <div className="hidden items-center gap-3 xl:flex">
             {!title && (
               <MagneticHover>
                 <button
@@ -261,7 +261,7 @@ export const Header = ({
               : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="space-y-1">
+          <div className="flex flex-col gap-1">
             {navigation.map((item) =>
               renderNavigationItem(
                 item,

@@ -93,7 +93,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
             <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               {t('content.title')}
             </h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted sm:text-lg">
+            <div className="flex flex-col gap-4 text-base leading-relaxed text-muted sm:text-lg">
               <p>{t('content.paragraph1')}</p>
               <p>{t('content.paragraph2')}</p>
             </div>

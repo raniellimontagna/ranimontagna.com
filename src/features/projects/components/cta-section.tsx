@@ -38,7 +38,7 @@ export function CTASection() {
             </div>
 
             {/* Response Text */}
-            <div className="space-y-2 text-muted">
+            <div className="flex flex-col gap-2 text-muted">
               <p className="typing-effect border-l-2 border-line pl-4">
                 <span className="text-accent-mint">✔</span>{' '}
                 <span className="text-foreground">{t('cta.title')}</span>

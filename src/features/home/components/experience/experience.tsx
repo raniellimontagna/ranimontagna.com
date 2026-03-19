@@ -43,7 +43,7 @@ export function Experience() {
             </FadeIn>
 
             <FadeIn delay={0.45}>
-              <div className="mt-10 space-y-3">
+              <div className="mt-10 flex flex-col gap-3">
                 {items.map((exp, index) => (
                   <div
                     key={exp.company}
@@ -68,7 +68,7 @@ export function Experience() {
           </div>
 
           <StaggerContainer staggerDelay={0.14}>
-            <div className="relative space-y-6 lg:pt-6">
+            <div className="relative flex flex-col gap-6 lg:pt-6">
               <div className="absolute top-0 bottom-0 left-8 hidden w-px bg-linear-to-b from-line/20 via-foreground/12 to-transparent lg:block" />
 
               {items.map((exp, index) => (

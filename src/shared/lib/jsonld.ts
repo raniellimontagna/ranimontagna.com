@@ -98,6 +98,10 @@ export interface ProfilePageJsonLd {
 }
 
 export function generatePersonJsonLd(locale: string): PersonJsonLd {
+  const sameAs = Object.values(socialLinks)
+    .filter((link) => link.external)
+    .map((link) => link.href)
+
   const descriptions = {
     en: 'Full Stack Developer specializing in React, Node.js and modern interface design. Creating exceptional digital experiences.',
     pt: 'Desenvolvedor Full Stack especializado em React, Node.js e design de interfaces modernas. Criando experiências digitais excepcionais.',
@@ -149,12 +153,7 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
       height: 800,
       caption: 'Ranielli Montagna - Full Stack Developer',
     },
-    sameAs: [
-      'https://github.com/RanielliMontagna',
-      'https://linkedin.com/in/rannimontagna',
-      'https://twitter.com/rannimontagna',
-      'https://x.com/rannimontagna',
-    ],
+    sameAs: [...sameAs, 'https://x.com/rannimontagna'],
     worksFor: {
       '@type': 'Organization',
       name: 'Luizalabs - Magazine Luiza',
@@ -228,6 +227,11 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
         '@type': 'PropertyValue',
         propertyID: 'Twitter',
         value: 'rannimontagna',
+      },
+      {
+        '@type': 'PropertyValue',
+        propertyID: 'Instagram',
+        value: 'raniellimontagna',
       },
     ],
   }

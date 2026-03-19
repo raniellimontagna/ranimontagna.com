@@ -134,7 +134,7 @@ export const Contact = (): React.ReactElement => {
                 </div>
 
                 <StaggerContainer staggerDelay={0.12}>
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     {contactMethodsArray.map((method) => {
                       const IconComponent = method.icon
                       return (

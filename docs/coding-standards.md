@@ -73,3 +73,4 @@ Always use the exact predefined, semantic Canonical classes rather than arbitrar
 - **Shadows**: Prefer `shadow-(--shadow-card)` over `shadow-[var(--shadow-card)]`
 - **Sizing**: Prefer `max-w-xl` over `max-w-[36rem]`, `aspect-video` if applicable over `aspect-[16/9]`, etc.
 When touching styles, always verify your components against UI warnings like `suggestCanonicalClasses` before pushing code.
+- **Spacing**: Avoid using Tailwind `space-x-*` and `space-y-*` utilities. Instead, use `flex` or `grid` with the `gap-*` property for better control, responsiveness, and compatibility.
