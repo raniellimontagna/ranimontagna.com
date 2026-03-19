@@ -89,8 +89,8 @@ export function ServiceCard({
       {/* CTA Button */}
       <div className="relative mt-8 pt-6">
         <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-slate-200 to-transparent dark:via-slate-800" />
-        <button
-          type="button"
+        <a
+          href="#contact"
           className={cn(
             'group/btn flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-300',
             'bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100',
@@ -98,16 +98,10 @@ export function ServiceCard({
             popular &&
               'bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 dark:from-blue-600 dark:to-blue-500',
           )}
-          onClick={() => {
-            const contactSection = document.getElementById('contact')
-            if (contactSection) {
-              contactSection.scrollIntoView({ behavior: 'smooth' })
-            }
-          }}
         >
           {t('getStarted')}
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-        </button>
+        </a>
       </div>
     </div>
   )

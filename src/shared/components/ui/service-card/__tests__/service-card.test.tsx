@@ -1,5 +1,5 @@
 import type { SVGProps } from 'react'
-import { fireEvent, render, screen } from '@/tests/test-utils'
+import { render, screen } from '@/tests/test-utils'
 import { ServiceCard } from '../service-card'
 
 const MockIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -37,21 +37,10 @@ describe('ServiceCard', () => {
     expect(card).toHaveClass('border-blue-200')
   })
 
-  it('scrolls to contact on button click', () => {
-    // Mock scrollIntoView
-    const scrollIntoView = vi.fn()
-    const getElementById = vi.spyOn(document, 'getElementById').mockReturnValue({
-      scrollIntoView,
-    } as unknown as HTMLElement)
-
+  it('links the CTA to the contact section', () => {
     render(<ServiceCard {...defaultProps} />)
 
-    const button = screen.getByRole('button')
-    fireEvent.click(button)
-
-    expect(getElementById).toHaveBeenCalledWith('contact')
-    expect(scrollIntoView).toHaveBeenCalled()
-
-    getElementById.mockRestore()
+    const ctaLink = screen.getByRole('link')
+    expect(ctaLink).toHaveAttribute('href', '#contact')
   })
 })

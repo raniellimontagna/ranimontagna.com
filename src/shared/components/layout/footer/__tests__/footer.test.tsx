@@ -15,12 +15,6 @@ vi.mock('@/shared/components/animations', () => ({
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-vi.mock('@/shared/store/use-theme/use-theme', () => ({
-  useTheme: () => ({
-    theme: 'light',
-  }),
-}))
-
 vi.mock('next/image', () => ({
   default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // biome-ignore lint/a11y/useAltText: Mock component
@@ -34,7 +28,7 @@ describe('Footer Component', () => {
     render(<Footer />)
 
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
-    expect(screen.getByAltText('Logo')).toBeInTheDocument()
+    expect(screen.getAllByAltText('Logo').length).toBeGreaterThan(0)
     expect(screen.getByText('logo.fullName')).toBeInTheDocument()
   })
 
@@ -64,10 +58,13 @@ describe('Footer Component', () => {
     })
   })
 
-  it('uses light theme logo', () => {
+  it('renders both logo variants for theme switching', () => {
     render(<Footer />)
 
-    const logo = screen.getByAltText('Logo')
-    expect(logo).toHaveAttribute('src', 'logo/white.svg')
+    const logos = screen.getAllByAltText('Logo')
+    const logoSources = logos.map((logo) => logo.getAttribute('src'))
+
+    expect(logoSources).toContain('logo/white.svg')
+    expect(logoSources).toContain('logo/black.svg')
   })
 })

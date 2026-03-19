@@ -1,5 +1,3 @@
-'use client'
-
 import { ChatRound, Download, User } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
@@ -17,13 +15,13 @@ export function About() {
       data-testid="about"
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
-      <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/10 blur-[120px] dark:bg-blue-500/5" />
-      <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/10 blur-[120px] dark:bg-purple-500/5" />
+      <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-blue-500/10 blur-[120px] dark:bg-blue-500/5" />
+      <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-purple-500/10 blur-[120px] dark:bg-purple-500/5" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <FadeIn delay={0.2} direction="right">
-            <div className="relative mx-auto max-w-[400px] lg:mx-0 lg:max-w-none">
+            <div className="relative mx-auto max-w-100 lg:mx-0 lg:max-w-none">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900">
                 <div className="absolute inset-0 z-10 rounded-2xl border border-white/20 bg-white/10 shadow-2xl backdrop-blur-[2px] dark:border-white/10 dark:bg-white/5" />
                 <div className="absolute inset-4 z-20 overflow-hidden rounded-xl">

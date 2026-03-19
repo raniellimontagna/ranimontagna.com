@@ -1,5 +1,3 @@
-'use client'
-
 import { Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
@@ -14,8 +12,8 @@ export function Experience() {
       id="experience"
       className="relative overflow-hidden bg-white py-16 sm:py-20 lg:py-32 dark:bg-slate-950"
     >
-      <div className="absolute top-1/2 left-0 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-blue-500/5 blur-[120px]" />
-      <div className="absolute top-1/2 right-0 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-purple-500/5 blur-[120px]" />
+      <div className="absolute top-1/2 left-0 -z-10 h-125 w-125 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[120px]" />
+      <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 -translate-y-1/2 rounded-full bg-purple-500/5 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">

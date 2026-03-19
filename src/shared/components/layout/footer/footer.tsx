@@ -2,14 +2,16 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import type { SocialLink } from '@/shared/lib/social-links'
-import { getSocialLinksAsArray, openEmailClient } from '@/shared/lib/social-links'
-import { useTheme } from '@/shared/store/use-theme/use-theme'
+import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 
 export const Footer = (): React.ReactElement => {
   const t = useTranslations('footer')
-  const { theme } = useTheme()
   const currentYear = new Date().getFullYear()
-  const socialLinksArray = getSocialLinksAsArray()
+  const socialLinksArray = getSocialLinksAsArray().map((social) =>
+    social.id === 'email' && social.direct
+      ? { ...social, href: `mailto:${social.direct}` }
+      : social,
+  )
 
   return (
     <footer className="relative border-t border-slate-200 bg-white pt-16 pb-8 dark:border-slate-800 dark:bg-slate-950">
@@ -21,10 +23,18 @@ export const Footer = (): React.ReactElement => {
             <div className="flex items-center space-x-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">
                 <Image
-                  src={`logo/${theme === 'dark' ? 'black' : 'white'}.svg`}
+                  src="logo/white.svg"
                   alt="Logo"
                   width={24}
                   height={24}
+                  className="dark:hidden"
+                />
+                <Image
+                  src="logo/black.svg"
+                  alt="Logo"
+                  width={24}
+                  height={24}
+                  className="hidden dark:block"
                 />
               </div>
               <div>
@@ -50,11 +60,6 @@ export const Footer = (): React.ReactElement => {
                         href={social.href}
                         target={social.external ? '_blank' : undefined}
                         rel={social.external ? 'noopener noreferrer' : undefined}
-                        onClick={(event) => {
-                          if (social.id !== 'email') return
-                          event.preventDefault()
-                          openEmailClient()
-                        }}
                         className="group flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-blue-400 dark:hover:text-blue-400"
                         aria-label={social.ariaLabel || social.name}
                       >

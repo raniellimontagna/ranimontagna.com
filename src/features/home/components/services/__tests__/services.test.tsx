@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@/tests/test-utils'
+import { render, screen } from '@/tests/test-utils'
 import { Services } from '../services'
 
 // Mock next-intl
@@ -23,18 +23,6 @@ vi.mock('@/shared/components/ui', () => ({
 }))
 
 describe('Services Component', () => {
-  beforeEach(() => {
-    // Mock getElementById and scrollIntoView
-    document.getElementById = vi.fn((id: string) => {
-      if (id === 'contact') {
-        return {
-          scrollIntoView: vi.fn(),
-        } as unknown as HTMLElement
-      }
-      return null
-    })
-  })
-
   it('renders services section', () => {
     render(<Services />)
     expect(screen.getByText('badge')).toBeInTheDocument()
@@ -57,34 +45,10 @@ describe('Services Component', () => {
     expect(screen.getByText('cta.button')).toBeInTheDocument()
   })
 
-  it('scrolls to contact section when CTA button is clicked', () => {
-    const scrollIntoViewMock = vi.fn()
-    document.getElementById = vi.fn((id: string) => {
-      if (id === 'contact') {
-        return {
-          scrollIntoView: scrollIntoViewMock,
-        } as unknown as HTMLElement
-      }
-      return null
-    })
-
+  it('links CTA directly to the contact section', () => {
     render(<Services />)
 
-    const ctaButton = screen.getByRole('button', { name: /cta\.button/i })
-    fireEvent.click(ctaButton)
-
-    expect(document.getElementById).toHaveBeenCalledWith('contact')
-    expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' })
-  })
-
-  it('handles missing contact section gracefully', () => {
-    document.getElementById = vi.fn(() => null)
-
-    render(<Services />)
-
-    const ctaButton = screen.getByRole('button', { name: /cta\.button/i })
-
-    // Should not throw error
-    expect(() => fireEvent.click(ctaButton)).not.toThrow()
+    const ctaLink = screen.getByRole('link', { name: /cta\.button/i })
+    expect(ctaLink).toHaveAttribute('href', '#contact')
   })
 })

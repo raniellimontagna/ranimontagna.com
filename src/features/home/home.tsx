@@ -1,41 +1,12 @@
-'use client'
-
-import dynamic from 'next/dynamic'
 import type React from 'react'
-import { Header } from '@/shared'
-
-const CommandMenu = dynamic(
-  () => import('@/shared/components/ui/command-menu/command-menu').then((mod) => mod.CommandMenu),
-  { ssr: false },
-)
-
-const ChatWidget = dynamic(
-  () => import('@/shared/components/ui/chat-widget/chat-widget').then((mod) => mod.ChatWidget),
-  { ssr: false },
-)
-
-const Footer = dynamic(() =>
-  import('@/shared/components/layout/footer/footer').then((mod) => mod.Footer),
-)
-
-const About = dynamic(() =>
-  import('@/features/home/components/about/about').then((mod) => mod.About),
-)
-const Skills = dynamic(() =>
-  import('@/features/home/components/skills/skills').then((mod) => mod.Skills),
-)
-const Services = dynamic(() =>
-  import('@/features/home/components/services/services').then((mod) => mod.Services),
-)
-const Experience = dynamic(() =>
-  import('@/features/home/components/experience/experience').then((mod) => mod.Experience),
-)
-const Projects = dynamic(() =>
-  import('@/features/home/components/projects/projects').then((mod) => mod.Projects),
-)
-const Contact = dynamic(() =>
-  import('@/features/home/components/contact/contact').then((mod) => mod.Contact),
-)
+import { About } from '@/features/home/components/about/about'
+import { Contact } from '@/features/home/components/contact/contact'
+import { Experience } from '@/features/home/components/experience/experience'
+import { Projects } from '@/features/home/components/projects/projects'
+import { Services } from '@/features/home/components/services/services'
+import { Skills } from '@/features/home/components/skills/skills'
+import { Footer, Header } from '@/shared'
+import { HomeClientWidgets } from './components/home-client-widgets'
 
 interface HomeProps {
   heroContent: React.ReactNode
@@ -45,7 +16,6 @@ export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
   return (
     <>
       <Header />
-      <CommandMenu />
       <main>
         {heroContent}
         <About />
@@ -56,7 +26,7 @@ export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
         <Contact />
       </main>
       <Footer />
-      <ChatWidget />
+      <HomeClientWidgets />
     </>
   )
 }
