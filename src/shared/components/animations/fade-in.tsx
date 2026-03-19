@@ -1,6 +1,6 @@
 'use client'
 
-import { type HTMLMotionProps, motion, useInView } from 'motion/react'
+import { type HTMLMotionProps, motion, useInView, useReducedMotion } from 'motion/react'
 import { type ReactNode, useRef } from 'react'
 
 interface FadeInProps extends HTMLMotionProps<'div'> {
@@ -24,6 +24,7 @@ export function FadeIn({
   ...props
 }: FadeInProps) {
   const ref = useRef(null)
+  const prefersReducedMotion = useReducedMotion()
   const isInView = useInView(ref, { once: triggerOnce, margin: '0px 0px -100px 0px' })
 
   const getInitialPosition = () => {
@@ -43,17 +44,20 @@ export function FadeIn({
     }
   }
 
+  const initialConfig = prefersReducedMotion ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }
+  const animateConfig = prefersReducedMotion ? { opacity: 1, y: 0, x: 0 } : (isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() })
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, ...getInitialPosition() }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }}
+      initial={initialConfig}
+      animate={animateConfig}
       transition={{
-        duration,
-        delay: isInView ? delay : 0,
+        duration: prefersReducedMotion ? 0 : duration,
+        delay: isInView && !prefersReducedMotion ? delay : 0,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
-      style={{ willChange: 'transform, opacity' }}
+      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
       className={className}
       {...props}
     >

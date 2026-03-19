@@ -11,6 +11,7 @@ vi.mock('motion/react', () => ({
     ),
   },
   useInView: () => true,
+  useReducedMotion: () => false,
 }))
 
 describe('StaggerContainer Component', () => {

@@ -11,6 +11,7 @@ vi.mock('motion/react', () => ({
     ),
   },
   useInView: () => true,
+  useReducedMotion: () => false,
 }))
 
 describe('FadeIn Component', () => {

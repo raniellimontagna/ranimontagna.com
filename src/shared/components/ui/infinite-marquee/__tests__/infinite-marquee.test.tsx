@@ -1,6 +1,10 @@
 import { fireEvent, render, screen } from '@/tests/test-utils'
 import { InfiniteMarquee } from '../infinite-marquee'
 
+vi.mock('motion/react', () => ({
+  useReducedMotion: () => false,
+}))
+
 describe('InfiniteMarquee', () => {
   it('renders children twice for infinite effect', () => {
     // We pass a text content, it should appear twice

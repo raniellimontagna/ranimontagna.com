@@ -32,10 +32,10 @@ export function Skills() {
   return (
     <section
       data-testid="skills"
-      className="border-y border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950"
+      className="relative overflow-hidden border-y border-line bg-background py-12"
     >
       <div className="mb-8 text-center">
-        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <p className="font-mono text-sm font-semibold uppercase tracking-[0.24em] text-muted">
           {t('title')}
         </p>
       </div>
@@ -44,14 +44,14 @@ export function Skills() {
         {skills.map((skill) => (
           <div
             key={skill.name}
-            className="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 transition-colors hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700 dark:hover:bg-slate-800"
+            className="flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 transition-colors hover:border-foreground/30 hover:bg-surface-strong"
           >
-            <skill.icon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+            <skill.icon className="h-5 w-5 text-muted" />
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
+              <span className="text-sm font-bold text-foreground">
                 {skill.name}
               </span>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
                 {skill.category}
               </span>
             </div>

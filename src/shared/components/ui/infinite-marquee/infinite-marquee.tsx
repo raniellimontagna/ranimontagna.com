@@ -1,5 +1,6 @@
 'use client'
 
+import { useReducedMotion } from 'motion/react'
 import { useState } from 'react'
 import { cn } from '@/shared/lib/utils'
 
@@ -20,6 +21,8 @@ export function InfiniteMarquee({
 }: InfiniteMarqueeProps) {
   const [isPaused, setIsPaused] = useState(false)
 
+  const prefersReducedMotion = useReducedMotion()
+
   const duration = {
     fast: 20,
     normal: 40,
@@ -29,7 +32,7 @@ export function InfiniteMarquee({
   const animationStyle: React.CSSProperties = {
     animation: `marquee-scroll ${duration}s linear infinite`,
     animationDirection: direction === 'left' ? 'normal' : 'reverse',
-    animationPlayState: isPaused ? 'paused' : 'running',
+    animationPlayState: isPaused || prefersReducedMotion ? 'paused' : 'running',
   }
 
   return (
