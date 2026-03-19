@@ -70,7 +70,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   }, [chart])
 
   return (
-    <div className="my-8 overflow-x-auto rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+    <div className="my-8 overflow-x-auto rounded-xl border border-line bg-surface p-6">
       <div
         ref={containerRef}
         className="mermaid-container flex justify-center"

@@ -41,7 +41,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition-all hover:border-purple-200 hover:shadow-xl hover:shadow-purple-500/10 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-purple-500/30"
+        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-4xl border border-line p-6 transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div
           className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-linear-to-br from-purple-500 to-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
@@ -51,7 +51,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         <div className="relative z-10 mb-4 flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 dark:bg-transparent"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-background transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
               style={bgStyle}
             >
               <svg
@@ -70,12 +70,10 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               </svg>
             </div>
             <div>
-              <h3 className="font-bold text-slate-800 transition-colors group-hover:text-purple-600 dark:text-slate-100 dark:group-hover:text-purple-400">
+              <h3 className="font-semibold text-foreground transition-colors group-hover:text-foreground/90">
                 {repo.name}
               </h3>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                {dayjs(repo.updated_at).fromNow()}
-              </p>
+              <p className="text-xs font-medium text-muted">{dayjs(repo.updated_at).fromNow()}</p>
             </div>
           </div>
 
@@ -87,7 +85,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
                 e.stopPropagation()
                 window.open(repo.homepage as string, '_blank', 'noopener,noreferrer')
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 opacity-0 transition-all duration-300 hover:bg-purple-100 hover:text-purple-600 group-hover:opacity-100 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-purple-900/30 dark:hover:text-purple-400"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface text-muted opacity-0 transition-all duration-300 hover:bg-background hover:text-foreground group-hover:opacity-100"
               aria-label={t('visitSite')}
             >
               <svg
@@ -108,7 +106,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
           )}
         </div>
 
-        <p className="relative z-10 mb-6 line-clamp-2 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="relative z-10 mb-6 line-clamp-2 grow text-sm leading-relaxed text-muted">
           {repo.description || t('noDescription')}
         </p>
 
@@ -117,22 +115,22 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
             {repo.topics.slice(0, 3).map((topic) => (
               <span
                 key={topic}
-                className="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                className="rounded-md border border-line bg-surface px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-muted"
               >
                 {topic}
               </span>
             ))}
             {repo.topics.length > 3 && (
-              <span className="rounded-md bg-slate-50 px-2 py-1 text-[10px] font-semibold text-slate-400 dark:bg-slate-800/50 dark:text-slate-500">
+              <span className="rounded-md border border-line/50 bg-surface/50 px-2 py-1 font-mono text-[9px] text-muted/70">
                 +{repo.topics.length - 3}
               </span>
             )}
           </div>
         )}
 
-        <div className="relative z-10 mt-auto flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
+        <div className="relative z-10 mt-auto flex items-center justify-between border-t border-line pt-4">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-muted">
               <svg
                 className="h-4 w-4 text-yellow-500"
                 fill="currentColor"
@@ -144,9 +142,9 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               <span>{repo.stargazers_count}</span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-muted">
               <svg
-                className="h-4 w-4 text-slate-400 group-hover:text-blue-500"
+                className="h-4 w-4 text-muted group-hover:text-foreground"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -164,9 +162,9 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
           </div>
 
           {repo.language && (
-            <div className="flex items-center gap-2 rounded-full bg-slate-50 px-2.5 py-1 dark:bg-slate-800">
+            <div className="flex items-center gap-2 rounded-full border border-line bg-surface px-2.5 py-1">
               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: languageColor }} />
-              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
                 {repo.language}
               </span>
             </div>

@@ -24,7 +24,7 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
     >
       <Link
         href={`/blog/${post.slug}`}
-        className="group relative block overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all hover:shadow-2xl dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-900/80"
+        className="surface-panel group relative block overflow-hidden rounded-4xl border border-line transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div className="relative h-48 sm:h-64 overflow-hidden">
           <SafeImage
@@ -39,29 +39,32 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
 
           <div className="relative">
             <div className="mb-6 flex flex-wrap items-center gap-4 text-sm">
-              <time className="rounded-full border border-slate-200 px-3 py-1 font-medium text-slate-500 dark:border-slate-800 dark:text-slate-400">
+              <time className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">
                 {dayjs(post.metadata.date).format('MMMM D, YYYY')}
               </time>
               <span className="flex flex-wrap gap-2">
                 {post.metadata.tags?.map((tag) => (
-                  <span key={tag} className="font-medium text-purple-600 dark:text-purple-400">
+                  <span
+                    key={tag}
+                    className="rounded-md border border-line/50 bg-surface/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors group-hover:bg-background group-hover:shadow-sm"
+                  >
                     #{tag}
                   </span>
                 ))}
               </span>
             </div>
 
-            <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl dark:text-white">
-              <span className="bg-linear-to-r from-slate-900 to-slate-600 bg-size-[0%_2px] bg-bottom-left bg-no-repeat transition-all duration-500 group-hover:bg-size-[100%_2px] dark:from-white dark:to-slate-300">
+            <h2 className="mb-6 text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl md:text-5xl">
+              <span className="bg-linear-to-r from-foreground to-foreground/70 bg-size-[0%_2px] bg-bottom-left bg-no-repeat transition-all duration-500 group-hover:bg-size-[100%_2px]">
                 {post.metadata.title}
               </span>
             </h2>
 
-            <p className="mb-8 max-w-3xl text-lg text-slate-600 md:text-xl dark:text-slate-300">
+            <p className="mb-8 max-w-3xl text-lg leading-relaxed text-muted md:text-xl">
               {post.metadata.description}
             </p>
 
-            <span className="inline-flex items-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-transform group-hover:scale-105 dark:bg-white dark:text-slate-900">
+            <span className="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform group-hover:scale-105">
               {t('readFeaturedStory')}
               <svg
                 className="ml-2 h-4 w-4"

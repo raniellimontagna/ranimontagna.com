@@ -68,36 +68,45 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
   ])
 
   return (
-    <div className="bg-slate-50 pb-24 dark:bg-slate-950">
-      <div className="container mx-auto max-w-6xl px-4 pt-8">
+    <div className="relative min-h-screen bg-background pb-24">
+      {/* Background Gradients */}
+      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
+      <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
+
+      <div className="container mx-auto max-w-6xl px-4 pt-12 sm:pt-16">
         <div className="mb-12">
           <Breadcrumbs items={[{ label: t('breadcrumb') }]} />
         </div>
 
         <header className="mb-16 max-w-3xl">
-          <h1 className="mb-6 bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl dark:from-white dark:to-slate-400">
+          <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
             {t('title')}
           </h1>
-          <p className="text-xl leading-relaxed text-slate-600 dark:text-slate-400">
-            {t('subtitle')}
-          </p>
+          <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
         </header>
 
-        <section className="mb-12 max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/40">
-          <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
-            {t('content.title')}
-          </h2>
-          <p className="mb-3 leading-relaxed text-slate-600 dark:text-slate-400">
-            {t('content.paragraph1')}
-          </p>
-          <p className="mb-4 leading-relaxed text-slate-600 dark:text-slate-400">
-            {t('content.paragraph2')}
-          </p>
-          <ul className="list-disc space-y-2 pl-6 text-slate-600 dark:text-slate-400">
-            {contentPoints.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
+        <section className="surface-panel-strong relative mb-16 overflow-hidden rounded-4xl border border-line p-6 shadow-sm sm:p-10">
+          {/* Subtle Glow inside the intro card */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.08),transparent_40%)]" />
+
+          <div className="relative z-10">
+            <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              {t('content.title')}
+            </h2>
+            <div className="space-y-4 text-base leading-relaxed text-muted sm:text-lg">
+              <p>{t('content.paragraph1')}</p>
+              <p>{t('content.paragraph2')}</p>
+            </div>
+
+            <ul className="mt-6 flex flex-col gap-3">
+              {contentPoints.map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
+                  <span className="text-muted">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* GitHub Stats */}

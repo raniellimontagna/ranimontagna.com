@@ -61,15 +61,11 @@ export function ScrollToTop({ threshold = 400, enabled = true }: ScrollToTopProp
         fixed bottom-8 right-8 z-40
         flex h-12 w-12 items-center justify-center
         rounded-full
-        bg-slate-900 text-white
-        shadow-lg shadow-slate-900/20
+        bg-foreground text-background
+        shadow-lg
         transition-all duration-300 ease-out
-        hover:scale-110 hover:shadow-xl hover:shadow-slate-900/30
-        focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2
-        dark:bg-slate-100 dark:text-slate-900
-        dark:shadow-slate-100/20
-        dark:hover:shadow-slate-100/30
-        dark:focus:ring-slate-100
+        hover:scale-110 hover:shadow-xl
+        focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2
         ${isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'}
       `}
     >

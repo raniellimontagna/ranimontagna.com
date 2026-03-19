@@ -59,11 +59,21 @@ const skillsData = [
   { name: 'Figma', icon: SiFigma, hex: '#F24E1E', radius: 320, ring: 'outer', angle: 240 },
 ]
 
-function SkillNode({ skill, duration }: { skill: any; duration: number }) {
+interface Skill {
+  name: string
+  icon: React.ElementType
+  hex: string
+  hexDark?: string
+  radius: number
+  ring: string
+  angle: number
+}
+
+function SkillNode({ skill, duration }: { skill: Skill; duration: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const angleRad = (skill.angle * Math.PI) / 180
-  const x = Math.cos(angleRad) * skill.radius
-  const y = Math.sin(angleRad) * skill.radius
+  const x = Number((Math.cos(angleRad) * skill.radius).toFixed(3))
+  const y = Number((Math.sin(angleRad) * skill.radius).toFixed(3))
 
   return (
     <button

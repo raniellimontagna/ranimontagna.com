@@ -21,8 +21,8 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
         onClick={() => onSelect(null)}
         className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
           selected === null
-            ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/25'
-            : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+            ? 'bg-foreground text-background shadow-lg'
+            : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
         }`}
       >
         {t('filters.all')}
@@ -37,8 +37,8 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
             onClick={() => onSelect(language)}
             className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
               selected === language
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/25'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                ? 'bg-foreground text-background shadow-lg'
+                : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
             }`}
           >
             <span

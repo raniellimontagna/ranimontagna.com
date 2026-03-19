@@ -96,7 +96,7 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
           viewport={{ once: true }}
           transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white/50 p-6 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50"
+          className="surface-panel group relative overflow-hidden rounded-4xl border border-line p-6 shadow-sm"
         >
           <div
             className={`absolute -right-6 -top-6 h-24 w-24 rounded-full bg-linear-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
@@ -110,12 +110,10 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
             </div>
 
             <div className="flex flex-col">
-              <span className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              <span className="text-3xl font-semibold tracking-[-0.04em] text-foreground">
                 <Counter value={item.value} />
               </span>
-              <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                {item.label}
-              </span>
+              <span className="text-sm font-medium text-muted">{item.label}</span>
             </div>
           </div>
         </motion.div>

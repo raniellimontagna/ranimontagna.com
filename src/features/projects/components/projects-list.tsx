@@ -35,9 +35,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
     <>
       {/* Filters */}
       <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold text-slate-700 dark:text-slate-300">
-          {t('filterByLanguage')}
-        </h2>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">{t('filterByLanguage')}</h2>
         <LanguageFilter
           languages={languages}
           selected={selectedLanguage}
@@ -55,7 +53,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
             exit={{ opacity: 0 }}
             className="mb-16"
           >
-            <h2 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground">
               {t('featuredTitle')}
             </h2>
             <div className="grid gap-6">
@@ -69,7 +67,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
 
       {/* All Projects */}
       <section>
-        <h2 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white">
+        <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground">
           {t('allProjectsTitle')}
         </h2>
         <AnimatePresence mode="wait">
@@ -91,7 +89,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="py-16 text-center text-slate-500 dark:text-slate-400"
+              className="py-16 text-center text-muted"
             >
               {t('noProjectsFound')}
             </motion.div>

@@ -60,7 +60,7 @@ export const LanguageSwitcher = (): React.ReactElement => {
         type="button"
         data-testid="language-switcher-button"
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative rounded-lg p-2 text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+        className="group relative flex h-8 w-8 items-center justify-center rounded-xl text-slate-600 transition-all duration-300 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
         aria-label="Change language"
         aria-expanded={isOpen}
         aria-haspopup="true"

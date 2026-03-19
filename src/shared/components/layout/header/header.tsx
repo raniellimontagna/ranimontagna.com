@@ -1,9 +1,16 @@
 'use client'
 
-import { CloseCircle, Download, HamburgerMenu, SquareAltArrowUp } from '@solar-icons/react/ssr'
+import {
+  ArrowLeft,
+  CloseCircle,
+  Download,
+  HamburgerMenu,
+  SquareAltArrowUp,
+} from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
+import type { ComponentProps } from 'react'
 import { useEffect, useState } from 'react'
 
 import { MagneticHover } from '@/shared/components/animations'
@@ -19,7 +26,17 @@ type NavigationItem = {
   type: 'scroll' | 'link'
 }
 
-export const Header = (): React.ReactElement | null => {
+export type HeaderProps = {
+  title?: string
+  backHref?: ComponentProps<typeof Link>['href']
+  backLabel?: string
+}
+
+export const Header = ({
+  title,
+  backHref,
+  backLabel,
+}: HeaderProps = {}): React.ReactElement | null => {
   const t = useTranslations('header')
   const locale = useLocale()
   const pathname = usePathname()
@@ -106,63 +123,89 @@ export const Header = (): React.ReactElement | null => {
       >
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent-ice to-transparent opacity-60" />
         <div className="flex items-center justify-between">
-          <MagneticHover className="shrink-0">
-            <button
-              type="button"
-              onClick={() => scrollToSection('#start')}
-              aria-label={t('logo.ariaLabel')}
-              className="group flex cursor-pointer items-center gap-3 rounded-[1.4rem] px-2 py-1.5 text-left"
-            >
-              <div className="surface-panel-strong relative flex h-11 w-11 items-center justify-center rounded-[1.2rem]">
-                <Image
-                  src="logo/black.svg"
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                  className="h-7 w-7 dark:hidden"
-                />
-                <Image
-                  src="logo/white.svg"
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                  className="hidden h-7 w-7 dark:block"
-                />
-              </div>
-              <div className="hidden min-w-0 sm:block">
-                <h1 className="text-base font-semibold tracking-[-0.03em] text-foreground">
-                  {t('logo.fullName')}
-                </h1>
-                <p className="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-muted uppercase">
-                  {t('logo.jobTitle')}
-                </p>
-              </div>
-            </button>
-          </MagneticHover>
-
-          <div className="hidden items-center space-x-1 xl:flex">
-            <div className="surface-panel flex items-center rounded-full p-1.5">
-              {navigation.map((item) =>
-                renderNavigationItem(
-                  item,
-                  'rounded-full px-4 py-2 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground',
-                ),
-              )}
-            </div>
-          </div>
-
-          <div className="hidden items-center space-x-3 xl:flex">
-            <MagneticHover>
+          <div className="flex shrink-0 items-center gap-4">
+            <MagneticHover className="shrink-0">
               <button
                 type="button"
-                onClick={() => openCommandMenu(true)}
-                className="surface-panel flex items-center gap-2 rounded-2xl px-3 py-2 text-sm text-muted"
+                onClick={() => scrollToSection('#start')}
+                aria-label={t('logo.ariaLabel')}
+                className="group flex cursor-pointer items-center gap-3 rounded-[1.4rem] px-2 py-1.5 text-left"
               >
-                <SquareAltArrowUp className="h-3.5 w-3.5" />
-                <span className="font-mono text-xs">⌘K</span>
+                <div className="surface-panel-strong relative flex h-11 w-11 items-center justify-center rounded-[1.2rem]">
+                  <Image
+                    src="/logo/black.svg"
+                    alt="Logo"
+                    width={32}
+                    height={32}
+                    className="h-7 w-7 block dark:hidden"
+                  />
+                  <Image
+                    src="/logo/white.svg"
+                    alt="Logo"
+                    width={32}
+                    height={32}
+                    className="hidden h-7 w-7 dark:block"
+                  />
+                </div>
+                <div className="hidden min-w-0 sm:block">
+                  <h1 className="text-base font-semibold tracking-[-0.03em] text-foreground">
+                    {t('logo.fullName')}
+                  </h1>
+                  <p className="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-muted uppercase">
+                    {t('logo.jobTitle')}
+                  </p>
+                </div>
               </button>
             </MagneticHover>
-            <div className="surface-panel flex items-center space-x-2 rounded-2xl px-2 py-2">
+            {title && (
+              <>
+                <div className="hidden h-5 w-px bg-line sm:block" />
+                <span className="hidden text-sm font-semibold text-foreground sm:block">
+                  {title}
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Desktop Navigation */}
+          {!title && (
+            <div className="hidden items-center space-x-1 xl:flex">
+              <div className="surface-panel flex items-center rounded-full p-1.5">
+                {navigation.map((item) =>
+                  renderNavigationItem(
+                    item,
+                    'flex h-10 items-center rounded-full px-4 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground',
+                  ),
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="hidden items-center space-x-3 xl:flex">
+            {!title && (
+              <MagneticHover>
+                <button
+                  type="button"
+                  onClick={() => openCommandMenu(true)}
+                  className="surface-panel flex h-10 items-center justify-center gap-2 rounded-2xl px-4 text-sm text-muted transition-all hover:bg-surface-strong"
+                >
+                  <SquareAltArrowUp className="h-3.5 w-3.5" />
+                  <span className="font-mono text-xs">⌘K</span>
+                </button>
+              </MagneticHover>
+            )}
+            {backHref && backLabel && (
+              <MagneticHover>
+                <Link
+                  href={backHref}
+                  className="surface-panel flex h-10 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-medium text-foreground transition-all hover:bg-surface-strong"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>{backLabel}</span>
+                </Link>
+              </MagneticHover>
+            )}
+            <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
               <LanguageSwitcher />
               <ThemeToggle />
             </div>
@@ -171,7 +214,7 @@ export const Header = (): React.ReactElement | null => {
               <a
                 href={resumeLink.href}
                 download={resumeLink.filename}
-                className="inline-flex items-center rounded-full border border-line bg-foreground px-5 py-2.5 text-sm font-semibold text-background shadow-soft"
+                className="inline-flex h-10 items-center justify-center rounded-full border border-line bg-foreground px-5 text-sm font-semibold text-background shadow-soft transition-all hover:bg-foreground/90"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {resumeLink.name}
@@ -180,23 +223,34 @@ export const Header = (): React.ReactElement | null => {
           </div>
 
           <div className="flex items-center gap-2 xl:hidden">
-            <div className="surface-panel flex items-center gap-1 rounded-2xl px-2 py-2">
+            {backHref && (
+              <Link
+                href={backHref}
+                className="surface-panel relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-foreground transition-all hover:bg-surface-strong"
+                aria-label={backLabel}
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+            )}
+            <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
               <LanguageSwitcher />
               <ThemeToggle />
             </div>
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="surface-panel relative flex h-11 w-11 items-center justify-center rounded-2xl text-foreground"
-              aria-label={t('mobileMenu.toggleAriaLabel')}
-            >
-              <HamburgerMenu
-                className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
-              />
-              <CloseCircle
-                className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
-              />
-            </button>
+            {!title && (
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="surface-panel relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-foreground transition-all hover:bg-surface-strong"
+                aria-label={t('mobileMenu.toggleAriaLabel')}
+              >
+                <HamburgerMenu
+                  className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+                />
+                <CloseCircle
+                  className={`absolute h-5 w-5 transition-all duration-300 ${isMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+                />
+              </button>
+            )}
           </div>
         </div>
 

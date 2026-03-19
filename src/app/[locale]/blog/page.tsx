@@ -95,23 +95,25 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   }
 
   return (
-    <div className="bg-slate-50 pb-24 dark:bg-slate-950">
+    <div className="relative min-h-screen bg-background pb-24">
+      {/* Background Gradients */}
+      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
+      <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
       />
-      <div className="container mx-auto max-w-6xl px-4 pt-8">
+      <div className="container mx-auto max-w-6xl px-4 pt-12 sm:pt-16">
         <div className="mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />
         </div>
 
         <header className="mb-16 max-w-3xl">
-          <h1 className="mb-6 bg-linear-to-r from-slate-900 to-slate-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl dark:from-white dark:to-slate-400">
+          <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
             {t('title')}
           </h1>
-          <p className="text-xl leading-relaxed text-slate-600 dark:text-slate-400">
-            {t('subtitle')}
-          </p>
+          <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
         </header>
 
         {featuredPost && <FeaturedPost post={featuredPost} />}

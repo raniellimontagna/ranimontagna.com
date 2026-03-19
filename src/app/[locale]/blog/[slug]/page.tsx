@@ -97,35 +97,24 @@ export async function generateMetadata({
 // Components mapping for MDX
 const components = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1
-      {...props}
-      className="mb-8 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
-    />
+    <h1 {...props} className="mb-8 text-3xl font-semibold tracking-tight text-foreground" />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2
-      {...props}
-      className="mb-4 mt-8 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
-    />
+    <h2 {...props} className="mb-4 mt-8 text-2xl font-semibold tracking-tight text-foreground" />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3
-      {...props}
-      className="mb-3 mt-6 text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
-    />
+    <h3 {...props} className="mb-3 mt-6 text-xl font-semibold tracking-tight text-foreground" />
   ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p {...props} className="mb-6 leading-relaxed text-slate-700 dark:text-slate-300" />
+    <p {...props} className="mb-6 leading-relaxed text-muted" />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="mb-6 list-disc pl-6 text-slate-700 dark:text-slate-300" />
+    <ul {...props} className="mb-6 list-disc pl-6 text-muted" />
   ),
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...props} className="mb-6 list-decimal pl-6 text-slate-700 dark:text-slate-300" />
+    <ol {...props} className="mb-6 list-decimal pl-6 text-muted" />
   ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
-    <li {...props} className="mb-2 text-slate-700 dark:text-slate-300" />
-  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li {...props} className="mb-2 text-muted" />,
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => {
     // Check if this is a mermaid code block
     const children = props.children as React.ReactElement
@@ -140,7 +129,7 @@ const components = {
     return (
       <pre
         {...props}
-        className="mb-6 overflow-x-auto rounded-lg border border-slate-200 bg-slate-900 p-4 text-sm text-slate-100 dark:border-slate-800 dark:bg-slate-950"
+        className="mb-6 overflow-x-auto rounded-xl border border-line bg-surface p-4 text-sm text-foreground"
       />
     )
   },
@@ -151,7 +140,7 @@ const components = {
       return (
         <code
           {...props}
-          className="rounded bg-slate-100 px-1.5 py-0.5 text-sm font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-200"
+          className="rounded-md border border-line/50 bg-surface px-1.5 py-0.5 text-sm font-mono text-muted"
         />
       )
     }
@@ -170,33 +159,27 @@ const components = {
   ),
   // Table components with modern styling
   table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
-    <div className="my-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-      <table
-        {...props}
-        className="w-full min-w-full divide-y divide-slate-200 dark:divide-slate-700"
-      />
+    <div className="my-8 overflow-x-auto rounded-xl border border-line">
+      <table {...props} className="w-full min-w-full divide-y divide-line" />
     </div>
   ),
   thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead {...props} className="bg-slate-50 dark:bg-slate-800/50" />
+    <thead {...props} className="bg-surface" />
   ),
   tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <tbody
-      {...props}
-      className="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-900"
-    />
+    <tbody {...props} className="divide-y divide-line bg-background" />
   ),
   tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
-    <tr {...props} className="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50" />
+    <tr {...props} className="transition-colors hover:bg-surface-hover" />
   ),
   th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
     <th
       {...props}
-      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted"
     />
   ),
   td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-    <td {...props} className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300" />
+    <td {...props} className="px-4 py-3 text-sm text-muted" />
   ),
 }
 
@@ -283,7 +266,10 @@ export default async function PostPage(props: {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white dark:bg-slate-950">
+    <div className="relative min-h-screen overflow-x-hidden bg-background">
+      {/* Background Gradients */}
+      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
+      <div className="absolute top-0 right-0 -z-10 h-[800px] w-[800px] rounded-full bg-accent-ice/10 blur-[120px]" />
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
@@ -303,26 +289,24 @@ export default async function PostPage(props: {
 
         <header className="mb-12">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <time className="text-sm text-slate-500 dark:text-slate-400">
+            <time className="text-sm text-muted">
               {dayjs(post.metadata.date).format('MMMM DD, YYYY')}
             </time>
             <div className="flex flex-wrap gap-2">
               {post.metadata.tags?.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                  className="rounded-full border border-line/50 bg-surface/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted"
                 >
                   #{tag}
                 </span>
               ))}
             </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <h1 className="font-heading text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
             {post.metadata.title}
           </h1>
-          <p className="mt-4 text-xl text-slate-600 dark:text-slate-400">
-            {post.metadata.description}
-          </p>
+          <p className="mt-4 text-xl leading-relaxed text-muted">{post.metadata.description}</p>
           {post.metadata.coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
               <div className="relative aspect-21/9 w-full sm:aspect-2/1">
@@ -332,7 +316,7 @@ export default async function PostPage(props: {
                   alt={post.metadata.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-white/20 to-transparent dark:from-slate-950/30" />
+                <div className="absolute inset-0 bg-linear-to-t from-background/80 to-transparent" />
               </div>
             </div>
           )}

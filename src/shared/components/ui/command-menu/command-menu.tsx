@@ -61,18 +61,15 @@ export function CommandMenu() {
   return (
     <Dialog.Root open={isOpen} onOpenChange={setOpen}>
       <Dialog.Portal>
-        {/* Overlay - click to close */}
         <Dialog.Overlay
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300"
           onClick={() => setOpen(false)}
         />
 
-        {/* Content */}
         <Dialog.Content
-          className="fixed inset-0 z-51 pointer-events-none flex items-start justify-center p-4 pt-[15vh] sm:pt-[20vh]"
+          className="fixed inset-0 z-51 pointer-events-none flex items-start justify-center p-4 pt-[15vh] sm:pt-[20vh] focus:outline-none focus-visible:outline-none"
           onInteractOutside={() => setOpen(false)}
         >
-          {/* Visually hidden title and description for accessibility */}
           <VisuallyHidden.Root>
             <Dialog.Title>Global Command Menu</Dialog.Title>
             <Dialog.Description>
@@ -80,103 +77,107 @@ export function CommandMenu() {
             </Dialog.Description>
           </VisuallyHidden.Root>
 
-          {/* Command container */}
           <Command
-            className="pointer-events-auto relative w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900"
+            className="surface-panel pointer-events-auto relative w-full max-w-lg overflow-hidden rounded-2xl border border-line shadow-panel animate-in zoom-in-95 duration-200"
             label="Global Command Menu"
           >
-            <div className="flex items-center border-b border-slate-200 px-3 dark:border-slate-800">
-              <Magnifer className="mr-2 h-5 w-5 text-slate-400" />
+            <div className="flex items-center border-b border-line px-4">
+              <Magnifer className="mr-3 h-5 w-5 text-muted" />
               <Command.Input
                 placeholder={t('placeholder')}
-                className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-slate-400 dark:text-slate-100"
+                className="flex h-14 w-full rounded-md bg-transparent py-4 text-sm font-medium text-foreground outline-none placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none"
               />
-              <div className="hidden rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 sm:block dark:bg-slate-800 dark:text-slate-400">
+              <div className="hidden rounded-md bg-surface-strong border border-line px-1.5 py-0.5 text-[10px] font-mono font-medium text-muted uppercase tracking-widest sm:block">
                 Esc
               </div>
             </div>
+
             <Command.List className="max-h-[300px] overflow-y-auto overflow-x-hidden p-2 scrollbar-thin">
-              <Command.Empty className="py-6 text-center text-sm text-slate-500 dark:text-slate-400">
+              <Command.Empty className="py-8 text-center text-sm text-muted">
                 {t('noResults')}
               </Command.Empty>
 
               <Command.Group
-                heading={t('sections')}
-                className="mb-2 px-2 text-xs font-semibold text-slate-400 dark:text-slate-500"
+                heading={<span className="font-bold uppercase tracking-widest">{t('sections')}</span>}
+                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
               >
                 <Command.Item
                   onSelect={() => navigateTo('#about')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <User className="mr-2 h-4 w-4" />
+                  <User className="h-4 w-4" />
                   {t('about')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('#projects')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <Code className="mr-2 h-4 w-4" />
+                  <Code className="h-4 w-4" />
                   {t('projects')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('#experience')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <Laptop className="mr-2 h-4 w-4" />
+                  <Laptop className="h-4 w-4" />
                   {t('experience')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('#contact')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <Letter className="mr-2 h-4 w-4" />
+                  <Letter className="h-4 w-4" />
                   {t('contact')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('/blog')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <BookMinimalistic className="mr-2 h-4 w-4" />
+                  <BookMinimalistic className="h-4 w-4" />
                   {t('blog')}
                 </Command.Item>
               </Command.Group>
 
+              <div className="my-2 h-px bg-line/50" />
+
               <Command.Group
-                heading={t('theme')}
-                className="mb-2 px-2 text-xs font-semibold text-slate-400 dark:text-slate-500"
+                heading={<span className="font-bold uppercase tracking-widest">{t('theme')}</span>}
+                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
               >
                 <Command.Item
                   onSelect={() => runCommand(() => setTheme('light'))}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <Sun className="mr-2 h-4 w-4" />
+                  <Sun className="h-4 w-4" />
                   {t('light')}
                 </Command.Item>
                 <Command.Item
                   onSelect={() => runCommand(() => setTheme('dark'))}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <Moon className="mr-2 h-4 w-4" />
+                  <Moon className="h-4 w-4" />
                   {t('dark')}
                 </Command.Item>
               </Command.Group>
 
+              <div className="my-2 h-px bg-line/50" />
+
               <Command.Group
-                heading={t('social')}
-                className="px-2 text-xs font-semibold text-slate-400 dark:text-slate-500"
+                heading={<span className="font-bold uppercase tracking-widest">{t('social')}</span>}
+                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
               >
                 <Command.Item
                   onSelect={() => navigateTo('https://github.com/raniellimontagna')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <GithubIcon className="mr-2 h-4 w-4" />
+                  <GithubIcon className="h-4 w-4" />
                   GitHub
                 </Command.Item>
                 <Command.Item
                   onSelect={() => navigateTo('https://linkedin.com/in/raniellimontagna')}
-                  className="flex cursor-pointer items-center rounded-lg px-2 py-2 text-sm text-slate-700 aria-selected:bg-blue-50 aria-selected:text-blue-600 dark:text-slate-300 dark:aria-selected:bg-blue-900/20 dark:aria-selected:text-blue-400"
+                  className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-all duration-200 aria-selected:bg-surface-strong aria-selected:text-foreground"
                 >
-                  <LinkedinIcon className="mr-2 h-4 w-4" />
+                  <LinkedinIcon className="h-4 w-4" />
                   LinkedIn
                 </Command.Item>
               </Command.Group>

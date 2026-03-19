@@ -12,16 +12,16 @@ export function CTASection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50 dark:border-slate-700/50 dark:bg-[#0d1117] dark:shadow-none"
+        className="surface-panel mx-auto w-full overflow-hidden rounded-4xl border border-line shadow-xl"
       >
         {/* Terminal Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-[#161b22]">
+        <div className="flex items-center justify-between border-b border-line bg-surface/50 px-4 py-3">
           <div className="flex gap-2">
             <div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
             <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
             <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
           </div>
-          <div className="text-xs font-mono text-slate-400">github.com</div>
+          <div className="text-xs font-mono text-muted">github.com</div>
           <div className="w-16" /> {/* Spacer for centering */}
         </div>
 
@@ -30,22 +30,20 @@ export function CTASection() {
           <div className="flex flex-col gap-6">
             {/* Command Line */}
             <div className="flex items-center gap-3 text-lg sm:text-xl">
-              <span className="text-green-600 dark:text-[#27c93f]">➜</span>
-              <span className="text-purple-600 dark:text-[#bd93f9]">~</span>
-              <span className="text-slate-800 dark:text-white">
-                <span className="text-blue-600 dark:text-[#8be9fd]">git</span> checkout explore-all
+              <span className="text-accent-mint">➜</span>
+              <span className="text-accent-lavender">~</span>
+              <span className="text-foreground">
+                <span className="text-accent-sand">git</span> checkout explore-all
               </span>
             </div>
 
             {/* Response Text */}
-            <div className="space-y-2 text-slate-600 dark:text-[#8b949e]">
-              <p className="typing-effect border-l-2 border-slate-300 pl-4 dark:border-slate-700">
-                <span className="text-green-600 dark:text-[#27c93f]">✔</span>{' '}
-                <span className="text-slate-900 dark:text-slate-300">{t('cta.title')}</span>
+            <div className="space-y-2 text-muted">
+              <p className="typing-effect border-l-2 border-line pl-4">
+                <span className="text-accent-mint">✔</span>{' '}
+                <span className="text-foreground">{t('cta.title')}</span>
               </p>
-              <p className="border-l-2 border-slate-300 pl-4 dark:border-slate-700">
-                {t('cta.subtitle')}
-              </p>
+              <p className="border-l-2 border-line pl-4">{t('cta.subtitle')}</p>
             </div>
 
             {/* Action Button */}
@@ -54,7 +52,7 @@ export function CTASection() {
                 href="https://github.com/raniellimontagna"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/20 dark:bg-[#238436] dark:hover:bg-[#2ea043]"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-foreground px-6 py-3 font-semibold text-background transition-all hover:bg-foreground/90 hover:shadow-lg hover:-translate-y-1 hover:shadow-foreground/20"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <svg
@@ -73,7 +71,7 @@ export function CTASection() {
                 </span>
 
                 {/* Button Shine Effect */}
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
               </a>
             </div>
           </div>
