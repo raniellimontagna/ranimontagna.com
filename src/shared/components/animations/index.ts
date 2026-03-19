@@ -1,2 +1,5 @@
 export { FadeIn } from './fade-in'
+export { MagneticHover } from './magnetic-hover'
+export { ParallaxLayer } from './parallax-layer'
+export { RevealText } from './reveal-text'
 export { StaggerContainer, StaggerItem } from './stagger-container'

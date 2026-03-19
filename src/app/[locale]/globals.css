@@ -2,31 +2,170 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f2f3ed;
+  --foreground: #101414;
+  --canvas: #eaede6;
+  --surface: rgb(252 252 248 / 72%);
+  --surface-strong: #fffef8;
+  --line: rgb(145 156 150 / 34%);
+  --line-strong: rgb(16 20 20 / 12%);
+  --muted: #5d6863;
+  --accent: #d5ff57;
+  --accent-strong: #c4ff2f;
+  --accent-ice: #88d8ff;
+  --ring: rgb(136 216 255 / 55%);
+  --ambient-lime: rgb(213 255 87 / 12%);
+  --ambient-ice: rgb(136 216 255 / 12%);
+  --shadow-soft: 0 24px 80px -48px rgb(7 12 11 / 18%);
+  --shadow-panel: 0 30px 120px -56px rgb(7 12 11 / 22%);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-ice: var(--accent-ice);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #070b0c;
+  --foreground: #edf4ef;
+  --canvas: #091113;
+  --surface: rgb(15 22 23 / 72%);
+  --surface-strong: #11191a;
+  --line: rgb(114 135 130 / 28%);
+  --line-strong: rgb(237 244 239 / 8%);
+  --muted: #91a09a;
+  --accent: #ddff6f;
+  --accent-strong: #d0ff44;
+  --accent-ice: #94d7ff;
+  --ring: rgb(148 215 255 / 48%);
+  --ambient-lime: rgb(221 255 111 / 11%);
+  --ambient-ice: rgb(148 215 255 / 12%);
+  --shadow-soft: 0 28px 96px -56px rgb(0 0 0 / 48%);
+  --shadow-panel: 0 40px 140px -62px rgb(0 0 0 / 56%);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+  background: var(--background);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), sans-serif;
+  background-image:
+    radial-gradient(circle at 12% 16%, var(--ambient-lime) 0, transparent 26%),
+    radial-gradient(circle at 84% 12%, var(--ambient-ice) 0, transparent 28%),
+    linear-gradient(180deg, var(--canvas) 0%, var(--background) 100%);
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
 }
 
-/* Custom animations */
+main {
+  isolation: isolate;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  letter-spacing: -0.045em;
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a,
+button {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: #091113;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Visual foundation utilities */
+.surface-panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
+}
+
+.surface-panel-strong {
+  border: 1px solid var(--line-strong);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-panel);
+}
+
+.editorial-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-strong) 78%, transparent);
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.atmospheric-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.accent-glow {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent-ice) 18%, transparent),
+    0 24px 90px -50px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* Motion tokens and animations */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -50,23 +189,51 @@ body {
   }
 }
 
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes orbitalShift {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(6deg) scale(1.04);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
 .animate-gradient {
   animation: gradient 3s ease infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 7s ease-in-out infinite;
+}
+
+.animate-orbital-shift {
+  animation: orbitalShift 14s ease-in-out infinite;
 }
 
 .bg-300\% {
   background-size: 300% 300%;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Custom Command Palette Scrollbar */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: #e2e8f0 transparent;
+  scrollbar-color: var(--line) transparent;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -78,22 +245,25 @@ html {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #e2e8f0;
+  background-color: var(--line);
   border-radius: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: #cbd5e1;
+  background-color: var(--muted);
 }
 
-.dark .scrollbar-thin {
-  scrollbar-color: #334155 transparent;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #334155;
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: #475569;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
