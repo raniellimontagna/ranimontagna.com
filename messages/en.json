@@ -28,7 +28,6 @@
     }
   },
   "hero": {
-    "availability": "Available for new projects",
     "greeting": "Hello, I'm",
     "name": "Ranielli Montagna",
     "passion": {
@@ -41,18 +40,6 @@
     "cta": {
       "projects": "See my projects",
       "contact": "Get in touch"
-    },
-    "skills": {
-      "title": "Technologies I master",
-      "list": [
-        "React",
-        "React Native",
-        "TypeScript",
-        "Node.js",
-        "Tailwind CSS",
-        "Figma",
-        "PostgreSQL"
-      ]
     }
   },
   "about": {
@@ -68,14 +55,15 @@
       "journey": "My journey began with a curiosity about how things work on the web, and since then I have been developing projects that positively impact people's lives. I believe technology should be accessible and make a difference.",
       "hobbies": "When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or planning my next development adventure."
     },
-    "cta": { "contact": "Let's talk" },
+    "cta": {
+      "contact": "Let's talk"
+    },
     "stats": {
       "experience": "Years of experience",
       "projects": "Projects completed",
       "dedication": "Dedication"
     },
     "skills": {
-      "title": "My main skills",
       "categories": {
         "frontend": "Frontend",
         "backend": "Backend",
@@ -103,7 +91,8 @@
         "vscode": "VS Code",
         "postman": "Postman",
         "vercel": "Vercel"
-      }
+      },
+      "title": "My core competencies"
     }
   },
   "experience": {

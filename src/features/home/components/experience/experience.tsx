@@ -103,9 +103,7 @@ export function Experience() {
                               {exp.position}
                             </h3>
                             <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
-                              <span className="font-semibold text-foreground">
-                                {exp.company}
-                              </span>
+                              <span className="font-semibold text-foreground">{exp.company}</span>
                               <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
                               <span className="flex items-center gap-1">
                                 <Calendar className="h-3.5 w-3.5" />

@@ -60,8 +60,7 @@ const techColors: Record<string, string> = {
   Expo: 'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
 }
 
-const defaultTechColor =
-  'border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)]'
+const defaultTechColor = 'border-line bg-surface text-muted'
 
 function getTechColor(tech: string): string {
   // Check for exact match first
@@ -99,8 +98,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       glow: 'group-hover:shadow-emerald-500/15 dark:group-hover:shadow-emerald-400/10',
     },
     api: {
-      badge:
-        'border-[color:var(--accent)]/30 bg-[color:var(--accent)]/12 text-lime-800 dark:text-lime-300',
+      badge: 'border-accent/30 bg-accent/12 text-lime-800 dark:text-lime-300',
       glow: 'group-hover:shadow-lime-500/15 dark:group-hover:shadow-lime-400/10',
     },
   }
@@ -138,12 +136,12 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       onMouseLeave={handleMouseLeave}
       className={`
         group relative flex h-full flex-col overflow-hidden rounded-[1.75rem]
-        border border-[color:var(--line)]
-        bg-[color:var(--surface)]/92 backdrop-blur-sm
-        shadow-[var(--shadow-card)]
+        border border-line
+        bg-surface/92 backdrop-blur-sm
+        shadow-(--shadow-card)
         transition-all duration-500 ease-out
         hover:shadow-2xl ${typeStyles[project.type].glow}
-        hover:-translate-y-1 hover:border-[color:var(--foreground)]/12
+        hover:-translate-y-1 hover:border-foreground/12
       `}
       style={{
         animationDelay,
@@ -155,7 +153,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         className={`
           absolute inset-0 -z-10 rounded-[1.75rem] opacity-0 transition-opacity duration-500
           group-hover:opacity-100
-          bg-linear-to-br from-[color:var(--accent)]/10 via-transparent to-[color:var(--accent-ice)]/18
+          bg-linear-to-br from-accent/10 via-transparent to-accent-ice/18
           blur-2xl
         `}
       />
@@ -252,7 +250,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                 rel="noopener noreferrer"
                 className="
                   flex h-12 w-12 items-center justify-center rounded-xl
-                  bg-linear-to-br from-[color:var(--foreground)] to-slate-700 text-white
+                  bg-linear-to-br from-foreground to-slate-700 text-white
                   shadow-lg shadow-slate-900/20
                   backdrop-blur-sm
                   transition-all duration-300
@@ -269,13 +267,11 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="mb-2 text-xl font-semibold tracking-[-0.05em] text-[color:var(--foreground)] transition-colors duration-300">
+        <h3 className="mb-2 text-xl font-semibold tracking-[-0.05em] text-foreground transition-colors duration-300">
           {project.title}
         </h3>
 
-        <p className="mb-5 flex-1 text-sm leading-7 text-[color:var(--muted)]">
-          {project.description}
-        </p>
+        <p className="mb-5 flex-1 text-sm leading-7 text-muted">{project.description}</p>
 
         <div className="flex flex-wrap items-center gap-2 pt-2">
           {project.technologies.slice(0, 4).map((tech) => (
@@ -292,7 +288,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span className="inline-flex items-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--muted)]">
+            <span className="inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
               {t('moreCount', { count: project.technologies.length - 4 })}
             </span>
           )}

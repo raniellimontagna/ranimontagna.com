@@ -26,9 +26,7 @@ export function TerminalWindow({ children, className, title = 'bash' }: Terminal
         </div>
         <div className="w-16" />
       </div>
-      <div className="p-6 font-mono text-sm text-foreground md:text-base">
-        {children}
-      </div>
+      <div className="p-6 font-mono text-sm text-foreground md:text-base">{children}</div>
     </div>
   )
 }

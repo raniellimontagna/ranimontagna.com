@@ -44,8 +44,14 @@ export function FadeIn({
     }
   }
 
-  const initialConfig = prefersReducedMotion ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }
-  const animateConfig = prefersReducedMotion ? { opacity: 1, y: 0, x: 0 } : (isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() })
+  const initialConfig = prefersReducedMotion
+    ? { opacity: 1, y: 0, x: 0 }
+    : { opacity: 0, ...getInitialPosition() }
+  const animateConfig = prefersReducedMotion
+    ? { opacity: 1, y: 0, x: 0 }
+    : isInView
+      ? { opacity: 1, y: 0, x: 0 }
+      : { opacity: 0, ...getInitialPosition() }
 
   return (
     <motion.div

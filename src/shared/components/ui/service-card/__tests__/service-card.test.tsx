@@ -34,7 +34,7 @@ describe('ServiceCard', () => {
     render(<ServiceCard {...defaultProps} popular={true} />)
 
     const card = screen.getByText('Web Dev').closest('div.group')
-    expect(card?.className).toContain('border-[color:var(--accent)]/35')
+    expect(card?.className).toContain('border-accent/35')
   })
 
   it('links the CTA to the contact section', () => {

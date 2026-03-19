@@ -13,12 +13,6 @@ export function About() {
     { value: '20+', label: t('stats.projects') },
     { value: '100%', label: t('stats.dedication') },
   ]
-  const focusAreas = [
-    t('skills.technologies.react'),
-    t('skills.technologies.nextjs'),
-    t('skills.technologies.typescript'),
-    t('skills.technologies.designSystem'),
-  ]
 
   return (
     <section
@@ -50,10 +44,8 @@ export function About() {
                 <div className="mt-8 space-y-5 text-base leading-8 text-muted sm:text-lg">
                   <p>
                     {t('bio.greeting')}{' '}
-                    <strong className="font-semibold text-foreground">
-                      {t('bio.name')}
-                    </strong>
-                    , {t('bio.intro')}
+                    <strong className="font-semibold text-foreground">{t('bio.name')}</strong>,{' '}
+                    {t('bio.intro')}
                   </p>
                   <p>{t('bio.journey')}</p>
                   <p>{t('bio.hobbies')}</p>
@@ -70,9 +62,7 @@ export function About() {
                       <p className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground">
                         {stat.value}
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-muted">
-                        {stat.label}
-                      </p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -110,7 +100,7 @@ export function About() {
               <ParallaxLayer offset={30}>
                 <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 shadow-card sm:p-6">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.2),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.22),transparent_35%)]" />
-                  <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
                     <Image
                       src="/photo.webp"
                       alt={t('bio.name')}
@@ -123,22 +113,6 @@ export function About() {
 
                   <div className="absolute top-4 left-4 rounded-full border border-white/55 bg-white/80 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-700 backdrop-blur sm:top-8 sm:left-8 dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-200">
                     {t('bio.name')}
-                  </div>
-
-                  <div className="absolute inset-x-4 bottom-4 rounded-3xl border border-white/55 bg-white/85 p-4 shadow-2xl backdrop-blur sm:right-8 sm:bottom-8 sm:left-auto sm:max-w-72 dark:border-white/10 dark:bg-slate-950/78">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
-                      {t('skills.title')}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {focusAreas.map((item) => (
-                        <span
-                          key={item}
-                          className="rounded-full border border-line bg-surface-strong px-3 py-1.5 text-xs font-medium text-foreground"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </div>
               </ParallaxLayer>

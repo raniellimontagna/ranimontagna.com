@@ -65,9 +65,7 @@ export function ServiceCard({
       </div>
 
       <div className="relative flex-1">
-        <h3 className="mt-8 text-2xl font-semibold tracking-[-0.05em] text-foreground">
-          {title}
-        </h3>
+        <h3 className="mt-8 text-2xl font-semibold tracking-[-0.05em] text-foreground">{title}</h3>
 
         <p className="mt-3 text-sm leading-7 text-muted">{description}</p>
 

@@ -38,9 +38,7 @@ export const Footer = (): React.ReactElement => {
                 />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-foreground">
-                  {t('logo.fullName')}
-                </h3>
+                <h3 className="text-lg font-bold text-foreground">{t('logo.fullName')}</h3>
                 <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.18em] text-muted">
                   Full Stack Engineer
                 </p>
@@ -74,9 +72,7 @@ export const Footer = (): React.ReactElement => {
         </div>
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-4 border-t border-line pt-8 text-sm md:flex-row">
-          <p className="text-muted">
-            {t('copyright', { year: currentYear })}
-          </p>
+          <p className="text-muted">{t('copyright', { year: currentYear })}</p>
 
           <div className="flex items-center gap-6">
             <p className="text-muted">{t('madeWith')}</p>

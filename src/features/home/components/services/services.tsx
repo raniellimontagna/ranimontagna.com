@@ -62,9 +62,7 @@ export function Services() {
                     key={service.id}
                     className="surface-panel flex items-center justify-between rounded-[1.2rem] px-4 py-3"
                   >
-                    <span className="text-sm font-semibold text-foreground">
-                      {service.title}
-                    </span>
+                    <span className="text-sm font-semibold text-foreground">{service.title}</span>
                     <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                       {service.category.toUpperCase()}
                     </span>

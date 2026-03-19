@@ -325,7 +325,7 @@ export default async function PostPage(props: {
           </p>
           {post.metadata.coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
-              <div className="relative aspect-21/9 sm:aspect-2/1 w-full">
+              <div className="relative aspect-21/9 w-full sm:aspect-2/1">
                 {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
                 <img
                   src={post.metadata.coverImage}

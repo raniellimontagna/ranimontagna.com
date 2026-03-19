@@ -30,8 +30,15 @@ export function ParallaxLayer({
       ? { x: movement, willChange: 'transform' as const }
       : { y: movement, willChange: 'transform' as const }
 
+  let safeClassName = 'relative'
+  
+  if (className) {
+    const hasPosition = ['absolute', 'fixed', 'relative'].some(pos => className.includes(pos))
+    safeClassName = hasPosition ? className : `relative ${className}`
+  }
+
   return (
-    <motion.div ref={ref} className={className} style={style}>
+    <motion.div ref={ref} className={safeClassName} style={style}>
       {children}
     </motion.div>
   )

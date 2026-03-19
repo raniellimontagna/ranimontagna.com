@@ -48,9 +48,7 @@ export function Skills() {
           >
             <skill.icon className="h-5 w-5 text-muted" />
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-foreground">
-                {skill.name}
-              </span>
+              <span className="text-sm font-bold text-foreground">{skill.name}</span>
               <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
                 {skill.category}
               </span>
