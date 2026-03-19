@@ -11,7 +11,7 @@ export function CTASection() {
   const isInView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <section className="mt-24">
+    <section className="mt-14 sm:mt-20 lg:mt-24">
       <motion.div
         ref={ref}
         initial={
@@ -28,7 +28,7 @@ export function CTASection() {
           duration: prefersReducedMotion ? 0 : 0.8,
           ease: [0.19, 1, 0.22, 1],
         }}
-        className="surface-panel mx-auto w-full overflow-hidden rounded-4xl border border-line shadow-xl"
+        className="surface-panel mx-auto w-full overflow-hidden rounded-3xl border border-line shadow-xl sm:rounded-4xl"
       >
         {/* Terminal Header */}
         <div className="flex items-center justify-between border-b border-line bg-surface/50 px-4 py-3">
@@ -42,10 +42,10 @@ export function CTASection() {
         </div>
 
         {/* Terminal Content */}
-        <div className="p-8 font-mono sm:p-12">
-          <div className="flex flex-col gap-6">
+        <div className="p-4 font-mono sm:p-8 lg:p-12">
+          <div className="flex flex-col gap-4 sm:gap-6">
             {/* Command Line */}
-            <div className="flex items-center gap-3 text-lg sm:text-xl">
+            <div className="flex items-center gap-2 text-base sm:gap-3 sm:text-lg lg:text-xl">
               <span className="text-accent-mint">➜</span>
               <span className="text-accent-lavender">~</span>
               <span className="text-foreground">

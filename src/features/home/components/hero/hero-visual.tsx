@@ -21,13 +21,13 @@ export function HeroVisual() {
       />
 
       <MagneticHover className="relative">
-        <div className="surface-panel accent-glow relative isolate overflow-hidden rounded-4xl px-5 pt-5 pb-6 sm:px-6 sm:pt-6 sm:pb-7">
+        <div className="surface-panel accent-glow relative isolate overflow-hidden rounded-3xl px-3 pt-3 pb-4 sm:rounded-4xl sm:px-5 sm:pt-5 sm:pb-6 md:px-6 md:pt-6 md:pb-7">
           <div className="atmospheric-grid absolute inset-0 opacity-45" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.22),transparent_48%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_52%)]" />
 
-          <div className="relative mt-6 flex justify-center sm:mt-8">
+          <div className="relative mt-4 flex justify-center sm:mt-6 md:mt-8">
             <ParallaxLayer offset={24}>
-              <div className="relative h-96 w-[18rem] rounded-4xl border border-line bg-[linear-gradient(180deg,rgba(255,255,255,0.22),transparent)] p-3 shadow-(--shadow-panel) dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)] sm:h-104 sm:w-78">
+              <div className="relative h-80 w-60 rounded-4xl border border-line bg-[linear-gradient(180deg,rgba(255,255,255,0.22),transparent)] p-2.5 shadow-(--shadow-panel) dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)] sm:h-96 sm:w-[18rem] sm:p-3 md:h-104 md:w-78">
                 <div className="absolute inset-x-12 top-3 h-10 rounded-full bg-ambient-ice blur-2xl" />
                 <div className="absolute inset-3 overflow-hidden rounded-[1.55rem] border border-line-strong bg-canvas">
                   <div className="absolute inset-0 glow-gradient-portrait" />
@@ -54,7 +54,7 @@ export function HeroVisual() {
             </ParallaxLayer>
           </div>
 
-          <div className="relative mt-6 grid gap-3 sm:mt-8 sm:grid-cols-[1.1fr_0.9fr]">
+          <div className="relative mt-4 grid gap-2 sm:mt-6 sm:gap-3 md:mt-8 md:grid-cols-[1.1fr_0.9fr]">
             <TerminalWindow title="delivery.state" className="h-full">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2 font-bold text-ballance">

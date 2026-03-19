@@ -23,7 +23,7 @@ export function Services() {
   }))
 
   return (
-    <section id="services" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
+    <section id="services" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
       <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
       <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/12 blur-3xl" />
       <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
@@ -36,15 +36,15 @@ export function Services() {
           </div>
         </FadeIn>
 
-        <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,30rem)] xl:items-end">
+        <div className="grid gap-6 sm:gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,30rem)] xl:items-end xl:gap-10">
           <div>
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-3xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
+              className="max-w-3xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35} blur>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-muted sm:text-lg">
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
@@ -87,7 +87,7 @@ export function Services() {
           </StaggerContainer>
 
           <FadeIn delay={0.7}>
-            <div className="surface-panel-strong mt-8 overflow-hidden rounded-4xl p-6 shadow-card sm:p-8">
+            <div className="surface-panel-strong mt-6 overflow-hidden rounded-3xl p-4 shadow-card sm:mt-8 sm:rounded-4xl sm:p-6 lg:p-8">
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">

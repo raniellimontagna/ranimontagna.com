@@ -24,14 +24,14 @@ export function About() {
     <section
       id="about"
       data-testid="about"
-      className="relative overflow-hidden py-20 sm:py-24 lg:py-32"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-32"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-60" />
       <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-accent/10 blur-[140px]" />
       <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-accent-ice/16 blur-[140px]" />
 
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-18">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-18">
           <div className="order-2 lg:order-1">
             <FadeIn delay={0.1}>
               <div className="editorial-kicker mb-6">
@@ -43,11 +43,11 @@ export function About() {
             <div className="max-w-3xl">
               <RevealText
                 text={`${t('title.part1')} ${t('title.part2')}`}
-                className="font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-7xl"
+                className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-7xl"
               />
 
               <FadeIn delay={0.3} blur>
-                <div className="mt-8 flex flex-col gap-5 text-base leading-8 text-muted sm:text-lg">
+                <div className="mt-5 flex flex-col gap-4 text-base leading-7 text-muted sm:mt-8 sm:gap-5 sm:leading-8 sm:text-lg">
                   <p>
                     {t('bio.greeting')}{' '}
                     <strong className="font-semibold text-foreground">{t('bio.name')}</strong>,{' '}
@@ -59,11 +59,11 @@ export function About() {
               </FadeIn>
 
               <FadeIn delay={0.45}>
-                <div className="mt-10 grid gap-4 sm:grid-cols-2">
+                <div className="mt-6 grid gap-3 sm:mt-8 sm:gap-4 sm:grid-cols-2">
                   {stats.map((stat, index) => (
                     <div
                       key={stat.label}
-                      className="surface-panel rounded-3xl px-5 py-5 backdrop-blur-sm"
+                      className="surface-panel rounded-2xl px-4 py-4 backdrop-blur-sm sm:rounded-3xl sm:px-5 sm:py-5"
                     >
                       <CountUp
                         value={stat.value}
@@ -78,7 +78,7 @@ export function About() {
               </FadeIn>
 
               <FadeIn delay={0.55}>
-                <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
                   <MagneticHover strength={16} className="w-full sm:w-auto">
                     <a
                       href={resumeLink.href}
@@ -107,7 +107,7 @@ export function About() {
           <BlurReveal delay={0.2} className="order-1 lg:order-2">
             <div className="relative mx-auto w-full max-w-125 lg:max-w-none">
               <ParallaxLayer offset={30}>
-                <div className="surface-panel-strong relative overflow-hidden rounded-4xl p-4 shadow-card sm:p-6">
+                <div className="surface-panel-strong relative overflow-hidden rounded-3xl p-3 shadow-card sm:rounded-4xl sm:p-4 md:p-6">
                   <div className="absolute inset-0 glow-gradient-photo" />
                   <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
                     <Image

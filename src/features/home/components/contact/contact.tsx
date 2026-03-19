@@ -48,7 +48,7 @@ export const Contact = (): React.ReactElement => {
   ]
 
   return (
-    <section id="contact" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
+    <section id="contact" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
       <div className="pointer-events-none absolute inset-0">
         <div className="atmospheric-grid absolute inset-0 opacity-55" />
         <div className="absolute top-1/4 left-0 h-150 w-150 -translate-x-1/2 rounded-full bg-accent-ice/14 blur-3xl" />
@@ -56,7 +56,7 @@ export const Contact = (): React.ReactElement => {
       </div>
 
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
           <div className="lg:col-span-2">
             <FadeIn delay={0.15}>
               <div className="editorial-kicker mb-6">
@@ -70,11 +70,11 @@ export const Contact = (): React.ReactElement => {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="w-full max-w-none font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
+              className="w-full max-w-none font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35}>
-              <p className="mt-6 w-full max-w-none text-base leading-8 text-muted sm:text-lg">
+              <p className="mt-4 w-full max-w-none text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
@@ -82,7 +82,7 @@ export const Contact = (): React.ReactElement => {
 
           <div className="lg:sticky lg:top-28 lg:h-fit">
             <FadeIn delay={0.45} blur scale>
-              <div className="surface-panel-strong mt-8 overflow-hidden rounded-3xl p-6 shadow-card">
+              <div className="surface-panel-strong overflow-hidden rounded-2xl p-4 shadow-card sm:rounded-3xl sm:p-6">
                 <div className="flex items-center gap-2">
                   <Code2 className="h-4 w-4 text-muted" />
                   <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
@@ -97,7 +97,7 @@ export const Contact = (): React.ReactElement => {
                   {emailLink.direct}
                 </a>
 
-                <div className="mt-6 rounded-3xl border border-line bg-surface px-4 py-4">
+                <div className="mt-4 rounded-2xl border border-line bg-surface px-3 py-3 sm:mt-6 sm:rounded-3xl sm:px-4 sm:py-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/12">
                       <span className="relative flex h-3 w-3">
@@ -117,16 +117,16 @@ export const Contact = (): React.ReactElement => {
             </FadeIn>
 
             <FadeIn delay={0.5}>
-              <div className="mt-10">
-                <div className="mb-5">
-                  <h3 className="text-2xl font-semibold tracking-[-0.05em] text-foreground">
+              <div className="mt-6 sm:mt-10">
+                <div className="mb-4 sm:mb-5">
+                  <h3 className="text-xl font-semibold tracking-[-0.05em] text-foreground sm:text-2xl">
                     {t('methods.title')}
                   </h3>
                   <p className="mt-2 text-base leading-7 text-muted">{t('methods.subtitle')}</p>
                 </div>
 
                 <StaggerContainer staggerDelay={0.12}>
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-3 sm:gap-4">
                     {contactMethodsArray.map((method) => {
                       const IconComponent = method.icon
                       return (
@@ -188,10 +188,10 @@ export const Contact = (): React.ReactElement => {
           </div>
           <BlurReveal delay={0.5}>
             <ParallaxLayer offset={26}>
-              <div className="surface-panel-strong relative overflow-hidden rounded-4xl shadow-card">
+              <div className="surface-panel-strong relative overflow-hidden rounded-3xl shadow-card sm:rounded-4xl">
                 <div className="absolute inset-0 glow-gradient" />
 
-                <div className="relative flex items-center gap-2 border-b border-line bg-surface-strong px-5 py-4">
+                <div className="relative flex items-center gap-2 border-b border-line bg-surface-strong px-3 py-3 sm:px-5 sm:py-4">
                   <div className="flex gap-1.5">
                     <div className="h-3 w-3 rounded-full bg-red-500" />
                     <div className="h-3 w-3 rounded-full bg-yellow-500" />
@@ -203,8 +203,8 @@ export const Contact = (): React.ReactElement => {
                   </div>
                 </div>
 
-                <div className="relative p-6 sm:p-8 lg:p-10">
-                  <div className="mb-8 grid gap-4 rounded-3xl border border-line bg-surface p-5 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div className="relative p-4 sm:p-6 lg:p-10">
+                  <div className="mb-6 grid gap-3 rounded-2xl border border-line bg-surface p-4 sm:mb-8 sm:gap-4 sm:rounded-3xl sm:p-5 sm:grid-cols-[1fr_auto] sm:items-end">
                     <div className="font-mono text-sm text-muted">
                       <p className="text-emerald-600 dark:text-emerald-400">
                         {'// '}

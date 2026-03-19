@@ -59,7 +59,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-4xl border border-line p-6 transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
+        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line p-4 transition-all sm:rounded-4xl sm:p-5 lg:p-6 hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div
           className="absolute -top-12 -right-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"

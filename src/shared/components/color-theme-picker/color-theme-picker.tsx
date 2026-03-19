@@ -70,7 +70,7 @@ export function ColorThemePicker() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 8 }}
             transition={{ duration: 0.18, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute right-0 top-full z-50 mt-3 w-52 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-3 shadow-panel backdrop-blur-xl"
+            className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3"
           >
             <p className="mb-3 px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
               Color theme

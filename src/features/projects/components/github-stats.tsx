@@ -75,7 +75,7 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
   ]
 
   return (
-    <div ref={ref} className="grid gap-6 sm:grid-cols-3">
+    <div ref={ref} className="grid gap-4 sm:grid-cols-3 sm:gap-6">
       {statItems.map((item, index) => (
         <motion.div
           key={item.label}
@@ -95,15 +95,15 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
             ease: [0.19, 1, 0.22, 1],
           }}
           whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
-          className="surface-panel group relative overflow-hidden rounded-4xl border border-line p-6 shadow-sm"
+          className="surface-panel group relative overflow-hidden rounded-3xl border border-line p-4 shadow-sm sm:rounded-4xl sm:p-6"
         >
           <div
             className={`absolute -top-6 -right-6 h-24 w-24 rounded-full bg-linear-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
           />
 
-          <div className="relative z-10 flex items-center gap-5">
+          <div className="relative z-10 flex items-center gap-4 sm:gap-5">
             <div
-              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${item.bgSync} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}
+              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl sm:h-14 sm:w-14 sm:rounded-2xl ${item.bgSync} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}
             >
               {item.icon}
             </div>
@@ -112,7 +112,7 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
               <CountUp
                 value={item.value}
                 delay={0.3 + index * 0.15}
-                className="text-3xl font-semibold tracking-[-0.04em] text-foreground"
+                className="text-2xl font-semibold tracking-[-0.04em] text-foreground sm:text-3xl"
               />
               <span className="text-sm font-medium text-muted">{item.label}</span>
             </div>

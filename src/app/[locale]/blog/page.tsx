@@ -96,7 +96,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   }
 
   return (
-    <div className="relative min-h-screen bg-background pb-24">
+    <div className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24">
       {/* Background Gradients */}
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
       <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
@@ -105,24 +105,24 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
       />
-      <div className="container mx-auto max-w-6xl px-4 pt-12 sm:pt-16">
-        <div className="mb-12">
+      <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
+        <div className="mb-8 sm:mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />
         </div>
 
-        <header className="mb-16 max-w-3xl">
-          <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
+        <header className="mb-10 max-w-3xl sm:mb-14 lg:mb-16">
+          <h1 className="mb-4 font-heading text-3xl font-semibold tracking-[-0.05em] text-foreground sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
             <RevealText text={t('title')} />
           </h1>
           <FadeIn delay={0.3} blur>
-            <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">{t('subtitle')}</p>
           </FadeIn>
         </header>
 
         {featuredPost && <FeaturedPost post={featuredPost} />}
 
         {remainingPosts.length > 0 && (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
             {remainingPosts.map((post, index) => (
               <PostCard key={post.slug} post={post} index={index} />
             ))}

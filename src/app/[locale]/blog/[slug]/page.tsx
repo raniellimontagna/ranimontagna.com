@@ -277,8 +277,8 @@ export default async function PostPage(props: {
       />
       <ReadingProgressBar />
       <ScrollToTop />
-      <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 py-24">
-        <div className="mb-8">
+      <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 pt-8 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:pb-24">
+        <div className="mb-6 sm:mb-8">
           <Breadcrumbs
             items={[
               { label: 'Blog', href: `/${params.locale}/blog` },
@@ -287,7 +287,7 @@ export default async function PostPage(props: {
           />
         </div>
 
-        <header className="mb-12">
+        <header className="mb-8 sm:mb-12">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <time className="text-sm text-muted">
               {dayjs(post.metadata.date).format('MMMM DD, YYYY')}
@@ -303,10 +303,10 @@ export default async function PostPage(props: {
               ))}
             </div>
           </div>
-          <h1 className="font-heading text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
+          <h1 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl md:text-5xl">
             {post.metadata.title}
           </h1>
-          <p className="mt-4 text-xl leading-relaxed text-muted">{post.metadata.description}</p>
+          <p className="mt-3 text-base leading-relaxed text-muted sm:mt-4 sm:text-lg lg:text-xl">{post.metadata.description}</p>
           {post.metadata.coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
               <div className="relative aspect-21/9 w-full sm:aspect-2/1">
@@ -322,7 +322,7 @@ export default async function PostPage(props: {
           )}
         </header>
 
-        <div className="prose prose-slate mt-12 mb-20 max-w-none overflow-x-hidden dark:prose-invert">
+        <div className="prose prose-slate mt-8 mb-14 max-w-none overflow-x-hidden sm:mt-12 sm:mb-20 dark:prose-invert">
           <MDXRemote
             source={post.content}
             components={components}

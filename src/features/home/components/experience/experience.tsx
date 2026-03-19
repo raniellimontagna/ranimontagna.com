@@ -16,13 +16,13 @@ export function Experience() {
   const items = experiences(t)
 
   return (
-    <section id="experience" className="relative overflow-hidden py-20 sm:py-24 lg:py-32">
+    <section id="experience" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-50" />
       <div className="absolute top-1/3 left-0 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/14 blur-[140px]" />
       <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-[140px]" />
 
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.75fr)_minmax(0,1.25fr)] lg:gap-16">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(280px,0.75fr)_minmax(0,1.25fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:h-fit">
             <FadeIn delay={0.15}>
               <div className="editorial-kicker mb-6">
@@ -33,17 +33,17 @@ export function Experience() {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-xl font-heading text-4xl font-semibold tracking-[-0.08em] text-foreground sm:text-5xl lg:text-6xl"
+              className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />
 
             <FadeIn delay={0.35}>
-              <p className="mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
+              <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
 
             <FadeIn delay={0.45} blur>
-              <div className="mt-10 flex flex-col gap-3">
+              <div className="mt-6 flex flex-col gap-2 sm:mt-8 sm:gap-3">
                 {items.map((exp, index) => (
                   <div
                     key={exp.company}
@@ -68,7 +68,7 @@ export function Experience() {
           </div>
 
           <StaggerContainer staggerDelay={0.14}>
-            <div className="relative flex flex-col gap-6 lg:pt-6">
+            <div className="relative flex flex-col gap-4 sm:gap-5 lg:gap-6 lg:pt-6">
               <div className="absolute top-0 bottom-0 left-8 hidden w-px bg-linear-to-b from-line/20 via-foreground/12 to-transparent lg:block" />
 
               {items.map((exp, index) => (
@@ -76,7 +76,7 @@ export function Experience() {
                   <ParallaxLayer offset={18 + index * 4}>
                     <article
                       className={cn(
-                        'surface-panel-strong relative overflow-hidden rounded-4xl p-6 shadow-card sm:p-8',
+                        'surface-panel-strong relative overflow-hidden rounded-3xl p-4 shadow-card sm:rounded-4xl sm:p-6 lg:p-8',
                         index % 2 === 1 ? 'lg:ml-10' : 'lg:mr-10',
                       )}
                     >

@@ -275,7 +275,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-4 sm:p-5 lg:p-6">
         <div className="mb-3 flex flex-wrap items-center gap-2 text-[11px] text-muted">
           <span className="inline-flex items-center gap-1">
             <Buildings className="h-3 w-3" />

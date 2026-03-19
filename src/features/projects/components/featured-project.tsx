@@ -56,14 +56,14 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="surface-panel group relative block overflow-hidden rounded-4xl border border-line p-8 shadow-sm transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl dark:backdrop-blur-md"
+        className="surface-panel group relative block overflow-hidden rounded-3xl border border-line p-4 shadow-sm transition-all sm:rounded-4xl sm:p-6 lg:p-8 hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl dark:backdrop-blur-md"
       >
         <div
           className="absolute -top-20 -right-20 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
           style={{ background: `linear-gradient(to bottom right, ${languageColor}, transparent)` }}
         />
 
-        <div className="absolute top-6 right-6 z-20">
+        <div className="absolute top-4 right-4 z-20 sm:top-6 sm:right-6">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted shadow-sm">
             <svg
               className="h-3.5 w-3.5 text-yellow-500"
@@ -77,9 +77,9 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
           </span>
         </div>
 
-        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
+        <div className="relative z-10 flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-center lg:gap-8">
           <div
-            className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-line bg-background transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-line bg-background transition-transform duration-500 sm:h-20 sm:w-20 sm:rounded-2xl group-hover:scale-110 group-hover:rotate-3"
             style={{ ...bgStyle }}
           >
             <svg
@@ -99,15 +99,15 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
           </div>
 
           <div className="grow">
-            <h3 className="mb-2 text-2xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-foreground/90">
+            <h3 className="mb-2 text-xl font-semibold tracking-tight text-foreground transition-colors sm:text-2xl group-hover:text-foreground/90">
               {repo.name}
             </h3>
-            <p className="mb-4 max-w-2xl text-base leading-relaxed text-muted">
+            <p className="mb-3 max-w-2xl text-sm leading-relaxed text-muted sm:mb-4 sm:text-base">
               {repo.description || t('noDescription')}
             </p>
 
             {repo.topics.length > 0 && (
-              <div className="mb-6 flex flex-wrap gap-2">
+              <div className="mb-4 flex flex-wrap gap-2 sm:mb-6">
                 {repo.topics.slice(0, 5).map((topic) => (
                   <span
                     key={topic}
@@ -119,7 +119,7 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
               </div>
             )}
 
-            <div className="flex flex-wrap items-center gap-6">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
               {repo.language && (
                 <div className="flex items-center gap-2">
                   <span

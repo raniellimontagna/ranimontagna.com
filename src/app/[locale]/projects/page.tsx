@@ -69,44 +69,44 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
   ])
 
   return (
-    <div className="relative min-h-screen bg-background pb-24">
+    <div className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24">
       {/* Background Gradients */}
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
       <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
 
-      <div className="container mx-auto max-w-6xl px-4 pt-12 sm:pt-16">
-        <div className="mb-12">
+      <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
+        <div className="mb-8 sm:mb-12">
           <Breadcrumbs items={[{ label: t('breadcrumb') }]} />
         </div>
 
-        <header className="mb-16 max-w-3xl">
-          <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
+        <header className="mb-10 max-w-3xl sm:mb-14 lg:mb-16">
+          <h1 className="mb-4 font-heading text-3xl font-semibold tracking-[-0.05em] text-foreground sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
             <RevealText text={t('title')} />
           </h1>
           <FadeIn delay={0.3} blur>
-            <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">{t('subtitle')}</p>
           </FadeIn>
         </header>
 
         <BlurReveal delay={0.4}>
-          <section className="surface-panel-strong relative mb-16 overflow-hidden rounded-4xl border border-line p-6 shadow-sm sm:p-10">
+          <section className="surface-panel-strong relative mb-10 overflow-hidden rounded-3xl border border-line p-4 shadow-sm sm:mb-14 sm:rounded-4xl sm:p-6 lg:mb-16 lg:p-10">
             {/* Subtle Glow inside the intro card */}
             <div className="pointer-events-none absolute inset-0 glow-gradient-subtle" />
 
             <div className="relative z-10">
-              <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h2 className="mb-3 text-xl font-bold tracking-tight text-foreground sm:mb-4 sm:text-2xl lg:text-3xl">
                 {t('content.title')}
               </h2>
-              <div className="flex flex-col gap-4 text-base leading-relaxed text-muted sm:text-lg">
+              <div className="flex flex-col gap-3 text-sm leading-relaxed text-muted sm:gap-4 sm:text-base lg:text-lg">
                 <p>{t('content.paragraph1')}</p>
                 <p>{t('content.paragraph2')}</p>
               </div>
 
-              <ul className="mt-6 flex flex-col gap-3">
+              <ul className="mt-4 flex flex-col gap-2.5 sm:mt-6 sm:gap-3">
                 {contentPoints.map((point) => (
                   <li key={point} className="flex items-start gap-3">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
-                    <span className="text-muted">{point}</span>
+                    <span className="text-sm text-muted sm:text-base">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -115,7 +115,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
         </BlurReveal>
 
         {/* GitHub Stats */}
-        <section className="mb-16">
+        <section className="mb-10 sm:mb-14 lg:mb-16">
           <GitHubStats stats={stats} />
         </section>
 

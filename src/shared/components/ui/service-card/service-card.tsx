@@ -27,7 +27,7 @@ export function ServiceCard({
   return (
     <div
       className={cn(
-        'group relative flex min-w-0 flex-col overflow-hidden rounded-4xl border border-line bg-surface/94 p-6 shadow-card transition-all duration-500 backdrop-blur-sm sm:p-7',
+        'group relative flex min-w-0 flex-col overflow-hidden rounded-3xl border border-line bg-surface/94 p-4 shadow-card transition-all duration-500 backdrop-blur-sm sm:rounded-4xl sm:p-6 lg:p-7',
         'hover:-translate-y-1 hover:border-foreground/12 hover:shadow-2xl',
         popular && 'border-accent/35',
         className,

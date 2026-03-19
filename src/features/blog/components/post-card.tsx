@@ -43,7 +43,7 @@ export function PostCard({ post, index }: PostCardProps) {
     >
       <Link
         href={`/blog/${post.slug}`}
-        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-4xl border border-line transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
+        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line transition-all sm:rounded-4xl hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div className="relative h-40 overflow-hidden">
           <SafeImage
@@ -52,7 +52,7 @@ export function PostCard({ post, index }: PostCardProps) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="flex grow flex-col p-6 pt-4">
+        <div className="flex grow flex-col p-4 pt-3 sm:p-5 sm:pt-4 lg:p-6 lg:pt-4">
           <div className="mb-4 flex items-center justify-between gap-4">
             <time className="text-xs font-medium text-muted">
               {dayjs(post.metadata.date).format('MMM D, YYYY')}

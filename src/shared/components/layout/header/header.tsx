@@ -116,7 +116,7 @@ export const Header = ({
       className="fixed top-0 right-0 left-0 z-50 px-4 pt-4 sm:px-6 lg:px-8"
     >
       <nav
-        className={`mx-auto max-w-7xl rounded-4xl border px-3 py-3 transition-all duration-500 ${
+        className={`mx-auto max-w-7xl rounded-3xl border px-2 py-2 transition-all duration-500 sm:rounded-4xl sm:px-3 sm:py-3 ${
           headerState === 'elevated'
             ? 'surface-panel border-line shadow-panel'
             : 'border-white/20 bg-white/45 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/6'
@@ -171,11 +171,11 @@ export const Header = ({
           {/* Desktop Navigation */}
           {!title && (
             <div className="hidden items-center gap-1 xl:flex">
-              <div className="surface-panel flex items-center rounded-full p-1.5">
+              <div className="surface-panel flex h-10 items-center rounded-full p-1">
                 {navigation.map((item) =>
                   renderNavigationItem(
                     item,
-                    'flex h-10 items-center rounded-full px-4 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground',
+                    'flex h-8 items-center rounded-full px-4 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground',
                   ),
                 )}
               </div>

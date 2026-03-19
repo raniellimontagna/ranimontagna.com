@@ -34,8 +34,8 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
   return (
     <>
       {/* Filters */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold text-foreground">{t('filterByLanguage')}</h2>
+      <section className="mb-8 sm:mb-12">
+        <h2 className="mb-3 text-base font-semibold text-foreground sm:mb-4 sm:text-lg">{t('filterByLanguage')}</h2>
         <LanguageFilter
           languages={languages}
           selected={selectedLanguage}
@@ -51,9 +51,9 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mb-16"
+            className="mb-10 sm:mb-16"
           >
-            <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground">
+            <h2 className="mb-5 text-xl font-bold tracking-tight text-foreground sm:mb-8 sm:text-2xl">
               {t('featuredTitle')}
             </h2>
             <div className="grid gap-6">
@@ -67,7 +67,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
 
       {/* All Projects */}
       <section>
-        <h2 className="mb-8 text-2xl font-bold tracking-tight text-foreground">
+        <h2 className="mb-5 text-xl font-bold tracking-tight text-foreground sm:mb-8 sm:text-2xl">
           {t('allProjectsTitle')}
         </h2>
         <AnimatePresence mode="wait">
@@ -77,7 +77,7 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
             >
               {filteredRepos.map((repo, index) => (
                 <ProjectCard key={repo.id} repo={repo} index={index} />

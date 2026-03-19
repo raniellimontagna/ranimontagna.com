@@ -20,7 +20,7 @@ export async function Hero() {
     <section
       id="start"
       data-testid="hero"
-      className="section-shell relative flex min-h-screen items-center overflow-hidden px-4 pt-32 pb-24 sm:px-6 sm:pt-36 lg:px-8 lg:pt-40 lg:pb-28"
+      className="section-shell relative flex min-h-screen items-center overflow-hidden px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-24 lg:px-8 lg:pt-40 lg:pb-28"
       aria-label="Hero section - Ranielli Montagna introduction"
     >
       <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
@@ -32,7 +32,7 @@ export async function Hero() {
         <div className="animate-orbital-shift absolute -bottom-20 left-0 h-72 w-72 rounded-full bg-ambient-lime blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(22rem,0.95fr)] lg:gap-10">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(22rem,0.95fr)] lg:gap-10">
         <div className="relative">
           <div className="mt-8 flex flex-col gap-6 sm:mt-10">
             <div className="flex flex-col gap-4">
@@ -46,7 +46,7 @@ export async function Hero() {
             </div>
 
             <div className="max-w-3xl flex flex-col gap-5">
-              <p className="text-xl leading-[1.08] font-medium text-foreground sm:text-3xl lg:text-[2.6rem]">
+              <p className="text-lg leading-[1.12] font-medium text-foreground sm:text-xl md:text-3xl lg:text-[2.6rem]">
                 {t('passion.part1')}{' '}
                 <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-white dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
                   {t('passion.highlight')}
@@ -64,7 +64,7 @@ export async function Hero() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
             <MagneticHover className="w-full sm:w-auto">
               <a
                 href="#projects"
@@ -86,7 +86,7 @@ export async function Hero() {
             </MagneticHover>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:justify-start">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:justify-start">
             {socialLinks.map((social) => {
               const Icon = social.icon
 
