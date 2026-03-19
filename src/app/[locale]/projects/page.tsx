@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { CTASection, GitHubStats, ProjectsList } from '@/features/projects/components'
 import {
   getFeaturedRepositories,
@@ -17,7 +17,7 @@ function getProjectsUrl(locale: string): string {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations('projectsPage')
+  const t = await getTranslations({ locale, namespace: 'projectsPage' })
 
   const url = getProjectsUrl(locale)
 
@@ -51,8 +51,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default async function ProjectsPage({ params }: { params: Promise<{ locale: string }> }) {
-  await params
-  const t = await getTranslations('projectsPage')
+  const { locale } = await params
+  setRequestLocale(locale)
+
+  const t = await getTranslations({ locale, namespace: 'projectsPage' })
   const maybeRaw = t as unknown as { raw?: (key: string) => unknown }
   const rawPoints = maybeRaw.raw?.('content.points')
   const contentPoints = Array.isArray(rawPoints)

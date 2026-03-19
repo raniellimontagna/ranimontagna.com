@@ -15,6 +15,7 @@ vi.mock('@/features/projects/lib/github', () => ({
 
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
+  setRequestLocale: vi.fn(),
 }))
 
 describe('Projects Page', () => {

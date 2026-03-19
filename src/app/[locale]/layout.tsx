@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
 import './globals.css'
 
 import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
@@ -55,6 +56,10 @@ const THEME_INIT_SCRIPT = `
 type Props = {
   children: React.ReactNode
   params: Promise<{ locale: string }>
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -132,6 +137,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
+
+  setRequestLocale(locale)
 
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)

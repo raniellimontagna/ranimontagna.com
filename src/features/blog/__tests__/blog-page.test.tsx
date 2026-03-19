@@ -31,6 +31,7 @@ vi.mock('@/features/blog/lib/blog', () => ({
 
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
+  setRequestLocale: vi.fn(),
 }))
 
 describe('Blog Page', () => {
