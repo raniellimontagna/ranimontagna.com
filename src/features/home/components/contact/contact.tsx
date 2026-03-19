@@ -24,17 +24,6 @@ export const Contact = (): React.ReactElement => {
 
   const contactMethodsArray = [
     {
-      id: 'email',
-      icon: emailLink.icon,
-      title: t('methods.email.title'),
-      description: t('methods.email.description'),
-      action: t('methods.email.action'),
-      href: emailHref,
-      external: emailLink.external,
-      color: 'blue' as const,
-      endpoint: 'POST',
-    },
-    {
       id: 'linkedin',
       icon: linkedinLink.icon,
       title: t('methods.linkedin.title'),

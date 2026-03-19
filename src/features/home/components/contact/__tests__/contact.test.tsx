@@ -52,7 +52,7 @@ describe('Contact Component', () => {
     render(<Contact />)
     expect(screen.getByText('methods.title')).toBeInTheDocument()
 
-    expect(screen.getAllByText('methods.email.title').length).toBeGreaterThan(0)
+    expect(screen.getByText('methods.email.title')).toBeInTheDocument()
     expect(screen.getByText('methods.linkedin.title')).toBeInTheDocument()
     expect(screen.getByText('methods.phone.title')).toBeInTheDocument()
   })

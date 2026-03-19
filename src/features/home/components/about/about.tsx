@@ -18,7 +18,6 @@ export function About() {
   const stats = [
     { value: 4, suffix: '+', label: t('stats.experience') },
     { value: 20, suffix: '+', label: t('stats.projects') },
-    { value: 100, suffix: '%', label: t('stats.dedication') },
   ]
 
   return (
@@ -60,7 +59,7 @@ export function About() {
               </FadeIn>
 
               <FadeIn delay={0.45}>
-                <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                <div className="mt-10 grid gap-4 sm:grid-cols-2">
                   {stats.map((stat, index) => (
                     <div
                       key={stat.label}
