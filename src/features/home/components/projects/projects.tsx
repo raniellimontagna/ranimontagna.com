@@ -37,7 +37,7 @@ export function Projects() {
       <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-[color:var(--accent-ice)]/14 blur-[140px]" />
       <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-[color:var(--accent)]/10 blur-[140px]" />
 
-      <div className="section-shell relative z-10">
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end">
           <div>
             <FadeIn delay={0.15}>

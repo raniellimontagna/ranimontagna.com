@@ -65,7 +65,7 @@ export const Contact = (): React.ReactElement => {
         <div className="absolute right-0 bottom-1/4 h-150 w-150 translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
       </div>
 
-      <div className="section-shell relative z-10">
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:h-fit">
             <FadeIn delay={0.15}>

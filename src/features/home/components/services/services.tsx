@@ -34,7 +34,7 @@ export function Services() {
       <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/12 blur-3xl" />
       <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
 
-      <div className="section-shell relative z-10">
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.78fr)_minmax(0,1.22fr)] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:h-fit">
             <FadeIn delay={0.15}>

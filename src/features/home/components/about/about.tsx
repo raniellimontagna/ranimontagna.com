@@ -30,8 +30,8 @@ export function About() {
       <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-accent/10 blur-[140px]" />
       <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-accent-ice/16 blur-[140px]" />
 
-      <div className="section-shell relative z-10">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start lg:gap-18">
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center lg:gap-18">
           <div className="order-2 lg:order-1">
             <FadeIn delay={0.1}>
               <div className="editorial-kicker mb-6">
