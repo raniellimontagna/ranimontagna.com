@@ -1,30 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring } from 'motion/react'
 
 export function ReadingProgressBar() {
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      if (scrollHeight > 0) {
-        const scrolled = (window.scrollY / scrollHeight) * 100
-        setProgress(Math.min(100, Math.max(0, scrolled)))
-      }
-    }
-
-    window.addEventListener('scroll', updateProgress)
-    updateProgress()
-
-    return () => window.removeEventListener('scroll', updateProgress)
-  }, [])
+  const prefersReducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  })
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] h-1.5 bg-transparent">
-      <div
-        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-150 ease-out"
-        style={{ width: `${progress}%` }}
+    <div className="fixed top-0 right-0 left-0 z-60 h-1.5 bg-transparent">
+      <motion.div
+        className="h-full origin-left bg-linear-to-r from-accent-ice to-accent"
+        style={prefersReducedMotion ? undefined : { scaleX }}
       />
     </div>
   )

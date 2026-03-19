@@ -5,6 +5,7 @@ import {
   getGitHubStats,
   getRegularRepositories,
 } from '@/features/projects/lib/github'
+import { BlurReveal, FadeIn, RevealText } from '@/shared/components/animations'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -80,34 +81,38 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
 
         <header className="mb-16 max-w-3xl">
           <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
-            {t('title')}
+            <RevealText text={t('title')} />
           </h1>
-          <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+          <FadeIn delay={0.3} blur>
+            <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+          </FadeIn>
         </header>
 
-        <section className="surface-panel-strong relative mb-16 overflow-hidden rounded-4xl border border-line p-6 shadow-sm sm:p-10">
-          {/* Subtle Glow inside the intro card */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.08),transparent_40%)]" />
+        <BlurReveal delay={0.4}>
+          <section className="surface-panel-strong relative mb-16 overflow-hidden rounded-4xl border border-line p-6 shadow-sm sm:p-10">
+            {/* Subtle Glow inside the intro card */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(111,202,255,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(162,255,61,0.08),transparent_40%)]" />
 
-          <div className="relative z-10">
-            <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              {t('content.title')}
-            </h2>
-            <div className="flex flex-col gap-4 text-base leading-relaxed text-muted sm:text-lg">
-              <p>{t('content.paragraph1')}</p>
-              <p>{t('content.paragraph2')}</p>
+            <div className="relative z-10">
+              <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                {t('content.title')}
+              </h2>
+              <div className="flex flex-col gap-4 text-base leading-relaxed text-muted sm:text-lg">
+                <p>{t('content.paragraph1')}</p>
+                <p>{t('content.paragraph2')}</p>
+              </div>
+
+              <ul className="mt-6 flex flex-col gap-3">
+                {contentPoints.map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
+                    <span className="text-muted">{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <ul className="mt-6 flex flex-col gap-3">
-              {contentPoints.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
-                  <span className="text-muted">{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+          </section>
+        </BlurReveal>
 
         {/* GitHub Stats */}
         <section className="mb-16">

@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import type { Repository } from '@/features/projects/lib/github'

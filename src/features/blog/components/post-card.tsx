@@ -1,9 +1,10 @@
 'use client'
 
 import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { useRef } from 'react'
 import type { Post } from '@/features/blog/lib/blog'
 import { SafeImage } from './safe-image'
 
@@ -14,13 +15,31 @@ interface PostCardProps {
 
 export function PostCard({ post, index }: PostCardProps) {
   const t = useTranslations('blog')
+  const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '0px 0px -60px 0px' })
   const coverImage = post.metadata.coverImage
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      ref={ref}
+      initial={
+        prefersReducedMotion
+          ? { opacity: 1 }
+          : { opacity: 0, y: 24, filter: 'blur(8px)', scale: 0.97 }
+      }
+      animate={
+        prefersReducedMotion
+          ? { opacity: 1 }
+          : isInView
+            ? { opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }
+            : undefined
+      }
+      transition={{
+        delay: isInView && !prefersReducedMotion ? index * 0.1 : 0,
+        duration: prefersReducedMotion ? 0 : 0.7,
+        ease: [0.19, 1, 0.22, 1],
+      }}
     >
       <Link
         href={`/blog/${post.slug}`}
@@ -30,10 +49,10 @@ export function PostCard({ post, index }: PostCardProps) {
           <SafeImage
             src={coverImage}
             alt={post.metadata.title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="flex flex-col grow p-6 pt-4">
+        <div className="flex grow flex-col p-6 pt-4">
           <div className="mb-4 flex items-center justify-between gap-4">
             <time className="text-xs font-medium text-muted">
               {dayjs(post.metadata.date).format('MMM D, YYYY')}

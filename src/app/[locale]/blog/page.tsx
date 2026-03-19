@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { FeaturedPost, PostCard } from '@/features/blog/components'
 import { getAllPosts } from '@/features/blog/lib/blog'
+import { FadeIn, RevealText } from '@/shared/components/animations'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -111,9 +112,11 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
 
         <header className="mb-16 max-w-3xl">
           <h1 className="mb-6 font-heading text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl">
-            {t('title')}
+            <RevealText text={t('title')} />
           </h1>
-          <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+          <FadeIn delay={0.3} blur>
+            <p className="text-xl leading-relaxed text-muted">{t('subtitle')}</p>
+          </FadeIn>
         </header>
 
         {featuredPost && <FeaturedPost post={featuredPost} />}

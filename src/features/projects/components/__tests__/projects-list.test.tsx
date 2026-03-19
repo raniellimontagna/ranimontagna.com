@@ -7,8 +7,8 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-// Mock framer-motion
-vi.mock('framer-motion', () => ({
+// Mock motion/react
+vi.mock('motion/react', () => ({
   motion: {
     section: ({
       children,

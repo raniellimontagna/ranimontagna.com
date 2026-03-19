@@ -1,32 +1,20 @@
 'use client'
 
-import { animate, motion, useInView, useMotionValue, useTransform } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import type { GitHubStats as GitHubStatsType } from '@/features/projects/lib/github'
+import { CountUp } from '@/shared/components/animations'
 
 interface GitHubStatsProps {
   stats: GitHubStatsType
 }
 
-function Counter({ value }: { value: number }) {
-  const count = useMotionValue(0)
-  const rounded = useTransform(count, (latest) => Math.round(latest))
-  const ref = useRef(null)
-  const inView = useInView(ref)
-
-  useEffect(() => {
-    if (inView) {
-      const controls = animate(count, value, { duration: 1.5, ease: 'easeOut' })
-      return controls.stop
-    }
-  }, [count, inView, value])
-
-  return <motion.span ref={ref}>{rounded}</motion.span>
-}
-
 export function GitHubStats({ stats }: GitHubStatsProps) {
   const t = useTranslations('projectsPage')
+  const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
 
   const statItems = [
     {
@@ -87,19 +75,30 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
   ]
 
   return (
-    <div className="grid gap-6 sm:grid-cols-3">
+    <div ref={ref} className="grid gap-6 sm:grid-cols-3">
       {statItems.map((item, index) => (
         <motion.div
           key={item.label}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.1, duration: 0.5, type: 'spring' }}
-          whileHover={{ y: -5, scale: 1.02 }}
+          initial={
+            prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20, filter: 'blur(8px)' }
+          }
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1 }
+              : isInView
+                ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+                : undefined
+          }
+          transition={{
+            delay: isInView && !prefersReducedMotion ? index * 0.12 : 0,
+            duration: prefersReducedMotion ? 0 : 0.7,
+            ease: [0.19, 1, 0.22, 1],
+          }}
+          whileHover={prefersReducedMotion ? undefined : { y: -5, scale: 1.02 }}
           className="surface-panel group relative overflow-hidden rounded-4xl border border-line p-6 shadow-sm"
         >
           <div
-            className={`absolute -right-6 -top-6 h-24 w-24 rounded-full bg-linear-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
+            className={`absolute -top-6 -right-6 h-24 w-24 rounded-full bg-linear-to-br ${item.color} opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20`}
           />
 
           <div className="relative z-10 flex items-center gap-5">
@@ -110,9 +109,11 @@ export function GitHubStats({ stats }: GitHubStatsProps) {
             </div>
 
             <div className="flex flex-col">
-              <span className="text-3xl font-semibold tracking-[-0.04em] text-foreground">
-                <Counter value={item.value} />
-              </span>
+              <CountUp
+                value={item.value}
+                delay={0.3 + index * 0.15}
+                className="text-3xl font-semibold tracking-[-0.04em] text-foreground"
+              />
               <span className="text-sm font-medium text-muted">{item.label}</span>
             </div>
           </div>

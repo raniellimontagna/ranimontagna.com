@@ -2,8 +2,9 @@
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { motion } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
+import { useRef } from 'react'
 import type { Repository } from '@/features/projects/lib/github'
 import { LANGUAGE_COLORS } from '@/features/projects/lib/github'
 
@@ -24,6 +25,9 @@ const hexToRgba = (hex: string, alpha: number) => {
 
 export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
   const t = useTranslations('projectsPage')
+  const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
   const languageColor = repo.language ? LANGUAGE_COLORS[repo.language] || '#6b7280' : '#6b7280'
   const bgStyle = {
     backgroundColor: hexToRgba(languageColor, 0.1),
@@ -32,10 +36,20 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      ref={ref}
+      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30, filter: 'blur(12px)' }}
+      animate={
+        prefersReducedMotion
+          ? { opacity: 1 }
+          : isInView
+            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+            : undefined
+      }
+      transition={{
+        delay: isInView && !prefersReducedMotion ? index * 0.12 : 0,
+        duration: prefersReducedMotion ? 0 : 0.8,
+        ease: [0.19, 1, 0.22, 1],
+      }}
       className="group relative"
     >
       <a
@@ -45,11 +59,11 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
         className="surface-panel group relative block overflow-hidden rounded-4xl border border-line p-8 shadow-sm transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl dark:backdrop-blur-md"
       >
         <div
-          className="absolute -right-20 -top-20 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
+          className="absolute -top-20 -right-20 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
           style={{ background: `linear-gradient(to bottom right, ${languageColor}, transparent)` }}
         />
 
-        <div className="absolute right-6 top-6 z-20">
+        <div className="absolute top-6 right-6 z-20">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted shadow-sm">
             <svg
               className="h-3.5 w-3.5 text-yellow-500"

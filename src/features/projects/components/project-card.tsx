@@ -2,8 +2,9 @@
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { motion } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
+import { useRef } from 'react'
 import type { Repository } from '@/features/projects/lib/github'
 import { LANGUAGE_COLORS } from '@/features/projects/lib/github'
 
@@ -24,6 +25,9 @@ const hexToRgba = (hex: string, alpha: number) => {
 
 export function ProjectCard({ repo, index }: ProjectCardProps) {
   const t = useTranslations('projectsPage')
+  const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-40px' })
   const languageColor = repo.language ? LANGUAGE_COLORS[repo.language] || '#6b7280' : '#6b7280'
   const bgStyle = {
     backgroundColor: hexToRgba(languageColor, 0.1),
@@ -32,10 +36,24 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
+      ref={ref}
+      initial={
+        prefersReducedMotion
+          ? { opacity: 1 }
+          : { opacity: 0, y: 20, filter: 'blur(6px)', scale: 0.97 }
+      }
+      animate={
+        prefersReducedMotion
+          ? { opacity: 1 }
+          : isInView
+            ? { opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }
+            : undefined
+      }
+      transition={{
+        delay: isInView && !prefersReducedMotion ? index * 0.05 : 0,
+        duration: prefersReducedMotion ? 0 : 0.6,
+        ease: [0.19, 1, 0.22, 1],
+      }}
     >
       <a
         href={repo.html_url}
@@ -44,7 +62,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-4xl border border-line p-6 transition-all hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div
-          className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-linear-to-br from-purple-500 to-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
+          className="absolute -top-12 -right-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
           style={{ background: `linear-gradient(to bottom right, ${languageColor}, transparent)` }}
         />
 

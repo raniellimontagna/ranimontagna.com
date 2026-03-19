@@ -1,17 +1,33 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
+import { useRef } from 'react'
 
 export function CTASection() {
   const t = useTranslations('projectsPage')
+  const prefersReducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
     <section className="mt-24">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        ref={ref}
+        initial={
+          prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24, filter: 'blur(12px)' }
+        }
+        animate={
+          prefersReducedMotion
+            ? { opacity: 1 }
+            : isInView
+              ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+              : undefined
+        }
+        transition={{
+          duration: prefersReducedMotion ? 0 : 0.8,
+          ease: [0.19, 1, 0.22, 1],
+        }}
         className="surface-panel mx-auto w-full overflow-hidden rounded-4xl border border-line shadow-xl"
       >
         {/* Terminal Header */}
@@ -21,12 +37,12 @@ export function CTASection() {
             <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
             <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
           </div>
-          <div className="text-xs font-mono text-muted">github.com</div>
+          <div className="font-mono text-xs text-muted">github.com</div>
           <div className="w-16" /> {/* Spacer for centering */}
         </div>
 
         {/* Terminal Content */}
-        <div className="p-8 sm:p-12 font-mono">
+        <div className="p-8 font-mono sm:p-12">
           <div className="flex flex-col gap-6">
             {/* Command Line */}
             <div className="flex items-center gap-3 text-lg sm:text-xl">
@@ -52,7 +68,7 @@ export function CTASection() {
                 href="https://github.com/raniellimontagna"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-foreground px-6 py-3 font-semibold text-background transition-all hover:bg-foreground/90 hover:shadow-lg hover:-translate-y-1 hover:shadow-foreground/20"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-foreground px-6 py-3 font-semibold text-background transition-all hover:-translate-y-1 hover:bg-foreground/90 hover:shadow-lg hover:shadow-foreground/20"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <svg
