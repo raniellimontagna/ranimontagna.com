@@ -112,15 +112,21 @@ published: true
       mockGetContent.mockResolvedValueOnce({ data: mockFile }) // Get content
 
       const post = await getPostBySlug('test-post', 'en')
-      expect(post).toBeDefined()
+
+      if (!post) {
+        throw new Error('Post should not be null')
+      }
+
+      expect(post).not.toBeNull()
       expect(post.slug).toBe('test-post')
       expect(post.content).toContain('# Hello World')
     })
 
-    it('throws error if post not found', async () => {
+    it('returns null if post not found', async () => {
       mockGetContent.mockResolvedValueOnce({ data: [] }) // No files
 
-      await expect(getPostBySlug('non-existent', 'en')).rejects.toThrow('Post not found')
+      const post = await getPostBySlug('non-existent', 'en')
+      expect(post).toBeNull()
     })
   })
 

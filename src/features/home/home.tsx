@@ -50,9 +50,9 @@ export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
         {heroContent}
         <About />
         <Skills />
-        <Services />
         <Experience />
         <Projects />
+        <Services />
         <Contact />
       </main>
       <Footer />

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import { notFound } from 'next/navigation'
 import remarkGfm from 'remark-gfm'
 import {
   ImageWithLightbox,
@@ -44,6 +45,10 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params
   const post = await getPostBySlug(slug, locale)
+
+  if (!post) {
+    return { title: 'Post not found' }
+  }
 
   const url = getPostUrl(locale, slug)
 
@@ -203,6 +208,11 @@ export default async function PostPage(props: {
 }) {
   const params = await props.params
   const post = await getPostBySlug(params.slug, params.locale)
+
+  if (!post) {
+    notFound()
+  }
+
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
   const url = getPostUrl(params.locale, params.slug)
