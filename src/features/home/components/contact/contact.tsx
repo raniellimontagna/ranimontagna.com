@@ -1,10 +1,8 @@
-'use client'
-
 import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 
-import { contactMethods, openEmailClient, socialLinks } from '@/shared/lib/social-links'
+import { contactMethods, socialLinks } from '@/shared/lib/social-links'
 
 import { ContactForm } from './contactForm/contactForm'
 
@@ -14,6 +12,7 @@ export const Contact = (): React.ReactElement => {
   const emailLink = socialLinks.email
   const linkedinLink = socialLinks.linkedin
   const whatsappMethod = contactMethods.whatsapp
+  const emailHref = emailLink.direct ? `mailto:${emailLink.direct}` : emailLink.href
 
   const contactMethodsArray = [
     {
@@ -22,7 +21,7 @@ export const Contact = (): React.ReactElement => {
       title: t('methods.email.title'),
       description: t('methods.email.description'),
       action: t('methods.email.action'),
-      href: emailLink.href,
+      href: emailHref,
       external: emailLink.external,
       color: 'blue' as const,
       endpoint: 'POST',
@@ -149,11 +148,6 @@ export const Contact = (): React.ReactElement => {
                           href={method.href}
                           target={method.external ? '_blank' : undefined}
                           rel={method.external ? 'noopener noreferrer' : undefined}
-                          onClick={(event) => {
-                            if (method.id !== 'email') return
-                            event.preventDefault()
-                            openEmailClient()
-                          }}
                           className="group relative block overflow-hidden rounded-xl border border-slate-200/60 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80 dark:hover:border-slate-700"
                         >
                           <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-4 py-2 dark:border-slate-800 dark:bg-slate-800/50">

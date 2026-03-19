@@ -1,8 +1,8 @@
-import type { ContactFormData } from '../formly-email-service'
+import type { ContactFormInput } from '@/shared/lib/contact-form'
 import { createMailtoFallback, sendContactEmail } from '../formly-email-service'
 
 describe('formly-email-service', () => {
-  const mockContactData: ContactFormData = {
+  const mockContactData: ContactFormInput = {
     name: 'John Doe',
     email: 'john@example.com',
     subject: 'Test Subject',
@@ -10,18 +10,7 @@ describe('formly-email-service', () => {
   }
 
   beforeEach(() => {
-    // Mock global objects
-    global.navigator = { userAgent: 'Test User Agent' } as Navigator
-    global.window = { location: { href: 'https://test.com' } } as Window & typeof globalThis
-
-    // Mock environment variable
-    vi.stubEnv('NEXT_PUBLIC_FORMLY_FORM_ID', 'test-form-id')
-
     vi.clearAllMocks()
-  })
-
-  afterEach(() => {
-    vi.unstubAllEnvs()
   })
 
   describe('sendContactEmail', () => {
@@ -42,7 +31,7 @@ describe('formly-email-service', () => {
 
       expect(result).toEqual(mockResponse)
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://formly.email/submit',
+        '/api/contact',
         expect.objectContaining({
           method: 'POST',
           headers: {
@@ -53,24 +42,9 @@ describe('formly-email-service', () => {
       )
     })
 
-    it('handles opaque redirect response', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        type: 'opaqueredirect',
-      })
-
-      const result = await sendContactEmail(mockContactData)
-
-      expect(result).toEqual({
-        success: true,
-        message: 'Email enviado com sucesso!',
-      })
-    })
-
     it('handles successful response with invalid JSON', async () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: true,
-        type: 'basic',
         json: async () => {
           throw new Error('Invalid JSON')
         },
@@ -87,7 +61,6 @@ describe('formly-email-service', () => {
     it('handles API error response with success: false', async () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: true,
-        type: 'basic',
         json: async () => ({
           success: false,
           message: 'API Error',
@@ -100,7 +73,6 @@ describe('formly-email-service', () => {
     it('handles API error response with success: false and no message', async () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: true,
-        type: 'basic',
         json: async () => ({
           success: false,
         }),
@@ -115,6 +87,9 @@ describe('formly-email-service', () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 500,
+        json: async () => ({
+          message: 'Internal Server Error',
+        }),
         text: async () => 'Internal Server Error',
       })
 
@@ -123,30 +98,13 @@ describe('formly-email-service', () => {
       )
     })
 
-    it('throws error when form ID is not provided', async () => {
-      vi.unstubAllEnvs()
-      vi.stubEnv('NEXT_PUBLIC_FORMLY_FORM_ID', '')
-
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: false,
-        status: 500,
-        text: async () => 'Internal Server Error',
-      })
-
-      await expect(sendContactEmail(mockContactData)).rejects.toThrow('HTTP 500')
-    })
-
     it('includes correct payload data', async () => {
       interface CapturedPayload {
-        access_key: string
         name: string
         email: string
         subject: string
         message: string
-        source: string
-        userAgent: string
-        url: string
-        timestamp: string
+        website?: string
       }
 
       let capturedPayload: CapturedPayload | undefined
@@ -155,7 +113,7 @@ describe('formly-email-service', () => {
         capturedPayload = JSON.parse((options as RequestInit).body as string)
         return {
           ok: true,
-          type: 'opaqueredirect',
+          json: async () => ({ success: true, message: 'ok' }),
         }
       })
 
@@ -163,16 +121,12 @@ describe('formly-email-service', () => {
 
       expect(capturedPayload).toBeDefined()
       expect(capturedPayload).toMatchObject({
-        access_key: 'test-form-id',
         name: 'John Doe',
         email: 'john@example.com',
         subject: 'Test Subject',
         message: 'Test message content',
-        source: 'Portfolio Website - Ranimontagna.com',
-        userAgent: 'Test User Agent',
-        url: 'https://test.com',
+        website: '',
       })
-      expect(capturedPayload?.timestamp).toBeDefined()
     })
   })
 
@@ -189,7 +143,7 @@ describe('formly-email-service', () => {
     })
 
     it('handles special characters in data', () => {
-      const specialData: ContactFormData = {
+      const specialData: ContactFormInput = {
         name: 'João & Maria',
         email: 'test+tag@example.com',
         subject: 'Test: Special & Characters!',

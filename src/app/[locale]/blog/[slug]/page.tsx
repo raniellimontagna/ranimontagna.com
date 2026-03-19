@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import {
@@ -9,6 +10,7 @@ import {
   ScrollToTop,
 } from '@/features/blog/components'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
+import { resolveBlogImageUrl } from '@/features/blog/lib/media'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -45,12 +47,12 @@ export async function generateMetadata({
   const { slug, locale } = await params
   const post = await getPostBySlug(slug, locale)
 
-  const url = getPostUrl(locale, slug)
+  if (!post) {
+    return { title: 'Post not found' }
+  }
 
-  // Fallback image when no coverImage is set
-  const defaultOgImage =
-    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
-  const ogImage = post.metadata.coverImage || defaultOgImage
+  const url = getPostUrl(locale, slug)
+  const ogImage = resolveBlogImageUrl(post.metadata.coverImage)
 
   return {
     title: post.metadata.title,
@@ -203,14 +205,17 @@ export default async function PostPage(props: {
 }) {
   const params = await props.params
   const post = await getPostBySlug(params.slug, params.locale)
+
+  if (!post) {
+    notFound()
+  }
+
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
   const url = getPostUrl(params.locale, params.slug)
 
   // JSON-LD structured data for SEO
-  const postOgImage =
-    post.metadata.coverImage ||
-    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
+  const postOgImage = resolveBlogImageUrl(post.metadata.coverImage)
 
   // Estimate word count from markdown content (strip MDX/markdown syntax)
   const wordCount = post.content

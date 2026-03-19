@@ -1,16 +1,13 @@
-'use client'
-
 import { Code, SquareArrowRightUp } from '@solar-icons/react/ssr'
-import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import type { ProjectType } from '@/features/projects/types/projects.types'
 import { FadeIn } from '@/shared/components/animations'
+import { Link } from '@/shared/config/i18n/navigation'
 import { ProjectCard } from './project-card'
 
 export function Projects() {
   const t = useTranslations('projects')
-  const locale = useLocale()
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
@@ -29,8 +26,8 @@ export function Projects() {
       id="projects"
       className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-32 dark:bg-slate-900"
     >
-      <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[120px]" />
-      <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-purple-500/5 blur-[120px]" />
+      <div className="absolute top-0 right-0 -z-10 h-125 w-125 rounded-full bg-blue-500/5 blur-[120px]" />
+      <div className="absolute bottom-0 left-0 -z-10 h-125 w-125 rounded-full bg-purple-500/5 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center lg:mb-16">
@@ -68,7 +65,7 @@ export function Projects() {
         <FadeIn delay={1.2}>
           <div className="mt-16 flex justify-center">
             <Link
-              href={`/${locale}/projects`}
+              href="/projects"
               className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-lg transition-all hover:bg-slate-800 hover:shadow-xl hover:scale-105 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
             >
               <span>{t('viewAll')}</span>

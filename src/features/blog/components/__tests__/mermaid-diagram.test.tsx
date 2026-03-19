@@ -119,6 +119,16 @@ describe('MermaidDiagram Component', () => {
   })
 
   describe('Error Handling', () => {
+    let consoleErrorSpy: ReturnType<typeof vi.spyOn>
+
+    beforeEach(() => {
+      consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      consoleErrorSpy.mockRestore()
+    })
+
     it('displays error message when rendering fails', async () => {
       const errorMessage = 'Invalid syntax in diagram'
       mockRender.mockRejectedValue(new Error(errorMessage))
@@ -146,7 +156,6 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('logs error to console', async () => {
-      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       const error = new Error('Test error')
       mockRender.mockRejectedValue(error)
 
@@ -155,8 +164,6 @@ describe('MermaidDiagram Component', () => {
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith('Mermaid rendering error:', error)
       })
-
-      consoleErrorSpy.mockRestore()
     })
   })
 

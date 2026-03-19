@@ -1,12 +1,14 @@
 import {
-  CHAT_PROVIDER_TIMEOUT_MS,
-  FALLBACK_MESSAGES,
-  RATE_LIMIT_MAX,
-  RATE_LIMIT_WINDOW_MS,
-} from './chat.constants'
+  checkRateLimit,
+  getRateLimitIdentifier,
+  type RateLimitResult,
+  resetRateLimitStateForTests,
+} from '@/shared/lib/rate-limit'
+import { CHAT_PROVIDER_TIMEOUT_MS, FALLBACK_MESSAGES } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }
+export type { RateLimitResult }
 
 const hasTimeoutCode = (value: unknown): boolean => {
   if (!value || typeof value !== 'object') return false
@@ -46,23 +48,6 @@ const fetchWithTimeout = async (url: string, init: RequestInit): Promise<Respons
   } finally {
     clearTimeout(timeoutId)
   }
-}
-
-export const checkRateLimit = (ip: string): boolean => {
-  const now = Date.now()
-  const entry = rateLimitMap.get(ip)
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
-    return true
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return false
-  }
-
-  entry.count++
-  return true
 }
 
 export const callGemini = async (

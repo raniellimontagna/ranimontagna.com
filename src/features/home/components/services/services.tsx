@@ -1,5 +1,3 @@
-'use client'
-
 import { ArrowRight, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
@@ -24,8 +22,8 @@ export function Services() {
       className="relative overflow-hidden bg-slate-50 py-20 sm:py-28 lg:py-36 dark:bg-slate-950"
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
-        <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-purple-500/5 blur-3xl dark:bg-purple-500/10" />
+        <div className="absolute top-0 left-1/4 h-125 w-125 -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
+        <div className="absolute bottom-0 right-1/4 h-125 w-125 translate-x-1/2 rounded-full bg-purple-500/5 blur-3xl dark:bg-purple-500/10" />
 
         <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-size-[60px_60px] dark:bg-[linear-gradient(rgba(51,65,85,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.3)_1px,transparent_1px)]" />
       </div>
@@ -90,19 +88,13 @@ export function Services() {
                   {t('cta.subtitle')}
                 </p>
 
-                <button
-                  type="button"
+                <a
+                  href="#contact"
                   className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 px-8 py-4 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:from-blue-500 hover:to-blue-400 hover:shadow-xl hover:shadow-blue-500/40"
-                  onClick={() => {
-                    const contactSection = document.getElementById('contact')
-                    if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' })
-                    }
-                  }}
                 >
                   {t('cta.button')}
                   <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                </a>
               </div>
             </div>
           </div>

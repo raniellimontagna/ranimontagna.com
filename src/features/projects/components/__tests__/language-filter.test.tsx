@@ -13,8 +13,16 @@ vi.mock('framer-motion', () => ({
       children,
       onClick,
       className,
+      initial: _initial,
+      animate: _animate,
+      exit: _exit,
+      transition: _transition,
+      viewport: _viewport,
+      whileHover: _whileHover,
+      whileTap: _whileTap,
+      whileInView: _whileInView,
       ...props
-    }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+    }: React.ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>) => (
       <button onClick={onClick} className={className} {...props}>
         {children}
       </button>

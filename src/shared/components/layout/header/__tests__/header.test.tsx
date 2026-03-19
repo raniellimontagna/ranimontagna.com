@@ -1,20 +1,44 @@
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import type { Mock } from 'vitest'
+import { usePathname } from '@/shared/config/i18n/navigation'
 import { fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import { Header } from '../header'
 
 const mockPush = vi.fn()
 const mockSetOpen = vi.fn()
+const mockGetPathname = vi.fn()
+let mockLocale = 'en'
 
 // Mocks
 vi.mock('next/navigation', () => ({
-  usePathname: vi.fn(),
   useRouter: vi.fn(),
 }))
 
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
-  useLocale: () => 'en',
+  useLocale: () => mockLocale,
+}))
+
+vi.mock('@/shared/config/i18n/navigation', () => ({
+  Link: ({
+    children,
+    href,
+    onClick,
+    ...props
+  }: {
+    children: React.ReactNode
+    href: string
+    onClick?: () => void
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+    const localizedHref = mockGetPathname({ href, locale: mockLocale })
+    return (
+      <a href={localizedHref} onClick={onClick} {...props}>
+        {children}
+      </a>
+    )
+  },
+  usePathname: vi.fn(),
+  getPathname: (...args: unknown[]) => mockGetPathname(...args),
 }))
 
 vi.mock('@/shared/components/language-switcher/language-switcher', () => ({
@@ -31,24 +55,36 @@ vi.mock('@/shared/store/use-command-menu/use-command-menu', () => ({
   }),
 }))
 
-vi.mock('@/shared/store/use-theme/use-theme', () => ({
-  useTheme: () => ({
-    theme: 'light',
-    mounted: true,
-  }),
-}))
-
 vi.mock('next/image', () => ({
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // biome-ignore lint/a11y/useAltText: Mock component
-    // biome-ignore lint/performance/noImgElement: Mock component
-    <img {...props} />
+  default: ({
+    alt,
+    fill: _fill,
+    priority: _priority,
+    ...props
+  }: React.ImgHTMLAttributes<HTMLImageElement> & {
+    fill?: boolean
+    priority?: boolean
+  }) => (
+    // biome-ignore lint/performance/noImgElement: This is a test environment and we want to keep it simple.
+    <img alt={alt} {...props} />
   ),
 }))
 
 describe('Header Component', () => {
   beforeEach(() => {
-    ;(usePathname as Mock).mockReturnValue('/en')
+    mockLocale = 'en'
+    mockGetPathname.mockImplementation(({ href, locale }: { href: string; locale: string }) => {
+      if (href === '/') {
+        return locale === 'pt' ? '/' : `/${locale}`
+      }
+
+      if (href.startsWith('/')) {
+        return locale === 'pt' ? href : `/${locale}${href}`
+      }
+
+      return href
+    })
+    ;(usePathname as Mock).mockReturnValue('/')
     ;(useRouter as Mock).mockReturnValue({ push: mockPush })
     Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
     window.scrollTo = vi.fn()
@@ -59,7 +95,7 @@ describe('Header Component', () => {
   it('renders correctly', () => {
     render(<Header />)
     expect(screen.getByRole('banner')).toBeInTheDocument()
-    expect(screen.getByAltText('Logo')).toBeInTheDocument()
+    expect(screen.getAllByAltText('Logo').length).toBeGreaterThan(0)
     expect(screen.getAllByText('navigation.about')[0]).toBeInTheDocument()
   })
 
@@ -87,7 +123,7 @@ describe('Header Component', () => {
   })
 
   it('scrolls to section when navigation item clicked on home page', () => {
-    ;(usePathname as Mock).mockReturnValue('/en')
+    ;(usePathname as Mock).mockReturnValue('/')
     const mockElement = {
       scrollIntoView: vi.fn(),
     }
@@ -117,18 +153,16 @@ describe('Header Component', () => {
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
   })
 
-  it('navigates to home with hash when scroll link clicked from non-home page', () => {
-    ;(usePathname as Mock).mockReturnValue('/en/blog')
+  it('navigates to home with hash when scroll item clicked from non-home page', () => {
+    ;(usePathname as Mock).mockReturnValue('/blog')
     ;(useRouter as Mock).mockReturnValue({ push: mockPush })
 
     const { rerender } = render(<Header />)
     rerender(<Header />)
 
-    // On non-home page, scroll items should be links
-    const aboutLinks = screen.getAllByText('navigation.about')
-    const desktopAboutLink = aboutLinks[0].closest('a')
+    fireEvent.click(screen.getAllByText('navigation.about')[0])
 
-    expect(desktopAboutLink).toHaveAttribute('href', '/en#about')
+    expect(mockPush).toHaveBeenCalledWith('/en#about')
   })
 
   it('renders link for blog navigation item', () => {
@@ -136,6 +170,15 @@ describe('Header Component', () => {
 
     const blogLinks = screen.getAllByText('navigation.blog')
     expect(blogLinks[0].closest('a')).toHaveAttribute('href', '/en/blog')
+  })
+
+  it('does not prefix the default locale in localized links', () => {
+    mockLocale = 'pt'
+
+    render(<Header />)
+
+    const blogLinks = screen.getAllByText('navigation.blog')
+    expect(blogLinks[0].closest('a')).toHaveAttribute('href', '/blog')
   })
 
   it('opens command menu when shortcut button clicked', () => {

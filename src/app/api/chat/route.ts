@@ -1,6 +1,13 @@
 import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
-import { SSE_HEADERS, SYSTEM_PROMPT_EN, SYSTEM_PROMPT_ES, SYSTEM_PROMPT_PT } from './chat.constants'
+import {
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
+  SSE_HEADERS,
+  SYSTEM_PROMPT_EN,
+  SYSTEM_PROMPT_ES,
+  SYSTEM_PROMPT_PT,
+} from './chat.constants'
 import { requestSchema } from './chat.schema'
 import {
   buildFallbackStream,
@@ -10,6 +17,7 @@ import {
   callGroq,
   callOpenRouter,
   checkRateLimit,
+  getRateLimitIdentifier,
 } from './chat.utils'
 
 const getSystemPrompt = (locale: string): string => {
@@ -25,13 +33,32 @@ const getSystemPrompt = (locale: string): string => {
 
 export async function POST(request: NextRequest): Promise<Response> {
   try {
-    const ip =
-      request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'unknown'
+    const rateLimitIdentifier = getRateLimitIdentifier(request.headers)
+    const rateLimit = await checkRateLimit({
+      identifier: rateLimitIdentifier,
+      keyPrefix: process.env.CHAT_RATE_LIMIT_PREFIX?.trim() || 'chat:rate-limit',
+      max: RATE_LIMIT_MAX,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    })
 
-    if (!checkRateLimit(ip)) {
+    if (!rateLimit.allowed) {
+      const retryAfterSeconds = Math.max(1, Math.ceil((rateLimit.resetAt - Date.now()) / 1000))
+
       return Response.json(
-        { error: 'Rate limit exceeded. Try again in a minute.' },
-        { status: 429 },
+        {
+          error: 'Rate limit exceeded. Try again in a minute.',
+          retryAfterSeconds,
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': retryAfterSeconds.toString(),
+            'X-RateLimit-Limit': RATE_LIMIT_MAX.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetAt.toString(),
+            'X-RateLimit-Source': rateLimit.source,
+          },
+        },
       )
     }
 

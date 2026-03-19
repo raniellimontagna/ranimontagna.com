@@ -48,6 +48,7 @@ describe('useContactForm', () => {
       email: 'john@example.com',
       subject: 'Test Subject',
       message: 'This is a test message.',
+      website: '',
     }
 
     await act(async () => {
@@ -73,6 +74,7 @@ describe('useContactForm', () => {
       email: 'john@example.com',
       subject: 'Test Subject',
       message: 'This is a test message.',
+      website: '',
     }
 
     await act(async () => {

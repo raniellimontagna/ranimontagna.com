@@ -1,60 +1,33 @@
-interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
-
-interface FormlyResponse {
-  success: boolean
-  message?: string
-  id?: string
-}
-
-const FORMLY_BASE_URL = 'https://formly.email'
+import type { ContactFormInput, ContactFormResponse } from '@/shared/lib/contact-form'
 
 /**
- * Send contact email via Formly API
+ * Send contact email through the internal API route so the provider key
+ * stays on the server instead of the client bundle.
  */
-export async function sendContactEmail(data: ContactFormData): Promise<FormlyResponse> {
+export async function sendContactEmail(data: ContactFormInput): Promise<ContactFormResponse> {
   const payload = {
-    access_key: process.env.NEXT_PUBLIC_FORMLY_FORM_ID,
-    name: data.name,
-    email: data.email,
-    subject: data.subject,
-    message: data.message,
-
-    source: 'Portfolio Website - Ranimontagna.com',
-    timestamp: new Date().toISOString(),
-    userAgent: navigator.userAgent,
-    url: window.location.href,
+    ...data,
+    website: data.website ?? '',
   }
 
-  const response = await fetch(`${FORMLY_BASE_URL}/submit`, {
+  const response = await fetch('/api/contact', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
     body: JSON.stringify(payload),
-    redirect: 'manual',
   })
 
-  if (response.type === 'opaqueredirect') {
-    return { success: true, message: 'Email enviado com sucesso!' }
-  }
-
   if (response.ok) {
-    let result: FormlyResponse
+    let result: ContactFormResponse
 
     try {
       result = await response.json()
     } catch {
-      // JSON parsing failed, but response was ok, treat as success
       return { success: true, message: 'Email enviado com sucesso!' }
     }
 
-    // Check if API returned success: false
     if (!result.success) {
       throw new Error(result.message || 'Erro desconhecido ao enviar email')
     }
@@ -69,7 +42,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<FormlyRes
 /**
  * Create mailto fallback link for when Formly API fails
  */
-export function createMailtoFallback(data: ContactFormData): string {
+export function createMailtoFallback(data: ContactFormInput): string {
   const subject = encodeURIComponent(data.subject)
   const body = encodeURIComponent(
     `Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n---\nEnviado via formulário do site em ${new Date().toLocaleString()}`,
@@ -78,5 +51,4 @@ export function createMailtoFallback(data: ContactFormData): string {
   return `mailto:contato@ranimontagna.com?subject=${subject}&body=${body}`
 }
 
-// Export types
-export type { ContactFormData, FormlyResponse }
+export type { ContactFormInput, ContactFormResponse }

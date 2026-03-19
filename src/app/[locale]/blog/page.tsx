@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { FeaturedPost, PostCard } from '@/features/blog/components'
 import { getAllPosts } from '@/features/blog/lib/blog'
 import { Breadcrumbs } from '@/shared/components/ui'
@@ -13,7 +13,7 @@ function getBlogUrl(locale: string): string {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations('blog')
+  const t = await getTranslations({ locale, namespace: 'blog' })
 
   const url = getBlogUrl(locale)
   const keywords = t.has('keywords') ? t('keywords') : undefined
@@ -52,7 +52,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations('blog')
+  setRequestLocale(locale)
+
+  const t = await getTranslations({ locale, namespace: 'blog' })
   const posts = await getAllPosts(locale)
   const featuredPost = posts[0]
   const remainingPosts = posts.slice(1)

@@ -5,6 +5,7 @@ describe('useTheme store', () => {
     useTheme.setState({ theme: 'dark', mounted: false })
     window.localStorage.clear()
     document.documentElement.classList.remove('light', 'dark')
+    document.documentElement.style.colorScheme = ''
   })
 
   describe('initial state', () => {
@@ -46,6 +47,7 @@ describe('useTheme store', () => {
 
       expect(document.documentElement.classList.contains('light')).toBe(true)
       expect(document.documentElement.classList.contains('dark')).toBe(false)
+      expect(document.documentElement.style.colorScheme).toBe('light')
     })
 
     it('applies dark class to document', () => {
@@ -55,6 +57,7 @@ describe('useTheme store', () => {
 
       expect(document.documentElement.classList.contains('dark')).toBe(true)
       expect(document.documentElement.classList.contains('light')).toBe(false)
+      expect(document.documentElement.style.colorScheme).toBe('dark')
     })
   })
 
@@ -108,6 +111,17 @@ describe('useTheme store', () => {
 
     it('loads theme from localStorage if available', () => {
       window.localStorage.setItem('theme-storage', JSON.stringify({ state: { theme: 'light' } }))
+      const { initTheme } = useTheme.getState()
+
+      initTheme()
+
+      expect(useTheme.getState().theme).toBe('light')
+    })
+
+    it('prefers the theme already applied to the DOM', () => {
+      window.localStorage.setItem('theme-storage', JSON.stringify({ state: { theme: 'dark' } }))
+      document.documentElement.classList.add('light')
+
       const { initTheme } = useTheme.getState()
 
       initTheme()

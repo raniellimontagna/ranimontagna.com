@@ -3,19 +3,31 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import type {
+  FieldErrors,
+  SubmitHandler,
+  UseFormHandleSubmit,
+  UseFormRegister,
+} from 'react-hook-form'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import type { ContactFormData } from '@/shared/services/formly-email-service'
+import {
+  type ContactFormData,
+  type ContactFormInput,
+  contactFormSchema,
+} from '@/shared/lib/contact-form'
 import { createMailtoFallback, sendContactEmail } from '@/shared/services/formly-email-service'
 
-const contactSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(), // Changed to z.string().email() for consistency with z.email()
-  subject: z.string().min(5),
-  message: z.string().min(10),
-})
+interface UseContactFormReturn {
+  t: ReturnType<typeof useTranslations>
+  register: UseFormRegister<ContactFormInput>
+  handleSubmit: UseFormHandleSubmit<ContactFormInput, ContactFormData>
+  errors: FieldErrors<ContactFormInput>
+  isSubmitting: boolean
+  submitStatus: 'idle' | 'success' | 'error'
+  onSubmit: SubmitHandler<ContactFormData>
+}
 
-export function useContactForm() {
+export function useContactForm(): UseContactFormReturn {
   const t = useTranslations('contact.form')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -25,11 +37,14 @@ export function useContactForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+  } = useForm<ContactFormInput, undefined, ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      website: '',
+    },
   })
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
     setIsSubmitting(true)
     setSubmitStatus('idle')
 

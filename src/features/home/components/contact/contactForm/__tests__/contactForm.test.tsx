@@ -54,6 +54,7 @@ describe('ContactForm Component', () => {
     expect(mockRegister).toHaveBeenCalledWith('email')
     expect(mockRegister).toHaveBeenCalledWith('subject')
     expect(mockRegister).toHaveBeenCalledWith('message')
+    expect(mockRegister).toHaveBeenCalledWith('website')
   })
 
   it('displays submit button in idle state', () => {

@@ -1,6 +1,7 @@
 export * from './components/animations'
 export { GoogleAnalytics } from './components/google-analytics/google-analytics'
 export { LanguageSwitcher } from './components/language-switcher/language-switcher'
+export { Footer } from './components/layout/footer/footer'
 export { Header } from './components/layout/header/header'
 export { ThemeProvider } from './components/theme-provider/theme-provider'
 export { ThemeToggle } from './components/theme-toggle/theme-toggle'

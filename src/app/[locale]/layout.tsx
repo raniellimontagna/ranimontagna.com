@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
 import './globals.css'
 
 import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
@@ -28,9 +29,37 @@ const geistMono = Geist_Mono({
   preload: true,
 })
 
+const THEME_INIT_SCRIPT = `
+(() => {
+  const storageKey = 'theme-storage';
+  const fallbackTheme = 'dark';
+  const root = document.documentElement;
+
+  try {
+    const savedTheme = localStorage.getItem(storageKey);
+    const parsed = savedTheme ? JSON.parse(savedTheme) : null;
+    const theme = parsed?.state?.theme === 'light' || parsed?.state?.theme === 'dark'
+      ? parsed.state.theme
+      : fallbackTheme;
+
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    root.style.colorScheme = theme;
+  } catch {
+    root.classList.remove('light', 'dark');
+    root.classList.add(fallbackTheme);
+    root.style.colorScheme = fallbackTheme;
+  }
+})();
+`
+
 type Props = {
   children: React.ReactNode
   params: Promise<{ locale: string }>
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -109,18 +138,21 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound()
   }
 
+  setRequestLocale(locale)
+
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)
   const profilePageJsonLd = generateProfilePageJsonLd(locale)
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="dark" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

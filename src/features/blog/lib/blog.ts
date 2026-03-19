@@ -175,11 +175,7 @@ async function fetchAllPosts(locale: string): Promise<Post[]> {
  */
 export const getPostBySlug = unstable_cache(
   async (slug: string, locale: string) => {
-    const post = await fetchPostBySlug(slug, locale)
-    if (!post) {
-      throw new Error(`Post not found: ${slug} (${locale})`)
-    }
-    return post
+    return await fetchPostBySlug(slug, locale)
   },
   ['post-by-slug'],
   {
