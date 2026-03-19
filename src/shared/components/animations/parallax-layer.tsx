@@ -4,7 +4,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { type ReactNode, useRef } from 'react'
 
 interface ParallaxLayerProps {
-  children: ReactNode
+  children?: ReactNode
   className?: string
   offset?: number
   axis?: 'x' | 'y'

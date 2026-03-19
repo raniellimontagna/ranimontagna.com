@@ -24,6 +24,9 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
 
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
 }))
 
 vi.mock('../project-card', () => ({
@@ -65,21 +68,20 @@ vi.mock('@/features/projects/data/projects.static', () => ({
 describe('Projects Component', () => {
   it('renders section title and subtitle', () => {
     render(<Projects />)
-    expect(screen.getByText('title.part1')).toBeInTheDocument()
-    expect(screen.getByText('title.part2')).toBeInTheDocument()
+    expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()
   })
 
   it('renders featured projects only', () => {
     render(<Projects />)
-    // Should render mock ProjectCards for featured projects
+    // Secondary featured projects remain in the reusable ProjectCard layout.
     const cards = screen.getAllByTestId('project-card')
-    expect(cards).toHaveLength(2)
-    // Check titles (derived from i18nKey in the component)
+    expect(cards).toHaveLength(1)
+
+    // The first featured item is promoted to the lead showcase.
     expect(screen.getByText('list.project1.title')).toBeInTheDocument()
     expect(screen.getByText('list.project3.title')).toBeInTheDocument()
-    // Should NOT render non-featured project
     expect(screen.queryByText('list.project2.title')).not.toBeInTheDocument()
   })
 

@@ -10,58 +10,58 @@ import { GithubIcon } from '@/shared/components/icons/brands'
 // Tech stack colors for visual variety
 const techColors: Record<string, string> = {
   React:
-    'bg-cyan-500/10 text-cyan-600 border-cyan-500/20 dark:bg-cyan-400/10 dark:text-cyan-400 dark:border-cyan-400/20',
+    'border-cyan-500/20 bg-cyan-500/10 text-cyan-700 dark:border-cyan-400/20 dark:bg-cyan-400/10 dark:text-cyan-300',
   'React Native':
-    'bg-cyan-500/10 text-cyan-600 border-cyan-500/20 dark:bg-cyan-400/10 dark:text-cyan-400 dark:border-cyan-400/20',
+    'border-cyan-500/20 bg-cyan-500/10 text-cyan-700 dark:border-cyan-400/20 dark:bg-cyan-400/10 dark:text-cyan-300',
   'Next.js':
-    'bg-slate-800/10 text-slate-800 border-slate-800/20 dark:bg-white/10 dark:text-white dark:border-white/20',
+    'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
   TypeScript:
-    'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:bg-blue-400/10 dark:text-blue-400 dark:border-blue-400/20',
+    'border-blue-500/20 bg-blue-500/10 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300',
   JavaScript:
-    'bg-yellow-500/10 text-yellow-600 border-yellow-500/20 dark:bg-yellow-400/10 dark:text-yellow-400 dark:border-yellow-400/20',
+    'border-yellow-500/20 bg-yellow-500/10 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/10 dark:text-yellow-300',
   'Node.js':
-    'bg-green-500/10 text-green-600 border-green-500/20 dark:bg-green-400/10 dark:text-green-400 dark:border-green-400/20',
+    'border-green-500/20 bg-green-500/10 text-green-700 dark:border-green-400/20 dark:bg-green-400/10 dark:text-green-300',
   Golang:
-    'bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-400/10 dark:text-sky-400 dark:border-sky-400/20',
-  Go: 'bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-400/10 dark:text-sky-400 dark:border-sky-400/20',
+    'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
+  Go: 'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
   Python:
-    'bg-yellow-500/10 text-yellow-700 border-yellow-500/20 dark:bg-yellow-400/10 dark:text-yellow-300 dark:border-yellow-400/20',
+    'border-yellow-500/20 bg-yellow-500/10 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/10 dark:text-yellow-300',
   PostgreSQL:
-    'bg-indigo-500/10 text-indigo-600 border-indigo-500/20 dark:bg-indigo-400/10 dark:text-indigo-400 dark:border-indigo-400/20',
+    'border-indigo-500/20 bg-indigo-500/10 text-indigo-700 dark:border-indigo-400/20 dark:bg-indigo-400/10 dark:text-indigo-300',
   MongoDB:
-    'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:border-emerald-400/20',
+    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
   Redis:
-    'bg-red-500/10 text-red-600 border-red-500/20 dark:bg-red-400/10 dark:text-red-400 dark:border-red-400/20',
+    'border-red-500/20 bg-red-500/10 text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300',
   Docker:
-    'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:bg-blue-400/10 dark:text-blue-400 dark:border-blue-400/20',
-  AWS: 'bg-orange-500/10 text-orange-600 border-orange-500/20 dark:bg-orange-400/10 dark:text-orange-400 dark:border-orange-400/20',
+    'border-blue-500/20 bg-blue-500/10 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300',
+  AWS: 'border-orange-500/20 bg-orange-500/10 text-orange-700 dark:border-orange-400/20 dark:bg-orange-400/10 dark:text-orange-300',
   Tailwind:
-    'bg-teal-500/10 text-teal-600 border-teal-500/20 dark:bg-teal-400/10 dark:text-teal-400 dark:border-teal-400/20',
+    'border-teal-500/20 bg-teal-500/10 text-teal-700 dark:border-teal-400/20 dark:bg-teal-400/10 dark:text-teal-300',
   TailwindCSS:
-    'bg-teal-500/10 text-teal-600 border-teal-500/20 dark:bg-teal-400/10 dark:text-teal-400 dark:border-teal-400/20',
+    'border-teal-500/20 bg-teal-500/10 text-teal-700 dark:border-teal-400/20 dark:bg-teal-400/10 dark:text-teal-300',
   GraphQL:
-    'bg-pink-500/10 text-pink-600 border-pink-500/20 dark:bg-pink-400/10 dark:text-pink-400 dark:border-pink-400/20',
+    'border-pink-500/20 bg-pink-500/10 text-pink-700 dark:border-pink-400/20 dark:bg-pink-400/10 dark:text-pink-300',
   Firebase:
-    'bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-400/10 dark:text-amber-400 dark:border-amber-400/20',
+    'border-amber-500/20 bg-amber-500/10 text-amber-700 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-300',
   Supabase:
-    'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:border-emerald-400/20',
+    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
   Prisma:
-    'bg-slate-600/10 text-slate-700 border-slate-600/20 dark:bg-slate-300/10 dark:text-slate-300 dark:border-slate-300/20',
+    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
   Fastify:
-    'bg-slate-600/10 text-slate-700 border-slate-600/20 dark:bg-slate-300/10 dark:text-slate-300 dark:border-slate-300/20',
+    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
   NestJS:
-    'bg-red-500/10 text-red-600 border-red-500/20 dark:bg-red-400/10 dark:text-red-400 dark:border-red-400/20',
+    'border-red-500/20 bg-red-500/10 text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300',
   Express:
-    'bg-slate-600/10 text-slate-700 border-slate-600/20 dark:bg-slate-300/10 dark:text-slate-300 dark:border-slate-300/20',
-  Vue: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:border-emerald-400/20',
+    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
+  Vue: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
   'Vue.js':
-    'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:border-emerald-400/20',
-  Sass: 'bg-pink-500/10 text-pink-600 border-pink-500/20 dark:bg-pink-400/10 dark:text-pink-400 dark:border-pink-400/20',
-  Expo: 'bg-slate-800/10 text-slate-800 border-slate-800/20 dark:bg-white/10 dark:text-white dark:border-white/20',
+    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
+  Sass: 'border-pink-500/20 bg-pink-500/10 text-pink-700 dark:border-pink-400/20 dark:bg-pink-400/10 dark:text-pink-300',
+  Expo: 'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
 }
 
 const defaultTechColor =
-  'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-slate-700'
+  'border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)]'
 
 function getTechColor(tech: string): string {
   // Check for exact match first
@@ -90,18 +90,18 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
   const typeStyles = {
     web: {
       badge:
-        'text-blue-600 bg-blue-500/10 border-blue-500/30 dark:text-blue-400 dark:bg-blue-400/10 dark:border-blue-400/30',
-      glow: 'group-hover:shadow-blue-500/20 dark:group-hover:shadow-blue-400/10',
+        'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
+      glow: 'group-hover:shadow-sky-500/15 dark:group-hover:shadow-sky-400/10',
     },
     mobile: {
       badge:
-        'text-emerald-600 bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-400 dark:bg-emerald-400/10 dark:border-emerald-400/30',
-      glow: 'group-hover:shadow-emerald-500/20 dark:group-hover:shadow-emerald-400/10',
+        'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
+      glow: 'group-hover:shadow-emerald-500/15 dark:group-hover:shadow-emerald-400/10',
     },
     api: {
       badge:
-        'text-purple-600 bg-purple-500/10 border-purple-500/30 dark:text-purple-400 dark:bg-purple-400/10 dark:border-purple-400/30',
-      glow: 'group-hover:shadow-purple-500/20 dark:group-hover:shadow-purple-400/10',
+        'border-[color:var(--accent)]/30 bg-[color:var(--accent)]/12 text-lime-800 dark:text-lime-300',
+      glow: 'group-hover:shadow-lime-500/15 dark:group-hover:shadow-lime-400/10',
     },
   }
 
@@ -137,17 +137,13 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`
-        group relative flex h-full flex-col overflow-hidden rounded-2xl
-        bg-white/80 backdrop-blur-sm
-        border border-slate-200/80
-        shadow-lg shadow-slate-200/50
+        group relative flex h-full flex-col overflow-hidden rounded-[1.75rem]
+        border border-[color:var(--line)]
+        bg-[color:var(--surface)]/92 backdrop-blur-sm
+        shadow-[var(--shadow-card)]
         transition-all duration-500 ease-out
         hover:shadow-2xl ${typeStyles[project.type].glow}
-        hover:border-slate-300/80
-        dark:bg-slate-900/80 dark:border-slate-700/50
-        dark:shadow-none
-        dark:hover:border-slate-600/80
-        dark:hover:shadow-xl dark:hover:shadow-slate-950/50
+        hover:-translate-y-1 hover:border-[color:var(--foreground)]/12
       `}
       style={{
         animationDelay,
@@ -155,18 +151,15 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         transformStyle: 'preserve-3d',
       }}
     >
-      {/* Animated gradient border overlay */}
       <div
         className={`
-          absolute inset-0 -z-10 rounded-2xl opacity-0 transition-opacity duration-500
+          absolute inset-0 -z-10 rounded-[1.75rem] opacity-0 transition-opacity duration-500
           group-hover:opacity-100
-          bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20
-          dark:from-blue-400/10 dark:via-purple-400/10 dark:to-pink-400/10
-          blur-xl
+          bg-linear-to-br from-[color:var(--accent)]/10 via-transparent to-[color:var(--accent-ice)]/18
+          blur-2xl
         `}
       />
 
-      {/* Shine effect on hover */}
       <div
         className={`
           absolute inset-0 -z-5 opacity-0 transition-opacity duration-700
@@ -175,12 +168,11 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         `}
         style={{
           background: isHovering
-            ? `radial-gradient(600px circle at ${transform.rotateY * 10 + 50}% ${-transform.rotateX * 10 + 30}%, rgba(255,255,255,0.1), transparent 40%)`
+            ? `radial-gradient(560px circle at ${transform.rotateY * 10 + 50}% ${-transform.rotateX * 10 + 30}%, rgba(255,255,255,0.14), transparent 42%)`
             : 'none',
         }}
       />
 
-      {/* Image / Header Area */}
       <div className="relative aspect-video w-full overflow-hidden">
         {project.image ? (
           <>
@@ -192,51 +184,46 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
               priority={priority}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
-            {/* Image overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-linear-to-t from-slate-950/45 via-transparent to-white/10 opacity-85" />
           </>
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
+          <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.15),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.9),rgba(244,247,250,0.96))] dark:bg-[radial-gradient(circle_at_top_left,rgba(162,255,61,0.14),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(111,202,255,0.18),transparent_32%),linear-gradient(135deg,rgba(15,23,42,0.96),rgba(2,6,23,0.98))]">
             <div className="relative">
-              {/* Icon glow */}
               <div className="absolute inset-0 blur-2xl opacity-50 transition-opacity duration-500 group-hover:opacity-80">
                 <Icon className="h-20 w-20 text-slate-400 dark:text-slate-500" />
               </div>
-              <Icon className="relative h-16 w-16 text-slate-400 transition-all duration-500 group-hover:scale-110 group-hover:text-slate-500 dark:text-slate-600 dark:group-hover:text-slate-500" />
+              <div className="absolute inset-0 rounded-full border border-white/40 dark:border-white/10" />
+              <Icon className="relative h-16 w-16 text-slate-500 transition-all duration-500 group-hover:scale-110 group-hover:text-slate-700 dark:text-slate-500 dark:group-hover:text-slate-300" />
             </div>
           </div>
         )}
 
-        {/* Type Badge - Top Left with glass effect */}
         <div className="absolute top-3 left-3 z-10">
           <span
             className={`
               inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5
-              text-xs font-semibold backdrop-blur-md shadow-lg
+              font-mono text-[11px] font-semibold uppercase tracking-[0.18em] backdrop-blur-md shadow-lg
               transition-all duration-300 group-hover:scale-105
               ${typeStyles[project.type].badge}
             `}
           >
             <Icon className="h-3.5 w-3.5" />
-            <span className="capitalize">{project.type}</span>
+            <span>{project.type}</span>
           </span>
         </div>
 
-        {/* Featured badge */}
         {project.featured && (
           <div className="absolute top-3 right-3 z-10">
-            <span className="relative inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2.5 py-1 text-xs font-bold text-white shadow-lg shadow-orange-500/30">
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 opacity-0 blur transition-opacity duration-500 group-hover:opacity-50" />
+            <span className="relative inline-flex items-center gap-1 rounded-full border border-white/40 bg-slate-950/72 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white shadow-lg backdrop-blur dark:border-white/10">
               <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span className="relative">{t('featuredBadge')}</span>
+              <span>{t('featuredBadge')}</span>
             </span>
           </div>
         )}
 
-        {/* Actions Overlay with glassmorphism */}
-        <div className="absolute inset-0 flex items-center justify-center gap-4 bg-white/60 backdrop-blur-md opacity-0 transition-all duration-400 group-hover:opacity-100 group-focus-within:opacity-100 dark:bg-slate-950/60">
+        <div className="absolute inset-0 flex items-center justify-center gap-4 bg-white/55 backdrop-blur-md opacity-0 transition-all duration-400 group-hover:opacity-100 group-focus-within:opacity-100 dark:bg-slate-950/55">
           <div className="flex translate-y-6 scale-90 gap-4 transition-all duration-400 ease-out group-hover:translate-y-0 group-hover:scale-100 group-focus-within:translate-y-0 group-focus-within:scale-100">
             {project.github && (
               <a
@@ -265,13 +252,11 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
                 rel="noopener noreferrer"
                 className="
                   flex h-12 w-12 items-center justify-center rounded-xl
-                  bg-gradient-to-br from-blue-500 to-blue-600 text-white
-                  shadow-lg shadow-blue-500/30
+                  bg-linear-to-br from-[color:var(--foreground)] to-slate-700 text-white
+                  shadow-lg shadow-slate-900/20
                   backdrop-blur-sm
                   transition-all duration-300
-                  hover:scale-110 hover:from-blue-400 hover:to-blue-500 hover:shadow-xl hover:shadow-blue-500/40
-                  dark:from-blue-600 dark:to-blue-700
-                  dark:hover:from-blue-500 dark:hover:to-blue-600
+                  hover:scale-110 hover:from-slate-800 hover:to-slate-700 hover:shadow-xl
                 "
                 aria-label="View Live Demo"
                 title="View Live Site"
@@ -283,24 +268,22 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         </div>
       </div>
 
-      {/* Content Body */}
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="mb-2 text-lg font-bold tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-slate-800 dark:text-slate-100 dark:group-hover:text-white">
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="mb-2 text-xl font-semibold tracking-[-0.05em] text-[color:var(--foreground)] transition-colors duration-300">
           {project.title}
         </h3>
 
-        <p className="mb-4 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="mb-5 flex-1 text-sm leading-7 text-[color:var(--muted)]">
           {project.description}
         </p>
 
-        {/* Tech Stack with colorful badges */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2">
+        <div className="flex flex-wrap items-center gap-2 pt-2">
           {project.technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
               className={`
-                inline-flex items-center rounded-md border px-2 py-0.5
-                text-[10px] font-semibold uppercase tracking-wide
+                inline-flex items-center rounded-full border px-2.5 py-1
+                text-[10px] font-semibold uppercase tracking-[0.16em]
                 transition-all duration-300 hover:scale-105
                 ${getTechColor(tech)}
               `}
@@ -309,7 +292,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-500">
+            <span className="inline-flex items-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--muted)]">
               {t('moreCount', { count: project.technologies.length - 4 })}
             </span>
           )}

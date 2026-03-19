@@ -34,7 +34,7 @@ export async function Hero() {
         <div className="relative">
           <div className="editorial-kicker text-[color:var(--foreground)]">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--accent)] opacity-80" />
+              <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-[color:var(--accent)] opacity-80" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[color:var(--accent)]" />
             </span>
             {t('availability')}
