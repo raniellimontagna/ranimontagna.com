@@ -1,6 +1,10 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { contactFormSchema, type ContactFormData, type ContactFormResponse } from '@/shared/lib/contact-form'
+import {
+  type ContactFormData,
+  type ContactFormResponse,
+  contactFormSchema,
+} from '@/shared/lib/contact-form'
 import { checkRateLimit, getRateLimitIdentifier } from '@/shared/lib/rate-limit'
 
 const FORMLY_BASE_URL = 'https://formly.email'
@@ -19,7 +23,8 @@ const getContactRateLimitWindowMs = (): number => {
 }
 
 const getFormlyFormId = (): string | null => {
-  const formId = process.env.FORMLY_FORM_ID?.trim() || process.env.NEXT_PUBLIC_FORMLY_FORM_ID?.trim()
+  const formId =
+    process.env.FORMLY_FORM_ID?.trim() || process.env.NEXT_PUBLIC_FORMLY_FORM_ID?.trim()
   return formId || null
 }
 

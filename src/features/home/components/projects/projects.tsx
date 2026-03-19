@@ -1,14 +1,13 @@
 import { Code, SquareArrowRightUp } from '@solar-icons/react/ssr'
-import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import type { ProjectType } from '@/features/projects/types/projects.types'
 import { FadeIn } from '@/shared/components/animations'
+import { Link } from '@/shared/config/i18n/navigation'
 import { ProjectCard } from './project-card'
 
 export function Projects() {
   const t = useTranslations('projects')
-  const locale = useLocale()
 
   const projects: ProjectType[] = projectsData.map((p) => ({
     ...p,
@@ -66,7 +65,7 @@ export function Projects() {
         <FadeIn delay={1.2}>
           <div className="mt-16 flex justify-center">
             <Link
-              href={`/${locale}/projects`}
+              href="/projects"
               className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-lg transition-all hover:bg-slate-800 hover:shadow-xl hover:scale-105 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
             >
               <span>{t('viewAll')}</span>

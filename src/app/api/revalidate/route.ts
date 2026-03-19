@@ -29,7 +29,11 @@ const hasValidBearerToken = (authorizationHeader: string | null, secret: string)
   return secureCompare(token, secret)
 }
 
-const hasValidGithubSignature = (signature: string | null, body: string, secret: string): boolean => {
+const hasValidGithubSignature = (
+  signature: string | null,
+  body: string,
+  secret: string,
+): boolean => {
   if (!signature) {
     return false
   }

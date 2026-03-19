@@ -6,6 +6,21 @@ vi.mock('@/shared', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
 }))
 
+vi.mock('@/shared/config/i18n/navigation', () => ({
+  Link: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode
+    href: string
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}))
+
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
   useLocale: () => 'en',
@@ -21,5 +36,6 @@ describe('BlogHeader Component', () => {
     expect(screen.getByText('backToPortfolio')).toBeInTheDocument()
     expect(screen.getByTestId('language-switcher')).toBeInTheDocument()
     expect(screen.getByTestId('theme-toggle')).toBeInTheDocument()
+    expect(screen.getByText('Blog').closest('a')).toHaveAttribute('href', '/blog')
   })
 })

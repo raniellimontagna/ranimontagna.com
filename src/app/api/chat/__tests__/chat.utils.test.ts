@@ -1,9 +1,5 @@
-import {
-  checkRateLimit,
-  getRateLimitIdentifier,
-  resetRateLimitStateForTests,
-} from '../chat.utils'
 import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '../chat.constants'
+import { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests } from '../chat.utils'
 
 describe('chat rate limit utilities', () => {
   beforeEach(() => {

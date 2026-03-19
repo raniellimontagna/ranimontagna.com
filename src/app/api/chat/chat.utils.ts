@@ -1,13 +1,10 @@
 import {
   checkRateLimit,
   getRateLimitIdentifier,
-  resetRateLimitStateForTests,
   type RateLimitResult,
+  resetRateLimitStateForTests,
 } from '@/shared/lib/rate-limit'
-import {
-  CHAT_PROVIDER_TIMEOUT_MS,
-  FALLBACK_MESSAGES,
-} from './chat.constants'
+import { CHAT_PROVIDER_TIMEOUT_MS, FALLBACK_MESSAGES } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
 export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }

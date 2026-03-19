@@ -11,9 +11,9 @@ import type {
 } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import {
-  contactFormSchema,
   type ContactFormData,
   type ContactFormInput,
+  contactFormSchema,
 } from '@/shared/lib/contact-form'
 import { createMailtoFallback, sendContactEmail } from '@/shared/services/formly-email-service'
 

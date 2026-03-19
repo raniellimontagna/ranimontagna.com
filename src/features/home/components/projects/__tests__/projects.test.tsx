@@ -7,6 +7,21 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }))
 
+vi.mock('@/shared/config/i18n/navigation', () => ({
+  Link: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode
+    href: string
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a href={`/en${href}`} {...props}>
+      {children}
+    </a>
+  ),
+}))
+
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))

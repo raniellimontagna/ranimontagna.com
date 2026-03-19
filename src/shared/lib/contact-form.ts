@@ -7,7 +7,10 @@ export const contactFormSchema = z.object({
   email: z.string().trim().email().max(200),
   subject: z.string().trim().min(5).max(200),
   message: z.string().trim().min(10).max(5000),
-  website: z.union([emptyString, z.string().trim().max(0)]).optional().default(''),
+  website: z
+    .union([emptyString, z.string().trim().max(0)])
+    .optional()
+    .default(''),
 })
 
 export type ContactFormInput = z.input<typeof contactFormSchema>

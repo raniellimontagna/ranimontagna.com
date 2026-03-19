@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import { notFound } from 'next/navigation'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import {
   ImageWithLightbox,

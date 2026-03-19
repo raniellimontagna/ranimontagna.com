@@ -2,15 +2,21 @@
 
 import { CloseCircle, Download, HamburgerMenu, SquareAltArrowUp } from '@solar-icons/react/ssr'
 import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import { LanguageSwitcher } from '@/shared/components/language-switcher/language-switcher'
 import { ThemeToggle } from '@/shared/components/theme-toggle/theme-toggle'
+import { getPathname, Link, usePathname } from '@/shared/config/i18n/navigation'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
+
+type NavigationItem = {
+  name: string
+  href: string
+  type: 'scroll' | 'link'
+}
 
 export const Header = (): React.ReactElement | null => {
   const t = useTranslations('header')
@@ -22,7 +28,8 @@ export const Header = (): React.ReactElement | null => {
   const [isScrolled, setIsScrolled] = useState(false)
 
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
-  const isHomePage = pathname === `/${locale}` || pathname === '/'
+  const isHomePage = pathname === '/'
+  const homeHref = getPathname({ href: '/', locale })
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -31,17 +38,18 @@ export const Header = (): React.ReactElement | null => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navigation = [
+  const navigation: NavigationItem[] = [
     { name: t('navigation.about'), href: '#about', type: 'scroll' },
     { name: t('navigation.experience'), href: '#experience', type: 'scroll' },
     { name: t('navigation.projects'), href: '#projects', type: 'scroll' },
-    { name: t('navigation.blog'), href: `/${locale}/blog`, type: 'link' },
+    { name: t('navigation.blog'), href: '/blog', type: 'link' },
     { name: t('navigation.contact'), href: '#contact', type: 'scroll' },
   ]
 
   const scrollToSection = (href: string) => {
-    if (!isHomePage && href.startsWith('#')) {
-      router.push(`/${locale}${href}`)
+    if (!isHomePage) {
+      const nextHref = href === '#start' ? homeHref : `${homeHref}${href}`
+      router.push(nextHref)
       setIsMenuOpen(false)
       return
     }
@@ -54,6 +62,32 @@ export const Header = (): React.ReactElement | null => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     setIsMenuOpen(false)
+  }
+
+  const renderNavigationItem = (item: NavigationItem, className: string) => {
+    if (item.type === 'scroll') {
+      return (
+        <button
+          type="button"
+          key={item.name}
+          onClick={() => scrollToSection(item.href)}
+          className={className}
+        >
+          {item.name}
+        </button>
+      )
+    }
+
+    return (
+      <Link
+        key={item.name}
+        href={item.href}
+        className={className}
+        onClick={() => setIsMenuOpen(false)}
+      >
+        {item.name}
+      </Link>
+    )
   }
 
   return (
@@ -102,33 +136,12 @@ export const Header = (): React.ReactElement | null => {
 
           <div className="hidden items-center space-x-1 xl:flex">
             <div className="flex items-center rounded-full border border-slate-200 bg-white/50 p-1 px-2 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50">
-              {navigation.map((item) => {
-                const isScrollItem = item.type === 'scroll'
-                if (isScrollItem && isHomePage) {
-                  return (
-                    <button
-                      type="button"
-                      key={item.name}
-                      onClick={() => scrollToSection(item.href)}
-                      className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                    >
-                      {item.name}
-                    </button>
-                  )
-                }
-
-                const href = isScrollItem ? `/${locale}${item.href}` : item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={href}
-                    className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              })}
+              {navigation.map((item) =>
+                renderNavigationItem(
+                  item,
+                  'rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400',
+                ),
+              )}
             </div>
           </div>
 
@@ -183,33 +196,12 @@ export const Header = (): React.ReactElement | null => {
           }`}
         >
           <div className="space-y-1 pt-4 pb-2">
-            {navigation.map((item) => {
-              const isScrollItem = item.type === 'scroll'
-              if (isScrollItem && isHomePage) {
-                return (
-                  <button
-                    type="button"
-                    key={item.name}
-                    onClick={() => scrollToSection(item.href)}
-                    className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                  >
-                    {item.name}
-                  </button>
-                )
-              }
-
-              const href = isScrollItem ? `/${locale}${item.href}` : item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={href}
-                  className="block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
+            {navigation.map((item) =>
+              renderNavigationItem(
+                item,
+                'block w-full rounded-lg px-4 py-3 text-left font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400',
+              ),
+            )}
           </div>
         </div>
       </nav>
