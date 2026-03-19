@@ -46,7 +46,7 @@ describe('FeaturedPost', () => {
     render(<FeaturedPost post={postWithoutCover} />)
 
     const img = screen.getByAltText('Test Post')
-    expect(img).toHaveAttribute('src', expect.stringContaining('unsplash.com'))
+    expect(img).toHaveAttribute('src', '/og-image.png')
   })
 
   it('renders tags', () => {

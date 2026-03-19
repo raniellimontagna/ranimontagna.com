@@ -1,16 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { BLOG_DEFAULT_IMAGE_PATH } from '@/features/blog/lib/media'
 
 interface SafeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string
 }
 
-const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80'
-
 export function SafeImage({
   src,
-  fallbackSrc = DEFAULT_FALLBACK,
+  fallbackSrc = BLOG_DEFAULT_IMAGE_PATH,
   alt,
   className,
   ...props

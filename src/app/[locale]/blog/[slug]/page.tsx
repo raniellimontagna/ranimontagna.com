@@ -9,6 +9,7 @@ import {
   ReadingProgressBar,
   ScrollToTop,
 } from '@/features/blog/components'
+import { resolveBlogImageUrl } from '@/features/blog/lib/media'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
@@ -51,11 +52,7 @@ export async function generateMetadata({
   }
 
   const url = getPostUrl(locale, slug)
-
-  // Fallback image when no coverImage is set
-  const defaultOgImage =
-    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
-  const ogImage = post.metadata.coverImage || defaultOgImage
+  const ogImage = resolveBlogImageUrl(post.metadata.coverImage)
 
   return {
     title: post.metadata.title,
@@ -218,9 +215,7 @@ export default async function PostPage(props: {
   const url = getPostUrl(params.locale, params.slug)
 
   // JSON-LD structured data for SEO
-  const postOgImage =
-    post.metadata.coverImage ||
-    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80'
+  const postOgImage = resolveBlogImageUrl(post.metadata.coverImage)
 
   // Estimate word count from markdown content (strip MDX/markdown syntax)
   const wordCount = post.content
