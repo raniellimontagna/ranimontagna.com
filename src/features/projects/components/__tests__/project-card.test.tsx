@@ -122,10 +122,10 @@ describe('ProjectCard', () => {
     expect(screen.getByText('noDescription')).toBeInTheDocument()
   })
 
-  it('renders updated time', () => {
+  it('does not render relative updated time metadata anymore', () => {
     render(<ProjectCard repo={mockRepo} index={0} />)
 
-    expect(screen.getByText('2 days ago')).toBeInTheDocument()
+    expect(screen.queryByText('2 days ago')).not.toBeInTheDocument()
   })
 
   it('renders repository link with correct href', () => {

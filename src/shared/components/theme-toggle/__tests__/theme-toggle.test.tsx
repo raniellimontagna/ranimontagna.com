@@ -27,10 +27,16 @@ describe('ThemeToggle', () => {
 
   it('renders loading state when not mounted', () => {
     mockMounted = false
-    render(<ThemeToggle />)
-    const button = screen.getByRole('button')
-    expect(button).toBeDisabled()
-    expect(button).toHaveAttribute('aria-label', 'Loading theme toggle')
+    const { container } = render(<ThemeToggle />)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(container.firstChild).toHaveClass(
+      'flex',
+      'h-8',
+      'w-8',
+      'rounded-xl',
+      'bg-surface-strong/50',
+      'opacity-20',
+    )
   })
 
   it('renders toggle button when mounted', () => {
@@ -47,17 +53,18 @@ describe('ThemeToggle', () => {
 
   it('toggles theme on click', () => {
     render(<ThemeToggle />)
-    const button = screen.getByRole('button')
+    const button = screen.getByRole('button', { name: /themeToggle.ariaLabel/ })
     fireEvent.click(button)
     expect(mockToggleTheme).toHaveBeenCalled()
   })
 
-  it('displays correct icons based on theme', () => {
+  it('updates accessible labels based on theme', () => {
     mockTheme = 'dark'
     render(<ThemeToggle />)
-    // Both icons are rendered but hidden/shown via CSS classes
-    // We check existence
-    expect(screen.getByTestId('sun-icon')).toBeInTheDocument()
-    expect(screen.getByTestId('moon-icon')).toBeInTheDocument()
+
+    const button = screen.getByRole('button', { name: /themeToggle.ariaLabel/ })
+    expect(button).toHaveAttribute('aria-label', 'themeToggle.ariaLabel:{"mode":"light"}')
+    expect(button).toHaveAttribute('title', 'themeToggle.tooltip:{"mode":"light"}')
+    expect(button.querySelector('svg')).toBeInTheDocument()
   })
 })

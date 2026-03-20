@@ -1,6 +1,8 @@
 import { render } from '@/tests/test-utils'
 import { ReadingProgressBar } from '../reading-progress-bar'
 
+let mockScrollProgress = 0.4
+
 // Mock motion/react
 vi.mock('motion/react', () => ({
   motion: {
@@ -10,12 +12,16 @@ vi.mock('motion/react', () => ({
       </div>
     ),
   },
-  useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
+  useScroll: () => ({ scrollYProgress: { get: () => mockScrollProgress } }),
   useSpring: (value: unknown) => value,
   useReducedMotion: () => false,
 }))
 
 describe('ReadingProgressBar Component', () => {
+  beforeEach(() => {
+    mockScrollProgress = 0.4
+  })
+
   it('renders the progress bar container', () => {
     render(<ReadingProgressBar />)
     const container = document.querySelector('.z-60')
@@ -26,5 +32,11 @@ describe('ReadingProgressBar Component', () => {
     render(<ReadingProgressBar />)
     const bar = document.querySelector('.bg-linear-to-r')
     expect(bar).toBeInTheDocument()
+  })
+
+  it('does not render when progress is at the start', () => {
+    mockScrollProgress = 0
+    const { container } = render(<ReadingProgressBar />)
+    expect(container.firstChild).toBeNull()
   })
 })

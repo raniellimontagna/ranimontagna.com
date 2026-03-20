@@ -1,44 +1,35 @@
 import { render, screen } from '@/tests/test-utils'
 import { ProjectsHeader } from '../projects-header'
 
-vi.mock('@/shared', () => ({
-  LanguageSwitcher: () => <div data-testid="language-switcher">LanguageSwitcher</div>,
-  ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
-}))
-
-vi.mock('@/shared/config/i18n/navigation', () => ({
-  Link: ({
-    children,
-    href,
-    ...props
+vi.mock('@/shared/components/layout/header/header', () => ({
+  Header: ({
+    title,
+    backHref,
+    backLabel,
   }: {
-    children: React.ReactNode
-    href: string
-  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
+    title: string
+    backHref: string
+    backLabel: string
+  }) => (
+    <div data-testid="header">
+      <span>{title}</span>
+      <span>{backHref}</span>
+      <span>{backLabel}</span>
+    </div>
   ),
 }))
 
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
-  useLocale: () => 'en',
 }))
 
 describe('ProjectsHeader Component', () => {
   it('renders correctly', () => {
     render(<ProjectsHeader />)
 
-    expect(screen.getByRole('banner')).toBeInTheDocument()
-    expect(screen.getByAltText('Logo')).toBeInTheDocument()
-
+    expect(screen.getByTestId('header')).toBeInTheDocument()
     expect(screen.getByText('breadcrumb')).toBeInTheDocument()
-
+    expect(screen.getByText('/')).toBeInTheDocument()
     expect(screen.getByText('backToPortfolio')).toBeInTheDocument()
-
-    expect(screen.getByTestId('language-switcher')).toBeInTheDocument()
-    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument()
-    expect(screen.getByText('breadcrumb').closest('a')).toHaveAttribute('href', '/projects')
   })
 })

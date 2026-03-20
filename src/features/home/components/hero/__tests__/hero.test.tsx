@@ -43,14 +43,13 @@ describe('Hero Component', () => {
     render(hero)
 
     expect(screen.getByTestId('hero')).toBeInTheDocument()
-    expect(screen.getAllByText('availability').length).toBeGreaterThan(0)
     expect(screen.getByTestId('terminal-window')).toBeInTheDocument()
     expect(screen.getByText('name')).toBeInTheDocument()
     expect(screen.getByText('greeting')).toBeInTheDocument()
-
-    expect(screen.getAllByText('React').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Next.js').length).toBeGreaterThan(0)
+    expect(screen.getByText('description')).toBeInTheDocument()
+    expect(screen.getByText('seoDescription')).toBeInTheDocument()
     expect(screen.getByText('cta.projects')).toBeInTheDocument()
+    expect(screen.getByText('cta.contact')).toBeInTheDocument()
   })
 })
 

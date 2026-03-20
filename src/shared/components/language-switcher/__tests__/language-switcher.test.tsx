@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@/tests/test-utils'
+import { fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import { LanguageSwitcher } from '../language-switcher'
 
 // Mocks
@@ -65,23 +65,27 @@ describe('LanguageSwitcher', () => {
     expect(screen.getByText('Português')).toBeInTheDocument()
   })
 
-  it('closes menu on click outside', () => {
+  it('closes menu on click outside', async () => {
     render(<LanguageSwitcher />)
     const button = screen.getByRole('button', { name: /Change language/i })
     fireEvent.click(button)
     expect(screen.getByRole('menu')).toBeInTheDocument()
 
     fireEvent.mouseDown(document.body)
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    })
   })
 
-  it('closes menu on Escape key', () => {
+  it('closes menu on Escape key', async () => {
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
     expect(screen.getByRole('menu')).toBeInTheDocument()
 
     fireEvent.keyDown(document, { key: 'Escape' })
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    })
   })
 
   it('navigates to new locale on selection using router.replace', () => {
@@ -90,22 +94,24 @@ describe('LanguageSwitcher', () => {
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
 
-    const ptButton = screen.getByRole('menuitem', { name: /Change language to Português/i })
+    const ptButton = screen.getByRole('menuitem', { name: /Português/i })
     fireEvent.click(ptButton)
 
     // next-intl router.replace handles locale prefix logic internally
     expect(mockReplace).toHaveBeenCalledWith('/about', { locale: 'pt' })
   })
 
-  it('closes menu when overlay is clicked', () => {
+  it('closes menu when overlay is clicked', async () => {
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
     expect(screen.getByRole('menu')).toBeInTheDocument()
 
     // Click the overlay (backdrop)
-    const overlay = screen.getByLabelText('Close language menu')
+    const overlay = screen.getByLabelText('Close menu')
     fireEvent.click(overlay)
 
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    })
   })
 })

@@ -219,7 +219,9 @@ describe('MermaidDiagram Component', () => {
         'overflow-x-auto',
         'rounded-xl',
         'border',
-        'border-slate-200',
+        'border-line',
+        'bg-surface',
+        'p-6',
       )
     })
 
