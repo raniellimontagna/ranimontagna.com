@@ -7,6 +7,19 @@ vi.mock('next-intl', () => ({
   useLocale: () => 'en',
 }))
 
+vi.mock('next/image', () => ({
+  default: ({
+    alt,
+    fill: _fill,
+    priority: _priority,
+    ...props
+  }: React.ImgHTMLAttributes<HTMLImageElement> & {
+    fill?: boolean
+    priority?: boolean
+    // biome-ignore lint/performance/noImgElement: test double for next/image
+  }) => <img alt={alt} {...props} />,
+}))
+
 vi.mock('@/shared/config/i18n/navigation', () => ({
   Link: ({
     children,
@@ -46,6 +59,7 @@ vi.mock('@/features/projects/data/projects.static', () => ({
       type: 'web',
       featured: true,
       image: '/img1.jpg',
+      images: ['/img1.jpg', '/img1-2.jpg'],
       technologies: ['React'],
       role: 'fullstack',
       year: 2024,
@@ -105,6 +119,11 @@ describe('Projects Component', () => {
     expect(screen.getByText('list.project1.title')).toBeInTheDocument()
     expect(screen.getByText('list.project3.title')).toBeInTheDocument()
     expect(screen.queryByText('list.project2.title')).not.toBeInTheDocument()
+    expect(screen.getByAltText('list.project1.title')).toHaveAttribute('src', '/img1.jpg')
+    expect(screen.getByAltText('list.project1.title preview 2')).toHaveAttribute(
+      'src',
+      '/img1-2.jpg',
+    )
   })
 
   it('renders view all button', () => {

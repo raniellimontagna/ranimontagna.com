@@ -3,6 +3,7 @@ export type ProjectType = {
   slug: string
   i18nKey: string
   image: string
+  images?: string[]
   technologies: string[]
   github: string
   demo: string | null

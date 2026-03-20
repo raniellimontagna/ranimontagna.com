@@ -12,6 +12,7 @@ import {
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
+import { getProjectImages } from '@/features/projects/lib/project-images'
 import type { ProjectCardProps } from '@/features/projects/types/projects.types'
 
 // Tech stack colors for visual variety
@@ -88,6 +89,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
   const cardRef = useRef<HTMLElement>(null)
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const primaryImage = getProjectImages(project)[0] ?? ''
 
   const Icon = {
     web: Global,
@@ -181,10 +183,10 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
       />
 
       <div className="relative aspect-video w-full overflow-hidden">
-        {project.image ? (
+        {primaryImage ? (
           <>
             <Image
-              src={project.image}
+              src={primaryImage}
               alt={project.title}
               fill
               className="object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-110"

@@ -15,6 +15,7 @@ export function About() {
   const t = useTranslations('about')
   const locale = useLocale()
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
+  const photoName = t('bio.name')
   const stats = [
     { value: 4, suffix: '+', label: t('stats.experience') },
     { value: 20, suffix: '+', label: t('stats.projects') },
@@ -105,23 +106,39 @@ export function About() {
           </div>
 
           <BlurReveal delay={0.2} className="order-1 lg:order-2">
-            <div className="relative mx-auto w-full max-w-125 lg:max-w-none">
-              <ParallaxLayer offset={30}>
-                <div className="surface-panel-strong relative overflow-hidden rounded-3xl p-3 shadow-card sm:rounded-4xl sm:p-4 md:p-6">
-                  <div className="absolute inset-0 glow-gradient-photo" />
-                  <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/50 bg-canvas dark:border-white/10">
-                    <Image
-                      src="/photo.webp"
-                      alt={t('bio.name')}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 460px"
-                      className="object-cover object-center transition-transform duration-700 hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/30 via-transparent to-white/10" />
-                  </div>
+            <div className="relative mx-auto w-full max-w-[34rem] lg:max-w-none">
+              <div className="pointer-events-none absolute inset-x-8 top-8 h-[82%] rounded-[2.5rem] bg-accent/12 blur-3xl" />
 
-                  <div className="absolute top-4 left-4 rounded-full border border-white/55 bg-white/80 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-slate-700 backdrop-blur sm:top-8 sm:left-8 dark:border-white/10 dark:bg-slate-950/70 dark:text-slate-200">
-                    {t('bio.name')}
+              <ParallaxLayer offset={26}>
+                <div className="relative isolate">
+                  <div className="pointer-events-none absolute -inset-x-3 top-8 bottom-10 rotate-[-4deg] rounded-[2.75rem] border border-line/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.22),rgba(255,255,255,0.02))] opacity-90 dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
+                  <div className="pointer-events-none absolute top-10 -right-3 bottom-16 hidden w-18 rounded-[2rem] border border-line bg-surface/65 shadow-(--shadow-soft) backdrop-blur-sm lg:block" />
+
+                  <div className="surface-panel-strong relative overflow-hidden rounded-[2rem] p-3 shadow-(--shadow-panel) sm:rounded-[2.35rem] sm:p-4 md:p-5">
+                    <div className="absolute inset-0 glow-gradient-photo opacity-90" />
+                    <div className="pointer-events-none absolute inset-x-10 top-0 h-24 rounded-full bg-white/25 blur-3xl dark:bg-white/6" />
+
+                    <div className="relative overflow-hidden rounded-[1.65rem] border border-white/55 bg-canvas dark:border-white/10">
+                      <div className="relative aspect-4/5 sm:aspect-[5/6]">
+                        <Image
+                          src="/photo.webp"
+                          alt={photoName}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 544px"
+                          quality={100}
+                          className="object-cover object-center brightness-[0.98] contrast-[1.05] saturate-[0.92] transition-transform duration-700 hover:scale-[1.08]"
+                        />
+                      </div>
+
+                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.28),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.1),transparent_28%,rgba(5,10,12,0.16)_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_40%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent_28%,rgba(0,0,0,0.44)_100%)]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(125deg,rgba(255,255,255,0.18)_0%,transparent_24%,transparent_78%,rgba(255,255,255,0.12)_100%)] mix-blend-screen opacity-70" />
+
+                      <div className="absolute inset-x-4 bottom-4 rounded-[1.35rem] border border-white/18 bg-black/50 px-4 py-4 backdrop-blur-md sm:inset-x-5 sm:bottom-5 sm:px-5">
+                        <p className="font-heading text-xl font-semibold tracking-[-0.06em] text-white sm:text-2xl">
+                          {photoName}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ParallaxLayer>

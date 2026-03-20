@@ -106,6 +106,19 @@ describe('ProjectCard Component', () => {
     // or check for placeholder structure if specific text/icon is known)
   })
 
+  it('uses the first gallery image when image is empty', () => {
+    const projectWithGallery = {
+      ...mockProject,
+      image: '',
+      images: ['/gallery-1.jpg', '/gallery-2.jpg'],
+    }
+
+    render(<ProjectCard project={projectWithGallery} animationDelay="0ms" />)
+
+    const img = screen.getByAltText('Test Project')
+    expect(img).toHaveAttribute('src', '/gallery-1.jpg')
+  })
+
   it('handles mouse interactions (smoke test)', () => {
     render(<ProjectCard project={mockProject} animationDelay="0ms" />)
     const card = screen.getByRole('article')

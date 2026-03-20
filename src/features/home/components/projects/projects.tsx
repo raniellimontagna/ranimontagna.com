@@ -10,6 +10,7 @@ import {
 } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
+import { getProjectImages } from '@/features/projects/lib/project-images'
 import type { ProjectType } from '@/features/projects/types/projects.types'
 import {
   BlurReveal,
@@ -20,6 +21,7 @@ import {
 } from '@/shared/components/animations'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
+import { FeaturedCarousel } from './featured-carousel'
 import { ProjectCard } from './project-card'
 
 const typeIcons = {
@@ -38,7 +40,8 @@ export function Projects() {
     category: p.category as ProjectType['category'],
     title: t(`list.${p.i18nKey}.title`),
     description: t(`list.${p.i18nKey}.description`),
-    image: p.image ?? '',
+    image: getProjectImages(p)[0] ?? '',
+    images: getProjectImages(p),
     github: p.github ?? '',
     demo: p.demo ?? '',
   }))
@@ -46,6 +49,7 @@ export function Projects() {
   const featuredProjects = projects.filter((p) => p.featured)
   const [leadProject, ...secondaryProjects] = featuredProjects
   const LeadIcon = leadProject ? typeIcons[leadProject.type] : Global
+  const leadProjectImages = leadProject?.images ?? []
 
   return (
     <section id="projects" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
@@ -104,114 +108,123 @@ export function Projects() {
         {leadProject && (
           <BlurReveal delay={0.35} className="mt-8 sm:mt-14">
             <ParallaxLayer offset={28}>
-              <article className="surface-panel-strong relative overflow-hidden rounded-3xl p-4 shadow-(--shadow-card) sm:rounded-4xl sm:p-6 lg:p-10">
+              <article className="surface-panel-strong relative overflow-hidden rounded-3xl shadow-(--shadow-card) sm:rounded-4xl">
                 <div className="absolute inset-0 glow-gradient-strong" />
-                <div className="absolute top-8 right-8 h-32 w-32 rounded-full border border-white/45 bg-white/65 backdrop-blur dark:border-white/10 dark:bg-white/5" />
-                <div className="absolute right-14 bottom-14 h-52 w-52 rounded-full border border-line/50 bg-surface/65 backdrop-blur" />
 
-                <div className="relative grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
-                  <div className="max-w-3xl">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                {/* Image carousel — full width top */}
+                <div className="relative aspect-video w-full overflow-hidden sm:aspect-21/9">
+                  {leadProjectImages.length > 0 ? (
+                    <FeaturedCarousel images={leadProjectImages} alt={leadProject.title} />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center glow-gradient-preview">
+                      <LeadIcon className="h-20 w-20 text-foreground/75" />
+                    </div>
+                  )}
+
+                  {/* Badges over image */}
+                  <div className="pointer-events-none absolute top-4 left-4 z-20 flex items-center gap-2 sm:top-6 sm:left-6">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-slate-950/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-white/90 shadow-lg backdrop-blur-md">
                       <LeadIcon className="h-3.5 w-3.5" />
-                      {t('featuredTitle')}
-                    </div>
-
-                    <h3 className="mt-4 text-2xl font-semibold tracking-[-0.06em] text-foreground sm:mt-6 sm:text-3xl lg:text-4xl">
-                      {leadProject.title}
-                    </h3>
-
-                    <p className="mt-5 max-w-2xl text-base leading-8 text-muted sm:text-lg">
-                      {leadProject.description}
-                    </p>
-
-                    <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-muted">
-                      <span className="inline-flex items-center gap-1.5">
-                        <User className="h-3.5 w-3.5" />
-                        {t(`card.role.${leadProject.role}`)}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Buildings className="h-3.5 w-3.5" />
-                        {leadProject.company}
-                      </span>
-                    </div>
-
-                    <div className="mt-5 flex flex-wrap gap-1.5">
-                      {leadProject.highlights.slice(0, 6).map((h) => (
-                        <span
-                          key={h}
-                          className="rounded-full border border-accent/20 bg-accent/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent-strong dark:text-accent-ice"
-                        >
-                          {t(`card.highlights.${h}`)}
-                        </span>
-                      ))}
-                      {leadProject.highlights.length > 6 && (
-                        <span className="rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
-                          +{leadProject.highlights.length - 6}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="mt-7 flex flex-wrap gap-2">
-                      {leadProject.technologies.slice(0, 6).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {leadProject.technologies.length > 6 && (
-                        <span className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-muted">
-                          {t('card.moreCount', {
-                            count: leadProject.technologies.length - 6,
-                          })}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="mt-8 flex flex-wrap gap-4">
-                      {leadProject.demo && (
-                        <a
-                          href={leadProject.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
-                        >
-                          <SquareArrowRightUp className="h-4 w-4" />
-                          {leadProject.type.toUpperCase()}
-                        </a>
-                      )}
-
-                      {leadProject.github && (
-                        <a
-                          href={leadProject.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex min-h-12 items-center gap-2 rounded-full border border-line bg-surface px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
-                        >
-                          <SiGithub className="h-4 w-4" />
-                          {t('cta.button')}
-                        </a>
-                      )}
-                    </div>
+                      {leadProject.type}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/60 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/90 shadow-lg backdrop-blur-md">
+                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      {t('card.featuredBadge')}
+                    </span>
                   </div>
 
-                  <div className="relative min-h-52 sm:min-h-64 lg:min-h-72">
-                    <div className="absolute inset-0 rounded-2xl border border-line bg-surface/80 backdrop-blur sm:rounded-[1.75rem]" />
-                    <div className="absolute inset-3 rounded-2xl border border-white/45 bg-white/70 p-4 backdrop-blur sm:inset-5 sm:rounded-3xl sm:p-6 dark:border-white/10 dark:bg-slate-950/60">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
-                          {leadProject.type}
+                  {/* Company badge top-right */}
+                  <div className="pointer-events-none absolute top-4 right-4 z-20 sm:top-6 sm:right-6">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/88 backdrop-blur-md">
+                      <Buildings className="h-3 w-3" />
+                      {leadProject.company}
+                    </span>
+                  </div>
+
+                </div>
+
+                {/* Content area */}
+                <div className="relative p-5 sm:p-8 lg:p-10">
+                  <div>
+                    <div className="max-w-3xl">
+                      <h3 className="text-2xl font-semibold tracking-[-0.06em] text-foreground sm:text-3xl lg:text-4xl">
+                        {leadProject.title}
+                      </h3>
+
+                      <p className="mt-4 max-w-2xl text-base leading-8 text-muted sm:text-lg">
+                        {leadProject.description}
+                      </p>
+
+                      <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted">
+                        <span className="inline-flex items-center gap-1.5">
+                          <User className="h-3.5 w-3.5" />
+                          {t(`card.role.${leadProject.role}`)}
                         </span>
-                        <span className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                          {t('card.featuredBadge')}
+                        <span className="inline-flex items-center gap-1.5">
+                          <Buildings className="h-3.5 w-3.5" />
+                          {leadProject.company}
                         </span>
                       </div>
 
-                      <div className="relative mt-8 flex h-[calc(100%-4rem)] items-center justify-center overflow-hidden rounded-[1.25rem] glow-gradient-preview">
-                        <div className="absolute left-6 top-6 h-18 w-18 rounded-full border border-white/40 bg-white/70 backdrop-blur dark:border-white/10 dark:bg-white/5" />
-                        <div className="absolute right-6 bottom-6 h-14 w-14 rounded-2xl border border-line bg-surface" />
-                        <LeadIcon className="h-20 w-20 text-foreground/75" />
+                      <div className="mt-5 flex flex-wrap gap-1.5">
+                        {leadProject.highlights.slice(0, 6).map((h) => (
+                          <span
+                            key={h}
+                            className="rounded-full border border-accent/20 bg-accent/8 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-accent-strong dark:text-accent-ice"
+                          >
+                            {t(`card.highlights.${h}`)}
+                          </span>
+                        ))}
+                        {leadProject.highlights.length > 6 && (
+                          <span className="rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+                            +{leadProject.highlights.length - 6}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {leadProject.technologies.slice(0, 6).map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {leadProject.technologies.length > 6 && (
+                          <span className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-muted">
+                            {t('card.moreCount', {
+                              count: leadProject.technologies.length - 6,
+                            })}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="mt-7 flex flex-wrap gap-3">
+                        {leadProject.demo && (
+                          <a
+                            href={leadProject.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
+                          >
+                            <SquareArrowRightUp className="h-4 w-4" />
+                            {t('featuredTitle')}
+                          </a>
+                        )}
+                        {leadProject.github && (
+                          <a
+                            href={leadProject.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex min-h-12 items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
+                          >
+                            <SiGithub className="h-4 w-4" />
+                            {t('cta.button')}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -164,7 +164,7 @@ export const ChatWidget = (): React.ReactElement => {
             className="fixed right-6 bottom-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-emerald-500/25 transition-shadow hover:shadow-xl hover:shadow-emerald-500/30"
           >
             <Image
-              src="/images/rani-avatar.webp"
+              src="/images/avatar.webp"
               alt="Rani"
               width={56}
               height={56}
@@ -210,7 +210,7 @@ export const ChatWidget = (): React.ReactElement => {
                 <div className="flex items-center gap-3">
                   <div className="relative h-10 w-10 shrink-0">
                     <Image
-                      src="/images/rani-avatar.webp"
+                      src="/images/avatar.webp"
                       alt="Rani"
                       width={40}
                       height={40}
