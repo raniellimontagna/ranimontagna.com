@@ -1,5 +1,4 @@
 import { Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
   FadeIn,
@@ -9,6 +8,7 @@ import {
   StaggerItem,
 } from '@/shared/components/animations'
 import { cn } from '@/shared/lib/utils'
+import { CompanyMark } from './company-mark'
 import { experiences } from './experience.static'
 
 export function Experience() {
@@ -83,50 +83,48 @@ export function Experience() {
                       <div className="absolute top-0 right-0 h-28 w-28 rounded-full bg-accent/12 blur-3xl" />
                       <div className="absolute top-8 left-8 hidden h-4 w-4 rounded-full border border-line bg-surface lg:block" />
 
-                      <div className="relative flex flex-wrap items-start justify-between gap-4">
-                        <div className="flex items-start gap-4">
-                          <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
-                            <Image
-                              src={exp.logo}
+                      <div className="relative grid gap-4">
+                        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:justify-between sm:text-left">
+                          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+                            <CompanyMark
+                              logo={exp.logo}
+                              company={exp.company}
                               alt={t('logoAlt', { company: exp.company })}
-                              width={56}
-                              height={56}
-                              className="h-11 w-11 object-contain"
                             />
-                          </div>
 
-                          <div className="min-w-0">
-                            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-                              {String(index + 1).padStart(2, '0')}
-                            </p>
-                            <h3 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-foreground sm:text-2xl">
-                              {exp.position}
-                            </h3>
-                            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
-                              <span className="font-semibold text-foreground">{exp.company}</span>
-                              <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
-                              <span className="flex items-center gap-1">
-                                <Calendar className="h-3.5 w-3.5" />
-                                {exp.period}
-                              </span>
-                              <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
-                              <span className="flex items-center gap-1">
-                                <MapPoint className="h-3.5 w-3.5" />
-                                {exp.location}
-                              </span>
+                            <div className="min-w-0 max-w-xl">
+                              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                                {String(index + 1).padStart(2, '0')}
+                              </p>
+                              <h3 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-foreground sm:text-2xl">
+                                {exp.position}
+                              </h3>
+                              <div className="mt-2 flex flex-wrap items-center justify-center gap-2 text-sm text-muted sm:justify-start">
+                                <span className="font-semibold text-foreground">{exp.company}</span>
+                                <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
+                                <span className="flex items-center gap-1">
+                                  <Calendar className="h-3.5 w-3.5" />
+                                  {exp.period}
+                                </span>
+                                <span className="hidden h-1 w-1 rounded-full bg-muted/50 sm:block" />
+                                <span className="flex items-center gap-1">
+                                  <MapPoint className="h-3.5 w-3.5" />
+                                  {exp.location}
+                                </span>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {exp.current && (
-                          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                            <span className="relative flex h-2.5 w-2.5">
-                              <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-emerald-400 opacity-75" />
-                              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                          {exp.current && (
+                            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:self-start dark:text-emerald-300">
+                              <span className="relative flex h-2.5 w-2.5">
+                                <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-emerald-400 opacity-75" />
+                                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                              </span>
+                              {t('currentLabel')}
                             </span>
-                            {t('currentLabel')}
-                          </span>
-                        )}
+                          )}
+                        </div>
                       </div>
 
                       <p className="relative mt-7 text-base leading-8 text-muted">
