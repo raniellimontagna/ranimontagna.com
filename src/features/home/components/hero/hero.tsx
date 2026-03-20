@@ -107,7 +107,9 @@ export async function Hero() {
           </div>
         </div>
 
-        <HeroVisual />
+        <div className="hidden lg:block">
+          <HeroVisual />
+        </div>
       </div>
 
       <ScrollIndicator />
