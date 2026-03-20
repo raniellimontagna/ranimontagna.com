@@ -14,75 +14,12 @@ import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 import { getProjectImages } from '@/features/projects/lib/project-images'
 import type { ProjectCardProps } from '@/features/projects/types/projects.types'
-
-// Tech stack colors for visual variety
-const techColors: Record<string, string> = {
-  React:
-    'border-cyan-500/20 bg-cyan-500/10 text-cyan-700 dark:border-cyan-400/20 dark:bg-cyan-400/10 dark:text-cyan-300',
-  'React Native':
-    'border-cyan-500/20 bg-cyan-500/10 text-cyan-700 dark:border-cyan-400/20 dark:bg-cyan-400/10 dark:text-cyan-300',
-  'Next.js':
-    'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
-  TypeScript:
-    'border-blue-500/20 bg-blue-500/10 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300',
-  JavaScript:
-    'border-yellow-500/20 bg-yellow-500/10 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/10 dark:text-yellow-300',
-  'Node.js':
-    'border-green-500/20 bg-green-500/10 text-green-700 dark:border-green-400/20 dark:bg-green-400/10 dark:text-green-300',
-  Golang:
-    'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
-  Go: 'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
-  Python:
-    'border-yellow-500/20 bg-yellow-500/10 text-yellow-700 dark:border-yellow-400/20 dark:bg-yellow-400/10 dark:text-yellow-300',
-  PostgreSQL:
-    'border-indigo-500/20 bg-indigo-500/10 text-indigo-700 dark:border-indigo-400/20 dark:bg-indigo-400/10 dark:text-indigo-300',
-  MongoDB:
-    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
-  Redis:
-    'border-red-500/20 bg-red-500/10 text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300',
-  Docker:
-    'border-blue-500/20 bg-blue-500/10 text-blue-700 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300',
-  AWS: 'border-orange-500/20 bg-orange-500/10 text-orange-700 dark:border-orange-400/20 dark:bg-orange-400/10 dark:text-orange-300',
-  Tailwind:
-    'border-teal-500/20 bg-teal-500/10 text-teal-700 dark:border-teal-400/20 dark:bg-teal-400/10 dark:text-teal-300',
-  TailwindCSS:
-    'border-teal-500/20 bg-teal-500/10 text-teal-700 dark:border-teal-400/20 dark:bg-teal-400/10 dark:text-teal-300',
-  GraphQL:
-    'border-pink-500/20 bg-pink-500/10 text-pink-700 dark:border-pink-400/20 dark:bg-pink-400/10 dark:text-pink-300',
-  Firebase:
-    'border-amber-500/20 bg-amber-500/10 text-amber-700 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-300',
-  Supabase:
-    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
-  Prisma:
-    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
-  Fastify:
-    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
-  NestJS:
-    'border-red-500/20 bg-red-500/10 text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300',
-  Express:
-    'border-slate-600/20 bg-slate-600/10 text-slate-700 dark:border-slate-300/15 dark:bg-slate-300/10 dark:text-slate-300',
-  Vue: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
-  'Vue.js':
-    'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
-  Sass: 'border-pink-500/20 bg-pink-500/10 text-pink-700 dark:border-pink-400/20 dark:bg-pink-400/10 dark:text-pink-300',
-  Expo: 'border-slate-900/15 bg-slate-900/10 text-slate-800 dark:border-white/10 dark:bg-white/10 dark:text-white',
-  Electron:
-    'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
-  'Micro-frontend':
-    'border-purple-500/20 bg-purple-500/10 text-purple-700 dark:border-purple-400/20 dark:bg-purple-400/10 dark:text-purple-300',
-}
-
-const defaultTechColor = 'border-line bg-surface text-muted'
-
-function getTechColor(tech: string): string {
-  if (techColors[tech]) return techColors[tech]
-
-  for (const [key, value] of Object.entries(techColors)) {
-    if (tech.toLowerCase().includes(key.toLowerCase())) return value
-  }
-
-  return defaultTechColor
-}
+import {
+  getProjectTechBadgeTone,
+  ProjectBadge,
+  ProjectFeaturedIcon,
+  projectTypeBadgeTone,
+} from './project-badge'
 
 export function ProjectCard({ project, animationDelay, priority = false }: ProjectCardProps) {
   const t = useTranslations('projects.card')
@@ -99,18 +36,12 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
 
   const typeStyles = {
     web: {
-      badge:
-        'border-sky-400/30 bg-sky-950/70 text-sky-200 dark:border-sky-400/25 dark:bg-sky-950/75 dark:text-sky-300',
       glow: 'group-hover:shadow-sky-500/15 dark:group-hover:shadow-sky-400/10',
     },
     mobile: {
-      badge:
-        'border-emerald-400/30 bg-emerald-950/70 text-emerald-200 dark:border-emerald-400/25 dark:bg-emerald-950/75 dark:text-emerald-300',
       glow: 'group-hover:shadow-emerald-500/15 dark:group-hover:shadow-emerald-400/10',
     },
     desktop: {
-      badge:
-        'border-violet-400/30 bg-violet-950/70 text-violet-200 dark:border-violet-400/25 dark:bg-violet-950/75 dark:text-violet-300',
       glow: 'group-hover:shadow-violet-500/15 dark:group-hover:shadow-violet-400/10',
     },
   }
@@ -208,27 +139,23 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         )}
 
         <div className="absolute top-3 left-3 z-10">
-          <span
-            className={`
-              inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5
-              font-mono text-[11px] font-semibold uppercase tracking-[0.18em] backdrop-blur-md shadow-lg
-              transition-all duration-300 group-hover:scale-105
-              ${typeStyles[project.type].badge}
-            `}
+          <ProjectBadge
+            icon={<Icon className="h-3.5 w-3.5" />}
+            variant="overlay"
+            className={`${projectTypeBadgeTone[project.type]} group-hover:scale-105`}
           >
-            <Icon className="h-3.5 w-3.5" />
-            <span>{project.type}</span>
-          </span>
+            {project.type}
+          </ProjectBadge>
         </div>
 
         {project.featured && (
           <div className="absolute top-3 right-3 z-10">
-            <span className="relative inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-slate-950/80 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-200 shadow-lg backdrop-blur-md dark:border-amber-400/25 dark:text-amber-300">
-              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span>{t('featuredBadge')}</span>
-            </span>
+            <ProjectBadge
+              icon={<ProjectFeaturedIcon className="h-3 w-3" />}
+              variant="overlayAccent"
+            >
+              {t('featuredBadge')}
+            </ProjectBadge>
           </div>
         )}
 
@@ -298,39 +225,30 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
         {project.highlights.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-1.5">
             {project.highlights.slice(0, 4).map((h) => (
-              <span
-                key={h}
-                className="rounded-full border border-accent/20 bg-accent/8 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-accent-strong dark:text-accent-ice"
-              >
+              <ProjectBadge key={h} variant="accent">
                 {t(`highlights.${h}`)}
-              </span>
+              </ProjectBadge>
             ))}
             {project.highlights.length > 4 && (
-              <span className="rounded-full border border-line bg-surface px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-muted">
-                +{project.highlights.length - 4}
-              </span>
+              <ProjectBadge variant="muted">+{project.highlights.length - 4}</ProjectBadge>
             )}
           </div>
         )}
 
         <div className="flex flex-wrap items-center gap-2 pt-2">
           {project.technologies.slice(0, 4).map((tech) => (
-            <span
+            <ProjectBadge
               key={tech}
-              className={`
-                inline-flex items-center rounded-full border px-2.5 py-1
-                text-[10px] font-semibold uppercase tracking-[0.16em]
-                transition-all duration-300 hover:scale-105
-                ${getTechColor(tech)}
-              `}
+              typography="label"
+              className={`${getProjectTechBadgeTone(tech)} hover:-translate-y-px`}
             >
               {tech}
-            </span>
+            </ProjectBadge>
           ))}
           {project.technologies.length > 4 && (
-            <span className="inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+            <ProjectBadge variant="muted">
               {t('moreCount', { count: project.technologies.length - 4 })}
-            </span>
+            </ProjectBadge>
           )}
         </div>
       </div>

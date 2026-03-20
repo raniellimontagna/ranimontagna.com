@@ -120,10 +120,7 @@ describe('Projects Component', () => {
     expect(screen.getByText('list.project3.title')).toBeInTheDocument()
     expect(screen.queryByText('list.project2.title')).not.toBeInTheDocument()
     expect(screen.getByAltText('list.project1.title')).toHaveAttribute('src', '/img1.jpg')
-    expect(screen.getByAltText('list.project1.title preview 2')).toHaveAttribute(
-      'src',
-      '/img1-2.jpg',
-    )
+    expect(screen.getByAltText(/list\.project1\.title.*2/)).toHaveAttribute('src', '/img1-2.jpg')
   })
 
   it('renders view all button', () => {

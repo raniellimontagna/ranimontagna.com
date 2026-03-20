@@ -39,7 +39,7 @@ export function FeaturedCarousel({ images, alt }: FeaturedCarouselProps) {
   return (
     <section
       aria-label="Image carousel"
-      className="relative h-full w-full"
+      className="absolute inset-0"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -75,13 +75,7 @@ export function FeaturedCarousel({ images, alt }: FeaturedCarouselProps) {
                   : 'h-7 w-10 border-white/15 opacity-50 hover:opacity-85 sm:h-8 sm:w-12'
               }`}
             >
-              <Image
-                src={src}
-                alt=""
-                fill
-                sizes="64px"
-                className="object-cover"
-              />
+              <Image src={src} alt="" fill sizes="64px" className="object-cover" />
             </button>
           ))}
 
