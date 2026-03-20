@@ -1,6 +1,8 @@
 import { render, screen } from '@/tests/test-utils'
 import { BlogHeader } from '../blog-header'
 
+let mockPathname = '/blog'
+
 vi.mock('@/shared/components/layout/header/header', () => ({
   Header: ({
     title,
@@ -20,7 +22,7 @@ vi.mock('@/shared/components/layout/header/header', () => ({
 }))
 
 vi.mock('@/shared/config/i18n/navigation', () => ({
-  usePathname: () => '/blog',
+  usePathname: () => mockPathname,
 }))
 
 vi.mock('next-intl', () => ({
@@ -28,6 +30,10 @@ vi.mock('next-intl', () => ({
 }))
 
 describe('BlogHeader Component', () => {
+  beforeEach(() => {
+    mockPathname = '/blog'
+  })
+
   it('renders correctly', () => {
     render(<BlogHeader />)
 
@@ -35,5 +41,14 @@ describe('BlogHeader Component', () => {
     expect(screen.getByText('Blog')).toBeInTheDocument()
     expect(screen.getByText('/')).toBeInTheDocument()
     expect(screen.getByText('backToPortfolio')).toBeInTheDocument()
+  })
+
+  it('links back to the blog index when rendered inside a post page', () => {
+    mockPathname = '/blog/branch-coverage'
+
+    render(<BlogHeader />)
+
+    expect(screen.getByText('/blog')).toBeInTheDocument()
+    expect(screen.getByText('backToBlog')).toBeInTheDocument()
   })
 })

@@ -70,4 +70,15 @@ describe('ScrollIndicator', () => {
     expect(getElementByIdMock).toHaveBeenCalledWith('about')
     expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' })
   })
+
+  it('does nothing when the about section is not on the page yet', () => {
+    render(<ScrollIndicator />)
+
+    const getElementByIdMock = vi.spyOn(document, 'getElementById').mockReturnValue(null)
+
+    const button = screen.getByTestId('scroll-down-indicator')
+
+    expect(() => fireEvent.click(button)).not.toThrow()
+    expect(getElementByIdMock).toHaveBeenCalledWith('about')
+  })
 })

@@ -95,4 +95,44 @@ describe('FeaturedCarousel', () => {
     expect(screen.getByAltText(/Lead Project.*2/)).toHaveClass('opacity-100')
     expect(screen.getByText('2/3')).toBeInTheDocument()
   })
+
+  it('does not render when there are no images', () => {
+    const { container } = render(
+      <div className="relative aspect-video w-full">
+        <FeaturedCarousel images={[]} alt="Empty Project" />
+      </div>,
+    )
+
+    expect(container.querySelector('section[aria-label="Image carousel"]')).toBeNull()
+  })
+
+  it('keeps a single image static and skips gallery controls', () => {
+    render(
+      <div className="relative aspect-video w-full">
+        <FeaturedCarousel images={['/solo.jpg']} alt="Solo Project" />
+      </div>,
+    )
+
+    expect(screen.getByAltText('Solo Project')).toHaveClass('opacity-100')
+    expect(screen.queryByRole('button', { name: /Ver imagem/i })).not.toBeInTheDocument()
+    expect(screen.queryByText('1/1')).not.toBeInTheDocument()
+  })
+
+  it('cleans the autoplay timer on unmount', () => {
+    const clearIntervalSpy = vi.spyOn(globalThis, 'clearInterval')
+
+    const { unmount } = render(
+      <div className="relative aspect-video w-full">
+        <FeaturedCarousel
+          images={['/lead-1.jpg', '/lead-2.jpg', '/lead-3.jpg']}
+          alt="Lead Project"
+        />
+      </div>,
+    )
+
+    unmount()
+
+    expect(clearIntervalSpy).toHaveBeenCalled()
+    clearIntervalSpy.mockRestore()
+  })
 })
