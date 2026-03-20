@@ -100,17 +100,17 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
   const typeStyles = {
     web: {
       badge:
-        'border-sky-500/20 bg-sky-500/10 text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-300',
+        'border-sky-400/30 bg-sky-950/70 text-sky-200 dark:border-sky-400/25 dark:bg-sky-950/75 dark:text-sky-300',
       glow: 'group-hover:shadow-sky-500/15 dark:group-hover:shadow-sky-400/10',
     },
     mobile: {
       badge:
-        'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300',
+        'border-emerald-400/30 bg-emerald-950/70 text-emerald-200 dark:border-emerald-400/25 dark:bg-emerald-950/75 dark:text-emerald-300',
       glow: 'group-hover:shadow-emerald-500/15 dark:group-hover:shadow-emerald-400/10',
     },
     desktop: {
       badge:
-        'border-violet-500/20 bg-violet-500/10 text-violet-700 dark:border-violet-400/20 dark:bg-violet-400/10 dark:text-violet-300',
+        'border-violet-400/30 bg-violet-950/70 text-violet-200 dark:border-violet-400/25 dark:bg-violet-950/75 dark:text-violet-300',
       glow: 'group-hover:shadow-violet-500/15 dark:group-hover:shadow-violet-400/10',
     },
   }
@@ -223,7 +223,7 @@ export function ProjectCard({ project, animationDelay, priority = false }: Proje
 
         {project.featured && (
           <div className="absolute top-3 right-3 z-10">
-            <span className="relative inline-flex items-center gap-1 rounded-full border border-white/40 bg-slate-950/72 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white shadow-lg backdrop-blur dark:border-white/10">
+            <span className="relative inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-slate-950/80 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-200 shadow-lg backdrop-blur-md dark:border-amber-400/25 dark:text-amber-300">
               <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>

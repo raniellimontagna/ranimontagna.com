@@ -116,7 +116,7 @@ export const projectsData = [
     i18nKey: 'pratio',
     type: 'desktop',
     featured: true,
-    image: '/projects/pratio.jpg',
+    image: '/projects/pratio.webp',
     demo: 'https://pratio.com.br',
     github: null,
     role: 'fullstack',
