@@ -2,9 +2,9 @@
 
 import dayjs from 'dayjs'
 import { motion, useReducedMotion } from 'motion/react'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import type { Post } from '@/features/blog/lib/blog'
+import { Link } from '@/shared/config/i18n/navigation'
 import { SafeImage } from './safe-image'
 
 interface FeaturedPostProps {

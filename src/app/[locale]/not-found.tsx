@@ -1,10 +1,10 @@
 'use client'
 
 import { ArrowRight, Document, Home, Letter, Suitcase, User } from '@solar-icons/react/ssr'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import { ErrorContent } from '@/shared/components/ui/error-view'
+import { Link } from '@/shared/config/i18n/navigation'
 
 export default function NotFoundPage() {
   const t = useTranslations('notFound')

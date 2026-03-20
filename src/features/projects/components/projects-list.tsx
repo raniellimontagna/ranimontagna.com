@@ -35,7 +35,9 @@ export function ProjectsList({ featuredRepos, repos }: ProjectsListProps) {
     <>
       {/* Filters */}
       <section className="mb-8 sm:mb-12">
-        <h2 className="mb-3 text-base font-semibold text-foreground sm:mb-4 sm:text-lg">{t('filterByLanguage')}</h2>
+        <h2 className="mb-3 text-base font-semibold text-foreground sm:mb-4 sm:text-lg">
+          {t('filterByLanguage')}
+        </h2>
         <LanguageFilter
           languages={languages}
           selected={selectedLanguage}

@@ -15,12 +15,12 @@ export function Skills() {
     >
       <ParallaxLayer
         offset={30}
-        className="pointer-events-none absolute top-0 right-[10%] h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-ambient-blue blur-[120px] opacity-20"
+        className="pointer-events-none absolute top-0 right-[10%] h-125 w-125 -translate-y-1/2 rounded-full bg-ambient-blue blur-[120px] opacity-20"
       />
       <ParallaxLayer
         offset={-20}
         axis="x"
-        className="pointer-events-none absolute bottom-0 left-[10%] h-[300px] w-[300px] translate-y-1/2 rounded-full bg-ambient-lime blur-[100px] opacity-10"
+        className="pointer-events-none absolute bottom-0 left-[10%] h-75 w-75 translate-y-1/2 rounded-full bg-ambient-lime blur-[100px] opacity-10"
       />
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 md:px-8 lg:px-12">
@@ -29,7 +29,7 @@ export function Skills() {
             {t('title')}
           </p>
           <h2 className="mx-auto mt-4 text-3xl font-display font-medium leading-tight md:text-5xl text-foreground max-w-3xl">
-            A precise tech stack tailored for global demands.
+            {t('subtitle')}
           </h2>
         </div>
 

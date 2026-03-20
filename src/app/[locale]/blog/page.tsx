@@ -115,7 +115,9 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
             <RevealText text={t('title')} />
           </h1>
           <FadeIn delay={0.3} blur>
-            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">{t('subtitle')}</p>
+            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">
+              {t('subtitle')}
+            </p>
           </FadeIn>
         </header>
 

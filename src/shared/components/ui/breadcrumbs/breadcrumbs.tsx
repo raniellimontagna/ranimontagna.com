@@ -1,5 +1,5 @@
 import { AltArrowRight, Home } from '@solar-icons/react/ssr'
-import Link from 'next/link'
+import { Link } from '@/shared/config/i18n/navigation'
 
 interface BreadcrumbItem {
   label: string
