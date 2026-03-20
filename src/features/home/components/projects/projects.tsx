@@ -240,7 +240,7 @@ export function Projects() {
         )}
 
         {/* Secondary Projects — 3-column grid */}
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
           {secondaryProjects.map((project, index) => (
             <FadeIn key={project.id} delay={0.45 + index * 0.12} blur scale className="h-full">
               <ProjectCard project={project} animationDelay="0ms" />

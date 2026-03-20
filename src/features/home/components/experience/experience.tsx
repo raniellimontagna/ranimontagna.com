@@ -68,7 +68,7 @@ export function Experience() {
           </div>
 
           <StaggerContainer staggerDelay={0.14}>
-            <div className="relative flex flex-col gap-4 sm:gap-5 lg:gap-6 lg:pt-6">
+            <div className="relative flex flex-col gap-6 sm:gap-5 lg:gap-6 lg:pt-6">
               <div className="absolute top-0 bottom-0 left-8 hidden w-px bg-linear-to-b from-line/20 via-foreground/12 to-transparent lg:block" />
 
               {items.map((exp, index) => (
@@ -76,7 +76,7 @@ export function Experience() {
                   <ParallaxLayer offset={18 + index * 4}>
                     <article
                       className={cn(
-                        'surface-panel-strong relative overflow-hidden rounded-3xl p-4 shadow-card sm:rounded-4xl sm:p-6 lg:p-8',
+                        'surface-panel-strong relative overflow-hidden rounded-2xl p-5 shadow-card sm:rounded-3xl sm:p-6 lg:rounded-4xl lg:p-8',
                         index % 2 === 1 ? 'lg:ml-10' : 'lg:mr-10',
                       )}
                     >
@@ -127,11 +127,11 @@ export function Experience() {
                         </div>
                       </div>
 
-                      <p className="relative mt-7 text-base leading-8 text-muted">
+                      <p className="relative mt-5 text-base leading-8 text-muted sm:mt-7">
                         {exp.description}
                       </p>
 
-                      <div className="relative mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
+                      <div className="relative mt-6 grid gap-6 sm:mt-8 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
                         <div>
                           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                             {t('highlightsTitle')}

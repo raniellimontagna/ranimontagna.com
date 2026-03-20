@@ -20,7 +20,7 @@ export function CompanyMark({ alt, company, logo }: CompanyMarkProps) {
   return (
     <div
       className={cn(
-        'relative isolate mx-auto flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-[1.65rem] border border-line/80 p-3 shadow-sm ring-1 ring-white/60 dark:ring-white/6 sm:mx-0 sm:h-16 sm:w-16 sm:rounded-3xl sm:p-2.5',
+        'relative isolate mx-auto flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-line/80 p-2.5 shadow-sm ring-1 ring-white/60 dark:ring-white/6 sm:mx-0 sm:rounded-3xl',
         'bg-linear-to-br',
         companyMarkTones[company] ?? 'from-surface via-surface to-background/70',
       )}
