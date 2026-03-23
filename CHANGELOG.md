@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.22.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.21.0...v1.22.0) (2026-03-23)
+
+
+### Features
+
+* adds customizable color themes with picker UI ([9efb2eb](https://github.com/raniellimontagna/ranimontagna.com/commit/9efb2ebbed7caa3b17c7cbccfd423f9a1c0fe8c4))
+* adds project image gallery support and updates featured UI ([e5683c1](https://github.com/raniellimontagna/ranimontagna.com/commit/e5683c1309f3a5b669e439594af7034caecd6853))
+* animations to use motion/react with improved UX ([2859b9d](https://github.com/raniellimontagna/ranimontagna.com/commit/2859b9d4d34608bad79de0c3dc42dd83e13a9e9b))
+* enhances skills section with orbital visualization ([a4426a0](https://github.com/raniellimontagna/ranimontagna.com/commit/a4426a0d5996ea72378fb1ec7cf6bbe1572c0dcf))
+* enhances theming and adds advanced animation components ([0dbeed9](https://github.com/raniellimontagna/ranimontagna.com/commit/0dbeed94d85854ef00cd437dc2e53b368ddb3a4a))
+* enriches project cards with detailed metadata and highlights ([8d98799](https://github.com/raniellimontagna/ranimontagna.com/commit/8d987998c3c04414f21ed9c86fbe3735fdf5207a))
+* improves accessibility and refactors styling ([3336645](https://github.com/raniellimontagna/ranimontagna.com/commit/3336645e0a510fb4c62416d93ef13857a967e0db))
+* improves contact and service card layout and styles ([ff571de](https://github.com/raniellimontagna/ranimontagna.com/commit/ff571def44b4fc0e4d97c6cd3508fcd4f72728d8))
+* introduces advanced animations and refines UI ([800c98d](https://github.com/raniellimontagna/ranimontagna.com/commit/800c98d9bc0be6c5cdb49554ee4ea627cd218b29))
+* refactor Tailwind classes for readability ([284ff60](https://github.com/raniellimontagna/ranimontagna.com/commit/284ff60196452f01ad09d74b9b2b070925bfe1c6))
+* refactors hero and header for improved UI and interactivity ([41d0034](https://github.com/raniellimontagna/ranimontagna.com/commit/41d00349338cb18490a7d6db440ac557743ec943))
+* unifies gitHub icon, expands social links, and refines ui ([ee0450a](https://github.com/raniellimontagna/ranimontagna.com/commit/ee0450afdebaa75c14576de2dbbd6ae9d497ea85))
+* updates ui to new design system and refactors header ([5aca82b](https://github.com/raniellimontagna/ranimontagna.com/commit/5aca82b85f467dc722caa7d72fee3778a771e33a))
+* visual refresh ([e2a9540](https://github.com/raniellimontagna/ranimontagna.com/commit/e2a9540e63914c4bcdb19b68a24c7c6d8350d0db))
+
 ## [1.21.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.20.0...v1.21.0) (2026-03-19)
 
 
