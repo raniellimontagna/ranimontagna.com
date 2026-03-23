@@ -3,28 +3,42 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import type { Theme, ThemeStore } from './use-theme.types'
+import type { ColorTheme, Theme, ThemeStore } from './use-theme.types'
 
 const THEME_STORAGE_KEY = 'theme-storage'
 const DEFAULT_THEME: Theme = 'dark'
+const DEFAULT_COLOR_THEME: ColorTheme = 'default'
 
-const getStoredTheme = (): Theme => {
+const getStoredTheme = (): { theme: Theme; colorTheme: ColorTheme } => {
   if (typeof window === 'undefined') {
-    return DEFAULT_THEME
+    return { theme: DEFAULT_THEME, colorTheme: DEFAULT_COLOR_THEME }
   }
 
   const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
   if (!savedTheme) {
-    return DEFAULT_THEME
+    return { theme: DEFAULT_THEME, colorTheme: DEFAULT_COLOR_THEME }
   }
 
   try {
     const parsed = JSON.parse(savedTheme)
     const theme = parsed?.state?.theme
-    return theme === 'light' || theme === 'dark' ? theme : DEFAULT_THEME
+    const colorTheme = parsed?.state?.colorTheme
+    return {
+      theme: theme === 'light' || theme === 'dark' ? theme : DEFAULT_THEME,
+      colorTheme: isValidColorTheme(colorTheme) ? colorTheme : DEFAULT_COLOR_THEME,
+    }
   } catch {
-    return DEFAULT_THEME
+    return { theme: DEFAULT_THEME, colorTheme: DEFAULT_COLOR_THEME }
   }
+}
+
+const isValidColorTheme = (value: unknown): value is ColorTheme => {
+  return (
+    typeof value === 'string' &&
+    ['default', 'ocean', 'rose', 'emerald', 'amber', 'violet', 'mono', 'sunset', 'cherry'].includes(
+      value,
+    )
+  )
 }
 
 const getThemeFromDom = (): Theme | null => {
@@ -45,7 +59,7 @@ const getThemeFromDom = (): Theme | null => {
 }
 
 const getInitialTheme = (): Theme => {
-  return getThemeFromDom() ?? getStoredTheme()
+  return getThemeFromDom() ?? getStoredTheme().theme
 }
 
 const applyTheme = (theme: Theme) => {
@@ -62,10 +76,22 @@ const applyTheme = (theme: Theme) => {
   }
 }
 
+const applyColorTheme = (colorTheme: ColorTheme) => {
+  if (typeof document !== 'undefined') {
+    const html = document.documentElement
+    if (colorTheme === 'default') {
+      html.removeAttribute('data-color-theme')
+    } else {
+      html.setAttribute('data-color-theme', colorTheme)
+    }
+  }
+}
+
 export const useTheme = create<ThemeStore>()(
   persist(
     (set, get) => ({
       theme: getInitialTheme(),
+      colorTheme: getStoredTheme().colorTheme,
       mounted: false,
       setTheme: (theme: Theme) => {
         set({ theme })
@@ -77,6 +103,10 @@ export const useTheme = create<ThemeStore>()(
         set({ theme: newTheme })
         applyTheme(newTheme)
       },
+      setColorTheme: (colorTheme: ColorTheme) => {
+        set({ colorTheme })
+        applyColorTheme(colorTheme)
+      },
       initTheme: () => {
         if (typeof window !== 'undefined') {
           if (get().mounted) {
@@ -84,15 +114,17 @@ export const useTheme = create<ThemeStore>()(
           }
 
           const initialTheme = getInitialTheme()
+          const { colorTheme } = getStoredTheme()
 
-          set({ theme: initialTheme, mounted: true })
+          set({ theme: initialTheme, colorTheme, mounted: true })
           applyTheme(initialTheme)
+          applyColorTheme(colorTheme)
         }
       },
     }),
     {
       name: THEME_STORAGE_KEY,
-      partialize: (state) => ({ theme: state.theme }),
+      partialize: (state) => ({ theme: state.theme, colorTheme: state.colorTheme }),
     },
   ),
 )

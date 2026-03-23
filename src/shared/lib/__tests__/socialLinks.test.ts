@@ -25,15 +25,31 @@ describe('socialLinks', () => {
       expect(socialLinks.email.external).toBe(false)
     })
 
+    it('contains twitter link', () => {
+      expect(socialLinks.twitter.name).toBe('X / Twitter')
+      expect(socialLinks.twitter.href).toContain('twitter.com')
+      expect(socialLinks.twitter.external).toBe(true)
+    })
+
+    it('contains instagram link', () => {
+      expect(socialLinks.instagram.name).toBe('Instagram')
+      expect(socialLinks.instagram.href).toContain('instagram.com')
+      expect(socialLinks.instagram.external).toBe(true)
+    })
+
     it('all links have icon components', () => {
       expect(socialLinks.github.icon).toBeDefined()
       expect(socialLinks.linkedin.icon).toBeDefined()
+      expect(socialLinks.twitter.icon).toBeDefined()
+      expect(socialLinks.instagram.icon).toBeDefined()
       expect(socialLinks.email.icon).toBeDefined()
     })
 
     it('all links have ariaLabel for accessibility', () => {
       expect(socialLinks.github.ariaLabel).toBeDefined()
       expect(socialLinks.linkedin.ariaLabel).toBeDefined()
+      expect(socialLinks.twitter.ariaLabel).toBeDefined()
+      expect(socialLinks.instagram.ariaLabel).toBeDefined()
       expect(socialLinks.email.ariaLabel).toBeDefined()
     })
   })
@@ -101,6 +117,8 @@ describe('socialLinks', () => {
 
       expect(ids).toContain('github')
       expect(ids).toContain('linkedin')
+      expect(ids).toContain('twitter')
+      expect(ids).toContain('instagram')
       expect(ids).toContain('email')
     })
 

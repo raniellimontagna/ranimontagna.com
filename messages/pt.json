@@ -28,12 +28,11 @@
     }
   },
   "hero": {
-    "availability": "Disponível para novos projetos",
     "greeting": "Olá, eu sou",
     "name": "Ranielli Montagna",
     "passion": {
-      "part1": "Desenvolvedor",
-      "highlight": "Full Stack",
+      "part1": "Engenheiro de",
+      "highlight": "Software",
       "part2": "que transforma ideias de negócio em produtos digitais rápidos, escaláveis e fáceis de usar"
     },
     "description": "Atuo no desenvolvimento de aplicações web e mobile ponta a ponta, conectando arquitetura sólida, experiência do usuário e performance desde o primeiro commit.",
@@ -41,18 +40,6 @@
     "cta": {
       "projects": "Ver meus projetos",
       "contact": "Entre em contato"
-    },
-    "skills": {
-      "title": "Tecnologias que domino",
-      "list": [
-        "React",
-        "React Native",
-        "TypeScript",
-        "Node.js",
-        "Tailwind CSS",
-        "Figma",
-        "PostgreSQL"
-      ]
     }
   },
   "about": {
@@ -64,18 +51,18 @@
     "bio": {
       "greeting": "Olá! Sou",
       "name": "Ranielli Montagna",
-      "intro": "um desenvolvedor full stack apaixonado por transformar ideias em soluções digitais inovadoras. Com mais de 3 anos de experiência, especializo-me em criar aplicações web e mobile que combinam funcionalidade excepcional com design intuitivo.",
+      "intro": "um desenvolvedor full stack apaixonado por transformar ideias em soluções digitais inovadoras. Com mais de 4 anos de experiência, especializo-me em criar aplicações web e mobile que combinam funcionalidade excepcional com design intuitivo.",
       "journey": "Minha jornada começou com curiosidade sobre como as coisas funcionam na web, e desde então venho desenvolvendo projetos que impactam positivamente a vida das pessoas. Acredito que a tecnologia deve ser acessível e fazer a diferença.",
       "hobbies": "Quando não estou codando, você pode me encontrar explorando novas tecnologias, contribuindo para projetos open source, ou planejando minha próxima aventura de desenvolvimento."
     },
-    "cta": { "contact": "Vamos conversar" },
+    "cta": {
+      "contact": "Vamos conversar"
+    },
     "stats": {
       "experience": "Anos de experiência",
-      "projects": "Projetos concluídos",
-      "dedication": "Dedicação"
+      "projects": "Projetos concluídos"
     },
     "skills": {
-      "title": "Minhas principais competências",
       "categories": {
         "frontend": "Frontend",
         "backend": "Backend",
@@ -103,7 +90,9 @@
         "vscode": "VS Code",
         "postman": "Postman",
         "vercel": "Vercel"
-      }
+      },
+      "title": "Minhas principais competências",
+      "subtitle": "Uma stack precisa, preparada para demandas globais."
     }
   },
   "experience": {
@@ -112,7 +101,7 @@
       "part1": "Experiência",
       "part2": "Profissional"
     },
-    "subtitle": "Mais de 3 anos construindo soluções inovadoras em empresas de diferentes portes e segmentos, sempre focado em entregar valor e crescer tecnicamente.",
+    "subtitle": "Mais de 4 anos construindo soluções inovadoras em empresas de diferentes portes e segmentos, sempre focado em entregar valor e crescer tecnicamente.",
     "currentLabel": "Atual",
     "highlightsTitle": "Principais conquistas:",
     "technologiesTitle": "Tecnologias utilizadas:",
@@ -176,7 +165,50 @@
     },
     "card": {
       "featuredBadge": "Destaque",
-      "moreCount": "+{count} mais"
+      "moreCount": "+{count} mais",
+      "role": {
+        "fullstack": "Full Stack",
+        "frontend": "Front-end",
+        "backend": "Back-end"
+      },
+      "category": {
+        "saas": "SaaS",
+        "enterprise": "Enterprise"
+      },
+      "highlights": {
+        "agenda": "Agendamento",
+        "clientManagement": "Gestão de Clientes",
+        "sales": "Vendas",
+        "financial": "Financeiro",
+        "inventory": "Estoque",
+        "leads": "Leads",
+        "reports": "Relatórios",
+        "dashboard": "Dashboard",
+        "orderPicking": "Retirada de Pedidos",
+        "separation": "Separação",
+        "dispatch": "Expedição",
+        "goodsReceipt": "Recebimento",
+        "inventoryControl": "Controle de Inventário",
+        "barcodeScanning": "Leitura de Código",
+        "offlineSupport": "Modo Offline",
+        "posSystem": "Frente de Caixa",
+        "nfceIssuance": "Emissão NFC-e",
+        "tableControl": "Controle de Mesas",
+        "orderManagement": "Comandas",
+        "digitalMenu": "Cardápio Digital",
+        "delivery": "Delivery",
+        "scaleIntegration": "Integração Balança",
+        "salesHistory": "Histórico de Vendas",
+        "cashierControl": "Controle de Caixa",
+        "propertyManagement": "Gestão de Imóveis",
+        "tokenizedSharing": "Links Tokenizados",
+        "clientGate": "Captação de Leads",
+        "brokerDashboard": "Painel do Corretor",
+        "analytics": "Analytics",
+        "publicCatalog": "Catálogo Público",
+        "imageGallery": "Galeria de Imagens",
+        "lgpdCompliance": "Conformidade LGPD"
+      }
     },
     "cta": {
       "text": "Quer ver mais projetos? Explore meu repositório no GitHub com mais de 100 projetos open source!",
@@ -198,6 +230,10 @@
       "pratio": {
         "title": "Pratio - PDV para Restaurantes",
         "description": "Sistema de ponto de venda (PDV) e gestão para bares e restaurantes, com controle de mesas, comandas, emissão de NFC-e e cardápio digital."
+      },
+      "paludoImoveis": {
+        "title": "Paludo Imóveis - Plataforma Imobiliária",
+        "description": "Plataforma para corretores de imóveis com catálogo público, compartilhamento via links tokenizados, captação de leads e dashboard analítico."
       }
     }
   },
@@ -361,6 +397,7 @@
     "title": "Pensando Alto.",
     "subtitle": "Insights, tutoriais e reflexões sobre tecnologia, desenvolvimento e tudo que envolve esse universo.",
     "backToPortfolio": "Voltar ao Portfólio",
+    "backToBlog": "Voltar ao Blog",
     "readFeaturedStory": "Ler Artigo em Destaque",
     "readArticle": "Ler artigo",
     "noPosts": "Nenhum post encontrado. Volte em breve!"

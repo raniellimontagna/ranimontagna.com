@@ -29,12 +29,11 @@
     }
   },
   "hero": {
-    "availability": "Disponible para nuevos proyectos",
     "greeting": "Hola, soy",
     "name": "Ranielli Montagna",
     "passion": {
-      "part1": "Desarrollador",
-      "highlight": "Full Stack",
+      "part1": "Ingeniero de",
+      "highlight": "Software",
       "part2": "que transforma ideas de negocio en productos digitales rápidos, escalables y fáciles de usar"
     },
     "description": "Desarrollo aplicaciones web y móviles de punta a punta, combinando arquitectura sólida, experiencia de usuario y rendimiento desde el primer commit.",
@@ -42,18 +41,6 @@
     "cta": {
       "projects": "Ver mis proyectos",
       "contact": "Ponte en contacto"
-    },
-    "skills": {
-      "title": "Tecnologías que domino",
-      "list": [
-        "React",
-        "React Native",
-        "TypeScript",
-        "Node.js",
-        "Tailwind CSS",
-        "Figma",
-        "PostgreSQL"
-      ]
     }
   },
   "about": {
@@ -65,18 +52,18 @@
     "bio": {
       "greeting": "¡Hola! Soy",
       "name": "Ranielli Montagna",
-      "intro": "un desarrollador full stack apasionado por transformar ideas en soluciones digitales innovadoras. Con más de 3 años de experiencia, me especializo en crear aplicaciones web y móviles que combinan una funcionalidad excepcional con un diseño intuitivo.",
+      "intro": "un desarrollador full stack apasionado por transformar ideas en soluciones digitales innovadoras. Con más de 4 años de experiencia, me especializo en crear aplicaciones web y móviles que combinan una funcionalidad excepcional con un diseño intuitivo.",
       "journey": "Mi viaje comenzó con la curiosidad sobre cómo funcionan las cosas en la web, y desde entonces he estado desarrollando proyectos que impactan positivamente la vida de las personas. Creo que la tecnología debe ser accesible y marcar la diferencia.",
       "hobbies": "Cuando no estoy programando, puedes encontrarme explorando nuevas tecnologías, contribuyendo a proyectos de código abierto o planeando mi próxima aventura de desarrollo."
     },
-    "cta": { "contact": "Hablemos" },
+    "cta": {
+      "contact": "Hablemos"
+    },
     "stats": {
       "experience": "Años de experiencia",
-      "projects": "Proyectos completados",
-      "dedication": "Dedicación"
+      "projects": "Proyectos completados"
     },
     "skills": {
-      "title": "Mis principales competencias",
       "categories": {
         "frontend": "Frontend",
         "backend": "Backend",
@@ -104,7 +91,9 @@
         "vscode": "VS Code",
         "postman": "Postman",
         "vercel": "Vercel"
-      }
+      },
+      "title": "Mis principales competencias",
+      "subtitle": "Un stack preciso, preparado para demandas globales."
     }
   },
   "experience": {
@@ -113,7 +102,7 @@
       "part1": "Experiencia",
       "part2": "Profesional"
     },
-    "subtitle": "Más de 3 años construyendo soluciones innovadoras en empresas de diferentes tamaños y segmentos, siempre enfocado en entregar valor y crecer técnicamente.",
+    "subtitle": "Más de 4 años construyendo soluciones innovadoras en empresas de diferentes tamaños y segmentos, siempre enfocado en entregar valor y crecer técnicamente.",
     "currentLabel": "Actual",
     "highlightsTitle": "Logros principales:",
     "technologiesTitle": "Tecnologías utilizadas:",
@@ -177,7 +166,50 @@
     },
     "card": {
       "featuredBadge": "Destacado",
-      "moreCount": "+{count} más"
+      "moreCount": "+{count} más",
+      "role": {
+        "fullstack": "Full Stack",
+        "frontend": "Front-end",
+        "backend": "Back-end"
+      },
+      "category": {
+        "saas": "SaaS",
+        "enterprise": "Enterprise"
+      },
+      "highlights": {
+        "agenda": "Programación",
+        "clientManagement": "Gestión de Clientes",
+        "sales": "Ventas",
+        "financial": "Financiero",
+        "inventory": "Inventario",
+        "leads": "Leads",
+        "reports": "Informes",
+        "dashboard": "Dashboard",
+        "orderPicking": "Retiro de Pedidos",
+        "separation": "Separación",
+        "dispatch": "Expedición",
+        "goodsReceipt": "Recepción",
+        "inventoryControl": "Control de Inventario",
+        "barcodeScanning": "Lectura de Código",
+        "offlineSupport": "Modo Offline",
+        "posSystem": "Punto de Venta",
+        "nfceIssuance": "Emisión NFC-e",
+        "tableControl": "Control de Mesas",
+        "orderManagement": "Comandas",
+        "digitalMenu": "Menú Digital",
+        "delivery": "Delivery",
+        "scaleIntegration": "Integración Balanza",
+        "salesHistory": "Historial de Ventas",
+        "cashierControl": "Control de Caja",
+        "propertyManagement": "Gestión de Inmuebles",
+        "tokenizedSharing": "Enlaces Tokenizados",
+        "clientGate": "Captación de Leads",
+        "brokerDashboard": "Panel del Corredor",
+        "analytics": "Analytics",
+        "publicCatalog": "Catálogo Público",
+        "imageGallery": "Galería de Imágenes",
+        "lgpdCompliance": "Conformidad LGPD"
+      }
     },
     "cta": {
       "text": "¿Quieres ver más proyectos? ¡Explora mi repositorio de GitHub con más de 100 proyectos open source!",
@@ -199,6 +231,10 @@
       "pratio": {
         "title": "Pratio - TPV para Restaurantes",
         "description": "Sistema de punto de venta (TPV) y gestión para bares y restaurantes, con control de mesas, comandas, emisión de NFC-e y menú digital."
+      },
+      "paludoImoveis": {
+        "title": "Paludo Inmuebles - Plataforma Inmobiliaria",
+        "description": "Plataforma para corredores de bienes raíces con catálogo público, compartición por enlaces tokenizados, captación de leads y dashboard analítico."
       }
     }
   },
@@ -362,6 +398,7 @@
     "title": "Pensando en Voz Alta.",
     "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que hay entre medio.",
     "backToPortfolio": "Volver al Portafolio",
+    "backToBlog": "Volver al Blog",
     "readFeaturedStory": "Leer Artículo Destacado",
     "readArticle": "Leer artículo",
     "noPosts": "No se encontraron publicaciones. ¡Vuelve pronto!"

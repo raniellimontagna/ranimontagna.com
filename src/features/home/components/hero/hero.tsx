@@ -1,117 +1,115 @@
-import { ArrowDown } from '@solar-icons/react/ssr'
+import { ArrowDown, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { getTranslations } from 'next-intl/server'
-import { TerminalWindow } from '@/shared/components/ui'
+import { MagneticHover, RevealText } from '@/shared/components/animations'
+import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 import { ScrollIndicator } from './hero-content'
+import { HeroVisual } from './hero-visual'
 
 export async function Hero() {
   const t = await getTranslations('hero')
-  const skillsList = t.raw('skills.list') as string[]
+  const heroSocialLinkIds = ['github', 'linkedin', 'email']
+  const socialLinks = getSocialLinksAsArray()
+    .filter((social) => heroSocialLinkIds.includes(social.id))
+    .map((social) =>
+      social.id === 'email' && social.direct
+        ? { ...social, href: `mailto:${social.direct}` }
+        : social,
+    )
 
   return (
     <section
       id="start"
       data-testid="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-50 px-4 pt-32 pb-20 sm:px-6 sm:pt-40 sm:pb-24 lg:px-8 dark:bg-gray-950"
+      className="section-shell relative flex min-h-screen items-center overflow-hidden px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-24 lg:px-8 lg:pt-40 lg:pb-28"
       aria-label="Hero section - Ranielli Montagna introduction"
     >
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] opacity-70 dark:opacity-100" />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-50 via-transparent to-transparent dark:from-gray-950" />
+      <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
+      <div className="pointer-events-none absolute inset-0 glow-gradient-hero" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-background to-transparent" />
+
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="animate-float-slow absolute -top-16 -right-10 h-64 w-64 rounded-full bg-ambient-ice blur-3xl" />
+        <div className="animate-orbital-shift absolute -bottom-20 left-0 h-72 w-72 rounded-full bg-ambient-lime blur-3xl" />
       </div>
 
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl sm:-top-40 sm:-right-40" />
-        <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-purple-500/10 blur-3xl sm:-bottom-40 sm:-left-40" />
-      </div>
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(22rem,0.95fr)] lg:gap-10">
+        <div className="relative">
+          <div className="mt-8 flex flex-col gap-6 sm:mt-10">
+            <div className="flex flex-col gap-4">
+              <p className="font-mono text-sm font-medium tracking-[0.24em] text-muted uppercase">
+                {t('greeting')}
+              </p>
 
-      <div className="relative z-10 mx-auto max-w-5xl">
-        <TerminalWindow title="ranielli.dev" className="w-full">
-          <div className="flex flex-col gap-6 font-mono">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-                <span className="text-blue-600 dark:text-blue-400">➜</span>
-                <span className="text-purple-600 dark:text-purple-400">~</span>
-                <span>whoami</span>
-              </div>
-              <div className="pl-4">
-                <p className="mt-2 text-lg text-slate-600 sm:text-xl dark:text-slate-400">
-                  {t('greeting')}
-                </p>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
-                  {t('name')}
-                </h1>
-              </div>
+              <h1 className="max-w-[12ch] text-[clamp(2.5rem,12vw,3rem)] leading-[0.95] font-semibold tracking-[-0.07em] text-foreground sm:text-7xl lg:text-[5.6rem]">
+                <RevealText text={t('name')} mode="word" stagger={0.06} />
+              </h1>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-                <span className="text-blue-600 dark:text-blue-400">➜</span>
-                <span className="text-purple-600 dark:text-purple-400">~</span>
-                <span>cat passion.txt</span>
-              </div>
-              <div className="max-w-3xl pl-4 text-slate-700 dark:text-slate-300">
-                <p className="leading-relaxed">
-                  {t('passion.part1')}{' '}
-                  <span className="font-semibold text-blue-600 dark:text-blue-400">
-                    {t('passion.highlight')}
-                  </span>{' '}
-                  {t('passion.part2')}
-                </p>
-                <p className="mt-2 italic text-slate-500 dark:text-slate-400">
-                  &quot;{t('description')}&quot;
-                </p>
-                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                  {t('seoDescription')}
-                </p>
-              </div>
-            </div>
+            <div className="max-w-3xl flex flex-col gap-5">
+              <p className="text-lg leading-[1.12] font-medium text-foreground sm:text-xl md:text-3xl lg:text-[2.6rem]">
+                {t('passion.part1')}{' '}
+                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-white dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
+                  {t('passion.highlight')}
+                </span>{' '}
+                {t('passion.part2')}
+              </p>
 
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-                <span className="text-blue-600 dark:text-blue-400">➜</span>
-                <span className="text-purple-600 dark:text-purple-400">~</span>
-                <span>ls ./skills</span>
-              </div>
-              <div className="pl-4 pt-2">
-                <div className="flex flex-wrap gap-2">
-                  {skillsList.map((tech) => (
-                    <span
-                      key={tech}
-                      className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-blue-700 transition-colors hover:border-blue-300 hover:bg-blue-50 dark:border-slate-700 dark:bg-slate-800/50 dark:text-blue-300 dark:hover:border-blue-500/50 dark:hover:text-blue-200"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+              <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
+                {t('description')}
+              </p>
 
-            <div className="flex flex-col gap-2 pt-4">
-              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-                <span className="text-blue-600 dark:text-blue-400">➜</span>
-                <span className="text-purple-600 dark:text-purple-400">~</span>
-                <span className="animate-pulse">_</span>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-4 pl-4">
-                <a
-                  href="#projects"
-                  className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-blue-600 px-6 py-2.5 font-medium text-white transition duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30 dark:hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-                >
-                  <span className="mr-2">./projects.sh</span>
-                  <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
-                </a>
-
-                <a
-                  href="#contact"
-                  className="group inline-flex items-center justify-center rounded-xl border-2 border-slate-200 bg-transparent px-6 py-2.5 font-medium text-slate-600 transition duration-300 hover:border-slate-900 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-200 dark:hover:text-white"
-                >
-                  <span>./contact.sh</span>
-                </a>
-              </div>
+              <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
+                {t('seoDescription')}
+              </p>
             </div>
           </div>
-        </TerminalWindow>
+
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+            <MagneticHover className="w-full sm:w-auto">
+              <a
+                href="#projects"
+                className="group flex w-full items-center justify-center gap-2 rounded-full border border-line bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-(--shadow-soft) sm:inline-flex sm:w-auto"
+              >
+                <span>{t('cta.projects')}</span>
+                <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              </a>
+            </MagneticHover>
+
+            <MagneticHover className="w-full sm:w-auto">
+              <a
+                href="#contact"
+                className="group flex w-full items-center justify-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground sm:inline-flex sm:w-auto"
+              >
+                <span>{t('cta.contact')}</span>
+                <SquareArrowRightUp className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </MagneticHover>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:justify-start">
+            {socialLinks.map((social) => {
+              const Icon = social.icon
+
+              return (
+                <MagneticHover key={social.id}>
+                  <a
+                    href={social.href}
+                    target={social.external ? '_blank' : undefined}
+                    rel={social.external ? 'noopener noreferrer' : undefined}
+                    className="surface-panel inline-flex h-11 w-11 items-center justify-center rounded-2xl text-foreground"
+                    aria-label={social.ariaLabel || social.name}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                </MagneticHover>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="hidden lg:block">
+          <HeroVisual />
+        </div>
       </div>
 
       <ScrollIndicator />

@@ -1,30 +1,9 @@
-import {
-  Box,
-  BranchingPathsUp,
-  Code2,
-  Database,
-  Figma,
-  Global,
-  Palette,
-  Server,
-  Smartphone,
-  Widget,
-} from '@solar-icons/react/ssr'
-import { useTranslations } from 'next-intl'
-import { InfiniteMarquee } from '@/shared/components/ui'
+'use client'
 
-const skills = [
-  { name: 'React', icon: Global, category: 'Frontend' },
-  { name: 'Next.js', icon: Widget, category: 'Fullstack' },
-  { name: 'TypeScript', icon: Code2, category: 'Language' },
-  { name: 'Node.js', icon: Server, category: 'Backend' },
-  { name: 'Tailwind CSS', icon: Palette, category: 'Styling' },
-  { name: 'React Native', icon: Smartphone, category: 'Mobile' },
-  { name: 'PostgreSQL', icon: Database, category: 'Database' },
-  { name: 'Figma', icon: Figma, category: 'UX/Design' },
-  { name: 'Docker', icon: Box, category: 'DevOps' },
-  { name: 'Git', icon: BranchingPathsUp, category: 'Version Control' },
-]
+import { useTranslations } from 'next-intl'
+import { FadeIn } from '@/shared/components/animations'
+import { ParallaxLayer } from '@/shared/components/animations/parallax-layer'
+import { SkillsOrbit } from './skills-orbit'
 
 export function Skills() {
   const t = useTranslations('about.skills')
@@ -32,32 +11,32 @@ export function Skills() {
   return (
     <section
       data-testid="skills"
-      className="border-y border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950"
+      className="relative overflow-hidden border-y border-line bg-background py-14 sm:py-20 lg:py-32"
     >
-      <div className="mb-8 text-center">
-        <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-          {t('title')}
-        </p>
-      </div>
+      <ParallaxLayer
+        offset={30}
+        className="pointer-events-none absolute top-0 right-[10%] h-125 w-125 -translate-y-1/2 rounded-full bg-ambient-blue blur-[120px] opacity-20"
+      />
+      <ParallaxLayer
+        offset={-20}
+        axis="x"
+        className="pointer-events-none absolute bottom-0 left-[10%] h-75 w-75 translate-y-1/2 rounded-full bg-ambient-lime blur-[100px] opacity-10"
+      />
 
-      <InfiniteMarquee speed="slow" pauseOnHover className="[--gap:1rem]">
-        {skills.map((skill) => (
-          <div
-            key={skill.name}
-            className="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 transition-colors hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700 dark:hover:bg-slate-800"
-          >
-            <skill.icon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
-            <div className="flex flex-col">
-              <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                {skill.name}
-              </span>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                {skill.category}
-              </span>
-            </div>
-          </div>
-        ))}
-      </InfiniteMarquee>
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 sm:mb-16 text-center">
+          <p className="font-mono text-sm font-semibold uppercase tracking-[0.24em] text-muted">
+            {t('title')}
+          </p>
+          <h2 className="mx-auto mt-4 text-3xl font-display font-medium leading-tight sm:text-4xl md:text-5xl text-foreground max-w-3xl">
+            {t('subtitle')}
+          </h2>
+        </div>
+
+        <FadeIn delay={0.2}>
+          <SkillsOrbit />
+        </FadeIn>
+      </div>
     </section>
   )
 }

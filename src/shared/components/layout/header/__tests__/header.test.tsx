@@ -107,7 +107,7 @@ describe('Header Component', () => {
     fireEvent.scroll(window)
 
     await waitFor(() => {
-      expect(header).toHaveClass('bg-white/70')
+      expect(header).toHaveAttribute('data-header-state', 'elevated')
     })
   })
 

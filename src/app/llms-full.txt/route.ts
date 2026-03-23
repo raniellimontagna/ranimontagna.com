@@ -36,14 +36,14 @@ export async function GET() {
 
 ## About Ranielli Montagna
 
-Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Developer with over 3 years of professional experience. He currently works at Luizalabs, the technology arm of Magazine Luiza (one of Brazil's largest retail companies). He specializes in React, Next.js, Node.js, TypeScript, and mobile development with React Native.
+Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Developer with over 4 years of professional experience. He currently works at Luizalabs, the technology arm of Magazine Luiza (one of Brazil's largest retail companies). He specializes in React, Next.js, Node.js, TypeScript, and mobile development with React Native.
 
 - **Full name**: Ranielli Montagna
 - **Also known as**: Rani Montagna, Ranni Montagna, Ranielli
 - **Nationality**: Brazilian
 - **Current employer**: Luizalabs - Magazine Luiza
 - **Role**: Full Stack Developer
-- **Experience**: 3+ years
+- **Experience**: 4+ years
 - **GitHub**: https://github.com/RanielliMontagna
 - **LinkedIn**: https://linkedin.com/in/rannimontagna
 - **Twitter/X**: https://twitter.com/rannimontagna

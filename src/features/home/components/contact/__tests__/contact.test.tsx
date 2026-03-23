@@ -12,7 +12,11 @@ vi.mock('../contactForm/contactForm', () => ({
 
 // Mock animations to render immediately
 vi.mock('@/shared/components/animations', () => ({
+  BlurReveal: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
   StaggerContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
@@ -31,8 +35,7 @@ describe('Contact Component', () => {
 
   it('renders section title and subtitle', () => {
     render(<Contact />)
-    expect(screen.getByText('title.part1')).toBeInTheDocument()
-    expect(screen.getByText('title.part2')).toBeInTheDocument()
+    expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()
   })
@@ -49,7 +52,6 @@ describe('Contact Component', () => {
     render(<Contact />)
     expect(screen.getByText('methods.title')).toBeInTheDocument()
 
-    // Check for specific method keys
     expect(screen.getByText('methods.email.title')).toBeInTheDocument()
     expect(screen.getByText('methods.linkedin.title')).toBeInTheDocument()
     expect(screen.getByText('methods.phone.title')).toBeInTheDocument()
@@ -58,6 +60,6 @@ describe('Contact Component', () => {
   it('renders status indicator', () => {
     render(<Contact />)
     expect(screen.getByText('status.available')).toBeInTheDocument()
-    expect(screen.getByText('status.response')).toBeInTheDocument()
+    expect(screen.getAllByText('status.response').length).toBeGreaterThan(0)
   })
 })

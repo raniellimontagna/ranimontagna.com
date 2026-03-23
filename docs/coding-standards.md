@@ -61,3 +61,16 @@ export function Button({ label, onClick }: ButtonProps) {
 
 - The project typically uses Prettier/ESLint. Ensure your editor is configured to format on save.
 - **Post-Test Check**: Always run lint checks or verify there are no lint errors (like `any`) after implementing tests.
+
+## Clean Code & Formatting Rules
+- **No nested ternaries**: Avoid nested ternary operators (e.g. `a ? b ? c : d : e`). They are hard to read. Use standard `if/else` checks or break them down into separate variables.
+
+## Tailwind CSS v4 Rules
+Always use the exact predefined, semantic Canonical classes rather than arbitrary brackets unless there is no alternative:
+- **Colors**: Prefer `text-muted` over `text-[color:var(--muted)]`
+- **Backgrounds**: Prefer `bg-surface` over `bg-[color:var(--surface)]`
+- **Radii**: Prefer `rounded-4xl` over `rounded-[2rem]`, `rounded-3xl` over `rounded-[1.5rem]`
+- **Shadows**: Prefer `shadow-(--shadow-card)` over `shadow-[var(--shadow-card)]`
+- **Sizing**: Prefer `max-w-xl` over `max-w-[36rem]`, `aspect-video` if applicable over `aspect-[16/9]`, etc.
+When touching styles, always verify your components against UI warnings like `suggestCanonicalClasses` before pushing code.
+- **Spacing**: Avoid using Tailwind `space-x-*` and `space-y-*` utilities. Instead, use `flex` or `grid` with the `gap-*` property for better control, responsiveness, and compatibility.

@@ -6,8 +6,8 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-// Mock framer-motion
-vi.mock('framer-motion', () => ({
+// Mock motion/react
+vi.mock('motion/react', () => ({
   motion: {
     button: ({
       children,
@@ -69,14 +69,14 @@ describe('LanguageFilter', () => {
     render(<LanguageFilter languages={languages} selected={null} onSelect={mockOnSelect} />)
 
     const allButton = screen.getByText('filters.all')
-    expect(allButton).toHaveClass('bg-purple-600')
+    expect(allButton).toHaveClass('bg-foreground')
   })
 
   it('applies selected styling to language button when that language is selected', () => {
     render(<LanguageFilter languages={languages} selected="TypeScript" onSelect={mockOnSelect} />)
 
     const tsButton = screen.getByText('TypeScript')
-    expect(tsButton).toHaveClass('bg-purple-600')
+    expect(tsButton).toHaveClass('bg-foreground')
   })
 
   it('renders language color indicators', () => {

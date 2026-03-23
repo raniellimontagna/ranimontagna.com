@@ -13,6 +13,8 @@ vi.mock('next-intl', () => ({
 // Mock animations
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
   StaggerContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
@@ -26,8 +28,7 @@ describe('Services Component', () => {
   it('renders services section', () => {
     render(<Services />)
     expect(screen.getByText('badge')).toBeInTheDocument()
-    expect(screen.getByText('title.part1')).toBeInTheDocument()
-    expect(screen.getByText('title.part2')).toBeInTheDocument()
+    expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
   })
 

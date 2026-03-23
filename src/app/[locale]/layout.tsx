@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Manrope, Space_Grotesk } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
@@ -15,8 +15,15 @@ import {
 } from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const bodySans = Manrope({
+  variable: '--font-manrope',
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+})
+
+const displayFont = Space_Grotesk({
+  variable: '--font-space-grotesk',
   subsets: ['latin'],
   display: 'swap',
   preload: true,
@@ -148,8 +155,6 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className="dark" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
@@ -172,7 +177,9 @@ export default async function LocaleLayout({ children, params }: Props) {
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${bodySans.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}
+      >
         <ThemeProvider>
           <WebVitals />
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (

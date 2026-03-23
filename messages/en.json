@@ -28,12 +28,11 @@
     }
   },
   "hero": {
-    "availability": "Available for new projects",
     "greeting": "Hello, I'm",
     "name": "Ranielli Montagna",
     "passion": {
       "part1": "A",
-      "highlight": "Full Stack Developer",
+      "highlight": "Software Engineer",
       "part2": "who turns business ideas into fast, scalable, and easy-to-use digital products"
     },
     "description": "I build web and mobile applications end-to-end, combining solid architecture, user experience, and performance from the first commit.",
@@ -41,18 +40,6 @@
     "cta": {
       "projects": "See my projects",
       "contact": "Get in touch"
-    },
-    "skills": {
-      "title": "Technologies I master",
-      "list": [
-        "React",
-        "React Native",
-        "TypeScript",
-        "Node.js",
-        "Tailwind CSS",
-        "Figma",
-        "PostgreSQL"
-      ]
     }
   },
   "about": {
@@ -64,18 +51,18 @@
     "bio": {
       "greeting": "Hello! I'm",
       "name": "Ranielli Montagna",
-      "intro": "a full stack developer passionate about turning ideas into innovative digital solutions. With over 3 years of experience, I specialize in creating web and mobile applications that combine exceptional functionality with intuitive design.",
+      "intro": "a full stack developer passionate about turning ideas into innovative digital solutions. With over 4 years of experience, I specialize in creating web and mobile applications that combine exceptional functionality with intuitive design.",
       "journey": "My journey began with a curiosity about how things work on the web, and since then I have been developing projects that positively impact people's lives. I believe technology should be accessible and make a difference.",
       "hobbies": "When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or planning my next development adventure."
     },
-    "cta": { "contact": "Let's talk" },
+    "cta": {
+      "contact": "Let's talk"
+    },
     "stats": {
       "experience": "Years of experience",
-      "projects": "Projects completed",
-      "dedication": "Dedication"
+      "projects": "Projects completed"
     },
     "skills": {
-      "title": "My main skills",
       "categories": {
         "frontend": "Frontend",
         "backend": "Backend",
@@ -103,7 +90,9 @@
         "vscode": "VS Code",
         "postman": "Postman",
         "vercel": "Vercel"
-      }
+      },
+      "title": "My core competencies",
+      "subtitle": "A precise tech stack tailored for global demands."
     }
   },
   "experience": {
@@ -176,7 +165,50 @@
     },
     "card": {
       "featuredBadge": "Featured",
-      "moreCount": "+{count} more"
+      "moreCount": "+{count} more",
+      "role": {
+        "fullstack": "Full Stack",
+        "frontend": "Front-end",
+        "backend": "Back-end"
+      },
+      "category": {
+        "saas": "SaaS",
+        "enterprise": "Enterprise"
+      },
+      "highlights": {
+        "agenda": "Scheduling",
+        "clientManagement": "Client Management",
+        "sales": "Sales",
+        "financial": "Financial",
+        "inventory": "Inventory",
+        "leads": "Leads",
+        "reports": "Reports",
+        "dashboard": "Dashboard",
+        "orderPicking": "Order Picking",
+        "separation": "Separation",
+        "dispatch": "Dispatch",
+        "goodsReceipt": "Goods Receipt",
+        "inventoryControl": "Inventory Control",
+        "barcodeScanning": "Barcode Scanning",
+        "offlineSupport": "Offline Mode",
+        "posSystem": "Point of Sale",
+        "nfceIssuance": "NFC-e Issuing",
+        "tableControl": "Table Control",
+        "orderManagement": "Order Tickets",
+        "digitalMenu": "Digital Menu",
+        "delivery": "Delivery",
+        "scaleIntegration": "Scale Integration",
+        "salesHistory": "Sales History",
+        "cashierControl": "Cashier Control",
+        "propertyManagement": "Property Management",
+        "tokenizedSharing": "Tokenized Links",
+        "clientGate": "Lead Capture",
+        "brokerDashboard": "Broker Dashboard",
+        "analytics": "Analytics",
+        "publicCatalog": "Public Catalog",
+        "imageGallery": "Image Gallery",
+        "lgpdCompliance": "LGPD Compliance"
+      }
     },
     "cta": {
       "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
@@ -198,6 +230,10 @@
       "pratio": {
         "title": "Pratio - POS for Restaurants",
         "description": "Point of sale (POS) and management system for bars and restaurants, with table and order control, NFC-e issuing, and a digital menu."
+      },
+      "paludoImoveis": {
+        "title": "Paludo Imóveis - Real Estate Platform",
+        "description": "Platform for real estate brokers with public catalog, tokenized link sharing, lead capture, and analytics dashboard."
       }
     }
   },
@@ -361,6 +397,7 @@
     "title": "Thinking Aloud.",
     "subtitle": "Insights, tutorials, and reflections on technology, development, and everything in between.",
     "backToPortfolio": "Back to Portfolio",
+    "backToBlog": "Back to Blog",
     "readFeaturedStory": "Read Featured Story",
     "readArticle": "Read article",
     "noPosts": "No posts found. Check back soon!"

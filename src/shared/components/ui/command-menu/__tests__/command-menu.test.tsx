@@ -99,7 +99,15 @@ describe('CommandMenu Component', () => {
     fireEvent.click(githubItem)
 
     expect(mockSetOpen).toHaveBeenCalledWith(false)
-    expect(window.open).toHaveBeenCalledWith('https://github.com/raniellimontagna', '_blank')
+    expect(window.open).toHaveBeenCalledWith('https://github.com/RanielliMontagna', '_blank')
+  })
+
+  it('renders new social options in the social group', () => {
+    render(<CommandMenu />)
+
+    const items = screen.getAllByRole('option')
+    expect(items.some((item) => item.textContent?.includes('Instagram'))).toBe(true)
+    expect(items.some((item) => item.textContent?.includes('X / Twitter'))).toBe(true)
   })
 
   it('changes theme on selection', () => {

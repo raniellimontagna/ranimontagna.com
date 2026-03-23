@@ -4,7 +4,10 @@ import { ProjectCard } from '../project-card'
 
 // Mocks
 vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
+  useTranslations: () => (key: string, params?: Record<string, unknown>) => {
+    if (params?.count !== undefined) return `+${params.count} more`
+    return key.split('.').pop() ?? key
+  },
 }))
 
 // Mock next/image
@@ -23,6 +26,7 @@ vi.mock('next/image', () => ({
 
 const mockProject: ProjectType = {
   id: 1,
+  slug: 'test-project',
   i18nKey: 'project1',
   type: 'web',
   title: 'Test Project',
@@ -32,6 +36,12 @@ const mockProject: ProjectType = {
   github: 'https://github.com/test',
   demo: 'https://demo.com',
   featured: true,
+  role: 'fullstack',
+  year: 2024,
+  company: 'Test Company',
+  category: 'saas',
+  highlights: ['dashboard', 'reports'],
+  integrations: ['WhatsApp'],
 }
 
 describe('ProjectCard Component', () => {
@@ -82,7 +92,7 @@ describe('ProjectCard Component', () => {
     // Component does: t('moreCount', { count: ... })
     // The mock should probably handle args or we inspect what it returns.
     // Simple key return logic: returns "moreCount"
-    expect(screen.getByText('moreCount')).toBeInTheDocument()
+    expect(screen.getByText('+1 more')).toBeInTheDocument()
   })
 
   it('renders placeholder when no image provided', () => {
@@ -94,6 +104,19 @@ describe('ProjectCard Component', () => {
     // Should find icon (might need test-id or rely on class checking if desperate,
     // but finding by visual absence of image is good enough for now,
     // or check for placeholder structure if specific text/icon is known)
+  })
+
+  it('uses the first gallery image when image is empty', () => {
+    const projectWithGallery = {
+      ...mockProject,
+      image: '',
+      images: ['/gallery-1.jpg', '/gallery-2.jpg'],
+    }
+
+    render(<ProjectCard project={projectWithGallery} animationDelay="0ms" />)
+
+    const img = screen.getByAltText('Test Project')
+    expect(img).toHaveAttribute('src', '/gallery-1.jpg')
   })
 
   it('handles mouse interactions (smoke test)', () => {

@@ -2,7 +2,7 @@
 
 > Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Portfolio, blog and open source projects.
 
-Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Developer with over 3 years of experience building web and mobile applications. He works at Luizalabs (a technology division of Magazine Luiza, one of the largest retailers in Brazil) and specializes in creating high-quality digital experiences using modern JavaScript technologies.
+Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Developer with over 4 years of experience building web and mobile applications. He works at Luizalabs (a technology division of Magazine Luiza, one of the largest retailers in Brazil) and specializes in creating high-quality digital experiences using modern JavaScript technologies.
 
 ## Identity
 

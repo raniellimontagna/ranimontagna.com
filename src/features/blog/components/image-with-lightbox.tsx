@@ -20,7 +20,7 @@ export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 shadow-lg transition-all hover:shadow-xl dark:border-slate-800"
+          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-line shadow-lg transition-all hover:shadow-xl"
           aria-label={`View larger: ${alt || 'Image'}`}
         >
           {/* biome-ignore lint/performance/noImgElement: next/image cannot be used with MDX dynamic props */}
@@ -32,9 +32,9 @@ export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
           />
           {/* Zoom indicator overlay */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-300 group-hover:bg-black/10 group-hover:opacity-100">
-            <div className="rounded-full bg-white/90 p-3 shadow-lg backdrop-blur-sm dark:bg-slate-900/90">
+            <div className="rounded-full bg-surface/90 p-3 shadow-lg backdrop-blur-sm">
               <svg
-                className="h-6 w-6 text-slate-700 dark:text-slate-300"
+                className="h-6 w-6 text-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -50,11 +50,7 @@ export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
             </div>
           </div>
         </button>
-        {alt && (
-          <span className="mt-3 block text-center text-sm italic text-slate-500 dark:text-slate-400">
-            {alt}
-          </span>
-        )}
+        {alt && <span className="mt-3 block text-center text-sm italic text-muted">{alt}</span>}
       </span>
 
       <Lightbox

@@ -1,42 +1,64 @@
-import { act, render } from '@/tests/test-utils'
+import { render } from '@/tests/test-utils'
 import { ReadingProgressBar } from '../reading-progress-bar'
 
+let mockScrollProgress = 0.4
+let mockPrefersReducedMotion = false
+const mockMotionDiv = vi.fn(
+  ({
+    children,
+    className,
+    style,
+    ...props
+  }: Record<string, unknown> & { children?: React.ReactNode }) => (
+    <div className={className as string} data-has-style={style ? 'yes' : 'no'} {...props}>
+      {children}
+    </div>
+  ),
+)
+
+// Mock motion/react
+vi.mock('motion/react', () => ({
+  motion: {
+    div: (props: Record<string, unknown>) => mockMotionDiv(props),
+  },
+  useScroll: () => ({ scrollYProgress: { get: () => mockScrollProgress } }),
+  useSpring: (value: unknown) => value,
+  useReducedMotion: () => mockPrefersReducedMotion,
+}))
+
 describe('ReadingProgressBar Component', () => {
-  it('updates progress on scroll', () => {
-    // Mock scroll dimensions
-    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 2000, writable: true })
-    Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true })
-    Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
-
-    render(<ReadingProgressBar />)
-
-    // Initial state: 0%
-    const bar = document.querySelector('.bg-gradient-to-r')
-    expect(bar).toHaveStyle({ width: '0%' })
-
-    // Scroll to 50%
-    act(() => {
-      window.scrollY = 500
-      window.dispatchEvent(new Event('scroll'))
-    })
-
-    expect(bar).toHaveStyle({ width: '50%' })
-
-    // Scroll to 100%
-    act(() => {
-      window.scrollY = 1000
-      window.dispatchEvent(new Event('scroll'))
-    })
-    expect(bar).toHaveStyle({ width: '100%' })
+  beforeEach(() => {
+    mockScrollProgress = 0.4
+    mockPrefersReducedMotion = false
+    mockMotionDiv.mockClear()
   })
 
-  it('handles scrollHeight <= 0', () => {
-    // If page is short, progress should stay 0 or not crash
-    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 500, writable: true })
-    Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true }) // no scroll
+  it('renders the progress bar container', () => {
+    render(<ReadingProgressBar />)
+    const container = document.querySelector('.z-60')
+    expect(container).toBeInTheDocument()
+  })
+
+  it('renders the progress indicator', () => {
+    render(<ReadingProgressBar />)
+    const bar = document.querySelector('.bg-linear-to-r')
+    expect(bar).toBeInTheDocument()
+  })
+
+  it('does not render when progress is at the start', () => {
+    mockScrollProgress = 0
+    const { container } = render(<ReadingProgressBar />)
+    expect(container.firstChild).toBeNull()
+  })
+
+  it('disables animated scaling when reduced motion is enabled', () => {
+    mockPrefersReducedMotion = true
 
     render(<ReadingProgressBar />)
-    const bar = document.querySelector('.bg-gradient-to-r')
-    expect(bar).toHaveStyle({ width: '0%' })
+
+    expect(mockMotionDiv).toHaveBeenCalledTimes(1)
+    expect(mockMotionDiv.mock.calls[0]?.[0]).toMatchObject({
+      style: undefined,
+    })
   })
 })

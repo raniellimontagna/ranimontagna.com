@@ -6,6 +6,7 @@ import { Projects } from '@/features/home/components/projects/projects'
 import { Services } from '@/features/home/components/services/services'
 import { Skills } from '@/features/home/components/skills/skills'
 import { Footer, Header } from '@/shared'
+import { SectionTransition } from '@/shared/components/animations'
 import { HomeClientWidgets } from './components/home-client-widgets'
 
 interface HomeProps {
@@ -18,12 +19,22 @@ export const Home = ({ heroContent }: HomeProps): React.ReactElement => {
       <Header />
       <main>
         {heroContent}
-        <About />
+        <SectionTransition>
+          <About />
+        </SectionTransition>
         <Skills />
-        <Experience />
-        <Projects />
-        <Services />
-        <Contact />
+        <SectionTransition>
+          <Experience />
+        </SectionTransition>
+        <SectionTransition>
+          <Projects />
+        </SectionTransition>
+        <SectionTransition>
+          <Services />
+        </SectionTransition>
+        <SectionTransition>
+          <Contact />
+        </SectionTransition>
       </main>
       <Footer />
       <HomeClientWidgets />

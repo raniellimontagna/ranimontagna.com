@@ -1,6 +1,6 @@
 'use client'
 
-import { type HTMLMotionProps, motion, useInView } from 'motion/react'
+import { type HTMLMotionProps, motion, useInView, useReducedMotion } from 'motion/react'
 import { type ReactNode, useRef } from 'react'
 
 interface FadeInProps extends HTMLMotionProps<'div'> {
@@ -11,6 +11,8 @@ interface FadeInProps extends HTMLMotionProps<'div'> {
   distance?: number
   className?: string
   triggerOnce?: boolean
+  blur?: boolean
+  scale?: boolean
 }
 
 export function FadeIn({
@@ -21,9 +23,12 @@ export function FadeIn({
   distance = 20,
   className,
   triggerOnce = true,
+  blur = false,
+  scale = false,
   ...props
 }: FadeInProps) {
   const ref = useRef(null)
+  const prefersReducedMotion = useReducedMotion()
   const isInView = useInView(ref, { once: triggerOnce, margin: '0px 0px -100px 0px' })
 
   const getInitialPosition = () => {
@@ -43,17 +48,31 @@ export function FadeIn({
     }
   }
 
+  const blurProps = blur ? { filter: 'blur(12px)' } : {}
+  const blurResolvedProps = blur ? { filter: 'blur(0px)' } : {}
+  const scaleProps = scale ? { scale: 0.95 } : {}
+  const scaleResolvedProps = scale ? { scale: 1 } : {}
+
+  const initialConfig = prefersReducedMotion
+    ? { opacity: 1, y: 0, x: 0 }
+    : { opacity: 0, ...getInitialPosition(), ...blurProps, ...scaleProps }
+  const animateConfig = prefersReducedMotion
+    ? { opacity: 1, y: 0, x: 0 }
+    : isInView
+      ? { opacity: 1, y: 0, x: 0, ...blurResolvedProps, ...scaleResolvedProps }
+      : { opacity: 0, ...getInitialPosition(), ...blurProps, ...scaleProps }
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, ...getInitialPosition() }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, ...getInitialPosition() }}
+      initial={initialConfig}
+      animate={animateConfig}
       transition={{
-        duration,
-        delay: isInView ? delay : 0,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        duration: prefersReducedMotion ? 0 : duration,
+        delay: isInView && !prefersReducedMotion ? delay : 0,
+        ease: [0.19, 1, 0.22, 1],
       }}
-      style={{ willChange: 'transform, opacity' }}
+      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
       className={className}
       {...props}
     >

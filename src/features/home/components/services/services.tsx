@@ -1,6 +1,12 @@
 import { ArrowRight, StarFall } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
+import {
+  FadeIn,
+  MagneticHover,
+  RevealText,
+  StaggerContainer,
+  StaggerItem,
+} from '@/shared/components/animations'
 import { ServiceCard } from '@/shared/components/ui'
 
 import { servicesData } from './services.static'
@@ -17,88 +23,100 @@ export function Services() {
   }))
 
   return (
-    <section
-      id="services"
-      className="relative overflow-hidden bg-slate-50 py-20 sm:py-28 lg:py-36 dark:bg-slate-950"
-    >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-125 w-125 -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl dark:bg-blue-500/10" />
-        <div className="absolute bottom-0 right-1/4 h-125 w-125 translate-x-1/2 rounded-full bg-purple-500/5 blur-3xl dark:bg-purple-500/10" />
+    <section id="services" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
+      <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/12 blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
 
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-size-[60px_60px] dark:bg-[linear-gradient(rgba(51,65,85,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(51,65,85,0.3)_1px,transparent_1px)]" />
-      </div>
+      <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <FadeIn delay={0.15}>
+          <div className="editorial-kicker mb-6">
+            <StarFall className="h-4 w-4" />
+            {t('badge')}
+          </div>
+        </FadeIn>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center lg:mb-20">
-          <FadeIn delay={0.2}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-300">
-              <StarFall className="h-4 w-4" />
-              {t('badge')}
+        <div className="grid gap-6 sm:gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,30rem)] xl:items-end xl:gap-10">
+          <div>
+            <RevealText
+              text={`${t('title.part1')} ${t('title.part2')}`}
+              className="max-w-3xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
+            />
+
+            <FadeIn delay={0.35} blur>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
+                {t('subtitle')}
+              </p>
+            </FadeIn>
+          </div>
+
+          <FadeIn delay={0.45}>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+              {services.map((service) => (
+                <div
+                  key={service.id}
+                  className="surface-panel flex min-h-16 items-center justify-between gap-4 rounded-3xl px-4 py-3"
+                >
+                  <span className="text-sm font-semibold text-foreground">{service.title}</span>
+                  <span className="shrink-0 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                    {service.category.toUpperCase()}
+                  </span>
+                </div>
+              ))}
             </div>
-          </FadeIn>
-
-          <FadeIn delay={0.4}>
-            <h2 className="mb-6 font-mono text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl xl:text-6xl dark:text-slate-100">
-              {t('title.part1')}{' '}
-              <span className="bg-linear-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent dark:from-blue-400 dark:to-blue-300">
-                {t('title.part2')}
-              </span>
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.6}>
-            <p className="mx-auto max-w-2xl text-base text-slate-600 sm:text-lg lg:text-xl dark:text-slate-400">
-              {t('subtitle')}
-            </p>
           </FadeIn>
         </div>
 
-        <StaggerContainer staggerDelay={0.1}>
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-4">
-            {services.map((service) => (
-              <StaggerItem key={service.id}>
-                <ServiceCard
-                  title={service.title}
-                  description={service.description}
-                  features={service.features}
-                  icon={service.icon}
-                  popular={service.popular}
-                />
-              </StaggerItem>
-            ))}
-          </div>
-        </StaggerContainer>
+        <div className="mt-12 sm:mt-14 lg:mt-16">
+          <StaggerContainer staggerDelay={0.1}>
+            <div className="grid items-stretch gap-5 md:grid-cols-2 xl:gap-6">
+              {services.map((service) => (
+                <StaggerItem key={service.id} className="h-full">
+                  <ServiceCard
+                    className="h-full"
+                    title={service.title}
+                    description={service.description}
+                    features={service.features}
+                    icon={service.icon}
+                    eyebrow={service.category.toUpperCase()}
+                    popular={service.popular}
+                  />
+                </StaggerItem>
+              ))}
+            </div>
+          </StaggerContainer>
 
-        <FadeIn delay={1.2}>
-          <div className="mt-20 lg:mt-28">
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xl sm:p-10 lg:p-14 dark:border-slate-800/60 dark:bg-slate-900/80">
-              <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-blue-50 via-transparent to-purple-50 dark:from-blue-900/20 dark:via-transparent dark:to-purple-900/20" />
+          <FadeIn delay={0.7}>
+            <div className="surface-panel-strong mt-6 overflow-hidden rounded-3xl p-4 shadow-card sm:mt-8 sm:rounded-4xl sm:p-6 lg:p-8">
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                    <StarFall className="h-3.5 w-3.5" />
+                    {t('cta.badge')}
+                  </div>
 
-              <div className="relative z-10 text-center">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 dark:border-blue-800/50 dark:bg-blue-900/20 dark:text-blue-300">
-                  <StarFall className="h-3 w-3" />
-                  {t('cta.badge')}
+                  <h3 className="mt-5 text-2xl font-semibold tracking-[-0.05em] text-foreground sm:text-3xl">
+                    {t('cta.title')}
+                  </h3>
+
+                  <p className="mt-3 max-w-2xl text-base leading-8 text-muted">
+                    {t('cta.subtitle')}
+                  </p>
                 </div>
 
-                <h3 className="mb-4 font-mono text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl dark:text-white">
-                  {t('cta.title')}
-                </h3>
-
-                <p className="mx-auto mb-8 max-w-xl text-base text-slate-600 sm:text-lg dark:text-slate-400">
-                  {t('cta.subtitle')}
-                </p>
-
-                <a
-                  href="#contact"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 px-8 py-4 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:from-blue-500 hover:to-blue-400 hover:shadow-xl hover:shadow-blue-500/40"
-                >
-                  {t('cta.button')}
-                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
+                <MagneticHover strength={12}>
+                  <a
+                    href="#contact"
+                    className="inline-flex min-h-13 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
+                  >
+                    {t('cta.button')}
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </MagneticHover>
               </div>
             </div>
-          </div>
-        </FadeIn>
+          </FadeIn>
+        </div>
       </div>
     </section>
   )
