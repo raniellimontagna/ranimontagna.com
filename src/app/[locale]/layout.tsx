@@ -3,16 +3,10 @@ import { Geist_Mono, Manrope, Space_Grotesk } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
-import './globals.css'
 
 import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
-import {
-  generatePersonJsonLd,
-  generateProfilePageJsonLd,
-  generateWebsiteJsonLd,
-} from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 
 const bodySans = Manrope({
@@ -35,30 +29,6 @@ const geistMono = Geist_Mono({
   display: 'swap',
   preload: true,
 })
-
-const THEME_INIT_SCRIPT = `
-(() => {
-  const storageKey = 'theme-storage';
-  const fallbackTheme = 'dark';
-  const root = document.documentElement;
-
-  try {
-    const savedTheme = localStorage.getItem(storageKey);
-    const parsed = savedTheme ? JSON.parse(savedTheme) : null;
-    const theme = parsed?.state?.theme === 'light' || parsed?.state?.theme === 'dark'
-      ? parsed.state.theme
-      : fallbackTheme;
-
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    root.style.colorScheme = theme;
-  } catch {
-    root.classList.remove('light', 'dark');
-    root.classList.add(fallbackTheme);
-    root.style.colorScheme = fallbackTheme;
-  }
-})();
-`
 
 type Props = {
   children: React.ReactNode
@@ -147,40 +117,12 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   setRequestLocale(locale)
 
-  const personJsonLd = generatePersonJsonLd(locale)
-  const websiteJsonLd = generateWebsiteJsonLd(locale)
-  const profilePageJsonLd = generateProfilePageJsonLd(locale)
-
   return (
-    <html
-      lang={locale}
-      className="dark"
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-    >
+    <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(personJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(profilePageJsonLd),
-          }}
-        />
       </head>
       <body
         className={`${bodySans.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}

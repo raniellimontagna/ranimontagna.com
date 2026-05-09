@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
-import '@/app/[locale]/globals.css'
 
 interface ErrorContentProps {
   code: string | number

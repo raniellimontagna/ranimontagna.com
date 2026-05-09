@@ -38,7 +38,6 @@ export function HeroVisual() {
                     sizes="(max-width: 640px) 240px, (max-width: 768px) 288px, 312px"
                     quality={100}
                     className="object-cover object-center"
-                    priority
                   />
                 </div>
 

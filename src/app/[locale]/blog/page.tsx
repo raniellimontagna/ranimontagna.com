@@ -60,51 +60,12 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   const featuredPost = posts[0]
   const remainingPosts = posts.slice(1)
 
-  const blogUrl = getBlogUrl(locale)
-
-  const blogJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    '@id': `${blogUrl}#blog`,
-    name: 'Ranielli Montagna Blog',
-    description: t('subtitle'),
-    url: blogUrl,
-    author: {
-      '@type': 'Person',
-      name: 'Ranielli Montagna',
-      '@id': `${BASE_URL}/#person`,
-      url: BASE_URL,
-    },
-    publisher: {
-      '@type': 'Person',
-      name: 'Ranielli Montagna',
-      url: BASE_URL,
-    },
-    inLanguage: locale,
-    blogPost: posts.slice(0, 10).map((post) => ({
-      '@type': 'BlogPosting',
-      headline: post.metadata.title,
-      description: post.metadata.description,
-      datePublished: post.metadata.date,
-      url: `${blogUrl}/${post.slug}`,
-      author: {
-        '@type': 'Person',
-        name: 'Ranielli Montagna',
-      },
-      keywords: post.metadata.tags?.join(', '),
-    })),
-  }
-
   return (
     <div className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24">
       {/* Background Gradients */}
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
       <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
-      />
       <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
         <div className="mb-8 sm:mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />

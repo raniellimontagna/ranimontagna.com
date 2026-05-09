@@ -195,86 +195,12 @@ export default async function PostPage(props: {
 
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
 
-  const url = getPostUrl(params.locale, params.slug)
-
-  // JSON-LD structured data for SEO
-  const postOgImage = resolveBlogImageUrl(post.metadata.coverImage)
-
-  // Estimate word count from markdown content (strip MDX/markdown syntax)
-  const wordCount = post.content
-    .replace(/```[\s\S]*?```/g, '')
-    .replace(/[#*`[\]()>_~]/g, '')
-    .split(/\s+/)
-    .filter(Boolean).length
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    '@id': `${url}#blogposting`,
-    headline: post.metadata.title,
-    description: post.metadata.description,
-    image: {
-      '@type': 'ImageObject',
-      url: postOgImage,
-      width: 1200,
-      height: 630,
-    },
-    datePublished: post.metadata.date,
-    dateModified: post.metadata.date,
-    wordCount,
-    author: {
-      '@type': 'Person',
-      name: 'Ranielli Montagna',
-      url: BASE_URL,
-      '@id': `${BASE_URL}/#person`,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Ranielli Montagna',
-      url: BASE_URL,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${BASE_URL}/logo/white.svg`,
-      },
-    },
-    url,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': url,
-    },
-    isPartOf: {
-      '@type': 'Blog',
-      '@id': `${BASE_URL}/blog`,
-      name: 'Ranielli Montagna Blog',
-      url: `${BASE_URL}/blog`,
-    },
-    keywords: post.metadata.tags?.join(', '),
-    articleSection: 'Technology',
-    inLanguage: params.locale,
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', 'h2', '.prose p:first-of-type'],
-    },
-    breadcrumb: {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE_URL}/blog` },
-        { '@type': 'ListItem', position: 3, name: post.metadata.title, item: url },
-      ],
-    },
-  }
-
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background">
       {/* Background Gradients */}
       <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
       <div className="absolute top-0 right-0 -z-10 h-200 w-200 rounded-full bg-accent-ice/10 blur-[120px]" />
       {/* JSON-LD structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <ReadingProgressBar />
       <ScrollToTop />
       <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 pt-8 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:pb-24">
