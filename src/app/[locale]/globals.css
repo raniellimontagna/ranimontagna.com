@@ -204,6 +204,7 @@
 }
 
 html {
+  position: relative;
   scroll-behavior: smooth;
   scroll-padding-top: 7rem;
   background: var(--background);

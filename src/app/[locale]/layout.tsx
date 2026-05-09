@@ -152,7 +152,12 @@ export default async function LocaleLayout({ children, params }: Props) {
   const profilePageJsonLd = generateProfilePageJsonLd(locale)
 
   return (
-    <html lang={locale} className="dark" suppressHydrationWarning>
+    <html
+      lang={locale}
+      className="dark"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

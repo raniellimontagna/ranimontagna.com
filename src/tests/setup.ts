@@ -1,3 +1,4 @@
+import React from 'react'
 import '@testing-library/jest-dom/vitest'
 import { setupDOMMocks } from './mocks'
 
@@ -41,8 +42,8 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
     forward: vi.fn(),
   }),
   usePathname: () => '/',
-  Link: ({ children, href }: { children: React.ReactNode; href: string }) =>
-    `<a href="${href}">${children}</a>`,
+  Link: ({ children, href, ...rest }: { children: React.ReactNode; href: string; [key: string]: unknown }) =>
+    React.createElement('a', { href, ...rest }, children),
   redirect: vi.fn(),
   permanentRedirect: vi.fn(),
   getPathname: vi.fn(),

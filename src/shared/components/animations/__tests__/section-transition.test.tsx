@@ -47,7 +47,7 @@ describe('SectionTransition', () => {
     )
 
     expect(screen.getByText('Reduced Motion')).toBeInTheDocument()
-    expect(container.firstChild).toHaveClass('section-shell')
+    expect(container.firstChild).toHaveClass('relative', 'section-shell')
     expect(mockMotionProps).not.toHaveBeenCalled()
   })
 
@@ -75,7 +75,24 @@ describe('SectionTransition', () => {
       [40, 0, 0, -20],
     )
     expect(mockMotionProps).toHaveBeenCalledWith({
-      className: 'animated-section',
+      className: 'relative animated-section',
+      style: {
+        opacity: 'opacity-transform',
+        y: 'y-transform',
+        willChange: 'transform, opacity',
+      },
+    })
+  })
+
+  it('defaults to a positioned wrapper when no className is provided', () => {
+    render(
+      <SectionTransition>
+        <div>Default Wrapper</div>
+      </SectionTransition>,
+    )
+
+    expect(mockMotionProps).toHaveBeenCalledWith({
+      className: 'relative',
       style: {
         opacity: 'opacity-transform',
         y: 'y-transform',

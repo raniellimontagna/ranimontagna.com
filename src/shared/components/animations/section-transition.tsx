@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { type ReactNode, useRef } from 'react'
+import { cn } from '@/shared/lib/utils'
 
 interface SectionTransitionProps {
   children: ReactNode
@@ -11,6 +12,7 @@ interface SectionTransitionProps {
 export function SectionTransition({ children, className }: SectionTransitionProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const prefersReducedMotion = useReducedMotion()
+  const sectionClassName = cn('relative', className)
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -22,7 +24,7 @@ export function SectionTransition({ children, className }: SectionTransitionProp
 
   if (prefersReducedMotion) {
     return (
-      <div ref={ref} className={className}>
+      <div ref={ref} className={sectionClassName}>
         {children}
       </div>
     )
@@ -31,7 +33,7 @@ export function SectionTransition({ children, className }: SectionTransitionProp
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={sectionClassName}
       style={{
         opacity,
         y,
