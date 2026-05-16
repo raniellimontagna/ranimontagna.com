@@ -4,8 +4,16 @@ const { mockRevalidateTag } = vi.hoisted(() => ({
   mockRevalidateTag: vi.fn(),
 }))
 
+const { mockInvalidateBlogCache } = vi.hoisted(() => ({
+  mockInvalidateBlogCache: vi.fn().mockResolvedValue(undefined),
+}))
+
 vi.mock('next/cache', () => ({
   revalidateTag: mockRevalidateTag,
+}))
+
+vi.mock('@/features/blog/lib/blog-cache', () => ({
+  invalidateBlogCache: mockInvalidateBlogCache,
 }))
 
 import { POST } from '../route'
@@ -67,6 +75,7 @@ describe('revalidate route', () => {
 
     expect(response.status).toBe(200)
     expect(mockRevalidateTag).toHaveBeenCalledWith('posts', 'max')
+    expect(mockInvalidateBlogCache).toHaveBeenCalled()
     await expect(response.json()).resolves.toMatchObject({
       revalidated: true,
     })
@@ -95,6 +104,23 @@ describe('revalidate route', () => {
         },
         body,
       ) as never,
+    )
+
+    expect(response.status).toBe(200)
+    expect(mockRevalidateTag).toHaveBeenCalledWith('posts', 'max')
+    expect(mockInvalidateBlogCache).toHaveBeenCalled()
+    await expect(response.json()).resolves.toMatchObject({
+      revalidated: true,
+    })
+  })
+
+  it('keeps revalidation successful when blog cache invalidation fails', async () => {
+    mockInvalidateBlogCache.mockRejectedValueOnce(new Error('redis down'))
+
+    const response = await POST(
+      createRequest({
+        Authorization: 'Bearer test-secret',
+      }) as never,
     )
 
     expect(response.status).toBe(200)

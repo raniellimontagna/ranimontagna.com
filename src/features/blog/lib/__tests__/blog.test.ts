@@ -1,175 +1,82 @@
-import { getAllPosts, getPostBySlug } from '../blog'
+import { getAdjacentPosts, getAllPosts, getPostBySlug } from '../blog'
 
-const { mockGetContent } = vi.hoisted(() => ({
-  mockGetContent: vi.fn(),
+const { mockRepositoryGetAllPosts, mockRepositoryGetPostBySlug } = vi.hoisted(() => ({
+  mockRepositoryGetAllPosts: vi.fn(),
+  mockRepositoryGetPostBySlug: vi.fn(),
 }))
-
-vi.mock('@octokit/rest', () => {
-  const Octokit = vi.fn()
-  Octokit.prototype.repos = {
-    getContent: mockGetContent,
-  }
-  return { Octokit }
-})
 
 vi.mock('next/cache', () => ({
   // biome-ignore lint/suspicious/noExplicitAny: Mocking cache wrapper
   unstable_cache: (fn: any) => fn,
 }))
 
-describe('blog library', () => {
+vi.mock('../blog-repository', () => ({
+  createBlogRepository: () => ({
+    getAllPosts: mockRepositoryGetAllPosts,
+    getPostBySlug: mockRepositoryGetPostBySlug,
+  }),
+}))
+
+describe('blog facade', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-  })
 
-  // Helper to encode content
-  const encodeContent = (content: string) => Buffer.from(content).toString('base64')
+    mockRepositoryGetAllPosts.mockResolvedValue([
+      {
+        slug: 'featured-post',
+        metadata: {
+          title: 'Featured Post',
+          date: '2024-01-02',
+          description: 'Featured Description',
+          tags: ['featured'],
+          published: true,
+        },
+        content: '# Featured',
+      },
+      {
+        slug: 'older-post',
+        metadata: {
+          title: 'Older Post',
+          date: '2024-01-01',
+          description: 'Older Description',
+          tags: ['older'],
+          published: true,
+        },
+        content: '# Older',
+      },
+    ])
 
-  const mockMDXContent = `---
-title: "Test Post"
-date: "2024-01-01"
-description: "Test Description"
-published: true
-tags: ["react"]
----
-# Hello World`
-
-  const mockFile = {
-    name: '2024-01-01-test-post.mdx',
-    type: 'file',
-    path: 'posts/en/2024-01-01-test-post.mdx',
-    sha: '123',
-    content: encodeContent(mockMDXContent),
-  }
-
-  describe('getAllPosts', () => {
-    it('fetches and returns parsed posts', async () => {
-      // Mock list files response
-      mockGetContent.mockResolvedValueOnce({
-        data: [mockFile],
-      })
-
-      // Mock get file content response
-      mockGetContent.mockResolvedValueOnce({
-        data: mockFile,
-      })
-
-      const posts = await getAllPosts('en')
-
-      expect(posts).toHaveLength(1)
-      expect(posts[0].slug).toBe('test-post')
-      expect(posts[0].metadata.title).toBe('Test Post')
-    })
-
-    it('filters out unpublished posts', async () => {
-      const unpublishedContent = `---
-title: "Unpublished"
-date: "2024-01-01"
-published: false
----`
-      const unpublishedFile = {
-        ...mockFile,
-        name: '2024-01-01-unpublished.mdx',
-        content: encodeContent(unpublishedContent),
-      }
-
-      mockGetContent.mockResolvedValueOnce({ data: [unpublishedFile] })
-      mockGetContent.mockResolvedValueOnce({ data: unpublishedFile })
-
-      const posts = await getAllPosts('en')
-      expect(posts).toHaveLength(0)
-    })
-
-    it('filters out future posts', async () => {
-      const futureDate = new Date()
-      futureDate.setFullYear(futureDate.getFullYear() + 1)
-      const dateStr = futureDate.toISOString().split('T')[0]
-
-      const futureContent = `---
-title: "Future"
-date: "${dateStr}"
-published: true
----`
-      // Note: Filename parsing regex expects digits, so we construct a matching name
-      // The regex is /^(\d{4}-\d{2}-\d{2})-(.+)\.mdx$/
-      const futureFile = {
-        ...mockFile,
-        name: `${dateStr}-future.mdx`,
-        content: encodeContent(futureContent),
-      }
-
-      mockGetContent.mockResolvedValueOnce({ data: [futureFile] })
-      mockGetContent.mockResolvedValueOnce({ data: futureFile })
-
-      const posts = await getAllPosts('en')
-      expect(posts).toHaveLength(0)
+    mockRepositoryGetPostBySlug.mockImplementation(async (slug: string) => {
+      const posts = await mockRepositoryGetAllPosts()
+      return posts.find((post: { slug: string }) => post.slug === slug) ?? null
     })
   })
 
-  describe('getPostBySlug', () => {
-    it('fetches specific post', async () => {
-      mockGetContent.mockResolvedValueOnce({ data: [mockFile] }) // List files looking for slug match
-      mockGetContent.mockResolvedValueOnce({ data: mockFile }) // Get content
+  it('delegates getAllPosts to the repository', async () => {
+    const posts = await getAllPosts('en')
 
-      const post = await getPostBySlug('test-post', 'en')
-
-      if (!post) {
-        throw new Error('Post should not be null')
-      }
-
-      expect(post).not.toBeNull()
-      expect(post.slug).toBe('test-post')
-      expect(post.content).toContain('# Hello World')
-    })
-
-    it('returns null if post not found', async () => {
-      mockGetContent.mockResolvedValueOnce({ data: [] }) // No files
-
-      const post = await getPostBySlug('non-existent', 'en')
-      expect(post).toBeNull()
-    })
+    expect(posts).toHaveLength(2)
+    expect(posts[0].slug).toBe('featured-post')
+    expect(mockRepositoryGetAllPosts).toHaveBeenCalledWith('en')
   })
 
-  describe('error handling', () => {
-    it('handles error when fetching individual post fails', async () => {
-      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+  it('delegates getPostBySlug to the repository', async () => {
+    const post = await getPostBySlug('featured-post', 'en')
 
-      // Mock list files response with one file
-      mockGetContent.mockResolvedValueOnce({
-        data: [mockFile],
-      })
+    expect(post).toEqual(expect.objectContaining({ slug: 'featured-post' }))
+    expect(mockRepositoryGetPostBySlug).toHaveBeenCalledWith('featured-post', 'en')
+  })
 
-      // Mock get file content to throw error
-      mockGetContent.mockRejectedValueOnce(new Error('Network error'))
+  it('returns adjacent posts from the sorted post list', async () => {
+    const adjacent = await getAdjacentPosts('older-post', 'en')
 
-      const posts = await getAllPosts('en')
+    expect(adjacent.next).toEqual(expect.objectContaining({ slug: 'featured-post' }))
+    expect(adjacent.prev).toBeNull()
+  })
 
-      // Should return empty array since the only post failed
-      expect(posts).toHaveLength(0)
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error fetching post'),
-        expect.any(Error),
-      )
+  it('returns null adjacent posts when the slug is missing', async () => {
+    const adjacent = await getAdjacentPosts('missing-post', 'en')
 
-      consoleErrorSpy.mockRestore()
-    })
-
-    it('handles error when listing posts fails', async () => {
-      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
-      // Mock list files to throw error
-      mockGetContent.mockRejectedValueOnce(new Error('API error'))
-
-      const posts = await getAllPosts('en')
-
-      // Should return empty array on error
-      expect(posts).toHaveLength(0)
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error fetching posts for locale'),
-        expect.any(Error),
-      )
-
-      consoleErrorSpy.mockRestore()
-    })
+    expect(adjacent).toEqual({ prev: null, next: null })
   })
 })

@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 import { revalidateTag } from 'next/cache'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { invalidateBlogCache } from '@/features/blog/lib/blog-cache'
 
 const BEARER_PREFIX = 'Bearer '
 
@@ -65,6 +66,12 @@ export async function POST(request: NextRequest) {
     }
 
     revalidateTag('posts', 'max')
+
+    try {
+      await invalidateBlogCache()
+    } catch (error) {
+      console.error('blog-cache invalidate failed:', error)
+    }
 
     return NextResponse.json({
       revalidated: true,
