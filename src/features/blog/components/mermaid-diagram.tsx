@@ -15,12 +15,12 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
     mermaid.initialize({
       startOnLoad: false,
       theme: 'default',
-      securityLevel: 'loose',
+      securityLevel: 'strict',
       fontFamily: 'ui-sans-serif, system-ui, sans-serif',
       fontSize: 16,
       flowchart: {
         useMaxWidth: true,
-        htmlLabels: true,
+        htmlLabels: false,
         curve: 'basis',
         padding: 20,
       },
@@ -57,12 +57,18 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
         }
       } catch (error) {
         console.error('Mermaid rendering error:', error)
-        containerRef.current.innerHTML = `
-          <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200">
-            <strong>Error rendering diagram:</strong>
-            <pre class="mt-2 overflow-x-auto text-xs">${error instanceof Error ? error.message : 'Unknown error'}</pre>
-          </div>
-        `
+        const rawMessage = error instanceof Error ? error.message : 'Unknown error'
+        const wrapper = document.createElement('div')
+        wrapper.className =
+          'rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200'
+        const title = document.createElement('strong')
+        title.textContent = 'Error rendering diagram:'
+        const pre = document.createElement('pre')
+        pre.className = 'mt-2 overflow-x-auto text-xs'
+        pre.textContent = rawMessage
+        wrapper.appendChild(title)
+        wrapper.appendChild(pre)
+        containerRef.current.replaceChildren(wrapper)
       }
     }
 

@@ -5,6 +5,21 @@ import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
+const isProd = process.env.NODE_ENV === 'production'
+
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://generativelanguage.googleapis.com https://openrouter.ai https://api.groq.com https://*.google-analytics.com https://*.googletagmanager.com https://formly.email https://*.upstash.io",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+].join('; ')
 
 const nextConfig: NextConfig = {
   turbopack: { root: projectRoot },
@@ -44,41 +59,35 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   headers: async () => {
-    return [
+    const baseHeaders = [
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'X-Frame-Options', value: 'DENY' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'Content-Security-Policy', value: contentSecurityPolicy },
       {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-        ],
+        key: 'Permissions-Policy',
+        value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
       },
+      { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+      { key: 'X-DNS-Prefetch-Control', value: 'on' },
+    ]
+
+    if (isProd) {
+      baseHeaders.push({
+        key: 'Strict-Transport-Security',
+        value: 'max-age=63072000; includeSubDomains; preload',
+      })
+    }
+
+    return [
+      { source: '/(.*)', headers: baseHeaders },
       {
         source: '/robots.txt',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
         source: '/(.*)\\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
     ]
   },
