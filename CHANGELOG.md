@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.23.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.22.0...v1.23.0) (2026-05-16)
+
+
+### Features
+
+* add resilient blog cache layer ([5e20507](https://github.com/raniellimontagna/ranimontagna.com/commit/5e20507909b455a555939f7058891a8b0938ece4))
+
+
+### Bug Fixes
+
+* **csp:** add frame-src for Vercel Toolbar iframe ([06727b6](https://github.com/raniellimontagna/ranimontagna.com/commit/06727b6b9200d4ffd708466c4eec36dbba75df72))
+* **csp:** allow Vercel Toolbar and Cloudflare Web Analytics scripts ([99cedc8](https://github.com/raniellimontagna/ranimontagna.com/commit/99cedc83d3ab5f12aaa5fe0d3ab4845bdc183438))
+* update biome schema version and adjust CSP frame-src format ([98566f8](https://github.com/raniellimontagna/ranimontagna.com/commit/98566f81ca7dbe044dd3caabe039d93fd5cb0fe4))
+
 ## [1.22.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.21.0...v1.22.0) (2026-05-09)
 
 
