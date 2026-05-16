@@ -7,8 +7,8 @@ import {
 import { CHAT_PROVIDER_TIMEOUT_MS, FALLBACK_MESSAGES } from './chat.constants'
 import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
 
-export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }
 export type { RateLimitResult }
+export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }
 
 const hasTimeoutCode = (value: unknown): boolean => {
   if (!value || typeof value !== 'object') return false

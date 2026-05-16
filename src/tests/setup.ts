@@ -42,8 +42,15 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
     forward: vi.fn(),
   }),
   usePathname: () => '/',
-  Link: ({ children, href, ...rest }: { children: React.ReactNode; href: string; [key: string]: unknown }) =>
-    React.createElement('a', { href, ...rest }, children),
+  Link: ({
+    children,
+    href,
+    ...rest
+  }: {
+    children: React.ReactNode
+    href: string
+    [key: string]: unknown
+  }) => React.createElement('a', { href, ...rest }, children),
   redirect: vi.fn(),
   permanentRedirect: vi.fn(),
   getPathname: vi.fn(),
