@@ -23,8 +23,7 @@ const getContactRateLimitWindowMs = (): number => {
 }
 
 const getFormlyFormId = (): string | null => {
-  const formId =
-    process.env.FORMLY_FORM_ID?.trim() || process.env.NEXT_PUBLIC_FORMLY_FORM_ID?.trim()
+  const formId = process.env.FORMLY_FORM_ID?.trim()
   return formId || null
 }
 
