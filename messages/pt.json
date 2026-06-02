@@ -3,7 +3,7 @@
     "logo": {
       "initials": "RM",
       "fullName": "Ranielli Montagna",
-      "jobTitle": "Desenvolvedor Full Stack",
+      "jobTitle": "Engenheiro de Software Full Stack",
       "ariaLabel": "Ir para o topo da página"
     },
     "navigation": {
@@ -33,10 +33,10 @@
     "passion": {
       "part1": "Engenheiro de",
       "highlight": "Software",
-      "part2": "que transforma ideias de negócio em produtos digitais rápidos, escaláveis e fáceis de usar"
+      "part2": "Full Stack especializado em React, React Native, Node.js e TypeScript"
     },
-    "description": "Atuo no desenvolvimento de aplicações web e mobile ponta a ponta, conectando arquitetura sólida, experiência do usuário e performance desde o primeiro commit.",
-    "seoDescription": "Do discovery à entrega em produção, priorizo código limpo, acessibilidade, SEO técnico e Core Web Vitals para gerar resultado real e sustentável.",
+    "description": "Desenvolvi produtos web e mobile em escala, APIs REST e micro frontends para operações críticas, conectando arquitetura, experiência do usuário, performance e resultado de negócio.",
+    "seoDescription": "5+ anos em software com foco em React, Next.js, React Native, Node.js, TypeScript, Design Systems, CI/CD, testes, acessibilidade, automação e IA aplicada ao desenvolvimento.",
     "cta": {
       "projects": "Ver meus projetos",
       "contact": "Entre em contato"
@@ -51,9 +51,9 @@
     "bio": {
       "greeting": "Olá! Sou",
       "name": "Ranielli Montagna",
-      "intro": "um desenvolvedor full stack apaixonado por transformar ideias em soluções digitais inovadoras. Com mais de 4 anos de experiência, especializo-me em criar aplicações web e mobile que combinam funcionalidade excepcional com design intuitivo.",
-      "journey": "Minha jornada começou com curiosidade sobre como as coisas funcionam na web, e desde então venho desenvolvendo projetos que impactam positivamente a vida das pessoas. Acredito que a tecnologia deve ser acessível e fazer a diferença.",
-      "hobbies": "Quando não estou codando, você pode me encontrar explorando novas tecnologias, contribuindo para projetos open source, ou planejando minha próxima aventura de desenvolvimento."
+      "intro": "engenheiro de software full stack com 5+ anos de experiência em aplicações web e mobile escaláveis. Trabalhei com React, React Native, TypeScript, Node.js e Next.js em produtos digitais que exigiam performance, qualidade de código, acessibilidade e boa experiência do usuário.",
+      "journey": "Na Luizalabs, desenvolvi soluções para operações de lojas físicas do Magalu, impactando processos de estoque e logística em 1.000+ lojas e o fluxo diário de 1.000+ estoquistas. Também liderei iniciativas frontend em SaaS, criei Design System adotado em múltiplos produtos e mentorei desenvolvedores.",
+      "hobbies": "Tenho interesse crescente em Inteligência Artificial aplicada ao desenvolvimento de software, especialmente integração com LLMs, automação, agentes e Model Context Protocol (MCP) para produtividade e evolução de produtos."
     },
     "cta": {
       "contact": "Vamos conversar"
@@ -101,7 +101,7 @@
       "part1": "Experiência",
       "part2": "Profissional"
     },
-    "subtitle": "Mais de 4 anos construindo soluções inovadoras em empresas de diferentes portes e segmentos, sempre focado em entregar valor e crescer tecnicamente.",
+    "subtitle": "5+ anos construindo aplicações web e mobile, APIs e interfaces de produto com foco em escala, performance, acessibilidade, qualidade técnica e impacto mensurável.",
     "currentLabel": "Atual",
     "highlightsTitle": "Principais conquistas:",
     "technologiesTitle": "Tecnologias utilizadas:",
@@ -110,14 +110,14 @@
       "luizalabs": {
         "company": "Luizalabs",
         "position": "Desenvolvedor Pleno",
-        "period": "Outubro 2023 - Atualmente",
+        "period": "Outubro 2023 - Junho 2026",
         "location": "Remoto",
-        "description": "Integro a equipe da Luizalabs, unidade de inovação tecnológica do Magalu, uma das maiores varejistas do Brasil. Desenvolvo e mantenho aplicações web e móveis para operações das lojas físicas, além de APIs e soluções backend robustas e escaláveis.",
+        "description": "Atuei na Luizalabs, unidade de tecnologia do Magalu, desenvolvendo aplicações web e mobile para operações de lojas físicas, APIs REST e soluções backend para um ambiente de varejo nacional de alta escala.",
         "highlights": [
-          "Desenvolvimento de aplicações para operações de varejo",
-          "Manutenção de APIs e soluções backend",
-          "Integração de sistemas em ambiente de alto impacto",
-          "Trabalho com tecnologias modernas e escaláveis"
+          "Desenvolvi soluções usadas em operações de estoque e logística de 1.000+ lojas",
+          "Contribuí para o fluxo diário de 1.000+ estoquistas em aplicações corporativas",
+          "Mantive APIs REST, integrações e micro frontends com React, React Native, Node.js e TypeScript",
+          "Colaborei com Produto, UX, Backend e Operações para conectar decisões técnicas a impacto de negócio"
         ]
       },
       "smarten": {
@@ -125,12 +125,12 @@
         "position": "Tech Lead Front-end",
         "period": "Maio 2022 - Setembro 2023",
         "location": "Remoto",
-        "description": "Liderei uma equipe de desenvolvedores, garantindo qualidade de código e otimização de aplicações. Criei e mantive design system corporativo, implementei soluções de monitoramento e CI/CD, impulsionando eficiência e estabilidade dos produtos.",
+        "description": "Atuei como Tech Lead Front-end em produtos SaaS, liderando desenvolvedores, definindo padrões de qualidade, evoluindo arquitetura de interface e conectando decisões técnicas a entregas de produto.",
         "highlights": [
-          "Liderança técnica de equipe de desenvolvedores",
-          "Criação e manutenção de design system",
-          "Implementação de CI/CD e monitoramento",
-          "Otimização de performance e escalabilidade"
+          "Liderei tecnicamente uma equipe de desenvolvedores",
+          "Criei e mantive Design System adotado em múltiplos produtos",
+          "Implementei CI/CD, monitoramento e padrões de qualidade",
+          "Mentorei desenvolvedores e otimizei performance, manutenção e escalabilidade"
         ]
       },
       "sbsistemas": {
@@ -138,12 +138,12 @@
         "position": "Desenvolvedor Front-end",
         "period": "Maio 2021 - Maio 2022",
         "location": "Presencial",
-        "description": "Primeira experiência profissional na área de tecnologia, onde consolidei minha base técnica em desenvolvimento front-end. Desenvolvi aplicações utilizando tecnologias modernas e implementei boas práticas de desenvolvimento.",
+        "description": "Consolidei minha base profissional em desenvolvimento front-end, criando aplicações com foco em usabilidade, manutenção, tipagem, componentes reutilizáveis e boas práticas de engenharia.",
         "highlights": [
-          "Primeira experiência profissional em tech",
-          "Desenvolvimento de aplicações front-end",
-          "Consolidação de base técnica sólida",
-          "Implementação de boas práticas de desenvolvimento"
+          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript",
+          "Implementei componentes reutilizáveis e padrões de interface",
+          "Apliquei boas práticas de manutenção, testes e qualidade de código",
+          "Consolidei uma base técnica sólida para produtos web"
         ]
       }
     }

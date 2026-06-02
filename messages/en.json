@@ -3,7 +3,7 @@
     "logo": {
       "initials": "RM",
       "fullName": "Ranielli Montagna",
-      "jobTitle": "Full Stack Developer",
+      "jobTitle": "Full Stack Software Engineer",
       "ariaLabel": "Go to top of page"
     },
     "navigation": {
@@ -33,10 +33,10 @@
     "passion": {
       "part1": "A",
       "highlight": "Software Engineer",
-      "part2": "who turns business ideas into fast, scalable, and easy-to-use digital products"
+      "part2": "specialized in React, React Native, Node.js, and TypeScript"
     },
-    "description": "I build web and mobile applications end-to-end, combining solid architecture, user experience, and performance from the first commit.",
-    "seoDescription": "From discovery to production delivery, I prioritize clean code, accessibility, technical SEO, and Core Web Vitals to generate measurable and sustainable results.",
+    "description": "I developed scalable web and mobile products, REST APIs, and micro frontends for critical operations, connecting architecture, user experience, performance, and business outcomes.",
+    "seoDescription": "5+ years in software with React, Next.js, React Native, Node.js, TypeScript, Design Systems, CI/CD, testing, accessibility, automation, and AI applied to development.",
     "cta": {
       "projects": "See my projects",
       "contact": "Get in touch"
@@ -51,9 +51,9 @@
     "bio": {
       "greeting": "Hello! I'm",
       "name": "Ranielli Montagna",
-      "intro": "a full stack developer passionate about turning ideas into innovative digital solutions. With over 4 years of experience, I specialize in creating web and mobile applications that combine exceptional functionality with intuitive design.",
-      "journey": "My journey began with a curiosity about how things work on the web, and since then I have been developing projects that positively impact people's lives. I believe technology should be accessible and make a difference.",
-      "hobbies": "When I'm not coding, you can find me exploring new technologies, contributing to open source projects, or planning my next development adventure."
+      "intro": "a full stack software engineer with 5+ years of experience building scalable web and mobile applications. I worked with React, React Native, TypeScript, Node.js, and Next.js on digital products that required performance, code quality, accessibility, and strong user experience.",
+      "journey": "At Luizalabs, I developed solutions for Magalu physical store operations, impacting inventory and logistics processes across 1,000+ stores and the daily workflow of 1,000+ stock clerks. I also led frontend initiatives in SaaS products, created a Design System adopted across multiple products, and mentored developers.",
+      "hobbies": "I have a growing interest in Artificial Intelligence applied to software development, especially LLM integration, automation, agents, and the Model Context Protocol (MCP) for productivity and product evolution."
     },
     "cta": {
       "contact": "Let's talk"
@@ -101,7 +101,7 @@
       "part1": "Professional",
       "part2": "Experience"
     },
-    "subtitle": "Over 3 years building innovative solutions in companies of different sizes and segments, always focused on delivering value and growing technically.",
+    "subtitle": "5+ years building web and mobile applications, APIs, and product interfaces with a focus on scale, performance, accessibility, technical quality, and measurable impact.",
     "currentLabel": "Current",
     "highlightsTitle": "Key achievements:",
     "technologiesTitle": "Technologies used:",
@@ -110,14 +110,14 @@
       "luizalabs": {
         "company": "Luizalabs",
         "position": "Mid-level Developer",
-        "period": "October 2023 - Present",
+        "period": "October 2023 - June 2026",
         "location": "Remote",
-        "description": "I am part of the Luizalabs team, the technology innovation unit of Magalu, one of Brazil's largest retailers. I develop and maintain web and mobile applications for physical store operations, as well as robust and scalable APIs and backend solutions.",
+        "description": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
         "highlights": [
-          "Development of applications for retail operations",
-          "Maintenance of APIs and backend solutions",
-          "System integration in a high-impact environment",
-          "Work with modern and scalable technologies"
+          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
+          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
+          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript",
+          "Collaborated with Product, UX, Backend, and Operations to connect technical decisions to business impact"
         ]
       },
       "smarten": {
@@ -125,12 +125,12 @@
         "position": "Front-end Tech Lead",
         "period": "May 2022 - September 2023",
         "location": "Remote",
-        "description": "I led a team of developers, ensuring code quality and application optimization. I created and maintained the corporate design system, and implemented monitoring and CI/CD solutions, boosting the efficiency and stability of the products.",
+        "description": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
         "highlights": [
-          "Technical leadership of a developer team",
-          "Creation and maintenance of a design system",
-          "Implementation of CI/CD and monitoring",
-          "Performance and scalability optimization"
+          "Technically led a team of developers",
+          "Created and maintained a Design System adopted across multiple products",
+          "Implemented CI/CD, monitoring, and quality standards",
+          "Mentored developers and improved performance, maintainability, and scalability"
         ]
       },
       "sbsistemas": {
@@ -138,12 +138,12 @@
         "position": "Front-end Developer",
         "period": "May 2021 - May 2022",
         "location": "On-site",
-        "description": "First professional experience in the technology field, where I consolidated my technical foundation in front-end development. I developed applications using modern technologies and implemented best development practices.",
+        "description": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
         "highlights": [
-          "First professional experience in tech",
-          "Development of front-end applications",
-          "Consolidation of a solid technical foundation",
-          "Implementation of best development practices"
+          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
+          "Implemented reusable components and interface standards",
+          "Applied maintainability, testing, and code quality practices",
+          "Built a solid technical foundation for web products"
         ]
       }
     }

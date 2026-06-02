@@ -6,28 +6,28 @@ describe('seo', () => {
     it('returns English data for "en" locale', () => {
       const data = getSEOData('en')
 
-      expect(data.title).toContain('Full Stack Developer')
-      expect(data.description).toContain('Portfolio')
+      expect(data.title).toContain('Full Stack Software Engineer')
+      expect(data.description).toContain('React')
       expect(data.keywords).toContain('react')
     })
 
     it('returns Portuguese data for "pt" locale', () => {
       const data = getSEOData('pt')
 
-      expect(data.title).toContain('Desenvolvedor Full Stack')
-      expect(data.description).toContain('Portfolio')
+      expect(data.title).toContain('Engenheiro de Software Full Stack')
+      expect(data.description).toContain('React')
     })
 
     it('returns Spanish data for "es" locale', () => {
       const data = getSEOData('es')
 
-      expect(data.title).toContain('Desarrollador Full Stack')
+      expect(data.title).toContain('Ingeniero de Software Full Stack')
     })
 
     it('falls back to English for unknown locale', () => {
       const data = getSEOData('fr')
 
-      expect(data.title).toContain('Full Stack Developer')
+      expect(data.title).toContain('Full Stack Software Engineer')
     })
 
     it('contains all required fields', () => {

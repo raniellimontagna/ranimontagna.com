@@ -32,18 +32,18 @@ export async function GET() {
 
   const content = `# Ranielli Montagna - Full Content Index
 
-> Full Stack Developer from Brazil. This document contains complete information about Ranielli Montagna and all blog posts for AI indexing.
+> Full Stack Software Engineer from Brazil. This document contains complete information about Ranielli Montagna and all blog posts for AI indexing.
 
 ## About Ranielli Montagna
 
-Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Developer with over 4 years of professional experience. He currently works at Luizalabs, the technology arm of Magazine Luiza (one of Brazil's largest retail companies). He specializes in React, Next.js, Node.js, TypeScript, and mobile development with React Native.
+Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer with 5+ years of professional software experience. He worked at Luizalabs, the technology arm of Magazine Luiza, developing web and mobile applications for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks. He specializes in React, React Native, Next.js, Node.js, TypeScript, APIs, micro frontends, Design Systems, CI/CD, testing, accessibility, automation and AI applied to software development.
 
 - **Full name**: Ranielli Montagna
 - **Also known as**: Rani Montagna, Ranni Montagna, Ranielli
 - **Nationality**: Brazilian
-- **Current employer**: Luizalabs - Magazine Luiza
-- **Role**: Full Stack Developer
-- **Experience**: 4+ years
+- **Recent experience**: Luizalabs - Magazine Luiza
+- **Role**: Full Stack Software Engineer
+- **Experience**: 5+ years in software, 10 years of professional experience
 - **GitHub**: https://github.com/RanielliMontagna
 - **LinkedIn**: https://linkedin.com/in/rannimontagna
 - **Twitter/X**: https://twitter.com/rannimontagna
@@ -52,13 +52,13 @@ Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Develo
 ## Technical Skills
 
 ### Frontend
-React, Next.js, TypeScript, JavaScript, Tailwind CSS, React Native, Figma, UI/UX Design
+React, Next.js, TypeScript, JavaScript, Tailwind CSS, React Native, Micro Frontends, Figma, UI/UX Design, Design Systems
 
 ### Backend
 Node.js, REST APIs, GraphQL, PostgreSQL, Express.js
 
 ### Tools & Practices
-Git, Docker, Vitest, Testing Library, CI/CD, Agile
+Git, Docker, Vitest, Testing Library, CI/CD, Agile, Accessibility, Monitoring, AI Automation, Model Context Protocol
 
 ## Blog Posts (English)
 

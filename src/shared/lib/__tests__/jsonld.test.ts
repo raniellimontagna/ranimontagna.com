@@ -41,26 +41,26 @@ describe('jsonld', () => {
     it('returns English jobTitle for "en" locale', () => {
       const jsonld = generatePersonJsonLd('en')
 
-      expect(jsonld.jobTitle).toBe('Full Stack Developer')
+      expect(jsonld.jobTitle).toBe('Full Stack Software Engineer')
     })
 
     it('returns Portuguese jobTitle for "pt" locale', () => {
       const jsonld = generatePersonJsonLd('pt')
 
-      expect(jsonld.jobTitle).toBe('Desenvolvedor Full Stack')
+      expect(jsonld.jobTitle).toBe('Engenheiro de Software Full Stack')
     })
 
     it('returns Spanish jobTitle for "es" locale', () => {
       const jsonld = generatePersonJsonLd('es')
 
-      expect(jsonld.jobTitle).toBe('Desarrollador Full Stack')
+      expect(jsonld.jobTitle).toBe('Ingeniero de Software Full Stack')
     })
 
     it('falls back to English for unknown locale', () => {
       const jsonld = generatePersonJsonLd('fr')
 
-      expect(jsonld.jobTitle).toBe('Full Stack Developer')
-      expect(jsonld.description).toContain('Full Stack Developer')
+      expect(jsonld.jobTitle).toBe('Full Stack Software Engineer')
+      expect(jsonld.description).toContain('Full Stack Software Engineer')
     })
 
     it('includes knowsAbout with technologies', () => {

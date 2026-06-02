@@ -17,7 +17,7 @@ export function About() {
   const resumeLink = getResumeByLocale(locale as 'en' | 'pt' | 'es')
   const photoName = t('bio.name')
   const stats = [
-    { value: 4, suffix: '+', label: t('stats.experience') },
+    { value: 5, suffix: '+', label: t('stats.experience') },
     { value: 20, suffix: '+', label: t('stats.projects') },
   ]
 

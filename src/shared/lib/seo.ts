@@ -13,43 +13,43 @@ export interface SEOData {
 
 const seoData: Record<string, SEOData> = {
   en: {
-    title: 'Ranielli Montagna - Full Stack Developer',
+    title: 'Ranielli Montagna - Full Stack Software Engineer',
     description:
-      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Portfolio, blog articles and open source projects.',
+      'Ranielli Montagna is a Full Stack Software Engineer from Brazil with 5+ years of experience in React, React Native, Node.js, TypeScript, APIs and micro frontends.',
     keywords:
-      'Ranielli Montagna, Ranielli, Rani Montagna, full stack developer, react developer, nextjs developer, nodejs developer, typescript developer, ui/ux designer, portfolio, frontend developer, backend developer, web developer, javascript developer, brazil developer, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Full Stack Developer',
+      'Ranielli Montagna, Ranielli, Rani Montagna, full stack software engineer, full stack developer, software engineer, react developer, react native developer, nextjs developer, nodejs developer, typescript developer, frontend developer, backend developer, micro frontends, REST APIs, design system, CI/CD, testing, accessibility, AI automation, brazil developer, ranimontagna',
+    ogTitle: 'Ranielli Montagna - Full Stack Software Engineer',
     ogDescription:
-      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Explore the portfolio, blog and projects.',
-    twitterTitle: 'Ranielli Montagna - Full Stack Developer',
+      'Full Stack Software Engineer with experience in scalable web and mobile products, React, React Native, Node.js, TypeScript, APIs and micro frontends.',
+    twitterTitle: 'Ranielli Montagna - Full Stack Software Engineer',
     twitterDescription:
-      'Ranielli Montagna is a Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript.',
+      'Full Stack Software Engineer from Brazil specializing in React, React Native, Node.js and TypeScript.',
   },
   pt: {
-    title: 'Ranielli Montagna - Desenvolvedor Full Stack',
+    title: 'Ranielli Montagna - Engenheiro de Software Full Stack',
     description:
-      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript. Portfolio, artigos no blog e projetos open source.',
+      'Ranielli Montagna é Engenheiro de Software Full Stack do Brasil com 5+ anos de experiência em React, React Native, Node.js, TypeScript, APIs e micro frontends.',
     keywords:
-      'Ranielli Montagna, Ranielli, Rani Montagna, desenvolvedor full stack, desenvolvedor react, desenvolvedor nextjs, desenvolvedor nodejs, typescript, ui/ux designer, portfolio, desenvolvedor frontend, desenvolvedor backend, desenvolvedor web, desenvolvedor javascript, desenvolvedor brasil, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Desenvolvedor Full Stack',
+      'Ranielli Montagna, Ranielli, Rani Montagna, engenheiro de software full stack, desenvolvedor full stack, engenheiro de software, desenvolvedor react, desenvolvedor react native, desenvolvedor nextjs, desenvolvedor nodejs, typescript, desenvolvedor frontend, desenvolvedor backend, micro frontends, APIs REST, design system, CI/CD, testes, acessibilidade, automação IA, desenvolvedor brasil, ranimontagna',
+    ogTitle: 'Ranielli Montagna - Engenheiro de Software Full Stack',
     ogDescription:
-      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript. Explore o portfolio, blog e projetos.',
-    twitterTitle: 'Ranielli Montagna - Desenvolvedor Full Stack',
+      'Engenheiro de Software Full Stack com experiência em produtos web e mobile escaláveis, React, React Native, Node.js, TypeScript, APIs e micro frontends.',
+    twitterTitle: 'Ranielli Montagna - Engenheiro de Software Full Stack',
     twitterDescription:
-      'Ranielli Montagna é um Desenvolvedor Full Stack do Brasil especializado em React, Next.js, Node.js e TypeScript.',
+      'Engenheiro de Software Full Stack do Brasil especializado em React, React Native, Node.js e TypeScript.',
   },
   es: {
-    title: 'Ranielli Montagna - Desarrollador Full Stack',
+    title: 'Ranielli Montagna - Ingeniero de Software Full Stack',
     description:
-      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript. Portfolio, artículos del blog y proyectos open source.',
+      'Ranielli Montagna es Ingeniero de Software Full Stack de Brasil con 5+ años de experiencia en React, React Native, Node.js, TypeScript, APIs y micro frontends.',
     keywords:
-      'Ranielli Montagna, Ranielli, Rani Montagna, desarrollador full stack, desarrollador react, desarrollador nextjs, desarrollador nodejs, typescript, ui/ux designer, portfolio, desarrollador frontend, desarrollador backend, desarrollador web, desarrollador javascript, desarrollador brasil, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Desarrollador Full Stack',
+      'Ranielli Montagna, Ranielli, Rani Montagna, ingeniero de software full stack, desarrollador full stack, ingeniero de software, desarrollador react, desarrollador react native, desarrollador nextjs, desarrollador nodejs, typescript, desarrollador frontend, desarrollador backend, micro frontends, APIs REST, design system, CI/CD, pruebas, accesibilidad, automatización IA, desarrollador brasil, ranimontagna',
+    ogTitle: 'Ranielli Montagna - Ingeniero de Software Full Stack',
     ogDescription:
-      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript. Explora el portfolio, blog y proyectos.',
-    twitterTitle: 'Ranielli Montagna - Desarrollador Full Stack',
+      'Ingeniero de Software Full Stack con experiencia en productos web y móviles escalables, React, React Native, Node.js, TypeScript, APIs y micro frontends.',
+    twitterTitle: 'Ranielli Montagna - Ingeniero de Software Full Stack',
     twitterDescription:
-      'Ranielli Montagna es un Desarrollador Full Stack de Brasil especializado en React, Next.js, Node.js y TypeScript.',
+      'Ingeniero de Software Full Stack de Brasil especializado en React, React Native, Node.js y TypeScript.',
   },
 }
 

@@ -20,15 +20,11 @@ interface PersonJsonLd {
     caption: string
   }
   sameAs: string[]
-  worksFor: {
-    '@type': string
-    name: string
-    url: string
-  }
   alumniOf: {
     '@type': string
     name: string
-  }
+    url?: string
+  }[]
   hasOccupation: {
     '@type': string
     name: string
@@ -103,32 +99,32 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     .map((link) => link.href)
 
   const descriptions = {
-    en: 'Full Stack Developer specializing in React, Node.js and modern interface design. Creating exceptional digital experiences.',
-    pt: 'Desenvolvedor Full Stack especializado em React, Node.js e design de interfaces modernas. Criando experiências digitais excepcionais.',
-    es: 'Desarrollador Full Stack especializado en React, Node.js y diseño de interfaces modernas. Creando experiencias digitales excepcionales.',
+    en: 'Full Stack Software Engineer specializing in React, React Native, Node.js, TypeScript, APIs and micro frontends.',
+    pt: 'Engenheiro de Software Full Stack especializado em React, React Native, Node.js, TypeScript, APIs e micro frontends.',
+    es: 'Ingeniero de Software Full Stack especializado en React, React Native, Node.js, TypeScript, APIs y micro frontends.',
   }
 
   const jobTitles = {
-    en: 'Full Stack Developer',
-    pt: 'Desenvolvedor Full Stack',
-    es: 'Desarrollador Full Stack',
+    en: 'Full Stack Software Engineer',
+    pt: 'Engenheiro de Software Full Stack',
+    es: 'Ingeniero de Software Full Stack',
   }
 
   const hasOccupation = {
     en: {
-      name: 'Full Stack Developer',
+      name: 'Full Stack Software Engineer',
       description:
-        'Develops web and mobile applications using React, Node.js, TypeScript and Next.js.',
+        'Builds scalable web and mobile applications, REST APIs and micro frontends using React, React Native, Node.js, TypeScript and Next.js.',
     },
     pt: {
-      name: 'Desenvolvedor Full Stack',
+      name: 'Engenheiro de Software Full Stack',
       description:
-        'Desenvolve aplicações web e mobile utilizando React, Node.js, TypeScript e Next.js.',
+        'Constrói aplicações web e mobile escaláveis, APIs REST e micro frontends usando React, React Native, Node.js, TypeScript e Next.js.',
     },
     es: {
-      name: 'Desarrollador Full Stack',
+      name: 'Ingeniero de Software Full Stack',
       description:
-        'Desarrolla aplicaciones web y móviles usando React, Node.js, TypeScript y Next.js.',
+        'Construye aplicaciones web y móviles escalables, APIs REST y micro frontends usando React, React Native, Node.js, TypeScript y Next.js.',
     },
   }
 
@@ -143,7 +139,7 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     familyName: 'Montagna',
     alternateName: ['Rani Montagna', 'Ranni Montagna', 'Ranielli'],
     disambiguatingDescription:
-      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Developer specializing in React, Next.js, Node.js and TypeScript.',
+      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer specializing in React, React Native, Node.js and TypeScript.',
     jobTitle: jobTitles[locale as keyof typeof jobTitles] || jobTitles.en,
     url: BASE_URL,
     image: {
@@ -151,23 +147,26 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
       url: `${BASE_URL}/photo.webp`,
       width: 800,
       height: 800,
-      caption: 'Ranielli Montagna - Full Stack Developer',
+      caption: 'Ranielli Montagna - Full Stack Software Engineer',
     },
     sameAs: [...sameAs, 'https://x.com/rannimontagna'],
-    worksFor: {
-      '@type': 'Organization',
-      name: 'Luizalabs - Magazine Luiza',
-      url: 'https://luizalabs.com',
-    },
-    alumniOf: {
-      '@type': 'Organization',
-      name: 'Smarten',
-    },
+    alumniOf: [
+      {
+        '@type': 'Organization',
+        name: 'Luizalabs - Magazine Luiza',
+        url: 'https://luizalabs.com',
+      },
+      {
+        '@type': 'Organization',
+        name: 'Smarten',
+      },
+    ],
     hasOccupation: {
       '@type': 'Occupation',
       name: occ.name,
       description: occ.description,
-      skills: 'React, Next.js, Node.js, TypeScript, JavaScript, React Native, UI/UX Design',
+      skills:
+        'React, Next.js, React Native, Node.js, TypeScript, JavaScript, REST APIs, Micro Frontends, Design Systems, CI/CD, Testing, Accessibility, AI Automation',
       occupationLocation: {
         '@type': 'Country',
         name: 'Brazil',
@@ -186,11 +185,18 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
       'Backend Development',
       'Web Development',
       'Mobile Development',
+      'Micro Frontends',
       'Software Engineering',
       'REST APIs',
       'GraphQL',
       'PostgreSQL',
       'Tailwind CSS',
+      'Design Systems',
+      'CI/CD',
+      'Testing',
+      'Accessibility',
+      'AI Automation',
+      'Model Context Protocol',
     ],
     knowsLanguage: [
       { '@type': 'Language', name: 'Portuguese' },
@@ -239,15 +245,15 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
 
 export function generateProfilePageJsonLd(locale: string): ProfilePageJsonLd {
   const descriptions = {
-    en: 'Official portfolio and blog of Ranielli Montagna, Full Stack Developer from Brazil. Find articles, projects and contact information.',
-    pt: 'Portfolio e blog oficial de Ranielli Montagna, Desenvolvedor Full Stack do Brasil. Encontre artigos, projetos e informações de contato.',
-    es: 'Portfolio y blog oficial de Ranielli Montagna, Desarrollador Full Stack de Brasil. Encuentra artículos, proyectos e información de contacto.',
+    en: 'Official portfolio and blog of Ranielli Montagna, Full Stack Software Engineer from Brazil. Find experience, projects, articles and contact information.',
+    pt: 'Portfolio e blog oficial de Ranielli Montagna, Engenheiro de Software Full Stack do Brasil. Encontre experiência, projetos, artigos e informações de contato.',
+    es: 'Portfolio y blog oficial de Ranielli Montagna, Ingeniero de Software Full Stack de Brasil. Encuentra experiencia, proyectos, artículos e información de contacto.',
   }
 
   const names = {
-    en: 'Ranielli Montagna - Full Stack Developer Portfolio',
-    pt: 'Ranielli Montagna - Portfolio de Desenvolvedor Full Stack',
-    es: 'Ranielli Montagna - Portfolio de Desarrollador Full Stack',
+    en: 'Ranielli Montagna - Full Stack Software Engineer Portfolio',
+    pt: 'Ranielli Montagna - Portfolio de Engenheiro de Software Full Stack',
+    es: 'Ranielli Montagna - Portfolio de Ingeniero de Software Full Stack',
   }
 
   const canonicalUrl = locale === 'pt' ? BASE_URL : `${BASE_URL}/${locale}`
@@ -290,9 +296,9 @@ export function generateWebsiteJsonLd(locale: string): WebsiteJsonLd & {
   }
 } {
   const descriptions = {
-    en: 'Portfolio of Ranielli Montagna - Full Stack Developer specializing in React, Next.js, Node.js and modern interface design.',
-    pt: 'Portfolio de Ranielli Montagna - Desenvolvedor Full Stack especializado em React, Next.js, Node.js e design de interfaces modernas.',
-    es: 'Portfolio de Ranielli Montagna - Desarrollador Full Stack especializado en React, Next.js, Node.js y diseño de interfaces modernas.',
+    en: 'Portfolio of Ranielli Montagna - Full Stack Software Engineer specializing in React, React Native, Node.js, TypeScript and scalable product engineering.',
+    pt: 'Portfolio de Ranielli Montagna - Engenheiro de Software Full Stack especializado em React, React Native, Node.js, TypeScript e engenharia de produtos escaláveis.',
+    es: 'Portfolio de Ranielli Montagna - Ingeniero de Software Full Stack especializado en React, React Native, Node.js, TypeScript e ingeniería de productos escalables.',
   }
 
   return {

@@ -1,8 +1,8 @@
 # Ranielli Montagna
 
-> Full Stack Developer from Brazil specializing in React, Next.js, Node.js and TypeScript. Portfolio, blog and open source projects.
+> Full Stack Software Engineer from Brazil specializing in React, React Native, Next.js, Node.js and TypeScript. Portfolio, blog and open source projects.
 
-Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Developer with over 4 years of experience building web and mobile applications. He works at Luizalabs (a technology division of Magazine Luiza, one of the largest retailers in Brazil) and specializes in creating high-quality digital experiences using modern JavaScript technologies.
+Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Software Engineer with 5+ years of experience building scalable web and mobile applications. He worked at Luizalabs, the technology division of Magazine Luiza, developing products for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks.
 
 ## Identity
 
@@ -10,17 +10,17 @@ Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian
 - Also known as: Rani Montagna, Ranni Montagna, Ranielli
 - Nationality: Brazilian
 - Location: Brazil
-- Role: Full Stack Developer
-- Employer: Luizalabs - Magazine Luiza
+- Role: Full Stack Software Engineer
+- Recent experience: Luizalabs - Magazine Luiza
 - GitHub: https://github.com/RanielliMontagna
 - LinkedIn: https://linkedin.com/in/rannimontagna
 - Twitter/X: https://twitter.com/rannimontagna
 
 ## Skills
 
-- Frontend: React, Next.js, TypeScript, JavaScript, Tailwind CSS, React Native
+- Frontend: React, Next.js, TypeScript, JavaScript, Tailwind CSS, React Native, Micro Frontends
 - Backend: Node.js, REST APIs, GraphQL, PostgreSQL
-- Tools: Figma, Git, Docker
+- Tools & practices: Figma, Git, Docker, CI/CD, Testing, Accessibility, Design Systems, AI Automation, Model Context Protocol
 - Languages: Portuguese (native), English (professional)
 
 ## Portfolio

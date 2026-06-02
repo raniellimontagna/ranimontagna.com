@@ -9,8 +9,8 @@ export const experiences = (t: ReturnType<typeof useTranslations>) => [
     logo: '/companies/luizalabs.webp',
     description: t('jobs.luizalabs.description'),
     highlights: t.raw('jobs.luizalabs.highlights') as string[],
-    technologies: ['React', 'React Native', 'Node.js', 'Go', 'APIs REST'],
-    current: true,
+    technologies: ['React', 'React Native', 'TypeScript', 'Node.js', 'APIs REST'],
+    current: false,
   },
   {
     company: t('jobs.smarten.company'),
