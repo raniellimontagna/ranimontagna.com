@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
+import { resolveBlogMediaUrl } from '@/features/blog/lib/media'
 
 interface ImageWithLightboxProps {
   src?: string
@@ -11,8 +12,9 @@ interface ImageWithLightboxProps {
 
 export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const resolvedSrc = resolveBlogMediaUrl(src)
 
-  if (!src) return null
+  if (!resolvedSrc) return null
 
   return (
     <>
@@ -25,7 +27,7 @@ export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
         >
           {/* biome-ignore lint/performance/noImgElement: next/image cannot be used with MDX dynamic props */}
           <img
-            src={src}
+            src={resolvedSrc}
             alt={alt}
             className="w-full transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
@@ -56,7 +58,7 @@ export function ImageWithLightbox({ src, alt }: ImageWithLightboxProps) {
       <Lightbox
         open={isOpen}
         close={() => setIsOpen(false)}
-        slides={[{ src, alt: alt || 'Image' }]}
+        slides={[{ src: resolvedSrc, alt: alt || 'Image' }]}
         carousel={{ finite: true }}
         render={{
           buttonPrev: () => null,

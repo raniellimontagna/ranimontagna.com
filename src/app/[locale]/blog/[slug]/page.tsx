@@ -10,7 +10,7 @@ import {
   ScrollToTop,
 } from '@/features/blog/components'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
-import { resolveBlogImageUrl } from '@/features/blog/lib/media'
+import { resolveBlogImageUrl, resolveBlogMediaUrl } from '@/features/blog/lib/media'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -194,6 +194,7 @@ export default async function PostPage(props: {
   }
 
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
+  const coverImage = resolveBlogMediaUrl(post.metadata.coverImage)
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background">
@@ -230,12 +231,12 @@ export default async function PostPage(props: {
           <p className="mt-3 text-base leading-relaxed text-muted sm:mt-4 sm:text-lg lg:text-xl">
             {post.metadata.description}
           </p>
-          {post.metadata.coverImage && (
+          {coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
               <div className="relative aspect-21/9 w-full sm:aspect-2/1">
                 {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
                 <img
-                  src={post.metadata.coverImage}
+                  src={coverImage}
                   alt={post.metadata.title}
                   className="w-full h-full object-cover"
                 />
