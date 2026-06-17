@@ -121,12 +121,12 @@ export function About() {
                     <div className="relative overflow-hidden rounded-[1.65rem] border border-white/55 bg-canvas dark:border-white/10">
                       <div className="relative aspect-4/5 sm:aspect-[5/6]">
                         <Image
-                          src="/photo.webp"
+                          src="/images/about-ranielli.webp"
                           alt={photoName}
                           fill
                           priority
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 544px"
-                          quality={100}
+                          quality={75}
                           className="object-cover object-center brightness-[0.98] contrast-[1.05] saturate-[0.92] transition-transform duration-700 hover:scale-[1.08]"
                         />
                       </div>

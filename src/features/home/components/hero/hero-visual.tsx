@@ -32,11 +32,11 @@ export function HeroVisual() {
                 <div className="absolute inset-3 overflow-hidden rounded-[1.55rem] border border-line-strong bg-canvas">
                   <div className="absolute inset-0 glow-gradient-portrait" />
                   <Image
-                    src="/images/pc-avatar.webp"
-                    alt="Ranielli Montagna portrait"
+                    src="/images/hero-ranielli.webp"
+                    alt="Ranielli Montagna working at a laptop"
                     fill
                     sizes="(max-width: 640px) 240px, (max-width: 768px) 288px, 312px"
-                    quality={100}
+                    quality={75}
                     className="object-cover object-center"
                   />
                 </div>
