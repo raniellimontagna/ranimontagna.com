@@ -38,23 +38,26 @@ describe('StaggerContainer Component', () => {
   })
 
   it('accepts custom staggerDelay', () => {
-    render(
+    const { container } = render(
       <StaggerContainer staggerDelay={0.2}>
         <div>Delayed Stagger</div>
       </StaggerContainer>,
     )
 
     expect(screen.getByText('Delayed Stagger')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-stagger', 'true')
+    expect(container.firstChild).toHaveAttribute('data-gsap-stagger-delay', '0.2')
   })
 
   it('accepts triggerOnce prop', () => {
-    render(
+    const { container } = render(
       <StaggerContainer triggerOnce={false}>
         <div>Multiple Triggers</div>
       </StaggerContainer>,
     )
 
     expect(screen.getByText('Multiple Triggers')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-once', 'false')
   })
 
   it('forwards additional props to motion.div', () => {
@@ -65,6 +68,17 @@ describe('StaggerContainer Component', () => {
     )
 
     expect(container.firstChild).toHaveAttribute('data-testid', 'stagger-test')
+  })
+
+  it('marks items for staggered progressive animation', () => {
+    const { container } = render(
+      <StaggerItem className="custom-item">
+        <div>Marked Item</div>
+      </StaggerItem>,
+    )
+
+    expect(screen.getByText('Marked Item')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-stagger-item', 'true')
   })
 })
 

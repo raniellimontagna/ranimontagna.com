@@ -124,7 +124,6 @@ export function About() {
                           src="/images/about-ranielli.webp"
                           alt={photoName}
                           fill
-                          priority
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 544px"
                           quality={75}
                           className="object-cover object-center brightness-[0.98] contrast-[1.05] saturate-[0.92] transition-transform duration-700 hover:scale-[1.08]"

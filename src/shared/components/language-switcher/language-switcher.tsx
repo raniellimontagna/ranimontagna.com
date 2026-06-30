@@ -1,7 +1,6 @@
 'use client'
 
 import { AltArrowDown, CheckCircle, Global } from '@solar-icons/react/ssr'
-import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
@@ -81,85 +80,79 @@ export const LanguageSwitcher = (): React.ReactElement => {
         />
       </button>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop for mobile - using button for accessibility and lint fix */}
-            <button
-              type="button"
-              className="fixed inset-0 z-40 cursor-default bg-background/40 backdrop-blur-[2px] md:hidden"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close menu"
-              tabIndex={-1}
-            />
+      {isOpen && (
+        <>
+          {/* Backdrop for mobile - using button for accessibility and lint fix */}
+          <button
+            type="button"
+            className="fixed inset-0 z-40 cursor-default bg-background/40 backdrop-blur-[2px] md:hidden"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+            tabIndex={-1}
+          />
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 8 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="surface-panel absolute top-full right-0 z-50 mt-2 w-52 origin-top-right overflow-hidden rounded-2xl bg-surface-strong shadow-panel backdrop-blur-3xl"
-              role="menu"
-              aria-orientation="vertical"
-            >
-              <div className="flex items-center gap-2 border-b border-line bg-surface-strong px-4 py-3">
-                <Global className="h-3 w-3 text-muted/60" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted/60">
-                  Select Language
-                </span>
-              </div>
+          <div
+            className="surface-panel absolute top-full right-0 z-50 mt-2 w-52 origin-top-right overflow-hidden rounded-2xl bg-surface-strong shadow-panel backdrop-blur-3xl"
+            role="menu"
+            aria-orientation="vertical"
+          >
+            <div className="flex items-center gap-2 border-b border-line bg-surface-strong px-4 py-3">
+              <Global className="h-3 w-3 text-muted/60" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted/60">
+                Select Language
+              </span>
+            </div>
 
-              <div className="p-1.5">
-                {locales.map((loc) => {
-                  const isSelected = locale === loc.code
-                  const flagCode = flagMap[loc.code]
+            <div className="p-1.5">
+              {locales.map((loc) => {
+                const isSelected = locale === loc.code
+                const flagCode = flagMap[loc.code]
 
-                  return (
-                    <button
-                      type="button"
-                      key={loc.code}
-                      onClick={() => handleLocaleChange(loc.code)}
-                      role="menuitem"
-                      className={`group relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                return (
+                  <button
+                    type="button"
+                    key={loc.code}
+                    onClick={() => handleLocaleChange(loc.code)}
+                    role="menuitem"
+                    className={`group relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                      isSelected
+                        ? 'bg-accent/10 text-accent-strong shadow-sm'
+                        : 'text-muted hover:bg-surface-strong hover:text-foreground active:scale-[0.98]'
+                    }`}
+                  >
+                    <div
+                      className={`relative h-6 w-6 shrink-0 overflow-hidden rounded-full transition-all duration-300 shadow-sm ${
                         isSelected
-                          ? 'bg-accent/10 text-accent-strong shadow-sm'
-                          : 'text-muted hover:bg-surface-strong hover:text-foreground active:scale-[0.98]'
+                          ? 'ring-2 ring-accent'
+                          : 'ring-1 ring-line group-hover:ring-muted/50'
                       }`}
                     >
-                      <div
-                        className={`relative h-6 w-6 shrink-0 overflow-hidden rounded-full transition-all duration-300 shadow-sm ${
-                          isSelected
-                            ? 'ring-2 ring-accent'
-                            : 'ring-1 ring-line group-hover:ring-muted/50'
-                        }`}
-                      >
-                        <Image
-                          src={`/flags/${flagCode}.svg`}
-                          alt={`${loc.name} flag`}
-                          width={24}
-                          height={24}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
+                      <Image
+                        src={`/flags/${flagCode}.svg`}
+                        alt={`${loc.name} flag`}
+                        width={24}
+                        height={24}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
 
-                      <div className="flex-1 text-left">
-                        <p className="text-xs font-bold leading-tight">{loc.name}</p>
-                        <p className="text-[9px] font-medium opacity-60">{shortNames[loc.code]}</p>
-                      </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-xs font-bold leading-tight">{loc.name}</p>
+                      <p className="text-[9px] font-medium opacity-60">{shortNames[loc.code]}</p>
+                    </div>
 
-                      {isSelected && <CheckCircle className="h-3.5 w-3.5" />}
-                    </button>
-                  )
-                })}
-              </div>
+                    {isSelected && <CheckCircle className="h-3.5 w-3.5" />}
+                  </button>
+                )
+              })}
+            </div>
 
-              <div className="bg-surface-strong px-4 py-2 text-center border-t border-line/50">
-                <p className="text-[9px] font-medium text-muted/40">Next.js i18n dynamic routing</p>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            <div className="bg-surface-strong px-4 py-2 text-center border-t border-line/50">
+              <p className="text-[9px] font-medium text-muted/40">Next.js i18n dynamic routing</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

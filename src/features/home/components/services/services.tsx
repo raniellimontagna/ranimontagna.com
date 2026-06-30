@@ -7,7 +7,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '@/shared/components/animations'
-import { ServiceCard } from '@/shared/components/ui'
+import { ServiceCard } from '@/shared/components/ui/service-card/service-card'
 
 import { servicesData } from './services.static'
 import type { ServiceType } from './services.types'

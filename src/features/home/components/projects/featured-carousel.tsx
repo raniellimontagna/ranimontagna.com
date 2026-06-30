@@ -53,7 +53,6 @@ export function FeaturedCarousel({ images, alt }: FeaturedCarouselProps) {
           className={`object-cover object-top transition-opacity duration-700 ease-in-out ${
             i === active ? 'opacity-100' : 'opacity-0'
           }`}
-          priority={i === 0}
         />
       ))}
 

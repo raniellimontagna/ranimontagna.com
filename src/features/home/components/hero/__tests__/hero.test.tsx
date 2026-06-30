@@ -17,7 +17,7 @@ vi.mock('next/image', () => ({
   ),
 }))
 
-vi.mock('@/shared/components/ui', () => ({
+vi.mock('@/shared/components/ui/terminal-window/terminal-window', () => ({
   TerminalWindow: ({ children, title }: { children: React.ReactNode; title: string }) => (
     <div data-testid="terminal-window" title={title}>
       {children}

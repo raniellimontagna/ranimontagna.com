@@ -20,7 +20,7 @@ vi.mock('@/shared/components/animations', () => ({
 }))
 
 // Mock ServiceCard
-vi.mock('@/shared/components/ui', () => ({
+vi.mock('@/shared/components/ui/service-card/service-card', () => ({
   ServiceCard: ({ title }: { title: string }) => <div data-testid="service-card">{title}</div>,
 }))
 

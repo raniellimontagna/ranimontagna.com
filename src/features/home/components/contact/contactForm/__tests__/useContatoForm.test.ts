@@ -1,6 +1,10 @@
 import { renderHook } from '@testing-library/react'
+import type { FormEvent } from 'react'
 import { act } from 'react'
 import { useContactForm } from '../useContatoForm'
+
+type ContactField = Parameters<ReturnType<typeof useContactForm>['register']>[0]
+type ContactChangeEvent = Parameters<ReturnType<ReturnType<typeof useContactForm>['register']>['onChange']>[0]
 
 // Mock next-intl
 vi.mock('next-intl', () => ({
@@ -97,12 +101,52 @@ describe('useContactForm', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('validates form data with zod schema', async () => {
+  it('blocks invalid form data before submit', async () => {
     const { result } = renderHook(() => useContactForm())
+    const submit = vi.fn()
 
-    // Test will be validated by react-hook-form with zodResolver
-    // Since we can't directly test validation without triggering the form,
-    // we verify that the resolver is configured
-    expect(result.current.errors).toBeDefined()
+    await act(async () => {
+      await result.current.handleSubmit(submit)({
+        preventDefault: vi.fn(),
+      } as unknown as FormEvent<HTMLFormElement>)
+    })
+
+    expect(submit).not.toHaveBeenCalled()
+    expect(result.current.errors.name).toBeDefined()
+    expect(result.current.errors.email).toBeDefined()
+    expect(result.current.errors.subject).toBeDefined()
+    expect(result.current.errors.message).toBeDefined()
+  })
+
+  it('normalizes valid form data before submit', async () => {
+    const { result } = renderHook(() => useContactForm())
+    const submit = vi.fn()
+    const changeField = (field: ContactField, value: string) => {
+      act(() => {
+        result.current.register(field).onChange({
+          currentTarget: { value },
+        } as ContactChangeEvent)
+      })
+    }
+
+    changeField('name', ' John Doe ')
+    changeField('email', ' john@example.com ')
+    changeField('subject', ' Test Subject ')
+    changeField('message', ' This is a test message. ')
+
+    await act(async () => {
+      await result.current.handleSubmit(submit)({
+        preventDefault: vi.fn(),
+      } as unknown as FormEvent<HTMLFormElement>)
+    })
+
+    expect(submit).toHaveBeenCalledWith({
+      name: 'John Doe',
+      email: 'john@example.com',
+      subject: 'Test Subject',
+      message: 'This is a test message.',
+      website: '',
+    })
+    expect(result.current.errors).toEqual({})
   })
 })

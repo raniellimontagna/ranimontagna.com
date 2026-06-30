@@ -54,11 +54,11 @@ export async function Hero() {
                 {t('passion.part2')}
               </p>
 
-              <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
+              <p className="hidden max-w-2xl text-base leading-7 text-muted sm:block sm:text-lg">
                 {t('description')}
               </p>
 
-              <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
+              <p className="hidden max-w-2xl text-base leading-7 text-muted sm:block sm:text-lg">
                 {t('seoDescription')}
               </p>
             </div>

@@ -1,7 +1,4 @@
-'use client'
-
-import { motion, useInView, useReducedMotion } from 'motion/react'
-import { type ReactNode, useRef } from 'react'
+import type { ReactNode } from 'react'
 
 interface BlurRevealProps {
   children: ReactNode
@@ -18,34 +15,19 @@ export function BlurReveal({
   duration = 0.9,
   once = true,
 }: BlurRevealProps) {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const isInView = useInView(ref, { once, margin: '0px 0px -80px 0px' })
-  const prefersReducedMotion = useReducedMotion()
-
   return (
-    <motion.div
-      ref={ref}
+    <div
       className={className}
-      initial={
-        prefersReducedMotion
-          ? { opacity: 1 }
-          : { opacity: 0, filter: 'blur(16px)', y: 30, scale: 0.97 }
-      }
-      animate={
-        prefersReducedMotion
-          ? { opacity: 1 }
-          : isInView
-            ? { opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }
-            : undefined
-      }
-      transition={{
-        duration: prefersReducedMotion ? 0 : duration,
-        delay: isInView && !prefersReducedMotion ? delay : 0,
-        ease: [0.19, 1, 0.22, 1],
-      }}
-      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity, filter' }}
+      data-gsap-reveal="true"
+      data-gsap-direction="none"
+      data-gsap-distance="0"
+      data-gsap-delay={delay}
+      data-gsap-duration={duration}
+      data-gsap-once={String(once)}
+      data-gsap-blur="true"
+      data-gsap-scale="true"
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

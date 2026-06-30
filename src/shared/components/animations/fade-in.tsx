@@ -1,9 +1,6 @@
-'use client'
+import type { HTMLAttributes, ReactNode } from 'react'
 
-import { type HTMLMotionProps, motion, useInView, useReducedMotion } from 'motion/react'
-import { type ReactNode, useRef } from 'react'
-
-interface FadeInProps extends HTMLMotionProps<'div'> {
+interface FadeInProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   delay?: number
   duration?: number
@@ -27,56 +24,20 @@ export function FadeIn({
   scale = false,
   ...props
 }: FadeInProps) {
-  const ref = useRef(null)
-  const prefersReducedMotion = useReducedMotion()
-  const isInView = useInView(ref, { once: triggerOnce, margin: '0px 0px -100px 0px' })
-
-  const getInitialPosition = () => {
-    switch (direction) {
-      case 'up':
-        return { y: distance }
-      case 'down':
-        return { y: -distance }
-      case 'left':
-        return { x: distance }
-      case 'right':
-        return { x: -distance }
-      case 'none':
-        return {}
-      default:
-        return { y: distance }
-    }
-  }
-
-  const blurProps = blur ? { filter: 'blur(12px)' } : {}
-  const blurResolvedProps = blur ? { filter: 'blur(0px)' } : {}
-  const scaleProps = scale ? { scale: 0.95 } : {}
-  const scaleResolvedProps = scale ? { scale: 1 } : {}
-
-  const initialConfig = prefersReducedMotion
-    ? { opacity: 1, y: 0, x: 0 }
-    : { opacity: 0, ...getInitialPosition(), ...blurProps, ...scaleProps }
-  const animateConfig = prefersReducedMotion
-    ? { opacity: 1, y: 0, x: 0 }
-    : isInView
-      ? { opacity: 1, y: 0, x: 0, ...blurResolvedProps, ...scaleResolvedProps }
-      : { opacity: 0, ...getInitialPosition(), ...blurProps, ...scaleProps }
-
   return (
-    <motion.div
-      ref={ref}
-      initial={initialConfig}
-      animate={animateConfig}
-      transition={{
-        duration: prefersReducedMotion ? 0 : duration,
-        delay: isInView && !prefersReducedMotion ? delay : 0,
-        ease: [0.19, 1, 0.22, 1],
-      }}
-      style={{ willChange: prefersReducedMotion ? 'auto' : 'transform, opacity' }}
+    <div
       className={className}
+      data-gsap-reveal="true"
+      data-gsap-direction={direction}
+      data-gsap-distance={distance}
+      data-gsap-delay={delay}
+      data-gsap-duration={duration}
+      data-gsap-once={String(triggerOnce)}
+      data-gsap-blur={blur ? 'true' : undefined}
+      data-gsap-scale={scale ? 'true' : undefined}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

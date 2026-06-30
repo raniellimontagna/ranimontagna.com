@@ -21,6 +21,8 @@ import { getPathname, Link, usePathname } from '@/shared/config/i18n/navigation'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
 
+const LOAD_HOME_SECTIONS_EVENT = 'home-sections:load'
+
 type NavigationItem = {
   name: string
   href: string
@@ -80,6 +82,11 @@ export const Header = ({
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      window.dispatchEvent(new Event(LOAD_HOME_SECTIONS_EVENT))
+      window.setTimeout(() => {
+        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 0)
     }
     setIsMenuOpen(false)
   }

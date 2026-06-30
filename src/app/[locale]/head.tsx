@@ -4,30 +4,7 @@ import {
   generateProfilePageJsonLd,
   generateWebsiteJsonLd,
 } from '@/shared/lib/jsonld'
-
-const THEME_INIT_SCRIPT = `
-(() => {
-  const storageKey = 'theme-storage';
-  const fallbackTheme = 'dark';
-  const root = document.documentElement;
-
-  try {
-    const savedTheme = localStorage.getItem(storageKey);
-    const parsed = savedTheme ? JSON.parse(savedTheme) : null;
-    const theme = parsed?.state?.theme === 'light' || parsed?.state?.theme === 'dark'
-      ? parsed.state.theme
-      : fallbackTheme;
-
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    root.style.colorScheme = theme;
-  } catch {
-    root.classList.remove('light', 'dark');
-    root.classList.add(fallbackTheme);
-    root.style.colorScheme = fallbackTheme;
-  }
-})();
-`
+import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 export default async function Head({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

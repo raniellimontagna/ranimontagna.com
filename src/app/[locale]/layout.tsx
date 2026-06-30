@@ -1,34 +1,12 @@
 import type { Metadata } from 'next'
-import { Geist_Mono, Manrope, Space_Grotesk } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 
-import { GoogleAnalytics, ThemeProvider, WebVitals } from '@/shared'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
-
-const bodySans = Manrope({
-  variable: '--font-manrope',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-})
-
-const displayFont = Space_Grotesk({
-  variable: '--font-space-grotesk',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-})
+import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 type Props = {
   children: React.ReactNode
@@ -120,20 +98,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
-      <body
-        className={`${bodySans.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider>
-          <WebVitals />
-          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-            <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-          )}
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
-        </ThemeProvider>
+      <body className="antialiased">
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
   )

@@ -42,12 +42,12 @@ describe('MermaidDiagram Component', () => {
         expect(mockInitialize).toHaveBeenCalledWith({
           startOnLoad: false,
           theme: 'default',
-          securityLevel: 'loose',
+          securityLevel: 'strict',
           fontFamily: 'ui-sans-serif, system-ui, sans-serif',
           fontSize: 16,
           flowchart: {
             useMaxWidth: true,
-            htmlLabels: true,
+            htmlLabels: false,
             curve: 'basis',
             padding: 20,
           },

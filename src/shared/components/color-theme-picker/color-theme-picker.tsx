@@ -1,7 +1,6 @@
 'use client'
 
 import { Palette } from '@solar-icons/react/ssr'
-import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 import type { ColorTheme } from '@/shared/store/use-theme/use-theme.types'
@@ -63,67 +62,57 @@ export function ColorThemePicker() {
         <div className="absolute inset-0 -z-10 bg-accent/5 opacity-0 transition-opacity group-hover:opacity-100" />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 8 }}
-            transition={{ duration: 0.18, ease: [0.19, 1, 0.22, 1] }}
-            className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3"
-          >
-            <p className="mb-3 px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-              Color theme
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              {COLOR_THEMES.map((t) => {
-                const isActive = colorTheme === t.id
-                const color = isDark ? t.swatchDark : t.swatch
-                return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => {
-                      setColorTheme(t.id)
-                      setOpen(false)
+      {open && (
+        <div className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3">
+          <p className="mb-3 px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+            Color theme
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {COLOR_THEMES.map((t) => {
+              const isActive = colorTheme === t.id
+              const color = isDark ? t.swatchDark : t.swatch
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    setColorTheme(t.id)
+                    setOpen(false)
+                  }}
+                  className={`group/item flex flex-col items-center gap-1.5 rounded-xl px-1 py-2 transition-colors ${
+                    isActive ? 'bg-accent/12' : 'hover:bg-surface'
+                  }`}
+                >
+                  <span
+                    className={`flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all ${
+                      isActive ? 'scale-110 shadow-md' : 'group-hover/item:scale-105'
+                    }`}
+                    style={{
+                      borderColor: color,
+                      backgroundColor: isActive ? color : 'transparent',
+                      boxShadow: isActive ? `0 0 12px ${color}44` : undefined,
                     }}
-                    className={`group/item flex flex-col items-center gap-1.5 rounded-xl px-1 py-2 transition-colors ${
-                      isActive ? 'bg-accent/12' : 'hover:bg-surface'
+                  >
+                    {isActive && (
+                      <Palette
+                        className="h-3.5 w-3.5"
+                        color={isDark && t.id !== 'default' ? '#091113' : '#fff'}
+                      />
+                    )}
+                  </span>
+                  <span
+                    className={`text-[11px] font-medium leading-none ${
+                      isActive ? 'text-foreground' : 'text-muted'
                     }`}
                   >
-                    <span
-                      className={`flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all ${
-                        isActive ? 'scale-110 shadow-md' : 'group-hover/item:scale-105'
-                      }`}
-                      style={{
-                        borderColor: color,
-                        backgroundColor: isActive ? color : 'transparent',
-                        boxShadow: isActive ? `0 0 12px ${color}44` : undefined,
-                      }}
-                    >
-                      {isActive && (
-                        <motion.div layoutId="color-theme-check">
-                          <Palette
-                            className="h-3.5 w-3.5"
-                            color={isDark && t.id !== 'default' ? '#091113' : '#fff'}
-                          />
-                        </motion.div>
-                      )}
-                    </span>
-                    <span
-                      className={`text-[11px] font-medium leading-none ${
-                        isActive ? 'text-foreground' : 'text-muted'
-                      }`}
-                    >
-                      {t.label}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    {t.label}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

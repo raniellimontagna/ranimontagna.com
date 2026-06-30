@@ -5,13 +5,13 @@ vi.mock('next/image', () => ({
   default: ({
     alt,
     fill: _fill,
-    priority: _priority,
+    priority,
     ...props
   }: React.ImgHTMLAttributes<HTMLImageElement> & {
     fill?: boolean
     priority?: boolean
     // biome-ignore lint/performance/noImgElement: test double for next/image
-  }) => <img alt={alt} {...props} />,
+  }) => <img alt={alt} data-priority={priority ? 'true' : undefined} {...props} />,
 }))
 
 describe('FeaturedCarousel', () => {
@@ -35,6 +35,7 @@ describe('FeaturedCarousel', () => {
 
     expect(screen.getByLabelText('Image carousel')).toHaveClass('absolute', 'inset-0')
     expect(screen.getByAltText('Lead Project')).toHaveAttribute('src', '/lead-1.jpg')
+    expect(screen.getByAltText('Lead Project')).not.toHaveAttribute('data-priority', 'true')
     expect(screen.getByAltText(/Lead Project.*2/)).toHaveAttribute('src', '/lead-2.jpg')
     expect(screen.getByRole('button', { name: 'Ver imagem 3' })).toBeInTheDocument()
   })

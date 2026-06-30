@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { MagneticHover, ParallaxLayer } from '@/shared/components/animations'
-import { TerminalWindow } from '@/shared/components/ui'
+import { TerminalWindow } from '@/shared/components/ui/terminal-window/terminal-window'
 
 export function HeroVisual() {
   return (

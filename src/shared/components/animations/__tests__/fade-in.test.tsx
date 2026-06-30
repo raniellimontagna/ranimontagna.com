@@ -36,13 +36,15 @@ describe('FadeIn Component', () => {
   })
 
   it('handles direction="up" (default)', () => {
-    render(
+    const { container } = render(
       <FadeIn direction="up">
         <div>Up Direction</div>
       </FadeIn>,
     )
 
     expect(screen.getByText('Up Direction')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-reveal', 'true')
+    expect(container.firstChild).toHaveAttribute('data-gsap-direction', 'up')
   })
 
   it('handles direction="down"', () => {
@@ -86,33 +88,49 @@ describe('FadeIn Component', () => {
   })
 
   it('accepts custom delay and duration', () => {
-    render(
+    const { container } = render(
       <FadeIn delay={0.5} duration={1.2}>
         <div>Custom Timing</div>
       </FadeIn>,
     )
 
     expect(screen.getByText('Custom Timing')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-delay', '0.5')
+    expect(container.firstChild).toHaveAttribute('data-gsap-duration', '1.2')
   })
 
   it('accepts custom distance', () => {
-    render(
+    const { container } = render(
       <FadeIn distance={50}>
         <div>Custom Distance</div>
       </FadeIn>,
     )
 
     expect(screen.getByText('Custom Distance')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-distance', '50')
   })
 
   it('accepts triggerOnce prop', () => {
-    render(
+    const { container } = render(
       <FadeIn triggerOnce={false}>
         <div>Trigger Multiple</div>
       </FadeIn>,
     )
 
     expect(screen.getByText('Trigger Multiple')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-once', 'false')
+  })
+
+  it('marks blur and scale variants for progressive GSAP enhancement', () => {
+    const { container } = render(
+      <FadeIn blur scale>
+        <div>Enhanced</div>
+      </FadeIn>,
+    )
+
+    expect(screen.getByText('Enhanced')).toBeInTheDocument()
+    expect(container.firstChild).toHaveAttribute('data-gsap-blur', 'true')
+    expect(container.firstChild).toHaveAttribute('data-gsap-scale', 'true')
   })
 
   it('forwards additional props to motion.div', () => {
