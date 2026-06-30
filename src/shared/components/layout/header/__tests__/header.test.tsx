@@ -24,15 +24,17 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
     children,
     href,
     onClick,
+    prefetch,
     ...props
   }: {
     children: React.ReactNode
     href: string
     onClick?: () => void
+    prefetch?: boolean
   } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     const localizedHref = mockGetPathname({ href, locale: mockLocale })
     return (
-      <a href={localizedHref} onClick={onClick} {...props}>
+      <a href={localizedHref} data-prefetch={String(prefetch)} onClick={onClick} {...props}>
         {children}
       </a>
     )
@@ -170,6 +172,7 @@ describe('Header Component', () => {
 
     const blogLinks = screen.getAllByText('navigation.blog')
     expect(blogLinks[0].closest('a')).toHaveAttribute('href', '/en/blog')
+    expect(blogLinks[0].closest('a')).toHaveAttribute('data-prefetch', 'false')
   })
 
   it('does not prefix the default locale in localized links', () => {

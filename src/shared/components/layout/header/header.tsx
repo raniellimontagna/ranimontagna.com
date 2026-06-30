@@ -109,6 +109,7 @@ export const Header = ({
       <Link
         key={item.name}
         href={item.href}
+        prefetch={item.href === '/blog' ? false : undefined}
         className={className}
         onClick={() => setIsMenuOpen(false)}
       >

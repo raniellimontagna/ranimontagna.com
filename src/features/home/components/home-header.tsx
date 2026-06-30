@@ -64,6 +64,7 @@ export async function HomeHeader({ locale }: HomeHeaderProps) {
               ))}
               <Link
                 href="/blog"
+                prefetch={false}
                 className="flex h-8 items-center rounded-full px-4 text-sm font-medium text-muted transition-all hover:bg-surface-strong hover:text-foreground"
               >
                 {t('navigation.blog')}
