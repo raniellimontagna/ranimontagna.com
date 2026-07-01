@@ -7,33 +7,38 @@ type CompanyMarkProps = {
   logo: string
 }
 
-const companyMarkTones: Record<string, string> = {
-  Luizalabs:
-    'from-[#f6f6ff] via-[#fdfdff] to-[#f1f3ff] dark:from-[#161824] dark:via-[#141826] dark:to-[#11131d]',
-  Smarten:
-    'from-[#fff8ef] via-[#fffdf9] to-[#eef8f1] dark:from-[#1f1711] dark:via-[#191612] dark:to-[#132019]',
-  'SB Sistemas':
-    'from-[#eef8ff] via-[#f8fcff] to-[#f5fff2] dark:from-[#101922] dark:via-[#111822] dark:to-[#121b16]',
-}
+const containedCompanyMarks = new Set(['SB Sistemas', 'SBSistemas'])
 
 export function CompanyMark({ alt, company, logo }: CompanyMarkProps) {
+  const isContained = containedCompanyMarks.has(company) || logo.includes('sbsistemas')
+
   return (
     <div
       className={cn(
-        'relative isolate mx-auto flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-line/80 p-2.5 shadow-sm ring-1 ring-white/60 dark:ring-white/6 sm:mx-0 sm:rounded-3xl',
-        'bg-linear-to-br',
-        companyMarkTones[company] ?? 'from-surface via-surface to-background/70',
+        'relative isolate mx-auto h-18 w-18 shrink-0 overflow-hidden rounded-2xl border border-line/70 bg-surface shadow-sm sm:mx-0 sm:rounded-3xl lg:h-20 lg:w-20',
+        isContained &&
+          'border-[#c8dfb7] bg-[#f3faef] shadow-[0_10px_28px_rgba(4,91,168,0.18)] ring-1 ring-[#a8cf46]/25 dark:border-[#c8dfb7]/80 dark:bg-[#f3faef] dark:ring-white/20',
       )}
+      data-company-mark-treatment={isContained ? 'contained' : 'cover'}
     >
-      <div className="absolute inset-0 bg-radial-[circle_at_top] from-white/55 via-transparent to-transparent opacity-80 dark:from-white/8" />
-      <div className="absolute -right-4 -bottom-4 h-10 w-10 rounded-full bg-accent/10 blur-2xl" />
-      <Image
-        src={logo}
-        alt={alt}
-        width={72}
-        height={72}
-        className="relative z-10 h-auto w-auto max-h-10 max-w-13 object-contain sm:max-h-9 sm:max-w-[2.9rem]"
-      />
+      {isContained ? (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#fbfff7] via-[#eef7ea] to-[#dcead8]"
+        />
+      ) : null}
+      <div
+        className={cn('absolute z-10', isContained ? 'inset-3' : 'inset-0')}
+        data-company-mark-image-frame="true"
+      >
+        <Image
+          src={logo}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 80px, 72px"
+          className={cn('h-full w-full', isContained ? 'object-contain' : 'object-cover')}
+        />
+      </div>
     </div>
   )
 }

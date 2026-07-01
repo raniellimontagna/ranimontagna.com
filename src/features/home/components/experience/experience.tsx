@@ -4,6 +4,7 @@ import { Fragment, type CSSProperties } from 'react'
 import { FadeIn, RevealText } from '@/shared/components/animations'
 import { CompanyMark } from './company-mark'
 import { ExperienceCylinderScroll } from './experience-cylinder-scroll'
+import { ExperienceMobileCarouselGestures } from './experience-mobile-carousel-gestures'
 import { experiences } from './experience.static'
 
 export function Experience() {
@@ -37,12 +38,25 @@ export function Experience() {
       <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-[140px]" />
 
       <ExperienceCylinderScroll />
+      <ExperienceMobileCarouselGestures />
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <style>{`
           @keyframes experience-mobile-slide-in {
             from {
               opacity: 0;
               transform: translate3d(0.75rem, 0, 0) scale(0.985);
+            }
+
+            to {
+              opacity: 1;
+              transform: translate3d(0, 0, 0) scale(1);
+            }
+          }
+
+          @keyframes experience-mobile-slide-in-reverse {
+            from {
+              opacity: 0;
+              transform: translate3d(-0.75rem, 0, 0) scale(0.985);
             }
 
             to {
@@ -74,6 +88,18 @@ export function Experience() {
               display: inline-flex;
             }
 
+            [data-experience-mobile-gesture-zone="true"] {
+              touch-action: pan-y;
+            }
+
+            [data-experience-mobile-gesture-zone="true"][data-experience-mobile-dragging="true"] {
+              cursor: grabbing;
+            }
+
+            [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
+              animation-name: experience-mobile-slide-in-reverse;
+            }
+
             @supports selector(:has(*)) {
               [data-experience-cylinder-stage="true"] [data-experience-mobile-slide="true"] {
                 display: none;
@@ -90,6 +116,10 @@ export function Experience() {
               }
 
               ${mobileCarouselRules}
+
+              [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
+                animation-name: experience-mobile-slide-in-reverse;
+              }
             }
           }
 
@@ -147,6 +177,15 @@ export function Experience() {
               border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
               color: var(--foreground);
               opacity: 1;
+            }
+
+            [data-experience-panel-mark="true"],
+            [data-experience-panel-heading="true"],
+            [data-experience-panel-meta="true"],
+            [data-experience-panel-body="true"],
+            [data-experience-panel-highlight="true"],
+            [data-experience-panel-tech="true"] {
+              will-change: opacity, transform;
             }
           }
         `}</style>
@@ -257,7 +296,8 @@ export function Experience() {
                 </div>
 
                 <div
-                  className="relative min-h-[34rem] overflow-hidden rounded-[1.6rem] border border-line bg-surface-strong shadow-card"
+                  className="relative min-h-[34rem] cursor-grab overflow-hidden rounded-[1.6rem] border border-line bg-surface-strong shadow-card active:cursor-grabbing"
+                  data-experience-mobile-gesture-zone="true"
                   data-experience-mobile-viewport="true"
                 >
                   {items.map((exp, index) => (
@@ -272,7 +312,7 @@ export function Experience() {
                       <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent/50 to-transparent" />
 
                       <div className="relative flex items-start justify-between gap-4">
-                        <span className="h-16 w-16" />
+                        <span className="h-18 w-18" />
                         <CompanyMark
                           logo={exp.logo}
                           company={exp.company}
@@ -418,14 +458,19 @@ export function Experience() {
                 <div className="absolute top-0 right-0 h-34 w-34 rounded-full bg-accent/12 blur-3xl" />
 
                 <div className="relative grid gap-5 lg:grid-cols-[auto_1fr] lg:items-start">
-                  <CompanyMark
-                    logo={exp.logo}
-                    company={exp.company}
-                    alt={t('logoAlt', { company: exp.company })}
-                  />
+                  <div data-experience-panel-mark="true">
+                    <CompanyMark
+                      logo={exp.logo}
+                      company={exp.company}
+                      alt={t('logoAlt', { company: exp.company })}
+                    />
+                  </div>
 
                   <div className="min-w-0">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div
+                      className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+                      data-experience-panel-heading="true"
+                    >
                       <div>
                         <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
                           {String(index + 1).padStart(2, '0')} /{' '}
@@ -447,7 +492,10 @@ export function Experience() {
                       )}
                     </div>
 
-                    <div className="mt-3 flex flex-wrap gap-2 text-sm text-muted">
+                    <div
+                      className="mt-3 flex flex-wrap gap-2 text-sm text-muted"
+                      data-experience-panel-meta="true"
+                    >
                       <span className="font-semibold text-foreground">{exp.company}</span>
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3.5 w-3.5" />
@@ -459,7 +507,12 @@ export function Experience() {
                       </span>
                     </div>
 
-                    <p className="mt-5 max-w-3xl text-base leading-7 text-muted">{exp.description}</p>
+                    <p
+                      className="mt-5 max-w-3xl text-base leading-7 text-muted"
+                      data-experience-panel-body="true"
+                    >
+                      {exp.description}
+                    </p>
 
                     <div className="mt-6 grid gap-5">
                       <div>
@@ -471,6 +524,7 @@ export function Experience() {
                             <div
                               key={highlight}
                               className="rounded-xl border border-line bg-surface px-3 py-2 text-sm leading-5 text-foreground"
+                              data-experience-panel-highlight="true"
                             >
                               {highlight}
                             </div>
@@ -487,6 +541,7 @@ export function Experience() {
                             <span
                               key={tech}
                               className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
+                              data-experience-panel-tech="true"
                             >
                               {tech}
                             </span>

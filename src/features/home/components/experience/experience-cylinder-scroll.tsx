@@ -5,6 +5,14 @@ import { useEffect } from 'react'
 const STAGE_SELECTOR = '[data-experience-cylinder-stage="true"]'
 const DESKTOP_QUERY = '(min-width: 1024px)'
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
+const PANEL_MOTION_TARGETS = [
+  '[data-experience-panel-mark="true"]',
+  '[data-experience-panel-heading="true"]',
+  '[data-experience-panel-meta="true"]',
+  '[data-experience-panel-body="true"]',
+  '[data-experience-panel-highlight="true"]',
+  '[data-experience-panel-tech="true"]',
+]
 
 type ScrollProgressTrigger = {
   end: number
@@ -13,6 +21,10 @@ type ScrollProgressTrigger = {
 
 function toArray<T extends Element>(root: ParentNode, selector: string) {
   return Array.from(root.querySelectorAll<T>(selector))
+}
+
+function panelMotionTargets(panel: HTMLElement) {
+  return PANEL_MOTION_TARGETS.flatMap((selector) => toArray<HTMLElement>(panel, selector))
 }
 
 function supportsMediaListener(query: MediaQueryList) {
@@ -63,6 +75,7 @@ export function ExperienceCylinderScroll() {
       const pinRootContainIntrinsicSize =
         pinRoot?.style.getPropertyValue('contain-intrinsic-size') ?? ''
       let scrollTriggerInstance: ScrollProgressTrigger | null = null
+      let activePanelIndex = 0
       let refreshFrame = 0
 
       if (!stage || !cylinder || panels.length === 0 || cards.length === 0) {
@@ -86,8 +99,29 @@ export function ExperienceCylinderScroll() {
         }
       }
 
-      const setActive = (nextIndex: number) => {
+      const animatePanelIn = (panel: HTMLElement) => {
+        const targets = panelMotionTargets(panel)
+        if (targets.length === 0) return
+
+        gsap.fromTo(
+          targets,
+          { autoAlpha: 0, scale: 0.99, y: 16 },
+          {
+            autoAlpha: 1,
+            clearProps: 'opacity,visibility,transform',
+            duration: 0.48,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            scale: 1,
+            stagger: 0.045,
+            y: 0,
+          },
+        )
+      }
+
+      const setActive = (nextIndex: number, shouldAnimate = true) => {
         const activeIndex = Math.max(0, Math.min(panels.length - 1, nextIndex))
+        const shouldRunPanelMotion = shouldAnimate && activeIndex !== activePanelIndex
 
         panels.forEach((panel, index) => {
           const isActive = index === activeIndex
@@ -106,6 +140,13 @@ export function ExperienceCylinderScroll() {
           control.dataset.active = String(isActive)
           control.setAttribute('aria-pressed', String(isActive))
         })
+
+        if (shouldRunPanelMotion) {
+          const panel = panels[activeIndex]
+          if (panel) animatePanelIn(panel)
+        }
+
+        activePanelIndex = activeIndex
       }
 
       const handleControlClick = (event: Event) => {
@@ -129,7 +170,7 @@ export function ExperienceCylinderScroll() {
       stage.dataset.experienceEnhanced = 'true'
       pinRoot?.style.setProperty('content-visibility', 'visible')
       pinRoot?.style.setProperty('contain-intrinsic-size', 'none')
-      setActive(0)
+      setActive(0, false)
 
       controls.forEach((control) => {
         control.addEventListener('click', handleControlClick)
