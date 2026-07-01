@@ -1,6 +1,6 @@
-import { Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
+import { AltArrowLeft, AltArrowRight, Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import { FadeIn, RevealText } from '@/shared/components/animations'
 import { CompanyMark } from './company-mark'
 import { ExperienceCylinderScroll } from './experience-cylinder-scroll'
@@ -9,6 +9,26 @@ import { experiences } from './experience.static'
 export function Experience() {
   const t = useTranslations('experience')
   const items = experiences(t)
+  const mobileCarouselRules = items
+    .map(
+      (_, index) => `
+            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-slide="true"][data-experience-index="${index}"] {
+              animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+              display: grid;
+            }
+
+            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-dot="true"][data-experience-index="${index}"] {
+              background: color-mix(in srgb, var(--accent) 82%, var(--background));
+              border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+              color: var(--background);
+            }
+
+            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-arrow][data-experience-index="${index}"] {
+              display: inline-flex;
+            }
+      `,
+    )
+    .join('\n')
 
   return (
     <section id="experience" className="relative overflow-hidden py-14 sm:py-20 lg:py-28">
@@ -19,6 +39,60 @@ export function Experience() {
       <ExperienceCylinderScroll />
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <style>{`
+          @keyframes experience-mobile-slide-in {
+            from {
+              opacity: 0;
+              transform: translate3d(0.75rem, 0, 0) scale(0.985);
+            }
+
+            to {
+              opacity: 1;
+              transform: translate3d(0, 0, 0) scale(1);
+            }
+          }
+
+          @media (max-width: 1023px) {
+            [data-experience-mobile-slide="true"] {
+              display: none;
+            }
+
+            [data-experience-mobile-slide="true"][data-active="true"] {
+              display: grid;
+            }
+
+            [data-experience-mobile-dot="true"][data-active="true"] {
+              background: color-mix(in srgb, var(--accent) 82%, var(--background));
+              border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+              color: var(--background);
+            }
+
+            [data-experience-mobile-arrow] {
+              display: none;
+            }
+
+            [data-experience-mobile-arrow][data-active="true"] {
+              display: inline-flex;
+            }
+
+            @supports selector(:has(*)) {
+              [data-experience-cylinder-stage="true"] [data-experience-mobile-slide="true"] {
+                display: none;
+              }
+
+              [data-experience-cylinder-stage="true"] [data-experience-mobile-dot="true"] {
+                background: var(--surface);
+                border-color: var(--line);
+                color: var(--muted);
+              }
+
+              [data-experience-cylinder-stage="true"] [data-experience-mobile-arrow] {
+                display: none;
+              }
+
+              ${mobileCarouselRules}
+            }
+          }
+
           @media (min-width: 1024px) {
             [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel-slot="true"] {
               display: block;
@@ -82,7 +156,7 @@ export function Experience() {
           data-experience-cylinder-stage="true"
           data-experience-pinned-stage="true"
         >
-          <div className="lg:h-fit">
+          <div className="min-w-0 lg:h-fit" data-experience-intro="true">
             <FadeIn delay={0.15}>
               <div className="editorial-kicker mb-6">
                 <Buildings className="h-4 w-4" />
@@ -99,6 +173,177 @@ export function Experience() {
               <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
                 {t('subtitle')}
               </p>
+            </FadeIn>
+
+            <FadeIn delay={0.4} blur>
+              <fieldset
+                className="mt-7 min-w-0 max-w-full border-0 p-0 [min-inline-size:0] lg:hidden"
+                data-experience-mobile-carousel="true"
+              >
+                <legend className="sr-only">{t('badge')}</legend>
+                <div className="mb-3 flex items-center justify-between gap-4">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+                    {t('badge')}
+                  </p>
+                  <p className="font-mono text-[11px] text-muted">
+                    {String(items.length).padStart(2, '0')}
+                  </p>
+                </div>
+
+                {items.map((_, index) => (
+                  <input
+                    key={`experience-mobile-input-${index}`}
+                    id={`experience-mobile-${index}`}
+                    type="radio"
+                    name="experience-mobile-company"
+                    className="sr-only"
+                    defaultChecked={index === 0}
+                    data-experience-mobile-input={index}
+                  />
+                ))}
+
+                <div className="mb-3 flex min-h-10 items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    {items.map((exp, index) => (
+                      <label
+                        key={exp.company}
+                        htmlFor={`experience-mobile-${index}`}
+                        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-[10px] font-semibold text-muted transition duration-300 ease-out focus-within:ring-3 focus-within:ring-ring"
+                        data-experience-mobile-dot="true"
+                        data-experience-index={index}
+                        data-active={index === 0}
+                        aria-label={`${exp.company} - ${exp.period}`}
+                      >
+                        {String(index + 1).padStart(2, '0')}
+                      </label>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2">
+                    {items.map((_, index) => {
+                      const previousIndex = (index - 1 + items.length) % items.length
+                      const nextIndex = (index + 1) % items.length
+
+                      return (
+                        <Fragment key={`experience-mobile-arrows-${index}`}>
+                          <label
+                            htmlFor={`experience-mobile-${previousIndex}`}
+                            className="hidden h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-muted transition duration-300 ease-out hover:border-accent/50 hover:text-foreground"
+                            data-experience-mobile-arrow="prev"
+                            data-experience-index={index}
+                            data-active={index === 0}
+                            aria-label={`${items[previousIndex]?.company ?? ''} - ${
+                              items[previousIndex]?.period ?? ''
+                            }`}
+                          >
+                            <AltArrowLeft className="h-4 w-4" />
+                          </label>
+                          <label
+                            htmlFor={`experience-mobile-${nextIndex}`}
+                            className="hidden h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-muted transition duration-300 ease-out hover:border-accent/50 hover:text-foreground"
+                            data-experience-mobile-arrow="next"
+                            data-experience-index={index}
+                            data-active={index === 0}
+                            aria-label={`${items[nextIndex]?.company ?? ''} - ${
+                              items[nextIndex]?.period ?? ''
+                            }`}
+                          >
+                            <AltArrowRight className="h-4 w-4" />
+                          </label>
+                        </Fragment>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div
+                  className="relative min-h-[34rem] overflow-hidden rounded-[1.6rem] border border-line bg-surface-strong shadow-card"
+                  data-experience-mobile-viewport="true"
+                >
+                  {items.map((exp, index) => (
+                    <article
+                      key={exp.company}
+                      className="relative min-h-[34rem] content-start overflow-hidden p-5"
+                      data-experience-mobile-slide="true"
+                      data-experience-index={index}
+                      data-active={index === 0}
+                    >
+                      <div className="pointer-events-none absolute inset-0 bg-radial-[circle_at_78%_18%] from-accent/16 via-transparent to-transparent" />
+                      <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent/50 to-transparent" />
+
+                      <div className="relative flex items-start justify-between gap-4">
+                        <span className="h-16 w-16" />
+                        <CompanyMark
+                          logo={exp.logo}
+                          company={exp.company}
+                          alt=""
+                        />
+                        <span className="font-mono text-[11px] text-muted">
+                          {String(index + 1).padStart(2, '0')} /{' '}
+                          {String(items.length).padStart(2, '0')}
+                        </span>
+                      </div>
+
+                      <div
+                        className="relative mt-6 min-w-0"
+                        data-experience-mobile-details="true"
+                      >
+                        <h3 className="text-xl font-semibold tracking-[-0.04em] text-foreground">
+                          {exp.position}
+                        </h3>
+
+                        <div className="mt-3 flex flex-wrap gap-2 text-sm text-muted">
+                          <span className="font-semibold text-foreground">{exp.company}</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-3.5 w-3.5" />
+                            {exp.period}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <MapPoint className="h-3.5 w-3.5" />
+                            {exp.location}
+                          </span>
+                        </div>
+
+                        <p className="mt-5 text-base leading-7 text-muted">{exp.description}</p>
+
+                        <div className="mt-6 grid gap-5">
+                          <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
+                              {t('highlightsTitle')}
+                            </p>
+                            <div className="mt-3 grid gap-2">
+                              {exp.highlights.map((highlight) => (
+                                <div
+                                  key={highlight}
+                                  className="rounded-xl border border-line bg-surface px-3 py-2 text-sm leading-5 text-foreground"
+                                >
+                                  {highlight}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
+                              {t('technologiesTitle')}
+                            </p>
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              {exp.technologies.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium text-foreground"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </fieldset>
             </FadeIn>
 
             <FadeIn delay={0.45} blur>
@@ -157,7 +402,7 @@ export function Experience() {
           </div>
 
           <div
-            className="relative grid gap-5 lg:min-h-[37rem]"
+            className="hidden min-w-0 gap-5 lg:relative lg:grid lg:min-h-[37rem]"
             data-experience-panel-slot="true"
             data-experience-panels="true"
             aria-live="polite"
@@ -165,7 +410,7 @@ export function Experience() {
             {items.map((exp, index) => (
               <article
                 key={exp.company}
-                className="surface-panel-strong relative overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:p-7"
+                className="surface-panel-strong relative min-w-0 overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:p-7"
                 data-experience-panel="true"
                 data-experience-index={index}
                 data-active={index === 0}
