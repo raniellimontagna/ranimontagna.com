@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.24.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.23.0...v1.24.0) (2026-07-01)
+
+
+### Features
+
+* **copy:** sharpen ATS profile ([d60ae7b](https://github.com/raniellimontagna/ranimontagna.com/commit/d60ae7bae760d44c03758484f14a967ef4618d15))
+* **experience:** add mobile carousel ([16d051f](https://github.com/raniellimontagna/ranimontagna.com/commit/16d051fcf58c61275650265418e883056d771e66))
+* **experience:** add pinned scroll reel ([54c2e54](https://github.com/raniellimontagna/ranimontagna.com/commit/54c2e5425160ad485bd5df0198c1a51fb7023a91))
+* **experience:** polish motion and logos ([7132161](https://github.com/raniellimontagna/ranimontagna.com/commit/7132161debf434103530244e3db0862043b1bda4))
+* **media:** add blog media URL resolution and update components to use it ([df95747](https://github.com/raniellimontagna/ranimontagna.com/commit/df9574727da001b6d24c3d5c56c94beccfb5aef0))
+
+
+### Bug Fixes
+
+* **cv:** update English, Spanish, and Portuguese CV PDFs ([a862c55](https://github.com/raniellimontagna/ranimontagna.com/commit/a862c55ee1dc39b7109667b1c95e92d7d7fc4fb4))
+* **cv:** update Portuguese CV PDF ([a4627ac](https://github.com/raniellimontagna/ranimontagna.com/commit/a4627ac3e7b2d3ce7e430efb19bd8d9f11e018fa))
+* **home:** quiet console warnings ([56aa335](https://github.com/raniellimontagna/ranimontagna.com/commit/56aa335c475ea3640d46d80fb6def4ad5e7b87ba))
+
+
+### Performance Improvements
+
+* **home:** optimize initial load and restore interactions ([c89897f](https://github.com/raniellimontagna/ranimontagna.com/commit/c89897f8edd8d3986129e3d54f7cbe2f9aa3e8bf))
+* **home:** update portrait assets ([235e0a1](https://github.com/raniellimontagna/ranimontagna.com/commit/235e0a1983f4ea8640d5bd4732f55e69c5feb36a))
+
 ## [1.23.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.22.0...v1.23.0) (2026-05-16)
 
 
