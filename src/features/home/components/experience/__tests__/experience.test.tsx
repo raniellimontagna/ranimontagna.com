@@ -63,11 +63,23 @@ vi.mock('../experience.static', () => ({
 
 describe('Experience', () => {
   it('renders company marks and current badge', () => {
-    render(<Experience />)
+    const { container } = render(<Experience />)
 
     expect(screen.getByAltText('Logo Luizalabs')).toBeInTheDocument()
     expect(screen.getByAltText('Logo Smarten')).toBeInTheDocument()
     expect(screen.getByText('currentLabel')).toBeInTheDocument()
     expect(screen.getByText('Senior Frontend Engineer')).toBeInTheDocument()
+    expect(container.querySelector('[data-experience-cylinder-stage="true"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-experience-pinned-stage="true"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-experience-panel-slot="true"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-experience-rotary-stage="true"]')).not.toBeInTheDocument()
+    expect(container.querySelectorAll('[data-experience-panel="true"]')).toHaveLength(2)
+    expect(container.querySelectorAll('[data-experience-panel="true"][data-active="true"]')).toHaveLength(
+      1,
+    )
+    expect(screen.getByRole('button', { name: /Luizalabs/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Smarten/ })).toBeInTheDocument()
+    expect(screen.getByText('highlight 1')).toBeInTheDocument()
+    expect(screen.getByText('highlight 2')).toBeInTheDocument()
   })
 })
