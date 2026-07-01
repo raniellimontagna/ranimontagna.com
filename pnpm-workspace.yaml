@@ -1,0 +1,5 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  '@swc/core': true
+  sharp: true
