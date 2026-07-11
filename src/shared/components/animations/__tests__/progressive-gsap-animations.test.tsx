@@ -135,9 +135,6 @@ describe('ProgressiveGsapAnimations', () => {
     })
 
     expect(gsapFromTo).not.toHaveBeenCalled()
-    expect(gsapSet).not.toHaveBeenCalledWith(
-      element,
-      expect.objectContaining({ autoAlpha: 0 }),
-    )
+    expect(gsapSet).not.toHaveBeenCalledWith(element, expect.objectContaining({ autoAlpha: 0 }))
   })
 })

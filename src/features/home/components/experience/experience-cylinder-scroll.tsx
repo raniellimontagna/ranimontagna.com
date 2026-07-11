@@ -68,8 +68,12 @@ export function ExperienceCylinderScroll() {
       const stage = document.querySelector<HTMLElement>(STAGE_SELECTOR)
       const cylinder = stage?.querySelector<HTMLElement>('[data-experience-cylinder="true"]')
       const panels = stage ? toArray<HTMLElement>(stage, '[data-experience-panel="true"]') : []
-      const cards = stage ? toArray<HTMLElement>(stage, '[data-experience-cylinder-card="true"]') : []
-      const controls = stage ? toArray<HTMLButtonElement>(stage, '[data-experience-control="true"]') : []
+      const cards = stage
+        ? toArray<HTMLElement>(stage, '[data-experience-cylinder-card="true"]')
+        : []
+      const controls = stage
+        ? toArray<HTMLButtonElement>(stage, '[data-experience-control="true"]')
+        : []
       const pinRoot = stage?.closest<HTMLElement>('.deferred-section')
       const pinRootContentVisibility = pinRoot?.style.getPropertyValue('content-visibility') ?? ''
       const pinRootContainIntrinsicSize =

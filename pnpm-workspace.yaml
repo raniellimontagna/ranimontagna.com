@@ -3,3 +3,8 @@ allowBuilds:
   '@sentry/cli': true
   '@swc/core': true
   sharp: true
+
+overrides:
+  dompurify: 3.4.11
+  js-yaml: 3.15.0
+  postcss: 8.5.16

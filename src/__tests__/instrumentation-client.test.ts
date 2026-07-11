@@ -1,8 +1,10 @@
+import type { Mock } from 'vitest'
+
 const sentryMocks = vi.hoisted(() => ({
   captureRouterTransitionStart: vi.fn(),
   init: vi.fn(),
   replayIntegration: vi.fn(() => ({ name: 'replay' })),
-}))
+})) satisfies Record<string, Mock>
 
 vi.mock('@sentry/nextjs', () => ({
   captureRouterTransitionStart: sentryMocks.captureRouterTransitionStart,

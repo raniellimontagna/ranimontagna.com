@@ -35,8 +35,13 @@ vi.mock('gsap/ScrollTrigger', () => ({
 function setupMatchMedia() {
   window.matchMedia = vi.fn((query: string) => ({
     matches: query.includes('min-width'),
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
   })) as typeof window.matchMedia
 }
 

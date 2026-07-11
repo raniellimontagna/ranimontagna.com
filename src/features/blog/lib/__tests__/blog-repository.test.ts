@@ -28,6 +28,7 @@ const createEnvelope = <T>(
 describe('blog repository', () => {
   it('returns stale cached posts when the source fails', async () => {
     const cache = {
+      supportsLocks: true,
       get: vi.fn().mockResolvedValue(
         createEnvelope([createPost('cached-post')], {
           freshUntil: Date.now() - 5_000,
@@ -57,6 +58,7 @@ describe('blog repository', () => {
   it('coalesces concurrent requests for the same locale', async () => {
     const sourcePosts = [createPost('source-post')]
     const cache = {
+      supportsLocks: true,
       get: vi.fn().mockResolvedValue(null),
       set: vi.fn().mockResolvedValue(undefined),
       delete: vi.fn(),

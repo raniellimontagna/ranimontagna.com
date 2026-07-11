@@ -1,11 +1,11 @@
 import { AltArrowLeft, AltArrowRight, Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import { Fragment, type CSSProperties } from 'react'
+import { type CSSProperties, Fragment } from 'react'
 import { FadeIn, RevealText } from '@/shared/components/animations'
 import { CompanyMark } from './company-mark'
+import { experiences } from './experience.static'
 import { ExperienceCylinderScroll } from './experience-cylinder-scroll'
 import { ExperienceMobileCarouselGestures } from './experience-mobile-carousel-gestures'
-import { experiences } from './experience.static'
 
 export function Experience() {
   const t = useTranslations('experience')
@@ -313,21 +313,14 @@ export function Experience() {
 
                       <div className="relative flex items-start justify-between gap-4">
                         <span className="h-18 w-18" />
-                        <CompanyMark
-                          logo={exp.logo}
-                          company={exp.company}
-                          alt=""
-                        />
+                        <CompanyMark logo={exp.logo} company={exp.company} alt="" />
                         <span className="font-mono text-[11px] text-muted">
                           {String(index + 1).padStart(2, '0')} /{' '}
                           {String(items.length).padStart(2, '0')}
                         </span>
                       </div>
 
-                      <div
-                        className="relative mt-6 min-w-0"
-                        data-experience-mobile-details="true"
-                      >
+                      <div className="relative mt-6 min-w-0" data-experience-mobile-details="true">
                         <h3 className="text-xl font-semibold tracking-[-0.04em] text-foreground">
                           {exp.position}
                         </h3>

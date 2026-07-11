@@ -59,9 +59,7 @@ function renderCarousel() {
   const zone = view.getByTestId('gesture-zone')
   const inputs = [0, 1, 2].map(
     (index) =>
-      view.container.querySelector(
-        `[data-experience-mobile-input="${index}"]`,
-      ) as HTMLInputElement,
+      view.container.querySelector(`[data-experience-mobile-input="${index}"]`) as HTMLInputElement,
   )
 
   return { ...view, fieldset, inputs, zone }

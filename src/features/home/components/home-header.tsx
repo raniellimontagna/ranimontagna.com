@@ -24,7 +24,10 @@ export async function HomeHeader({ locale }: HomeHeaderProps) {
       <nav className="mx-auto max-w-7xl rounded-3xl border border-white/20 bg-white/45 px-2 py-2 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] backdrop-blur-2xl sm:rounded-4xl sm:px-3 sm:py-3 dark:border-white/10 dark:bg-white/6">
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent-ice to-transparent opacity-60" />
         <div className="flex items-center justify-between gap-3">
-          <a href="#start" className="group flex min-w-0 items-center gap-3 rounded-[1.4rem] px-2 py-1.5">
+          <a
+            href="#start"
+            className="group flex min-w-0 items-center gap-3 rounded-[1.4rem] px-2 py-1.5"
+          >
             <div className="surface-panel-strong relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-11 sm:w-11 sm:rounded-[1.2rem]">
               <Image
                 src="/logo/black.svg"

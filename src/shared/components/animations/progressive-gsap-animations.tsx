@@ -276,9 +276,9 @@ function setupMagneticHover(gsap: GsapApi, cleanups: Array<() => void>) {
 }
 
 function setupParallaxLayers(gsap: GsapApi, cleanups: Array<() => void>) {
-  const layers = Array.from(document.querySelectorAll<HTMLElement>('[data-gsap-parallax="true"]')).filter(
-    (element) => element.dataset.gsapParallaxBound !== 'true',
-  )
+  const layers = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-gsap-parallax="true"]'),
+  ).filter((element) => element.dataset.gsapParallaxBound !== 'true')
 
   if (layers.length === 0) return
 

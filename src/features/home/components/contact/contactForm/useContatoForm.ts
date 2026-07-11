@@ -20,7 +20,9 @@ type RegisteredField = {
 interface UseContactFormReturn {
   t: ReturnType<typeof useTranslations>
   register: (name: ContactField) => RegisteredField
-  handleSubmit: (handler: ContactSubmitHandler) => (event?: FormEvent<HTMLFormElement>) => Promise<void>
+  handleSubmit: (
+    handler: ContactSubmitHandler,
+  ) => (event?: FormEvent<HTMLFormElement>) => Promise<void>
   errors: ContactFormErrors
   isSubmitting: boolean
   submitStatus: 'idle' | 'success' | 'error'

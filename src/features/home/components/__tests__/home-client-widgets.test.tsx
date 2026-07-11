@@ -1,6 +1,6 @@
-import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
+import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { HomeClientWidgets } from '../home-client-widgets'
 
 vi.mock('@/shared/components/ui/command-menu/command-menu', () => ({

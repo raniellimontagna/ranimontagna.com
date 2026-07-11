@@ -36,7 +36,10 @@ describe('CompanyMark', () => {
     expect(container.firstElementChild).toHaveClass('bg-[#f3faef]', 'dark:bg-[#f3faef]')
     expect(container.firstElementChild).toHaveClass('border-[#c8dfb7]')
     expect(container.querySelector('[aria-hidden="true"]')).toHaveClass('bg-gradient-to-br')
-    expect(container.querySelector('[data-company-mark-image-frame="true"]')).toHaveClass('inset-3', 'z-10')
+    expect(container.querySelector('[data-company-mark-image-frame="true"]')).toHaveClass(
+      'inset-3',
+      'z-10',
+    )
     expect(screen.getByAltText('SB Sistemas logo')).toHaveClass('object-contain')
   })
 })

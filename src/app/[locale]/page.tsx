@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server'
 import { Home } from '@/features/home'
-import { HomeHeader } from '@/features/home/components/home-header'
 import { Hero } from '@/features/home/components/hero/hero'
+import { HomeHeader } from '@/features/home/components/home-header'
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

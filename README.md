@@ -109,7 +109,9 @@ O site estará disponível em `http://localhost:3000`.
 | `pnpm build` | Gera o build de produção |
 | `pnpm start` | Inicia o servidor de produção |
 | `pnpm test` | Executa a suíte de testes |
-| `pnpm check` | Executa verificação de tipos, lint e format (Biome) |
+| `pnpm typecheck` | Executa a verificação de tipos sem gerar arquivos |
+| `pnpm check` | Executa lint e formatação do Biome sem alterar arquivos |
+| `pnpm check:fix` | Corrige problemas de lint e formatação do Biome |
 | `pnpm lighthouse:local` | Executa auditoria de performance localmente |
 
 ## 📄 Licença

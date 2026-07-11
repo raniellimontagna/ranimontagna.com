@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@/tests/test-utils'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
+import { fireEvent, render, screen } from '@/tests/test-utils'
 import { HomeHeaderControls } from '../home-header-controls'
 
 vi.mock('@/shared/components/theme-provider/theme-provider', () => ({

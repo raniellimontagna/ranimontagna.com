@@ -4,7 +4,9 @@ import { act } from 'react'
 import { useContactForm } from '../useContatoForm'
 
 type ContactField = Parameters<ReturnType<typeof useContactForm>['register']>[0]
-type ContactChangeEvent = Parameters<ReturnType<ReturnType<typeof useContactForm>['register']>['onChange']>[0]
+type ContactChangeEvent = Parameters<
+  ReturnType<ReturnType<typeof useContactForm>['register']>['onChange']
+>[0]
 
 // Mock next-intl
 vi.mock('next-intl', () => ({

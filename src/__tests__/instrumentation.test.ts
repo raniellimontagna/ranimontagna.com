@@ -1,7 +1,9 @@
+import type { Mock } from 'vitest'
+
 const sentryMocks = vi.hoisted(() => ({
   captureRequestError: vi.fn(),
   init: vi.fn(),
-}))
+})) satisfies Record<string, Mock>
 
 vi.mock('@sentry/nextjs', () => ({
   captureRequestError: sentryMocks.captureRequestError,

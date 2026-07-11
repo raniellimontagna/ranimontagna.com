@@ -14,20 +14,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 24
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: bun install
+        run: pnpm install --frozen-lockfile
 
       # Code Quality
       - name: Run linting
-        run: bun run lint
+        run: pnpm lint
+
+      - name: Run typecheck
+        run: pnpm typecheck
 
       - name: Run tests with coverage
-        run: bun run test:coverage
+        run: pnpm test:coverage
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v5
@@ -38,17 +44,17 @@ jobs:
       # Performance (only on push to main)
       - name: Build project
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: bun run build
+        run: pnpm build
         env:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Run Lighthouse audit
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          bun run start &
+          pnpm start &
           SERVER_PID=$!
           sleep 8
-          bun run lighthouse:ci
+          pnpm lighthouse:ci
           kill $SERVER_PID
         env:
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
