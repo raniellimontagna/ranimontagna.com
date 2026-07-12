@@ -4,7 +4,7 @@ Chat widget com IA que permite visitantes interagirem com o "Rani" — versão d
 
 ## Stack
 
-- **API**: Next.js API Route (`/api/chat`) com provider chain (Gemini → OpenRouter → fallback)
+- **API**: Next.js API Route (`/api/chat`) com provider chain (DeepSeek → Gemini → OpenRouter → Groq → fallback)
 - **State**: Zustand store (`useChat`) com streaming SSE
 - **UI**: FAB flutuante + painel de chat com Framer Motion
 - **i18n**: Suporte a pt, en, es via `next-intl`
@@ -12,15 +12,19 @@ Chat widget com IA que permite visitantes interagirem com o "Rani" — versão d
 ## Variáveis de Ambiente
 
 ```bash
-GEMINI_API_KEY=your-gemini-api-key-here        # Provider primário
-OPENROUTER_API_KEY=your-openrouter-api-key-here  # Fallback
-GROQ_API_KEY=your-groq-api-key-here            # Fallback adicional
+DEEPSEEK_API_KEY=your-deepseek-api-key-here    # Provider primário
+DEEPSEEK_MODEL=deepseek-chat
+GEMINI_API_KEY=your-gemini-api-key-here        # Primeiro fallback
+OPENROUTER_API_KEY=your-openrouter-api-key-here # Segundo fallback
+GROQ_API_KEY=your-groq-api-key-here            # Terceiro fallback
 UPSTASH_REDIS_REST_URL=https://your-db.upstash.io
 UPSTASH_REDIS_REST_TOKEN=your-upstash-rest-token-here
 ```
 
+- DeepSeek: endpoint oficial `https://api.deepseek.com/chat/completions`
 - Gemini: https://aistudio.google.com/apikey
 - OpenRouter: https://openrouter.ai/keys
+- Groq: https://console.groq.com/keys
 - Upstash Redis REST: https://upstash.com/docs/redis/features/restapi
 
 ## Arquitetura
@@ -34,10 +38,11 @@ src/shared/components/ui/chat-widget/ # Componente do widget
 ### Provider Chain
 
 ```
-Gemini (gemini-2.5-flash-lite) → OpenRouter (gemma-3-4b-it:free) → Groq (llama-3.1-8b-instant) → Fallback estático
+DeepSeek (deepseek-chat) → Gemini (gemini-2.5-flash-lite) → OpenRouter (gemma-3-4b-it:free) → Groq (llama-3.1-8b-instant) → Fallback estático
 ```
 
-Se o Gemini falhar (sem key, API down, erro), tenta OpenRouter automaticamente.
+Se o DeepSeek falhar (sem key, API down, erro), tenta Gemini automaticamente.
+Se o Gemini falhar, tenta OpenRouter.
 Se o OpenRouter falhar, tenta Groq.
 Se todos falharem, retorna uma mensagem estática com links de contato (LinkedIn, GitHub).
 

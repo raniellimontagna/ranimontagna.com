@@ -13,6 +13,7 @@ import {
   buildFallbackStream,
   buildGeminiStream,
   buildOpenRouterStream,
+  callDeepSeek,
   callGemini,
   callGroq,
   callOpenRouter,
@@ -75,7 +76,13 @@ export async function POST(request: NextRequest): Promise<Response> {
     const { messages, locale } = parsed.data
     const systemPrompt = getSystemPrompt(locale)
 
-    // Provider chain: Gemini → OpenRouter → Groq → Graceful fallback
+    // Provider chain: DeepSeek → Gemini → OpenRouter → Groq → Graceful fallback
+    const deepSeekResponse = await callDeepSeek(systemPrompt, messages)
+    if (deepSeekResponse) {
+      return new Response(buildOpenRouterStream(deepSeekResponse), { headers: SSE_HEADERS })
+    }
+
+    console.warn('DeepSeek unavailable, trying Gemini...')
     const geminiResponse = await callGemini(systemPrompt, messages)
     if (geminiResponse) {
       return new Response(buildGeminiStream(geminiResponse), { headers: SSE_HEADERS })
@@ -99,6 +106,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       tags: { feature: 'chatbot' },
       extra: {
         locale,
+        hasDeepSeekApiKey: Boolean(process.env.DEEPSEEK_API_KEY),
         hasGeminiApiKey: Boolean(process.env.GEMINI_API_KEY),
         hasOpenRouterApiKey: Boolean(process.env.OPENROUTER_API_KEY),
         hasGroqApiKey: Boolean(process.env.GROQ_API_KEY),

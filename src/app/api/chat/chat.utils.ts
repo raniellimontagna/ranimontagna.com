@@ -226,6 +226,55 @@ export const callGroq = async (
   }
 }
 
+export const callDeepSeek = async (
+  systemPrompt: string,
+  messages: ParsedRequest['messages'],
+): Promise<Response | null> => {
+  const apiKey = process.env.DEEPSEEK_API_KEY
+  if (!apiKey) return null
+
+  try {
+    const model = process.env.DEEPSEEK_MODEL?.trim() || 'deepseek-chat'
+    const deepSeekMessages: OpenRouterMessage[] = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map((message) => ({
+        role: message.role as 'user' | 'assistant',
+        content: message.content,
+      })),
+    ]
+
+    const response = await fetchWithTimeout('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: deepSeekMessages,
+        stream: true,
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
+    })
+
+    if (!response.ok) {
+      console.error(`DeepSeek API error (${model}): ${response.status}`)
+      return null
+    }
+
+    return response
+  } catch (error) {
+    if (isTimeoutError(error)) {
+      console.warn(`DeepSeek request timed out after ${CHAT_PROVIDER_TIMEOUT_MS}ms`)
+      return null
+    }
+
+    console.error('DeepSeek call failed')
+    return null
+  }
+}
+
 export const buildGeminiStream = (response: Response): ReadableStream => {
   return new ReadableStream({
     async start(controller) {

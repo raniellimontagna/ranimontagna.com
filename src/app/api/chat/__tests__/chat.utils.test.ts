@@ -1,5 +1,10 @@
 import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '../chat.constants'
-import { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests } from '../chat.utils'
+import {
+  callDeepSeek,
+  checkRateLimit,
+  getRateLimitIdentifier,
+  resetRateLimitStateForTests,
+} from '../chat.utils'
 
 describe('chat rate limit utilities', () => {
   beforeEach(() => {
@@ -127,5 +132,88 @@ describe('chat rate limit utilities', () => {
 
     expect(result.allowed).toBe(true)
     expect(result.source).toBe('memory')
+  })
+})
+
+describe('DeepSeek provider', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.unstubAllEnvs()
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('skips DeepSeek when no API key is configured', async () => {
+    const result = await callDeepSeek('system policy', [{ role: 'user', content: 'Oi' }])
+
+    expect(result).toBeNull()
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('sends an OpenAI-compatible streaming request to DeepSeek', async () => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'deepseek-test-key')
+    vi.stubEnv('DEEPSEEK_MODEL', 'deepseek-chat')
+    global.fetch = vi.fn().mockResolvedValue(new Response('', { status: 200 }))
+
+    await callDeepSeek('system policy', [{ role: 'user', content: 'Oi' }])
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.deepseek.com/chat/completions',
+      expect.objectContaining({
+        method: 'POST',
+        headers: expect.objectContaining({ Authorization: 'Bearer deepseek-test-key' }),
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: 'system policy' },
+            { role: 'user', content: 'Oi' },
+          ],
+          stream: true,
+          max_tokens: 1024,
+          temperature: 0.7,
+        }),
+      }),
+    )
+  })
+
+  it('returns null when DeepSeek responds with a non-success status', async () => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'deepseek-test-key')
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    global.fetch = vi.fn().mockResolvedValue(new Response('', { status: 503 }))
+
+    const result = await callDeepSeek('system policy', [{ role: 'user', content: 'Oi' }])
+
+    expect(result).toBeNull()
+    expect(consoleError).toHaveBeenCalledWith('DeepSeek API error (deepseek-chat): 503')
+  })
+
+  it('returns null and logs a fixed diagnostic when the DeepSeek request throws', async () => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'deepseek-test-key')
+    const requestError = new Error('sensitive request configuration')
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    global.fetch = vi.fn().mockRejectedValue(requestError)
+
+    const result = await callDeepSeek('system policy', [{ role: 'user', content: 'Oi' }])
+
+    expect(result).toBeNull()
+    expect(consoleError).toHaveBeenCalledWith('DeepSeek call failed')
+    expect(consoleError).not.toHaveBeenCalledWith('DeepSeek call failed', requestError)
+  })
+
+  it('returns null and logs only a fixed warning when the DeepSeek request times out', async () => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'deepseek-test-key')
+    const timeoutError = Object.assign(new Error('request timed out'), { name: 'AbortError' })
+    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    global.fetch = vi.fn().mockRejectedValue(timeoutError)
+
+    const result = await callDeepSeek('system policy', [{ role: 'user', content: 'Oi' }])
+
+    expect(result).toBeNull()
+    expect(consoleWarn).toHaveBeenCalledWith(
+      expect.stringMatching(/^DeepSeek request timed out after \d+ms$/),
+    )
+    expect(consoleWarn.mock.calls[0]).toHaveLength(1)
   })
 })
