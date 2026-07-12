@@ -42,4 +42,19 @@ describe('CompanyMark', () => {
     )
     expect(screen.getByAltText('SB Sistemas logo')).toHaveClass('object-contain')
   })
+
+  it('renders Lemon as a white symbol on its green brand plate', () => {
+    const { container } = render(
+      <CompanyMark
+        alt="Lemon Energia logo"
+        company="Lemon Energia"
+        logo="/companies/lemon-symbol-white.png"
+      />,
+    )
+
+    expect(container.firstElementChild).toHaveAttribute('data-company-mark-treatment', 'contained')
+    expect(container.firstElementChild).toHaveClass('bg-[#00a859]')
+    expect(container.querySelector('[data-company-mark-image-frame="true"]')).toHaveClass('inset-3')
+    expect(screen.getByAltText('Lemon Energia logo')).toHaveClass('object-contain')
+  })
 })

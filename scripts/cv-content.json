@@ -1,0 +1,255 @@
+{
+  "pt": {
+    "name": "RANIELLI MONTAGNA",
+    "headline": "Engenheiro de Software Full Stack | React, React Native, Node.js e TypeScript",
+    "contact": [
+      "Paraí, RS, Brasil",
+      "raniellimontagna@hotmail.com",
+      "+55 54 99979-0871",
+      "www.linkedin.com/in/rannimontagna",
+      "ranimontagna.com"
+    ],
+    "labels": {
+      "profile": "RESUMO PROFISSIONAL",
+      "skills": "HABILIDADES TÉCNICAS",
+      "experience": "EXPERIÊNCIA PROFISSIONAL",
+      "education": "FORMAÇÃO ACADÊMICA",
+      "certifications": "CERTIFICAÇÕES",
+      "languages": "IDIOMAS"
+    },
+    "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência no desenvolvimento de aplicações web e mobile escaláveis para varejo, logística e produtos SaaS. Atua principalmente com React, React Native, TypeScript, Node.js, Next.js e Go, conectando decisões de frontend, backend e arquitetura a resultados de negócio. Experiência com micro frontends, APIs REST, Design Systems, CI/CD, monitoramento, acessibilidade, performance e colaboração cross-functional com Produto, UX, Backend e Operações. Interesse crescente em Inteligência Artificial aplicada à engenharia de software, incluindo integração com LLMs, automação, Model Context Protocol (MCP) e produtividade de desenvolvimento.",
+    "skills": [
+      "Frontend e Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, mobile-first e acessibilidade (WCAG).",
+      "Backend e APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT e integrações com APIs terceiras.",
+      "Arquitetura e Engenharia: Micro Frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, testes unitários e de integração, Feature Flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoramento, observabilidade e troubleshooting.",
+      "IA e Produtividade: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, automação com LLMs, agentes de IA, prompting técnico e prototipação acelerada com IA."
+    ],
+    "experience": [
+      {
+        "company": "Lemon Energia",
+        "position": "Engenheiro de Software",
+        "period": "Julho 2026 - Presente",
+        "location": "Remoto",
+        "description": "Atuo na descoberta de necessidades com as áreas de negócio e na construção de soluções full stack orientadas por IA, transformando requisitos claros em decisões de produto e tecnologia.",
+        "highlights": [
+          "Condução de descobertas com as áreas de negócio para esclarecer necessidades e requisitos",
+          "Construção de soluções full stack orientadas por IA",
+          "Revisão crítica de saídas de IA antes de seu uso no produto",
+          "Avaliação de trade-offs pragmáticos entre produto e tecnologia"
+        ]
+      },
+      {
+        "company": "Luizalabs",
+        "position": "Desenvolvedor Pleno",
+        "period": "Outubro 2023 - Junho 2026",
+        "location": "Remoto",
+        "description": "Atuei na Luizalabs, unidade de tecnologia do Magalu, desenvolvendo aplicações web e mobile para operações de lojas físicas, APIs REST e soluções backend para um ambiente de varejo nacional de alta escala.",
+        "highlights": [
+          "Desenvolvi soluções usadas em operações de estoque e logística de 1.000+ lojas",
+          "Contribuí para o fluxo diário de 1.000+ estoquistas em aplicações corporativas",
+          "Mantive APIs REST, integrações e micro frontends com React, React Native, Node.js e TypeScript",
+          "Colaborei com Produto, UX, Backend e Operações para conectar decisões técnicas a impacto de negócio"
+        ]
+      },
+      {
+        "company": "Smarten",
+        "position": "Tech Lead Front-end",
+        "period": "Maio 2022 - Setembro 2023",
+        "location": "Remoto",
+        "description": "Atuei como Tech Lead Front-end em produtos SaaS, liderando desenvolvedores, definindo padrões de qualidade, evoluindo arquitetura de interface e conectando decisões técnicas a entregas de produto.",
+        "highlights": [
+          "Liderei tecnicamente uma equipe de desenvolvedores",
+          "Criei e mantive Design System adotado em múltiplos produtos",
+          "Implementei CI/CD, monitoramento e padrões de qualidade",
+          "Mentorei desenvolvedores e otimizei performance, manutenção e escalabilidade"
+        ]
+      },
+      {
+        "company": "SBSistemas",
+        "position": "Desenvolvedor Front-end",
+        "period": "Maio 2021 - Maio 2022",
+        "location": "Presencial",
+        "description": "Consolidei minha base profissional em desenvolvimento front-end, criando aplicações com foco em usabilidade, manutenção, tipagem, componentes reutilizáveis e boas práticas de engenharia.",
+        "highlights": [
+          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript",
+          "Implementei componentes reutilizáveis e padrões de interface",
+          "Apliquei boas práticas de manutenção, testes e qualidade de código",
+          "Consolidei uma base técnica sólida para produtos web"
+        ]
+      }
+    ],
+    "education": [
+      "Universidade de Passo Fundo - Análise e Desenvolvimento de Sistemas - 2020 a 2022"
+    ],
+    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "languages": ["Português: Nativo | Inglês: Intermediário"]
+  },
+  "en": {
+    "name": "RANIELLI MONTAGNA",
+    "headline": "Full Stack Software Engineer | React, React Native, Node.js and TypeScript",
+    "contact": [
+      "Paraí, RS, Brazil",
+      "raniellimontagna@hotmail.com",
+      "+55 54 99979-0871",
+      "www.linkedin.com/in/rannimontagna",
+      "ranimontagna.com"
+    ],
+    "labels": {
+      "profile": "PROFESSIONAL SUMMARY",
+      "skills": "TECHNICAL SKILLS",
+      "experience": "PROFESSIONAL EXPERIENCE",
+      "education": "EDUCATION",
+      "certifications": "CERTIFICATIONS",
+      "languages": "LANGUAGES"
+    },
+    "profile": "Full Stack Software Engineer with 5+ years of experience building scalable web and mobile applications for retail, logistics and SaaS products. Primarily works with React, React Native, TypeScript, Node.js, Next.js and Go, connecting frontend, backend and architectural decisions to business outcomes. Experienced in micro frontends, REST APIs, Design Systems, CI/CD, monitoring, accessibility, performance and cross-functional collaboration with Product, UX, Backend and Operations teams. Growing focus on Artificial Intelligence applied to software development, including LLM integration, automation, Model Context Protocol (MCP) and developer productivity.",
+    "skills": [
+      "Frontend and Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, mobile-first development and accessibility (WCAG).",
+      "Backend and APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT and third-party API integrations.",
+      "Architecture and Engineering: Micro frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, unit and integration testing, feature flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoring, observability and troubleshooting.",
+      "AI and Productivity: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, LLM automation, AI agents, technical prompting and accelerated AI prototyping."
+    ],
+    "experience": [
+      {
+        "company": "Lemon Energia",
+        "position": "Software Engineer",
+        "period": "July 2026 - Present",
+        "location": "Remote",
+        "description": "I work on discovering needs with business teams and building AI-first full-stack solutions, turning clear requirements into product and technical decisions.",
+        "highlights": [
+          "Business-team discovery to clarify needs and requirements",
+          "Building AI-first full-stack solutions",
+          "Critical review of AI output before product use",
+          "Pragmatic evaluation of product and technical trade-offs"
+        ]
+      },
+      {
+        "company": "Luizalabs",
+        "position": "Mid-level Developer",
+        "period": "October 2023 - June 2026",
+        "location": "Remote",
+        "description": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
+        "highlights": [
+          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
+          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
+          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript",
+          "Collaborated with Product, UX, Backend, and Operations to connect technical decisions to business impact"
+        ]
+      },
+      {
+        "company": "Smarten",
+        "position": "Front-end Tech Lead",
+        "period": "May 2022 - September 2023",
+        "location": "Remote",
+        "description": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
+        "highlights": [
+          "Technically led a team of developers",
+          "Created and maintained a Design System adopted across multiple products",
+          "Implemented CI/CD, monitoring, and quality standards",
+          "Mentored developers and improved performance, maintainability, and scalability"
+        ]
+      },
+      {
+        "company": "SBSistemas",
+        "position": "Front-end Developer",
+        "period": "May 2021 - May 2022",
+        "location": "On-site",
+        "description": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
+        "highlights": [
+          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
+          "Implemented reusable components and interface standards",
+          "Applied maintainability, testing, and code quality practices",
+          "Built a solid technical foundation for web products"
+        ]
+      }
+    ],
+    "education": [
+      "Universidade de Passo Fundo - Associate Degree in Systems Analysis and Development - 2020 to 2022"
+    ],
+    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "languages": ["Portuguese: Native | English: Intermediate"]
+  },
+  "es": {
+    "name": "RANIELLI MONTAGNA",
+    "headline": "Ingeniero de Software Full Stack | React, React Native, Node.js y TypeScript",
+    "contact": [
+      "Paraí, RS, Brasil",
+      "raniellimontagna@hotmail.com",
+      "+55 54 99979-0871",
+      "www.linkedin.com/in/rannimontagna",
+      "ranimontagna.com"
+    ],
+    "labels": {
+      "profile": "RESUMEN PROFESIONAL",
+      "skills": "HABILIDADES TÉCNICAS",
+      "experience": "EXPERIENCIA PROFESIONAL",
+      "education": "FORMACIÓN ACADÉMICA",
+      "certifications": "CERTIFICACIONES",
+      "languages": "IDIOMAS"
+    },
+    "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia desarrollando aplicaciones web y móviles escalables para retail, logística y productos SaaS. Trabaja principalmente con React, React Native, TypeScript, Node.js, Next.js y Go, conectando decisiones de frontend, backend y arquitectura con resultados de negocio. Experiencia con micro frontends, APIs REST, Design Systems, CI/CD, monitoreo, accesibilidad, performance y colaboración cross-functional con Producto, UX, Backend y Operaciones. Interés creciente en Inteligencia Artificial aplicada a la ingeniería de software, incluyendo integración con LLMs, automatización, Model Context Protocol (MCP) y productividad de desarrollo.",
+    "skills": [
+      "Frontend y Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, desarrollo mobile-first y accesibilidad (WCAG).",
+      "Backend y APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT e integraciones con APIs de terceros.",
+      "Arquitectura e Ingeniería: Micro frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, pruebas unitarias e integración, feature flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoreo, observabilidad y troubleshooting.",
+      "IA y Productividad: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, automatización con LLMs, agentes de IA, prompting técnico y prototipado acelerado con IA."
+    ],
+    "experience": [
+      {
+        "company": "Lemon Energia",
+        "position": "Ingeniero de Software",
+        "period": "Julio 2026 - Presente",
+        "location": "Remoto",
+        "description": "Trabajo en el descubrimiento de necesidades con las áreas de negocio y en la construcción de soluciones full stack orientadas por IA, transformando requisitos claros en decisiones de producto y tecnología.",
+        "highlights": [
+          "Descubrimiento con las áreas de negocio para aclarar necesidades y requisitos",
+          "Construcción de soluciones full stack orientadas por IA",
+          "Revisión crítica de las salidas de IA antes de su uso en el producto",
+          "Evaluación pragmática de trade-offs de producto y tecnología"
+        ]
+      },
+      {
+        "company": "Luizalabs",
+        "position": "Desarrollador Pleno",
+        "period": "Octubre 2023 - Junio 2026",
+        "location": "Remoto",
+        "description": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, desarrollando aplicaciones web y móviles para operaciones de tiendas físicas, APIs REST y soluciones backend para un entorno minorista nacional de alta escala.",
+        "highlights": [
+          "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
+          "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
+          "Mantuve APIs REST, integraciones y micro frontends con React, React Native, Node.js y TypeScript",
+          "Colaboré con Producto, UX, Backend y Operaciones para conectar decisiones técnicas con impacto de negocio"
+        ]
+      },
+      {
+        "company": "Smarten",
+        "position": "Líder Técnico Front-end",
+        "period": "Mayo 2022 - Septiembre 2023",
+        "location": "Remoto",
+        "description": "Trabajé como Tech Lead Front-end en productos SaaS, liderando desarrolladores, definiendo estándares de calidad, evolucionando arquitectura de interfaz y conectando decisiones técnicas con entregas de producto.",
+        "highlights": [
+          "Lideré técnicamente un equipo de desarrolladores",
+          "Creé y mantuve un Design System adoptado en múltiples productos",
+          "Implementé CI/CD, monitoreo y estándares de calidad",
+          "Mentoricé desarrolladores y optimicé rendimiento, mantenimiento y escalabilidad"
+        ]
+      },
+      {
+        "company": "SBSistemas",
+        "position": "Desarrollador Front-end",
+        "period": "Mayo 2021 - Mayo 2022",
+        "location": "Presencial",
+        "description": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones con foco en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
+        "highlights": [
+          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
+          "Implementé componentes reutilizables y estándares de interfaz",
+          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código",
+          "Consolidé una base técnica sólida para productos web"
+        ]
+      }
+    ],
+    "education": ["Universidade de Passo Fundo - Análisis y Desarrollo de Sistemas - 2020 a 2022"],
+    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "languages": ["Portugués: Nativo | Inglés: Intermedio"]
+  }
+}

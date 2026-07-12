@@ -171,6 +171,15 @@ export function ExperienceCylinderScroll() {
         window.scrollTo({ behavior: 'smooth', top: scrollTop })
       }
 
+      const pinOffset = window.innerWidth >= 1280 ? 112 : 96
+      const availablePanelHeight = window.innerHeight - pinOffset - 32
+      const hasOversizedPanel = panels.some((panel) => panel.offsetHeight > availablePanelHeight)
+
+      if (hasOversizedPanel) {
+        setupRequested = false
+        return
+      }
+
       stage.dataset.experienceEnhanced = 'true'
       pinRoot?.style.setProperty('content-visibility', 'visible')
       pinRoot?.style.setProperty('contain-intrinsic-size', 'none')

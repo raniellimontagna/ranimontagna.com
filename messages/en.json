@@ -107,6 +107,19 @@
     "technologiesTitle": "Technologies used:",
     "logoAlt": "{company} logo",
     "jobs": {
+      "lemon": {
+        "company": "Lemon Energia",
+        "position": "Software Engineer",
+        "period": "July 2026 - Present",
+        "location": "Remote",
+        "description": "I work on discovering needs with business teams and building AI-first full-stack solutions, turning clear requirements into product and technical decisions.",
+        "highlights": [
+          "Business-team discovery to clarify needs and requirements",
+          "Building AI-first full-stack solutions",
+          "Critical review of AI output before product use",
+          "Pragmatic evaluation of product and technical trade-offs"
+        ]
+      },
       "luizalabs": {
         "company": "Luizalabs",
         "position": "Mid-level Developer",

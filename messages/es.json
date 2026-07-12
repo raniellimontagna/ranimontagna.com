@@ -108,6 +108,19 @@
     "technologiesTitle": "Tecnologías utilizadas:",
     "logoAlt": "Logo de {company}",
     "jobs": {
+      "lemon": {
+        "company": "Lemon Energia",
+        "position": "Ingeniero de Software",
+        "period": "Julio 2026 - Presente",
+        "location": "Remoto",
+        "description": "Trabajo en el descubrimiento de necesidades con las áreas de negocio y en la construcción de soluciones full stack orientadas por IA, transformando requisitos claros en decisiones de producto y tecnología.",
+        "highlights": [
+          "Descubrimiento con las áreas de negocio para aclarar necesidades y requisitos",
+          "Construcción de soluciones full stack orientadas por IA",
+          "Revisión crítica de las salidas de IA antes de su uso en el producto",
+          "Evaluación pragmática de trade-offs de producto y tecnología"
+        ]
+      },
       "luizalabs": {
         "company": "Luizalabs",
         "position": "Desarrollador Pleno",

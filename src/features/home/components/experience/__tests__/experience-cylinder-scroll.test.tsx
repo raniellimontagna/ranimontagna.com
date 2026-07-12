@@ -133,4 +133,17 @@ describe('ExperienceCylinderScroll', () => {
       }),
     )
   })
+
+  it('does not pin the stage when an experience panel exceeds the available viewport', async () => {
+    render(<StageFixture />)
+    const panel = document.querySelector<HTMLElement>('[data-experience-panel="true"]')
+    Object.defineProperty(panel, 'offsetHeight', { configurable: true, value: 1200 })
+
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(scrollTriggerCreate).not.toHaveBeenCalled()
+  })
 })

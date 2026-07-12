@@ -2,6 +2,17 @@ import type { useTranslations } from 'next-intl'
 
 export const experiences = (t: ReturnType<typeof useTranslations>) => [
   {
+    company: t('jobs.lemon.company'),
+    position: t('jobs.lemon.position'),
+    period: t('jobs.lemon.period'),
+    location: t('jobs.lemon.location'),
+    logo: '/companies/lemon-symbol-white.png',
+    description: t('jobs.lemon.description'),
+    highlights: t.raw('jobs.lemon.highlights') as string[],
+    technologies: ['JavaScript', 'TypeScript', 'Node.js', 'React', 'AI', 'Automation'],
+    current: true,
+  },
+  {
     company: t('jobs.luizalabs.company'),
     position: t('jobs.luizalabs.position'),
     period: t('jobs.luizalabs.period'),

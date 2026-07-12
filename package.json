@@ -18,7 +18,8 @@
     "knip": "knip",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "cv:generate": "python3 scripts/generate-cv.py"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.13.0",
