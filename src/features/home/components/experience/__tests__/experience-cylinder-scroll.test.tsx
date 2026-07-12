@@ -134,7 +134,7 @@ describe('ExperienceCylinderScroll', () => {
     )
   })
 
-  it('keeps the stage scrollable while driving the experience rotation', async () => {
+  it('pins the stage while driving the experience rotation', async () => {
     render(<StageFixture />)
 
     await act(async () => {
@@ -143,7 +143,7 @@ describe('ExperienceCylinderScroll', () => {
     })
 
     expect(scrollTriggerCreate).toHaveBeenCalledWith(
-      expect.objectContaining({ pin: false, pinSpacing: false }),
+      expect.objectContaining({ pin: true, pinSpacing: true }),
     )
   })
 })

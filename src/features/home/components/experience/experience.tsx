@@ -443,7 +443,7 @@ export function Experience() {
             {items.map((exp, index) => (
               <article
                 key={exp.company}
-                className="surface-panel-strong relative min-w-0 overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:p-7"
+                className="surface-panel-strong relative min-w-0 overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:overscroll-contain lg:p-7"
                 data-experience-panel="true"
                 data-experience-index={index}
                 data-active={index === 0}
