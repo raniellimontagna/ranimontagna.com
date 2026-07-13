@@ -18,7 +18,7 @@ describe('experiences', () => {
 
     expect(items[0]).toMatchObject({
       company: 'Lemon Energia',
-      logo: '/companies/lemon-logo-green.png',
+      logo: '/companies/lemon-symbol-white.png',
       current: true,
     })
     expect(items[1]).toMatchObject({ company: 'Luizalabs', current: false })
