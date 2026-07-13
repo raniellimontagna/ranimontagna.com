@@ -44,11 +44,33 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
 }))
 
 vi.mock('@/shared/components/language-switcher/language-switcher', () => ({
-  LanguageSwitcher: () => <div data-testid="language-switcher">LanguageSwitcher</div>,
+  LanguageSwitcher: () => (
+    <button type="button" aria-label="Change language">
+      LanguageSwitcher
+    </button>
+  ),
+}))
+
+vi.mock('@/shared/components/color-theme-picker/color-theme-picker', () => ({
+  ColorThemePicker: () => (
+    <button type="button" aria-label="Change color theme">
+      ColorThemePicker
+    </button>
+  ),
 }))
 
 vi.mock('@/shared/components/theme-toggle/theme-toggle', () => ({
-  ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
+  ThemeToggle: () => (
+    <button type="button" aria-label="Toggle theme">
+      ThemeToggle
+    </button>
+  ),
+}))
+
+vi.mock('@/shared/components/theme-provider/theme-provider', () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="theme-provider">{children}</div>
+  ),
 }))
 
 vi.mock('@/shared/store/use-command-menu/use-command-menu', () => ({
@@ -99,6 +121,32 @@ describe('Header Component', () => {
     expect(screen.getByRole('banner')).toBeInTheDocument()
     expect(screen.getAllByAltText('Logo').length).toBeGreaterThan(0)
     expect(screen.getAllByText('navigation.about')[0]).toBeInTheDocument()
+  })
+
+  it('keeps language compact and separate from appearance controls', () => {
+    render(<Header title="Blog" backHref="/blog" backLabel="Back" />)
+
+    const themeProviders = screen.getAllByTestId('theme-provider')
+    const languageGroups = screen.getAllByTestId('language-preference-controls')
+    const appearanceGroups = screen.getAllByTestId('appearance-preference-controls')
+    const languageButtons = screen.getAllByRole('button', { name: 'Change language' })
+    const colorThemeButtons = screen.getAllByRole('button', { name: 'Change color theme' })
+    const themeToggleButtons = screen.getAllByRole('button', { name: 'Toggle theme' })
+
+    expect(themeProviders).toHaveLength(2)
+    expect(languageGroups).toHaveLength(2)
+    expect(appearanceGroups).toHaveLength(2)
+
+    for (const [index, languageGroup] of languageGroups.entries()) {
+      expect(languageGroup).toHaveClass('w-fit', 'shrink-0')
+      expect(languageGroup).toContainElement(languageButtons[index])
+    }
+
+    for (const [index, appearanceGroup] of appearanceGroups.entries()) {
+      expect(appearanceGroup).not.toContainElement(languageButtons[index])
+      expect(appearanceGroup).toContainElement(colorThemeButtons[index])
+      expect(appearanceGroup).toContainElement(themeToggleButtons[index])
+    }
   })
 
   it('scrolled state adds background', async () => {

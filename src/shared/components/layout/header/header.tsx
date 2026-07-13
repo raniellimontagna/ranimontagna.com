@@ -14,9 +14,7 @@ import type { ComponentProps } from 'react'
 import { useEffect, useState } from 'react'
 
 import { MagneticHover } from '@/shared/components/animations'
-import { ColorThemePicker } from '@/shared/components/color-theme-picker/color-theme-picker'
-import { LanguageSwitcher } from '@/shared/components/language-switcher/language-switcher'
-import { ThemeToggle } from '@/shared/components/theme-toggle/theme-toggle'
+import { UserPreferenceControls } from '@/shared/components/user-preference-controls/user-preference-controls'
 import { getPathname, Link, usePathname } from '@/shared/config/i18n/navigation'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
@@ -214,11 +212,7 @@ export const Header = ({
                 </Link>
               </MagneticHover>
             )}
-            <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
-              <LanguageSwitcher />
-              <ColorThemePicker />
-              <ThemeToggle />
-            </div>
+            <UserPreferenceControls />
 
             <MagneticHover>
               <a
@@ -242,11 +236,7 @@ export const Header = ({
                 <ArrowLeft className="h-5 w-5" />
               </Link>
             )}
-            <div className="surface-panel flex h-10 items-center gap-1 rounded-2xl p-1">
-              <LanguageSwitcher />
-              <ColorThemePicker />
-              <ThemeToggle />
-            </div>
+            <UserPreferenceControls />
             {!title && (
               <button
                 type="button"
