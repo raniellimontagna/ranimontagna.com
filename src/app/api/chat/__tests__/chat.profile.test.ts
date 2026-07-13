@@ -1,4 +1,24 @@
-import { CHAT_PROFILE_BY_LOCALE, type ChatLocale } from '../chat.profile'
+import { CHAT_PROFILE_BY_LOCALE, type ChatExperience, type ChatLocale } from '../chat.profile'
+
+type CurrentExperienceWithPastOutcomes = {
+  company: string
+  current: true
+  location: string
+  outcomes: [string]
+  period: string
+  role: string
+  scope: string[]
+}
+
+type PreviousExperienceWithCurrentScope = {
+  company: string
+  current: false
+  location: string
+  outcomes: string[]
+  period: string
+  role: string
+  scope: [string]
+}
 
 const locales: Array<{
   locale: ChatLocale
@@ -11,6 +31,11 @@ const locales: Array<{
 ]
 
 describe('chat professional profile', () => {
+  it('rejects details that do not belong to the experience state', () => {
+    expectTypeOf<CurrentExperienceWithPastOutcomes>().not.toMatchTypeOf<ChatExperience>()
+    expectTypeOf<PreviousExperienceWithCurrentScope>().not.toMatchTypeOf<ChatExperience>()
+  })
+
   it.each(locales)('separates current scope from verified outcomes in $locale', ({
     locale,
     currentPeriod,

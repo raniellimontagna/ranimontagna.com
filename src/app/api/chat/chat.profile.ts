@@ -1,14 +1,25 @@
 export type ChatLocale = 'pt' | 'en' | 'es'
 
-export type ChatExperience = {
+type ChatExperienceBase = {
   company: string
-  current: boolean
   location: string
-  outcomes: string[]
   period: string
   role: string
+}
+
+export type CurrentChatExperience = ChatExperienceBase & {
+  current: true
+  outcomes: []
   scope: string[]
 }
+
+export type PreviousChatExperience = ChatExperienceBase & {
+  current: false
+  outcomes: string[]
+  scope: []
+}
+
+export type ChatExperience = CurrentChatExperience | PreviousChatExperience
 
 export type ChatProject = {
   name: string
