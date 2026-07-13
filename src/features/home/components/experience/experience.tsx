@@ -191,7 +191,7 @@ export function Experience() {
         `}</style>
 
         <div
-          className="grid gap-8 sm:gap-10 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[minmax(300px,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12 xl:gap-16"
+          className="grid gap-8 sm:gap-10 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[minmax(28rem,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12 xl:gap-16"
           data-experience-cylinder-stage="true"
           data-experience-pinned-stage="true"
         >
@@ -205,7 +205,7 @@ export function Experience() {
 
             <RevealText
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
+              className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:max-w-none lg:whitespace-nowrap lg:text-4xl xl:text-[2.75rem]"
             />
 
             <FadeIn delay={0.35}>
@@ -443,7 +443,7 @@ export function Experience() {
             {items.map((exp, index) => (
               <article
                 key={exp.company}
-                className="surface-panel-strong relative min-w-0 overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:overscroll-contain lg:p-7"
+                className="surface-panel-strong relative min-w-0 overflow-hidden rounded-2xl border border-line p-5 shadow-card sm:rounded-3xl sm:p-6 lg:p-6"
                 data-experience-panel="true"
                 data-experience-index={index}
                 data-active={index === 0}
@@ -490,7 +490,7 @@ export function Experience() {
                       data-experience-panel-meta="true"
                     >
                       <span className="font-semibold text-foreground">{exp.company}</span>
-                      <span className="flex items-center gap-1">
+                      <span className="flex shrink-0 items-center gap-1 whitespace-nowrap">
                         <Calendar className="h-3.5 w-3.5" />
                         {exp.period}
                       </span>
@@ -501,13 +501,13 @@ export function Experience() {
                     </div>
 
                     <p
-                      className="mt-5 max-w-3xl text-base leading-7 text-muted"
+                      className="mt-5 max-w-3xl text-base leading-7 text-muted lg:mt-4 lg:leading-6"
                       data-experience-panel-body="true"
                     >
                       {exp.description}
                     </p>
 
-                    <div className="mt-6 grid gap-5">
+                    <div className="mt-6 grid gap-5 lg:mt-5 lg:gap-4">
                       <div>
                         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
                           {t('highlightsTitle')}

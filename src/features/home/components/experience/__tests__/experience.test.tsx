@@ -29,7 +29,9 @@ vi.mock('next/image', () => ({
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
+  RevealText: ({ text, className }: { text: string; className?: string }) => (
+    <span className={className}>{text}</span>
+  ),
   StaggerContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
@@ -99,6 +101,10 @@ describe('Experience', () => {
     expect(container.querySelectorAll('[data-experience-mobile-arrow="prev"]')).toHaveLength(3)
     expect(container.querySelector('[data-experience-mobile-input="0"]')).toBeChecked()
     expect(container.querySelector('[data-experience-intro="true"]')).toHaveClass('min-w-0')
+    expect(container.querySelector('[data-experience-cylinder-stage="true"]')).toHaveClass(
+      'lg:items-start',
+    )
+    expect(screen.getByText('title.part1 title.part2')).toHaveClass('lg:whitespace-nowrap')
     expect(container.querySelector('[data-experience-mobile-carousel="true"]')).toHaveClass(
       'min-w-0',
     )
@@ -110,6 +116,10 @@ describe('Experience', () => {
     )
     expect(container.querySelector('[data-experience-rotary-stage="true"]')).not.toBeInTheDocument()
     expect(container.querySelectorAll('[data-experience-panel="true"]')).toHaveLength(3)
+    expect(container.querySelector('[data-experience-panel="true"]')).not.toHaveClass(
+      'lg:overflow-y-auto',
+      'lg:overscroll-contain',
+    )
     expect(
       container.querySelector('[data-experience-panel="true"][data-experience-index="0"]'),
     ).toHaveTextContent('Lemon Energia')
@@ -125,6 +135,11 @@ describe('Experience', () => {
     expect(container.querySelectorAll('[data-experience-panel-mark="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-experience-panel-heading="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-experience-panel-meta="true"]')).toHaveLength(3)
+    expect(
+      container.querySelector(
+        '[data-experience-panel="true"][data-experience-index="0"] [data-experience-panel-meta="true"] > span:nth-child(2)',
+      ),
+    ).toHaveClass('whitespace-nowrap')
     expect(container.querySelectorAll('[data-experience-panel-body="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-experience-panel-highlight="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-experience-panel-tech="true"]')).toHaveLength(6)
