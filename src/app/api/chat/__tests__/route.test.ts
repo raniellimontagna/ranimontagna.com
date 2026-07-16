@@ -246,6 +246,27 @@ describe('chat route provider order', () => {
     expect(mockCallGroq).not.toHaveBeenCalled()
   })
 
+  it('corrects one unsupported metric through DeepSeek without calling fallback providers', async () => {
+    const rejected = 'Entreguei energia para 10.000 clientes na Lemon.'
+    const corrected = 'Atuo na Lemon Energia com soluções full stack.'
+    mockCallDeepSeek
+      .mockResolvedValueOnce(providerSuccess('deepseek', createOpenAiStreamResponse(rejected)))
+      .mockResolvedValueOnce(providerSuccess('deepseek', createOpenAiStreamResponse(corrected)))
+
+    const response = await POST(createRequest() as never)
+    const body = await expectSingleAnswerStream(response, corrected)
+
+    expect(body).not.toContain(rejected)
+    expect(mockCallDeepSeek).toHaveBeenCalledTimes(2)
+    expect(mockCallDeepSeek.mock.calls[1]?.[0]?.systemPrompt).toContain(
+      'Regenerate using only metrics explicitly present in the authoritative facts.',
+    )
+    expect(mockCallDeepSeek.mock.calls[1]?.[0]?.systemPrompt).not.toContain(rejected)
+    expect(mockCallGemini).not.toHaveBeenCalled()
+    expect(mockCallOpenRouter).not.toHaveBeenCalled()
+    expect(mockCallGroq).not.toHaveBeenCalled()
+  })
+
   it('returns the localized static fallback after one invalid correction', async () => {
     mockCallDeepSeek.mockResolvedValue(
       providerSuccess('deepseek', createOpenAiStreamResponse('Comecei na Lemon em 2024.')),

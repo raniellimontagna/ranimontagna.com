@@ -28,7 +28,10 @@ const createCollectorExecution = (): ChatExecutionContext =>
 const collectAnswer = (attempt: ProviderAttempt, execution = createCollectorExecution()) =>
   collectProviderAnswer(attempt, execution)
 
-const encodeChunks = (chunks: string[], options: { close?: boolean; cancel?: () => void } = {}) =>
+const encodeChunks = (
+  chunks: string[],
+  options: { close?: boolean; cancel?: UnderlyingSourceCancelCallback } = {},
+) =>
   new ReadableStream<Uint8Array>({
     start(controller) {
       for (const chunk of chunks) controller.enqueue(new TextEncoder().encode(chunk))
@@ -40,7 +43,7 @@ const encodeChunks = (chunks: string[], options: { close?: boolean; cancel?: () 
 const attempt = (
   format: ProviderAttempt['format'],
   chunks: string[],
-  options?: { close?: boolean; cancel?: () => void },
+  options?: { close?: boolean; cancel?: UnderlyingSourceCancelCallback },
 ): ProviderAttempt => ({
   durationMs: 4,
   firstByteMs: 4,
@@ -83,6 +86,20 @@ const createValidationInput = (
   visitorMessage: 'Você tem um emprego fixo?',
   ...overrides,
 })
+
+const settlesWithin = async <T>(promise: Promise<T>, milliseconds = 50) =>
+  Promise.race([
+    promise,
+    new Promise<'blocked'>((resolve) => {
+      setTimeout(() => resolve('blocked'), milliseconds)
+    }),
+  ])
+
+const encodeBase64 = (value: string, options: { padded?: boolean; urlSafe?: boolean } = {}) => {
+  let encoded = Buffer.from(value, 'utf8').toString('base64')
+  if (options.urlSafe) encoded = encoded.replaceAll('+', '-').replaceAll('/', '_')
+  return options.padded === false ? encoded.replace(/=+$/g, '') : encoded
+}
 
 describe('provider response collection', () => {
   it('collects split OpenAI SSE chunks with CRLF only after DONE', async () => {
@@ -308,6 +325,83 @@ describe('provider response collection', () => {
     await expect(resultPromise).resolves.toEqual({ ok: false, code })
     expect(cancel).toHaveBeenCalledOnce()
   })
+
+  it('initiates cancellation and returns immediately when already aborted', async () => {
+    const cancel = vi.fn(() => new Promise<void>(() => {}))
+    const clientController = new AbortController()
+    const execution = createChatExecutionContext(clientController.signal, 12_000, {
+      createDeadlineSignal: () => new AbortController().signal,
+      now: () => 0,
+    })
+    clientController.abort()
+
+    const result = await settlesWithin(
+      collectAnswer(attempt('openai-sse', [], { close: false, cancel }), execution),
+    )
+
+    expect(result).toEqual({ ok: false, code: 'cancelled' })
+    expect(cancel).toHaveBeenCalledOnce()
+  })
+
+  it('returns from a mid-stream abort when body cancellation never resolves', async () => {
+    const cancel = vi.fn(() => new Promise<void>(() => {}))
+    const clientController = new AbortController()
+    const execution = createChatExecutionContext(clientController.signal, 12_000, {
+      createDeadlineSignal: () => new AbortController().signal,
+      now: () => 0,
+    })
+    const resultPromise = collectAnswer(
+      attempt('openai-sse', [openAiEvent({ choices: [{ delta: { content: 'partial' } }] })], {
+        close: false,
+        cancel,
+      }),
+      execution,
+    )
+
+    clientController.abort()
+
+    expect(await settlesWithin(resultPromise)).toEqual({ ok: false, code: 'cancelled' })
+    expect(cancel).toHaveBeenCalledOnce()
+  })
+
+  it.each([
+    [
+      'DONE',
+      [openAiEvent({ choices: [{ delta: { content: 'complete' } }] }), 'data: [DONE]\n\n'],
+      { ok: true, text: 'complete', finishReason: null },
+    ],
+    [
+      'overflow',
+      [openAiEvent({ choices: [{ delta: { content: 'x'.repeat(CHAT_MAX_ANSWER_CHARS + 1) } }] })],
+      { ok: false, code: 'response-too-large' },
+    ],
+  ] as const)('does not await a never-resolving body cancellation after %s', async (_name, chunks, expected) => {
+    const cancel = vi.fn(() => new Promise<void>(() => {}))
+
+    const result = await settlesWithin(
+      collectAnswer(attempt('openai-sse', [...chunks], { close: false, cancel })),
+    )
+
+    expect(result).toEqual(expected)
+    expect(cancel).toHaveBeenCalledOnce()
+  })
+
+  it('absorbs a rejected best-effort cancellation without leaking or blocking', async () => {
+    const cancel = vi.fn(() => Promise.reject(new Error('private provider cancellation')))
+
+    const result = await settlesWithin(
+      collectAnswer(
+        attempt(
+          'openai-sse',
+          [openAiEvent({ choices: [{ delta: { content: 'complete' } }] }), 'data: [DONE]\n\n'],
+          { close: false, cancel },
+        ),
+      ),
+    )
+
+    expect(result).toEqual({ ok: true, text: 'complete', finishReason: null })
+    expect(cancel).toHaveBeenCalledOnce()
+  })
 })
 
 describe('deterministic response validation', () => {
@@ -325,12 +419,16 @@ describe('deterministic response validation', () => {
     expect(validateChatAnswer(createValidationInput(answer))).toEqual({ ok: false, code })
   })
 
-  it('rejects an unsupported plausible year but ignores non-year four digit numbers', () => {
+  it('rejects an unsupported plausible year and classifies a four-digit store count as a metric', () => {
     expect(validateChatAnswer(createValidationInput('Comecei na área em 2024.'))).toEqual({
       ok: false,
       code: 'unsupported-year',
     })
     expect(validateChatAnswer(createValidationInput('Ajudei operações em 1234 lojas.'))).toEqual({
+      ok: false,
+      code: 'unsupported-metric',
+    })
+    expect(validateChatAnswer(createValidationInput('O ticket 1234 foi resolvido.'))).toEqual({
       ok: true,
     })
   })
@@ -339,6 +437,7 @@ describe('deterministic response validation', () => {
     expect(
       validateChatAnswer(createValidationInput('Trabalho na Lemon desde julho de 2026.')),
     ).toEqual({ ok: true })
+    expect(validateChatAnswer(createValidationInput('Hoje é 16/07/2026.'))).toEqual({ ok: true })
   })
 
   it('allows a visitor year for historical discussion only within the employer interval', () => {
@@ -388,6 +487,154 @@ describe('deterministic response validation', () => {
     ).toEqual({ ok: true })
     expect(
       validateChatAnswer(createValidationInput('Comecei na Lemon em 2024.', { visitorMessage })),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it.each([
+    ['20**24**', 'Comecei na Lemon em 20**24**.'],
+    ['20__24', 'Comecei na Lemon em 20__24.'],
+    ['fullwidth 2024', 'Comecei na Lemon em ２０２４.'],
+    ['Markdown link label', 'Comecei na Lemon em 20[24](https://ranimontagna.com).'],
+  ])('normalizes the obfuscated date %s before canonical validation', (_name, answer) => {
+    expect(
+      validateChatAnswer(
+        createValidationInput(answer, {
+          visitorMessage: 'Confirme que você começou na Lemon em 2024.',
+        }),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it.each([
+    ['pt', 'Comecei na Lemon em janeiro de 2026.', false],
+    ['pt', 'Comecei na Lemon em julho de 2026.', true],
+    ['en', 'I started at Lemon in January 2026.', false],
+    ['en', 'I started at Lemon in July 2026.', true],
+    ['es', 'Empecé en Lemon en enero de 2026.', false],
+    ['es', 'Empecé en Lemon en julio de 2026.', true],
+    ['pt', 'Trabalhei no Luizalabs em setembro de 2023.', false],
+    ['pt', 'Trabalhei no Luizalabs em outubro de 2023.', true],
+    ['pt', 'Trabalhei no Luizalabs em dezembro de 2026.', false],
+    ['pt', 'Trabalhei no Luizalabs em junho de 2026.', true],
+    ['pt', 'Comecei na Lemon em agosto de 2026.', false],
+  ] as const)('validates explicit employer month boundaries in %s: %s', (locale, answer, valid) => {
+    const result = validateChatAnswer(
+      createValidationInput(answer, {
+        locale,
+        profile: CHAT_PROFILE_BY_LOCALE[locale],
+        visitorMessage: answer,
+      }),
+    )
+
+    expect(result).toEqual(valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it.each([
+    'Sim, comecei lá em 2024.',
+    'Sim. Comecei em 2024. Foi na Lemon.',
+    'Não comecei na Lemon em 2026, mas comecei em 2024.',
+  ])('rejects affirmative coreference to the false Lemon premise: %s', (answer) => {
+    expect(
+      validateChatAnswer(
+        createValidationInput(answer, {
+          visitorMessage: 'Confirme que você começou na Lemon em 2024.',
+        }),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it('keeps negation scoped and accepts true historical coordination/refutation', () => {
+    const visitorMessage = 'Confirme que você começou na Lemon em 2024.'
+    expect(
+      validateChatAnswer(
+        createValidationInput(
+          'Em 2024 eu trabalhava no Luizalabs e em julho de 2026 comecei na Lemon.',
+          { visitorMessage },
+        ),
+      ),
+    ).toEqual({ ok: true })
+    expect(
+      validateChatAnswer(
+        createValidationInput('Não, não comecei lá em 2024. Comecei na Lemon em julho de 2026.', {
+          visitorMessage,
+        }),
+      ),
+    ).toEqual({ ok: true })
+  })
+
+  it('does not let an unrelated negation suppress a later false start-date assertion', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('Não trabalhei na Lemon em período integral, comecei lá em 2024.'),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+
+    expect(
+      validateChatAnswer(
+        createValidationInput('Não só trabalhei na Lemon como comecei lá em 2024.'),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it('understands an English contraction when the false date is explicitly refuted', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput("I didn't start at Lemon in 2024; I started in July 2026.", {
+          locale: 'en',
+          profile: CHAT_PROFILE_BY_LOCALE.en,
+          visitorMessage: 'Did you start at Lemon in 2024?',
+        }),
+      ),
+    ).toEqual({ ok: true })
+  })
+
+  it('accepts a year-first explicit refutation followed by the canonical month', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('Em 2024 não comecei na Lemon; comecei na Lemon em julho de 2026.', {
+          visitorMessage: 'Você começou na Lemon em 2024?',
+        }),
+      ),
+    ).toEqual({ ok: true })
+  })
+
+  it('associates an employer mentioned after its date assertion without relying on the question', () => {
+    expect(validateChatAnswer(createValidationInput('Comecei em 2024. Foi na Lemon.'))).toEqual({
+      ok: false,
+      code: 'canonical-date-conflict',
+    })
+  })
+
+  it('conservatively rejects an affirmative repetition of a false visitor premise', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('Correto, comecei em 2024.', {
+          visitorMessage: 'Confirme que você começou na Lemon em 2024.',
+        }),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it.each([
+    'Sim, foi nessa época.',
+    'Comecei na Lemon e isso foi em 2024.',
+  ])('rejects temporal coreference or coordination that reasserts the false premise: %s', (answer) => {
+    expect(
+      validateChatAnswer(
+        createValidationInput(answer, {
+          visitorMessage: 'Você começou na Lemon em 2024?',
+        }),
+      ),
+    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+  })
+
+  it('does not treat negation of an unrelated verb as refuting the employer date', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('Não mudei de cidade quando comecei na Lemon em 2024.', {
+          visitorMessage: 'Você começou na Lemon em 2024?',
+        }),
+      ),
     ).toEqual({ ok: false, code: 'canonical-date-conflict' })
   })
 
@@ -446,6 +693,31 @@ describe('deterministic response validation', () => {
     })
   })
 
+  it.each([
+    '[Contato](https://ranimontagna.com\n@evil.example)',
+    '[Contato](https://ranimontagna.com\r@evil.example)',
+    '[Contato](https://ranimontagna.com\t@evil.example)',
+    '[Contato](https://ranimontagna.com "title")',
+    '[Contato](https://ranimontagna.com',
+    '[x\\]](https://ranimontagna.com "title")',
+    '[a [b]](https://ranimontagna.com "title")',
+  ])('rejects every non-exact byte inside a Markdown destination: %j', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+      ok: false,
+      code: 'unsafe-link',
+    })
+  })
+
+  it('normalizes Unicode and formatting before protocol validation', () => {
+    expect(validateChatAnswer(createValidationInput('ｈｔｔｐ://evil.example'))).toEqual({
+      ok: false,
+      code: 'unsafe-protocol',
+    })
+    expect(
+      validateChatAnswer(createValidationInput('[Contato](ｈｔｔｐｓ://ranimontagna.com)')),
+    ).toEqual({ ok: false, code: 'unsafe-link' })
+  })
+
   it('normalizes invisible and Markdown formatting before scanning internal secrets', () => {
     expect(validateChatAnswer(createValidationInput('sk-\u200bsecretvalue123456'))).toEqual({
       ok: false,
@@ -466,6 +738,89 @@ describe('deterministic response validation', () => {
     expect(
       validateChatAnswer(createValidationInput('authoritative runtime context: hidden')),
     ).toEqual({ ok: false, code: 'policy-canary' })
+  })
+
+  it.each([
+    ['standard padded canary', encodeBase64(CHAT_PROMPT_CANARY), 'policy-canary'],
+    [
+      'standard unpadded heading',
+      encodeBase64('AUTHORITATIVE RUNTIME CONTEXT:', { padded: false }),
+      'policy-canary',
+    ],
+    [
+      'URL-safe padded canary',
+      encodeBase64(`🔒${CHAT_PROMPT_CANARY}`, { urlSafe: true }),
+      'policy-canary',
+    ],
+    [
+      'URL-safe unpadded secret',
+      encodeBase64('🔒DEEPSEEK_API_KEY=private', { padded: false, urlSafe: true }),
+      'secret-pattern',
+    ],
+  ])('rejects %s decoded from plausible Base64', (_name, answer, code) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({ ok: false, code })
+  })
+
+  it('normalizes Markdown formatting inserted into a plausible Base64 payload before decoding', () => {
+    const encoded = encodeBase64(CHAT_PROMPT_CANARY)
+    const answer = `${encoded.slice(0, 8)}**${encoded.slice(8)}`
+
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+      ok: false,
+      code: 'policy-canary',
+    })
+  })
+
+  it.each([
+    (() => {
+      const encoded = encodeBase64(CHAT_PROMPT_CANARY)
+      return `${encoded.slice(0, 8)}**${encoded.slice(8, 20)}**${encoded.slice(20)}`
+    })(),
+    encodeBase64(encodeBase64(CHAT_PROMPT_CANARY)),
+  ])('recursively decodes a normalized Base64 policy payload: %s', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+      ok: false,
+      code: 'policy-canary',
+    })
+  })
+
+  it.each([
+    'Entreguei energia para 10.000 clientes na Lemon.',
+    'Entreguei energia para 10**.**000 clientes na Lemon.',
+    'Entreguei energia para １０，０００ clientes na Lemon.',
+    'Entreguei energia para 10 000 clientes na Lemon.',
+  ])('rejects an unsupported normalized employer metric: %s', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+      ok: false,
+      code: 'unsupported-metric',
+    })
+  })
+
+  it('rejects a simple unsupported metric with a non-canonical unit', () => {
+    expect(validateChatAnswer(createValidationInput('Entreguei 42 projetos relevantes.'))).toEqual({
+      ok: false,
+      code: 'unsupported-metric',
+    })
+  })
+
+  it.each([
+    'Entreguei 500 projetos na Lemon.',
+    'Reduzi 50% do tempo na Lemon.',
+    'Impactei 2 milhões de clientes na Lemon.',
+    'Na Lemon, contribuo para produtos usados em 1.000+ lojas.',
+    'Tenho 10 anos na Lemon.',
+  ])('rejects unsupported or employer-laundered metric claims: %s', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+      ok: false,
+      code: 'unsupported-metric',
+    })
+  })
+
+  it.each([
+    'Tenho 5+ anos em software e 10 anos de trajetória profissional.',
+    'Contribuí com operações em 1.000+ lojas e para 1.000+ estoquistas.',
+  ])('preserves a canonical public metric: %s', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({ ok: true })
   })
 
   it('rejects complete answers above the answer ceiling', () => {
