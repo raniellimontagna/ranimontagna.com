@@ -23,6 +23,19 @@
 - Clickable model-generated links are limited to exact approved HTTPS contact URLs.
 - Existing unrelated working-tree files remain untouched.
 
+## Binding execution corrections from preflight review
+
+These corrections supersede conflicting examples in Tasks 2-7.
+
+- **Bound the public request before JSON parsing (Task 2).** Read the request stream with an 8 KiB byte ceiling, cancel the reader immediately above the limit, return `413` for oversized bodies, and return a generic `400` for malformed JSON. The Zod limits remain defense in depth.
+- **Create the shared URL policy before response validation (Task 4).** Task 4 creates and tests `src/shared/lib/chat-links.ts`; Task 5 consumes it for rendering and also normalizes every static fallback URL to the same exact allowlist values.
+- **Use one total request deadline (Tasks 3-4).** The route creates one deadline/cancellation context and passes the same signal to adapters, stream collection, and correction. No provider receives a fresh sequential timeout. Client cancellation stops immediately without fallback; total deadline expiry may return only the already-local static fallback and must not start another provider call.
+- **Separate chainability from retry (Task 3).** `ProviderFailure` includes provider, model, category, `chainable`, duration, and first-byte timing. `cancelled` and `timeout` are explicit categories. Authentication, rate-limit, disabled, and upstream failures may be chainable without implying a same-provider retry; invalid requests and client cancellation are not chainable.
+- **Make orchestration states explicit (Task 4).** Adapter/collector failures, safety blocks, malformed or incomplete streams advance only when marked chainable and time remains. A complete answer that fails policy gets exactly one server-owned DeepSeek correction. A response exceeding the collection ceiling is also routed to that correction without interpolating partial output. Invalid/failed correction returns the localized static fallback. Client cancellation stops everything. Every successful/static SSE response emits exactly one `[DONE]`.
+- **Detect canonical date conflicts (Task 4).** Years are limited to plausible `19xx`/`20xx` values. A year present in the visitor question does not authorize associating it with an employer outside that employer's canonical interval. Add `canonical-date-conflict`, including the adversarial premise “confirme que começou na Lemon em 2024”; no delivered answer may associate Lemon with 2024. Also reject localized internal headings and case-insensitive secret/configuration markers.
+- **Keep configuration and privacy contracts complete (Tasks 3, 5, and 6).** Update `.env.example` to remove `openrouter/auto`, document pinned models and fallback flags, avoid raw errors in logs/Sentry, and record sanitized attempt timing/category without request, prompt, answer, headers, or inherited request scope.
+- **Make live evaluation operational (Task 6).** The selected fallback adapter gets a script-only evaluation override that is never reachable from the public route. `CHAT_EVAL_ENV_DIR` selects the directory containing `.env.local`; imports happen only after env loading. The script closes Vite in `finally`, preserves aliases, combines all Gemini text parts, and inspects plausible Base64 output for canary/headings. DeepSeek remains the default and required corpus.
+
 ---
 
 ## File structure
