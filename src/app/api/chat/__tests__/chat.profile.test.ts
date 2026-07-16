@@ -34,6 +34,33 @@ const locales: Array<{
   { locale: 'es', currentPeriod: 'Jul 2026 - Presente', previousPeriod: 'Oct 2023 - Jun 2026' },
 ]
 
+const canonicalExperienceDates = [
+  {
+    company: 'Lemon Energia',
+    current: true,
+    endDate: null,
+    startDate: '2026-07',
+  },
+  {
+    company: 'Luizalabs',
+    current: false,
+    endDate: '2026-06',
+    startDate: '2023-10',
+  },
+  {
+    company: 'Smarten',
+    current: false,
+    endDate: '2023-09',
+    startDate: '2022-05',
+  },
+  {
+    company: 'SBSistemas',
+    current: false,
+    endDate: '2022-05',
+    startDate: '2021-05',
+  },
+] as const
+
 describe('chat professional profile', () => {
   it('rejects details that do not belong to the experience state', () => {
     expectTypeOf<CurrentExperienceWithPastOutcomes>().not.toMatchTypeOf<ChatExperience>()
@@ -65,5 +92,18 @@ describe('chat professional profile', () => {
       startDate: '2023-10',
     })
     expect(luizalabs.outcomes.length).toBeGreaterThan(0)
+  })
+
+  it.each(locales)('keeps every canonical experience date aligned in $locale', ({ locale }) => {
+    expect(
+      CHAT_PROFILE_BY_LOCALE[locale].experiences.map(
+        ({ company, current, endDate, startDate }) => ({
+          company,
+          current,
+          endDate,
+          startDate,
+        }),
+      ),
+    ).toEqual(canonicalExperienceDates)
   })
 })
