@@ -54,6 +54,7 @@ const configuredValue = (
 ): string => environment[name]?.trim() || fallback
 
 const DEFAULT_OPENROUTER_MODEL = 'google/gemma-3-4b-it:free'
+const APPROVED_OPENROUTER_MODELS = new Set<string>([DEFAULT_OPENROUTER_MODEL])
 
 const configuredOpenRouterModel = (environment: ChatProviderEnvironment): string => {
   const configured = configuredValue(
@@ -62,9 +63,7 @@ const configuredOpenRouterModel = (environment: ChatProviderEnvironment): string
     DEFAULT_OPENROUTER_MODEL,
   )
 
-  return configured.toLowerCase().startsWith('openrouter/auto')
-    ? DEFAULT_OPENROUTER_MODEL
-    : configured
+  return APPROVED_OPENROUTER_MODELS.has(configured) ? configured : DEFAULT_OPENROUTER_MODEL
 }
 
 export function createChatProviderConfig(environment: ChatProviderEnvironment): ChatProviderConfig {

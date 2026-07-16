@@ -80,7 +80,7 @@ describe('chat provider configuration', () => {
         DEEPSEEK_MODEL: 'deepseek-custom',
         GEMINI_MODEL: 'gemini-custom',
         GROQ_MODEL: 'groq-custom',
-        OPENROUTER_MODEL_PRIMARY: 'openrouter-custom',
+        OPENROUTER_MODEL_PRIMARY: 'google/gemma-3-4b-it:free',
       }),
     ).toEqual({
       fallbackEnabled: { gemini: true, groq: true, openrouter: true },
@@ -88,7 +88,7 @@ describe('chat provider configuration', () => {
         deepseek: 'deepseek-custom',
         gemini: 'gemini-custom',
         groq: 'groq-custom',
-        openrouter: 'openrouter-custom',
+        openrouter: 'google/gemma-3-4b-it:free',
       },
       totalDeadlineMs: 9000,
     })
@@ -120,7 +120,12 @@ describe('chat provider configuration', () => {
     ' OpenRouter/Auto ',
     '\tOPENROUTER/AUTO\n',
     ' openrouter/auto:free ',
-  ])('rejects the dynamic OpenRouter model override %j', (configuredModel) => {
+    'openrouter/free',
+    'openrouter/fusion',
+    'openrouter/pareto-code',
+    'unknown/provider-model',
+    'google/gemma-3-4b-it:free:variant',
+  ])('rejects the unapproved OpenRouter model override %j', (configuredModel) => {
     expect(
       createChatProviderConfig({ OPENROUTER_MODEL_PRIMARY: configuredModel }).models.openrouter,
     ).toBe('google/gemma-3-4b-it:free')
