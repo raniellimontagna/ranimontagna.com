@@ -1,4 +1,4 @@
-import { CHAT_DEFAULT_TOTAL_DEADLINE_MS } from './chat.constants'
+import { CHAT_DEFAULT_TOTAL_DEADLINE_MS, CHAT_MAX_TOTAL_DEADLINE_MS } from './chat.constants'
 
 export type ChatProviderId = 'deepseek' | 'gemini' | 'openrouter' | 'groq'
 export type ProviderStreamFormat = 'openai-sse' | 'gemini-sse'
@@ -17,6 +17,7 @@ export type ProviderFailureCategory =
   | 'auth'
   | 'invalid'
   | 'rate-limit'
+  | 'safety'
   | 'cancelled'
   | 'timeout'
   | 'upstream'
@@ -52,6 +53,20 @@ const configuredValue = (
   fallback: string,
 ): string => environment[name]?.trim() || fallback
 
+const DEFAULT_OPENROUTER_MODEL = 'google/gemma-3-4b-it:free'
+
+const configuredOpenRouterModel = (environment: ChatProviderEnvironment): string => {
+  const configured = configuredValue(
+    environment,
+    'OPENROUTER_MODEL_PRIMARY',
+    DEFAULT_OPENROUTER_MODEL,
+  )
+
+  return configured.toLowerCase().startsWith('openrouter/auto')
+    ? DEFAULT_OPENROUTER_MODEL
+    : configured
+}
+
 export function createChatProviderConfig(environment: ChatProviderEnvironment): ChatProviderConfig {
   const configuredDeadline = Number(environment.CHAT_TOTAL_DEADLINE_MS)
 
@@ -65,14 +80,12 @@ export function createChatProviderConfig(environment: ChatProviderEnvironment): 
       deepseek: configuredValue(environment, 'DEEPSEEK_MODEL', 'deepseek-chat'),
       gemini: configuredValue(environment, 'GEMINI_MODEL', 'gemini-2.5-flash-lite'),
       groq: configuredValue(environment, 'GROQ_MODEL', 'llama-3.1-8b-instant'),
-      openrouter: configuredValue(
-        environment,
-        'OPENROUTER_MODEL_PRIMARY',
-        'google/gemma-3-4b-it:free',
-      ),
+      openrouter: configuredOpenRouterModel(environment),
     },
     totalDeadlineMs:
-      Number.isFinite(configuredDeadline) && configuredDeadline > 0
+      Number.isSafeInteger(configuredDeadline) &&
+      configuredDeadline > 0 &&
+      configuredDeadline <= CHAT_MAX_TOTAL_DEADLINE_MS
         ? configuredDeadline
         : CHAT_DEFAULT_TOTAL_DEADLINE_MS,
   }
@@ -91,6 +104,9 @@ type ExecutionContextOptions = {
   createDeadlineSignal?: (deadlineMs: number) => AbortSignal
 }
 
+const CLIENT_ABORT_REASON = Symbol('chat-client-cancelled')
+const DEADLINE_ABORT_REASON = Symbol('chat-total-deadline')
+
 export function createChatExecutionContext(
   clientSignal: AbortSignal,
   deadlineMs: number,
@@ -99,14 +115,57 @@ export function createChatExecutionContext(
   const now = options.now ?? Date.now
   const startedAt = now()
   const deadlineSignal = (options.createDeadlineSignal ?? AbortSignal.timeout)(deadlineMs)
+  const combinedController = new AbortController()
+
+  function cleanupAbortListeners(): void {
+    clientSignal.removeEventListener('abort', handleClientAbort)
+    deadlineSignal.removeEventListener('abort', handleDeadlineAbort)
+  }
+
+  function abortCombined(reason: typeof CLIENT_ABORT_REASON | typeof DEADLINE_ABORT_REASON): void {
+    if (combinedController.signal.aborted) return
+    cleanupAbortListeners()
+    combinedController.abort(reason)
+  }
+
+  function handleClientAbort(): void {
+    abortCombined(CLIENT_ABORT_REASON)
+  }
+
+  function handleDeadlineAbort(): void {
+    abortCombined(DEADLINE_ABORT_REASON)
+  }
+
+  if (clientSignal.aborted) {
+    handleClientAbort()
+  } else if (deadlineSignal.aborted) {
+    handleDeadlineAbort()
+  } else {
+    clientSignal.addEventListener('abort', handleClientAbort, { once: true })
+    deadlineSignal.addEventListener('abort', handleDeadlineAbort, { once: true })
+  }
 
   return {
     clientSignal,
     deadlineAt: startedAt + deadlineMs,
     deadlineSignal,
-    signal: AbortSignal.any([clientSignal, deadlineSignal]),
+    signal: combinedController.signal,
     startedAt,
   }
+}
+
+export type ChatInterruptionCategory = Extract<ProviderFailureCategory, 'cancelled' | 'timeout'>
+
+export function getChatInterruptionCategory(
+  execution: ChatExecutionContext,
+): ChatInterruptionCategory | null {
+  if (!execution.signal.aborted) return null
+  if (execution.signal.reason === DEADLINE_ABORT_REASON) return 'timeout'
+  if (execution.signal.reason === CLIENT_ABORT_REASON) return 'cancelled'
+
+  if (execution.clientSignal.aborted && !execution.deadlineSignal.aborted) return 'cancelled'
+  if (execution.deadlineSignal.aborted && !execution.clientSignal.aborted) return 'timeout'
+  return null
 }
 
 export type ProviderAdapterInput = {
@@ -143,14 +202,6 @@ type AdapterRequest = ProviderAdapterInput & {
 const elapsedSince = (startedAt: number, now: () => number): number =>
   Math.max(0, now() - startedAt)
 
-const interruptionCategory = (
-  execution: ChatExecutionContext,
-): Extract<ProviderFailureCategory, 'cancelled' | 'timeout'> | null => {
-  if (execution.clientSignal.aborted) return 'cancelled'
-  if (execution.deadlineSignal.aborted) return 'timeout'
-  return null
-}
-
 const failure = (
   provider: ChatProviderId,
   model: string,
@@ -167,7 +218,8 @@ const failure = (
 })
 
 const categoryForStatus = (status: number): ProviderFailureCategory => {
-  if (status === 401 || status === 403) return 'auth'
+  if (status === 401) return 'auth'
+  if (status === 403) return 'safety'
   if (status === 400 || status === 422) return 'invalid'
   if (status === 429) return 'rate-limit'
   return 'upstream'
@@ -187,7 +239,7 @@ const executeProviderRequest = async (
   now: () => number,
 ): Promise<ProviderResult> => {
   const startedAt = now()
-  const interruptedBeforeFetch = interruptionCategory(request.execution)
+  const interruptedBeforeFetch = getChatInterruptionCategory(request.execution)
   if (interruptedBeforeFetch) {
     return failure(
       request.provider,
@@ -203,7 +255,7 @@ const executeProviderRequest = async (
       signal: request.execution.signal,
     })
     const durationMs = elapsedSince(startedAt, now)
-    const interruptedAfterFetch = interruptionCategory(request.execution)
+    const interruptedAfterFetch = getChatInterruptionCategory(request.execution)
     if (interruptedAfterFetch) {
       await cancelUnreadBody(response)
       return failure(request.provider, request.model, interruptedAfterFetch, durationMs)
@@ -232,7 +284,7 @@ const executeProviderRequest = async (
     }
   } catch {
     const durationMs = elapsedSince(startedAt, now)
-    const interrupted = interruptionCategory(request.execution)
+    const interrupted = getChatInterruptionCategory(request.execution)
     return failure(request.provider, request.model, interrupted ?? 'upstream', durationMs)
   }
 }
@@ -274,7 +326,7 @@ export function createChatProviderAdapters(
     provider: ChatProviderId,
     input: ProviderAdapterInput,
   ): ProviderFailure | null => {
-    const category = interruptionCategory(input.execution)
+    const category = getChatInterruptionCategory(input.execution)
     if (!category) return null
 
     const startedAt = now()

@@ -13,3 +13,4 @@ export const SSE_HEADERS = {
 export const RATE_LIMIT_MAX = 20
 export const RATE_LIMIT_WINDOW_MS = 60_000
 export const CHAT_DEFAULT_TOTAL_DEADLINE_MS = 12_000
+export const CHAT_MAX_TOTAL_DEADLINE_MS = 60_000

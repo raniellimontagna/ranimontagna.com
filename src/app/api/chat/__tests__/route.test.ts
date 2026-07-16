@@ -86,7 +86,15 @@ const providerSuccess = (
 
 const providerFailure = (
   provider: 'deepseek' | 'gemini' | 'openrouter' | 'groq',
-  category: 'disabled' | 'auth' | 'invalid' | 'rate-limit' | 'cancelled' | 'timeout' | 'upstream',
+  category:
+    | 'disabled'
+    | 'auth'
+    | 'invalid'
+    | 'rate-limit'
+    | 'cancelled'
+    | 'timeout'
+    | 'safety'
+    | 'upstream',
   chainable: boolean,
 ) => ({
   category,
@@ -187,8 +195,8 @@ describe('chat route provider order', () => {
     expect(mockCallGemini.mock.calls[0]?.[0]?.execution.signal).toBe(execution.signal)
   })
 
-  it('stops the provider chain after a non-chainable failure', async () => {
-    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'invalid', false))
+  it('fails closed without another provider after a safety rejection', async () => {
+    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'safety', false))
 
     const response = await POST(createRequest() as never)
 

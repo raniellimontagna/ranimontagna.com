@@ -5,19 +5,18 @@ import {
   createChatExecutionContext,
   createChatProviderAdapters,
   createChatProviderConfig,
+  getChatInterruptionCategory,
   type ProviderAdapter,
 } from '../chat.providers'
 
 const createExecution = (
   clientController = new AbortController(),
   deadlineController = new AbortController(),
-): ChatExecutionContext => ({
-  clientSignal: clientController.signal,
-  deadlineAt: 12_000,
-  deadlineSignal: deadlineController.signal,
-  signal: AbortSignal.any([clientController.signal, deadlineController.signal]),
-  startedAt: 0,
-})
+): ChatExecutionContext =>
+  createChatExecutionContext(clientController.signal, 12_000, {
+    createDeadlineSignal: () => deadlineController.signal,
+    now: () => 0,
+  })
 
 const enabledEnvironment = (): ChatProviderEnvironment => ({
   CHAT_ENABLE_GEMINI_FALLBACK: 'true',
@@ -94,6 +93,38 @@ describe('chat provider configuration', () => {
       totalDeadlineMs: 9000,
     })
   })
+
+  it('accepts the explicit operational deadline ceiling', () => {
+    expect(createChatProviderConfig({ CHAT_TOTAL_DEADLINE_MS: '60000' }).totalDeadlineMs).toBe(
+      60_000,
+    )
+  })
+
+  it.each([
+    '9000.5',
+    '0',
+    '-1',
+    'NaN',
+    'Infinity',
+    '60001',
+    '9007199254740991',
+    '9007199254740992',
+  ])('falls back to 12 seconds for an invalid total deadline of %s', (configuredDeadline) => {
+    expect(
+      createChatProviderConfig({ CHAT_TOTAL_DEADLINE_MS: configuredDeadline }).totalDeadlineMs,
+    ).toBe(12_000)
+  })
+
+  it.each([
+    'openrouter/auto',
+    ' OpenRouter/Auto ',
+    '\tOPENROUTER/AUTO\n',
+    ' openrouter/auto:free ',
+  ])('rejects the dynamic OpenRouter model override %j', (configuredModel) => {
+    expect(
+      createChatProviderConfig({ OPENROUTER_MODEL_PRIMARY: configuredModel }).models.openrouter,
+    ).toBe('google/gemma-3-4b-it:free')
+  })
 })
 
 describe('shared chat execution context', () => {
@@ -116,9 +147,58 @@ describe('shared chat execution context', () => {
       startedAt: 1_000,
     })
     expect(context.signal.aborted).toBe(false)
+    expect(getChatInterruptionCategory(context)).toBeNull()
 
     deadlineController.abort()
     expect(context.signal.aborted).toBe(true)
+    expect(getChatInterruptionCategory(context)).toBe('timeout')
+  })
+
+  it.each([
+    ['deadline', 'timeout'],
+    ['client', 'cancelled'],
+  ] as const)('preserves %s as the first abort cause', (firstCause, expectedCategory) => {
+    const clientController = new AbortController()
+    const deadlineController = new AbortController()
+    const context = createExecution(clientController, deadlineController)
+
+    if (firstCause === 'deadline') {
+      deadlineController.abort()
+      clientController.abort()
+    } else {
+      clientController.abort()
+      deadlineController.abort()
+    }
+
+    expect(getChatInterruptionCategory(context)).toBe(expectedCategory)
+  })
+
+  it.each([
+    ['deadline', 'timeout'],
+    ['client', 'cancelled'],
+  ] as const)('recognizes an already-aborted %s signal when creating the context', (abortedSignal, expectedCategory) => {
+    const clientController = new AbortController()
+    const deadlineController = new AbortController()
+    if (abortedSignal === 'deadline') deadlineController.abort()
+    else clientController.abort()
+
+    const context = createExecution(clientController, deadlineController)
+
+    expect(context.signal.aborted).toBe(true)
+    expect(getChatInterruptionCategory(context)).toBe(expectedCategory)
+  })
+
+  it('removes both one-shot listeners after the first abort', () => {
+    const clientController = new AbortController()
+    const deadlineController = new AbortController()
+    const clientRemove = vi.spyOn(clientController.signal, 'removeEventListener')
+    const deadlineRemove = vi.spyOn(deadlineController.signal, 'removeEventListener')
+
+    createExecution(clientController, deadlineController)
+    deadlineController.abort()
+
+    expect(clientRemove).toHaveBeenCalledOnce()
+    expect(deadlineRemove).toHaveBeenCalledOnce()
   })
 })
 
@@ -247,7 +327,7 @@ describe('provider adapter contracts', () => {
 
   it.each([
     [401, 'auth', true],
-    [403, 'auth', true],
+    [403, 'safety', false],
     [400, 'invalid', false],
     [422, 'invalid', false],
     [429, 'rate-limit', true],
