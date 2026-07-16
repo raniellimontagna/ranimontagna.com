@@ -5,7 +5,7 @@ import {
   resetRateLimitStateForTests,
 } from '@/shared/lib/rate-limit'
 import { CHAT_PROVIDER_TIMEOUT_MS, FALLBACK_MESSAGES } from './chat.constants'
-import type { GeminiContent, OpenRouterMessage, ParsedRequest } from './chat.schema'
+import type { ChatProviderMessage, GeminiContent, OpenRouterMessage } from './chat.schema'
 
 export type { RateLimitResult }
 export { checkRateLimit, getRateLimitIdentifier, resetRateLimitStateForTests }
@@ -52,14 +52,14 @@ const fetchWithTimeout = async (url: string, init: RequestInit): Promise<Respons
 
 export const callGemini = async (
   systemPrompt: string,
-  messages: ParsedRequest['messages'],
+  messages: ChatProviderMessage[],
 ): Promise<Response | null> => {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) return null
 
   try {
     const contents: GeminiContent[] = messages.map((msg) => ({
-      role: msg.role === 'assistant' ? 'model' : 'user',
+      role: 'user',
       parts: [{ text: msg.content }],
     }))
 
@@ -107,7 +107,7 @@ export const callGemini = async (
 
 export const callOpenRouter = async (
   systemPrompt: string,
-  messages: ParsedRequest['messages'],
+  messages: ChatProviderMessage[],
 ): Promise<Response | null> => {
   const apiKey = process.env.OPENROUTER_API_KEY
   if (!apiKey) return null
@@ -126,7 +126,7 @@ export const callOpenRouter = async (
     const openRouterMessages: OpenRouterMessage[] = [
       { role: 'user', content: promptAsUserContext },
       ...messages.map((msg) => ({
-        role: msg.role as 'user' | 'assistant',
+        role: msg.role,
         content: msg.content,
       })),
     ]
@@ -177,7 +177,7 @@ export const callOpenRouter = async (
 
 export const callGroq = async (
   systemPrompt: string,
-  messages: ParsedRequest['messages'],
+  messages: ChatProviderMessage[],
 ): Promise<Response | null> => {
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) return null
@@ -188,7 +188,7 @@ export const callGroq = async (
     const groqMessages: OpenRouterMessage[] = [
       { role: 'system', content: systemPrompt },
       ...messages.map((msg) => ({
-        role: msg.role as 'user' | 'assistant',
+        role: msg.role,
         content: msg.content,
       })),
     ]
@@ -228,7 +228,7 @@ export const callGroq = async (
 
 export const callDeepSeek = async (
   systemPrompt: string,
-  messages: ParsedRequest['messages'],
+  messages: ChatProviderMessage[],
 ): Promise<Response | null> => {
   const apiKey = process.env.DEEPSEEK_API_KEY
   if (!apiKey) return null
@@ -238,7 +238,7 @@ export const callDeepSeek = async (
     const deepSeekMessages: OpenRouterMessage[] = [
       { role: 'system', content: systemPrompt },
       ...messages.map((message) => ({
-        role: message.role as 'user' | 'assistant',
+        role: message.role,
         content: message.content,
       })),
     ]

@@ -13,6 +13,11 @@ export const useChat = create<ChatState>((set, get) => ({
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 
   sendMessage: async (content, locale) => {
+    const previousQuestions = get()
+      .messages.filter((message) => message.role === 'user')
+      .slice(-5)
+      .map((message) => message.content)
+
     const userMessage: ChatMessage = {
       id: generateId(),
       role: 'user',
@@ -34,15 +39,10 @@ export const useChat = create<ChatState>((set, get) => ({
     }))
 
     try {
-      const allMessages = get().messages
-      const apiMessages = allMessages
-        .filter((m) => m.content.length > 0)
-        .map((m) => ({ role: m.role, content: m.content }))
-
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages, locale }),
+        body: JSON.stringify({ locale, message: content, previousQuestions }),
       })
 
       if (!response.ok) {

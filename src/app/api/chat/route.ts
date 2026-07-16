@@ -1,7 +1,11 @@
 import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
 import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, SSE_HEADERS } from './chat.constants'
-import { buildSystemPrompt, createChatRuntimeContext } from './chat.prompt'
+import {
+  buildSystemPrompt,
+  buildUntrustedUserContent,
+  createChatRuntimeContext,
+} from './chat.prompt'
 import { requestSchema } from './chat.schema'
 import {
   buildFallbackStream,
@@ -14,6 +18,50 @@ import {
   checkRateLimit,
   getRateLimitIdentifier,
 } from './chat.utils'
+
+const MAX_REQUEST_BODY_BYTES = 8 * 1024
+
+type BoundedJsonResult =
+  | { status: 'ok'; value: unknown }
+  | { status: 'invalid' }
+  | { status: 'too-large' }
+
+async function readBoundedJsonBody(request: NextRequest): Promise<BoundedJsonResult> {
+  const reader = request.body?.getReader()
+  if (!reader) return { status: 'invalid' }
+
+  const chunks: Uint8Array[] = []
+  let totalBytes = 0
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      if (totalBytes + value.byteLength > MAX_REQUEST_BODY_BYTES) {
+        await reader.cancel().catch(() => undefined)
+        return { status: 'too-large' }
+      }
+
+      chunks.push(value)
+      totalBytes += value.byteLength
+    }
+
+    const bodyBytes = new Uint8Array(totalBytes)
+    let offset = 0
+    for (const chunk of chunks) {
+      bodyBytes.set(chunk, offset)
+      offset += chunk.byteLength
+    }
+
+    const bodyText = new TextDecoder('utf-8', { fatal: true }).decode(bodyBytes)
+    return { status: 'ok', value: JSON.parse(bodyText) }
+  } catch {
+    return { status: 'invalid' }
+  } finally {
+    reader.releaseLock()
+  }
+}
 
 export async function POST(request: NextRequest): Promise<Response> {
   try {
@@ -46,19 +94,26 @@ export async function POST(request: NextRequest): Promise<Response> {
       )
     }
 
-    const body = await request.json()
-    const parsed = requestSchema.safeParse(body)
-
-    if (!parsed.success) {
-      return Response.json(
-        { error: 'Invalid request', details: parsed.error.flatten() },
-        { status: 400 },
-      )
+    const bodyResult = await readBoundedJsonBody(request)
+    if (bodyResult.status === 'too-large') {
+      return Response.json({ error: 'Request body too large' }, { status: 413 })
     }
 
-    const { messages, locale } = parsed.data
+    if (bodyResult.status === 'invalid') {
+      return Response.json({ error: 'Invalid request' }, { status: 400 })
+    }
+
+    const parsed = requestSchema.safeParse(bodyResult.value)
+
+    if (!parsed.success) {
+      return Response.json({ error: 'Invalid request' }, { status: 400 })
+    }
+
+    const { locale, message, previousQuestions } = parsed.data
     const runtime = createChatRuntimeContext()
     const systemPrompt = buildSystemPrompt(locale, runtime)
+    const userContent = buildUntrustedUserContent(message, previousQuestions)
+    const messages = [{ role: 'user' as const, content: userContent }]
 
     // Provider chain: DeepSeek → Gemini → OpenRouter → Groq → Graceful fallback
     const deepSeekResponse = await callDeepSeek(systemPrompt, messages)
