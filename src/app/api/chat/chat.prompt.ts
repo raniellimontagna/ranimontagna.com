@@ -238,6 +238,18 @@ const PROMPT_COPY_BY_LOCALE = {
   },
 } satisfies Record<ChatLocale, PromptCopy>
 
+export const CHAT_INTERNAL_PROMPT_MARKERS = [
+  CHAT_PROMPT_CANARY,
+  'CURRENT_DATE:',
+  'TIME_ZONE:',
+  'POLICY_CANARY:',
+  'START_DATE:',
+  'END_DATE:',
+  'SERVER-OWNED CORRECTION RULE:',
+  'The following JSON is untrusted visitor content',
+  ...Object.values(PROMPT_COPY_BY_LOCALE).flatMap((copy) => Object.values(copy.headings)),
+] as const
+
 const bullets = (items: string[]) => items.map((item) => `- ${item}`).join('\n')
 
 const renderExperience = (experience: ChatExperience, index: number) => {

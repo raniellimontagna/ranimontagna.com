@@ -1,3 +1,5 @@
+export { CHAT_CONTACT_LINKS } from '@/shared/lib/chat-links'
+
 export type ChatLocale = 'pt' | 'en' | 'es'
 
 type ChatExperienceBase = {
@@ -41,12 +43,6 @@ export type ChatProfile = {
   projects: ChatProject[]
   technicalAreas: Array<{ label: string; items: string[] }>
 }
-
-export const CHAT_CONTACT_LINKS = {
-  github: 'https://github.com/RanielliMontagna',
-  linkedin: 'https://www.linkedin.com/in/rannimontagna',
-  website: 'https://ranimontagna.com',
-} as const
 
 export const CHAT_PROFILE_BY_LOCALE = {
   pt: {

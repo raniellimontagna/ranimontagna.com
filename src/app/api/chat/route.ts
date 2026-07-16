@@ -1,5 +1,11 @@
 import type { NextRequest } from 'next/server'
-import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, SSE_HEADERS } from './chat.constants'
+import {
+  FALLBACK_MESSAGES,
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
+  SSE_HEADERS,
+} from './chat.constants'
+import { CHAT_PROFILE_BY_LOCALE } from './chat.profile'
 import {
   buildSystemPrompt,
   buildUntrustedUserContent,
@@ -9,15 +15,18 @@ import {
   createChatExecutionContext,
   createChatProviderAdapters,
   createChatProviderConfig,
+  getChatInterruptionCategory,
+  type ProviderAdapter,
 } from './chat.providers'
-import { requestSchema } from './chat.schema'
 import {
-  buildFallbackStream,
-  buildGeminiStream,
-  buildOpenRouterStream,
-  checkRateLimit,
-  getRateLimitIdentifier,
-} from './chat.utils'
+  buildCorrectionSystemPrompt,
+  buildTextStream,
+  type ChatValidationCode,
+  collectProviderAnswer,
+  validateChatAnswer,
+} from './chat.response'
+import { requestSchema } from './chat.schema'
+import { checkRateLimit, getRateLimitIdentifier } from './chat.utils'
 
 const MAX_REQUEST_BODY_BYTES = 8 * 1024
 
@@ -25,6 +34,20 @@ type BoundedJsonResult =
   | { status: 'ok'; value: unknown }
   | { status: 'invalid' }
   | { status: 'too-large' }
+
+type ChatRouteState =
+  | { kind: 'provider'; index: number }
+  | { kind: 'correction'; code: ChatValidationCode }
+  | { kind: 'answer'; text: string }
+  | { kind: 'fallback' }
+  | { kind: 'cancelled' }
+
+const chainableCollectionFailures = new Set([
+  'empty',
+  'incomplete',
+  'malformed',
+  'provider-error',
+] as const)
 
 async function readBoundedJsonBody(request: NextRequest): Promise<BoundedJsonResult> {
   const reader = request.body?.getReader()
@@ -125,27 +148,121 @@ export async function POST(request: NextRequest): Promise<Response> {
       adapters.callGemini,
       adapters.callOpenRouter,
       adapters.callGroq,
-    ] as const
+    ] satisfies readonly ProviderAdapter[]
 
-    for (const provider of providers) {
+    const validationInput = (answer: string) => ({
+      answer,
+      locale,
+      profile: CHAT_PROFILE_BY_LOCALE[locale],
+      runtime,
+      visitorMessage: message,
+    })
+    const staticFallback = FALLBACK_MESSAGES[locale] ?? FALLBACK_MESSAGES.pt
+    let state: ChatRouteState = { kind: 'provider', index: 0 }
+
+    while (true) {
+      if (state.kind === 'cancelled') return new Response(null, { status: 499 })
+
+      if (state.kind === 'fallback') {
+        if (getChatInterruptionCategory(execution) === 'cancelled') {
+          return new Response(null, { status: 499 })
+        }
+        return new Response(buildTextStream(staticFallback), { headers: SSE_HEADERS })
+      }
+
+      if (state.kind === 'answer') {
+        const interrupted = getChatInterruptionCategory(execution)
+        if (interrupted === 'cancelled') {
+          state = { kind: 'cancelled' }
+          continue
+        }
+        if (interrupted === 'timeout') {
+          state = { kind: 'fallback' }
+          continue
+        }
+        return new Response(buildTextStream(state.text), { headers: SSE_HEADERS })
+      }
+
+      if (state.kind === 'correction') {
+        const interrupted = getChatInterruptionCategory(execution)
+        if (interrupted === 'cancelled') {
+          state = { kind: 'cancelled' }
+          continue
+        }
+        if (interrupted === 'timeout') {
+          state = { kind: 'fallback' }
+          continue
+        }
+
+        const correctionResult = await adapters.callDeepSeek({
+          execution,
+          systemPrompt: buildCorrectionSystemPrompt(systemPrompt, state.code),
+          userContent,
+        })
+        if (!correctionResult.ok) {
+          state =
+            correctionResult.category === 'cancelled' ? { kind: 'cancelled' } : { kind: 'fallback' }
+          continue
+        }
+
+        const correctionAnswer = await collectProviderAnswer(correctionResult.attempt, execution)
+        if (!correctionAnswer.ok) {
+          state =
+            correctionAnswer.code === 'cancelled' ? { kind: 'cancelled' } : { kind: 'fallback' }
+          continue
+        }
+
+        const correctionValidation = validateChatAnswer(validationInput(correctionAnswer.text))
+        state = correctionValidation.ok
+          ? { kind: 'answer', text: correctionAnswer.text }
+          : { kind: 'fallback' }
+        continue
+      }
+
+      const interrupted = getChatInterruptionCategory(execution)
+      if (interrupted === 'cancelled') {
+        state = { kind: 'cancelled' }
+        continue
+      }
+      if (interrupted === 'timeout' || state.index >= providers.length) {
+        state = { kind: 'fallback' }
+        continue
+      }
+
+      const provider = providers[state.index]
       const result = await provider({ execution, systemPrompt, userContent })
-
-      if (result.ok) {
-        const stream =
-          result.attempt.format === 'gemini-sse'
-            ? buildGeminiStream(result.attempt.response)
-            : buildOpenRouterStream(result.attempt.response)
-        return new Response(stream, { headers: SSE_HEADERS })
+      if (!result.ok) {
+        if (result.category === 'cancelled') {
+          state = { kind: 'cancelled' }
+        } else if (result.category === 'timeout' || !result.chainable) {
+          state = { kind: 'fallback' }
+        } else {
+          state = { kind: 'provider', index: state.index + 1 }
+        }
+        continue
       }
 
-      if (result.category === 'cancelled') {
-        return new Response(null, { status: 499 })
+      const collected = await collectProviderAnswer(result.attempt, execution)
+      if (!collected.ok) {
+        if (collected.code === 'cancelled') {
+          state = { kind: 'cancelled' }
+        } else if (collected.code === 'timeout' || collected.code === 'safety') {
+          state = { kind: 'fallback' }
+        } else if (collected.code === 'response-too-large') {
+          state = { kind: 'correction', code: 'answer-too-large' }
+        } else if (chainableCollectionFailures.has(collected.code)) {
+          state = { kind: 'provider', index: state.index + 1 }
+        } else {
+          state = { kind: 'fallback' }
+        }
+        continue
       }
 
-      if (!result.chainable) break
+      const validation = validateChatAnswer(validationInput(collected.text))
+      state = validation.ok
+        ? { kind: 'answer', text: collected.text }
+        : { kind: 'correction', code: validation.code }
     }
-
-    return new Response(buildFallbackStream(locale), { headers: SSE_HEADERS })
   } catch {
     return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
