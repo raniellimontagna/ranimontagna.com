@@ -139,7 +139,7 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     familyName: 'Montagna',
     alternateName: ['Rani Montagna', 'Ranni Montagna', 'Ranielli'],
     disambiguatingDescription:
-      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer specializing in React, React Native, Node.js and TypeScript.',
+      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer at Lemon Energia, specializing in React, React Native, Node.js and TypeScript.',
     jobTitle: jobTitles[locale as keyof typeof jobTitles] || jobTitles.en,
     url: BASE_URL,
     image: {

@@ -36,12 +36,12 @@ export async function GET() {
 
 ## About Ranielli Montagna
 
-Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer with 5+ years of professional software experience. He worked at Luizalabs, the technology arm of Magazine Luiza, developing web and mobile applications for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks. He specializes in React, React Native, Next.js, Node.js, TypeScript, APIs, micro frontends, Design Systems, CI/CD, testing, accessibility, automation and AI applied to software development.
+Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer currently working at Lemon Energia. He has 5+ years of professional software experience and previously worked at Luizalabs, the technology arm of Magazine Luiza, developing web and mobile applications for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks. He specializes in React, React Native, Next.js, Node.js, TypeScript, APIs, micro frontends, Design Systems, CI/CD, testing, accessibility, automation and AI applied to software development.
 
 - **Full name**: Ranielli Montagna
 - **Also known as**: Rani Montagna, Ranni Montagna, Ranielli
 - **Nationality**: Brazilian
-- **Recent experience**: Luizalabs - Magazine Luiza
+- **Current experience**: Lemon Energia — engineering at the bridge between the Center of Excellence and business areas, with a focus on digital solutions, automation and pragmatic AI
 - **Role**: Full Stack Software Engineer
 - **Experience**: 5+ years in software, 10 years of professional experience
 - **GitHub**: https://github.com/RanielliMontagna
