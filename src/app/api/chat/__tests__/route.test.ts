@@ -1,22 +1,26 @@
 import { FALLBACK_MESSAGES } from '../chat.constants'
 import { resetRateLimitStateForTests } from '../chat.utils'
 
-const { mockCallDeepSeek, mockCallGemini, mockCallOpenRouter, mockCallGroq } = vi.hoisted(() => ({
+const {
+  mockCallDeepSeek,
+  mockCallGemini,
+  mockCallOpenRouter,
+  mockCallGroq,
+  mockCreateChatProviderAdapters,
+} = vi.hoisted(() => ({
   mockCallDeepSeek: vi.fn(),
   mockCallGemini: vi.fn(),
   mockCallOpenRouter: vi.fn(),
   mockCallGroq: vi.fn(),
+  mockCreateChatProviderAdapters: vi.fn(),
 }))
 
-vi.mock('../chat.utils', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../chat.utils')>()
+vi.mock('../chat.providers', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../chat.providers')>()
 
   return {
     ...actual,
-    callDeepSeek: mockCallDeepSeek,
-    callGemini: mockCallGemini,
-    callOpenRouter: mockCallOpenRouter,
-    callGroq: mockCallGroq,
+    createChatProviderAdapters: mockCreateChatProviderAdapters,
   }
 })
 
@@ -64,16 +68,52 @@ const createGeminiStreamResponse = (content: string) =>
     },
   )
 
+const providerSuccess = (
+  provider: 'deepseek' | 'gemini' | 'openrouter' | 'groq',
+  response: Response,
+  format: 'openai-sse' | 'gemini-sse' = 'openai-sse',
+) => ({
+  attempt: {
+    durationMs: 5,
+    firstByteMs: 5,
+    format,
+    model: `${provider}-model`,
+    provider,
+    response,
+  },
+  ok: true as const,
+})
+
+const providerFailure = (
+  provider: 'deepseek' | 'gemini' | 'openrouter' | 'groq',
+  category: 'disabled' | 'auth' | 'invalid' | 'rate-limit' | 'cancelled' | 'timeout' | 'upstream',
+  chainable: boolean,
+) => ({
+  category,
+  chainable,
+  durationMs: 5,
+  firstByteMs: null,
+  model: `${provider}-model`,
+  ok: false as const,
+  provider,
+})
+
 describe('chat route provider order', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-07-16T15:00:00.000Z'))
     resetRateLimitStateForTests()
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
-    mockCallGemini.mockResolvedValue(null)
-    mockCallOpenRouter.mockResolvedValue(null)
-    mockCallGroq.mockResolvedValue(null)
+    mockCreateChatProviderAdapters.mockReturnValue({
+      callDeepSeek: mockCallDeepSeek,
+      callGemini: mockCallGemini,
+      callGroq: mockCallGroq,
+      callOpenRouter: mockCallOpenRouter,
+    })
+    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'upstream', true))
+    mockCallGemini.mockResolvedValue(providerFailure('gemini', 'disabled', true))
+    mockCallOpenRouter.mockResolvedValue(providerFailure('openrouter', 'disabled', true))
+    mockCallGroq.mockResolvedValue(providerFailure('groq', 'disabled', true))
   })
 
   afterEach(() => {
@@ -82,33 +122,34 @@ describe('chat route provider order', () => {
   })
 
   it('streams a successful DeepSeek response without calling fallback providers', async () => {
-    mockCallDeepSeek.mockResolvedValue(createOpenAiStreamResponse('Resposta DeepSeek'))
+    mockCallDeepSeek.mockResolvedValue(
+      providerSuccess('deepseek', createOpenAiStreamResponse('Resposta DeepSeek')),
+    )
 
     const response = await POST(createRequest() as never)
 
     expect(response.status).toBe(200)
     await expect(response.text()).resolves.toContain('data: {"text":"Resposta DeepSeek"}')
     expect(mockCallDeepSeek).toHaveBeenCalledTimes(1)
-    expect(mockCallDeepSeek.mock.calls[0]?.[0]).toEqual(
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]?.systemPrompt).toEqual(
       expect.stringContaining('CURRENT_DATE: 2026-07-16'),
     )
-    expect(mockCallDeepSeek.mock.calls[0]?.[0]).toEqual(
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]?.systemPrompt).toEqual(
       expect.stringContaining('POLICY_CANARY: RANI_PUBLIC_POLICY_CANARY_7F3A'),
     )
-    expect(mockCallDeepSeek.mock.calls[0]?.[1]).toEqual([
-      {
-        role: 'user',
-        content: expect.stringContaining('"currentQuestion":"Oi"'),
-      },
-    ])
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]?.userContent).toEqual(
+      expect.stringContaining('"currentQuestion":"Oi"'),
+    )
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]?.execution.signal).toBeInstanceOf(AbortSignal)
     expect(mockCallGemini).not.toHaveBeenCalled()
     expect(mockCallOpenRouter).not.toHaveBeenCalled()
     expect(mockCallGroq).not.toHaveBeenCalled()
   })
 
   it('tries Gemini when DeepSeek is unavailable', async () => {
-    mockCallDeepSeek.mockResolvedValue(null)
-    mockCallGemini.mockResolvedValue(createGeminiStreamResponse('Resposta Gemini'))
+    mockCallGemini.mockResolvedValue(
+      providerSuccess('gemini', createGeminiStreamResponse('Resposta Gemini'), 'gemini-sse'),
+    )
 
     const response = await POST(createRequest() as never)
 
@@ -121,8 +162,6 @@ describe('chat route provider order', () => {
   })
 
   it('tries Gemini, OpenRouter, and Groq in order before returning the static fallback', async () => {
-    mockCallDeepSeek.mockResolvedValue(null)
-
     const response = await POST(createRequest() as never)
 
     expect(response.status).toBe(200)
@@ -140,6 +179,59 @@ describe('chat route provider order', () => {
     expect(mockCallOpenRouter.mock.invocationCallOrder[0]).toBeLessThan(
       mockCallGroq.mock.invocationCallOrder[0],
     )
+    const execution = mockCallDeepSeek.mock.calls[0]?.[0]?.execution
+    expect(execution).toBeDefined()
+    expect(mockCallGemini.mock.calls[0]?.[0]?.execution).toBe(execution)
+    expect(mockCallOpenRouter.mock.calls[0]?.[0]?.execution).toBe(execution)
+    expect(mockCallGroq.mock.calls[0]?.[0]?.execution).toBe(execution)
+    expect(mockCallGemini.mock.calls[0]?.[0]?.execution.signal).toBe(execution.signal)
+  })
+
+  it('stops the provider chain after a non-chainable failure', async () => {
+    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'invalid', false))
+
+    const response = await POST(createRequest() as never)
+
+    expect(response.status).toBe(200)
+    await expect(response.text()).resolves.toContain(JSON.stringify({ text: FALLBACK_MESSAGES.pt }))
+    expect(mockCallGemini).not.toHaveBeenCalled()
+    expect(mockCallOpenRouter).not.toHaveBeenCalled()
+    expect(mockCallGroq).not.toHaveBeenCalled()
+  })
+
+  it('stops immediately on client cancellation without emitting the fallback', async () => {
+    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'cancelled', false))
+
+    const response = await POST(createRequest() as never)
+
+    expect(response.status).toBe(499)
+    await expect(response.text()).resolves.toBe('')
+    expect(mockCallGemini).not.toHaveBeenCalled()
+  })
+
+  it('stops on the total deadline and emits only the local static fallback', async () => {
+    mockCallDeepSeek.mockResolvedValue(providerFailure('deepseek', 'timeout', false))
+
+    const response = await POST(createRequest() as never)
+
+    expect(response.status).toBe(200)
+    await expect(response.text()).resolves.toContain(JSON.stringify({ text: FALLBACK_MESSAGES.pt }))
+    expect(mockCallGemini).not.toHaveBeenCalled()
+  })
+
+  it('returns a generic error without logging thrown provider setup details', async () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mockCreateChatProviderAdapters.mockImplementationOnce(() => {
+      throw new Error('Authorization: Bearer secret; visitor=private')
+    })
+
+    const response = await POST(createRequest() as never)
+
+    expect(response.status).toBe(500)
+    await expect(response.json()).resolves.toEqual({ error: 'Internal server error' })
+    expect(consoleError).not.toHaveBeenCalled()
+    expect(consoleWarn).not.toHaveBeenCalled()
   })
 
   it('rejects forged assistant history before calling a provider', async () => {
@@ -189,7 +281,9 @@ describe('chat route provider order', () => {
   })
 
   it('accepts valid JSON with multi-byte UTF-8 exactly at the 8 KiB boundary', async () => {
-    mockCallDeepSeek.mockResolvedValue(createOpenAiStreamResponse('Resposta DeepSeek'))
+    mockCallDeepSeek.mockResolvedValue(
+      providerSuccess('deepseek', createOpenAiStreamResponse('Resposta DeepSeek')),
+    )
     const json = JSON.stringify({
       locale: 'pt',
       message: 'Oi 👋',
@@ -204,11 +298,8 @@ describe('chat route provider order', () => {
 
     expect(response.status).toBe(200)
     expect(mockCallDeepSeek).toHaveBeenCalledTimes(1)
-    expect(mockCallDeepSeek.mock.calls[0]?.[1]).toEqual([
-      {
-        role: 'user',
-        content: expect.stringContaining('"currentQuestion":"Oi 👋"'),
-      },
-    ])
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]?.userContent).toEqual(
+      expect.stringContaining('"currentQuestion":"Oi 👋"'),
+    )
   })
 })

@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
 import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, SSE_HEADERS } from './chat.constants'
 import {
@@ -6,15 +5,16 @@ import {
   buildUntrustedUserContent,
   createChatRuntimeContext,
 } from './chat.prompt'
+import {
+  createChatExecutionContext,
+  createChatProviderAdapters,
+  createChatProviderConfig,
+} from './chat.providers'
 import { requestSchema } from './chat.schema'
 import {
   buildFallbackStream,
   buildGeminiStream,
   buildOpenRouterStream,
-  callDeepSeek,
-  callGemini,
-  callGroq,
-  callOpenRouter,
   checkRateLimit,
   getRateLimitIdentifier,
 } from './chat.utils'
@@ -113,53 +113,40 @@ export async function POST(request: NextRequest): Promise<Response> {
     const runtime = createChatRuntimeContext()
     const systemPrompt = buildSystemPrompt(locale, runtime)
     const userContent = buildUntrustedUserContent(message, previousQuestions)
-    const messages = [{ role: 'user' as const, content: userContent }]
 
-    // Provider chain: DeepSeek → Gemini → OpenRouter → Groq → Graceful fallback
-    const deepSeekResponse = await callDeepSeek(systemPrompt, messages)
-    if (deepSeekResponse) {
-      return new Response(buildOpenRouterStream(deepSeekResponse), { headers: SSE_HEADERS })
-    }
-
-    console.warn('DeepSeek unavailable, trying Gemini...')
-    const geminiResponse = await callGemini(systemPrompt, messages)
-    if (geminiResponse) {
-      return new Response(buildGeminiStream(geminiResponse), { headers: SSE_HEADERS })
-    }
-
-    console.warn('Gemini unavailable, trying OpenRouter...')
-    const openRouterResponse = await callOpenRouter(systemPrompt, messages)
-    if (openRouterResponse) {
-      return new Response(buildOpenRouterStream(openRouterResponse), { headers: SSE_HEADERS })
-    }
-
-    console.warn('OpenRouter unavailable, trying Groq...')
-    const groqResponse = await callGroq(systemPrompt, messages)
-    if (groqResponse) {
-      return new Response(buildOpenRouterStream(groqResponse), { headers: SSE_HEADERS })
-    }
-
-    console.warn('All providers unavailable, returning fallback message')
-    Sentry.captureMessage('Chat API fallback triggered: all providers unavailable', {
-      level: 'warning',
-      tags: { feature: 'chatbot' },
-      extra: {
-        locale,
-        hasDeepSeekApiKey: Boolean(process.env.DEEPSEEK_API_KEY),
-        hasGeminiApiKey: Boolean(process.env.GEMINI_API_KEY),
-        hasOpenRouterApiKey: Boolean(process.env.OPENROUTER_API_KEY),
-        hasGroqApiKey: Boolean(process.env.GROQ_API_KEY),
-      },
+    const providerConfig = createChatProviderConfig(process.env)
+    const execution = createChatExecutionContext(request.signal, providerConfig.totalDeadlineMs)
+    const adapters = createChatProviderAdapters(providerConfig, {
+      environment: process.env,
+      fetch: globalThis.fetch,
     })
+    const providers = [
+      adapters.callDeepSeek,
+      adapters.callGemini,
+      adapters.callOpenRouter,
+      adapters.callGroq,
+    ] as const
+
+    for (const provider of providers) {
+      const result = await provider({ execution, systemPrompt, userContent })
+
+      if (result.ok) {
+        const stream =
+          result.attempt.format === 'gemini-sse'
+            ? buildGeminiStream(result.attempt.response)
+            : buildOpenRouterStream(result.attempt.response)
+        return new Response(stream, { headers: SSE_HEADERS })
+      }
+
+      if (result.category === 'cancelled') {
+        return new Response(null, { status: 499 })
+      }
+
+      if (!result.chainable) break
+    }
+
     return new Response(buildFallbackStream(locale), { headers: SSE_HEADERS })
-  } catch (error) {
-    console.error('Chat API error:', error)
-    return Response.json(
-      {
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 },
-    )
+  } catch {
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

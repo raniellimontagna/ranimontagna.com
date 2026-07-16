@@ -181,8 +181,8 @@ export const checkRateLimit = async (options: RateLimitOptions): Promise<RateLim
   if (upstashConfig) {
     try {
       return await checkUpstashRateLimit(options, upstashConfig)
-    } catch (error) {
-      console.error('Persistent rate limit failed, falling back to memory storage:', error)
+    } catch {
+      console.error('Persistent rate limit unavailable; using memory storage')
     }
   }
 

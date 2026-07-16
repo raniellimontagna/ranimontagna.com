@@ -20,18 +20,3 @@ export const requestSchema = z
   })
 
 export type ParsedRequest = z.infer<typeof requestSchema>
-
-export type ChatProviderMessage = {
-  role: 'user'
-  content: string
-}
-
-export type GeminiContent = {
-  role: 'user' | 'model'
-  parts: Array<{ text: string }>
-}
-
-export type OpenRouterMessage = {
-  role: 'system' | 'user' | 'assistant'
-  content: string
-}
