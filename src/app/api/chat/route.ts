@@ -1,13 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
 import type { NextRequest } from 'next/server'
-import {
-  RATE_LIMIT_MAX,
-  RATE_LIMIT_WINDOW_MS,
-  SSE_HEADERS,
-  SYSTEM_PROMPT_EN,
-  SYSTEM_PROMPT_ES,
-  SYSTEM_PROMPT_PT,
-} from './chat.constants'
+import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, SSE_HEADERS } from './chat.constants'
+import { buildSystemPrompt, createChatRuntimeContext } from './chat.prompt'
 import { requestSchema } from './chat.schema'
 import {
   buildFallbackStream,
@@ -20,17 +14,6 @@ import {
   checkRateLimit,
   getRateLimitIdentifier,
 } from './chat.utils'
-
-const getSystemPrompt = (locale: string): string => {
-  switch (locale) {
-    case 'en':
-      return SYSTEM_PROMPT_EN
-    case 'es':
-      return SYSTEM_PROMPT_ES
-    default:
-      return SYSTEM_PROMPT_PT
-  }
-}
 
 export async function POST(request: NextRequest): Promise<Response> {
   try {
@@ -74,7 +57,8 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     const { messages, locale } = parsed.data
-    const systemPrompt = getSystemPrompt(locale)
+    const runtime = createChatRuntimeContext()
+    const systemPrompt = buildSystemPrompt(locale, runtime)
 
     // Provider chain: DeepSeek → Gemini → OpenRouter → Groq → Graceful fallback
     const deepSeekResponse = await callDeepSeek(systemPrompt, messages)

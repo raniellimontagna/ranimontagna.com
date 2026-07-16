@@ -1,13 +1,24 @@
-import { SYSTEM_PROMPT_EN, SYSTEM_PROMPT_ES, SYSTEM_PROMPT_PT } from '../chat.constants'
-import { buildSystemPrompt, type ChatLocale } from '../chat.prompt'
+import {
+  buildSystemPrompt,
+  type ChatLocale,
+  type ChatRuntimeContext,
+  createChatRuntimeContext,
+} from '../chat.prompt'
+
+const runtime: ChatRuntimeContext = {
+  currentDate: '2026-07-16',
+  timeZone: 'America/Sao_Paulo',
+}
 
 const prompts: Array<{
   activeSearchPhrase: string
+  canonicalDateRule: string
   currentPeriodMarker: string
   currentRole: string
   currentScopeFact: string
   currentScopePolicy: string
   locale: ChatLocale
+  minimalAnswerRule: string
   orderedHeadings: string[]
   pastRolePolicy: string
   pastRoles: string[]
@@ -15,16 +26,22 @@ const prompts: Array<{
 }> = [
   {
     activeSearchPhrase: 'novas oportunidades',
+    canonicalDateRule:
+      'Copie datas canônicas exatamente; nunca as corrija usando conhecimento prévio ou uma data presumida.',
     currentPeriodMarker: 'Presente',
     currentRole: 'Lemon Energia (Jul 2026 - Presente)',
     currentScopeFact: 'Atuo na ponte entre negócio e tecnologia',
     currentScopePolicy:
       'Descreva a Lemon no presente somente como escopo atual; não invente entregas, métricas, clientes ou projetos específicos.',
     locale: 'pt',
+    minimalAnswerRule:
+      'Não introduza datas, métricas, links ou alegações sobre empregadores, a menos que sejam necessários para responder à pergunta.',
     orderedHeadings: [
       'IDENTIDADE E OBJETIVO',
-      'IDIOMA, TOM E FORMATO',
       'SEGURANÇA E CONFIDENCIALIDADE',
+      'CONTEXTO TEMPORAL AUTORITATIVO',
+      'FATOS PROFISSIONAIS AUTORITATIVOS',
+      'IDIOMA, TOM E FORMATO',
       'FATOS E INCERTEZA',
       'CONTEXTO PROFISSIONAL',
       'ÁREAS DE EXPERIÊNCIA E PROJETOS',
@@ -50,16 +67,22 @@ const prompts: Array<{
   },
   {
     activeSearchPhrase: 'new opportunities',
+    canonicalDateRule:
+      'Copy canonical dates exactly; never correct them using prior knowledge or an assumed date.',
     currentPeriodMarker: 'Present',
     currentRole: 'Lemon Energia (Jul 2026 - Present)',
     currentScopeFact: 'I bridge business and technology',
     currentScopePolicy:
       'Describe Lemon in the present tense only as current scope; do not invent deliveries, metrics, clients, or specific projects.',
     locale: 'en',
+    minimalAnswerRule:
+      'Do not introduce dates, metrics, links, or employer claims unless they are needed to answer the question.',
     orderedHeadings: [
       'IDENTITY AND OBJECTIVE',
-      'LANGUAGE, TONE, AND FORMAT',
       'SECURITY AND CONFIDENTIALITY',
+      'AUTHORITATIVE RUNTIME CONTEXT',
+      'AUTHORITATIVE PROFESSIONAL FACTS',
+      'LANGUAGE, TONE, AND FORMAT',
       'FACTS AND UNCERTAINTY',
       'PROFESSIONAL CONTEXT',
       'AREAS OF EXPERIENCE AND PROJECTS',
@@ -85,16 +108,22 @@ const prompts: Array<{
   },
   {
     activeSearchPhrase: 'nuevas oportunidades',
+    canonicalDateRule:
+      'Copia las fechas canónicas exactamente; nunca las corrijas usando conocimiento previo o una fecha supuesta.',
     currentPeriodMarker: 'Presente',
     currentRole: 'Lemon Energia (Jul 2026 - Presente)',
     currentScopeFact: 'Actúo como puente entre negocio y tecnología',
     currentScopePolicy:
       'Describe Lemon en presente solo como alcance actual; no inventes entregas, métricas, clientes o proyectos específicos.',
     locale: 'es',
+    minimalAnswerRule:
+      'No introduzcas fechas, métricas, enlaces ni afirmaciones sobre empleadores salvo que sean necesarios para responder la pregunta.',
     orderedHeadings: [
       'IDENTIDAD Y OBJETIVO',
-      'IDIOMA, TONO Y FORMATO',
       'SEGURIDAD Y CONFIDENCIALIDAD',
+      'CONTEXTO TEMPORAL AUTORITATIVO',
+      'HECHOS PROFESIONALES AUTORITATIVOS',
+      'IDIOMA, TONO Y FORMATO',
       'HECHOS E INCERTIDUMBRE',
       'CONTEXTO PROFESIONAL',
       'ÁREAS DE EXPERIENCIA Y PROYECTOS',
@@ -123,17 +152,19 @@ const prompts: Array<{
 describe('chat system prompt builder', () => {
   it.each(prompts)('keeps facts, structure, and safety policies correct in $locale', ({
     activeSearchPhrase,
+    canonicalDateRule,
     currentPeriodMarker,
     currentRole,
     currentScopeFact,
     currentScopePolicy,
     locale,
+    minimalAnswerRule,
     orderedHeadings,
     pastRolePolicy,
     pastRoles,
     securityTerms,
   }) => {
-    const prompt = buildSystemPrompt(locale)
+    const prompt = buildSystemPrompt(locale, runtime)
     const headingIndexes = orderedHeadings.map((heading) => prompt.indexOf(heading))
     const experienceLines = prompt
       .split('\n')
@@ -152,6 +183,8 @@ describe('chat system prompt builder', () => {
     expect(currentExperienceLines[0]).toContain('Lemon Energia')
     expect(prompt).toContain(currentScopePolicy)
     expect(prompt).toContain(pastRolePolicy)
+    expect(prompt).toContain(canonicalDateRule)
+    expect(prompt).toContain(minimalAnswerRule)
     expect(prompt).not.toContain(activeSearchPhrase)
     expect(headingIndexes.every((index) => index >= 0)).toBe(true)
     expect(headingIndexes).toEqual([...headingIndexes].sort((a, b) => a - b))
@@ -161,13 +194,16 @@ describe('chat system prompt builder', () => {
     expect(prompt).toContain('https://www.linkedin.com/in/rannimontagna')
     expect(prompt).toContain('https://github.com/RanielliMontagna')
     expect(prompt).toContain('https://ranimontagna.com')
+    expect(prompt).toContain('2026-07-16')
+    expect(prompt).toContain('America/Sao_Paulo')
+    expect(prompt).toContain('START_DATE: 2026-07')
+    expect(prompt).toContain('RANI_PUBLIC_POLICY_CANARY_7F3A')
   })
 
-  it.each([
-    { locale: 'pt' as const, exportedPrompt: SYSTEM_PROMPT_PT },
-    { locale: 'en' as const, exportedPrompt: SYSTEM_PROMPT_EN },
-    { locale: 'es' as const, exportedPrompt: SYSTEM_PROMPT_ES },
-  ])('keeps the $locale legacy export generated by the builder', ({ locale, exportedPrompt }) => {
-    expect(exportedPrompt).toBe(buildSystemPrompt(locale))
+  it('uses the Sao Paulo calendar date at the UTC timezone boundary', () => {
+    expect(createChatRuntimeContext(new Date('2026-07-17T01:30:00.000Z'))).toEqual({
+      currentDate: '2026-07-16',
+      timeZone: 'America/Sao_Paulo',
+    })
   })
 })

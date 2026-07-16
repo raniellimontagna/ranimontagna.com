@@ -2,9 +2,11 @@ export type ChatLocale = 'pt' | 'en' | 'es'
 
 type ChatExperienceBase = {
   company: string
+  endDate: string | null
   location: string
   period: string
   role: string
+  startDate: string
 }
 
 export type CurrentChatExperience = ChatExperienceBase & {
@@ -55,6 +57,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         company: 'Lemon Energia',
         current: true,
+        endDate: null,
         location: 'Remoto',
         outcomes: [],
         period: 'Jul 2026 - Presente',
@@ -64,10 +67,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
           'Conduzo discovery contínuo e documento decisões, requisitos e trade-offs entre produto e tecnologia',
           'Uso IA com revisão crítica para acelerar prototipação e entregas confiáveis e escaláveis',
         ],
+        startDate: '2026-07',
       },
       {
         company: 'Luizalabs',
         current: false,
+        endDate: '2026-06',
         location: 'Remoto',
         outcomes: [
           'Atuei em aplicações web e mobile para operações de lojas físicas do Magalu',
@@ -77,10 +82,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'Out 2023 - Jun 2026',
         role: 'Desenvolvedor Pleno',
         scope: [],
+        startDate: '2023-10',
       },
       {
         company: 'Smarten',
         current: false,
+        endDate: '2023-09',
         location: 'Remoto',
         outcomes: [
           'Liderei uma equipe de desenvolvimento frontend',
@@ -90,10 +97,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'Mai 2022 - Set 2023',
         role: 'Tech Lead Front-end',
         scope: [],
+        startDate: '2022-05',
       },
       {
         company: 'SBSistemas',
         current: false,
+        endDate: '2022-05',
         location: 'Presencial',
         outcomes: [
           'Iniciei minha experiência profissional em tecnologia e consolidei minha base técnica',
@@ -101,6 +110,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'Mai 2021 - Mai 2022',
         role: 'Desenvolvedor Front-end',
         scope: [],
+        startDate: '2021-05',
       },
     ],
     hobbies: ['jogos', 'tecnologia', 'explorar novas stacks'],
@@ -160,6 +170,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         company: 'Lemon Energia',
         current: true,
+        endDate: null,
         location: 'Remote',
         outcomes: [],
         period: 'Jul 2026 - Present',
@@ -169,10 +180,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
           'I lead continuous discovery and document decisions, requirements, and product-technology trade-offs',
           'I use AI with critical review to accelerate reliable and scalable prototyping and delivery',
         ],
+        startDate: '2026-07',
       },
       {
         company: 'Luizalabs',
         current: false,
+        endDate: '2026-06',
         location: 'Remote',
         outcomes: [
           'I worked on web and mobile applications for Magalu physical store operations',
@@ -182,10 +195,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'Oct 2023 - Jun 2026',
         role: 'Mid-Level Developer',
         scope: [],
+        startDate: '2023-10',
       },
       {
         company: 'Smarten',
         current: false,
+        endDate: '2023-09',
         location: 'Remote',
         outcomes: [
           'I led a frontend development team',
@@ -195,10 +210,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'May 2022 - Sep 2023',
         role: 'Front-end Tech Lead',
         scope: [],
+        startDate: '2022-05',
       },
       {
         company: 'SBSistemas',
         current: false,
+        endDate: '2022-05',
         location: 'On-site',
         outcomes: [
           'I began my professional technology career and built a solid technical foundation',
@@ -206,6 +223,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'May 2021 - May 2022',
         role: 'Front-end Developer',
         scope: [],
+        startDate: '2021-05',
       },
     ],
     hobbies: ['games', 'technology', 'exploring new stacks'],
@@ -265,6 +283,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         company: 'Lemon Energia',
         current: true,
+        endDate: null,
         location: 'Remoto',
         outcomes: [],
         period: 'Jul 2026 - Presente',
@@ -274,10 +293,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
           'Conduzco discovery continuo y documento decisiones, requisitos y trade-offs entre producto y tecnología',
           'Uso IA con revisión crítica para acelerar prototipos y entregas confiables y escalables',
         ],
+        startDate: '2026-07',
       },
       {
         company: 'Luizalabs',
         current: false,
+        endDate: '2026-06',
         location: 'Remoto',
         outcomes: [
           'Trabajé en aplicaciones web y móviles para operaciones de tiendas físicas de Magalu',
@@ -287,10 +308,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'Oct 2023 - Jun 2026',
         role: 'Desarrollador Pleno',
         scope: [],
+        startDate: '2023-10',
       },
       {
         company: 'Smarten',
         current: false,
+        endDate: '2023-09',
         location: 'Remoto',
         outcomes: [
           'Lideré un equipo de desarrollo frontend',
@@ -300,15 +323,18 @@ export const CHAT_PROFILE_BY_LOCALE = {
         period: 'May 2022 - Sep 2023',
         role: 'Tech Lead Front-end',
         scope: [],
+        startDate: '2022-05',
       },
       {
         company: 'SBSistemas',
         current: false,
+        endDate: '2022-05',
         location: 'Presencial',
         outcomes: ['Inicié mi experiencia profesional en tecnología y consolidé mi base técnica'],
         period: 'May 2021 - May 2022',
         role: 'Desarrollador Front-end',
         scope: [],
+        startDate: '2021-05',
       },
     ],
     hobbies: ['juegos', 'tecnología', 'explorar nuevas herramientas'],

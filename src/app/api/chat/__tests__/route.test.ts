@@ -56,6 +56,8 @@ const createGeminiStreamResponse = (content: string) =>
 describe('chat route provider order', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-07-16T15:00:00.000Z'))
     resetRateLimitStateForTests()
     vi.spyOn(console, 'warn').mockImplementation(() => {})
     mockCallGemini.mockResolvedValue(null)
@@ -65,6 +67,7 @@ describe('chat route provider order', () => {
 
   afterEach(() => {
     resetRateLimitStateForTests()
+    vi.useRealTimers()
   })
 
   it('streams a successful DeepSeek response without calling fallback providers', async () => {
@@ -75,6 +78,12 @@ describe('chat route provider order', () => {
     expect(response.status).toBe(200)
     await expect(response.text()).resolves.toContain('data: {"text":"Resposta DeepSeek"}')
     expect(mockCallDeepSeek).toHaveBeenCalledTimes(1)
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]).toEqual(
+      expect.stringContaining('CURRENT_DATE: 2026-07-16'),
+    )
+    expect(mockCallDeepSeek.mock.calls[0]?.[0]).toEqual(
+      expect.stringContaining('POLICY_CANARY: RANI_PUBLIC_POLICY_CANARY_7F3A'),
+    )
     expect(mockCallGemini).not.toHaveBeenCalled()
     expect(mockCallOpenRouter).not.toHaveBeenCalled()
     expect(mockCallGroq).not.toHaveBeenCalled()

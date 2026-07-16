@@ -3,21 +3,25 @@ import { CHAT_PROFILE_BY_LOCALE, type ChatExperience, type ChatLocale } from '..
 type CurrentExperienceWithPastOutcomes = {
   company: string
   current: true
+  endDate: null
   location: string
   outcomes: [string]
   period: string
   role: string
   scope: string[]
+  startDate: string
 }
 
 type PreviousExperienceWithCurrentScope = {
   company: string
   current: false
+  endDate: string
   location: string
   outcomes: string[]
   period: string
   role: string
   scope: [string]
+  startDate: string
 }
 
 const locales: Array<{
@@ -46,15 +50,19 @@ describe('chat professional profile', () => {
     expect(lemon).toMatchObject({
       company: 'Lemon Energia',
       current: true,
+      endDate: null,
       outcomes: [],
       period: currentPeriod,
+      startDate: '2026-07',
     })
     expect(lemon.scope.length).toBeGreaterThan(0)
     expect(luizalabs).toMatchObject({
       company: 'Luizalabs',
       current: false,
+      endDate: '2026-06',
       period: previousPeriod,
       scope: [],
+      startDate: '2023-10',
     })
     expect(luizalabs.outcomes.length).toBeGreaterThan(0)
   })
