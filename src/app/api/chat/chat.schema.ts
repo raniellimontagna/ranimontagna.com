@@ -3,12 +3,11 @@ import { z } from 'zod'
 const questionSchema = z.string().trim().min(1).max(500)
 
 export const requestSchema = z
-  .object({
+  .strictObject({
     locale: z.enum(['pt', 'en', 'es']).default('pt'),
     message: questionSchema,
     previousQuestions: z.array(questionSchema).max(5).default([]),
   })
-  .strict()
   .superRefine((value, context) => {
     const aggregateLength =
       value.message.length +

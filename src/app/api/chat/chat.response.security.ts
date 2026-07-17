@@ -156,11 +156,13 @@ export const classifyUnsafeUrl = (
     if (!isApprovedChatUrl(destination)) return 'unsafe-link'
   }
 
-  for (const url of rawHttpsUrls(answer)) {
+  const literalHttpsUrls = rawHttpsUrls(answer)
+  const literalHttpsUrlSet = new Set(literalHttpsUrls)
+  for (const url of literalHttpsUrls) {
     if (!isApprovedChatUrl(url)) return 'unsafe-link'
   }
   for (const url of rawHttpsUrls(semanticAnswer)) {
-    if (!isApprovedChatUrl(url) || !answer.includes(url)) return 'unsafe-link'
+    if (!isApprovedChatUrl(url) || !literalHttpsUrlSet.has(url)) return 'unsafe-link'
   }
 
   return null

@@ -293,15 +293,22 @@ const maskOrderedListMarkers = (text: string): string => {
     .join('\n')
 }
 
-const canonicalTechnologyAliases = (profile: ChatProfile): string[] =>
-  [
-    ...profile.projects.flatMap((project) => project.technologies),
-    ...profile.technicalAreas.flatMap((area) => area.items),
-  ]
-    .map(normalizedForAssociation)
-    .filter(Boolean)
-    .filter((technology, index, technologies) => technologies.indexOf(technology) === index)
-    .sort((left, right) => right.length - left.length)
+const canonicalTechnologyAliases = (profile: ChatProfile): string[] => {
+  const aliases = new Set<string>()
+  const addTechnology = (technology: string) => {
+    const normalizedTechnology = normalizedForAssociation(technology)
+    if (normalizedTechnology) aliases.add(normalizedTechnology)
+  }
+
+  for (const project of profile.projects) {
+    for (const technology of project.technologies) addTechnology(technology)
+  }
+  for (const area of profile.technicalAreas) {
+    for (const technology of area.items) addTechnology(technology)
+  }
+
+  return [...aliases].sort((left, right) => right.length - left.length)
+}
 
 const maskCanonicalTechnologyVersions = (text: string, profile: ChatProfile): string => {
   const technologySource = canonicalTechnologyAliases(profile).map(escapeRegExp).join('|')

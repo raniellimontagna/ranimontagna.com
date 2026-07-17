@@ -16,13 +16,15 @@ export type ChatRuntimeContext = {
   timeZone: typeof CHAT_TIME_ZONE
 }
 
+const chatDateFormatter = new Intl.DateTimeFormat('en-US', {
+  day: '2-digit',
+  month: '2-digit',
+  timeZone: CHAT_TIME_ZONE,
+  year: 'numeric',
+})
+
 export function createChatRuntimeContext(now = new Date()): ChatRuntimeContext {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    day: '2-digit',
-    month: '2-digit',
-    timeZone: CHAT_TIME_ZONE,
-    year: 'numeric',
-  }).formatToParts(now)
+  const parts = chatDateFormatter.formatToParts(now)
   const value = (type: Intl.DateTimeFormatPartTypes) =>
     parts.find((part) => part.type === type)?.value ?? ''
 

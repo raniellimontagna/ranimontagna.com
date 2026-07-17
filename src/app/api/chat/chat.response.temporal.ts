@@ -552,10 +552,11 @@ const answerAffirmsFalseVisitorPremise = (
       (experience) =>
         clauseMentionsCompany(answer, experience) && !clauseSeparatesExperience(answer, experience),
     )
+    const explicitlyMentionedSet = new Set(explicitlyMentioned)
     if (
       !explicitlyMentioned.length ||
       falsePremises.some(
-        (premise) => premise.experience && explicitlyMentioned.includes(premise.experience),
+        (premise) => premise.experience && explicitlyMentionedSet.has(premise.experience),
       )
     ) {
       return true

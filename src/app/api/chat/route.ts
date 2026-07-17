@@ -247,7 +247,8 @@ export async function POST(request: NextRequest): Promise<Response> {
           continue
         }
 
-        const correctionAnswer = await collectProviderAnswer(correctionResult.attempt, execution)
+        const correctionAttempt = correctionResult.attempt
+        const correctionAnswer = await collectProviderAnswer(correctionAttempt, execution)
         if (!correctionAnswer.ok) {
           recordChatAttempt({
             answerLength: 0,
@@ -255,10 +256,10 @@ export async function POST(request: NextRequest): Promise<Response> {
             failureCategory: correctionAnswer.code,
             fallbackActivated: correctionAnswer.code !== 'cancelled',
             finishReason: null,
-            firstByteMs: correctionResult.attempt.firstByteMs,
+            firstByteMs: correctionAttempt.firstByteMs,
             kind: 'provider-attempt',
-            model: correctionResult.attempt.model,
-            provider: correctionResult.attempt.provider,
+            model: correctionAttempt.model,
+            provider: correctionAttempt.provider,
             result: 'provider-failure',
             traceId,
             validationCode: null,
@@ -278,10 +279,10 @@ export async function POST(request: NextRequest): Promise<Response> {
             failureCategory: null,
             fallbackActivated: false,
             finishReason: correctionAnswer.finishReason,
-            firstByteMs: correctionResult.attempt.firstByteMs,
+            firstByteMs: correctionAttempt.firstByteMs,
             kind: 'provider-attempt',
-            model: correctionResult.attempt.model,
-            provider: correctionResult.attempt.provider,
+            model: correctionAttempt.model,
+            provider: correctionAttempt.provider,
             result: 'success',
             traceId,
             validationCode: null,
@@ -294,10 +295,10 @@ export async function POST(request: NextRequest): Promise<Response> {
             failureCategory: 'validation',
             fallbackActivated: true,
             finishReason: correctionAnswer.finishReason,
-            firstByteMs: correctionResult.attempt.firstByteMs,
+            firstByteMs: correctionAttempt.firstByteMs,
             kind: 'provider-attempt',
-            model: correctionResult.attempt.model,
-            provider: correctionResult.attempt.provider,
+            model: correctionAttempt.model,
+            provider: correctionAttempt.provider,
             result: 'validation-failure',
             traceId,
             validationCode: correctionValidation.code,
@@ -347,7 +348,8 @@ export async function POST(request: NextRequest): Promise<Response> {
         continue
       }
 
-      const collected = await collectProviderAnswer(result.attempt, execution)
+      const providerAttempt = result.attempt
+      const collected = await collectProviderAnswer(providerAttempt, execution)
       if (!collected.ok) {
         const goesToCorrection = collected.code === 'response-too-large'
         recordChatAttempt({
@@ -356,10 +358,10 @@ export async function POST(request: NextRequest): Promise<Response> {
           failureCategory: collected.code,
           fallbackActivated: collected.code !== 'cancelled' && !goesToCorrection,
           finishReason: null,
-          firstByteMs: result.attempt.firstByteMs,
+          firstByteMs: providerAttempt.firstByteMs,
           kind: 'provider-attempt',
-          model: result.attempt.model,
-          provider: result.attempt.provider,
+          model: providerAttempt.model,
+          provider: providerAttempt.provider,
           result: 'provider-failure',
           traceId,
           validationCode: goesToCorrection ? 'answer-too-large' : null,
@@ -389,10 +391,10 @@ export async function POST(request: NextRequest): Promise<Response> {
           failureCategory: null,
           fallbackActivated: false,
           finishReason: collected.finishReason,
-          firstByteMs: result.attempt.firstByteMs,
+          firstByteMs: providerAttempt.firstByteMs,
           kind: 'provider-attempt',
-          model: result.attempt.model,
-          provider: result.attempt.provider,
+          model: providerAttempt.model,
+          provider: providerAttempt.provider,
           result: 'success',
           traceId,
           validationCode: null,
@@ -405,10 +407,10 @@ export async function POST(request: NextRequest): Promise<Response> {
           failureCategory: 'validation',
           fallbackActivated: false,
           finishReason: collected.finishReason,
-          firstByteMs: result.attempt.firstByteMs,
+          firstByteMs: providerAttempt.firstByteMs,
           kind: 'provider-attempt',
-          model: result.attempt.model,
-          provider: result.attempt.provider,
+          model: providerAttempt.model,
+          provider: providerAttempt.provider,
           result: 'validation-failure',
           traceId,
           validationCode: validation.code,
