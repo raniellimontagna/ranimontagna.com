@@ -26,6 +26,7 @@ import {
   validateChatAnswer,
 } from './chat.response'
 import { requestSchema } from './chat.schema'
+import { type ChatTelemetryFailureCategory, recordChatAttempt } from './chat.telemetry'
 import { checkRateLimit, getRateLimitIdentifier } from './chat.utils'
 
 const MAX_REQUEST_BODY_BYTES = 8 * 1024
@@ -39,7 +40,11 @@ type ChatRouteState =
   | { kind: 'provider'; index: number }
   | { kind: 'correction'; code: ChatValidationCode }
   | { kind: 'answer'; text: string }
-  | { kind: 'fallback' }
+  | {
+      kind: 'fallback'
+      failureCategory: ChatTelemetryFailureCategory
+      validationCode: ChatValidationCode | null
+    }
   | { kind: 'cancelled' }
 
 const chainableCollectionFailures = new Set([
@@ -48,6 +53,13 @@ const chainableCollectionFailures = new Set([
   'malformed',
   'provider-error',
 ] as const)
+
+const fallbackState = (
+  failureCategory: ChatTelemetryFailureCategory,
+  validationCode: ChatValidationCode | null = null,
+): ChatRouteState => ({ kind: 'fallback', failureCategory, validationCode })
+
+const elapsedSince = (startedAt: number): number => Math.max(0, Date.now() - startedAt)
 
 async function readBoundedJsonBody(request: NextRequest): Promise<BoundedJsonResult> {
   const reader = request.body?.getReader()
@@ -133,6 +145,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     const { locale, message, previousQuestions } = parsed.data
+    const traceId = crypto.randomUUID()
     const runtime = createChatRuntimeContext()
     const systemPrompt = buildSystemPrompt(locale, runtime)
     const userContent = buildUntrustedUserContent(message, previousQuestions)
@@ -167,6 +180,18 @@ export async function POST(request: NextRequest): Promise<Response> {
         if (getChatInterruptionCategory(execution) === 'cancelled') {
           return new Response(null, { status: 499 })
         }
+        recordChatAttempt({
+          answerLength: staticFallback.length,
+          durationMs: elapsedSince(execution.startedAt),
+          failureCategory: state.failureCategory,
+          fallbackActivated: true,
+          finishReason: null,
+          firstByteMs: null,
+          kind: 'safe-fallback',
+          result: 'safe-fallback',
+          traceId,
+          validationCode: state.validationCode,
+        })
         return new Response(buildTextStream(staticFallback), { headers: SSE_HEADERS })
       }
 
@@ -177,7 +202,7 @@ export async function POST(request: NextRequest): Promise<Response> {
           continue
         }
         if (interrupted === 'timeout') {
-          state = { kind: 'fallback' }
+          state = fallbackState('timeout')
           continue
         }
         return new Response(buildTextStream(state.text), { headers: SSE_HEADERS })
@@ -190,32 +215,95 @@ export async function POST(request: NextRequest): Promise<Response> {
           continue
         }
         if (interrupted === 'timeout') {
-          state = { kind: 'fallback' }
+          state = fallbackState('timeout')
           continue
         }
 
+        const attemptStartedAt = Date.now()
         const correctionResult = await adapters.callDeepSeek({
           execution,
           systemPrompt: buildCorrectionSystemPrompt(systemPrompt, state.code),
           userContent,
         })
         if (!correctionResult.ok) {
+          recordChatAttempt({
+            answerLength: 0,
+            durationMs: elapsedSince(attemptStartedAt),
+            failureCategory: correctionResult.category,
+            fallbackActivated: correctionResult.category !== 'cancelled',
+            finishReason: null,
+            firstByteMs: correctionResult.firstByteMs,
+            kind: 'provider-attempt',
+            model: correctionResult.model,
+            provider: correctionResult.provider,
+            result: 'provider-failure',
+            traceId,
+            validationCode: null,
+          })
           state =
-            correctionResult.category === 'cancelled' ? { kind: 'cancelled' } : { kind: 'fallback' }
+            correctionResult.category === 'cancelled'
+              ? { kind: 'cancelled' }
+              : fallbackState(correctionResult.category)
           continue
         }
 
         const correctionAnswer = await collectProviderAnswer(correctionResult.attempt, execution)
         if (!correctionAnswer.ok) {
+          recordChatAttempt({
+            answerLength: 0,
+            durationMs: elapsedSince(attemptStartedAt),
+            failureCategory: correctionAnswer.code,
+            fallbackActivated: correctionAnswer.code !== 'cancelled',
+            finishReason: null,
+            firstByteMs: correctionResult.attempt.firstByteMs,
+            kind: 'provider-attempt',
+            model: correctionResult.attempt.model,
+            provider: correctionResult.attempt.provider,
+            result: 'provider-failure',
+            traceId,
+            validationCode: null,
+          })
           state =
-            correctionAnswer.code === 'cancelled' ? { kind: 'cancelled' } : { kind: 'fallback' }
+            correctionAnswer.code === 'cancelled'
+              ? { kind: 'cancelled' }
+              : fallbackState(correctionAnswer.code)
           continue
         }
 
         const correctionValidation = validateChatAnswer(validationInput(correctionAnswer.text))
-        state = correctionValidation.ok
-          ? { kind: 'answer', text: correctionAnswer.text }
-          : { kind: 'fallback' }
+        if (correctionValidation.ok) {
+          recordChatAttempt({
+            answerLength: correctionAnswer.text.length,
+            durationMs: elapsedSince(attemptStartedAt),
+            failureCategory: null,
+            fallbackActivated: false,
+            finishReason: correctionAnswer.finishReason,
+            firstByteMs: correctionResult.attempt.firstByteMs,
+            kind: 'provider-attempt',
+            model: correctionResult.attempt.model,
+            provider: correctionResult.attempt.provider,
+            result: 'success',
+            traceId,
+            validationCode: null,
+          })
+          state = { kind: 'answer', text: correctionAnswer.text }
+        } else {
+          recordChatAttempt({
+            answerLength: correctionAnswer.text.length,
+            durationMs: elapsedSince(attemptStartedAt),
+            failureCategory: 'validation',
+            fallbackActivated: true,
+            finishReason: correctionAnswer.finishReason,
+            firstByteMs: correctionResult.attempt.firstByteMs,
+            kind: 'provider-attempt',
+            model: correctionResult.attempt.model,
+            provider: correctionResult.attempt.provider,
+            result: 'validation-failure',
+            traceId,
+            validationCode: correctionValidation.code,
+          })
+          state = fallbackState('validation', correctionValidation.code)
+        }
         continue
       }
 
@@ -225,17 +313,34 @@ export async function POST(request: NextRequest): Promise<Response> {
         continue
       }
       if (interrupted === 'timeout' || state.index >= providers.length) {
-        state = { kind: 'fallback' }
+        state = fallbackState(interrupted === 'timeout' ? 'timeout' : 'upstream')
         continue
       }
 
       const provider = providers[state.index]
+      const attemptStartedAt = Date.now()
       const result = await provider({ execution, systemPrompt, userContent })
       if (!result.ok) {
+        recordChatAttempt({
+          answerLength: 0,
+          durationMs: elapsedSince(attemptStartedAt),
+          failureCategory: result.category,
+          fallbackActivated: result.category !== 'cancelled',
+          finishReason: null,
+          firstByteMs: result.firstByteMs,
+          kind: 'provider-attempt',
+          model: result.model,
+          provider: result.provider,
+          result: 'provider-failure',
+          traceId,
+          validationCode: null,
+        })
         if (result.category === 'cancelled') {
           state = { kind: 'cancelled' }
         } else if (result.category === 'timeout' || !result.chainable) {
-          state = { kind: 'fallback' }
+          state = fallbackState(result.category)
+        } else if (state.index + 1 >= providers.length) {
+          state = fallbackState(result.category)
         } else {
           state = { kind: 'provider', index: state.index + 1 }
         }
@@ -244,24 +349,72 @@ export async function POST(request: NextRequest): Promise<Response> {
 
       const collected = await collectProviderAnswer(result.attempt, execution)
       if (!collected.ok) {
+        const goesToCorrection = collected.code === 'response-too-large'
+        recordChatAttempt({
+          answerLength: 0,
+          durationMs: elapsedSince(attemptStartedAt),
+          failureCategory: collected.code,
+          fallbackActivated: collected.code !== 'cancelled' && !goesToCorrection,
+          finishReason: null,
+          firstByteMs: result.attempt.firstByteMs,
+          kind: 'provider-attempt',
+          model: result.attempt.model,
+          provider: result.attempt.provider,
+          result: 'provider-failure',
+          traceId,
+          validationCode: goesToCorrection ? 'answer-too-large' : null,
+        })
         if (collected.code === 'cancelled') {
           state = { kind: 'cancelled' }
         } else if (collected.code === 'timeout' || collected.code === 'safety') {
-          state = { kind: 'fallback' }
+          state = fallbackState(collected.code)
         } else if (collected.code === 'response-too-large') {
           state = { kind: 'correction', code: 'answer-too-large' }
         } else if (chainableCollectionFailures.has(collected.code)) {
-          state = { kind: 'provider', index: state.index + 1 }
+          state =
+            state.index + 1 >= providers.length
+              ? fallbackState(collected.code)
+              : { kind: 'provider', index: state.index + 1 }
         } else {
-          state = { kind: 'fallback' }
+          state = fallbackState(collected.code)
         }
         continue
       }
 
       const validation = validateChatAnswer(validationInput(collected.text))
-      state = validation.ok
-        ? { kind: 'answer', text: collected.text }
-        : { kind: 'correction', code: validation.code }
+      if (validation.ok) {
+        recordChatAttempt({
+          answerLength: collected.text.length,
+          durationMs: elapsedSince(attemptStartedAt),
+          failureCategory: null,
+          fallbackActivated: false,
+          finishReason: collected.finishReason,
+          firstByteMs: result.attempt.firstByteMs,
+          kind: 'provider-attempt',
+          model: result.attempt.model,
+          provider: result.attempt.provider,
+          result: 'success',
+          traceId,
+          validationCode: null,
+        })
+        state = { kind: 'answer', text: collected.text }
+      } else {
+        recordChatAttempt({
+          answerLength: collected.text.length,
+          durationMs: elapsedSince(attemptStartedAt),
+          failureCategory: 'validation',
+          fallbackActivated: false,
+          finishReason: collected.finishReason,
+          firstByteMs: result.attempt.firstByteMs,
+          kind: 'provider-attempt',
+          model: result.attempt.model,
+          provider: result.attempt.provider,
+          result: 'validation-failure',
+          traceId,
+          validationCode: validation.code,
+        })
+        state = { kind: 'correction', code: validation.code }
+      }
     }
   } catch {
     return Response.json({ error: 'Internal server error' }, { status: 500 })

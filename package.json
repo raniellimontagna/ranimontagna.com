@@ -19,6 +19,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "chat:eval": "node scripts/chat-live-eval.mjs",
     "cv:generate": "python3 scripts/generate-cv.py"
   },
   "dependencies": {

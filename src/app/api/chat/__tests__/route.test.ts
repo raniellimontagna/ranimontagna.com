@@ -7,12 +7,14 @@ const {
   mockCallOpenRouter,
   mockCallGroq,
   mockCreateChatProviderAdapters,
+  mockRecordChatAttempt,
 } = vi.hoisted(() => ({
   mockCallDeepSeek: vi.fn(),
   mockCallGemini: vi.fn(),
   mockCallOpenRouter: vi.fn(),
   mockCallGroq: vi.fn(),
   mockCreateChatProviderAdapters: vi.fn(),
+  mockRecordChatAttempt: vi.fn(),
 }))
 
 vi.mock('../chat.providers', async (importOriginal) => {
@@ -23,6 +25,10 @@ vi.mock('../chat.providers', async (importOriginal) => {
     createChatProviderAdapters: mockCreateChatProviderAdapters,
   }
 })
+
+vi.mock('../chat.telemetry', () => ({
+  recordChatAttempt: mockRecordChatAttempt,
+}))
 
 import { POST } from '../route'
 
@@ -127,6 +133,9 @@ describe('chat route provider order', () => {
     vi.resetAllMocks()
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-07-16T15:00:00.000Z'))
+    vi.spyOn(globalThis.crypto, 'randomUUID').mockReturnValue(
+      '00000000-0000-4000-8000-000000000001',
+    )
     resetRateLimitStateForTests()
     mockCreateChatProviderAdapters.mockReturnValue({
       callDeepSeek: mockCallDeepSeek,
@@ -147,9 +156,10 @@ describe('chat route provider order', () => {
   })
 
   it('streams a successful DeepSeek response without calling fallback providers', async () => {
-    mockCallDeepSeek.mockResolvedValue(
-      providerSuccess('deepseek', createOpenAiStreamResponse('Resposta DeepSeek')),
-    )
+    mockCallDeepSeek.mockImplementationOnce(async () => {
+      vi.setSystemTime(new Date('2026-07-16T15:00:00.037Z'))
+      return providerSuccess('deepseek', createOpenAiStreamResponse('Resposta DeepSeek'))
+    })
 
     const response = await POST(createRequest() as never)
 
@@ -169,6 +179,21 @@ describe('chat route provider order', () => {
     expect(mockCallGemini).not.toHaveBeenCalled()
     expect(mockCallOpenRouter).not.toHaveBeenCalled()
     expect(mockCallGroq).not.toHaveBeenCalled()
+    expect(mockRecordChatAttempt).toHaveBeenCalledOnce()
+    expect(mockRecordChatAttempt).toHaveBeenCalledWith({
+      answerLength: 'Resposta DeepSeek'.length,
+      durationMs: 37,
+      failureCategory: null,
+      fallbackActivated: false,
+      finishReason: null,
+      firstByteMs: 5,
+      kind: 'provider-attempt',
+      model: 'deepseek-model',
+      provider: 'deepseek',
+      result: 'success',
+      traceId: '00000000-0000-4000-8000-000000000001',
+      validationCode: null,
+    })
   })
 
   it('buffers provider chunks until clean completion and emits only one approved answer', async () => {
@@ -244,6 +269,37 @@ describe('chat route provider order', () => {
     expect(mockCallGemini).not.toHaveBeenCalled()
     expect(mockCallOpenRouter).not.toHaveBeenCalled()
     expect(mockCallGroq).not.toHaveBeenCalled()
+    expect(mockRecordChatAttempt).toHaveBeenCalledTimes(2)
+    expect(mockRecordChatAttempt.mock.calls.map(([event]) => event)).toEqual([
+      {
+        answerLength: rejected.length,
+        durationMs: 0,
+        failureCategory: 'validation',
+        fallbackActivated: false,
+        finishReason: null,
+        firstByteMs: 5,
+        kind: 'provider-attempt',
+        model: 'deepseek-model',
+        provider: 'deepseek',
+        result: 'validation-failure',
+        traceId: '00000000-0000-4000-8000-000000000001',
+        validationCode: 'canonical-date-conflict',
+      },
+      {
+        answerLength: 'Trabalho na Lemon desde julho de 2026.'.length,
+        durationMs: 0,
+        failureCategory: null,
+        fallbackActivated: false,
+        finishReason: null,
+        firstByteMs: 5,
+        kind: 'provider-attempt',
+        model: 'deepseek-model',
+        provider: 'deepseek',
+        result: 'success',
+        traceId: '00000000-0000-4000-8000-000000000001',
+        validationCode: null,
+      },
+    ])
   })
 
   it('corrects one unsupported metric through DeepSeek without calling fallback providers', async () => {
@@ -268,7 +324,7 @@ describe('chat route provider order', () => {
   })
 
   it('returns the localized static fallback after one invalid correction', async () => {
-    mockCallDeepSeek.mockResolvedValue(
+    mockCallDeepSeek.mockImplementation(async () =>
       providerSuccess('deepseek', createOpenAiStreamResponse('Comecei na Lemon em 2024.')),
     )
 
@@ -279,6 +335,19 @@ describe('chat route provider order', () => {
     expect(mockCallGemini).not.toHaveBeenCalled()
     expect(mockCallOpenRouter).not.toHaveBeenCalled()
     expect(mockCallGroq).not.toHaveBeenCalled()
+    expect(mockRecordChatAttempt).toHaveBeenCalledTimes(3)
+    expect(mockRecordChatAttempt.mock.calls.at(-1)?.[0]).toEqual({
+      answerLength: FALLBACK_MESSAGES.pt.length,
+      durationMs: 0,
+      failureCategory: 'validation',
+      fallbackActivated: true,
+      finishReason: null,
+      firstByteMs: null,
+      kind: 'safe-fallback',
+      result: 'safe-fallback',
+      traceId: '00000000-0000-4000-8000-000000000001',
+      validationCode: 'canonical-date-conflict',
+    })
   })
 
   it('routes collection overflow to one clean DeepSeek correction', async () => {
@@ -394,6 +463,49 @@ describe('chat route provider order', () => {
     expect(mockCallOpenRouter.mock.calls[0]?.[0]?.execution).toBe(execution)
     expect(mockCallGroq.mock.calls[0]?.[0]?.execution).toBe(execution)
     expect(mockCallGemini.mock.calls[0]?.[0]?.execution.signal).toBe(execution.signal)
+    expect(mockRecordChatAttempt).toHaveBeenCalledTimes(5)
+    expect(mockRecordChatAttempt.mock.calls.map(([event]) => event)).toEqual([
+      expect.objectContaining({
+        failureCategory: 'upstream',
+        fallbackActivated: true,
+        kind: 'provider-attempt',
+        provider: 'deepseek',
+        result: 'provider-failure',
+      }),
+      expect.objectContaining({
+        failureCategory: 'disabled',
+        fallbackActivated: true,
+        kind: 'provider-attempt',
+        provider: 'gemini',
+        result: 'provider-failure',
+      }),
+      expect.objectContaining({
+        failureCategory: 'disabled',
+        fallbackActivated: true,
+        kind: 'provider-attempt',
+        provider: 'openrouter',
+        result: 'provider-failure',
+      }),
+      expect.objectContaining({
+        failureCategory: 'disabled',
+        fallbackActivated: true,
+        kind: 'provider-attempt',
+        provider: 'groq',
+        result: 'provider-failure',
+      }),
+      {
+        answerLength: FALLBACK_MESSAGES.pt.length,
+        durationMs: 0,
+        failureCategory: 'disabled',
+        fallbackActivated: true,
+        finishReason: null,
+        firstByteMs: null,
+        kind: 'safe-fallback',
+        result: 'safe-fallback',
+        traceId: '00000000-0000-4000-8000-000000000001',
+        validationCode: null,
+      },
+    ])
   })
 
   it('fails closed without another provider after a safety rejection', async () => {
@@ -416,6 +528,18 @@ describe('chat route provider order', () => {
     expect(response.status).toBe(499)
     await expect(response.text()).resolves.toBe('')
     expect(mockCallGemini).not.toHaveBeenCalled()
+    expect(mockRecordChatAttempt).toHaveBeenCalledOnce()
+    expect(mockRecordChatAttempt).toHaveBeenCalledWith(
+      expect.objectContaining({
+        failureCategory: 'cancelled',
+        fallbackActivated: false,
+        kind: 'provider-attempt',
+        result: 'provider-failure',
+      }),
+    )
+    expect(mockRecordChatAttempt).not.toHaveBeenCalledWith(
+      expect.objectContaining({ kind: 'safe-fallback' }),
+    )
   })
 
   it('stops before headers when the client aborts a pending provider request', async () => {
