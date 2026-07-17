@@ -1,7 +1,9 @@
+import { CHAT_CONTACT_LINKS } from '@/shared/lib/chat-links'
+
 export const FALLBACK_MESSAGES: Record<string, string> = {
-  pt: 'Estou temporariamente indisponível 😅 Mas você pode falar diretamente comigo pelo [LinkedIn](https://linkedin.com/in/rannimontagna) ou acessar meu [GitHub](https://github.com/RanielliMontagna) para ver meus projetos!',
-  en: "I'm temporarily unavailable 😅 But you can reach me directly on [LinkedIn](https://linkedin.com/in/rannimontagna) or check out my [GitHub](https://github.com/RanielliMontagna) to see my projects!",
-  es: 'Estoy temporalmente no disponible 😅 ¡Pero puedes contactarme directamente en [LinkedIn](https://linkedin.com/in/rannimontagna) o ver mis proyectos en [GitHub](https://github.com/RanielliMontagna)!',
+  pt: `Estou temporariamente indisponível 😅 Mas você pode falar diretamente comigo pelo [LinkedIn](${CHAT_CONTACT_LINKS.linkedin}) ou acessar meu [GitHub](${CHAT_CONTACT_LINKS.github}) para ver meus projetos!`,
+  en: `I'm temporarily unavailable 😅 But you can reach me directly on [LinkedIn](${CHAT_CONTACT_LINKS.linkedin}) or check out my [GitHub](${CHAT_CONTACT_LINKS.github}) to see my projects!`,
+  es: `Estoy temporalmente no disponible 😅 ¡Pero puedes contactarme directamente en [LinkedIn](${CHAT_CONTACT_LINKS.linkedin}) o ver mis proyectos en [GitHub](${CHAT_CONTACT_LINKS.github})!`,
 }
 
 export const SSE_HEADERS = {

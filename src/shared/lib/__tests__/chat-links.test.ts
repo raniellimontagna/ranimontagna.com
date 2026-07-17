@@ -21,4 +21,21 @@ describe('shared chat link policy', () => {
     expect(isApprovedChatUrl(`${CHAT_CONTACT_LINKS.website}/`)).toBe(false)
     expect(isApprovedChatUrl('javascript:alert(1)')).toBe(false)
   })
+
+  it.each([
+    ['HTTP', 'http://ranimontagna.com'],
+    ['JavaScript', 'javascript:alert(1)'],
+    ['data', 'data:text/html,hello'],
+    ['relative', '/contact'],
+    ['trailing slash', 'https://ranimontagna.com/'],
+    ['query string', 'https://ranimontagna.com?next=evil'],
+    ['fragment', 'https://ranimontagna.com#contact'],
+    ['lookalike host', 'https://ranimontagna.com.evil.example'],
+    ['userinfo', 'https://ranimontagna.com@evil.example'],
+    ['leading whitespace', ' https://ranimontagna.com'],
+    ['trailing whitespace', 'https://ranimontagna.com '],
+    ['Markdown title', 'https://ranimontagna.com "Portfolio"'],
+  ])('rejects a non-exact %s URL', (_case, value) => {
+    expect(isApprovedChatUrl(value)).toBe(false)
+  })
 })

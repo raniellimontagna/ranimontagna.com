@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/utils'
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import type { ChatMessage } from '@/shared/store/use-chat/use-chat.types'
+import { renderChatMarkdown } from './chat-markdown'
 
 const TypingIndicator = (): React.ReactElement => (
   <div className="inline-flex items-center gap-1 rounded-2xl border border-line bg-surface px-4 py-3">
@@ -21,33 +22,6 @@ const TypingIndicator = (): React.ReactElement => (
     ))}
   </div>
 )
-
-const renderMarkdown = (content: string): React.ReactNode[] => {
-  const parts = content.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g)
-
-  return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
-      return <strong key={i}>{part.slice(2, -2)}</strong>
-    }
-
-    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
-    if (linkMatch) {
-      return (
-        <a
-          key={i}
-          href={linkMatch[2]}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline underline-offset-2 decoration-accent-ice/50 transition-colors hover:text-accent-ice"
-        >
-          {linkMatch[1]}
-        </a>
-      )
-    }
-
-    return part
-  })
-}
 
 const MessageBubble = ({ message }: { message: ChatMessage }): React.ReactElement => {
   const isUser = message.role === 'user'
@@ -67,7 +41,7 @@ const MessageBubble = ({ message }: { message: ChatMessage }): React.ReactElemen
             : 'border border-line bg-surface text-foreground',
         )}
       >
-        <p className="wrap-break-word whitespace-pre-wrap">{renderMarkdown(message.content)}</p>
+        <p className="wrap-break-word whitespace-pre-wrap">{renderChatMarkdown(message.content)}</p>
       </div>
     </motion.div>
   )

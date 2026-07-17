@@ -1,5 +1,8 @@
 import type { ChatMessage, ChatState } from '@/shared/store/use-chat/use-chat.types'
 import { act, fireEvent, render, screen, waitFor } from '@/tests/test-utils'
+import enMessages from '../../../../../../messages/en.json'
+import esMessages from '../../../../../../messages/es.json'
+import ptMessages from '../../../../../../messages/pt.json'
 import { ChatWidget } from '../chat-widget'
 
 type MockChatState = Pick<
@@ -157,7 +160,8 @@ describe('ChatWidget', () => {
       messages: [
         createMessage({ content: 'Pergunta do usuario', id: 'user-1', role: 'user' }),
         createMessage({
-          content: 'Resposta com **destaque** e [portfólio](https://example.com)',
+          content:
+            'Resposta com **destaque** e [portfólio](https://www.linkedin.com/in/rannimontagna)',
           id: 'assistant-1',
         }),
       ],
@@ -170,7 +174,7 @@ describe('ChatWidget', () => {
     expect(screen.getByText('destaque')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'portfólio' })).toHaveAttribute(
       'href',
-      'https://example.com',
+      'https://www.linkedin.com/in/rannimontagna',
     )
     expect(screen.getByText('error')).toBeInTheDocument()
 
@@ -179,6 +183,56 @@ describe('ChatWidget', () => {
 
     expect(chatState.clearMessages).toHaveBeenCalledTimes(1)
     expect(chatState.setOpen).toHaveBeenCalledWith(false)
+  })
+
+  it('keeps a rejected Markdown link label visible without creating an anchor', () => {
+    const chatState = createChatState({
+      isOpen: true,
+      messages: [
+        createMessage({
+          content: 'Não abra [este destino](javascript:alert(1)).',
+          id: 'assistant-unsafe-link',
+        }),
+      ],
+    })
+    mocks.useChat.mockReturnValue(chatState)
+
+    render(<ChatWidget />)
+
+    expect(screen.getByText(/este destino/)).toBeVisible()
+    expect(screen.queryByRole('link', { name: 'este destino' })).not.toBeInTheDocument()
+  })
+
+  it.each([
+    {
+      copy: ptMessages.chat.betaNotice,
+      expected:
+        'IA pode errar e usar provedores de fallback. Não envie dados pessoais, confidenciais ou sensíveis.',
+      locale: 'pt',
+    },
+    {
+      copy: enMessages.chat.betaNotice,
+      expected:
+        'AI can make mistakes and use fallback providers. Do not send personal, confidential, or sensitive data.',
+      locale: 'en',
+    },
+    {
+      copy: esMessages.chat.betaNotice,
+      expected:
+        'La IA puede equivocarse y usar proveedores de respaldo. No envíes datos personales, confidenciales ni sensibles.',
+      locale: 'es',
+    },
+  ])('shows the $locale privacy notice before any submission', ({ copy, expected, locale }) => {
+    const chatState = createChatState({ isOpen: true })
+    mocks.useChat.mockReturnValue(chatState)
+    mocks.useLocale.mockReturnValue(locale)
+    mocks.useTranslations.mockReturnValue((key: string) => (key === 'betaNotice' ? copy : key))
+
+    render(<ChatWidget />)
+
+    expect(screen.getByText(expected)).toBeVisible()
+    expect(screen.getByRole('textbox', { name: 'placeholder' })).toBeVisible()
+    expect(chatState.sendMessage).not.toHaveBeenCalled()
   })
 
   it('sends trimmed input on click and on Enter, but ignores Shift+Enter', async () => {

@@ -484,7 +484,7 @@
   "chat": {
     "title": "Rani",
     "status": "Versão IA · Online",
-    "betaNotice": "Chat em fase beta e pode apresentar problemas.",
+    "betaNotice": "IA pode errar e usar provedores de fallback. Não envie dados pessoais, confidenciais ou sensíveis.",
     "fabTooltip": "Fale com meu eu digital",
     "placeholder": "Pergunte algo ao Rani...",
     "send": "Enviar mensagem",
