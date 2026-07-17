@@ -115,7 +115,12 @@ export const containsInternalPolicy = (variants: string[]): boolean =>
 export const containsSecretPattern = (variants: string[]): boolean =>
   variants.some((variant) => secretPatterns.some((pattern) => pattern.test(variant)))
 
-type MarkdownDestination = { closed: boolean; value: string }
+type MarkdownDestination = {
+  closed: boolean
+  syntaxEnd: number
+  syntaxStart: number
+  value: string
+}
 
 const markdownDestinations = (answer: string): MarkdownDestination[] => {
   const destinations: MarkdownDestination[] = []
@@ -126,6 +131,8 @@ const markdownDestinations = (answer: string): MarkdownDestination[] => {
     const end = answer.indexOf(')', start)
     destinations.push({
       closed: end >= 0,
+      syntaxEnd: end < 0 ? answer.length : end + 1,
+      syntaxStart: openerIndex,
       value: end < 0 ? answer.slice(start) : answer.slice(start, end),
     })
     if (end < 0) break
@@ -133,6 +140,21 @@ const markdownDestinations = (answer: string): MarkdownDestination[] => {
     openerIndex = answer.indexOf('](', searchFrom)
   }
   return destinations
+}
+
+const maskMarkdownDestinationSyntax = (
+  answer: string,
+  destinations: MarkdownDestination[],
+): string => {
+  const parts: string[] = []
+  let cursor = 0
+  for (const destination of destinations) {
+    parts.push(answer.slice(cursor, destination.syntaxStart))
+    parts.push(' '.repeat(destination.syntaxEnd - destination.syntaxStart))
+    cursor = destination.syntaxEnd
+  }
+  parts.push(answer.slice(cursor))
+  return parts.join('')
 }
 
 const rawHttpsUrls = (answer: string): string[] =>
@@ -147,7 +169,8 @@ export const classifyUnsafeUrl = (
   const nonHttpsProtocol = /\b(?:data|file|ftp|ftps|http|javascript|mailto|tel|vbscript|ws|wss):/i
   if (nonHttpsProtocol.test(semanticAnswer)) return 'unsafe-protocol'
 
-  for (const { closed, value: destination } of markdownDestinations(answer)) {
+  const destinations = markdownDestinations(answer)
+  for (const { closed, value: destination } of destinations) {
     if (!closed) return 'unsafe-link'
     if (!destination || /[\s\p{Cc}\p{Cf}]/u.test(destination)) return 'unsafe-link'
     const semanticDestination = normalizeSemanticText(destination).replace(/^<|>$/g, '')
@@ -156,13 +179,19 @@ export const classifyUnsafeUrl = (
     if (!isApprovedChatUrl(destination)) return 'unsafe-link'
   }
 
-  const literalHttpsUrls = rawHttpsUrls(answer)
-  const literalHttpsUrlSet = new Set(literalHttpsUrls)
+  const literalSurface = maskMarkdownDestinationSyntax(answer, destinations)
+  const literalHttpsUrls = rawHttpsUrls(literalSurface)
+  const literalHttpsUrlCounts = new Map<string, number>()
   for (const url of literalHttpsUrls) {
     if (!isApprovedChatUrl(url)) return 'unsafe-link'
+    literalHttpsUrlCounts.set(url, (literalHttpsUrlCounts.get(url) ?? 0) + 1)
   }
   for (const url of rawHttpsUrls(semanticAnswer)) {
-    if (!isApprovedChatUrl(url) || !literalHttpsUrlSet.has(url)) return 'unsafe-link'
+    if (!isApprovedChatUrl(url)) return 'unsafe-link'
+    const literalCount = literalHttpsUrlCounts.get(url) ?? 0
+    if (literalCount === 0) return 'unsafe-link'
+    if (literalCount === 1) literalHttpsUrlCounts.delete(url)
+    else literalHttpsUrlCounts.set(url, literalCount - 1)
   }
 
   return null

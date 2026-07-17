@@ -81,6 +81,30 @@ describe('deterministic response validation', () => {
     ).toEqual({ ok: false, code: 'unsafe-link' })
   })
 
+  it('does not let one literal URL authorize an additional Unicode lookalike', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('https://ranimontagna.com ｈｔｔｐｓ://ranimontagna.com'),
+      ),
+    ).toEqual({ ok: false, code: 'unsafe-link' })
+  })
+
+  it('does not let a Markdown destination authorize a separate Unicode lookalike', () => {
+    expect(
+      validateChatAnswer(
+        createValidationInput('[Site](https://ranimontagna.com) ｈｔｔｐｓ://ranimontagna.com'),
+      ),
+    ).toEqual({ ok: false, code: 'unsafe-link' })
+  })
+
+  it.each([
+    'https://ranimontagna.com https://ranimontagna.com',
+    '[Site](https://ranimontagna.com) https://ranimontagna.com',
+    '[https://ranimontagna.com](https://ranimontagna.com)',
+  ])('preserves legitimate literal URL multiplicity: %s', (answer) => {
+    expect(validateChatAnswer(createValidationInput(answer))).toEqual({ ok: true })
+  })
+
   it('normalizes invisible and Markdown formatting before scanning internal secrets', () => {
     expect(validateChatAnswer(createValidationInput('sk-\u200bsecretvalue123456'))).toEqual({
       ok: false,
