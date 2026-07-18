@@ -253,6 +253,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-manrope), sans-serif;
+  isolation: isolate;
   background-image:
     radial-gradient(circle at 12% 16%, var(--ambient-lime) 0, transparent 26%),
     radial-gradient(circle at 84% 12%, var(--ambient-ice) 0, transparent 28%),
@@ -262,6 +263,66 @@ body {
   min-height: 100vh;
   letter-spacing: -0.01em;
   text-rendering: optimizeLegibility;
+}
+
+.spectral-background,
+.spectral-fallback,
+.spectral-canvas-shell {
+  position: fixed;
+  z-index: -20;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.spectral-background {
+  isolation: isolate;
+}
+
+.spectral-fallback__veil,
+.spectral-fallback__grain {
+  position: absolute;
+  inset: -20%;
+}
+
+.spectral-fallback__veil {
+  background:
+    conic-gradient(
+      from 210deg at 20% 28%,
+      color-mix(in srgb, var(--accent) 46%, transparent),
+      transparent 26%,
+      color-mix(in srgb, var(--accent-ice) 36%, transparent),
+      transparent 62%,
+      color-mix(in srgb, var(--accent) 30%, transparent)
+    ),
+    radial-gradient(
+      circle at 78% 72%,
+      color-mix(in srgb, var(--accent-ice) 44%, transparent),
+      transparent 44%
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.2;
+}
+
+.dark .spectral-fallback__veil {
+  mix-blend-mode: screen;
+  opacity: 0.34;
+}
+
+.spectral-fallback__grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  opacity: 0.06;
+}
+
+.spectral-canvas-shell {
+  transition: opacity 300ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spectral-canvas-shell {
+    transition: none;
+  }
 }
 
 main {
