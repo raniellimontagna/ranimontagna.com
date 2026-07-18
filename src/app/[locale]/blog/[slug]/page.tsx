@@ -199,7 +199,7 @@ export default async function PostPage(props: {
   return (
     <div
       data-spectral-zone="quiet"
-      className="relative min-h-screen overflow-x-hidden bg-background"
+      className="relative min-h-screen overflow-x-hidden bg-background/80"
     >
       {/* JSON-LD structured data */}
       <ReadingProgressBar />

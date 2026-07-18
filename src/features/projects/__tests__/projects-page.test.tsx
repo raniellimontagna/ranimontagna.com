@@ -28,6 +28,8 @@ describe('Projects Page', () => {
     const { container } = render(page)
 
     expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.firstElementChild).toHaveClass('bg-background/80')
+    expect(container.firstElementChild).not.toHaveClass('bg-background')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
 
     // Check header content (translations are mocked to return key)

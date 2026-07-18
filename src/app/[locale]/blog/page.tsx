@@ -63,7 +63,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   return (
     <div
       data-spectral-zone="quiet"
-      className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24"
+      className="relative min-h-screen bg-background/80 pb-14 sm:pb-20 lg:pb-24"
     >
       <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
         <div className="mb-8 sm:mb-12">

@@ -12,8 +12,8 @@ class MutationObserverFake {
     MutationObserverFake.instances.push(this)
   }
 
-  emit() {
-    this.callback([], this as unknown as MutationObserver)
+  emit(records: MutationRecord[] = []) {
+    this.callback(records, this as unknown as MutationObserver)
   }
 }
 
@@ -22,6 +22,7 @@ class IntersectionObserverFake {
 
   readonly disconnect = vi.fn()
   readonly observe = vi.fn()
+  readonly unobserve = vi.fn()
 
   constructor(private readonly callback: IntersectionObserverCallback) {
     IntersectionObserverFake.instances.push(this)
@@ -123,6 +124,50 @@ describe('useSpectralEnvironment', () => {
     expect(readEnvironment().zone).toBe('focus')
   })
 
+  it('discovers deferred zone markers once and removes their stale candidates', () => {
+    render(<Probe mode="desktop" />)
+    const intersectionObserver = IntersectionObserverFake.instances[0]
+    const zoneMutationObserver = MutationObserverFake.instances[1]
+    const hero = document.createElement('section')
+    hero.dataset.spectralZone = 'hero'
+
+    document.body.append(hero)
+    act(() => {
+      zoneMutationObserver.emit([
+        {
+          addedNodes: document.body.childNodes,
+          attributeName: null,
+          attributeNamespace: null,
+          nextSibling: null,
+          oldValue: null,
+          previousSibling: null,
+          removedNodes: document.createDocumentFragment().childNodes,
+          target: document.body,
+          type: 'childList',
+        },
+      ])
+    })
+
+    expect(zoneMutationObserver.observe).toHaveBeenCalledWith(document.body, {
+      childList: true,
+      subtree: true,
+    })
+    expect(intersectionObserver.observe).toHaveBeenCalledOnce()
+    expect(intersectionObserver.observe).toHaveBeenCalledWith(hero)
+
+    act(() => zoneMutationObserver.emit())
+    expect(intersectionObserver.observe).toHaveBeenCalledOnce()
+
+    act(() => intersectionObserver.emit([entry(hero, 0.9)]))
+    expect(readEnvironment().zone).toBe('hero')
+
+    hero.remove()
+    act(() => zoneMutationObserver.emit())
+
+    expect(intersectionObserver.unobserve).toHaveBeenCalledWith(hero)
+    expect(readEnvironment().zone).toBe('quiet')
+  })
+
   it('updates the palette after a root theme mutation without remounting', () => {
     render(<Probe mode="desktop" />)
     const initialOutput = screen.getByTestId('environment')
@@ -201,6 +246,7 @@ describe('useSpectralEnvironment', () => {
     unmount()
 
     expect(MutationObserverFake.instances[0].disconnect).toHaveBeenCalledOnce()
+    expect(MutationObserverFake.instances[1].disconnect).toHaveBeenCalledOnce()
     expect(IntersectionObserverFake.instances[0].disconnect).toHaveBeenCalledOnce()
     expect(documentRemoveEventListener).toHaveBeenCalledWith(
       'visibilitychange',

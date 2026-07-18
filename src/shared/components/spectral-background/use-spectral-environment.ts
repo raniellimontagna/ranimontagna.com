@@ -57,11 +57,24 @@ export function useSpectralEnvironment(mode: Exclude<SpectralMode, 'static'>): S
     if (typeof IntersectionObserver === 'undefined') return
 
     const candidates = new Map<Element, ZoneCandidate>()
+    const observedMarkers = new Set<Element>()
+    const updateZone = () => {
+      setZone(
+        selectSpectralZone(
+          [...candidates.values()].filter((candidate) => candidate.intersectionRatio > 0),
+        ),
+      )
+    }
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
+        if (!observedMarkers.has(entry.target)) continue
+
         const zone = entry.target.getAttribute('data-spectral-zone')
 
-        if (!isSpectralZone(zone)) continue
+        if (!isSpectralZone(zone)) {
+          candidates.delete(entry.target)
+          continue
+        }
 
         candidates.set(entry.target, {
           zone,
@@ -70,18 +83,44 @@ export function useSpectralEnvironment(mode: Exclude<SpectralMode, 'static'>): S
         })
       }
 
-      setZone(
-        selectSpectralZone(
-          [...candidates.values()].filter((candidate) => candidate.intersectionRatio > 0),
-        ),
-      )
+      updateZone()
     })
+    const reconcileMarkers = () => {
+      const currentMarkers = new Set<Element>()
 
-    document.querySelectorAll('[data-spectral-zone]').forEach((marker) => {
-      observer.observe(marker)
-    })
+      document.querySelectorAll('[data-spectral-zone]').forEach((marker) => {
+        if (isSpectralZone(marker.getAttribute('data-spectral-zone'))) currentMarkers.add(marker)
+      })
 
-    return () => observer.disconnect()
+      for (const marker of observedMarkers) {
+        if (currentMarkers.has(marker)) continue
+
+        observer.unobserve(marker)
+        observedMarkers.delete(marker)
+        candidates.delete(marker)
+      }
+
+      for (const marker of currentMarkers) {
+        if (observedMarkers.has(marker)) continue
+
+        observedMarkers.add(marker)
+        observer.observe(marker)
+      }
+
+      updateZone()
+    }
+    const mutationObserver =
+      typeof MutationObserver === 'undefined' ? null : new MutationObserver(reconcileMarkers)
+
+    mutationObserver?.observe(document.body, { childList: true, subtree: true })
+    reconcileMarkers()
+
+    return () => {
+      mutationObserver?.disconnect()
+      observer.disconnect()
+      observedMarkers.clear()
+      candidates.clear()
+    }
   }, [])
 
   return { zone, palette, visible, pointerTarget }

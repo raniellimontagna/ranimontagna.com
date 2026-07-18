@@ -60,6 +60,8 @@ describe('Blog Page', () => {
     const { container } = render(page)
 
     expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'quiet')
+    expect(container.firstElementChild).toHaveClass('bg-background/80')
+    expect(container.firstElementChild).not.toHaveClass('bg-background')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
   })
@@ -72,6 +74,8 @@ describe('Blog Page', () => {
     const { container } = render(page)
 
     expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'quiet')
+    expect(container.firstElementChild).toHaveClass('bg-background/80')
+    expect(container.firstElementChild).not.toHaveClass('bg-background')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
   })
 })
