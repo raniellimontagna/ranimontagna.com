@@ -197,10 +197,10 @@ export default async function PostPage(props: {
   const coverImage = resolveBlogMediaUrl(post.metadata.coverImage)
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background">
-      {/* Background Gradients */}
-      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
-      <div className="absolute top-0 right-0 -z-10 h-200 w-200 rounded-full bg-accent-ice/10 blur-[120px]" />
+    <div
+      data-spectral-zone="quiet"
+      className="relative min-h-screen overflow-x-hidden bg-background"
+    >
       {/* JSON-LD structured data */}
       <ReadingProgressBar />
       <ScrollToTop />

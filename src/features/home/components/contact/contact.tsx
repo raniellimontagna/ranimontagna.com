@@ -48,13 +48,11 @@ export const Contact = (): React.ReactElement => {
   ]
 
   return (
-    <section id="contact" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="atmospheric-grid absolute inset-0 opacity-55" />
-        <div className="absolute top-1/4 left-0 h-150 w-150 -translate-x-1/2 rounded-full bg-accent-ice/14 blur-3xl" />
-        <div className="absolute right-0 bottom-1/4 h-150 w-150 translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-      </div>
-
+    <section
+      id="contact"
+      data-spectral-zone="focus"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-32"
+    >
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
           <div className="lg:col-span-2">

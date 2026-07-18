@@ -32,11 +32,11 @@ export function Experience() {
     .join('\n')
 
   return (
-    <section id="experience" className="relative overflow-hidden py-14 sm:py-20 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-50" />
-      <div className="absolute top-1/3 left-0 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/14 blur-[140px]" />
-      <div className="absolute top-1/2 right-0 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-[140px]" />
-
+    <section
+      id="experience"
+      data-spectral-zone="balanced"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-28"
+    >
       <ExperienceCylinderScroll />
       <ExperienceMobileCarouselGestures />
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">

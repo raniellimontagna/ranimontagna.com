@@ -26,7 +26,9 @@ vi.mock('@/shared/components/ui/service-card/service-card', () => ({
 
 describe('Services Component', () => {
   it('renders services section', () => {
-    render(<Services />)
+    const { container } = render(<Services />)
+    expect(container.querySelector('#services')).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()
     expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()

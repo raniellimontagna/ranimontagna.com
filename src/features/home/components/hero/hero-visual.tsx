@@ -22,7 +22,6 @@ export function HeroVisual() {
 
       <MagneticHover className="relative">
         <div className="surface-panel accent-glow relative isolate overflow-hidden rounded-3xl px-3 pt-3 pb-4 sm:rounded-4xl sm:px-5 sm:pt-5 sm:pb-6 md:px-6 md:pt-6 md:pb-7">
-          <div className="atmospheric-grid absolute inset-0 opacity-45" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.22),transparent_48%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_52%)]" />
 
           <div className="relative mt-4 flex justify-center sm:mt-6 md:mt-8">

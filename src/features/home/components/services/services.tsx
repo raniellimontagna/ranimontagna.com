@@ -23,11 +23,11 @@ export function Services() {
   }))
 
   return (
-    <section id="services" className="relative overflow-hidden py-14 sm:py-20 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
-      <div className="absolute top-0 left-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-accent-ice/12 blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 -z-10 h-125 w-125 translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
-
+    <section
+      id="services"
+      data-spectral-zone="balanced"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-32"
+    >
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn delay={0.15}>
           <div className="editorial-kicker mb-6">

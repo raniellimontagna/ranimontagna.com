@@ -38,8 +38,10 @@ vi.mock('@/shared/lib/social-links', () => ({
 
 describe('About', () => {
   it('does not preload the below-the-fold profile image', () => {
-    render(<About />)
+    const { container } = render(<About />)
 
+    expect(screen.getByTestId('about')).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByAltText('bio.name')).not.toHaveAttribute('data-priority', 'true')
   })
 })

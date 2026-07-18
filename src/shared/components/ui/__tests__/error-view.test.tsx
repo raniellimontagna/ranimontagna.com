@@ -18,7 +18,7 @@ vi.mock('framer-motion', () => ({
 
 describe('ErrorContent', () => {
   it('renders accent content with actions, footer and error id', () => {
-    render(
+    const { container } = render(
       <ErrorContent
         code={404}
         title="Page Missing"
@@ -31,7 +31,8 @@ describe('ErrorContent', () => {
       </ErrorContent>,
     )
 
-    expect(screen.getByRole('main')).toBeInTheDocument()
+    expect(screen.getByRole('main')).toHaveAttribute('data-spectral-zone', 'quiet')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('404')).toHaveClass('text-accent-strong')
     expect(screen.getByText('Page Missing')).toHaveClass('from-accent', 'to-accent-strong')
     expect(screen.getByText('The requested page could not be found.')).toBeInTheDocument()

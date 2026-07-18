@@ -34,7 +34,9 @@ describe('Contact Component', () => {
   })
 
   it('renders section title and subtitle', () => {
-    render(<Contact />)
+    const { container } = render(<Contact />)
+    expect(container.querySelector('#contact')).toHaveAttribute('data-spectral-zone', 'focus')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()

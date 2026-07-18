@@ -20,17 +20,11 @@ export async function Hero() {
     <section
       id="start"
       data-testid="hero"
+      data-spectral-zone="hero"
       className="section-shell relative flex min-h-screen items-center overflow-hidden px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-24 lg:px-8 lg:pt-40 lg:pb-28"
       aria-label="Hero section - Ranielli Montagna introduction"
     >
-      <div className="pointer-events-none absolute inset-0 atmospheric-grid opacity-55" />
-      <div className="pointer-events-none absolute inset-0 glow-gradient-hero" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-background to-transparent" />
-
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="animate-float-slow absolute -top-16 -right-10 h-64 w-64 rounded-full bg-ambient-ice blur-3xl" />
-        <div className="animate-orbital-shift absolute -bottom-20 left-0 h-72 w-72 rounded-full bg-ambient-lime blur-3xl" />
-      </div>
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(22rem,0.95fr)] lg:gap-10">
         <div className="relative">

@@ -25,7 +25,10 @@ describe('Projects Page', () => {
       params: Promise.resolve({ locale: 'pt' }),
     })
 
-    render(page)
+    const { container } = render(page)
+
+    expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
 
     // Check header content (translations are mocked to return key)
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()

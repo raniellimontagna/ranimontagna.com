@@ -25,12 +25,10 @@ export function ErrorContent({
   const isDanger = variant === 'danger'
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col selection:bg-accent selection:text-background overflow-x-hidden">
-      {/* Background Gradients */}
-      <div className="pointer-events-none fixed inset-0 -z-10 atmospheric-grid opacity-30" />
-      <div className="fixed top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
-      <div className="fixed bottom-0 left-1/4 -z-10 h-112 w-md rounded-full bg-accent/5 blur-[120px]" />
-
+    <main
+      data-spectral-zone="quiet"
+      className="relative flex min-h-screen w-full flex-col selection:bg-accent selection:text-background overflow-x-hidden"
+    >
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 p-4 py-12 sm:gap-8 sm:p-8">
         {/* Main Error Card */}
         <motion.div

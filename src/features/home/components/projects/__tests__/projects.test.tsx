@@ -103,7 +103,9 @@ vi.mock('@/features/projects/data/projects.static', () => ({
 
 describe('Projects Component', () => {
   it('renders section title and subtitle', () => {
-    render(<Projects />)
+    const { container } = render(<Projects />)
+    expect(container.querySelector('#projects')).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()

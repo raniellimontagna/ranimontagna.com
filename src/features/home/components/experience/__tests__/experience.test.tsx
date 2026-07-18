@@ -78,6 +78,8 @@ describe('Experience', () => {
   it('renders company marks and current badge', () => {
     const { container } = render(<Experience />)
 
+    expect(container.querySelector('#experience')).toHaveAttribute('data-spectral-zone', 'balanced')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByAltText('Logo Lemon Energia')).toBeInTheDocument()
     expect(screen.getByAltText('Logo Luizalabs')).toBeInTheDocument()
     expect(screen.getByAltText('Logo Smarten')).toBeInTheDocument()

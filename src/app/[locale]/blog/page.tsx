@@ -61,11 +61,10 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   const remainingPosts = posts.slice(1)
 
   return (
-    <div className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24">
-      {/* Background Gradients */}
-      <div className="pointer-events-none absolute inset-0 -z-10 atmospheric-grid opacity-30" />
-      <div className="absolute top-0 right-1/4 -z-10 h-112 w-md rounded-full bg-accent-ice/10 blur-[120px]" />
-
+    <div
+      data-spectral-zone="quiet"
+      className="relative min-h-screen bg-background pb-14 sm:pb-20 lg:pb-24"
+    >
       <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
         <div className="mb-8 sm:mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />

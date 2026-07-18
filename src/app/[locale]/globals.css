@@ -455,13 +455,6 @@ button {
   }
 }
 
-.atmospheric-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
 .accent-glow {
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--accent-ice) 18%, transparent),

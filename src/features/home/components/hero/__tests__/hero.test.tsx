@@ -40,9 +40,10 @@ vi.mock('next-intl/server', () => ({
 describe('Hero Component', () => {
   it('renders correctly', async () => {
     const hero = await Hero()
-    render(hero)
+    const { container } = render(hero)
 
-    expect(screen.getByTestId('hero')).toBeInTheDocument()
+    expect(screen.getByTestId('hero')).toHaveAttribute('data-spectral-zone', 'hero')
+    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByTestId('terminal-window')).toBeInTheDocument()
     expect(screen.getByText('name')).toBeInTheDocument()
     expect(screen.getByText('greeting')).toBeInTheDocument()
