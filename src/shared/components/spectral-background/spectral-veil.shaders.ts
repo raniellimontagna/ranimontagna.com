@@ -57,7 +57,7 @@ export const FRAGMENT_SHADER = /* glsl */ `
     float aspect = uResolution.x / max(uResolution.y, 1.0);
     centered.x *= aspect;
 
-    float time = uTime * (0.035 + 0.045 * uMotionScale);
+    float time = uTime * (0.09 + 0.11 * uMotionScale);
     vec2 pointerForce = uPointer * vec2(0.11, 0.075) * uMotionScale;
     vec2 broadPosition = centered * vec2(1.15, 1.55) - pointerForce;
 
@@ -89,7 +89,7 @@ export const FRAGMENT_SHADER = /* glsl */ `
     float grain = (hash(gl_FragCoord.xy + floor(uTime * 7.0)) - 0.5) * 0.018;
     veilColor = max(vec3(0.0), veilColor + grain);
 
-    float alpha = broadVeil * edgeSoftness * uIntensity * mix(0.2, 0.34, uDark);
+    float alpha = broadVeil * edgeSoftness * uIntensity * mix(0.28, 0.46, uDark);
     gl_FragColor = vec4(veilColor * alpha, alpha);
   }
 `

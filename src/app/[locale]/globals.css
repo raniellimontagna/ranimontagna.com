@@ -287,26 +287,28 @@ body {
 
 .spectral-fallback__veil {
   background:
-    conic-gradient(
-      from 210deg at 20% 28%,
-      color-mix(in srgb, var(--accent) 46%, transparent),
-      transparent 26%,
-      color-mix(in srgb, var(--accent-ice) 36%, transparent),
-      transparent 62%,
-      color-mix(in srgb, var(--accent) 30%, transparent)
+    radial-gradient(
+      ellipse 72% 58% at 8% 30%,
+      color-mix(in srgb, var(--accent) 38%, transparent),
+      transparent 72%
     ),
     radial-gradient(
-      circle at 78% 72%,
-      color-mix(in srgb, var(--accent-ice) 44%, transparent),
-      transparent 44%
+      ellipse 64% 52% at 88% 24%,
+      color-mix(in srgb, var(--accent-ice) 34%, transparent),
+      transparent 74%
+    ),
+    radial-gradient(
+      ellipse 58% 48% at 54% 88%,
+      color-mix(in srgb, var(--accent) 24%, transparent),
+      transparent 76%
     );
   mix-blend-mode: multiply;
-  opacity: 0.2;
+  opacity: 0.12;
 }
 
 .dark .spectral-fallback__veil {
   mix-blend-mode: screen;
-  opacity: 0.34;
+  opacity: 0.2;
 }
 
 .spectral-fallback__grain {
