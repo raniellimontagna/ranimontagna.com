@@ -145,6 +145,30 @@ describe('useSpectralEnvironment', () => {
     expect(readEnvironment().visible).toBe(false)
   })
 
+  it('keeps quiet visibility and pointer inputs working without MutationObserver', () => {
+    const originalMutationObserver = globalThis.MutationObserver
+    vi.stubGlobal('MutationObserver', undefined)
+
+    try {
+      Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1000 })
+      Object.defineProperty(window, 'innerHeight', { configurable: true, value: 500 })
+      const { unmount } = render(<Probe mode="desktop" />)
+
+      fireEvent.pointerMove(window, { clientX: 750, clientY: 125 })
+      setVisibilityState('hidden')
+      fireEvent(document, new Event('visibilitychange'))
+
+      expect(readEnvironment()).toMatchObject({
+        zone: 'quiet',
+        visible: false,
+        pointer: { x: 0.5, y: 0.5 },
+      })
+      unmount()
+    } finally {
+      vi.stubGlobal('MutationObserver', originalMutationObserver)
+    }
+  })
+
   it('maps desktop pointer movement to normalized viewport coordinates', () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1000 })
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 500 })

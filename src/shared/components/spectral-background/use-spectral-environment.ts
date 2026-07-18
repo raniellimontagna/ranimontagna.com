@@ -36,9 +36,10 @@ export function useSpectralEnvironment(mode: Exclude<SpectralMode, 'static'>): S
       pointerTarget.current.x = (event.clientX / window.innerWidth) * 2 - 1
       pointerTarget.current.y = 1 - (event.clientY / window.innerHeight) * 2
     }
-    const mutationObserver = new MutationObserver(updatePalette)
+    const mutationObserver =
+      typeof MutationObserver === 'undefined' ? null : new MutationObserver(updatePalette)
 
-    mutationObserver.observe(document.documentElement, {
+    mutationObserver?.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'data-color-theme', 'style'],
     })
@@ -46,7 +47,7 @@ export function useSpectralEnvironment(mode: Exclude<SpectralMode, 'static'>): S
     if (mode === 'desktop') window.addEventListener('pointermove', updatePointer, { passive: true })
 
     return () => {
-      mutationObserver.disconnect()
+      mutationObserver?.disconnect()
       document.removeEventListener('visibilitychange', updateVisibility)
       window.removeEventListener('pointermove', updatePointer)
     }
