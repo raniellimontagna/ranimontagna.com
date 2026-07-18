@@ -10,7 +10,6 @@ export type SpectralCanvasLoader = () => Promise<{
 }>
 
 const loadSpectralCanvas: SpectralCanvasLoader = () =>
-  // @ts-expect-error -- Task 4 owns this lazily imported module.
   import('./spectral-veil-canvas') as ReturnType<SpectralCanvasLoader>
 
 type SpectralBackgroundProps = {

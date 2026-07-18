@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  type IconType,
   SiDocker,
   SiFigma,
   SiGit,
@@ -61,7 +62,7 @@ const skillsData = [
 
 interface Skill {
   name: string
-  icon: React.ElementType
+  icon: IconType
   hex: string
   hexDark?: string
   radius: number
