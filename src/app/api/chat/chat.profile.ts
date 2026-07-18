@@ -47,7 +47,7 @@ export type ChatProfile = {
 export const CHAT_PROFILE_BY_LOCALE = {
   pt: {
     availability:
-      'Atualmente trabalho na Lemon Energia e estou aberto a parcerias e conversas relevantes.',
+      'Atualmente atuo na Lemon Energia como PJ em um compromisso não exclusivo. Posso avaliar projetos e parcerias dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade.',
     experienceSummary: '5+ anos em software e 10 anos de trajetória profissional',
     experiences: [
       {
@@ -160,7 +160,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
   },
   en: {
     availability:
-      'I currently work at Lemon Energia and am open to partnerships and relevant conversations.',
+      'I currently work at Lemon Energia as a contractor in a non-exclusive engagement. I can evaluate projects and partnerships depending on the proposal, scope, fit, and my availability.',
     experienceSummary: '5+ years in software and 10 years of professional experience',
     experiences: [
       {
@@ -273,7 +273,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
   },
   es: {
     availability:
-      'Actualmente trabajo en Lemon Energia y estoy abierto a colaboraciones y conversaciones relevantes.',
+      'Actualmente trabajo en Lemon Energia como contratista en una relación no exclusiva. Puedo evaluar proyectos y colaboraciones según la propuesta, el alcance, la compatibilidad y mi disponibilidad.',
     experienceSummary: '5+ años en software y 10 años de trayectoria profesional',
     experiences: [
       {

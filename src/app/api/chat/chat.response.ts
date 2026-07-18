@@ -1,3 +1,4 @@
+import { answerHasAvailabilityConflict } from './chat.response.availability'
 import { CHAT_MAX_ANSWER_CHARS } from './chat.response.collector'
 import { answerHasUnsupportedMetric } from './chat.response.metrics'
 import {
@@ -33,6 +34,8 @@ export type {
 
 export const CHAT_CORRECTION_RULES: Record<ChatValidationCode, string> = {
   'answer-too-large': 'Regenerate a concise answer within the response limit.',
+  'availability-conflict':
+    'Regenerate using the canonical availability fact: the Lemon Energia engagement is a non-exclusive contractor engagement, and Ranielli can evaluate projects and partnerships depending on the proposal, scope, fit, and his availability. Do not claim he is unavailable because he works at Lemon Energia.',
   'canonical-date-conflict':
     'Regenerate using only the canonical interval for each employer. Do not repeat a false employer-year premise.',
   empty: 'Generate a concise in-scope answer from authoritative facts.',
@@ -73,6 +76,10 @@ export function validateChatAnswer(input: ChatValidationInput): ChatValidationRe
   const semanticVisitorMessage = normalizedForAssociation(input.visitorMessage)
   const unsafeUrl = classifyUnsafeUrl(input.answer, normalizeSemanticText(input.answer))
   if (unsafeUrl) return { ok: false, code: unsafeUrl }
+
+  if (answerHasAvailabilityConflict(semanticAnswer, semanticVisitorMessage)) {
+    return { ok: false, code: 'availability-conflict' }
+  }
 
   if (answerHasUnsupportedMetric(metricAnswer, input.profile)) {
     return { ok: false, code: 'unsupported-metric' }

@@ -62,6 +62,17 @@ const canonicalExperienceDates = [
 ] as const
 
 describe('chat professional profile', () => {
+  it.each([
+    ['pt', /PJ/i, /posso avaliar projetos/i],
+    ['en', /contractor/i, /can evaluate projects/i],
+    ['es', /contratista/i, /puedo evaluar proyectos/i],
+  ] as const)('states the non-exclusive Lemon engagement and project openness in %s', (locale, engagementPattern, availabilityPattern) => {
+    const { availability } = CHAT_PROFILE_BY_LOCALE[locale]
+
+    expect(availability).toMatch(engagementPattern)
+    expect(availability).toMatch(availabilityPattern)
+  })
+
   it('rejects details that do not belong to the experience state', () => {
     expectTypeOf<CurrentExperienceWithPastOutcomes>().not.toMatchTypeOf<ChatExperience>()
     expectTypeOf<PreviousExperienceWithCurrentScope>().not.toMatchTypeOf<ChatExperience>()

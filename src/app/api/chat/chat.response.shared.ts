@@ -3,6 +3,7 @@ import type { ChatLocale, ChatRuntimeContext } from './chat.prompt'
 
 export type ChatValidationCode =
   | 'answer-too-large'
+  | 'availability-conflict'
   | 'canonical-date-conflict'
   | 'empty'
   | 'policy-canary'
