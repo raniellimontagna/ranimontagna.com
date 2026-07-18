@@ -49,3 +49,38 @@ renderer handle, and callback identity changes do not tear down a healthy render
 
 None for Task 4. GPU-independent runtime boundaries are covered here; the planned Task 6 visual
 matrix remains the appropriate gate for live shader appearance across themes and viewports.
+
+## Review fix follow-up — scheduler clock and restoration handoff
+
+### RED evidence
+
+`pnpm exec vitest run src/shared/components/spectral-background/__tests__/spectral-veil-runtime.test.tsx`
+reported 3 failed and 9 passed tests:
+
+- Logical-time regression expected `advance(0.023)` but received `advance(1023)`.
+- Hide/show regression expected the first visible timestamp `0.023` but received `1023`, proving
+  raw RAF milliseconds were reaching R3F.
+- Delayed-restoration regression dispatched loss on the retired canvas and observed one unexpected
+  `onPermanentFailure` call before replacement `onCreated`.
+
+### Fix
+
+- The scheduler now accumulates only cadence-qualified visible RAF deltas, converts milliseconds to
+  seconds, preserves logical time across visibility changes, and resets RAF baselines on resume.
+- Renderer cleanup now exposes one idempotent release function. Restoration invokes it synchronously
+  before clearing the old handle and incrementing the Canvas generation, so delayed R3F teardown
+  events cannot reach visitor-facing failure handling.
+- The regression delays replacement `onCreated`, proves the old renderer is already disposed, proves
+  a later old-canvas loss is ignored, then proves a real new-canvas loss fails permanently once.
+
+### GREEN evidence
+
+- Runtime suite: 12/12 passing.
+- Combined Task 3 and Task 4 focused suites: 20/20 passing across 2 files.
+- `pnpm typecheck`: exit 0 (`tsc --noEmit --incremental false`).
+- Changed-file Biome: exit 0 (`Checked 3 files ... No fixes applied`).
+
+### Follow-up concerns
+
+None. Logical shader time now excludes hidden intervals, and the retired-renderer race is bounded by
+synchronous listener detachment plus idempotent disposal.

@@ -29,6 +29,8 @@ type SpectralCanvasErrorBoundaryState = {
   failed: boolean
 }
 
+const EMPTY_RELEASE = () => undefined
+
 class SpectralCanvasErrorBoundary extends Component<
   SpectralCanvasErrorBoundaryProps,
   SpectralCanvasErrorBoundaryState
@@ -57,11 +59,13 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
   const contextLostRef = useRef(false)
   const failureReported = useRef(false)
   const onPermanentFailureRef = useRef(onPermanentFailure)
+  const releaseRendererRef = useRef<() => void>(EMPTY_RELEASE)
   onPermanentFailureRef.current = onPermanentFailure
 
   const reportPermanentFailure = useCallback(() => {
     if (failureReported.current) return
     failureReported.current = true
+    releaseRendererRef.current()
     setContextLost(true)
     setRenderer(null)
     onPermanentFailureRef.current()
@@ -75,12 +79,7 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
     if (!renderer) return
 
     const { canvas, gl } = renderer
-    let disposed = false
-    const dispose = () => {
-      if (disposed) return
-      disposed = true
-      gl.dispose()
-    }
+    let released = false
     const handleContextLost = (event: Event) => {
       event.preventDefault()
       contextLostRef.current = true
@@ -93,17 +92,29 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
 
       hasRestored.current = true
       contextLostRef.current = false
+      releaseRendererRef.current()
+      setRenderer(null)
       setContextLost(false)
       setGeneration((current) => current + 1)
     }
+    const releaseRenderer = () => {
+      if (released) return
+      released = true
+      canvas.removeEventListener('webglcontextlost', handleContextLost)
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored)
+      gl.dispose()
+    }
+
+    releaseRendererRef.current = releaseRenderer
 
     canvas.addEventListener('webglcontextlost', handleContextLost)
     canvas.addEventListener('webglcontextrestored', handleContextRestored)
 
     return () => {
-      canvas.removeEventListener('webglcontextlost', handleContextLost)
-      canvas.removeEventListener('webglcontextrestored', handleContextRestored)
-      dispose()
+      if (releaseRendererRef.current === releaseRenderer) {
+        releaseRendererRef.current = EMPTY_RELEASE
+      }
+      releaseRenderer()
     }
   }, [renderer, reportPermanentFailure])
 

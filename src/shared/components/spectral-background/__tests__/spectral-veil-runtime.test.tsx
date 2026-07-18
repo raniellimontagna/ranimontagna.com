@@ -6,6 +6,7 @@ const runtime = vi.hoisted(() => ({
   advance: vi.fn(),
   canvasError: false,
   canvasProps: vi.fn(),
+  deferNextCreated: false,
   disposeRenderers: [] as ReturnType<typeof vi.fn>[],
   environment: {
     palette: { accent: [0.4, 0.2, 0.8], dark: true, ice: [0.7, 0.9, 1] },
@@ -13,6 +14,7 @@ const runtime = vi.hoisted(() => ({
     visible: true,
     zone: 'hero',
   },
+  pendingCreated: null as (() => void) | null,
   useFrame: vi.fn(),
 }))
 
@@ -25,9 +27,19 @@ vi.mock('@react-three/fiber', async () => {
     runtime.canvasProps(props)
     if (runtime.canvasError) throw new Error('renderer failed')
     React.useLayoutEffect(() => {
-      const dispose = vi.fn()
-      runtime.disposeRenderers.push(dispose)
-      props.onCreated?.({ gl: { dispose, domElement: canvasRef.current } })
+      const notifyCreated = () => {
+        const dispose = vi.fn()
+        runtime.disposeRenderers.push(dispose)
+        props.onCreated?.({ gl: { dispose, domElement: canvasRef.current } })
+      }
+
+      if (runtime.deferNextCreated) {
+        runtime.deferNextCreated = false
+        runtime.pendingCreated = notifyCreated
+        return
+      }
+
+      notifyCreated()
     }, [props.onCreated])
 
     return React.createElement(
@@ -84,8 +96,10 @@ describe('Spectral Veil runtime', () => {
     runtime.advance.mockReset()
     runtime.canvasError = false
     runtime.canvasProps.mockReset()
+    runtime.deferNextCreated = false
     runtime.disposeRenderers.length = 0
     runtime.environment.visible = true
+    runtime.pendingCreated = null
     cancelAnimationFrameSpy = vi.fn((id: number) => rafCallbacks.delete(id))
     vi.stubGlobal('requestAnimationFrame', (callback: RafCallback) => {
       const id = nextRafId
@@ -133,17 +147,33 @@ describe('Spectral Veil runtime', () => {
     unmount()
   })
 
-  it('does not schedule while hidden or accumulate hidden time', () => {
-    const { rerender, unmount } = render(<SpectralRenderScheduler mode="desktop" visible={false} />)
+  it('advances with logical visible time expressed in seconds', () => {
+    const { unmount } = render(<SpectralRenderScheduler mode="desktop" visible />)
 
+    runNextFrame(1_000)
+    runNextFrame(1_023)
+    runNextFrame(1_046)
+
+    expect(runtime.advance).toHaveBeenNthCalledWith(1, 0.023)
+    expect(runtime.advance).toHaveBeenNthCalledWith(2, 0.046)
+    unmount()
+  })
+
+  it('does not schedule while hidden or accumulate hidden time', () => {
+    const { rerender, unmount } = render(<SpectralRenderScheduler mode="desktop" visible />)
+
+    runNextFrame(1_000)
+    runNextFrame(1_023)
+    expect(runtime.advance).toHaveBeenLastCalledWith(0.023)
+
+    rerender(<SpectralRenderScheduler mode="desktop" visible={false} />)
     expect(rafCallbacks).toHaveLength(0)
-    expect(runtime.advance).not.toHaveBeenCalled()
 
     rerender(<SpectralRenderScheduler mode="desktop" visible />)
-    runNextFrame(10_000)
-    expect(runtime.advance).not.toHaveBeenCalled()
-    runNextFrame(10_023)
+    runNextFrame(100_000)
     expect(runtime.advance).toHaveBeenCalledOnce()
+    runNextFrame(100_023)
+    expect(runtime.advance).toHaveBeenNthCalledWith(2, 0.046)
     unmount()
   })
 
@@ -186,6 +216,35 @@ describe('Spectral Veil runtime', () => {
 
     unmount()
     expect(runtime.disposeRenderers[1]).toHaveBeenCalledOnce()
+  })
+
+  it('ignores delayed context loss from the retired canvas during restoration', () => {
+    const onPermanentFailure = vi.fn()
+    const { unmount } = render(
+      <SpectralVeilCanvas mode="desktop" onPermanentFailure={onPermanentFailure} />,
+    )
+    const initialCanvas = screen.getByTestId('r3f-canvas')
+
+    act(() => initialCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })))
+    runtime.deferNextCreated = true
+    act(() => initialCanvas.dispatchEvent(new Event('webglcontextrestored')))
+
+    const restoredCanvas = screen.getByTestId('r3f-canvas')
+    expect(restoredCanvas).not.toBe(initialCanvas)
+    expect(runtime.pendingCreated).not.toBeNull()
+    expect(runtime.disposeRenderers[0]).toHaveBeenCalledOnce()
+
+    act(() => initialCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })))
+    expect(onPermanentFailure).not.toHaveBeenCalled()
+
+    act(() => {
+      runtime.pendingCreated?.()
+      runtime.pendingCreated = null
+    })
+    act(() => restoredCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })))
+    expect(onPermanentFailure).toHaveBeenCalledOnce()
+
+    unmount()
   })
 
   it('keeps the renderer alive when the failure callback identity changes', () => {
