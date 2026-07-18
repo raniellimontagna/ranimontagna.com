@@ -2,6 +2,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { render, screen } from '@/tests/test-utils'
 import { ErrorContent, ErrorLayout } from '../error-view'
 
+vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
+  SpectralBackground: () => <div data-testid="spectral-background" />,
+}))
+
 vi.mock('framer-motion', () => ({
   motion: {
     div: ({
@@ -73,5 +77,11 @@ describe('ErrorLayout', () => {
     expect(markup).toContain('Unauthorized')
     expect(markup).toContain('You do not have access.')
     expect(markup).toContain('bg-background text-foreground antialiased min-h-screen')
+
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    const bodyChildren = [...document.body.children]
+    expect(document.querySelectorAll('[data-testid="spectral-background"]')).toHaveLength(1)
+    expect(bodyChildren[0]?.getAttribute('data-testid')).toBe('spectral-background')
+    expect(bodyChildren[1]?.tagName).toBe('MAIN')
   })
 })

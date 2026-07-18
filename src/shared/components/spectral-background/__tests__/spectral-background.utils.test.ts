@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   parseCssColor,
   resolveSpectralMode,
   selectSpectralZone,
+  supportsWebGl,
 } from '../spectral-background.utils'
 
 describe('resolveSpectralMode', () => {
@@ -14,6 +15,22 @@ describe('resolveSpectralMode', () => {
     [{ reducedMotion: false, webgl: true, coarsePointer: false, width: 1440 }, 'desktop'],
   ] as const)('maps %o to %s', (input, expected) => {
     expect(resolveSpectralMode(input)).toBe(expected)
+  })
+})
+
+describe('supportsWebGl', () => {
+  it('requires WebGL2 and treats WebGL1-only browsers as unsupported', () => {
+    const getContext = vi.fn((context: string) => (context === 'webgl' ? {} : null))
+    const createElement = vi
+      .spyOn(document, 'createElement')
+      .mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
+
+    expect(supportsWebGl(document)).toBe(false)
+    expect(createElement).toHaveBeenCalledWith('canvas')
+    expect(getContext).toHaveBeenCalledOnce()
+    expect(getContext).toHaveBeenCalledWith('webgl2')
+
+    createElement.mockRestore()
   })
 })
 

@@ -11,6 +11,7 @@ import type {
 import { readSpectralPalette, selectSpectralZone } from './spectral-background.utils'
 
 const SPECTRAL_ZONES: readonly SpectralZone[] = ['hero', 'balanced', 'quiet', 'focus']
+const INTERSECTION_THRESHOLDS = Array.from({ length: 11 }, (_, index) => index / 10)
 
 function isSpectralZone(value: string | null): value is SpectralZone {
   return value !== null && SPECTRAL_ZONES.includes(value as SpectralZone)
@@ -65,26 +66,29 @@ export function useSpectralEnvironment(mode: Exclude<SpectralMode, 'static'>): S
         ),
       )
     }
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!observedMarkers.has(entry.target)) continue
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!observedMarkers.has(entry.target)) continue
 
-        const zone = entry.target.getAttribute('data-spectral-zone')
+          const zone = entry.target.getAttribute('data-spectral-zone')
 
-        if (!isSpectralZone(zone)) {
-          candidates.delete(entry.target)
-          continue
+          if (!isSpectralZone(zone)) {
+            candidates.delete(entry.target)
+            continue
+          }
+
+          candidates.set(entry.target, {
+            zone,
+            intersectionRatio: entry.intersectionRatio,
+            centerDistance: getCenterDistance(entry.boundingClientRect),
+          })
         }
 
-        candidates.set(entry.target, {
-          zone,
-          intersectionRatio: entry.intersectionRatio,
-          centerDistance: getCenterDistance(entry.boundingClientRect),
-        })
-      }
-
-      updateZone()
-    })
+        updateZone()
+      },
+      { threshold: INTERSECTION_THRESHOLDS },
+    )
     const reconcileMarkers = () => {
       const currentMarkers = new Set<Element>()
 

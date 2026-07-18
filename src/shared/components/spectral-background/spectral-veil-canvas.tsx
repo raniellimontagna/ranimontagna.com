@@ -18,6 +18,7 @@ import { useSpectralEnvironment } from './use-spectral-environment'
 type RendererHandle = {
   canvas: HTMLCanvasElement
   gl: RootState['gl']
+  release: () => void
 }
 
 type SpectralCanvasErrorBoundaryProps = {
@@ -30,6 +31,7 @@ type SpectralCanvasErrorBoundaryState = {
 }
 
 const EMPTY_RELEASE = () => undefined
+const disabledPointerEvents = () => ({ enabled: false, priority: 0 })
 
 class SpectralCanvasErrorBoundary extends Component<
   SpectralCanvasErrorBoundaryProps,
@@ -71,14 +73,32 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
     onPermanentFailureRef.current()
   }, [])
 
-  const handleCreated = useCallback(({ gl }: RootState) => {
-    setRenderer((current) => (current?.gl === gl ? current : { canvas: gl.domElement, gl }))
-  }, [])
+  const handleCreated = useCallback(
+    ({ gl }: RootState) => {
+      const previousOnShaderError = gl.debug.onShaderError
+      let released = false
+      const release = () => {
+        if (released) return
+        released = true
+        if (gl.debug.onShaderError === reportPermanentFailure) {
+          gl.debug.onShaderError = previousOnShaderError
+        }
+        gl.dispose()
+      }
+
+      gl.debug.onShaderError = reportPermanentFailure
+      releaseRendererRef.current = release
+      setRenderer((current) =>
+        current?.gl === gl ? current : { canvas: gl.domElement, gl, release },
+      )
+    },
+    [reportPermanentFailure],
+  )
 
   useEffect(() => {
     if (!renderer) return
 
-    const { canvas, gl } = renderer
+    const { canvas, release } = renderer
     let released = false
     const handleContextLost = (event: Event) => {
       event.preventDefault()
@@ -102,7 +122,7 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
       released = true
       canvas.removeEventListener('webglcontextlost', handleContextLost)
       canvas.removeEventListener('webglcontextrestored', handleContextRestored)
-      gl.dispose()
+      release()
     }
 
     releaseRendererRef.current = releaseRenderer
@@ -119,10 +139,15 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
   }, [renderer, reportPermanentFailure])
 
   return (
-    <div data-testid="spectral-veil-shell" style={{ opacity: contextLost ? 0 : 1 }}>
+    <div
+      className="absolute inset-0 h-full w-full"
+      data-testid="spectral-veil-shell"
+      style={{ opacity: contextLost ? 0 : 1 }}
+    >
       <SpectralCanvasErrorBoundary onPermanentFailure={reportPermanentFailure}>
         <Canvas
           dpr={mode === 'mobile' ? 1 : [1, 1.5]}
+          events={disabledPointerEvents}
           frameloop="never"
           gl={{
             alpha: true,
@@ -131,6 +156,7 @@ export function SpectralVeilCanvas({ mode, onPermanentFailure }: SpectralVeilCan
           }}
           key={generation}
           onCreated={handleCreated}
+          style={{ height: '100%', pointerEvents: 'none', width: '100%' }}
         >
           <SpectralVeilScene environment={environment} mode={mode} />
           <SpectralRenderScheduler mode={mode} visible={environment.visible && !contextLost} />

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 
 interface ErrorContentProps {
   code: string | number
@@ -112,6 +113,7 @@ export function ErrorLayout({ lang = 'pt', ...props }: ErrorLayoutProps) {
   return (
     <html lang={lang} className="dark">
       <body className="bg-background text-foreground antialiased min-h-screen">
+        <SpectralBackground />
         <ErrorContent {...props} />
       </body>
     </html>

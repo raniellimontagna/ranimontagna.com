@@ -21,7 +21,8 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
   const [CanvasComponent, setCanvasComponent] =
     useState<ComponentType<SpectralVeilCanvasProps> | null>(null)
   const [permanentFailure, setPermanentFailure] = useState(false)
-  const hasAttemptedLoad = useRef(false)
+  const canvasLoadPromise = useRef<ReturnType<SpectralCanvasLoader> | null>(null)
+  const webGlSupport = useRef<boolean | null>(null)
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -29,10 +30,11 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
     let frame: number | null = null
 
     const updateMode = () => {
+      webGlSupport.current ??= supportsWebGl(document)
       setMode(
         resolveSpectralMode({
           reducedMotion: reducedMotion.matches,
-          webgl: supportsWebGl(document),
+          webgl: webGlSupport.current,
           coarsePointer: coarsePointer.matches,
           width: window.innerWidth,
         }),
@@ -60,12 +62,12 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
   }, [])
 
   useEffect(() => {
-    if (mode === 'static' || CanvasComponent || permanentFailure || hasAttemptedLoad.current) return
+    if (mode === 'static' || CanvasComponent || permanentFailure) return
 
-    hasAttemptedLoad.current = true
     let isMounted = true
+    canvasLoadPromise.current ??= canvasLoader()
 
-    canvasLoader()
+    canvasLoadPromise.current
       .then(({ SpectralVeilCanvas }) => {
         if (isMounted) setCanvasComponent(() => SpectralVeilCanvas)
       })

@@ -24,7 +24,10 @@ class IntersectionObserverFake {
   readonly observe = vi.fn()
   readonly unobserve = vi.fn()
 
-  constructor(private readonly callback: IntersectionObserverCallback) {
+  constructor(
+    private readonly callback: IntersectionObserverCallback,
+    readonly options?: IntersectionObserverInit,
+  ) {
     IntersectionObserverFake.instances.push(this)
   }
 
@@ -122,6 +125,14 @@ describe('useSpectralEnvironment', () => {
     })
 
     expect(readEnvironment().zone).toBe('focus')
+  })
+
+  it('observes a threshold ladder so section ratios stay current while scrolling', () => {
+    render(<Probe mode="desktop" />)
+
+    expect(IntersectionObserverFake.instances[0].options).toEqual({
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+    })
   })
 
   it('discovers deferred zone markers once and removes their stale candidates', () => {

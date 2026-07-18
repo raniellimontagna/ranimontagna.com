@@ -1,3 +1,4 @@
+import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, render, screen, waitFor } from '@/tests/test-utils'
@@ -10,7 +11,7 @@ vi.mock('../spectral-background.utils', async (importOriginal) => ({
   supportsWebGl,
 }))
 
-import { SpectralBackground } from '../spectral-background'
+import { SpectralBackground, type SpectralCanvasLoader } from '../spectral-background'
 
 type MatchMediaState = {
   coarsePointer: boolean
@@ -89,7 +90,7 @@ function createLoader() {
 describe('SpectralBackground', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1440 })
-    supportsWebGl.mockReturnValue(true)
+    supportsWebGl.mockReset().mockReturnValue(true)
     installMatchMedia({ coarsePointer: false, reducedMotion: false })
   })
 
@@ -141,6 +142,56 @@ describe('SpectralBackground', () => {
     expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
     await waitFor(() => expect(loader).toHaveBeenCalledOnce())
     expect(screen.getByTestId('spectral-canvas')).toHaveAttribute('data-mode', mode)
+  })
+
+  it('reuses one pending canvas import during strict effect replay', async () => {
+    const media = installMatchMedia({ coarsePointer: false, reducedMotion: false })
+    let resolveLoader: ((module: Awaited<ReturnType<SpectralCanvasLoader>>) => void) | undefined
+    const loader = vi.fn(
+      () =>
+        new Promise<Awaited<ReturnType<SpectralCanvasLoader>>>((resolve) => {
+          resolveLoader = resolve
+        }),
+    )
+
+    render(
+      <StrictMode>
+        <SpectralBackground canvasLoader={loader} />
+      </StrictMode>,
+    )
+
+    await waitFor(() => expect(loader).toHaveBeenCalledOnce())
+    await act(async () => {
+      media.set({ reducedMotion: true })
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+    })
+    await act(async () => {
+      media.set({ reducedMotion: false })
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+    })
+    await act(async () => {
+      resolveLoader?.({
+        SpectralVeilCanvas: ({ mode }: SpectralVeilCanvasProps) => (
+          <canvas data-mode={mode} data-testid="spectral-canvas" />
+        ),
+      })
+    })
+
+    expect(loader).toHaveBeenCalledOnce()
+    expect(screen.getByTestId('spectral-canvas')).toBeInTheDocument()
+  })
+
+  it('probes WebGL capability only once across resize updates', async () => {
+    const loader = createLoader()
+
+    render(<SpectralBackground canvasLoader={loader} />)
+    await waitFor(() => expect(screen.getByTestId('spectral-canvas')).toBeInTheDocument())
+
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+      window.dispatchEvent(new Event('resize'))
+    })
+    await waitFor(() => expect(supportsWebGl).toHaveBeenCalledOnce())
   })
 
   it('retains the fallback after a rejected import without retrying', async () => {

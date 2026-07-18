@@ -8,6 +8,10 @@ const runtime = vi.hoisted(() => ({
   canvasProps: vi.fn(),
   deferNextCreated: false,
   disposeRenderers: [] as ReturnType<typeof vi.fn>[],
+  rendererDebugObjects: [] as Array<{
+    onShaderError: ((...args: unknown[]) => void) | null
+  }>,
+  shaderErrorOnCreate: false,
   environment: {
     palette: { accent: [0.4, 0.2, 0.8], dark: true, ice: [0.7, 0.9, 1] },
     pointerTarget: { current: { x: 0, y: 0 } },
@@ -30,7 +34,10 @@ vi.mock('@react-three/fiber', async () => {
       const notifyCreated = () => {
         const dispose = vi.fn()
         runtime.disposeRenderers.push(dispose)
-        props.onCreated?.({ gl: { dispose, domElement: canvasRef.current } })
+        const debug: (typeof runtime.rendererDebugObjects)[number] = { onShaderError: null }
+        runtime.rendererDebugObjects.push(debug)
+        props.onCreated?.({ gl: { debug, dispose, domElement: canvasRef.current } })
+        if (runtime.shaderErrorOnCreate) debug.onShaderError?.()
       }
 
       if (runtime.deferNextCreated) {
@@ -98,6 +105,8 @@ describe('Spectral Veil runtime', () => {
     runtime.canvasProps.mockReset()
     runtime.deferNextCreated = false
     runtime.disposeRenderers.length = 0
+    runtime.rendererDebugObjects.length = 0
+    runtime.shaderErrorOnCreate = false
     runtime.environment.visible = true
     runtime.pendingCreated = null
     cancelAnimationFrameSpy = vi.fn((id: number) => rafCallbacks.delete(id))
@@ -132,6 +141,25 @@ describe('Spectral Veil runtime', () => {
         },
       }),
     )
+    unmount()
+  })
+
+  it('fills its shell and disables R3F pointer and touch hit testing', () => {
+    const { unmount } = render(<SpectralVeilCanvas mode="desktop" onPermanentFailure={vi.fn()} />)
+    const props = runtime.canvasProps.mock.lastCall?.[0]
+
+    expect(screen.getByTestId('spectral-veil-shell')).toHaveClass(
+      'absolute',
+      'inset-0',
+      'h-full',
+      'w-full',
+    )
+    expect(props).toEqual(
+      expect.objectContaining({
+        style: { height: '100%', pointerEvents: 'none', width: '100%' },
+      }),
+    )
+    expect(props.events({})).toMatchObject({ enabled: false, priority: 0 })
     unmount()
   })
 
@@ -273,6 +301,37 @@ describe('Spectral Veil runtime', () => {
 
     expect(onPermanentFailure).toHaveBeenCalledOnce()
     expect(dispose).toHaveBeenCalledOnce()
+  })
+
+  it('reports shader compile failures once and restores the Three debug hook', () => {
+    const onPermanentFailure = vi.fn()
+    const { unmount } = render(
+      <SpectralVeilCanvas mode="desktop" onPermanentFailure={onPermanentFailure} />,
+    )
+    const debug = runtime.rendererDebugObjects[0]
+    const shaderErrorHandler = debug.onShaderError
+
+    expect(shaderErrorHandler).toBeTypeOf('function')
+    act(() => {
+      shaderErrorHandler?.()
+      shaderErrorHandler?.()
+    })
+
+    expect(onPermanentFailure).toHaveBeenCalledOnce()
+    expect(runtime.disposeRenderers[0]).toHaveBeenCalledOnce()
+    expect(debug.onShaderError).toBeNull()
+    unmount()
+  })
+
+  it('cleans up a shader failure raised immediately after renderer creation', () => {
+    runtime.shaderErrorOnCreate = true
+    const onPermanentFailure = vi.fn()
+
+    render(<SpectralVeilCanvas mode="desktop" onPermanentFailure={onPermanentFailure} />)
+
+    expect(onPermanentFailure).toHaveBeenCalledOnce()
+    expect(runtime.disposeRenderers[0]).toHaveBeenCalledOnce()
+    expect(runtime.rendererDebugObjects[0].onShaderError).toBeNull()
   })
 
   it('declares every runtime shader uniform', () => {

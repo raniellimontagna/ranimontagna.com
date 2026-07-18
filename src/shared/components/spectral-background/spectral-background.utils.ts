@@ -82,7 +82,7 @@ export function selectSpectralZone(candidates: readonly ZoneCandidate[]): Spectr
 export function supportsWebGl(document: Document): boolean {
   try {
     const canvas = document.createElement('canvas')
-    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'))
+    return Boolean(canvas.getContext('webgl2'))
   } catch {
     return false
   }
