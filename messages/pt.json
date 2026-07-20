@@ -33,9 +33,9 @@
     "passion": {
       "part1": "Engenheiro de",
       "highlight": "Software",
-      "part2": "Full Stack especializado em React, React Native, Node.js e TypeScript"
+      "part2": "Full Stack que atua além do código, do produto ao negócio, com React, Node.js e TypeScript"
     },
-    "description": "Desenvolvi produtos web e mobile em escala, APIs REST e micro frontends para operações críticas, conectando arquitetura, experiência do usuário, performance e resultado de negócio.",
+    "description": "Vou além do código: conecto arquitetura, negócio e pessoas para transformar problemas complexos em produtos em escala. Uso IA aplicada como uma das alavancas para entregar com mais qualidade e velocidade.",
     "seoDescription": "5+ anos em software com foco em React, Next.js, React Native, Node.js, TypeScript, Design Systems, CI/CD, testes, acessibilidade, automação e IA aplicada ao desenvolvimento.",
     "cta": {
       "projects": "Ver meus projetos",
@@ -51,9 +51,9 @@
     "bio": {
       "greeting": "Olá! Sou",
       "name": "Ranielli Montagna",
-      "intro": "engenheiro de software full stack com 5+ anos de experiência em aplicações web e mobile escaláveis. Trabalhei com React, React Native, TypeScript, Node.js e Next.js em produtos digitais que exigiam performance, qualidade de código, acessibilidade e boa experiência do usuário.",
-      "journey": "Na Luizalabs, desenvolvi soluções para operações de lojas físicas do Magalu, impactando processos de estoque e logística em 1.000+ lojas e o fluxo diário de 1.000+ estoquistas. Também liderei iniciativas frontend em SaaS, criei Design System adotado em múltiplos produtos e mentorei desenvolvedores.",
-      "hobbies": "Tenho interesse crescente em Inteligência Artificial aplicada ao desenvolvimento de software, especialmente integração com LLMs, automação, agentes e Model Context Protocol (MCP) para produtividade e evolução de produtos."
+      "intro": "engenheiro de software full stack com 5+ anos de experiência em aplicações web e mobile escaláveis. Trabalhei com React, React Native, TypeScript, Node.js e Next.js em produtos que exigiam performance, qualidade e boa experiência. Hoje atuo além do código, conectando engenharia, produto e negócio.",
+      "journey": "Hoje, na Lemon Energia, energytech de geração distribuída, atuo na ponte entre negócio e tecnologia: conduzo discovery, traduzo regras complexas em soluções full stack e avalio trade-offs de produto. Antes, na Luizalabs (Magalu), desenvolvi soluções para operações de 1.000+ lojas e o fluxo diário de 1.000+ estoquistas, liderei iniciativas frontend, criei Design System adotado em múltiplos produtos e mentorei desenvolvedores.",
+      "hobbies": "Uma das frentes que mais me movem é IA aplicada ao desenvolvimento e à operação: LLMs, automação, agentes e Model Context Protocol (MCP). Uso como alavanca de produtividade e evolução de produtos, sempre com revisão crítica."
     },
     "cta": {
       "contact": "Vamos conversar"
