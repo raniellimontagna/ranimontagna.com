@@ -49,6 +49,16 @@ const nextConfig: NextConfig = {
         destination: '/projects',
         permanent: true,
       },
+      {
+        source: '/blog/eu-nao-conhecia-a-lemon',
+        destination: '/blog/um-novo-capitulo-na-lemon',
+        permanent: true,
+      },
+      {
+        source: '/:locale(en|es)/blog/eu-nao-conhecia-a-lemon',
+        destination: '/:locale/blog/um-novo-capitulo-na-lemon',
+        permanent: true,
+      },
     ]
   },
   images: {
