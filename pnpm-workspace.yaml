@@ -4,7 +4,11 @@ allowBuilds:
   '@swc/core': true
   sharp: true
 
+minimumReleaseAgeExclude:
+  - postcss@8.5.24
+
 overrides:
-  dompurify: 3.4.11
+  brace-expansion@5.0.7: 5.0.8
+  dompurify: 3.4.12
   js-yaml: 3.15.0
-  postcss: 8.5.16
+  postcss: 8.5.24
