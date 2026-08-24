@@ -24,14 +24,70 @@ type UpstashResult = {
   error?: string
 }
 
+interface MemoryRateLimitEntry {
+  count: number
+  resetAt: number
+}
+
 const RATE_LIMIT_UPSTASH_PATH = '/pipeline'
 const DEFAULT_MEMORY_ENTRY_CAP = 10_000
+const MAX_MEMORY_ENTRY_CAP = 10_000
+const DEFAULT_MEMORY_CLEANUP_BATCH_SIZE = 64
+const MAX_MEMORY_CLEANUP_BATCH_SIZE = 256
 const DEFAULT_UPSTASH_TIMEOUT_MS = 2_500
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const MAX_UPSTASH_TIMEOUT_MS = 5_000
+const rateLimitMap = new Map<string, MemoryRateLimitEntry>()
+let memoryCleanupIterator: IterableIterator<[string, MemoryRateLimitEntry]> | null = null
+let memoryCleanupRemaining = 0
 
 const getPositiveInteger = (value: string | undefined, fallback: number): number => {
   const parsed = Number(value)
   return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback
+}
+
+const getBoundedPositiveInteger = (
+  value: string | undefined,
+  fallback: number,
+  maximum: number,
+): number => Math.min(getPositiveInteger(value, fallback), maximum)
+
+const resetMemoryCleanupCycle = (): void => {
+  memoryCleanupIterator = null
+  memoryCleanupRemaining = 0
+}
+
+const cleanupExpiredMemoryEntries = (now: number): void => {
+  if (rateLimitMap.size === 0) {
+    resetMemoryCleanupCycle()
+    return
+  }
+
+  if (!memoryCleanupIterator || memoryCleanupRemaining <= 0) {
+    memoryCleanupIterator = rateLimitMap.entries()
+    memoryCleanupRemaining = rateLimitMap.size
+  }
+
+  const batchSize = getBoundedPositiveInteger(
+    process.env.RATE_LIMIT_MEMORY_CLEANUP_BATCH_SIZE,
+    DEFAULT_MEMORY_CLEANUP_BATCH_SIZE,
+    MAX_MEMORY_CLEANUP_BATCH_SIZE,
+  )
+
+  let checked = 0
+  while (checked < batchSize && memoryCleanupRemaining > 0) {
+    const next = memoryCleanupIterator.next()
+    if (next.done) {
+      resetMemoryCleanupCycle()
+      return
+    }
+
+    const [storedKey, storedEntry] = next.value
+    checked++
+    memoryCleanupRemaining--
+    if (now >= storedEntry.resetAt) rateLimitMap.delete(storedKey)
+  }
+
+  if (memoryCleanupRemaining <= 0) resetMemoryCleanupCycle()
 }
 
 const getUpstashConfig = (): UpstashConfig | null => {
@@ -109,7 +165,11 @@ const callUpstashPipeline = async (
     },
     body: JSON.stringify(commands),
     signal: AbortSignal.timeout(
-      getPositiveInteger(process.env.RATE_LIMIT_UPSTASH_TIMEOUT_MS, DEFAULT_UPSTASH_TIMEOUT_MS),
+      getBoundedPositiveInteger(
+        process.env.RATE_LIMIT_UPSTASH_TIMEOUT_MS,
+        DEFAULT_UPSTASH_TIMEOUT_MS,
+        MAX_UPSTASH_TIMEOUT_MS,
+      ),
     ),
   })
 
@@ -157,16 +217,19 @@ const checkUpstashRateLimit = async (
 const checkMemoryRateLimit = (options: RateLimitOptions): RateLimitResult => {
   const key = `${options.keyPrefix}:${options.identifier}`
   const now = Date.now()
-  for (const [storedKey, storedEntry] of rateLimitMap) {
-    if (now > storedEntry.resetAt) rateLimitMap.delete(storedKey)
+  cleanupExpiredMemoryEntries(now)
+
+  let entry = rateLimitMap.get(key)
+  if (entry && now >= entry.resetAt) {
+    rateLimitMap.delete(key)
+    entry = undefined
   }
 
-  const entry = rateLimitMap.get(key)
-
   if (!entry) {
-    const maxEntries = getPositiveInteger(
+    const maxEntries = getBoundedPositiveInteger(
       process.env.RATE_LIMIT_MEMORY_MAX_ENTRIES,
       DEFAULT_MEMORY_ENTRY_CAP,
+      MAX_MEMORY_ENTRY_CAP,
     )
     while (rateLimitMap.size >= maxEntries) {
       const oldestKey = rateLimitMap.keys().next().value
@@ -211,4 +274,5 @@ export const checkRateLimit = async (options: RateLimitOptions): Promise<RateLim
 
 export const resetRateLimitStateForTests = (): void => {
   rateLimitMap.clear()
+  resetMemoryCleanupCycle()
 }
