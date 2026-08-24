@@ -46,4 +46,13 @@ describe('UserPreferenceControls', () => {
     expect(appearance).toContainElement(screen.getByRole('button', { name: 'Change color theme' }))
     expect(appearance).toContainElement(screen.getByRole('button', { name: 'Toggle theme' }))
   })
+
+  it('can render only appearance controls for a compact appbar', () => {
+    render(<UserPreferenceControls variant="appearance" />)
+
+    expect(screen.queryByTestId('language-preference-controls')).not.toBeInTheDocument()
+    expect(screen.getByTestId('appearance-preference-controls')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Change color theme' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Toggle theme' })).toBeInTheDocument()
+  })
 })

@@ -140,6 +140,25 @@ describe('ProgressiveGsapAnimations', () => {
     window.matchMedia = vi.fn().mockReturnValue(createMotionPreference().mediaQuery)
   })
 
+  it('binds server-rendered sections during idle before the first interaction', async () => {
+    const loadGsap = vi.fn().mockResolvedValue(gsapApi)
+    const reveal = document.createElement('div')
+    reveal.dataset.gsapReveal = 'true'
+    document.body.append(reveal)
+
+    const { unmount } = render(<ProgressiveGsapAnimations loadGsap={loadGsap} />)
+
+    await act(async () => {
+      await Promise.resolve()
+    })
+
+    expect(loadGsap).toHaveBeenCalledTimes(1)
+    expect(gsapContext).toHaveBeenCalledTimes(1)
+
+    unmount()
+    reveal.remove()
+  })
+
   it('loads GSAP after the home sections request and animates marked elements', async () => {
     render(
       <>

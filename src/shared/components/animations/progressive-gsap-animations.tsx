@@ -363,6 +363,7 @@ export function ProgressiveGsapAnimations({
     let generation = 0
     let gsapPromise: Promise<GsapApi> | null = null
     let idleCleanup: (() => void) | null = null
+    let setupPending = false
     let triggerListenersRegistered = false
     const activeCleanups = new Set<() => void>()
 
@@ -382,23 +383,28 @@ export function ProgressiveGsapAnimations({
     }
 
     const scheduleSetup = () => {
-      if (cancelled || prefersReducedMotion) return
+      if (cancelled || prefersReducedMotion || setupPending) return
 
       cancelIdleSetup()
       const scheduledGeneration = generation
       idleCleanup = scheduleIdle(() => {
         idleCleanup = null
-        void getGsap().then((gsap) => {
-          const cleanup = setupAnimations(gsap)
-          if (!cleanup) return
+        setupPending = true
+        void getGsap()
+          .then((gsap) => {
+            const cleanup = setupAnimations(gsap)
+            if (!cleanup) return
 
-          if (cancelled || prefersReducedMotion || scheduledGeneration !== generation) {
-            cleanup()
-            return
-          }
+            if (cancelled || prefersReducedMotion || scheduledGeneration !== generation) {
+              cleanup()
+              return
+            }
 
-          activeCleanups.add(cleanup)
-        })
+            activeCleanups.add(cleanup)
+          })
+          .finally(() => {
+            setupPending = false
+          })
       })
     }
 
@@ -443,7 +449,10 @@ export function ProgressiveGsapAnimations({
       scheduleSetup()
     }
 
-    if (!prefersReducedMotion) registerTriggerListeners()
+    if (!prefersReducedMotion) {
+      registerTriggerListeners()
+      scheduleSetup()
+    }
     motionPreference?.addEventListener('change', handleMotionPreferenceChange)
 
     return () => {

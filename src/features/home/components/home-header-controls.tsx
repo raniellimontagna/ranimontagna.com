@@ -41,6 +41,10 @@ export function HomeHeaderControls({ resumeLink, labels }: HomeHeaderControlsPro
         <span className="hidden font-mono text-xs sm:inline">⌘K</span>
       </button>
 
+      <div data-testid="compact-home-appearance" className="shrink-0 sm:hidden">
+        <UserPreferenceControls variant="appearance" />
+      </div>
+
       <button
         ref={disclosureRef}
         type="button"
@@ -77,7 +81,7 @@ export function HomeHeaderControls({ resumeLink, labels }: HomeHeaderControlsPro
           data-testid="compact-home-preferences"
           className="surface-panel-strong absolute top-[calc(100%+0.75rem)] right-0 z-60 flex w-64 flex-col gap-3 rounded-3xl border border-line p-3 shadow-panel sm:hidden"
         >
-          <UserPreferenceControls />
+          <UserPreferenceControls variant="language" />
           <a
             href={resumeLink.href}
             download={resumeLink.filename}
