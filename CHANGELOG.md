@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.24.0...v1.24.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* **a11y:** remove invalid reveal text aria label ([b464a58](https://github.com/raniellimontagna/ranimontagna.com/commit/b464a58723d70ac40ff7c41002cad45a698186cc))
+
 ## [1.24.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.23.0...v1.24.0) (2026-08-24)
 
 
