@@ -76,6 +76,24 @@ describe('contact route', () => {
     })
   })
 
+  it('rejects a JSON null body before reading the honeypot field', async () => {
+    global.fetch = vi.fn()
+    const request = new Request('http://localhost/api/contact', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: 'null',
+    })
+
+    const response = await POST(request as never)
+
+    expect(response.status).toBe(400)
+    await expect(response.json()).resolves.toEqual({
+      success: false,
+      message: 'Requisicao invalida.',
+    })
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
   it('rate limits repeated requests from the same identifier', async () => {
     vi.stubEnv('CONTACT_RATE_LIMIT_MAX', '1')
     global.fetch = vi.fn().mockResolvedValue({

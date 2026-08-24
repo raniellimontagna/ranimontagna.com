@@ -168,6 +168,9 @@ export async function POST(request: NextRequest): Promise<Response> {
     }
 
     const body = bodyResult.value
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return NextResponse.json({ success: false, message: 'Requisicao invalida.' }, { status: 400 })
+    }
 
     const maybeBody = body as Record<string, unknown>
 
