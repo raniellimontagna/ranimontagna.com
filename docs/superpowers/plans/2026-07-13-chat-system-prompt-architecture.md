@@ -1,6 +1,6 @@
 # Structured Chat System Prompt Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Plan metadata:** Audience: workers explicitly assigned this document by an operator. Prerequisite tooling: Superpowers planning workflow. Suggested execution modes: subagent-driven development or plan execution. Checkbox items record implementation status.
 
 **Goal:** Replace the three monolithic chat prompts with a typed localized profile and deterministic prompt builder while preserving the route's current exports and provider behavior.
 

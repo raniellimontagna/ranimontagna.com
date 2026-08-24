@@ -1,6 +1,6 @@
 # Emerald Default Theme Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Plan metadata:** Audience: workers explicitly assigned this document by an operator. Prerequisite tooling: Superpowers planning workflow. Suggested execution modes: subagent-driven development or plan execution. Checkbox items record implementation status.
 
 **Goal:** Make the existing Emerald palette the initial color theme for visitors without a valid saved preference while preserving valid stored choices.
 
@@ -286,4 +286,3 @@ Expected: every command exits with status 0; Vitest reports all tests passing; B
 git add public/manifest.json 'src/app/[locale]/__tests__/manifest.test.ts'
 git commit -m "chore(theme): align manifest with emerald"
 ```
-
