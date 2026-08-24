@@ -45,7 +45,7 @@ describe('Hero Component', () => {
     expect(screen.getByTestId('hero')).toHaveAttribute('data-spectral-zone', 'hero')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByTestId('terminal-window')).toBeInTheDocument()
-    expect(screen.getByText('name')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'name' })).toBeInTheDocument()
     expect(screen.getByText('greeting')).toBeInTheDocument()
     expect(screen.getByText('description')).toBeInTheDocument()
     expect(screen.getByText('seoDescription')).toBeInTheDocument()

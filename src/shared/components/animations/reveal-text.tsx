@@ -26,7 +26,6 @@ export function RevealText({
 
   return (
     <Component
-      aria-label={text}
       className={cn(
         mode === 'word' ? 'inline-flex flex-wrap gap-x-[0.28em]' : 'inline-flex flex-wrap',
         className,
@@ -36,6 +35,7 @@ export function RevealText({
       data-gsap-stagger-delay={stagger}
       data-gsap-once={String(once)}
     >
+      <span className="sr-only">{text}</span>
       {segments.map((segment, index) => (
         <span
           aria-hidden="true"
