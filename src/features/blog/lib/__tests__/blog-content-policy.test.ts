@@ -1,7 +1,7 @@
 import {
-  assertSafeBlogMarkdown,
   remarkBlogContentPolicy,
   validateBlogFrontmatter,
+  validateBlogMarkdown,
 } from '../blog-content-policy'
 
 describe('blog content policy', () => {
@@ -18,13 +18,21 @@ describe('blog content policy', () => {
     expect(validateBlogFrontmatter(validFrontmatter, '2026-08-22')).toEqual(validFrontmatter)
   })
 
-  it('preserves safe defaults for legacy frontmatter without tags or published', () => {
-    const { tags: _tags, published: _published, ...legacyFrontmatter } = validFrontmatter
+  it('preserves the safe empty-list default for legacy frontmatter without tags', () => {
+    const { tags: _tags, ...legacyFrontmatter } = validFrontmatter
 
     expect(validateBlogFrontmatter(legacyFrontmatter, '2026-08-22')).toMatchObject({
       tags: [],
       published: true,
     })
+  })
+
+  it('fails closed when published is missing', () => {
+    const { published: _published, ...frontmatterWithoutPublicationState } = validFrontmatter
+
+    expect(() =>
+      validateBlogFrontmatter(frontmatterWithoutPublicationState, '2026-08-22'),
+    ).toThrow('Invalid blog frontmatter')
   })
 
   it('normalizes the exact UTC Date produced by the YAML parser', () => {
@@ -59,18 +67,21 @@ describe('blog content policy', () => {
     'export const marker = true',
     '[unsafe][marker]\n\n[marker]: javascript:marker()',
     '![unsafe][marker]\n\n[marker]: java&#x73;cript:marker()',
-  ])('rejects executable MDX syntax: %s', (markdown) => {
-    expect(() => assertSafeBlogMarkdown(markdown)).toThrow('Unsafe blog content')
+    '<>fragment</>',
+    '<Componént />',
+    '<Unclosed',
+  ])('rejects executable MDX syntax: %s', async (markdown) => {
+    await expect(validateBlogMarkdown(markdown)).rejects.toThrow('Unsafe blog content')
   })
 
-  it('allows ordinary Markdown, GFM, autolinks, images and Mermaid fences', () => {
+  it('allows ordinary Markdown, GFM, autolinks, images and Mermaid fences', async () => {
     const markdown = `# Safe post
 
 | Feature | Ready |
 | --- | --- |
 | GFM | yes |
 
-Visit <https://example.com> and see ![diagram](/images/diagram.webp).
+Visit https://example.com and see ![diagram](/images/diagram.webp).
 
 \`\`\`mermaid
 flowchart LR
@@ -78,13 +89,13 @@ flowchart LR
 \`\`\`
 `
 
-    expect(() => assertSafeBlogMarkdown(markdown)).not.toThrow()
+    await expect(validateBlogMarkdown(markdown)).resolves.toBeUndefined()
   })
 
-  it('treats executable-looking text inside fenced code as inert data', () => {
-    expect(() =>
-      assertSafeBlogMarkdown('```tsx\n<script>example</script>\nexport const demo = true\n```'),
-    ).not.toThrow()
+  it('treats executable-looking text inside fenced code as inert data', async () => {
+    await expect(
+      validateBlogMarkdown('```tsx\n<script>example</script>\nexport const demo = true\n```'),
+    ).resolves.toBeUndefined()
   })
 
   it('rejects prohibited nodes at the Remark AST compiler boundary', () => {

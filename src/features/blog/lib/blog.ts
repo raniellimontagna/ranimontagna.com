@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache'
+import { BLOG_CONTENT_POLICY_VERSION } from './blog-content-policy'
 import type { PostSummary } from './blog.types'
 import { createBlogRepository } from './blog-repository'
 
@@ -13,7 +14,7 @@ export const getPostBySlug = unstable_cache(
   async (slug: string, locale: string) => {
     return await repository.getPostBySlug(slug, locale)
   },
-  ['post-by-slug'],
+  [`post-by-slug-policy-v${BLOG_CONTENT_POLICY_VERSION}`],
   {
     revalidate: 300,
     tags: ['posts'],
@@ -27,7 +28,7 @@ export const getAllPosts = unstable_cache(
   async (locale: string) => {
     return await repository.getAllPosts(locale)
   },
-  ['all-posts'],
+  [`all-posts-policy-v${BLOG_CONTENT_POLICY_VERSION}`],
   {
     revalidate: 300,
     tags: ['posts'],

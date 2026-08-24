@@ -50,8 +50,9 @@ export interface BlogCacheStore {
   get<T>(key: string): Promise<CacheEnvelope<T> | null>
   set<T>(key: string, envelope: CacheEnvelope<T>, ttlSeconds: number): Promise<void>
   delete(key: string): Promise<void>
-  acquireLock(key: string, ttlMs: number): Promise<boolean>
-  releaseLock(key: string): Promise<void>
+  acquireLock(key: string, ttlMs: number): Promise<string | null>
+  renewLock(key: string, token: string, ttlMs: number): Promise<boolean>
+  releaseLock(key: string, token: string): Promise<boolean>
   getNamespaceVersion(scope: string): Promise<string>
   bumpNamespaceVersion(scope: string): Promise<string>
 }

@@ -1,5 +1,9 @@
+import { serialize } from 'next-mdx-remote/serialize'
+import remarkGfm from 'remark-gfm'
 import { z } from 'zod'
 import type { PostMetadata } from './blog.types'
+
+export const BLOG_CONTENT_POLICY_VERSION = 2
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const SAFE_RELATIVE_MEDIA = /^\/(?!\/)/
@@ -38,7 +42,7 @@ const frontmatterSchema = z
     date: z.preprocess(normalizeYamlDate, z.string().refine(isRealIsoDate)),
     description: z.string().trim().min(1).max(600),
     tags: z.array(z.string().trim().min(1).max(40)).max(20).default([]),
-    published: z.boolean().default(true),
+    published: z.boolean(),
     coverImage: z.string().trim().refine(isSafeMediaUrl).optional(),
   })
   .strict()
@@ -70,24 +74,6 @@ export function validateBlogFrontmatter(value: unknown, filenameDate: string): P
   return result.data
 }
 
-const stripFencedCode = (markdown: string): string => {
-  const lines = markdown.split('\n')
-  let fence: string | null = null
-
-  return lines
-    .map((line) => {
-      const match = line.match(/^\s*(`{3,}|~{3,})/)
-      if (match) {
-        const marker = match[1][0]
-        if (fence === null) fence = marker
-        else if (fence === marker) fence = null
-        return ''
-      }
-      return fence === null ? line : ''
-    })
-    .join('\n')
-}
-
 const isSafeLinkDestination = (destination: string): boolean => {
   const decoded = destination
     .replace(/&#x([\da-f]+);?/gi, (_match, value: string) =>
@@ -111,39 +97,6 @@ const isSafeLinkDestination = (destination: string): boolean => {
     return protocol === 'https:' || protocol === 'mailto:'
   } catch {
     return false
-  }
-}
-
-export function assertSafeBlogMarkdown(markdown: string): void {
-  if (typeof markdown !== 'string' || markdown.length > 500_000) {
-    throw new BlogContentPolicyError('Unsafe blog content')
-  }
-
-  const prose = stripFencedCode(markdown)
-  const withoutInlineCode = prose.replace(/`[^`\n]*`/g, '')
-  const withoutAutolinks = withoutInlineCode.replace(
-    /<(?:https:\/\/[^>\s]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})>/g,
-    '',
-  )
-
-  if (
-    /<\/?[A-Za-z!][^>]*>/.test(withoutAutolinks) ||
-    /^\s*(?:import|export)\s/m.test(withoutInlineCode) ||
-    /\{(?:[^{}]|\{[^{}]*\})*\}/.test(withoutInlineCode)
-  ) {
-    throw new BlogContentPolicyError('Unsafe blog content')
-  }
-
-  for (const match of withoutInlineCode.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+['"][^)]*)?\)/g)) {
-    if (!isSafeLinkDestination(match[1])) {
-      throw new BlogContentPolicyError('Unsafe blog content')
-    }
-  }
-
-  for (const match of withoutInlineCode.matchAll(/^\s*\[[^\]\n]+\]:\s*(?:<([^>\n]+)>|(\S+))/gm)) {
-    if (!isSafeLinkDestination(match[1] ?? match[2])) {
-      throw new BlogContentPolicyError('Unsafe blog content')
-    }
   }
 }
 
@@ -179,5 +132,22 @@ export function remarkBlogContentPolicy() {
       node.children?.forEach(visit)
     }
     visit(tree)
+  }
+}
+
+/** Parses and compiles untrusted MDX without evaluating it, enforcing the AST policy before cache. */
+export async function validateBlogMarkdown(markdown: string): Promise<void> {
+  if (typeof markdown !== 'string' || markdown.length > 500_000) {
+    throw new BlogContentPolicyError('Unsafe blog content')
+  }
+
+  try {
+    await serialize(markdown, {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm, remarkBlogContentPolicy],
+      },
+    })
+  } catch {
+    throw new BlogContentPolicyError('Unsafe blog content')
   }
 }

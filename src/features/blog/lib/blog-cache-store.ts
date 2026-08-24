@@ -12,6 +12,10 @@ interface UpstashPipelineResult {
 
 const BLOG_CACHE_PREFIX = 'blog-cache'
 const UPSTASH_PIPELINE_PATH = '/pipeline'
+const RENEW_LOCK_SCRIPT =
+  "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('PEXPIRE', KEYS[1], ARGV[2]) end return 0"
+const RELEASE_LOCK_SCRIPT =
+  "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) end return 0"
 
 let storeInstance: BlogCacheStore | null = null
 
@@ -56,6 +60,8 @@ const parsePipelineResult = (entry: UpstashPipelineResult, label: string): unkno
   return entry.result ?? null
 }
 
+const normalizeLockTtlMs = (ttlMs: number): number => Math.max(1, Math.ceil(ttlMs))
+
 const callUpstashPipeline = async (
   config: UpstashConfig,
   commands: Array<Array<string | number>>,
@@ -89,10 +95,15 @@ const createNoopBlogCacheStore = (): BlogCacheStore => ({
   },
   async set<T>(_key: string, _envelope: CacheEnvelope<T>, _ttlSeconds: number): Promise<void> {},
   async delete(_key: string): Promise<void> {},
-  async acquireLock(_key: string, _ttlMs: number): Promise<boolean> {
+  async acquireLock(_key: string, _ttlMs: number): Promise<string | null> {
+    return null
+  },
+  async renewLock(_key: string, _token: string, _ttlMs: number): Promise<boolean> {
     return false
   },
-  async releaseLock(_key: string): Promise<void> {},
+  async releaseLock(_key: string, _token: string): Promise<boolean> {
+    return false
+  },
   async getNamespaceVersion(_scope: string): Promise<string> {
     return '1'
   },
@@ -139,20 +150,38 @@ const createRedisBlogCacheStore = (config: UpstashConfig): BlogCacheStore => ({
       logCacheWarning(`cache delete failed for key=${key}`, error)
     }
   },
-  async acquireLock(key: string, ttlMs: number): Promise<boolean> {
+  async acquireLock(key: string, ttlMs: number): Promise<string | null> {
+    const token = globalThis.crypto.randomUUID()
     try {
-      const [entry] = await callUpstashPipeline(config, [['SET', key, '1', 'PX', ttlMs, 'NX']])
-      return parsePipelineResult(entry, 'SET lock') === 'OK'
+      const [entry] = await callUpstashPipeline(config, [
+        ['SET', key, token, 'PX', normalizeLockTtlMs(ttlMs), 'NX'],
+      ])
+      return parsePipelineResult(entry, 'SET lock') === 'OK' ? token : null
     } catch (error) {
       logCacheWarning(`lock acquire failed for key=${key}`, error)
+      return null
+    }
+  },
+  async renewLock(key: string, token: string, ttlMs: number): Promise<boolean> {
+    try {
+      const [entry] = await callUpstashPipeline(config, [
+        ['EVAL', RENEW_LOCK_SCRIPT, 1, key, token, normalizeLockTtlMs(ttlMs)],
+      ])
+      return Number(parsePipelineResult(entry, 'EVAL renew lock')) === 1
+    } catch (error) {
+      logCacheWarning(`lock renew failed for key=${key}`, error)
       return false
     }
   },
-  async releaseLock(key: string): Promise<void> {
+  async releaseLock(key: string, token: string): Promise<boolean> {
     try {
-      await callUpstashPipeline(config, [['DEL', key]])
+      const [entry] = await callUpstashPipeline(config, [
+        ['EVAL', RELEASE_LOCK_SCRIPT, 1, key, token],
+      ])
+      return Number(parsePipelineResult(entry, 'EVAL release lock')) === 1
     } catch (error) {
       logCacheWarning(`lock release failed for key=${key}`, error)
+      return false
     }
   },
   async getNamespaceVersion(scope: string): Promise<string> {

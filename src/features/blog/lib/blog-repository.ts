@@ -8,11 +8,17 @@ import type {
   PostSummary,
 } from './blog.types'
 import { createBlogCacheStore } from './blog-cache-store'
-import { assertSafeBlogMarkdown, validateBlogFrontmatter } from './blog-content-policy'
+import {
+  BLOG_CONTENT_POLICY_VERSION,
+  validateBlogFrontmatter,
+  validateBlogMarkdown,
+} from './blog-content-policy'
 import { GitHubBlogContentSource } from './blog-github-source'
 
 const BLOG_CACHE_SCOPE = 'blog'
-const LOCK_TTL_MS = 10_000
+const BLOG_POLICY_CACHE_SEGMENT = `policy-v${BLOG_CONTENT_POLICY_VERSION}`
+const LOCK_TTL_MS = 30_000
+const LOCK_RENEW_INTERVAL_MS = 10_000
 
 const TTL_CONFIG = {
   posts: { freshMs: 15 * 60_000, staleMs: 24 * 60 * 60_000 },
@@ -32,20 +38,22 @@ const toEnvelope = <T>(value: T, freshMs: number, staleMs: number): CacheEnvelop
     freshUntil: now + freshMs,
     staleUntil: now + staleMs,
     cachedAt: now,
-    version: 1,
+    version: BLOG_CONTENT_POLICY_VERSION,
   }
 }
 
 const isPublicPost = (post: PostSummary): boolean => {
   const today = new Date().toISOString().split('T')[0]
-  const isPublished = post.metadata.published !== false
+  const isPublished = post.metadata.published
   const isFuture = post.metadata.date > today
 
   return isPublished && !isFuture
 }
 
 const sortPostsByDate = <T extends PostSummary>(posts: T[]): T[] => {
-  return [...posts].sort((a, b) => (a.metadata.date > b.metadata.date ? -1 : 1))
+  return [...posts].sort(
+    (a, b) => b.metadata.date.localeCompare(a.metadata.date) || a.slug.localeCompare(b.slug),
+  )
 }
 
 const toPublicPost = (post: PostDocument): Post => ({
@@ -63,12 +71,23 @@ const toValidatedPostSummary = (post: PostSummary): PostSummary | null => {
   }
 }
 
-const toPublicPostOrNull = (post: PostDocument): Post | null => {
+const toPublicPostWithValidatedContent = (post: PostDocument): Post | null => {
   try {
-    assertSafeBlogMarkdown(post.content)
     const metadata = validateBlogFrontmatter(post.metadata, post.metadata.date)
     const validated = { ...post, metadata }
     return isPublicPost(validated) ? toPublicPost(validated) : null
+  } catch {
+    return null
+  }
+}
+
+const toPublicPostOrNull = async (post: PostDocument): Promise<Post | null> => {
+  const publicPost = toPublicPostWithValidatedContent(post)
+  if (!publicPost) return null
+
+  try {
+    await validateBlogMarkdown(publicPost.content)
+    return publicPost
   } catch {
     return null
   }
@@ -126,23 +145,50 @@ export const createBlogRepository = (
   }
 
   const getPostsKey = (version: string, locale: string): string =>
-    `blog:v${version}:posts:${locale}`
+    `blog:${BLOG_POLICY_CACHE_SEGMENT}:v${version}:posts:${locale}`
   const getIndexKey = (version: string, locale: string): string =>
-    `blog:v${version}:index:${locale}`
+    `blog:${BLOG_POLICY_CACHE_SEGMENT}:v${version}:index:${locale}`
   const getPostKey = (version: string, locale: string, slug: string): string =>
-    `blog:v${version}:post:${locale}:${slug}`
-  const getLockKey = (resource: string): string => `blog:lock:${resource}`
+    `blog:${BLOG_POLICY_CACHE_SEGMENT}:v${version}:post:${locale}:${slug}`
+  const getLockKey = (resource: string): string =>
+    `blog:${BLOG_POLICY_CACHE_SEGMENT}:lock:${resource}`
+
+  const startLockRenewal = (key: string, token: string): (() => Promise<void>) => {
+    let active = true
+    let pendingRenewal = Promise.resolve()
+    const timer = setInterval(() => {
+      pendingRenewal = pendingRenewal.then(async () => {
+        if (!active) return
+        const renewed = await cache.renewLock(key, token, LOCK_TTL_MS)
+        if (!renewed) {
+          active = false
+          clearInterval(timer)
+        }
+      })
+    }, LOCK_RENEW_INTERVAL_MS)
+
+    return async () => {
+      active = false
+      clearInterval(timer)
+      await pendingRenewal
+      await cache.releaseLock(key, token)
+    }
+  }
 
   const cachePostDocument = async (
     version: string,
     locale: string,
     document: PostDocument,
-  ): Promise<void> => {
+  ): Promise<PostDocument> => {
+    const metadata = validateBlogFrontmatter(document.metadata, document.metadata.date)
+    await validateBlogMarkdown(document.content)
+    const validatedDocument = { ...document, metadata }
     await cache.set(
       getPostKey(version, locale, document.slug),
-      toEnvelope(document, TTL_CONFIG.post.freshMs, TTL_CONFIG.post.staleMs),
+      toEnvelope(validatedDocument, TTL_CONFIG.post.freshMs, TTL_CONFIG.post.staleMs),
       getTtlSeconds(TTL_CONFIG.post.staleMs),
     )
+    return validatedDocument
   }
 
   const getCachedOrSourceDocument = async (
@@ -162,8 +208,7 @@ export const createBlogRepository = (
       return null
     }
 
-    await cachePostDocument(version, locale, document)
-    return document
+    return await cachePostDocument(version, locale, document)
   }
 
   const fetchAllPostsFromSource = async (
@@ -214,13 +259,16 @@ export const createBlogRepository = (
   ): Promise<PostSummary[]> => {
     return await withInflight(`posts:${version}:${locale}`, async () => {
       const lockKey = getLockKey(`posts:${version}:${locale}`)
-      const hasDistributedLock = cache.supportsLocks
+      const lockToken = cache.supportsLocks
         ? await cache.acquireLock(lockKey, LOCK_TTL_MS)
-        : true
+        : null
+      const hasDistributedLock = !cache.supportsLocks || lockToken !== null
 
       if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
         return normalizePublicSummaries(fallback.value)
       }
+
+      const stopLockRenewal = lockToken ? startLockRenewal(lockKey, lockToken) : null
 
       try {
         return await fetchAllPostsFromSource(version, locale)
@@ -230,9 +278,7 @@ export const createBlogRepository = (
           ? normalizePublicSummaries(fallback.value)
           : []
       } finally {
-        if (cache.supportsLocks && hasDistributedLock) {
-          await cache.releaseLock(lockKey)
-        }
+        await stopLockRenewal?.()
       }
     })
   }
@@ -246,13 +292,16 @@ export const createBlogRepository = (
   ): Promise<Post | null> => {
     return await withInflight(`post:${version}:${locale}:${slug}`, async () => {
       const lockKey = getLockKey(`post:${version}:${locale}:${slug}`)
-      const hasDistributedLock = cache.supportsLocks
+      const lockToken = cache.supportsLocks
         ? await cache.acquireLock(lockKey, LOCK_TTL_MS)
-        : true
+        : null
+      const hasDistributedLock = !cache.supportsLocks || lockToken !== null
 
       if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
-        return toPublicPostOrNull(fallback.value)
+        return await toPublicPostOrNull(fallback.value)
       }
+
+      const stopLockRenewal = lockToken ? startLockRenewal(lockKey, lockToken) : null
 
       try {
         const document = await source.getPostDocument(locale, slug)
@@ -260,17 +309,15 @@ export const createBlogRepository = (
           return null
         }
 
-        await cachePostDocument(version, locale, document)
-        return toPublicPostOrNull(document)
+        const validatedDocument = await cachePostDocument(version, locale, document)
+        return toPublicPostWithValidatedContent(validatedDocument)
       } catch (error) {
         logRepositoryWarning(`source fetch failed for post locale=${locale} slug=${slug}`, error)
         return fallback !== null && fallback.staleUntil > Date.now()
-          ? toPublicPostOrNull(fallback.value)
+          ? await toPublicPostOrNull(fallback.value)
           : null
       } finally {
-        if (cache.supportsLocks && hasDistributedLock) {
-          await cache.releaseLock(lockKey)
-        }
+        await stopLockRenewal?.()
       }
     })
   }
@@ -298,12 +345,12 @@ export const createBlogRepository = (
       const cachedPost = await cache.get<PostDocument>(cacheKey)
 
       if (cachedPost !== null && cachedPost.freshUntil > Date.now()) {
-        return toPublicPostOrNull(cachedPost.value)
+        return await toPublicPostOrNull(cachedPost.value)
       }
 
       if (cachedPost !== null && cachedPost.staleUntil > Date.now()) {
         void refreshPost(version, slug, locale, cachedPost, true)
-        return toPublicPostOrNull(cachedPost.value)
+        return await toPublicPostOrNull(cachedPost.value)
       }
 
       return await refreshPost(version, slug, locale, cachedPost)
