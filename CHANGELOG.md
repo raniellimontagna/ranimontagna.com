@@ -1,5 +1,85 @@
 # Changelog
 
+## [1.24.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.23.0...v1.24.0) (2026-08-24)
+
+
+### Features
+
+* **background:** add spectral progressive enhancement ([113964d](https://github.com/raniellimontagna/ranimontagna.com/commit/113964dd941147983392e5dd089b1f34ef3ba874))
+* **background:** add spectral runtime contracts ([aef90b1](https://github.com/raniellimontagna/ranimontagna.com/commit/aef90b1376692864c0ee0362f283f9f79d34a765))
+* **background:** integrate spectral veil globally ([8cf4319](https://github.com/raniellimontagna/ranimontagna.com/commit/8cf43197f1aee38f7021a742f49d32b66ffd39e9))
+* **background:** observe spectral environment ([ee9be3b](https://github.com/raniellimontagna/ranimontagna.com/commit/ee9be3b54a0235edf044d5add3cc418feee3d575))
+* **background:** render resilient spectral veil ([2fa9976](https://github.com/raniellimontagna/ranimontagna.com/commit/2fa9976c4ecef3701fa152084a436c51bdf52ffd))
+* **blog:** harden and optimize content pipeline ([a697f46](https://github.com/raniellimontagna/ranimontagna.com/commit/a697f46aeadac09c3fc9656c64277211b15c5d6d))
+* **blog:** redirect old Lemon post slug to um-novo-capitulo-na-lemon ([b2581c5](https://github.com/raniellimontagna/ranimontagna.com/commit/b2581c5d190f1aad011edeeaed6aba33d950d32f))
+* **chat:** refresh professional profile context ([2964e87](https://github.com/raniellimontagna/ranimontagna.com/commit/2964e87a423a6ff83ea0a83f459b5e61d47c0d9b))
+* **chat:** use DeepSeek as primary provider ([e2a9b6e](https://github.com/raniellimontagna/ranimontagna.com/commit/e2a9b6e84cfa7883083576b09abaf42305afced3))
+* **copy:** reposition portfolio around senior engineering beyond code ([d94e3ab](https://github.com/raniellimontagna/ranimontagna.com/commit/d94e3ab1221e084fd65456524b68290c39766569))
+* **copy:** sharpen ATS profile ([d60ae7b](https://github.com/raniellimontagna/ranimontagna.com/commit/d60ae7bae760d44c03758484f14a967ef4618d15))
+* **experience:** add Lemon current role ([229a938](https://github.com/raniellimontagna/ranimontagna.com/commit/229a9382f226b977e2bf78348b35e158989ef0f3))
+* **experience:** add mobile carousel ([16d051f](https://github.com/raniellimontagna/ranimontagna.com/commit/16d051fcf58c61275650265418e883056d771e66))
+* **experience:** add pinned scroll reel ([54c2e54](https://github.com/raniellimontagna/ranimontagna.com/commit/54c2e5425160ad485bd5df0198c1a51fb7023a91))
+* **experience:** polish motion and logos ([7132161](https://github.com/raniellimontagna/ranimontagna.com/commit/7132161debf434103530244e3db0862043b1bda4))
+* **media:** add blog media URL resolution and update components to use it ([df95747](https://github.com/raniellimontagna/ranimontagna.com/commit/df9574727da001b6d24c3d5c56c94beccfb5aef0))
+
+
+### Bug Fixes
+
+* **a11y:** announce form and chat status ([09847c1](https://github.com/raniellimontagna/ranimontagna.com/commit/09847c1fe35a36e290b04dc40132fba9517dafcd))
+* **a11y:** enforce accessible theme contrast ([5631375](https://github.com/raniellimontagna/ranimontagna.com/commit/563137554617eca3258d3787e3d7c03bda2fe016))
+* **a11y:** honor reduced motion preferences ([f9e0693](https://github.com/raniellimontagna/ranimontagna.com/commit/f9e0693cc9c19ac02a46e8ac50a76c136204c06e))
+* **a11y:** restore localized skip target ([4f93bda](https://github.com/raniellimontagna/ranimontagna.com/commit/4f93bdaa168e65d82a61380aab5c6390b14f2835))
+* **a11y:** restore responsive interaction contracts ([109d107](https://github.com/raniellimontagna/ranimontagna.com/commit/109d107831a83c36a36617f915dd269c05f581bc))
+* **background:** harden spectral runtime fallbacks ([e40d6c4](https://github.com/raniellimontagna/ranimontagna.com/commit/e40d6c40edf20ea08e4fb75745039721dc0acd3f))
+* **background:** harden spectral runtime timing ([d39d9a3](https://github.com/raniellimontagna/ranimontagna.com/commit/d39d9a3bd0f68512ef1c0e61ad5c02aeb240f905))
+* **background:** make spectral motion perceptible ([abc3ba1](https://github.com/raniellimontagna/ranimontagna.com/commit/abc3ba18e25d053b1da3a357aa6dceb0d87d1b2e))
+* **background:** observe deferred spectral zones ([13afc76](https://github.com/raniellimontagna/ranimontagna.com/commit/13afc76353cfc0f31e618553338bc2f8325cf836))
+* **background:** tolerate missing mutation observer ([eb1a17b](https://github.com/raniellimontagna/ranimontagna.com/commit/eb1a17b644d44dab8b83a2a0e5bd9664e1485f86))
+* **blog:** fence cache writes by lease ([2fc1833](https://github.com/raniellimontagna/ranimontagna.com/commit/2fc183360d12caa2488ab182bcde2d68dab052be))
+* **blog:** harden cache policy and leases ([a7b9c6d](https://github.com/raniellimontagna/ranimontagna.com/commit/a7b9c6d0d04e929697ee37b5daf1f939a21a8473))
+* **blog:** isolate invalid source documents ([e197358](https://github.com/raniellimontagna/ranimontagna.com/commit/e19735839e2ecc0cf84233626b1d086fbf718438))
+* **blog:** localize scroll control and test boundaries ([f1fb835](https://github.com/raniellimontagna/ranimontagna.com/commit/f1fb835af49a325f005e64efc788bbb2e96567e4))
+* **blog:** remove hidden scroll control from focus order ([55d0a09](https://github.com/raniellimontagna/ranimontagna.com/commit/55d0a09a9c14325abc98e9d15e1a411fa99fef70))
+* **blog:** validate reference destinations ([e8a48e0](https://github.com/raniellimontagna/ranimontagna.com/commit/e8a48e008edaee50db51a26dc8245b6e40c0607d))
+* **chat:** allowlist OpenRouter model ([47e2187](https://github.com/raniellimontagna/ranimontagna.com/commit/47e218719e2b3cc0cf73b9b2a739675c9dbd917f))
+* **chat:** anchor prompts to canonical dates ([00cd78d](https://github.com/raniellimontagna/ranimontagna.com/commit/00cd78d797c0eac32d8b8a8aecdb2915cafef368))
+* **chat:** bind normalized URLs to literal occurrences ([2365e75](https://github.com/raniellimontagna/ranimontagna.com/commit/2365e75c35e5587c6914faa52107bcaf48344f9d))
+* **chat:** close response validation bypasses ([0a24120](https://github.com/raniellimontagna/ranimontagna.com/commit/0a24120e1ab4aed9096d1954be7db4fca9c33b10))
+* **chat:** close response validation edge cases ([548a019](https://github.com/raniellimontagna/ranimontagna.com/commit/548a019b7ee86aaeeed082acd11c64a7bac3fa1f))
+* **chat:** harden provider execution guards ([6e0680e](https://github.com/raniellimontagna/ranimontagna.com/commit/6e0680ef9a1a6ddd21e9133426609135bc22b95a))
+* **chat:** preserve project availability facts ([2fb0c52](https://github.com/raniellimontagna/ranimontagna.com/commit/2fb0c5213f53f7f175a66774440425c3313c67b4))
+* **chat:** remove client-authored assistant history ([8b72666](https://github.com/raniellimontagna/ranimontagna.com/commit/8b72666a672856d2265fff0e5c77b383f8a7bd0b))
+* **chat:** restrict rendered links and disclose privacy ([fd2323a](https://github.com/raniellimontagna/ranimontagna.com/commit/fd2323af799539aa70fa51a74f1f912013eb11fa))
+* **chat:** validate model output before delivery ([b981b25](https://github.com/raniellimontagna/ranimontagna.com/commit/b981b2564fb604152e48ce556f46c8d0df7058c9))
+* **contact:** reject non-object json bodies ([9fd8fa7](https://github.com/raniellimontagna/ranimontagna.com/commit/9fd8fa791213bec2abe25607c9561855e3fc1082))
+* **cv:** update English, Spanish, and Portuguese CV PDFs ([a862c55](https://github.com/raniellimontagna/ranimontagna.com/commit/a862c55ee1dc39b7109667b1c95e92d7d7fc4fb4))
+* **cv:** update Portuguese CV PDF ([a4627ac](https://github.com/raniellimontagna/ranimontagna.com/commit/a4627ac3e7b2d3ce7e430efb19bd8d9f11e018fa))
+* **experience:** fit pinned cards in viewport ([20511d2](https://github.com/raniellimontagna/ranimontagna.com/commit/20511d23def0a10f085e1c7a86e32ad306489f12))
+* **experience:** keep desktop cards scrollable ([cab4b20](https://github.com/raniellimontagna/ranimontagna.com/commit/cab4b201af93fd5280e4cd41b789cf9449407e09))
+* **experience:** preserve pin with scrollable panels ([58d0d5c](https://github.com/raniellimontagna/ranimontagna.com/commit/58d0d5c13d3bfc86c7cfd1d93940bfac8c36f3ed))
+* **header:** compact language and restore theme controls ([f7a146a](https://github.com/raniellimontagna/ranimontagna.com/commit/f7a146a35bda2344075e0d6ecaf476c62b4e891a))
+* **home:** quiet console warnings ([56aa335](https://github.com/raniellimontagna/ranimontagna.com/commit/56aa335c475ea3640d46d80fb6def4ad5e7b87ba))
+* **home:** restore preferences and entrance motion ([c3e7a2b](https://github.com/raniellimontagna/ranimontagna.com/commit/c3e7a2bc2df92f42115c850d301ccf3a1ded88fa))
+* **integration:** reconcile site improvements ([8cf3d2f](https://github.com/raniellimontagna/ranimontagna.com/commit/8cf3d2f211c174ba460b8ec73440d76cc65b02db))
+* **motion:** dispose progressive gsap safely ([f3eb8f0](https://github.com/raniellimontagna/ranimontagna.com/commit/f3eb8f0ef3e9cd355a308c5b97f5c6ec62a8bfb6))
+* **projects:** enforce server-only data boundary ([be82640](https://github.com/raniellimontagna/ranimontagna.com/commit/be826403a9950d55c3ada0de7601488d20e109e5))
+* **review:** restore animation and card interactions ([83e3395](https://github.com/raniellimontagna/ranimontagna.com/commit/83e339537dba4b6d3918d23bd73ca4f6a4da38f0))
+* **security:** bound rate limit cleanup work ([cd2a655](https://github.com/raniellimontagna/ranimontagna.com/commit/cd2a655822896432caa87d296d0a374a60c462df))
+* **security:** harden public request boundaries ([cca2e69](https://github.com/raniellimontagna/ranimontagna.com/commit/cca2e690c0e17de8ff71eebcb559bc22c1c192da))
+* **seo:** render structured data from live routes ([bf476a6](https://github.com/raniellimontagna/ranimontagna.com/commit/bf476a6e0d2b8ae6a172b03cdf31cadc04053ce1))
+
+
+### Performance Improvements
+
+* **analytics:** gate web vitals on consent ([8f0880d](https://github.com/raniellimontagna/ranimontagna.com/commit/8f0880decd8db74cd2fe676a7e25161f45f83e84))
+* **chat:** address static diagnostics ([52a20ab](https://github.com/raniellimontagna/ranimontagna.com/commit/52a20ab3085fb142de3394d198baaff37d9e6944))
+* **home:** improve initial rendering and motion ([044124c](https://github.com/raniellimontagna/ranimontagna.com/commit/044124caa6b82ef6982b8b1c3082ba6271b19055))
+* **home:** optimize initial load and restore interactions ([c89897f](https://github.com/raniellimontagna/ranimontagna.com/commit/c89897f8edd8d3986129e3d54f7cbe2f9aa3e8bf))
+* **home:** update portrait assets ([235e0a1](https://github.com/raniellimontagna/ranimontagna.com/commit/235e0a1983f4ea8640d5bd4732f55e69c5feb36a))
+* **i18n:** scope client messages by route ([bc55eae](https://github.com/raniellimontagna/ranimontagna.com/commit/bc55eae4bba1cd132c942620ce1b232049a27769))
+* **lcp:** keep critical content immediately visible ([9a81ccb](https://github.com/raniellimontagna/ranimontagna.com/commit/9a81ccbed6be65f8336094f7a47679f8713426f4))
+* **projects:** reuse one GitHub snapshot ([eaf7539](https://github.com/raniellimontagna/ranimontagna.com/commit/eaf7539f50e70e09691189b7198755a97f8cae09))
+
 ## [1.23.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.22.0...v1.23.0) (2026-05-16)
 
 
