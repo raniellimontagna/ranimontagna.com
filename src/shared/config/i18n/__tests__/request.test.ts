@@ -19,6 +19,10 @@ vi.mock('../../../../../messages/pt.json', () => ({
   default: { welcome: 'Olá' },
 }))
 
+vi.mock('../../../../../messages/es.json', () => ({
+  default: { welcome: 'Hola' },
+}))
+
 describe('i18n request config', () => {
   const getConfig = requestConfig as unknown as (params: {
     requestLocale: Promise<string | undefined>
@@ -34,6 +38,12 @@ describe('i18n request config', () => {
     const config = await getConfig({ requestLocale: Promise.resolve('pt') })
     expect(config.locale).toBe('pt')
     expect(config.messages).toEqual({ welcome: 'Olá' })
+  })
+
+  it('uses requested locale if valid (es)', async () => {
+    const config = await getConfig({ requestLocale: Promise.resolve('es') })
+    expect(config.locale).toBe('es')
+    expect(config.messages).toEqual({ welcome: 'Hola' })
   })
 
   it('falls back to default locale if requested locale is invalid', async () => {

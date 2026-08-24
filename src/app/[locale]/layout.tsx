@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
+import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
@@ -95,7 +96,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
-  const t = await getTranslations({ locale, namespace: 'accessibility' })
+  const [messages, t] = await Promise.all([
+    getMessages({ locale }),
+    getTranslations({ locale, namespace: 'accessibility' }),
+  ])
 
   return (
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
@@ -113,7 +117,9 @@ export default async function LocaleLayout({ children, params }: Props) {
           {t('skipToContent')}
         </a>
         <SpectralBackground />
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   )

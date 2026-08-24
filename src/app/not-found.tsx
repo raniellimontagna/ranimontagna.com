@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <ErrorLayout
       code="404"
-      lang="en"
+      lang="pt-BR"
       title="Página não encontrada"
       description="O endereço que você tentou acessar não existe ou foi removido. Que tal voltar para o início?"
     >
