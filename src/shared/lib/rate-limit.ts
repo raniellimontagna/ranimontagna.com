@@ -25,7 +25,14 @@ type UpstashResult = {
 }
 
 const RATE_LIMIT_UPSTASH_PATH = '/pipeline'
+const DEFAULT_MEMORY_ENTRY_CAP = 10_000
+const DEFAULT_UPSTASH_TIMEOUT_MS = 2_500
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+
+const getPositiveInteger = (value: string | undefined, fallback: number): number => {
+  const parsed = Number(value)
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback
+}
 
 const getUpstashConfig = (): UpstashConfig | null => {
   const url = process.env.UPSTASH_REDIS_REST_URL?.trim()
@@ -63,18 +70,15 @@ const createAnonymousFingerprint = (headers: Headers): string => {
 }
 
 export const getRateLimitIdentifier = (headers: Headers): string => {
-  const candidates = [
-    headers.get('cf-connecting-ip'),
-    headers.get('x-forwarded-for'),
-    headers.get('x-real-ip'),
-    headers.get('true-client-ip'),
-  ]
+  const trustedHeader = process.env.CF_PAGES
+    ? headers.get('cf-connecting-ip')
+    : process.env.VERCEL
+      ? headers.get('x-forwarded-for')
+      : null
+  const trustedIp = sanitizeForwardedIp(trustedHeader)
 
-  for (const candidate of candidates) {
-    const ip = sanitizeForwardedIp(candidate)
-    if (ip) {
-      return `ip:${ip}`
-    }
+  if (trustedIp) {
+    return `ip:${trustedIp}`
   }
 
   return `anon:${createAnonymousFingerprint(headers)}`
@@ -82,7 +86,7 @@ export const getRateLimitIdentifier = (headers: Headers): string => {
 
 const parseUpstashResult = (entry: UpstashResult, label: string): number => {
   if (entry.error) {
-    throw new Error(`Upstash ${label} failed: ${entry.error}`)
+    throw new Error(`Upstash ${label} failed`)
   }
 
   const value = Number(entry.result)
@@ -104,11 +108,13 @@ const callUpstashPipeline = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(commands),
+    signal: AbortSignal.timeout(
+      getPositiveInteger(process.env.RATE_LIMIT_UPSTASH_TIMEOUT_MS, DEFAULT_UPSTASH_TIMEOUT_MS),
+    ),
   })
 
   if (!response.ok) {
-    const errorBody = await response.text()
-    throw new Error(`Upstash pipeline request failed with HTTP ${response.status}: ${errorBody}`)
+    throw new Error(`Upstash pipeline request failed with HTTP ${response.status}`)
   }
 
   const payload = (await response.json()) as UpstashResult[]
@@ -151,9 +157,23 @@ const checkUpstashRateLimit = async (
 const checkMemoryRateLimit = (options: RateLimitOptions): RateLimitResult => {
   const key = `${options.keyPrefix}:${options.identifier}`
   const now = Date.now()
+  for (const [storedKey, storedEntry] of rateLimitMap) {
+    if (now > storedEntry.resetAt) rateLimitMap.delete(storedKey)
+  }
+
   const entry = rateLimitMap.get(key)
 
-  if (!entry || now > entry.resetAt) {
+  if (!entry) {
+    const maxEntries = getPositiveInteger(
+      process.env.RATE_LIMIT_MEMORY_MAX_ENTRIES,
+      DEFAULT_MEMORY_ENTRY_CAP,
+    )
+    while (rateLimitMap.size >= maxEntries) {
+      const oldestKey = rateLimitMap.keys().next().value
+      if (typeof oldestKey !== 'string') break
+      rateLimitMap.delete(oldestKey)
+    }
+
     const resetAt = now + options.windowMs
     rateLimitMap.set(key, { count: 1, resetAt })
 

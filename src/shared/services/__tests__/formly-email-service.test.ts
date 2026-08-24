@@ -42,7 +42,7 @@ describe('formly-email-service', () => {
       )
     })
 
-    it('handles successful response with invalid JSON', async () => {
+    it('rejects a successful response with invalid JSON', async () => {
       global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         json: async () => {
@@ -50,12 +50,7 @@ describe('formly-email-service', () => {
         },
       })
 
-      const result = await sendContactEmail(mockContactData)
-
-      expect(result).toEqual({
-        success: true,
-        message: 'Email enviado com sucesso!',
-      })
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('Contact request failed')
     })
 
     it('handles API error response with success: false', async () => {
@@ -67,7 +62,7 @@ describe('formly-email-service', () => {
         }),
       })
 
-      await expect(sendContactEmail(mockContactData)).rejects.toThrow('API Error')
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('Contact request failed')
     })
 
     it('handles API error response with success: false and no message', async () => {
@@ -78,9 +73,7 @@ describe('formly-email-service', () => {
         }),
       })
 
-      await expect(sendContactEmail(mockContactData)).rejects.toThrow(
-        'Erro desconhecido ao enviar email',
-      )
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('Contact request failed')
     })
 
     it('handles HTTP error response', async () => {
@@ -93,9 +86,8 @@ describe('formly-email-service', () => {
         text: async () => 'Internal Server Error',
       })
 
-      await expect(sendContactEmail(mockContactData)).rejects.toThrow(
-        'HTTP 500: Internal Server Error',
-      )
+      await expect(sendContactEmail(mockContactData)).rejects.toThrow('Contact request failed')
+      expect(global.fetch).toHaveBeenCalledOnce()
     })
 
     it('includes correct payload data', async () => {

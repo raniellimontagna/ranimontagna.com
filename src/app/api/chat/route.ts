@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server'
+import { isTrustedBrowserRequest, readBoundedJsonBody } from '@/shared/lib/request-security'
 import {
   FALLBACK_MESSAGES,
   RATE_LIMIT_MAX,
@@ -31,11 +32,6 @@ import { checkRateLimit, getRateLimitIdentifier } from './chat.utils'
 
 const MAX_REQUEST_BODY_BYTES = 8 * 1024
 
-type BoundedJsonResult =
-  | { status: 'ok'; value: unknown }
-  | { status: 'invalid' }
-  | { status: 'too-large' }
-
 type ChatRouteState =
   | { kind: 'provider'; index: number }
   | { kind: 'correction'; code: ChatValidationCode }
@@ -61,45 +57,12 @@ const fallbackState = (
 
 const elapsedSince = (startedAt: number): number => Math.max(0, Date.now() - startedAt)
 
-async function readBoundedJsonBody(request: NextRequest): Promise<BoundedJsonResult> {
-  const reader = request.body?.getReader()
-  if (!reader) return { status: 'invalid' }
-
-  const chunks: Uint8Array[] = []
-  let totalBytes = 0
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      if (totalBytes + value.byteLength > MAX_REQUEST_BODY_BYTES) {
-        await reader.cancel().catch(() => undefined)
-        return { status: 'too-large' }
-      }
-
-      chunks.push(value)
-      totalBytes += value.byteLength
-    }
-
-    const bodyBytes = new Uint8Array(totalBytes)
-    let offset = 0
-    for (const chunk of chunks) {
-      bodyBytes.set(chunk, offset)
-      offset += chunk.byteLength
-    }
-
-    const bodyText = new TextDecoder('utf-8', { fatal: true }).decode(bodyBytes)
-    return { status: 'ok', value: JSON.parse(bodyText) }
-  } catch {
-    return { status: 'invalid' }
-  } finally {
-    reader.releaseLock()
-  }
-}
-
 export async function POST(request: NextRequest): Promise<Response> {
   try {
+    if (!isTrustedBrowserRequest(request)) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
     const rateLimitIdentifier = getRateLimitIdentifier(request.headers)
     const rateLimit = await checkRateLimit({
       identifier: rateLimitIdentifier,
@@ -129,7 +92,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       )
     }
 
-    const bodyResult = await readBoundedJsonBody(request)
+    const bodyResult = await readBoundedJsonBody(request, MAX_REQUEST_BODY_BYTES)
     if (bodyResult.status === 'too-large') {
       return Response.json({ error: 'Request body too large' }, { status: 413 })
     }

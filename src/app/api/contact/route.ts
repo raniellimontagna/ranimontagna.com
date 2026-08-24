@@ -6,11 +6,33 @@ import {
   contactFormSchema,
 } from '@/shared/lib/contact-form'
 import { checkRateLimit, getRateLimitIdentifier } from '@/shared/lib/rate-limit'
+import { isTrustedBrowserRequest, readBoundedJsonBody } from '@/shared/lib/request-security'
 
 const FORMLY_BASE_URL = 'https://formly.email'
 const CONTACT_RATE_LIMIT_PREFIX = 'contact:rate-limit'
 const DEFAULT_CONTACT_RATE_LIMIT_MAX = 5
 const DEFAULT_CONTACT_RATE_LIMIT_WINDOW_MS = 10 * 60_000
+const MAX_CONTACT_BODY_BYTES = 16 * 1024
+const DEFAULT_FORMLY_TIMEOUT_MS = 7_500
+
+type ContactProviderFailureCategory = 'http' | 'invalid-response' | 'network' | 'timeout'
+
+class ContactProviderError extends Error {
+  constructor(
+    readonly category: ContactProviderFailureCategory,
+    readonly status: number | null,
+    readonly traceId: string,
+  ) {
+    super('Contact provider request failed')
+  }
+}
+
+const getFormlyTimeoutMs = (): number => {
+  const value = Number(process.env.FORMLY_TIMEOUT_MS)
+  return Number.isSafeInteger(value) && value > 0
+    ? Math.min(value, 10_000)
+    : DEFAULT_FORMLY_TIMEOUT_MS
+}
 
 const getContactRateLimitMax = (): number => {
   const value = Number(process.env.CONTACT_RATE_LIMIT_MAX)
@@ -39,6 +61,7 @@ const submitToFormly = async (
   data: ContactFormData,
   request: NextRequest,
   formId: string,
+  traceId: string,
 ): Promise<ContactFormResponse> => {
   const payload = {
     access_key: formId,
@@ -52,45 +75,57 @@ const submitToFormly = async (
     url: request.headers.get('origin') || request.headers.get('referer') || 'unknown',
   }
 
-  const response = await fetch(`${FORMLY_BASE_URL}/submit`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-    redirect: 'manual',
-  })
-
-  // Formly may return a redirect after accepting the submission.
-  if (response.type === 'opaqueredirect' || (response.status >= 300 && response.status < 400)) {
-    return { success: true, message: 'Email enviado com sucesso!' }
+  let response: Response
+  try {
+    response = await fetch(`${FORMLY_BASE_URL}/submit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+      redirect: 'manual',
+      signal: AbortSignal.timeout(getFormlyTimeoutMs()),
+    })
+  } catch (error) {
+    const category =
+      error instanceof DOMException && ['AbortError', 'TimeoutError'].includes(error.name)
+        ? 'timeout'
+        : 'network'
+    throw new ContactProviderError(category, null, traceId)
   }
 
-  if (response.ok) {
-    try {
-      const result = (await response.json()) as ContactFormResponse
-
-      if (!result.success) {
-        throw new Error(result.message || 'Erro desconhecido ao enviar email')
-      }
-
-      return result
-    } catch (error) {
-      if (error instanceof Error && error.message !== 'Unexpected end of JSON input') {
-        throw error
-      }
-
-      return { success: true, message: 'Email enviado com sucesso!' }
-    }
+  if (!response.ok) {
+    throw new ContactProviderError('http', response.status, traceId)
   }
 
-  const errorText = await response.text()
-  throw new Error(`HTTP ${response.status}: ${errorText}`)
+  let result: unknown
+  try {
+    result = await response.json()
+  } catch {
+    throw new ContactProviderError('invalid-response', response.status, traceId)
+  }
+
+  if (!result || typeof result !== 'object' || !('success' in result) || result.success !== true) {
+    throw new ContactProviderError('invalid-response', response.status, traceId)
+  }
+
+  const confirmed = result as Record<string, unknown>
+  return {
+    success: true,
+    message:
+      typeof confirmed.message === 'string' ? confirmed.message : 'Email enviado com sucesso!',
+    ...(typeof confirmed.id === 'string' ? { id: confirmed.id } : {}),
+  }
 }
 
 export async function POST(request: NextRequest): Promise<Response> {
+  const traceId = crypto.randomUUID()
   try {
+    if (!isTrustedBrowserRequest(request)) {
+      return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 })
+    }
+
     const rateLimitIdentifier = getRateLimitIdentifier(request.headers)
     const rateLimit = await checkRateLimit({
       identifier: rateLimitIdentifier,
@@ -120,13 +155,19 @@ export async function POST(request: NextRequest): Promise<Response> {
       )
     }
 
-    let body: unknown
+    const bodyResult = await readBoundedJsonBody(request, MAX_CONTACT_BODY_BYTES)
+    if (bodyResult.status === 'too-large') {
+      return NextResponse.json(
+        { success: false, message: 'Request body too large' },
+        { status: 413 },
+      )
+    }
 
-    try {
-      body = await request.json()
-    } catch {
+    if (bodyResult.status === 'invalid') {
       return NextResponse.json({ success: false, message: 'Requisicao invalida.' }, { status: 400 })
     }
+
+    const body = bodyResult.value
 
     const maybeBody = body as Record<string, unknown>
 
@@ -156,10 +197,14 @@ export async function POST(request: NextRequest): Promise<Response> {
       )
     }
 
-    const result = await submitToFormly(parsed.data, request, formId)
+    const result = await submitToFormly(parsed.data, request, formId, traceId)
     return NextResponse.json(result)
   } catch (error) {
-    console.error('Contact API error:', error)
+    const failure =
+      error instanceof ContactProviderError
+        ? { category: error.category, status: error.status, traceId: error.traceId }
+        : { category: 'unexpected', status: null, traceId }
+    console.error('Contact API failure', failure)
     return NextResponse.json(
       { success: false, message: 'Nao foi possivel enviar a mensagem.' },
       { status: 500 },

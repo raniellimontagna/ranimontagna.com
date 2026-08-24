@@ -14,7 +14,8 @@ describe('chat rate limit utilities', () => {
     resetRateLimitStateForTests()
   })
 
-  it('uses the first forwarded IP when available', () => {
+  it('uses the first forwarded IP on Vercel', () => {
+    vi.stubEnv('VERCEL', '1')
     const identifier = getRateLimitIdentifier(
       new Headers({
         'x-forwarded-for': '203.0.113.10, 10.0.0.1',

@@ -20,23 +20,21 @@ export async function sendContactEmail(data: ContactFormInput): Promise<ContactF
   })
 
   if (response.ok) {
-    let result: ContactFormResponse
-
+    let result: unknown
     try {
       result = await response.json()
     } catch {
-      return { success: true, message: 'Email enviado com sucesso!' }
+      throw new Error('Contact request failed')
     }
 
-    if (!result.success) {
-      throw new Error(result.message || 'Erro desconhecido ao enviar email')
+    if (!result || typeof result !== 'object' || !('success' in result) || result.success !== true) {
+      throw new Error('Contact request failed')
     }
 
-    return result
+    return result as ContactFormResponse
   }
 
-  const errorText = await response.text()
-  throw new Error(`HTTP ${response.status}: ${errorText}`)
+  throw new Error('Contact request failed')
 }
 
 /**

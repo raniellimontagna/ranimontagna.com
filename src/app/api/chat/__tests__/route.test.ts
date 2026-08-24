@@ -744,4 +744,44 @@ describe('chat route provider order', () => {
       expect.stringContaining('"currentQuestion":"Oi 👋"'),
     )
   })
+
+  it('rejects explicit cross-site browser requests before calling a provider', async () => {
+    const request = createRequestWithBody(
+      JSON.stringify({ locale: 'pt', message: 'Oi', previousQuestions: [] }),
+    )
+    request.headers.set('origin', 'https://attacker.example')
+    request.headers.set('sec-fetch-site', 'cross-site')
+
+    const response = await POST(request as never)
+
+    expect(response.status).toBe(403)
+    await expect(response.json()).resolves.toEqual({ error: 'Forbidden' })
+    expect(mockCallDeepSeek).not.toHaveBeenCalled()
+  })
+
+  it('accepts a browser request whose origin matches the request URL', async () => {
+    mockCallDeepSeek.mockResolvedValue(
+      providerSuccess('deepseek', createOpenAiStreamResponse('Resposta DeepSeek')),
+    )
+    const request = createRequestWithBody(
+      JSON.stringify({ locale: 'pt', message: 'Oi', previousQuestions: [] }),
+    )
+    request.headers.set('origin', 'http://localhost')
+    request.headers.set('sec-fetch-site', 'same-origin')
+
+    const response = await POST(request as never)
+
+    expect(response.status).toBe(200)
+    expect(mockCallDeepSeek).toHaveBeenCalledOnce()
+  })
+
+  it('returns a generic 400 for invalid UTF-8 JSON', async () => {
+    const invalidUtf8 = new Uint8Array([0x7b, 0x22, 0x78, 0x22, 0x3a, 0x22, 0xc3, 0x28, 0x22, 0x7d])
+
+    const response = await POST(createRequestWithBody(invalidUtf8) as never)
+
+    expect(response.status).toBe(400)
+    await expect(response.json()).resolves.toEqual({ error: 'Invalid request' })
+    expect(mockCallDeepSeek).not.toHaveBeenCalled()
+  })
 })
