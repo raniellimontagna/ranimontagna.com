@@ -25,10 +25,7 @@ const createEnvelope = <T>(
   ...overrides,
 })
 
-const createDocument = (
-  slug: string,
-  metadata: Partial<Post['metadata']> = {},
-): PostDocument => ({
+const createDocument = (slug: string, metadata: Partial<Post['metadata']> = {}): PostDocument => ({
   ...createPost(slug),
   metadata: { ...createPost(slug).metadata, ...metadata },
   path: `posts/en/${slug}.mdx`,
@@ -43,6 +40,7 @@ const createCache = (
     return (await getMock(key)) as CacheEnvelope<T> | null
   },
   set: vi.fn().mockResolvedValue(undefined),
+  setIfLockOwned: vi.fn().mockResolvedValue(true),
   delete: vi.fn(),
   acquireLock: vi.fn().mockResolvedValue('owner-token'),
   renewLock: vi.fn().mockResolvedValue(true),
@@ -62,6 +60,7 @@ describe('blog repository', () => {
         }),
       ),
       set: vi.fn(),
+      setIfLockOwned: vi.fn().mockResolvedValue(true),
       delete: vi.fn(),
       acquireLock: vi.fn().mockResolvedValue('owner-token'),
       renewLock: vi.fn().mockResolvedValue(true),
@@ -88,6 +87,7 @@ describe('blog repository', () => {
       supportsLocks: true,
       get: vi.fn().mockResolvedValue(null),
       set: vi.fn().mockResolvedValue(undefined),
+      setIfLockOwned: vi.fn().mockResolvedValue(true),
       delete: vi.fn(),
       acquireLock: vi.fn().mockResolvedValue('owner-token'),
       renewLock: vi.fn().mockResolvedValue(true),
@@ -220,9 +220,11 @@ describe('blog repository', () => {
 
   it('does not reuse summary cache entries from an older content policy', async () => {
     const legacySummary = { slug: 'legacy-post', metadata: createPost('legacy-post').metadata }
-    const getMock = vi.fn().mockImplementation(async (key: string) =>
-      key === 'blog:v1:posts:en' ? createEnvelope([legacySummary]) : null,
-    )
+    const getMock = vi
+      .fn()
+      .mockImplementation(async (key: string) =>
+        key === 'blog:v1:posts:en' ? createEnvelope([legacySummary]) : null,
+      )
     const cache = createCache(getMock)
     const source = {
       listPostIndex: vi.fn().mockResolvedValue([
@@ -244,11 +246,13 @@ describe('blog repository', () => {
   })
 
   it('does not reuse document cache entries from an older content policy', async () => {
-    const getMock = vi.fn().mockImplementation(async (key: string) =>
-      key === 'blog:v1:post:en:legacy-post'
-        ? createEnvelope(createDocument('legacy-post'))
-        : null,
-    )
+    const getMock = vi
+      .fn()
+      .mockImplementation(async (key: string) =>
+        key === 'blog:v1:post:en:legacy-post'
+          ? createEnvelope(createDocument('legacy-post'))
+          : null,
+      )
     const cache = createCache(getMock)
     const source = {
       listPostIndex: vi.fn(),
@@ -389,6 +393,197 @@ describe('blog repository', () => {
       )
     } finally {
       resolveDocument?.(createDocument('slow-post'))
+      await request.catch(() => undefined)
+      vi.useRealTimers()
+    }
+  })
+
+  it('does not write listing caches after a foreground lock denial', async () => {
+    const cache = createCache()
+    vi.mocked(cache.acquireLock).mockResolvedValue(null)
+    const source = {
+      listPostIndex: vi.fn().mockResolvedValue([
+        {
+          slug: 'available-post',
+          path: 'posts/en/available-post.mdx',
+          sha: 'sha-available-post',
+          filenameDate: '2024-01-01',
+        },
+      ]),
+      getPostDocument: vi.fn().mockResolvedValue(createDocument('available-post')),
+    }
+    const repository = createBlogRepository({ cache, source })
+
+    await expect(repository.getAllPosts('en')).resolves.toEqual([
+      expect.objectContaining({ slug: 'available-post' }),
+    ])
+    expect(cache.set).not.toHaveBeenCalled()
+    expect(cache.setIfLockOwned).not.toHaveBeenCalled()
+  })
+
+  it('does not write a direct post cache after a foreground lock denial', async () => {
+    const cache = createCache()
+    vi.mocked(cache.acquireLock).mockResolvedValue(null)
+    const source = {
+      listPostIndex: vi.fn(),
+      getPostDocument: vi.fn().mockResolvedValue(createDocument('available-post')),
+    }
+    const repository = createBlogRepository({ cache, source })
+
+    await expect(repository.getPostBySlug('available-post', 'en')).resolves.toEqual(
+      expect.objectContaining({ slug: 'available-post' }),
+    )
+    expect(cache.set).not.toHaveBeenCalled()
+    expect(cache.setIfLockOwned).not.toHaveBeenCalled()
+  })
+
+  it('uses atomic owner-checked writes for every listing cache', async () => {
+    const cache = createCache()
+    const source = {
+      listPostIndex: vi.fn().mockResolvedValue([
+        {
+          slug: 'owned-post',
+          path: 'posts/en/owned-post.mdx',
+          sha: 'sha-owned-post',
+          filenameDate: '2024-01-01',
+        },
+      ]),
+      getPostDocument: vi.fn().mockResolvedValue(createDocument('owned-post')),
+    }
+    const repository = createBlogRepository({ cache, source })
+
+    await repository.getAllPosts('en')
+
+    expect(cache.set).not.toHaveBeenCalled()
+    expect(cache.setIfLockOwned).toHaveBeenCalledTimes(3)
+    expect(cache.setIfLockOwned).toHaveBeenCalledWith(
+      expect.stringContaining(':lock:posts:'),
+      'owner-token',
+      expect.stringContaining(':index:en'),
+      expect.anything(),
+      expect.any(Number),
+    )
+    expect(cache.setIfLockOwned).toHaveBeenCalledWith(
+      expect.stringContaining(':lock:posts:'),
+      'owner-token',
+      expect.stringContaining(':post:en:owned-post'),
+      expect.anything(),
+      expect.any(Number),
+    )
+    expect(cache.setIfLockOwned).toHaveBeenCalledWith(
+      expect.stringContaining(':lock:posts:'),
+      'owner-token',
+      expect.stringContaining(':posts:en'),
+      expect.anything(),
+      expect.any(Number),
+    )
+  })
+
+  it('uses an atomic owner-checked write for a direct post cache', async () => {
+    const cache = createCache()
+    const source = {
+      listPostIndex: vi.fn(),
+      getPostDocument: vi.fn().mockResolvedValue(createDocument('owned-post')),
+    }
+    const repository = createBlogRepository({ cache, source })
+
+    await repository.getPostBySlug('owned-post', 'en')
+
+    expect(cache.set).not.toHaveBeenCalled()
+    expect(cache.setIfLockOwned).toHaveBeenCalledWith(
+      expect.stringContaining(':lock:post:'),
+      'owner-token',
+      expect.stringContaining(':post:en:owned-post'),
+      expect.anything(),
+      expect.any(Number),
+    )
+  })
+
+  it('does not write listing caches after losing the lease during renewal', async () => {
+    vi.useFakeTimers()
+    const cache = createCache()
+    vi.mocked(cache.renewLock).mockResolvedValue(false)
+    let resolveIndex:
+      | ((
+          entries: Array<{ slug: string; path: string; sha: string; filenameDate: string }>,
+        ) => void)
+      | undefined
+    let markSourceStarted: (() => void) | undefined
+    const sourceStarted = new Promise<void>((resolve) => {
+      markSourceStarted = resolve
+    })
+    const indexResult = new Promise<
+      Array<{ slug: string; path: string; sha: string; filenameDate: string }>
+    >((resolve) => {
+      resolveIndex = resolve
+    })
+    const source = {
+      listPostIndex: vi.fn().mockImplementation(async () => {
+        markSourceStarted?.()
+        return await indexResult
+      }),
+      getPostDocument: vi.fn().mockResolvedValue(createDocument('stale-listing-post')),
+    }
+    const repository = createBlogRepository({ cache, source })
+    const request = repository.getAllPosts('en')
+    const entries = [
+      {
+        slug: 'stale-listing-post',
+        path: 'posts/en/stale-listing-post.mdx',
+        sha: 'sha-stale-listing-post',
+        filenameDate: '2024-01-01',
+      },
+    ]
+
+    try {
+      await sourceStarted
+      await vi.advanceTimersByTimeAsync(10_000)
+      resolveIndex?.(entries)
+
+      await expect(request).resolves.toEqual([
+        expect.objectContaining({ slug: 'stale-listing-post' }),
+      ])
+      expect(cache.set).not.toHaveBeenCalled()
+      expect(cache.setIfLockOwned).not.toHaveBeenCalled()
+    } finally {
+      resolveIndex?.(entries)
+      await request.catch(() => undefined)
+      vi.useRealTimers()
+    }
+  })
+
+  it('does not write a direct post cache after losing the lease during renewal', async () => {
+    vi.useFakeTimers()
+    const cache = createCache()
+    vi.mocked(cache.renewLock).mockResolvedValue(false)
+    let resolveDocument: ((document: PostDocument) => void) | undefined
+    let markSourceStarted: (() => void) | undefined
+    const sourceStarted = new Promise<void>((resolve) => {
+      markSourceStarted = resolve
+    })
+    const documentResult = new Promise<PostDocument>((resolve) => {
+      resolveDocument = resolve
+    })
+    const source = {
+      listPostIndex: vi.fn(),
+      getPostDocument: vi.fn().mockImplementation(async () => {
+        markSourceStarted?.()
+        return await documentResult
+      }),
+    }
+    const repository = createBlogRepository({ cache, source })
+    const request = repository.getPostBySlug('stale-direct-post', 'en')
+
+    try {
+      await sourceStarted
+      await vi.advanceTimersByTimeAsync(10_000)
+      resolveDocument?.(createDocument('stale-direct-post'))
+
+      await expect(request).resolves.toEqual(expect.objectContaining({ slug: 'stale-direct-post' }))
+      expect(cache.set).not.toHaveBeenCalled()
+      expect(cache.setIfLockOwned).not.toHaveBeenCalled()
+    } finally {
+      resolveDocument?.(createDocument('stale-direct-post'))
       await request.catch(() => undefined)
       vi.useRealTimers()
     }

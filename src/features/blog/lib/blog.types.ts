@@ -49,6 +49,13 @@ export interface BlogCacheStore {
   supportsLocks: boolean
   get<T>(key: string): Promise<CacheEnvelope<T> | null>
   set<T>(key: string, envelope: CacheEnvelope<T>, ttlSeconds: number): Promise<void>
+  setIfLockOwned<T>(
+    lockKey: string,
+    token: string,
+    key: string,
+    envelope: CacheEnvelope<T>,
+    ttlSeconds: number,
+  ): Promise<boolean>
   delete(key: string): Promise<void>
   acquireLock(key: string, ttlMs: number): Promise<string | null>
   renewLock(key: string, token: string, ttlMs: number): Promise<boolean>

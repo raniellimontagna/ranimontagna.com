@@ -20,6 +20,14 @@ const BLOG_POLICY_CACHE_SEGMENT = `policy-v${BLOG_CONTENT_POLICY_VERSION}`
 const LOCK_TTL_MS = 30_000
 const LOCK_RENEW_INTERVAL_MS = 10_000
 
+interface LockLease {
+  lockKey: string
+  token: string
+  isOwned(): boolean
+  markLost(): void
+  stop(): Promise<void>
+}
+
 const TTL_CONFIG = {
   posts: { freshMs: 15 * 60_000, staleMs: 24 * 60 * 60_000 },
   post: { freshMs: 60 * 60_000, staleMs: 24 * 60 * 60_000 },
@@ -95,9 +103,7 @@ const toPublicPostOrNull = async (post: PostDocument): Promise<Post | null> => {
 
 const normalizePublicSummaries = (posts: PostSummary[]): PostSummary[] =>
   sortPostsByDate(
-    posts
-      .map(toValidatedPostSummary)
-      .filter((post): post is PostSummary => post !== null),
+    posts.map(toValidatedPostSummary).filter((post): post is PostSummary => post !== null),
   )
 
 const mapWithConcurrency = async <T, R>(
@@ -153,40 +159,81 @@ export const createBlogRepository = (
   const getLockKey = (resource: string): string =>
     `blog:${BLOG_POLICY_CACHE_SEGMENT}:lock:${resource}`
 
-  const startLockRenewal = (key: string, token: string): (() => Promise<void>) => {
+  const startLockLease = (lockKey: string, token: string): LockLease => {
     let active = true
     let pendingRenewal = Promise.resolve()
+
+    const markLost = (): void => {
+      active = false
+      clearInterval(timer)
+    }
+
     const timer = setInterval(() => {
       pendingRenewal = pendingRenewal.then(async () => {
         if (!active) return
-        const renewed = await cache.renewLock(key, token, LOCK_TTL_MS)
+        const renewed = await cache.renewLock(lockKey, token, LOCK_TTL_MS)
         if (!renewed) {
-          active = false
-          clearInterval(timer)
+          markLost()
         }
       })
     }, LOCK_RENEW_INTERVAL_MS)
 
-    return async () => {
-      active = false
-      clearInterval(timer)
-      await pendingRenewal
-      await cache.releaseLock(key, token)
+    return {
+      lockKey,
+      token,
+      isOwned: () => active,
+      markLost,
+      async stop(): Promise<void> {
+        active = false
+        clearInterval(timer)
+        await pendingRenewal
+        await cache.releaseLock(lockKey, token)
+      },
     }
+  }
+
+  const writeCacheIfOwned = async <T>(
+    key: string,
+    envelope: CacheEnvelope<T>,
+    ttlSeconds: number,
+    lease: LockLease | null,
+  ): Promise<boolean> => {
+    if (!cache.supportsLocks) {
+      await cache.set(key, envelope, ttlSeconds)
+      return true
+    }
+
+    if (!lease?.isOwned()) {
+      return false
+    }
+
+    const written = await cache.setIfLockOwned(
+      lease.lockKey,
+      lease.token,
+      key,
+      envelope,
+      ttlSeconds,
+    )
+    if (!written) {
+      lease.markLost()
+    }
+    return written
   }
 
   const cachePostDocument = async (
     version: string,
     locale: string,
     document: PostDocument,
+    lease: LockLease | null,
   ): Promise<PostDocument> => {
     const metadata = validateBlogFrontmatter(document.metadata, document.metadata.date)
     await validateBlogMarkdown(document.content)
     const validatedDocument = { ...document, metadata }
-    await cache.set(
+    await writeCacheIfOwned(
       getPostKey(version, locale, document.slug),
       toEnvelope(validatedDocument, TTL_CONFIG.post.freshMs, TTL_CONFIG.post.staleMs),
       getTtlSeconds(TTL_CONFIG.post.staleMs),
+      lease,
     )
     return validatedDocument
   }
@@ -195,6 +242,7 @@ export const createBlogRepository = (
     version: string,
     locale: string,
     entry: PostIndexEntry,
+    lease: LockLease | null,
   ): Promise<PostDocument | null> => {
     const postKey = getPostKey(version, locale, entry.slug)
     const cachedDocument = await cache.get<PostDocument>(postKey)
@@ -208,32 +256,30 @@ export const createBlogRepository = (
       return null
     }
 
-    return await cachePostDocument(version, locale, document)
+    return await cachePostDocument(version, locale, document, lease)
   }
 
   const fetchAllPostsFromSource = async (
     version: string,
     locale: string,
+    lease: LockLease | null,
   ): Promise<PostSummary[]> => {
     const entries = await source.listPostIndex(locale)
-    await cache.set(
+    await writeCacheIfOwned(
       getIndexKey(version, locale),
       toEnvelope(entries, TTL_CONFIG.index.freshMs, TTL_CONFIG.index.staleMs),
       getTtlSeconds(TTL_CONFIG.index.staleMs),
+      lease,
     )
 
-    const documents = await mapWithConcurrency(
-      entries,
-      4,
-      async (entry) => {
-        try {
-          return await getCachedOrSourceDocument(version, locale, entry)
-        } catch (error) {
-          logRepositoryWarning(`invalid document skipped locale=${locale} slug=${entry.slug}`, error)
-          return null
-        }
-      },
-    )
+    const documents = await mapWithConcurrency(entries, 4, async (entry) => {
+      try {
+        return await getCachedOrSourceDocument(version, locale, entry, lease)
+      } catch (error) {
+        logRepositoryWarning(`invalid document skipped locale=${locale} slug=${entry.slug}`, error)
+        return null
+      }
+    })
 
     const summaries = documents
       .filter((document): document is PostDocument => document !== null)
@@ -242,10 +288,11 @@ export const createBlogRepository = (
 
     const sortedPosts = sortPostsByDate(summaries)
 
-    await cache.set(
+    await writeCacheIfOwned(
       getPostsKey(version, locale),
       toEnvelope(sortedPosts, TTL_CONFIG.posts.freshMs, TTL_CONFIG.posts.staleMs),
       getTtlSeconds(TTL_CONFIG.posts.staleMs),
+      lease,
     )
 
     return sortedPosts
@@ -259,26 +306,23 @@ export const createBlogRepository = (
   ): Promise<PostSummary[]> => {
     return await withInflight(`posts:${version}:${locale}`, async () => {
       const lockKey = getLockKey(`posts:${version}:${locale}`)
-      const lockToken = cache.supportsLocks
-        ? await cache.acquireLock(lockKey, LOCK_TTL_MS)
-        : null
-      const hasDistributedLock = !cache.supportsLocks || lockToken !== null
+      const lockToken = cache.supportsLocks ? await cache.acquireLock(lockKey, LOCK_TTL_MS) : null
 
-      if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
+      if (background && cache.supportsLocks && lockToken === null && fallback) {
         return normalizePublicSummaries(fallback.value)
       }
 
-      const stopLockRenewal = lockToken ? startLockRenewal(lockKey, lockToken) : null
+      const lease = lockToken ? startLockLease(lockKey, lockToken) : null
 
       try {
-        return await fetchAllPostsFromSource(version, locale)
+        return await fetchAllPostsFromSource(version, locale, lease)
       } catch (error) {
         logRepositoryWarning(`source fetch failed for posts locale=${locale}`, error)
         return fallback !== null && fallback.staleUntil > Date.now()
           ? normalizePublicSummaries(fallback.value)
           : []
       } finally {
-        await stopLockRenewal?.()
+        await lease?.stop()
       }
     })
   }
@@ -292,16 +336,13 @@ export const createBlogRepository = (
   ): Promise<Post | null> => {
     return await withInflight(`post:${version}:${locale}:${slug}`, async () => {
       const lockKey = getLockKey(`post:${version}:${locale}:${slug}`)
-      const lockToken = cache.supportsLocks
-        ? await cache.acquireLock(lockKey, LOCK_TTL_MS)
-        : null
-      const hasDistributedLock = !cache.supportsLocks || lockToken !== null
+      const lockToken = cache.supportsLocks ? await cache.acquireLock(lockKey, LOCK_TTL_MS) : null
 
-      if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
+      if (background && cache.supportsLocks && lockToken === null && fallback) {
         return await toPublicPostOrNull(fallback.value)
       }
 
-      const stopLockRenewal = lockToken ? startLockRenewal(lockKey, lockToken) : null
+      const lease = lockToken ? startLockLease(lockKey, lockToken) : null
 
       try {
         const document = await source.getPostDocument(locale, slug)
@@ -309,7 +350,7 @@ export const createBlogRepository = (
           return null
         }
 
-        const validatedDocument = await cachePostDocument(version, locale, document)
+        const validatedDocument = await cachePostDocument(version, locale, document, lease)
         return toPublicPostWithValidatedContent(validatedDocument)
       } catch (error) {
         logRepositoryWarning(`source fetch failed for post locale=${locale} slug=${slug}`, error)
@@ -317,7 +358,7 @@ export const createBlogRepository = (
           ? await toPublicPostOrNull(fallback.value)
           : null
       } finally {
-        await stopLockRenewal?.()
+        await lease?.stop()
       }
     })
   }

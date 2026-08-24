@@ -16,6 +16,12 @@ const RENEW_LOCK_SCRIPT =
   "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('PEXPIRE', KEYS[1], ARGV[2]) end return 0"
 const RELEASE_LOCK_SCRIPT =
   "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) end return 0"
+const SET_IF_LOCK_OWNED_SCRIPT =
+  "if redis.call('GET', KEYS[1]) == ARGV[1] then redis.call('SET', KEYS[2], ARGV[2], 'EX', ARGV[3]); return 1 end return 0"
+const GET_OR_INITIALIZE_NAMESPACE_SCRIPT =
+  "local current = redis.call('GET', KEYS[1]); if current then return current end; redis.call('SET', KEYS[1], '1'); return '1'"
+const BUMP_NAMESPACE_SCRIPT =
+  "local current = redis.call('GET', KEYS[1]); if not current then redis.call('SET', KEYS[1], '2'); return 2 end; return redis.call('INCR', KEYS[1])"
 
 let storeInstance: BlogCacheStore | null = null
 
@@ -61,6 +67,7 @@ const parsePipelineResult = (entry: UpstashPipelineResult, label: string): unkno
 }
 
 const normalizeLockTtlMs = (ttlMs: number): number => Math.max(1, Math.ceil(ttlMs))
+const normalizeCacheTtlSeconds = (ttlSeconds: number): number => Math.max(1, Math.ceil(ttlSeconds))
 
 const callUpstashPipeline = async (
   config: UpstashConfig,
@@ -94,6 +101,15 @@ const createNoopBlogCacheStore = (): BlogCacheStore => ({
     return null
   },
   async set<T>(_key: string, _envelope: CacheEnvelope<T>, _ttlSeconds: number): Promise<void> {},
+  async setIfLockOwned<T>(
+    _lockKey: string,
+    _token: string,
+    _key: string,
+    _envelope: CacheEnvelope<T>,
+    _ttlSeconds: number,
+  ): Promise<boolean> {
+    return false
+  },
   async delete(_key: string): Promise<void> {},
   async acquireLock(_key: string, _ttlMs: number): Promise<string | null> {
     return null
@@ -137,10 +153,36 @@ const createRedisBlogCacheStore = (config: UpstashConfig): BlogCacheStore => ({
   async set<T>(key: string, envelope: CacheEnvelope<T>, ttlSeconds: number): Promise<void> {
     try {
       await callUpstashPipeline(config, [
-        ['SET', key, JSON.stringify(envelope), 'EX', Math.max(1, ttlSeconds)],
+        ['SET', key, JSON.stringify(envelope), 'EX', normalizeCacheTtlSeconds(ttlSeconds)],
       ])
     } catch (error) {
       logCacheWarning(`cache write failed for key=${key}`, error)
+    }
+  },
+  async setIfLockOwned<T>(
+    lockKey: string,
+    token: string,
+    key: string,
+    envelope: CacheEnvelope<T>,
+    ttlSeconds: number,
+  ): Promise<boolean> {
+    try {
+      const [entry] = await callUpstashPipeline(config, [
+        [
+          'EVAL',
+          SET_IF_LOCK_OWNED_SCRIPT,
+          2,
+          lockKey,
+          key,
+          token,
+          JSON.stringify(envelope),
+          normalizeCacheTtlSeconds(ttlSeconds),
+        ],
+      ])
+      return Number(parsePipelineResult(entry, 'EVAL fenced cache write')) === 1
+    } catch (error) {
+      logCacheWarning(`fenced cache write failed for key=${key}`, error)
+      return false
     }
   },
   async delete(key: string): Promise<void> {
@@ -188,8 +230,10 @@ const createRedisBlogCacheStore = (config: UpstashConfig): BlogCacheStore => ({
     const namespaceKey = `${BLOG_CACHE_PREFIX}:namespace:${scope}`
 
     try {
-      const [entry] = await callUpstashPipeline(config, [['GET', namespaceKey]])
-      const result = parsePipelineResult(entry, 'GET namespace')
+      const [entry] = await callUpstashPipeline(config, [
+        ['EVAL', GET_OR_INITIALIZE_NAMESPACE_SCRIPT, 1, namespaceKey],
+      ])
+      const result = parsePipelineResult(entry, 'EVAL get namespace')
       return typeof result === 'string' && result.length > 0 ? result : '1'
     } catch (error) {
       logCacheWarning(`namespace read failed for scope=${scope}`, error)
@@ -200,8 +244,10 @@ const createRedisBlogCacheStore = (config: UpstashConfig): BlogCacheStore => ({
     const namespaceKey = `${BLOG_CACHE_PREFIX}:namespace:${scope}`
 
     try {
-      const [entry] = await callUpstashPipeline(config, [['INCR', namespaceKey]])
-      const result = Number(parsePipelineResult(entry, 'INCR namespace'))
+      const [entry] = await callUpstashPipeline(config, [
+        ['EVAL', BUMP_NAMESPACE_SCRIPT, 1, namespaceKey],
+      ])
+      const result = Number(parsePipelineResult(entry, 'EVAL bump namespace'))
       return Number.isFinite(result) ? String(result) : '1'
     } catch (error) {
       logCacheWarning(`namespace bump failed for scope=${scope}`, error)
