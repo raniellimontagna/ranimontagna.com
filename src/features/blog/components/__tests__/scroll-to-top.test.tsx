@@ -8,21 +8,20 @@ describe('ScrollToTop Component', () => {
     window.scrollTo = vi.fn()
   })
 
-  it('is hidden initially (when scrollY < threshold)', () => {
+  it('is not rendered or focusable while scrollY is below the threshold', () => {
     render(<ScrollToTop threshold={400} />)
-    const button = screen.getByRole('button', { hidden: true })
-    expect(button).toHaveClass('opacity-0')
+    expect(screen.queryByRole('button', { hidden: true })).not.toBeInTheDocument()
   })
 
   it('becomes visible when scrolled past threshold', () => {
     render(<ScrollToTop threshold={400} />)
-    const button = screen.getByRole('button', { hidden: true })
 
     act(() => {
       window.scrollY = 401
       window.dispatchEvent(new Event('scroll'))
     })
 
+    const button = screen.getByRole('button')
     expect(button).toHaveClass('opacity-100')
     expect(button).not.toHaveClass('pointer-events-none')
   })

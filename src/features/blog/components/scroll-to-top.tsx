@@ -50,7 +50,7 @@ export function ScrollToTop({ threshold = 400, enabled = true }: ScrollToTopProp
     })
   }
 
-  if (!enabled) return null
+  if (!enabled || !isVisible) return null
 
   return (
     <button
@@ -66,7 +66,7 @@ export function ScrollToTop({ threshold = 400, enabled = true }: ScrollToTopProp
         transition-all duration-300 ease-out
         hover:scale-110 hover:shadow-xl
         focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2
-        ${isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'}
+        translate-y-0 opacity-100
       `}
     >
       <ArrowUp className="h-5 w-5" strokeWidth={2.5} />
