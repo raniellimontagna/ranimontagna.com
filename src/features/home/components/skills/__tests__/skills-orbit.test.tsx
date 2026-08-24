@@ -60,7 +60,11 @@ describe('SkillsOrbit animation lifecycle', () => {
       value: 'visible',
     })
     reducedMotion = true
-    act(() => mediaListeners.forEach((listener) => listener()))
+    act(() =>
+      mediaListeners.forEach((listener) => {
+        listener()
+      }),
+    )
     expect(orbit).toHaveAttribute('data-animation-active', 'false')
 
     unmount()
