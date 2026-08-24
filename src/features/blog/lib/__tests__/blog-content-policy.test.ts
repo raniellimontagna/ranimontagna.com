@@ -57,6 +57,8 @@ describe('blog content policy', () => {
     '{marker()}',
     'import Widget from "./widget"',
     'export const marker = true',
+    '[unsafe][marker]\n\n[marker]: javascript:marker()',
+    '![unsafe][marker]\n\n[marker]: java&#x73;cript:marker()',
   ])('rejects executable MDX syntax: %s', (markdown) => {
     expect(() => assertSafeBlogMarkdown(markdown)).toThrow('Unsafe blog content')
   })
@@ -94,5 +96,14 @@ flowchart LR
     expect(() =>
       transform({ type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text' }] }] }),
     ).not.toThrow()
+  })
+
+  it.each([
+    { type: 'link', url: 'javascript:marker()' },
+    { type: 'image', url: 'data:image/svg+xml,unsafe' },
+    { type: 'definition', url: 'javascript:marker()' },
+  ])('rejects an unsafe $type URL at the AST boundary', (node) => {
+    const transform = remarkBlogContentPolicy()
+    expect(() => transform({ type: 'root', children: [node] })).toThrow('Unsafe blog content')
   })
 })

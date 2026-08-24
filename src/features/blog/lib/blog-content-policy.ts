@@ -43,7 +43,7 @@ const frontmatterSchema = z
   })
   .strict()
 
-export class BlogContentPolicyError extends Error {
+class BlogContentPolicyError extends Error {
   constructor(message: string) {
     super(message)
     this.name = 'BlogContentPolicyError'
@@ -89,7 +89,21 @@ const stripFencedCode = (markdown: string): string => {
 }
 
 const isSafeLinkDestination = (destination: string): boolean => {
-  const normalized = destination.trim().replace(/^<|>$/g, '')
+  const decoded = destination
+    .replace(/&#x([\da-f]+);?/gi, (_match, value: string) =>
+      String.fromCodePoint(Number.parseInt(value, 16)),
+    )
+    .replace(/&#(\d+);?/g, (_match, value: string) =>
+      String.fromCodePoint(Number.parseInt(value, 10)),
+    )
+    .replace(/&colon;/gi, ':')
+    .replace(/&(?:tab|newline);/gi, '')
+  const normalized = Array.from(decoded.trim().replace(/^<|>$/g, ''))
+    .filter((character) => {
+      const codePoint = character.codePointAt(0) ?? 0
+      return codePoint > 32 && codePoint !== 127
+    })
+    .join('')
   if (/^(?:\/|#|\.\/|\.\.\/)/.test(normalized)) return !normalized.startsWith('//')
 
   try {
@@ -125,10 +139,17 @@ export function assertSafeBlogMarkdown(markdown: string): void {
       throw new BlogContentPolicyError('Unsafe blog content')
     }
   }
+
+  for (const match of withoutInlineCode.matchAll(/^\s*\[[^\]\n]+\]:\s*(?:<([^>\n]+)>|(\S+))/gm)) {
+    if (!isSafeLinkDestination(match[1] ?? match[2])) {
+      throw new BlogContentPolicyError('Unsafe blog content')
+    }
+  }
 }
 
 interface MarkdownAstNode {
   type?: string
+  url?: unknown
   children?: MarkdownAstNode[]
 }
 
@@ -146,6 +167,13 @@ export function remarkBlogContentPolicy() {
   return (tree: MarkdownAstNode): void => {
     const visit = (node: MarkdownAstNode): void => {
       if (node.type && FORBIDDEN_AST_TYPES.has(node.type)) {
+        throw new BlogContentPolicyError('Unsafe blog content')
+      }
+      if (
+        node.type &&
+        (node.type === 'link' || node.type === 'image' || node.type === 'definition') &&
+        (typeof node.url !== 'string' || !isSafeLinkDestination(node.url))
+      ) {
         throw new BlogContentPolicyError('Unsafe blog content')
       }
       node.children?.forEach(visit)
