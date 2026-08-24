@@ -31,9 +31,21 @@ describe('FeaturedPost', () => {
 
     expect(screen.getByText('Test Post')).toBeInTheDocument()
     expect(screen.getByText('Test description')).toBeInTheDocument()
-    expect(screen.getByAltText('Test Post').getAttribute('src')).toContain(
+    const image = screen.getByAltText('Test Post')
+    expect(image.getAttribute('src')).toContain(
       encodeURIComponent('https://images.unsplash.com/image.jpg'),
     )
+    expect(image).toHaveAttribute('loading', 'eager')
+    expect(image).toHaveAttribute('fetchpriority', 'high')
+    expect(image).toHaveAttribute(
+      'sizes',
+      '(max-width: 768px) 100vw, (max-width: 1200px) calc(100vw - 3rem), 1152px',
+    )
+
+    for (let ancestor = image.parentElement; ancestor; ancestor = ancestor.parentElement) {
+      expect(ancestor.style.opacity).not.toBe('0')
+      expect(ancestor.style.filter).not.toContain('blur')
+    }
   })
 
   it('renders with default cover image when not provided', () => {
@@ -49,6 +61,8 @@ describe('FeaturedPost', () => {
 
     const img = screen.getByAltText('Test Post')
     expect(img.getAttribute('src')).toContain(encodeURIComponent('/images/blog-fallback.webp'))
+    expect(img).toHaveAttribute('loading', 'eager')
+    expect(img).toHaveAttribute('fetchpriority', 'high')
   })
 
   it('renders tags', () => {

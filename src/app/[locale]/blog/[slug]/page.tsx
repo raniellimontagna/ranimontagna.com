@@ -261,7 +261,7 @@ export default async function PostPage(props: {
                   src={coverImage}
                   alt={post.metadata.title}
                   fill
-                  priority
+                  preload
                   sizes="(max-width: 768px) 100vw, 768px"
                   className="w-full h-full object-cover"
                 />

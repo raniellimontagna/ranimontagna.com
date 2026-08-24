@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, useReducedMotion } from 'motion/react'
 import { useLocale, useTranslations } from 'next-intl'
 import type { PostSummary } from '@/features/blog/lib/blog'
 import { formatBlogDate } from '@/features/blog/lib/blog-date'
@@ -14,16 +13,10 @@ interface FeaturedPostProps {
 export function FeaturedPost({ post }: FeaturedPostProps) {
   const t = useTranslations('blog')
   const locale = useLocale()
-  const prefersReducedMotion = useReducedMotion()
   const coverImage = post.metadata.coverImage
 
   return (
-    <motion.div
-      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24, filter: 'blur(12px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: [0.19, 1, 0.22, 1] }}
-      className="mb-8 sm:mb-12"
-    >
+    <div className="mb-8 sm:mb-12">
       <Link
         href={`/blog/${post.slug}`}
         className="surface-panel group relative block overflow-hidden rounded-3xl border border-line transition-all sm:rounded-4xl hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
@@ -33,7 +26,9 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
             src={coverImage}
             alt={post.metadata.title}
             fill
-            sizes="(max-width: 768px) 100vw, 1152px"
+            loading="eager"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) calc(100vw - 3rem), 1152px"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent dark:from-slate-900" />
@@ -91,6 +86,6 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 }

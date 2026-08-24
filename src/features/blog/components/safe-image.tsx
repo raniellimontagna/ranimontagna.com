@@ -19,6 +19,8 @@ export function SafeImage({
   height = 630,
   sizes = '100vw',
   loading,
+  fetchPriority,
+  preload = false,
   priority = false,
   onError,
   ...props
@@ -27,6 +29,13 @@ export function SafeImage({
   const resolvedSrc = typeof src === 'string' ? resolveBlogMediaUrl(src) : undefined
   const geometry = fill ? { fill: true as const } : { width, height }
   const imageSrc = !resolvedSrc || failedSrc === resolvedSrc ? fallbackSrc : resolvedSrc
+  const shouldPreload = preload || priority
+  const deliveryHints = shouldPreload
+    ? { preload: true as const }
+    : {
+        loading: loading ?? ('lazy' as const),
+        ...(fetchPriority === undefined ? {} : { fetchPriority }),
+      }
 
   return (
     <Image
@@ -34,13 +43,12 @@ export function SafeImage({
       alt={alt ?? ''}
       className={className}
       sizes={sizes}
-      loading={priority ? 'eager' : (loading ?? 'lazy')}
-      priority={priority}
       onError={(event) => {
         setFailedSrc(resolvedSrc ?? fallbackSrc)
         onError?.(event)
       }}
       {...geometry}
+      {...deliveryHints}
       {...props}
     />
   )

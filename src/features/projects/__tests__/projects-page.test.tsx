@@ -46,4 +46,16 @@ describe('Projects Page', () => {
     expect(screen.getByText('allProjectsTitle')).toBeInTheDocument()
     expect(getGitHubProjectSnapshot).toHaveBeenCalledTimes(1)
   })
+
+  it('keeps above-the-fold project copy outside initially hidden animation wrappers', async () => {
+    const page = await ProjectsPage({ params: Promise.resolve({ locale: 'en' }) })
+    render(page)
+
+    for (const copy of ['subtitle', 'content.paragraph1']) {
+      const element = screen.getByText(copy)
+      expect(element.closest('[data-gsap-reveal="true"]')).toBeNull()
+      expect(element.closest('[data-gsap-text="true"]')).toBeNull()
+      expect(element.closest('[style*="opacity: 0"]')).toBeNull()
+    }
+  })
 })

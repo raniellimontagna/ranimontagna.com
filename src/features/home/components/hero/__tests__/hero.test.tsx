@@ -54,6 +54,16 @@ describe('Hero Component', () => {
     expect(screen.getByText('passion.highlight')).toHaveClass('bg-accent', 'text-on-accent')
     expect(screen.getByText('passion.highlight')).not.toHaveClass('text-white')
   })
+
+  it('keeps the passion paragraph outside initially hidden animation wrappers', async () => {
+    render(await Hero())
+
+    const passion = screen.getByText('passion.highlight').closest('p')
+    expect(passion).not.toBeNull()
+    expect(passion?.closest('[data-gsap-reveal="true"]')).toBeNull()
+    expect(passion?.closest('[data-gsap-text="true"]')).toBeNull()
+    expect(passion?.closest('[style*="opacity: 0"]')).toBeNull()
+  })
 })
 
 describe('ScrollIndicator', () => {

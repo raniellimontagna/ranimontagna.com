@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { CTASection, GitHubStats, ProjectsList } from '@/features/projects/components'
 import { getGitHubProjectSnapshot } from '@/features/projects/lib/github.server'
-import { BlurReveal, FadeIn, RevealText } from '@/shared/components/animations'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -72,40 +71,36 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
 
         <header className="mb-10 max-w-3xl sm:mb-14 lg:mb-16">
           <h1 className="mb-4 font-heading text-3xl font-semibold tracking-[-0.05em] text-foreground sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-            <RevealText text={t('title')} />
+            {t('title')}
           </h1>
-          <FadeIn delay={0.3} blur>
-            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">
-              {t('subtitle')}
-            </p>
-          </FadeIn>
+          <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">
+            {t('subtitle')}
+          </p>
         </header>
 
-        <BlurReveal delay={0.4}>
-          <section className="surface-panel-strong relative mb-10 overflow-hidden rounded-3xl border border-line p-4 shadow-sm sm:mb-14 sm:rounded-4xl sm:p-6 lg:mb-16 lg:p-10">
-            {/* Subtle Glow inside the intro card */}
-            <div className="pointer-events-none absolute inset-0 glow-gradient-subtle" />
+        <section className="surface-panel-strong relative mb-10 overflow-hidden rounded-3xl border border-line p-4 shadow-sm sm:mb-14 sm:rounded-4xl sm:p-6 lg:mb-16 lg:p-10">
+          {/* Subtle Glow inside the intro card */}
+          <div className="pointer-events-none absolute inset-0 glow-gradient-subtle" />
 
-            <div className="relative z-10">
-              <h2 className="mb-3 text-xl font-bold tracking-tight text-foreground sm:mb-4 sm:text-2xl lg:text-3xl">
-                {t('content.title')}
-              </h2>
-              <div className="flex flex-col gap-3 text-sm leading-relaxed text-muted sm:gap-4 sm:text-base lg:text-lg">
-                <p>{t('content.paragraph1')}</p>
-                <p>{t('content.paragraph2')}</p>
-              </div>
-
-              <ul className="mt-4 flex flex-col gap-2.5 sm:mt-6 sm:gap-3">
-                {contentPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
-                    <span className="text-sm text-muted sm:text-base">{point}</span>
-                  </li>
-                ))}
-              </ul>
+          <div className="relative z-10">
+            <h2 className="mb-3 text-xl font-bold tracking-tight text-foreground sm:mb-4 sm:text-2xl lg:text-3xl">
+              {t('content.title')}
+            </h2>
+            <div className="flex flex-col gap-3 text-sm leading-relaxed text-muted sm:gap-4 sm:text-base lg:text-lg">
+              <p>{t('content.paragraph1')}</p>
+              <p>{t('content.paragraph2')}</p>
             </div>
-          </section>
-        </BlurReveal>
+
+            <ul className="mt-4 flex flex-col gap-2.5 sm:mt-6 sm:gap-3">
+              {contentPoints.map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/20" />
+                  <span className="text-sm text-muted sm:text-base">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {/* GitHub Stats */}
         <section className="mb-10 sm:mb-14 lg:mb-16">

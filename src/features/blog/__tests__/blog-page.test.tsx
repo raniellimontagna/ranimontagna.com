@@ -3,7 +3,26 @@ import BlogPage from '@/app/[locale]/blog/page'
 import type { Post, PostSummary } from '@/features/blog/lib/blog'
 import { render, screen } from '@/tests/test-utils'
 
+const nextImageProps = vi.hoisted(() => [] as Record<string, unknown>[])
+
 // Mocks
+vi.mock('next/image', () => ({
+  default: (props: Record<string, unknown>) => {
+    nextImageProps.push(props)
+    const {
+      fill: _fill,
+      preload: _preload,
+      priority: _priority,
+      fetchPriority: _fetchPriority,
+      alt,
+      ...imageProps
+    } = props
+
+    // biome-ignore lint/performance/noImgElement: test double for next/image
+    return <img alt={String(alt ?? '')} {...imageProps} />
+  },
+}))
+
 vi.mock('@/features/blog/lib/blog', () => {
   const summaries = [
     {
@@ -59,6 +78,10 @@ vi.mock('next-intl/server', () => ({
 }))
 
 describe('Blog Page', () => {
+  beforeEach(() => {
+    nextImageProps.length = 0
+  })
+
   it('renders blog page correctly', async () => {
     const page = await BlogPage({
       params: Promise.resolve({ locale: 'pt' }),
@@ -94,5 +117,10 @@ describe('Blog Page', () => {
       '@type': 'BlogPosting',
       headline: 'Featured Post',
     })
+    const coverProps = nextImageProps.find((props) => props.alt === 'Featured Post')
+    expect(coverProps).toMatchObject({ preload: true })
+    expect(coverProps).not.toHaveProperty('priority')
+    expect(coverProps).not.toHaveProperty('loading')
+    expect(coverProps).not.toHaveProperty('fetchPriority')
   })
 })
