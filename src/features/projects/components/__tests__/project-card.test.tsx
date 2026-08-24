@@ -1,5 +1,5 @@
 import type { Repository } from '@/features/projects/types/github.types'
-import { render, screen } from '@/tests/test-utils'
+import { fireEvent, render, screen } from '@/tests/test-utils'
 import { ProjectCard } from '../project-card'
 
 // Mock next-intl
@@ -97,6 +97,32 @@ describe('ProjectCard', () => {
     const homepageLink = screen.getByRole('link', { name: 'visitSite' })
     expect(repositoryLink).not.toContainElement(homepageLink)
     expect(repositoryLink.parentElement).toBe(homepageLink.parentElement)
+  })
+
+  it('makes visible card content part of the repository link while keeping homepage independent', () => {
+    render(<ProjectCard repo={mockRepo} index={0} />)
+
+    const repositoryLink = screen.getByRole('link', { name: 'test-repo' })
+    const homepageLink = screen.getByRole('link', { name: 'visitSite' })
+    const primaryClick = vi.fn((event: Event) => event.preventDefault())
+    repositoryLink.addEventListener('click', primaryClick)
+
+    const visibleRepositoryContent = [
+      screen.getByRole('heading', { name: 'test-repo' }),
+      screen.getByText('A test repository'),
+      screen.getByText('react'),
+      screen.getByText('42'),
+      screen.getByText('TypeScript'),
+    ]
+
+    for (const element of visibleRepositoryContent) {
+      expect(element.closest('a')).toBe(repositoryLink)
+    }
+
+    fireEvent.click(screen.getByText('A test repository'))
+    expect(primaryClick).toHaveBeenCalledTimes(1)
+    expect(homepageLink.closest('a')).toBe(homepageLink)
+    expect(homepageLink).not.toBe(repositoryLink)
   })
 
   it('renders topics (max 3 visible)', () => {

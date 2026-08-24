@@ -329,14 +329,14 @@ function setupParallaxLayers(gsap: GsapApi, cleanups: Array<() => void>) {
 
 function setupAnimations(gsap: GsapApi) {
   const cleanups: Array<() => void> = []
-  const context = gsap.context(() => undefined, document.body)
-
-  setupRevealAnimations(gsap, cleanups)
-  setupTextAnimations(gsap, cleanups)
-  setupStaggerAnimations(gsap, cleanups)
-  setupCountAnimations(gsap, cleanups)
-  setupMagneticHover(gsap, cleanups)
-  setupParallaxLayers(gsap, cleanups)
+  const context = gsap.context(() => {
+    setupRevealAnimations(gsap, cleanups)
+    setupTextAnimations(gsap, cleanups)
+    setupStaggerAnimations(gsap, cleanups)
+    setupCountAnimations(gsap, cleanups)
+    setupMagneticHover(gsap, cleanups)
+    setupParallaxLayers(gsap, cleanups)
+  }, document.body)
 
   if (cleanups.length === 0) {
     context.revert()

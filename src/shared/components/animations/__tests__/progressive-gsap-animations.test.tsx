@@ -2,11 +2,44 @@ import { act, render } from '@/tests/test-utils'
 import { ProgressiveGsapAnimations } from '../progressive-gsap-animations'
 
 const gsapContextRevert = vi.fn()
+let activeStyleRestorations: Array<() => void> | null = null
 const gsapContext = vi.fn((callback: () => void) => {
+  const styleRestorations: Array<() => void> = []
+  const previousRestorations = activeStyleRestorations
+  activeStyleRestorations = styleRestorations
   callback()
-  return { revert: gsapContextRevert }
+  activeStyleRestorations = previousRestorations
+
+  return {
+    revert: () => {
+      gsapContextRevert()
+      for (const restore of styleRestorations.reverse()) restore()
+    },
+  }
 })
-const gsapSet = vi.fn()
+const gsapSet = vi.fn(
+  (target: Element | NodeListOf<Element>, properties: Record<string, unknown>) => {
+    const elements = target instanceof Element ? [target] : Array.from(target)
+
+    for (const element of elements) {
+      if (!(element instanceof HTMLElement)) continue
+
+      const originalStyle = element.getAttribute('style')
+      activeStyleRestorations?.push(() => {
+        if (originalStyle === null) element.removeAttribute('style')
+        else element.setAttribute('style', originalStyle)
+      })
+
+      if (properties.autoAlpha === 0) {
+        element.style.opacity = '0'
+        element.style.visibility = 'hidden'
+      }
+      if (typeof properties.y === 'number') {
+        element.style.transform = `translateY(${properties.y}px)`
+      }
+    }
+  },
+)
 const gsapFromTo = vi.fn()
 const gsapTo = vi.fn()
 const gsapQuickTo = vi.fn(() => vi.fn())
@@ -263,6 +296,51 @@ describe('ProgressiveGsapAnimations', () => {
       'change',
       expect.any(Function),
     )
+
+    reveal.remove()
+  })
+
+  it('restores hidden inline styles when reduced motion disposes the animation context', async () => {
+    const motionPreference = createMotionPreference()
+    window.matchMedia = vi.fn().mockReturnValue(motionPreference.mediaQuery)
+    const reveal = document.createElement('div')
+    reveal.dataset.gsapReveal = 'true'
+    reveal.style.color = 'red'
+    document.body.append(reveal)
+
+    const { unmount } = render(
+      <ProgressiveGsapAnimations loadGsap={vi.fn().mockResolvedValue(gsapApi)} />,
+    )
+
+    await act(async () => {
+      window.dispatchEvent(new Event('home-sections:load'))
+      await Promise.resolve()
+    })
+
+    expect(reveal.style.opacity).toBe('0')
+    expect(reveal.style.visibility).toBe('hidden')
+    expect(reveal.style.transform).not.toBe('')
+
+    act(() => motionPreference.setMatches(true))
+
+    expect(reveal.style.opacity).toBe('')
+    expect(reveal.style.visibility).toBe('')
+    expect(reveal.style.transform).toBe('')
+    expect(reveal.style.color).toBe('red')
+
+    await act(async () => {
+      motionPreference.setMatches(false)
+      await Promise.resolve()
+    })
+
+    expect(reveal.style.opacity).toBe('0')
+
+    unmount()
+
+    expect(reveal.style.opacity).toBe('')
+    expect(reveal.style.visibility).toBe('')
+    expect(reveal.style.transform).toBe('')
+    expect(reveal.style.color).toBe('red')
 
     reveal.remove()
   })
