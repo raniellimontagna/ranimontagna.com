@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 
@@ -24,6 +24,7 @@ export function ErrorContent({
   errorId,
 }: ErrorContentProps) {
   const isDanger = variant === 'danger'
+  const prefersReducedMotion = useReducedMotion()
 
   return (
     <main
@@ -33,9 +34,9 @@ export function ErrorContent({
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 p-4 py-12 sm:gap-8 sm:p-8">
         {/* Main Error Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, ease: 'easeOut' }}
           className="surface-panel-strong relative max-w-xl w-full shrink-0 overflow-hidden rounded-4xl border border-line p-8 text-center shadow-2xl sm:p-10"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--glow-ice-subtle),transparent_40%)]" />

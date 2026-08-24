@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 import { LANGUAGE_COLORS } from '@/features/projects/lib/project-presentation'
 
@@ -15,31 +14,27 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <motion.button
+      <button
         type="button"
         aria-pressed={selected === null}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
         onClick={() => onSelect(null)}
-        className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+        className={`rounded-full px-4 py-2 text-sm font-medium transition-all motion-safe:hover:scale-105 motion-safe:active:scale-95 ${
           selected === null
             ? 'bg-foreground text-background shadow-lg'
             : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
         }`}
       >
         {t('filters.all')}
-      </motion.button>
+      </button>
       {languages.map((language) => {
         const color = LANGUAGE_COLORS[language] || '#6b7280'
         return (
-          <motion.button
+          <button
             type="button"
             aria-pressed={selected === language}
             key={language}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             onClick={() => onSelect(language)}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all motion-safe:hover:scale-105 motion-safe:active:scale-95 ${
               selected === language
                 ? 'bg-foreground text-background shadow-lg'
                 : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
@@ -50,7 +45,7 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
               style={{ backgroundColor: selected === language ? 'white' : color }}
             />
             {language}
-          </motion.button>
+          </button>
         )
       })}
     </div>

@@ -19,8 +19,10 @@ type MockChatState = Pick<
 >
 
 const mocks = vi.hoisted(() => ({
+  motionProps: [] as Array<Record<string, unknown>>,
   useChat: vi.fn(),
   useLocale: vi.fn(),
+  useReducedMotion: vi.fn(),
   useTranslations: vi.fn(),
 }))
 
@@ -58,23 +60,27 @@ vi.mock('framer-motion', async () => {
     React.forwardRef<HTMLElement, MotionProps<T>>(
       (
         {
-          animate: _animate,
+          animate,
           children,
-          exit: _exit,
-          initial: _initial,
-          transition: _transition,
+          exit,
+          initial,
+          transition,
           viewport: _viewport,
-          whileHover: _whileHover,
+          whileHover,
           whileInView: _whileInView,
-          whileTap: _whileTap,
+          whileTap,
           ...props
         },
         ref,
-      ) => React.createElement(tag, { ...props, ref }, children as React.ReactNode),
+      ) => {
+        mocks.motionProps.push({ animate, exit, initial, tag, transition, whileHover, whileTap })
+        return React.createElement(tag, { ...props, ref }, children as React.ReactNode)
+      },
     )
 
   return {
     AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+    useReducedMotion: () => mocks.useReducedMotion(),
     motion: {
       button: createMotionComponent('button'),
       div: createMotionComponent('div'),
@@ -107,8 +113,10 @@ describe('ChatWidget', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.useLocale.mockReturnValue('pt')
+    mocks.useReducedMotion.mockReturnValue(false)
     mocks.useTranslations.mockReturnValue((key: string) => key)
     mocks.useChat.mockReturnValue(createChatState())
+    mocks.motionProps.length = 0
   })
 
   afterEach(() => {
@@ -416,5 +424,37 @@ describe('ChatWidget', () => {
       expect(screen.getByRole('status')).toHaveTextContent('Resposta completa')
     })
     expect(screen.getAllByRole('status')).toHaveLength(1)
+  })
+
+  it('removes spatial and repeating motion when reduced motion is requested', () => {
+    mocks.useReducedMotion.mockReturnValue(true)
+    mocks.useChat.mockReturnValue(
+      createChatState({
+        isLoading: true,
+        isOpen: true,
+        messages: [
+          createMessage({ content: 'Pergunta', id: 'user-reduced', role: 'user' }),
+          createMessage({ content: '', id: 'assistant-reduced' }),
+        ],
+      }),
+    )
+
+    render(<ChatWidget />)
+
+    for (const motionProps of mocks.motionProps) {
+      for (const phase of ['animate', 'exit', 'initial', 'whileHover', 'whileTap'] as const) {
+        const value = motionProps[phase]
+        if (!value || typeof value !== 'object') continue
+        expect(value).not.toHaveProperty('x')
+        expect(value).not.toHaveProperty('y')
+        expect(value).not.toHaveProperty('scale')
+        expect(value).not.toHaveProperty('rotate')
+      }
+
+      const transition = motionProps.transition
+      if (transition && typeof transition === 'object') {
+        expect(transition).not.toHaveProperty('repeat', Number.POSITIVE_INFINITY)
+      }
+    }
   })
 })

@@ -2,25 +2,37 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { render, screen } from '@/tests/test-utils'
 import { ErrorContent, ErrorLayout } from '../error-view'
 
+const motionMocks = vi.hoisted(() => ({
+  div: vi.fn(),
+  useReducedMotion: vi.fn(),
+}))
+
 vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
   SpectralBackground: () => <div data-testid="spectral-background" />,
 }))
 
 vi.mock('framer-motion', () => ({
+  useReducedMotion: () => motionMocks.useReducedMotion(),
   motion: {
     div: ({
       children,
-      initial: _initial,
-      animate: _animate,
-      transition: _transition,
+      initial,
+      animate,
+      transition,
       ...props
-    }: React.HTMLAttributes<HTMLDivElement> & Record<string, unknown>) => (
-      <div {...props}>{children}</div>
-    ),
+    }: React.HTMLAttributes<HTMLDivElement> & Record<string, unknown>) => {
+      motionMocks.div({ animate, initial, transition })
+      return <div {...props}>{children}</div>
+    },
   },
 }))
 
 describe('ErrorContent', () => {
+  beforeEach(() => {
+    motionMocks.div.mockClear()
+    motionMocks.useReducedMotion.mockReturnValue(false)
+  })
+
   it('renders accent content with actions, footer and error id', () => {
     const { container } = render(
       <ErrorContent
@@ -59,6 +71,20 @@ describe('ErrorContent', () => {
     expect(screen.getByText('500')).toHaveClass('text-red-500')
     expect(screen.getByText('Server Error')).toHaveClass('from-red-400', 'to-red-600')
     expect(screen.queryByText(/ID:/i)).not.toBeInTheDocument()
+  })
+
+  it('uses an instant opacity-only transition when reduced motion is requested', () => {
+    motionMocks.useReducedMotion.mockReturnValue(true)
+
+    render(
+      <ErrorContent code="500" title="Server Error" description="Something unexpected happened." />,
+    )
+
+    expect(motionMocks.div).toHaveBeenCalledWith({
+      animate: { opacity: 1 },
+      initial: { opacity: 0 },
+      transition: { duration: 0 },
+    })
   })
 })
 

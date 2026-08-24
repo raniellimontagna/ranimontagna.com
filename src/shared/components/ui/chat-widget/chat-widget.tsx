@@ -2,7 +2,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { CloseCircle, MinimalisticMagnifier, Restart, SendSquare } from '@solar-icons/react/ssr'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -11,27 +11,37 @@ import { useChat } from '@/shared/store/use-chat/use-chat'
 import type { ChatMessage } from '@/shared/store/use-chat/use-chat.types'
 import { renderChatMarkdown } from './chat-markdown'
 
-const TypingIndicator = (): React.ReactElement => (
+const TypingIndicator = ({ reducedMotion }: { reducedMotion: boolean }): React.ReactElement => (
   <div className="inline-flex items-center gap-1 rounded-2xl border border-line bg-surface px-4 py-3">
     {[0, 1, 2].map((i) => (
       <motion.span
         key={i}
         className="h-2 w-2 rounded-full bg-slate-400 dark:bg-slate-500"
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }}
+        animate={reducedMotion ? { opacity: 1 } : { opacity: [0.4, 1, 0.4] }}
+        transition={
+          reducedMotion
+            ? { duration: 0 }
+            : { duration: 1, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }
+        }
       />
     ))}
   </div>
 )
 
-const MessageBubble = ({ message }: { message: ChatMessage }): React.ReactElement => {
+const MessageBubble = ({
+  message,
+  reducedMotion,
+}: {
+  message: ChatMessage
+  reducedMotion: boolean
+}): React.ReactElement => {
   const isUser = message.role === 'user'
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
+      initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
+      animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      transition={{ duration: reducedMotion ? 0 : 0.2 }}
       className={cn('flex', isUser ? 'justify-end' : 'justify-start')}
     >
       <div
@@ -51,6 +61,7 @@ const MessageBubble = ({ message }: { message: ChatMessage }): React.ReactElemen
 export const ChatWidget = (): React.ReactElement => {
   const t = useTranslations('chat')
   const locale = useLocale()
+  const prefersReducedMotion = useReducedMotion() ?? false
   const { isOpen, setOpen, messages, isLoading, error, sendMessage, clearMessages } = useChat()
 
   const [input, setInput] = useState('')
@@ -61,8 +72,8 @@ export const ChatWidget = (): React.ReactElement => {
   const lastMessage = messages.at(-1)
 
   const scrollToBottom = useCallback((): void => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+    messagesEndRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+  }, [prefersReducedMotion])
 
   const setMessagesEnd = useCallback(
     (node: HTMLDivElement | null): void => {
@@ -124,11 +135,11 @@ export const ChatWidget = (): React.ReactElement => {
             <motion.button
               type="button"
               data-chat-launcher
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              initial={prefersReducedMotion ? { opacity: 0 } : { scale: 0, opacity: 0 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { scale: 0, opacity: 0 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.9 }}
               aria-label={t('fabTooltip')}
               className="fixed right-[max(1.5rem,var(--safe-right))] bottom-[max(1.5rem,var(--safe-bottom))] z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-emerald-500/25 transition-shadow hover:shadow-xl hover:shadow-emerald-500/30"
             >
@@ -140,7 +151,7 @@ export const ChatWidget = (): React.ReactElement => {
                 className="h-14 w-14 rounded-full object-cover ring-2 ring-emerald-500"
               />
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-4 w-4 rounded-full bg-emerald-500" />
               </span>
             </motion.button>
@@ -158,6 +169,7 @@ export const ChatWidget = (): React.ReactElement => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                 className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none"
                 onClick={() => setOpen(false)}
               />
@@ -177,10 +189,14 @@ export const ChatWidget = (): React.ReactElement => {
               }}
             >
               <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
+                animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { type: 'spring', damping: 25, stiffness: 300 }
+                }
                 className={cn(
                   'fixed z-50 flex min-h-0 flex-col overflow-hidden rounded-4xl border border-line bg-background shadow-2xl',
                   'top-[max(1rem,var(--safe-top))] right-[max(1rem,var(--safe-right))] bottom-[max(1rem,var(--safe-bottom))] left-[max(1rem,var(--safe-left))] max-h-[calc(100dvh-2rem)] sm:top-auto sm:left-auto sm:h-auto sm:w-100 sm:max-h-[calc(100dvh-3rem)] sm:right-[max(1.5rem,var(--safe-right))] sm:bottom-[max(1.5rem,var(--safe-bottom))]',
@@ -278,10 +294,14 @@ export const ChatWidget = (): React.ReactElement => {
                       className="flex flex-col gap-3"
                     >
                       {messages.map((message) => (
-                        <MessageBubble key={message.id} message={message} />
+                        <MessageBubble
+                          key={message.id}
+                          message={message}
+                          reducedMotion={prefersReducedMotion}
+                        />
                       ))}
                       {isLoading && messages[messages.length - 1]?.content === '' && (
-                        <TypingIndicator />
+                        <TypingIndicator reducedMotion={prefersReducedMotion} />
                       )}
                     </div>
                   )}

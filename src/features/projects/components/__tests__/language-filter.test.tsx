@@ -94,4 +94,12 @@ describe('LanguageFilter', () => {
     const colorIndicators = container.querySelectorAll('.h-2\\.5.w-2\\.5.rounded-full')
     expect(colorIndicators.length).toBe(languages.length)
   })
+
+  it('keeps scale feedback behind the CSS reduced-motion guard', () => {
+    render(<LanguageFilter languages={languages} selected={null} onSelect={mockOnSelect} />)
+
+    for (const button of screen.getAllByRole('button')) {
+      expect(button).toHaveClass('motion-safe:hover:scale-105', 'motion-safe:active:scale-95')
+    }
+  })
 })
