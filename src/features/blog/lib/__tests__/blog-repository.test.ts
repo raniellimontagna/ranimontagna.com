@@ -255,4 +255,26 @@ describe('blog repository', () => {
     expect(second).toEqual(first)
     expect(source.listPostIndex).toHaveBeenCalledTimes(1)
   })
+
+  it('skips one invalid source document without taking the public listing offline', async () => {
+    const cache = createCache()
+    const entries = ['valid-post', 'invalid-post'].map((slug) => ({
+      slug,
+      path: `posts/en/${slug}.mdx`,
+      sha: `sha-${slug}`,
+      filenameDate: '2024-01-01',
+    }))
+    const source = {
+      listPostIndex: vi.fn().mockResolvedValue(entries),
+      getPostDocument: vi.fn().mockImplementation(async (_locale, slug) => {
+        if (slug === 'invalid-post') throw new Error('Unsafe blog content')
+        return createDocument(slug)
+      }),
+    }
+    const repository = createBlogRepository({ cache, source })
+
+    await expect(repository.getAllPosts('en')).resolves.toEqual([
+      expect.objectContaining({ slug: 'valid-post' }),
+    ])
+  })
 })

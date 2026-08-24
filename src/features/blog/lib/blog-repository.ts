@@ -180,7 +180,14 @@ export const createBlogRepository = (
     const documents = await mapWithConcurrency(
       entries,
       4,
-      async (entry) => await getCachedOrSourceDocument(version, locale, entry),
+      async (entry) => {
+        try {
+          return await getCachedOrSourceDocument(version, locale, entry)
+        } catch (error) {
+          logRepositoryWarning(`invalid document skipped locale=${locale} slug=${entry.slug}`, error)
+          return null
+        }
+      },
     )
 
     const summaries = documents
