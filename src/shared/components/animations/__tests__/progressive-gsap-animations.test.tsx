@@ -1,14 +1,22 @@
 import { act, render } from '@/tests/test-utils'
 import { ProgressiveGsapAnimations } from '../progressive-gsap-animations'
 
+const gsapContextRevert = vi.fn()
 const gsapContext = vi.fn((callback: () => void) => {
   callback()
-  return { revert: vi.fn() }
+  return { revert: gsapContextRevert }
 })
 const gsapSet = vi.fn()
 const gsapFromTo = vi.fn()
 const gsapTo = vi.fn()
 const gsapQuickTo = vi.fn(() => vi.fn())
+const gsapApi = {
+  context: gsapContext,
+  set: gsapSet,
+  fromTo: gsapFromTo,
+  to: gsapTo,
+  quickTo: gsapQuickTo,
+} as unknown as typeof import('gsap')['gsap']
 
 vi.mock('gsap', () => ({
   gsap: {
@@ -25,6 +33,7 @@ class InstantIntersectionObserver {
 
   constructor(callback: IntersectionObserverCallback) {
     this.callback = callback
+    intersectionObservers.push(this)
   }
 
   observe = (target: Element) => {
@@ -42,9 +51,52 @@ class InstantIntersectionObserver {
   thresholds = []
 }
 
+const intersectionObservers: InstantIntersectionObserver[] = []
+
+function createDeferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((resolvePromise) => {
+    resolve = resolvePromise
+  })
+
+  return { promise, resolve }
+}
+
+function createMotionPreference(initialMatches = false) {
+  let matches = initialMatches
+  const listeners = new Set<(event: MediaQueryListEvent) => void>()
+  const media = '(prefers-reduced-motion: reduce)'
+  const mediaQuery = {
+    get matches() {
+      return matches
+    },
+    media,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn((_type: string, listener: (event: MediaQueryListEvent) => void) => {
+      listeners.add(listener)
+    }),
+    removeEventListener: vi.fn((_type: string, listener: (event: MediaQueryListEvent) => void) => {
+      listeners.delete(listener)
+    }),
+    dispatchEvent: vi.fn(),
+  } as unknown as MediaQueryList
+
+  return {
+    mediaQuery,
+    setMatches(nextMatches: boolean) {
+      matches = nextMatches
+      const event = { matches, media } as MediaQueryListEvent
+      for (const listener of listeners) listener(event)
+    },
+  }
+}
+
 describe('ProgressiveGsapAnimations', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    intersectionObservers.length = 0
     window.IntersectionObserver =
       InstantIntersectionObserver as unknown as typeof IntersectionObserver
     window.requestIdleCallback = ((callback: IdleRequestCallback) => {
@@ -52,7 +104,7 @@ describe('ProgressiveGsapAnimations', () => {
       return 1
     }) as typeof window.requestIdleCallback
     window.cancelIdleCallback = vi.fn()
-    window.matchMedia = vi.fn().mockReturnValue({ matches: false })
+    window.matchMedia = vi.fn().mockReturnValue(createMotionPreference().mediaQuery)
   })
 
   it('loads GSAP after the home sections request and animates marked elements', async () => {
@@ -136,5 +188,82 @@ describe('ProgressiveGsapAnimations', () => {
 
     expect(gsapFromTo).not.toHaveBeenCalled()
     expect(gsapSet).not.toHaveBeenCalledWith(element, expect.objectContaining({ autoAlpha: 0 }))
+  })
+
+  it('disposes animation setup that resolves after the component unmounts', async () => {
+    const deferredGsap = createDeferred<typeof gsapApi>()
+    const loadGsap = vi.fn(() => deferredGsap.promise)
+    const reveal = document.createElement('div')
+    reveal.dataset.gsapReveal = 'true'
+    document.body.append(reveal)
+
+    const { unmount } = render(<ProgressiveGsapAnimations loadGsap={loadGsap} />)
+
+    await act(async () => {
+      window.dispatchEvent(new Event('home-sections:load'))
+      await Promise.resolve()
+    })
+
+    expect(loadGsap).toHaveBeenCalledTimes(1)
+    expect(gsapContext).not.toHaveBeenCalled()
+
+    unmount()
+
+    await act(async () => {
+      deferredGsap.resolve(gsapApi)
+      await deferredGsap.promise
+      await Promise.resolve()
+    })
+
+    expect(gsapContext).toHaveBeenCalledTimes(1)
+    expect(intersectionObservers).toHaveLength(1)
+    expect(intersectionObservers[0]?.disconnect).toHaveBeenCalledTimes(1)
+    expect(gsapContextRevert).toHaveBeenCalledTimes(1)
+
+    reveal.remove()
+  })
+
+  it('disposes and reinitializes animations when reduced motion changes while mounted', async () => {
+    const motionPreference = createMotionPreference()
+    window.matchMedia = vi.fn().mockReturnValue(motionPreference.mediaQuery)
+    const loadGsap = vi.fn().mockResolvedValue(gsapApi)
+    const reveal = document.createElement('div')
+    reveal.dataset.gsapReveal = 'true'
+    document.body.append(reveal)
+
+    const { unmount } = render(<ProgressiveGsapAnimations loadGsap={loadGsap} />)
+
+    await act(async () => {
+      window.dispatchEvent(new Event('home-sections:load'))
+      await Promise.resolve()
+    })
+
+    expect(gsapContext).toHaveBeenCalledTimes(1)
+    expect(intersectionObservers).toHaveLength(1)
+
+    act(() => motionPreference.setMatches(true))
+
+    expect(intersectionObservers[0]?.disconnect).toHaveBeenCalledTimes(1)
+    expect(gsapContextRevert).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      motionPreference.setMatches(false)
+      await Promise.resolve()
+    })
+
+    expect(loadGsap).toHaveBeenCalledTimes(1)
+    expect(gsapContext).toHaveBeenCalledTimes(2)
+    expect(intersectionObservers).toHaveLength(2)
+
+    unmount()
+
+    expect(intersectionObservers[1]?.disconnect).toHaveBeenCalledTimes(1)
+    expect(gsapContextRevert).toHaveBeenCalledTimes(2)
+    expect(motionPreference.mediaQuery.removeEventListener).toHaveBeenCalledWith(
+      'change',
+      expect.any(Function),
+    )
+
+    reveal.remove()
   })
 })

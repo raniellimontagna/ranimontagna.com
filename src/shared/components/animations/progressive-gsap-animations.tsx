@@ -1,22 +1,22 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 type GsapModule = typeof import('gsap')
 type GsapApi = GsapModule['gsap']
 type GsapAnimation = ReturnType<GsapApi['to']>
+type GsapLoader = () => Promise<GsapApi>
 
 const LOAD_HOME_SECTIONS_EVENT = 'home-sections:load'
 const HOME_SECTIONS_READY_EVENT = 'home-sections:ready'
 const LOAD_EVENTS = ['pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'] as const
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
+
+const loadDefaultGsap: GsapLoader = () => import('gsap').then(({ gsap }) => gsap)
 
 function readNumber(element: Element, attribute: string, fallback: number) {
   const value = Number.parseFloat(element.getAttribute(attribute) ?? '')
   return Number.isFinite(value) ? value : fallback
-}
-
-function isReducedMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 }
 
 function scheduleIdle(callback: () => void) {
@@ -349,46 +349,109 @@ function setupAnimations(gsap: GsapApi) {
   }
 }
 
-export function ProgressiveGsapAnimations() {
-  const gsapPromiseRef = useRef<Promise<GsapApi> | null>(null)
-  const cleanupsRef = useRef<Array<() => void>>([])
-  const idleCleanupRef = useRef<(() => void) | null>(null)
+interface ProgressiveGsapAnimationsProps {
+  loadGsap?: GsapLoader
+}
 
+export function ProgressiveGsapAnimations({
+  loadGsap = loadDefaultGsap,
+}: ProgressiveGsapAnimationsProps = {}) {
   useEffect(() => {
-    if (isReducedMotion()) return
+    const motionPreference = window.matchMedia?.(REDUCED_MOTION_QUERY)
+    let prefersReducedMotion = motionPreference?.matches ?? false
+    let cancelled = false
+    let generation = 0
+    let gsapPromise: Promise<GsapApi> | null = null
+    let idleCleanup: (() => void) | null = null
+    let triggerListenersRegistered = false
+    const activeCleanups = new Set<() => void>()
 
-    const loadGsap = () => {
-      gsapPromiseRef.current ??= import('gsap').then((module) => module.gsap)
-      return gsapPromiseRef.current
+    const getGsap = () => {
+      gsapPromise ??= loadGsap()
+      return gsapPromise
+    }
+
+    const cancelIdleSetup = () => {
+      idleCleanup?.()
+      idleCleanup = null
+    }
+
+    const disposeAnimations = () => {
+      for (const cleanup of activeCleanups) cleanup()
+      activeCleanups.clear()
     }
 
     const scheduleSetup = () => {
-      idleCleanupRef.current?.()
-      idleCleanupRef.current = scheduleIdle(() => {
-        void loadGsap().then((gsap) => {
+      if (cancelled || prefersReducedMotion) return
+
+      cancelIdleSetup()
+      const scheduledGeneration = generation
+      idleCleanup = scheduleIdle(() => {
+        idleCleanup = null
+        void getGsap().then((gsap) => {
           const cleanup = setupAnimations(gsap)
-          if (cleanup) cleanupsRef.current.push(cleanup)
+          if (!cleanup) return
+
+          if (cancelled || prefersReducedMotion || scheduledGeneration !== generation) {
+            cleanup()
+            return
+          }
+
+          activeCleanups.add(cleanup)
         })
       })
     }
 
-    window.addEventListener(LOAD_HOME_SECTIONS_EVENT, scheduleSetup)
-    window.addEventListener(HOME_SECTIONS_READY_EVENT, scheduleSetup)
-    for (const eventName of LOAD_EVENTS) {
-      window.addEventListener(eventName, scheduleSetup, { once: true, passive: true })
+    const registerTriggerListeners = () => {
+      if (triggerListenersRegistered) return
+
+      triggerListenersRegistered = true
+      window.addEventListener(LOAD_HOME_SECTIONS_EVENT, scheduleSetup)
+      window.addEventListener(HOME_SECTIONS_READY_EVENT, scheduleSetup)
+      for (const eventName of LOAD_EVENTS) {
+        window.addEventListener(eventName, scheduleSetup, { once: true, passive: true })
+      }
     }
 
-    return () => {
-      idleCleanupRef.current?.()
-      for (const cleanup of cleanupsRef.current) cleanup()
-      cleanupsRef.current = []
+    const unregisterTriggerListeners = () => {
+      if (!triggerListenersRegistered) return
+
+      triggerListenersRegistered = false
       window.removeEventListener(LOAD_HOME_SECTIONS_EVENT, scheduleSetup)
       window.removeEventListener(HOME_SECTIONS_READY_EVENT, scheduleSetup)
       for (const eventName of LOAD_EVENTS) {
         window.removeEventListener(eventName, scheduleSetup)
       }
     }
-  }, [])
+
+    const suspendAnimations = () => {
+      generation += 1
+      cancelIdleSetup()
+      disposeAnimations()
+      unregisterTriggerListeners()
+    }
+
+    const handleMotionPreferenceChange = (event: MediaQueryListEvent) => {
+      prefersReducedMotion = event.matches
+
+      if (prefersReducedMotion) {
+        suspendAnimations()
+        return
+      }
+
+      registerTriggerListeners()
+      scheduleSetup()
+    }
+
+    if (!prefersReducedMotion) registerTriggerListeners()
+    motionPreference?.addEventListener('change', handleMotionPreferenceChange)
+
+    return () => {
+      cancelled = true
+      suspendAnimations()
+      motionPreference?.removeEventListener('change', handleMotionPreferenceChange)
+    }
+  }, [loadGsap])
 
   return null
 }
