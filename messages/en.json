@@ -423,7 +423,8 @@
     "viewerError": "The image viewer could not be loaded.",
     "diagramPending": "Diagram loads near the viewport",
     "diagramLoading": "Rendering diagram…",
-    "diagramError": "Error rendering diagram:"
+    "diagramError": "Error rendering diagram:",
+    "scrollToTop": "Back to top"
   },
   "notFound": {
     "title": "Page not found",

@@ -1,8 +1,8 @@
 import { render, screen } from '@/tests/test-utils'
-import type { Post } from '../../lib/blog'
+import type { PostSummary } from '../../lib/blog'
 import { FeaturedPost } from '../featured-post'
 
-const mockPost: Post = {
+const mockPost: PostSummary = {
   slug: 'test-post',
   metadata: {
     title: 'Test Post',
@@ -12,7 +12,6 @@ const mockPost: Post = {
     tags: ['react', 'testing'],
     coverImage: 'https://images.unsplash.com/image.jpg',
   },
-  content: 'Test content',
 }
 
 vi.mock('next-intl', () => ({

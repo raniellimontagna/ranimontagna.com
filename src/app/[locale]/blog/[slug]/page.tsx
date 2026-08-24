@@ -226,7 +226,7 @@ export default async function PostPage(props: {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <ReadingProgressBar />
-      <ScrollToTop />
+      <ScrollToTop label={t('scrollToTop')} />
       <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 pt-8 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:pb-24">
         <div className="mb-6 sm:mb-8">
           <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: post.metadata.title }]} />

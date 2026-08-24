@@ -423,7 +423,8 @@
     "viewerError": "Não foi possível carregar o visualizador de imagem.",
     "diagramPending": "O diagrama carrega perto da área visível",
     "diagramLoading": "Renderizando diagrama…",
-    "diagramError": "Erro ao renderizar diagrama:"
+    "diagramError": "Erro ao renderizar diagrama:",
+    "scrollToTop": "Voltar ao topo"
   },
   "notFound": {
     "title": "Página não encontrada",

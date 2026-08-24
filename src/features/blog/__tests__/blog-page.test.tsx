@@ -1,10 +1,11 @@
 import PostPage from '@/app/[locale]/blog/[slug]/page'
 import BlogPage from '@/app/[locale]/blog/page'
+import type { Post, PostSummary } from '@/features/blog/lib/blog'
 import { render, screen } from '@/tests/test-utils'
 
 // Mocks
-vi.mock('@/features/blog/lib/blog', () => ({
-  getAllPosts: vi.fn().mockResolvedValue([
+vi.mock('@/features/blog/lib/blog', () => {
+  const summaries = [
     {
       slug: 'featured-post',
       metadata: {
@@ -12,9 +13,9 @@ vi.mock('@/features/blog/lib/blog', () => ({
         date: '2024-01-01',
         description: 'Description 1',
         tags: ['tag1'],
+        published: true,
         coverImage: '/image1.jpg',
       },
-      content: 'Content 1',
     },
     {
       slug: 'regular-post',
@@ -23,24 +24,30 @@ vi.mock('@/features/blog/lib/blog', () => ({
         date: '2024-01-02',
         description: 'Description 2',
         tags: ['tag2'],
+        published: true,
         coverImage: '/image2.jpg',
       },
-      content: 'Content 2',
     },
-  ]),
-  getPostBySlug: vi.fn().mockResolvedValue({
+  ] satisfies PostSummary[]
+  const document = {
     slug: 'featured-post',
     metadata: {
       title: 'Featured Post',
       date: '2024-01-01',
       description: 'Description 1',
       tags: ['tag1'],
+      published: true,
       coverImage: '/image1.jpg',
     },
-    content: 'Content 1',
-  }),
-  getAdjacentPosts: vi.fn().mockResolvedValue({ prev: undefined, next: undefined }),
-}))
+    content: 'ARTICLE_BODY_MARKER',
+  } satisfies Post
+
+  return {
+    getAllPosts: vi.fn().mockResolvedValue(summaries),
+    getPostBySlug: vi.fn().mockResolvedValue(document),
+    getAdjacentPosts: vi.fn().mockResolvedValue({ prev: undefined, next: undefined }),
+  }
+})
 
 vi.mock('next-mdx-remote/rsc', () => ({
   MDXRemote: ({ source }: { source: string }) => <div>{source}</div>,
@@ -56,6 +63,7 @@ describe('Blog Page', () => {
     const page = await BlogPage({
       params: Promise.resolve({ locale: 'pt' }),
     })
+    expect(JSON.stringify(page)).not.toContain('ARTICLE_BODY_MARKER')
 
     const { container } = render(page)
 

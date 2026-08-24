@@ -10,29 +10,18 @@ vi.mock('next-intl', () => ({
     })[key] ?? key,
 }))
 
-// Mock mermaid library
-vi.mock('mermaid', () => {
-  const mockRender = vi.fn()
-  const mockInitialize = vi.fn()
-
-  return {
-    default: {
-      initialize: mockInitialize,
-      render: mockRender,
-    },
-  }
-})
-
-// Access mocked functions after the module is mocked
-const mermaid = await import('mermaid')
-const mockRender = vi.mocked(mermaid.default.render)
-const mockInitialize = vi.mocked(mermaid.default.initialize)
+const mockRender = vi.fn()
+const mockInitialize = vi.fn()
+const fakeMermaid = { initialize: mockInitialize, render: mockRender }
+const loadMermaid = vi.fn(async () => fakeMermaid as never)
 
 describe('MermaidDiagram Component', () => {
   const mockChart = `
     graph TD
       A[Start] --> B[End]
   `
+  const renderDiagram = (chart = mockChart) =>
+    render(<MermaidDiagram chart={chart} loadMermaid={loadMermaid} />)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -80,26 +69,26 @@ describe('MermaidDiagram Component', () => {
       readonly thresholds = [0]
     }
     vi.stubGlobal('IntersectionObserver', ControlledIntersectionObserver)
-    const loadMermaid = vi.fn(async () => (await import('mermaid')).default)
+    const deferredLoadMermaid = vi.fn(async () => fakeMermaid as never)
 
     const { container } = render(
-      <MermaidDiagram chart={mockChart} loadMermaid={loadMermaid} />,
+      <MermaidDiagram chart={mockChart} loadMermaid={deferredLoadMermaid} />,
     )
 
-    expect(loadMermaid).not.toHaveBeenCalled()
+    expect(deferredLoadMermaid).not.toHaveBeenCalled()
     expect(mockRender).not.toHaveBeenCalled()
     const target = container.querySelector('.mermaid-container') as Element
     emit?.(
       [{ target, isIntersecting: true } as IntersectionObserverEntry],
       {} as IntersectionObserver,
     )
-    await waitFor(() => expect(loadMermaid).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(deferredLoadMermaid).toHaveBeenCalledTimes(1))
     await waitFor(() => expect(mockRender).toHaveBeenCalledTimes(1))
   })
 
   describe('Initialization', () => {
     it('initializes mermaid with correct configuration', async () => {
-      render(<MermaidDiagram chart={mockChart} />)
+      renderDiagram()
 
       await waitFor(() => {
         expect(mockInitialize).toHaveBeenCalledWith({
@@ -124,14 +113,14 @@ describe('MermaidDiagram Component', () => {
 
   describe('Successful Rendering', () => {
     it('renders the component container', () => {
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       const diagramContainer = container.querySelector('.mermaid-container')
       expect(diagramContainer).toBeInTheDocument()
     })
 
     it('calls mermaid.render with chart data', async () => {
-      render(<MermaidDiagram chart={mockChart} />)
+      renderDiagram()
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledWith(expect.stringMatching(/^mermaid-/), mockChart)
@@ -139,7 +128,7 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('renders SVG with correct content', async () => {
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       await waitFor(() => {
         const svg = container.querySelector('[data-testid="mermaid-svg"]')
@@ -148,11 +137,11 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('generates unique ID for each diagram', async () => {
-      render(<MermaidDiagram chart={mockChart} />)
+      renderDiagram()
 
       await waitFor(() => expect(mockRender).toHaveBeenCalledTimes(1))
 
-      render(<MermaidDiagram chart={mockChart} />)
+      renderDiagram()
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledTimes(2)
@@ -170,7 +159,7 @@ describe('MermaidDiagram Component', () => {
         diagramType: 'graph' as const,
       })
 
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       await waitFor(() => {
         const svg = container.querySelector('[data-testid="mermaid-svg"]') as SVGElement
@@ -199,7 +188,7 @@ describe('MermaidDiagram Component', () => {
       const errorMessage = 'Invalid syntax in diagram'
       mockRender.mockRejectedValue(new Error(errorMessage))
 
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       await waitFor(() => {
         const errorDiv = container.querySelector('.border-red-200')
@@ -212,7 +201,7 @@ describe('MermaidDiagram Component', () => {
     it('displays error for unknown error types', async () => {
       mockRender.mockRejectedValue('String error')
 
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       await waitFor(() => {
         const errorDiv = container.querySelector('.border-red-200')
@@ -225,7 +214,7 @@ describe('MermaidDiagram Component', () => {
       const error = new Error('Test error')
       mockRender.mockRejectedValue(error)
 
-      render(<MermaidDiagram chart={mockChart} />)
+      renderDiagram()
 
       await waitFor(() => {
         expect(consoleErrorSpy).toHaveBeenCalledWith('Mermaid rendering error:', error)
@@ -235,14 +224,14 @@ describe('MermaidDiagram Component', () => {
 
   describe('Re-rendering on Chart Change', () => {
     it('re-renders when chart prop changes', async () => {
-      const { rerender } = render(<MermaidDiagram chart={mockChart} />)
+      const { rerender } = renderDiagram()
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledTimes(1)
       })
 
       const newChart = 'graph TD\nX --> Y'
-      rerender(<MermaidDiagram chart={newChart} />)
+      rerender(<MermaidDiagram chart={newChart} loadMermaid={loadMermaid} />)
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledTimes(2)
@@ -251,7 +240,7 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('clears previous content before re-rendering', async () => {
-      const { container, rerender } = render(<MermaidDiagram chart={mockChart} />)
+      const { container, rerender } = renderDiagram()
 
       await waitFor(() => {
         const firstSvg = container.querySelector('[data-testid="mermaid-svg"]')
@@ -263,7 +252,9 @@ describe('MermaidDiagram Component', () => {
         diagramType: 'graph' as const,
       })
 
-      rerender(<MermaidDiagram chart="graph TD\nNew --> Chart" />)
+      rerender(
+        <MermaidDiagram chart="graph TD\nNew --> Chart" loadMermaid={loadMermaid} />,
+      )
 
       await waitFor(() => {
         const oldSvg = container.querySelector('[data-testid="mermaid-svg"]')
@@ -276,7 +267,7 @@ describe('MermaidDiagram Component', () => {
 
   describe('Container Styling', () => {
     it('has proper container classes', () => {
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       const wrapper = container.querySelector('.my-8.overflow-x-auto.rounded-xl')
       expect(wrapper).toBeInTheDocument()
@@ -292,14 +283,14 @@ describe('MermaidDiagram Component', () => {
     })
 
     it('has minimum height style', () => {
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       const diagramContainer = container.querySelector('.mermaid-container')
       expect(diagramContainer).toHaveStyle({ minHeight: '400px' })
     })
 
     it('has flex and justify-center classes on diagram container', () => {
-      const { container } = render(<MermaidDiagram chart={mockChart} />)
+      const { container } = renderDiagram()
 
       const diagramContainer = container.querySelector('.mermaid-container')
       expect(diagramContainer).toHaveClass('flex', 'justify-center')
@@ -308,7 +299,7 @@ describe('MermaidDiagram Component', () => {
 
   describe('Edge Cases', () => {
     it('handles empty chart string', async () => {
-      render(<MermaidDiagram chart="" />)
+      renderDiagram('')
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledWith(expect.any(String), '')
@@ -317,7 +308,7 @@ describe('MermaidDiagram Component', () => {
 
     it('handles very long chart definition', async () => {
       const longChart = `graph TD\n${'A --> B\n'.repeat(100)}`
-      render(<MermaidDiagram chart={longChart} />)
+      renderDiagram(longChart)
 
       await waitFor(() => {
         expect(mockRender).toHaveBeenCalledWith(expect.any(String), longChart)

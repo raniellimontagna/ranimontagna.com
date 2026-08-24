@@ -4,6 +4,8 @@ import { ArrowUp } from '@solar-icons/react/ssr'
 import { useEffect, useState } from 'react'
 
 interface ScrollToTopProps {
+  /** Localized accessible name for the control. */
+  label: string
   /**
    * The scroll threshold in pixels after which the button appears
    * @default 400
@@ -16,7 +18,7 @@ interface ScrollToTopProps {
   enabled?: boolean
 }
 
-export function ScrollToTop({ threshold = 400, enabled = true }: ScrollToTopProps) {
+export function ScrollToTop({ label, threshold = 400, enabled = true }: ScrollToTopProps) {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -56,7 +58,7 @@ export function ScrollToTop({ threshold = 400, enabled = true }: ScrollToTopProp
     <button
       type="button"
       onClick={scrollToTop}
-      aria-label="Voltar ao topo"
+      aria-label={label}
       className={`
         fixed bottom-8 right-8 z-40
         flex h-12 w-12 items-center justify-center
