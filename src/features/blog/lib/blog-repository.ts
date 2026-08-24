@@ -5,8 +5,10 @@ import type {
   Post,
   PostDocument,
   PostIndexEntry,
+  PostSummary,
 } from './blog.types'
 import { createBlogCacheStore } from './blog-cache-store'
+import { assertSafeBlogMarkdown, validateBlogFrontmatter } from './blog-content-policy'
 import { GitHubBlogContentSource } from './blog-github-source'
 
 const BLOG_CACHE_SCOPE = 'blog'
@@ -34,7 +36,7 @@ const toEnvelope = <T>(value: T, freshMs: number, staleMs: number): CacheEnvelop
   }
 }
 
-const isPublicPost = (post: Post): boolean => {
+const isPublicPost = (post: PostSummary): boolean => {
   const today = new Date().toISOString().split('T')[0]
   const isPublished = post.metadata.published !== false
   const isFuture = post.metadata.date > today
@@ -42,7 +44,7 @@ const isPublicPost = (post: Post): boolean => {
   return isPublished && !isFuture
 }
 
-const sortPostsByDate = (posts: Post[]): Post[] => {
+const sortPostsByDate = <T extends PostSummary>(posts: T[]): T[] => {
   return [...posts].sort((a, b) => (a.metadata.date > b.metadata.date ? -1 : 1))
 }
 
@@ -51,6 +53,53 @@ const toPublicPost = (post: PostDocument): Post => ({
   metadata: post.metadata,
   content: post.content,
 })
+
+const toValidatedPostSummary = (post: PostSummary): PostSummary | null => {
+  try {
+    const metadata = validateBlogFrontmatter(post.metadata, post.metadata.date)
+    return isPublicPost({ ...post, metadata }) ? { slug: post.slug, metadata } : null
+  } catch {
+    return null
+  }
+}
+
+const toPublicPostOrNull = (post: PostDocument): Post | null => {
+  try {
+    assertSafeBlogMarkdown(post.content)
+    const metadata = validateBlogFrontmatter(post.metadata, post.metadata.date)
+    const validated = { ...post, metadata }
+    return isPublicPost(validated) ? toPublicPost(validated) : null
+  } catch {
+    return null
+  }
+}
+
+const normalizePublicSummaries = (posts: PostSummary[]): PostSummary[] =>
+  sortPostsByDate(
+    posts
+      .map(toValidatedPostSummary)
+      .filter((post): post is PostSummary => post !== null),
+  )
+
+const mapWithConcurrency = async <T, R>(
+  values: T[],
+  concurrency: number,
+  mapper: (value: T) => Promise<R>,
+): Promise<R[]> => {
+  const results = new Array<R>(values.length)
+  let nextIndex = 0
+
+  const worker = async (): Promise<void> => {
+    while (nextIndex < values.length) {
+      const index = nextIndex
+      nextIndex += 1
+      results[index] = await mapper(values[index])
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(concurrency, values.length) }, worker))
+  return results
+}
 
 const getTtlSeconds = (staleMs: number): number => Math.max(1, Math.ceil(staleMs / 1000))
 
@@ -117,7 +166,10 @@ export const createBlogRepository = (
     return document
   }
 
-  const fetchAllPostsFromSource = async (version: string, locale: string): Promise<Post[]> => {
+  const fetchAllPostsFromSource = async (
+    version: string,
+    locale: string,
+  ): Promise<PostSummary[]> => {
     const entries = await source.listPostIndex(locale)
     await cache.set(
       getIndexKey(version, locale),
@@ -125,16 +177,18 @@ export const createBlogRepository = (
       getTtlSeconds(TTL_CONFIG.index.staleMs),
     )
 
-    const documents = await Promise.all(
-      entries.map(async (entry) => await getCachedOrSourceDocument(version, locale, entry)),
+    const documents = await mapWithConcurrency(
+      entries,
+      4,
+      async (entry) => await getCachedOrSourceDocument(version, locale, entry),
     )
 
-    const posts = documents
+    const summaries = documents
       .filter((document): document is PostDocument => document !== null)
-      .map(toPublicPost)
-      .filter(isPublicPost)
+      .map(toValidatedPostSummary)
+      .filter((post): post is PostSummary => post !== null)
 
-    const sortedPosts = sortPostsByDate(posts)
+    const sortedPosts = sortPostsByDate(summaries)
 
     await cache.set(
       getPostsKey(version, locale),
@@ -148,9 +202,9 @@ export const createBlogRepository = (
   const refreshPosts = async (
     version: string,
     locale: string,
-    fallback: CacheEnvelope<Post[]> | null,
+    fallback: CacheEnvelope<PostSummary[]> | null,
     background = false,
-  ): Promise<Post[]> => {
+  ): Promise<PostSummary[]> => {
     return await withInflight(`posts:${version}:${locale}`, async () => {
       const lockKey = getLockKey(`posts:${version}:${locale}`)
       const hasDistributedLock = cache.supportsLocks
@@ -158,14 +212,16 @@ export const createBlogRepository = (
         : true
 
       if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
-        return fallback.value
+        return normalizePublicSummaries(fallback.value)
       }
 
       try {
         return await fetchAllPostsFromSource(version, locale)
       } catch (error) {
         logRepositoryWarning(`source fetch failed for posts locale=${locale}`, error)
-        return fallback !== null && fallback.staleUntil > Date.now() ? fallback.value : []
+        return fallback !== null && fallback.staleUntil > Date.now()
+          ? normalizePublicSummaries(fallback.value)
+          : []
       } finally {
         if (cache.supportsLocks && hasDistributedLock) {
           await cache.releaseLock(lockKey)
@@ -188,7 +244,7 @@ export const createBlogRepository = (
         : true
 
       if (background && cache.supportsLocks && !hasDistributedLock && fallback) {
-        return toPublicPost(fallback.value)
+        return toPublicPostOrNull(fallback.value)
       }
 
       try {
@@ -198,11 +254,11 @@ export const createBlogRepository = (
         }
 
         await cachePostDocument(version, locale, document)
-        return toPublicPost(document)
+        return toPublicPostOrNull(document)
       } catch (error) {
         logRepositoryWarning(`source fetch failed for post locale=${locale} slug=${slug}`, error)
         return fallback !== null && fallback.staleUntil > Date.now()
-          ? toPublicPost(fallback.value)
+          ? toPublicPostOrNull(fallback.value)
           : null
       } finally {
         if (cache.supportsLocks && hasDistributedLock) {
@@ -213,18 +269,18 @@ export const createBlogRepository = (
   }
 
   return {
-    async getAllPosts(locale: string): Promise<Post[]> {
+    async getAllPosts(locale: string): Promise<PostSummary[]> {
       const version = await resolveNamespaceVersion()
       const cacheKey = getPostsKey(version, locale)
-      const cachedPosts = await cache.get<Post[]>(cacheKey)
+      const cachedPosts = await cache.get<PostSummary[]>(cacheKey)
 
       if (cachedPosts !== null && cachedPosts.freshUntil > Date.now()) {
-        return cachedPosts.value
+        return normalizePublicSummaries(cachedPosts.value)
       }
 
       if (cachedPosts !== null && cachedPosts.staleUntil > Date.now()) {
         void refreshPosts(version, locale, cachedPosts, true)
-        return cachedPosts.value
+        return normalizePublicSummaries(cachedPosts.value)
       }
 
       return await refreshPosts(version, locale, cachedPosts)
@@ -235,12 +291,12 @@ export const createBlogRepository = (
       const cachedPost = await cache.get<PostDocument>(cacheKey)
 
       if (cachedPost !== null && cachedPost.freshUntil > Date.now()) {
-        return toPublicPost(cachedPost.value)
+        return toPublicPostOrNull(cachedPost.value)
       }
 
       if (cachedPost !== null && cachedPost.staleUntil > Date.now()) {
         void refreshPost(version, slug, locale, cachedPost, true)
-        return toPublicPost(cachedPost.value)
+        return toPublicPostOrNull(cachedPost.value)
       }
 
       return await refreshPost(version, slug, locale, cachedPost)

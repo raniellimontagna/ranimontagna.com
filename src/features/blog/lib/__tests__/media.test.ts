@@ -16,10 +16,21 @@ describe('blog media helpers', () => {
     expect(resolveBlogImageUrl()).toBe(BLOG_DEFAULT_IMAGE_URL)
   })
 
-  it('preserves absolute cover image urls', () => {
-    expect(resolveBlogImageUrl('https://example.com/cover.png')).toBe(
-      'https://example.com/cover.png',
+  it('preserves approved absolute cover image urls', () => {
+    expect(resolveBlogImageUrl('https://images.unsplash.com/cover.png')).toBe(
+      'https://images.unsplash.com/cover.png',
     )
+  })
+
+  it.each([
+    'http://images.unsplash.com/cover.png',
+    'https://unapproved.example/cover.png',
+    'javascript:alert(1)',
+    'data:image/svg+xml,unsafe',
+    '//unapproved.example/cover.png',
+  ])('rejects unapproved or unsafe media %s', (src) => {
+    expect(resolveBlogMediaUrl(src)).toBeUndefined()
+    expect(resolveBlogImageUrl(src)).toBe(BLOG_DEFAULT_IMAGE_URL)
   })
 
   it('converts relative cover image paths to absolute urls', () => {

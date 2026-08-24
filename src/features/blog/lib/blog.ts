@@ -1,8 +1,8 @@
 import { unstable_cache } from 'next/cache'
-import type { Post } from './blog.types'
+import type { PostSummary } from './blog.types'
 import { createBlogRepository } from './blog-repository'
 
-export type { Post } from './blog.types'
+export type { Post, PostSummary } from './blog.types'
 
 const repository = createBlogRepository()
 
@@ -40,7 +40,7 @@ export const getAllPosts = unstable_cache(
 export async function getAdjacentPosts(
   slug: string,
   locale: string,
-): Promise<{ prev: Post | null; next: Post | null }> {
+): Promise<{ prev: PostSummary | null; next: PostSummary | null }> {
   const posts = await getAllPosts(locale)
   const index = posts.findIndex((post) => post.slug === slug)
 

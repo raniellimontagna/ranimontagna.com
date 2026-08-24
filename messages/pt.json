@@ -413,7 +413,17 @@
     "backToBlog": "Voltar ao Blog",
     "readFeaturedStory": "Ler Artigo em Destaque",
     "readArticle": "Ler artigo",
-    "noPosts": "Nenhum post encontrado. Volte em breve!"
+    "noPosts": "Nenhum post encontrado. Volte em breve!",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "zoomImage": "Ampliar: {alt}",
+    "image": "Imagem",
+    "zoomIn": "Ampliar",
+    "viewerLoading": "Carregando visualizador de imagem…",
+    "viewerError": "Não foi possível carregar o visualizador de imagem.",
+    "diagramPending": "O diagrama carrega perto da área visível",
+    "diagramLoading": "Renderizando diagrama…",
+    "diagramError": "Erro ao renderizar diagrama:"
   },
   "notFound": {
     "title": "Página não encontrada",

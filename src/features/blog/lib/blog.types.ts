@@ -1,13 +1,18 @@
-export interface Post {
+export interface PostMetadata {
+  title: string
+  date: string
+  description: string
+  tags: string[]
+  published: boolean
+  coverImage?: string
+}
+
+export interface PostSummary {
   slug: string
-  metadata: {
-    title: string
-    date: string
-    description: string
-    tags?: string[]
-    published?: boolean
-    coverImage?: string
-  }
+  metadata: PostMetadata
+}
+
+export interface Post extends PostSummary {
   content: string
 }
 
@@ -52,7 +57,7 @@ export interface BlogCacheStore {
 }
 
 export interface BlogRepository {
-  getAllPosts(locale: string): Promise<Post[]>
+  getAllPosts(locale: string): Promise<PostSummary[]>
   getPostBySlug(slug: string, locale: string): Promise<Post | null>
 }
 

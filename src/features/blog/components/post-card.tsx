@@ -1,20 +1,21 @@
 'use client'
 
-import dayjs from 'dayjs'
 import { motion, useInView, useReducedMotion } from 'motion/react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useRef } from 'react'
-import type { Post } from '@/features/blog/lib/blog'
+import type { PostSummary } from '@/features/blog/lib/blog'
+import { formatBlogDate } from '@/features/blog/lib/blog-date'
 import { Link } from '@/shared/config/i18n/navigation'
 import { SafeImage } from './safe-image'
 
 interface PostCardProps {
-  post: Post
+  post: PostSummary
   index: number
 }
 
 export function PostCard({ post, index }: PostCardProps) {
   const t = useTranslations('blog')
+  const locale = useLocale()
   const prefersReducedMotion = useReducedMotion()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '0px 0px -60px 0px' })
@@ -49,13 +50,15 @@ export function PostCard({ post, index }: PostCardProps) {
           <SafeImage
             src={coverImage}
             alt={post.metadata.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="flex grow flex-col p-4 pt-3 sm:p-5 sm:pt-4 lg:p-6 lg:pt-4">
           <div className="mb-4 flex items-center justify-between gap-4">
-            <time className="text-xs font-medium text-muted">
-              {dayjs(post.metadata.date).format('MMM D, YYYY')}
+            <time dateTime={post.metadata.date} className="text-xs font-medium text-muted">
+              {formatBlogDate(post.metadata.date, locale)}
             </time>
             <div className="flex flex-wrap justify-end gap-2">
               {post.metadata.tags?.slice(0, 2).map((tag) => (

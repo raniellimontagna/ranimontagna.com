@@ -1,6 +1,15 @@
 import { render, waitFor } from '@/tests/test-utils'
 import { MermaidDiagram } from '../mermaid-diagram'
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) =>
+    ({
+      diagramPending: 'Diagram loads near the viewport',
+      diagramLoading: 'Rendering diagram…',
+      diagramError: 'Error rendering diagram:',
+    })[key] ?? key,
+}))
+
 // Mock mermaid library
 vi.mock('mermaid', () => {
   const mockRender = vi.fn()
@@ -32,6 +41,60 @@ describe('MermaidDiagram Component', () => {
       svg: '<svg data-testid="mermaid-svg"><rect /></svg>',
       diagramType: 'graph' as const,
     })
+    class ImmediateIntersectionObserver {
+      constructor(private readonly callback: IntersectionObserverCallback) {}
+      observe(target: Element) {
+        this.callback(
+          [{ target, isIntersecting: true } as IntersectionObserverEntry],
+          this as unknown as IntersectionObserver,
+        )
+      }
+      unobserve() {}
+      disconnect() {}
+      takeRecords() {
+        return []
+      }
+      readonly root = null
+      readonly rootMargin = '200px'
+      readonly thresholds = [0]
+    }
+    vi.stubGlobal('IntersectionObserver', ImmediateIntersectionObserver)
+  })
+
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('does not load Mermaid until its placeholder nears the viewport', async () => {
+    let emit: IntersectionObserverCallback | undefined
+    class ControlledIntersectionObserver {
+      constructor(callback: IntersectionObserverCallback) {
+        emit = callback
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords() {
+        return []
+      }
+      readonly root = null
+      readonly rootMargin = '200px'
+      readonly thresholds = [0]
+    }
+    vi.stubGlobal('IntersectionObserver', ControlledIntersectionObserver)
+    const loadMermaid = vi.fn(async () => (await import('mermaid')).default)
+
+    const { container } = render(
+      <MermaidDiagram chart={mockChart} loadMermaid={loadMermaid} />,
+    )
+
+    expect(loadMermaid).not.toHaveBeenCalled()
+    expect(mockRender).not.toHaveBeenCalled()
+    const target = container.querySelector('.mermaid-container') as Element
+    emit?.(
+      [{ target, isIntersecting: true } as IntersectionObserverEntry],
+      {} as IntersectionObserver,
+    )
+    await waitFor(() => expect(loadMermaid).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(mockRender).toHaveBeenCalledTimes(1))
   })
 
   describe('Initialization', () => {
@@ -48,7 +111,7 @@ describe('MermaidDiagram Component', () => {
           flowchart: {
             useMaxWidth: true,
             htmlLabels: false,
-            curve: 'basis',
+            curve: 'linear',
             padding: 20,
           },
           themeVariables: {
@@ -86,6 +149,9 @@ describe('MermaidDiagram Component', () => {
 
     it('generates unique ID for each diagram', async () => {
       render(<MermaidDiagram chart={mockChart} />)
+
+      await waitFor(() => expect(mockRender).toHaveBeenCalledTimes(1))
+
       render(<MermaidDiagram chart={mockChart} />)
 
       await waitFor(() => {

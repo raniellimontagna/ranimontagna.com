@@ -1,23 +1,32 @@
-import dayjs from 'dayjs'
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import { getTranslations } from 'next-intl/server'
 import remarkGfm from 'remark-gfm'
 import {
   ImageWithLightbox,
   MermaidDiagram,
   PostNavigation,
   ReadingProgressBar,
+  SafeImage,
   ScrollToTop,
 } from '@/features/blog/components'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
+import { remarkBlogContentPolicy } from '@/features/blog/lib/blog-content-policy'
+import { formatBlogDate } from '@/features/blog/lib/blog-date'
 import { resolveBlogImageUrl, resolveBlogMediaUrl } from '@/features/blog/lib/media'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+import { generateBlogPostingJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 
 function getPostUrl(locale: string, slug: string): string {
   const isDefault = locale === routing.defaultLocale
   return isDefault ? `${BASE_URL}/blog/${slug}` : `${BASE_URL}/${locale}/blog/${slug}`
+}
+
+function getBlogUrl(locale: string): string {
+  const isDefault = locale === routing.defaultLocale
+  return isDefault ? `${BASE_URL}/blog` : `${BASE_URL}/${locale}/blog`
 }
 
 // Generate static params for all posts in all locales
@@ -194,14 +203,28 @@ export default async function PostPage(props: {
   }
 
   const adjacentPosts = await getAdjacentPosts(params.slug, params.locale)
+  const t = await getTranslations({ locale: params.locale, namespace: 'blog' })
   const coverImage = resolveBlogMediaUrl(post.metadata.coverImage)
+  const jsonLd = generateBlogPostingJsonLd({
+    url: getPostUrl(params.locale, params.slug),
+    blogUrl: getBlogUrl(params.locale),
+    locale: params.locale,
+    title: post.metadata.title,
+    description: post.metadata.description,
+    date: post.metadata.date,
+    image: resolveBlogImageUrl(post.metadata.coverImage),
+    tags: post.metadata.tags ?? [],
+  })
 
   return (
     <div
       data-spectral-zone="quiet"
       className="relative min-h-screen overflow-x-hidden bg-background/80"
     >
-      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
       <ReadingProgressBar />
       <ScrollToTop />
       <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 pt-8 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:pb-24">
@@ -211,8 +234,8 @@ export default async function PostPage(props: {
 
         <header className="mb-8 sm:mb-12">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <time className="text-sm text-muted">
-              {dayjs(post.metadata.date).format('MMMM DD, YYYY')}
+            <time dateTime={post.metadata.date} className="text-sm text-muted">
+              {formatBlogDate(post.metadata.date, params.locale)}
             </time>
             <div className="flex flex-wrap gap-2">
               {post.metadata.tags?.map((tag) => (
@@ -234,10 +257,12 @@ export default async function PostPage(props: {
           {coverImage && (
             <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
               <div className="relative aspect-21/9 w-full sm:aspect-2/1">
-                {/* biome-ignore lint/performance/noImgElement: external URL requires unoptimized img */}
-                <img
+                <SafeImage
                   src={coverImage}
                   alt={post.metadata.title}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 768px"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-background/80 to-transparent" />
@@ -252,13 +277,15 @@ export default async function PostPage(props: {
             components={components}
             options={{
               mdxOptions: {
-                remarkPlugins: [remarkGfm],
+                remarkPlugins: [remarkGfm, remarkBlogContentPolicy],
               },
             }}
           />
         </div>
 
         <PostNavigation
+          previousLabel={t('previous')}
+          nextLabel={t('next')}
           prevPost={
             adjacentPosts.prev
               ? {

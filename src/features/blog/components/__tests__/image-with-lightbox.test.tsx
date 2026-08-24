@@ -1,6 +1,19 @@
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, waitFor } from '@testing-library/react'
 import { render, screen } from '@/tests/test-utils'
 import { ImageWithLightbox } from '../image-with-lightbox'
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string, values?: { alt?: string }) => {
+    const translations: Record<string, string> = {
+      image: 'Image',
+      zoomImage: `View larger: ${values?.alt ?? ''}`,
+      zoomIn: 'Zoom in',
+      viewerLoading: 'Loading image viewer…',
+      viewerError: 'The image viewer could not be loaded.',
+    }
+    return translations[key] ?? key
+  },
+}))
 
 interface LightboxProps {
   open: boolean
@@ -25,7 +38,7 @@ vi.mock('yet-another-react-lightbox', () => ({
 }))
 
 describe('ImageWithLightbox Component', () => {
-  const mockSrc = 'https://example.com/test-image.jpg'
+  const mockSrc = 'https://images.unsplash.com/test-image.jpg'
   const mockAlt = 'Test image description'
 
   describe('Rendering', () => {
@@ -34,7 +47,7 @@ describe('ImageWithLightbox Component', () => {
 
       const image = screen.getByAltText(mockAlt)
       expect(image).toBeInTheDocument()
-      expect(image).toHaveAttribute('src', mockSrc)
+      expect(image.getAttribute('src')).toContain(encodeURIComponent(mockSrc))
     })
 
     it('returns null when src is not provided', () => {
@@ -106,30 +119,45 @@ describe('ImageWithLightbox Component', () => {
   })
 
   describe('Lightbox Interaction', () => {
-    it('opens lightbox when image is clicked', () => {
+    it('loads the viewer only after activation', async () => {
+      const loadLightbox = vi.fn(async () => (await import('yet-another-react-lightbox')).default)
+      render(
+        <ImageWithLightbox src={mockSrc} alt={mockAlt} loadLightbox={loadLightbox} />,
+      )
+
+      expect(loadLightbox).not.toHaveBeenCalled()
+      expect(screen.queryByTestId('lightbox')).not.toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: `View larger: ${mockAlt}` }))
+
+      await waitFor(() => expect(loadLightbox).toHaveBeenCalledTimes(1))
+      expect(await screen.findByTestId('lightbox')).toBeInTheDocument()
+    })
+
+    it('opens lightbox when image is clicked', async () => {
       render(<ImageWithLightbox src={mockSrc} alt={mockAlt} />)
 
       const button = screen.getByRole('button', { name: `View larger: ${mockAlt}` })
       fireEvent.click(button)
 
-      const lightbox = screen.getByTestId('lightbox')
+      const lightbox = await screen.findByTestId('lightbox')
       expect(lightbox).toBeInTheDocument()
     })
 
-    it('closes lightbox when close is triggered', () => {
+    it('closes lightbox when close is triggered and restores trigger focus', async () => {
       render(<ImageWithLightbox src={mockSrc} alt={mockAlt} />)
 
       // Open lightbox
       const openButton = screen.getByRole('button', { name: `View larger: ${mockAlt}` })
       fireEvent.click(openButton)
 
-      expect(screen.getByTestId('lightbox')).toBeInTheDocument()
+      expect(await screen.findByTestId('lightbox')).toBeInTheDocument()
 
       // Close lightbox
       const closeButton = screen.getByTestId('lightbox-close')
       fireEvent.click(closeButton)
 
       expect(screen.queryByTestId('lightbox')).not.toBeInTheDocument()
+      await waitFor(() => expect(openButton).toHaveFocus())
     })
 
     it('lightbox is initially closed', () => {
@@ -139,26 +167,26 @@ describe('ImageWithLightbox Component', () => {
       expect(lightbox).not.toBeInTheDocument()
     })
 
-    it('passes correct props to lightbox', () => {
+    it('passes correct props to lightbox', async () => {
       render(<ImageWithLightbox src={mockSrc} alt={mockAlt} />)
 
       // Open lightbox
       const button = screen.getByRole('button')
       fireEvent.click(button)
 
-      const lightboxImage = screen.getByTestId('lightbox-image')
+      const lightboxImage = await screen.findByTestId('lightbox-image')
       expect(lightboxImage).toHaveAttribute('src', mockSrc)
       expect(lightboxImage).toHaveAttribute('alt', mockAlt)
     })
 
-    it('uses default alt text in lightbox when alt is not provided', () => {
+    it('uses default alt text in lightbox when alt is not provided', async () => {
       render(<ImageWithLightbox src={mockSrc} />)
 
       // Open lightbox
       const button = screen.getByRole('button')
       fireEvent.click(button)
 
-      const lightboxImage = screen.getByTestId('lightbox-image')
+      const lightboxImage = await screen.findByTestId('lightbox-image')
       expect(lightboxImage).toHaveAttribute('alt', 'Image')
     })
   })

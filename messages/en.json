@@ -413,7 +413,17 @@
     "backToBlog": "Back to Blog",
     "readFeaturedStory": "Read Featured Story",
     "readArticle": "Read article",
-    "noPosts": "No posts found. Check back soon!"
+    "noPosts": "No posts found. Check back soon!",
+    "previous": "Previous",
+    "next": "Next",
+    "zoomImage": "View larger: {alt}",
+    "image": "Image",
+    "zoomIn": "Zoom in",
+    "viewerLoading": "Loading image viewer…",
+    "viewerError": "The image viewer could not be loaded.",
+    "diagramPending": "Diagram loads near the viewport",
+    "diagramLoading": "Rendering diagram…",
+    "diagramError": "Error rendering diagram:"
   },
   "notFound": {
     "title": "Page not found",

@@ -1,18 +1,19 @@
 'use client'
 
-import dayjs from 'dayjs'
 import { motion, useReducedMotion } from 'motion/react'
-import { useTranslations } from 'next-intl'
-import type { Post } from '@/features/blog/lib/blog'
+import { useLocale, useTranslations } from 'next-intl'
+import type { PostSummary } from '@/features/blog/lib/blog'
+import { formatBlogDate } from '@/features/blog/lib/blog-date'
 import { Link } from '@/shared/config/i18n/navigation'
 import { SafeImage } from './safe-image'
 
 interface FeaturedPostProps {
-  post: Post
+  post: PostSummary
 }
 
 export function FeaturedPost({ post }: FeaturedPostProps) {
   const t = useTranslations('blog')
+  const locale = useLocale()
   const prefersReducedMotion = useReducedMotion()
   const coverImage = post.metadata.coverImage
 
@@ -31,6 +32,8 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
           <SafeImage
             src={coverImage}
             alt={post.metadata.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 1152px"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent dark:from-slate-900" />
@@ -40,8 +43,11 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
 
           <div className="relative">
             <div className="mb-4 flex flex-wrap items-center gap-3 text-sm sm:mb-6 sm:gap-4">
-              <time className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">
-                {dayjs(post.metadata.date).format('MMMM D, YYYY')}
+              <time
+                dateTime={post.metadata.date}
+                className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted"
+              >
+                {formatBlogDate(post.metadata.date, locale)}
               </time>
               <span className="flex flex-wrap gap-2">
                 {post.metadata.tags?.map((tag) => (

@@ -5,6 +5,7 @@ import { FadeIn, RevealText } from '@/shared/components/animations'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+import { generateBlogJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 
 function getBlogUrl(locale: string): string {
   const isDefault = locale === routing.defaultLocale
@@ -59,12 +60,30 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   const posts = await getAllPosts(locale)
   const featuredPost = posts[0]
   const remainingPosts = posts.slice(1)
+  const blogUrl = getBlogUrl(locale)
+  const jsonLd = generateBlogJsonLd({
+    url: blogUrl,
+    locale,
+    name: t('title'),
+    description: t('subtitle'),
+    posts: posts.map((post) => ({
+      slug: post.slug,
+      title: post.metadata.title,
+      description: post.metadata.description,
+      date: post.metadata.date,
+      tags: post.metadata.tags ?? [],
+    })),
+  })
 
   return (
     <div
       data-spectral-zone="quiet"
       className="relative min-h-screen bg-background/80 pb-14 sm:pb-20 lg:pb-24"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
       <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
         <div className="mb-8 sm:mb-12">
           <Breadcrumbs items={[{ label: 'Blog' }]} />

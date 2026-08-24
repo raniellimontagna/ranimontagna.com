@@ -1,5 +1,11 @@
 import { BASE_URL } from '../constants'
-import { generatePersonJsonLd, generateWebsiteJsonLd } from '../jsonld'
+import {
+  generateBlogJsonLd,
+  generateBlogPostingJsonLd,
+  generatePersonJsonLd,
+  generateWebsiteJsonLd,
+  serializeJsonLd,
+} from '../jsonld'
 
 describe('jsonld', () => {
   describe('generatePersonJsonLd', () => {
@@ -116,6 +122,53 @@ describe('jsonld', () => {
       expect(enJsonld.description).toContain('Portfolio')
       expect(ptJsonld.description).toContain('Portfolio')
       expect(enJsonld.description).not.toBe(ptJsonld.description)
+    })
+  })
+
+  describe('blog structured data', () => {
+    it('serializes JSON-LD without allowing a script breakout', () => {
+      const marker = '</script><script>marker()</script>'
+      const serialized = serializeJsonLd({ marker })
+
+      expect(serialized).not.toContain('<')
+      expect(JSON.parse(serialized)).toEqual({ marker })
+    })
+
+    it('generates localized Blog and BlogPosting documents', () => {
+      const blog = generateBlogJsonLd({
+        url: `${BASE_URL}/en/blog`,
+        locale: 'en',
+        name: 'Thinking Aloud',
+        description: 'Articles',
+        posts: [
+          {
+            slug: 'safe-post',
+            title: 'Safe Post',
+            description: 'A post',
+            date: '2026-08-23',
+            tags: ['security'],
+          },
+        ],
+      })
+      const posting = generateBlogPostingJsonLd({
+        url: `${BASE_URL}/en/blog/safe-post`,
+        blogUrl: `${BASE_URL}/en/blog`,
+        locale: 'en',
+        title: 'Safe Post',
+        description: 'A post',
+        date: '2026-08-23',
+        image: `${BASE_URL}/images/blog-fallback.webp`,
+        tags: ['security'],
+      })
+
+      expect(blog).toMatchObject({ '@type': 'Blog', inLanguage: 'en' })
+      expect(blog.blogPost[0]).toMatchObject({ '@type': 'BlogPosting', headline: 'Safe Post' })
+      expect(posting).toMatchObject({
+        '@type': 'BlogPosting',
+        headline: 'Safe Post',
+        datePublished: '2026-08-23',
+      })
+      expect(posting.breadcrumb.itemListElement).toHaveLength(3)
     })
   })
 })

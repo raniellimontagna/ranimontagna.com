@@ -10,13 +10,14 @@ const mockPost: Post = {
     date: '2024-01-01',
     published: true,
     tags: ['react', 'testing'],
-    coverImage: 'https://example.com/image.jpg',
+    coverImage: 'https://images.unsplash.com/image.jpg',
   },
   content: 'Test content',
 }
 
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
+  useLocale: () => 'en',
 }))
 
 vi.mock('next/link', () => ({
@@ -31,7 +32,9 @@ describe('FeaturedPost', () => {
 
     expect(screen.getByText('Test Post')).toBeInTheDocument()
     expect(screen.getByText('Test description')).toBeInTheDocument()
-    expect(screen.getByAltText('Test Post')).toHaveAttribute('src', 'https://example.com/image.jpg')
+    expect(screen.getByAltText('Test Post').getAttribute('src')).toContain(
+      encodeURIComponent('https://images.unsplash.com/image.jpg'),
+    )
   })
 
   it('renders with default cover image when not provided', () => {
@@ -46,7 +49,7 @@ describe('FeaturedPost', () => {
     render(<FeaturedPost post={postWithoutCover} />)
 
     const img = screen.getByAltText('Test Post')
-    expect(img).toHaveAttribute('src', '/og-image.png')
+    expect(img.getAttribute('src')).toContain(encodeURIComponent('/images/blog-fallback.webp'))
   })
 
   it('renders tags', () => {
@@ -56,12 +59,12 @@ describe('FeaturedPost', () => {
     expect(screen.getByText('#testing')).toBeInTheDocument()
   })
 
-  it('renders without tags', () => {
+  it('renders with an empty tag list', () => {
     const postWithoutTags = {
       ...mockPost,
       metadata: {
         ...mockPost.metadata,
-        tags: undefined,
+        tags: [],
       },
     }
 

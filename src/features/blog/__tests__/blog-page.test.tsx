@@ -64,6 +64,9 @@ describe('Blog Page', () => {
     expect(container.firstElementChild).not.toHaveClass('bg-background')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+    const jsonLd = container.querySelector('script[type="application/ld+json"]')
+    expect(jsonLd).toBeInTheDocument()
+    expect(JSON.parse(jsonLd?.textContent ?? '')).toMatchObject({ '@type': 'Blog' })
   })
 
   it('marks article pages as quiet spectral zones without the obsolete grid', async () => {
@@ -77,5 +80,11 @@ describe('Blog Page', () => {
     expect(container.firstElementChild).toHaveClass('bg-background/80')
     expect(container.firstElementChild).not.toHaveClass('bg-background')
     expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
+    const jsonLd = container.querySelector('script[type="application/ld+json"]')
+    expect(jsonLd).toBeInTheDocument()
+    expect(JSON.parse(jsonLd?.textContent ?? '')).toMatchObject({
+      '@type': 'BlogPosting',
+      headline: 'Featured Post',
+    })
   })
 })

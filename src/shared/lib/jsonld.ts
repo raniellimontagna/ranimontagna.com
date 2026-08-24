@@ -323,3 +323,91 @@ export function generateWebsiteJsonLd(locale: string): WebsiteJsonLd & {
     },
   }
 }
+
+interface BlogSummaryJsonLdInput {
+  slug: string
+  title: string
+  description: string
+  date: string
+  tags: string[]
+}
+
+export function serializeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c')
+}
+
+export function generateBlogJsonLd(input: {
+  url: string
+  locale: string
+  name: string
+  description: string
+  posts: BlogSummaryJsonLdInput[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${input.url}#blog`,
+    name: input.name,
+    description: input.description,
+    url: input.url,
+    inLanguage: input.locale,
+    author: { '@type': 'Person', name: 'Ranielli Montagna', url: BASE_URL },
+    publisher: { '@type': 'Person', name: 'Ranielli Montagna', url: BASE_URL },
+    blogPost: input.posts.slice(0, 10).map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.description,
+      datePublished: post.date,
+      url: `${input.url}/${post.slug}`,
+      author: { '@type': 'Person', name: 'Ranielli Montagna' },
+      keywords: post.tags.join(', '),
+    })),
+  }
+}
+
+export function generateBlogPostingJsonLd(input: {
+  url: string
+  blogUrl: string
+  locale: string
+  title: string
+  description: string
+  date: string
+  image: string
+  tags: string[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${input.url}#blogposting`,
+    headline: input.title,
+    description: input.description,
+    image: [input.image],
+    datePublished: input.date,
+    dateModified: input.date,
+    author: { '@type': 'Person', name: 'Ranielli Montagna', url: BASE_URL },
+    publisher: {
+      '@type': 'Person',
+      name: 'Ranielli Montagna',
+      url: BASE_URL,
+      logo: { '@type': 'ImageObject', url: `${BASE_URL}/logo/white.svg` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': `${input.blogUrl}#blog`,
+      name: 'Ranielli Montagna Blog',
+      url: input.blogUrl,
+    },
+    keywords: input.tags.join(', '),
+    articleSection: 'Technology',
+    inLanguage: input.locale,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: input.blogUrl },
+        { '@type': 'ListItem', position: 3, name: input.title, item: input.url },
+      ],
+    },
+  }
+}
