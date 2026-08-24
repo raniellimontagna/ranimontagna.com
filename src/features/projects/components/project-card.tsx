@@ -134,7 +134,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               </span>
             ))}
             {repo.topics.length > 3 && (
-              <span className="rounded-md border border-line/50 bg-surface/50 px-2 py-1 font-mono text-[9px] text-muted/70">
+              <span className="rounded-md border border-line/50 bg-surface/50 px-2 py-1 font-mono text-[9px] text-secondary">
                 +{repo.topics.length - 3}
               </span>
             )}

@@ -43,4 +43,12 @@ describe('ServiceCard', () => {
     const ctaLink = screen.getByRole('link')
     expect(ctaLink).toHaveAttribute('href', '#contact')
   })
+
+  it('uses the semantic on-accent token for the popular CTA', () => {
+    render(<ServiceCard {...defaultProps} popular={true} />)
+
+    const ctaLink = screen.getByRole('link')
+    expect(ctaLink).toHaveClass('bg-accent', 'text-on-accent')
+    expect(ctaLink).not.toHaveClass('text-white')
+  })
 })

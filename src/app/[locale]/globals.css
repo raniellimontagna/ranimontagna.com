@@ -17,9 +17,12 @@
   --line: rgb(130 142 136 / 38%);
   --line-strong: rgb(16 20 20 / 14%);
   --muted: #4d5a55;
+  --secondary: #4d5a55;
   --accent: #4f46e5;
   --accent-strong: #4338ca;
   --accent-ice: #818cf8;
+  --on-accent: #ffffff;
+  --focus-ring: #4338ca;
   --ring: rgb(129 140 248 / 50%);
   --ambient-lime: rgb(79 70 229 / 10%);
   --ambient-ice: rgb(129 140 248 / 12%);
@@ -41,9 +44,12 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-muted: var(--muted);
+  --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-ice: var(--accent-ice);
+  --color-on-accent: var(--on-accent);
+  --color-focus: var(--focus-ring);
   --font-sans: var(--font-manrope);
   --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
@@ -58,9 +64,12 @@
   --line: rgb(114 135 130 / 28%);
   --line-strong: rgb(237 244 239 / 8%);
   --muted: #91a09a;
+  --secondary: #91a09a;
   --accent: #ddff6f;
   --accent-strong: #d0ff44;
   --accent-ice: #94d7ff;
+  --on-accent: #091113;
+  --focus-ring: #d0ff44;
   --ring: rgb(148 215 255 / 48%);
   --ambient-lime: rgb(221 255 111 / 11%);
   --ambient-ice: rgb(148 215 255 / 12%);
@@ -78,6 +87,8 @@
   --accent: #0284c7;
   --accent-strong: #0369a1;
   --accent-ice: #38bdf8;
+  --on-accent: #091113;
+  --focus-ring: #0369a1;
   --ring: rgb(56 189 248 / 50%);
   --ambient-lime: rgb(2 132 199 / 10%);
   --ambient-ice: rgb(56 189 248 / 12%);
@@ -86,6 +97,8 @@
   --accent: #38bdf8;
   --accent-strong: #7dd3fc;
   --accent-ice: #0ea5e9;
+  --on-accent: #091113;
+  --focus-ring: #7dd3fc;
   --ring: rgb(56 189 248 / 48%);
   --ambient-lime: rgb(56 189 248 / 11%);
   --ambient-ice: rgb(14 165 233 / 12%);
@@ -95,6 +108,8 @@
   --accent: #e11d48;
   --accent-strong: #be123c;
   --accent-ice: #fb7185;
+  --on-accent: #ffffff;
+  --focus-ring: #be123c;
   --ring: rgb(251 113 133 / 50%);
   --ambient-lime: rgb(225 29 72 / 10%);
   --ambient-ice: rgb(251 113 133 / 12%);
@@ -103,6 +118,8 @@
   --accent: #fb7185;
   --accent-strong: #fda4af;
   --accent-ice: #f43f5e;
+  --on-accent: #091113;
+  --focus-ring: #fda4af;
   --ring: rgb(251 113 133 / 48%);
   --ambient-lime: rgb(251 113 133 / 11%);
   --ambient-ice: rgb(244 63 94 / 12%);
@@ -112,6 +129,8 @@
   --accent: #059669;
   --accent-strong: #047857;
   --accent-ice: #34d399;
+  --on-accent: #091113;
+  --focus-ring: #047857;
   --ring: rgb(52 211 153 / 50%);
   --ambient-lime: rgb(5 150 105 / 10%);
   --ambient-ice: rgb(52 211 153 / 12%);
@@ -120,6 +139,8 @@
   --accent: #34d399;
   --accent-strong: #6ee7b7;
   --accent-ice: #10b981;
+  --on-accent: #091113;
+  --focus-ring: #6ee7b7;
   --ring: rgb(52 211 153 / 48%);
   --ambient-lime: rgb(52 211 153 / 11%);
   --ambient-ice: rgb(16 185 129 / 12%);
@@ -129,6 +150,8 @@
   --accent: #d97706;
   --accent-strong: #b45309;
   --accent-ice: #fbbf24;
+  --on-accent: #091113;
+  --focus-ring: #b45309;
   --ring: rgb(251 191 36 / 50%);
   --ambient-lime: rgb(217 119 6 / 10%);
   --ambient-ice: rgb(251 191 36 / 12%);
@@ -137,6 +160,8 @@
   --accent: #fbbf24;
   --accent-strong: #fcd34d;
   --accent-ice: #f59e0b;
+  --on-accent: #091113;
+  --focus-ring: #fcd34d;
   --ring: rgb(251 191 36 / 48%);
   --ambient-lime: rgb(251 191 36 / 11%);
   --ambient-ice: rgb(245 158 11 / 12%);
@@ -146,6 +171,8 @@
   --accent: #7c3aed;
   --accent-strong: #6d28d9;
   --accent-ice: #a78bfa;
+  --on-accent: #ffffff;
+  --focus-ring: #6d28d9;
   --ring: rgb(167 139 250 / 50%);
   --ambient-lime: rgb(124 58 237 / 10%);
   --ambient-ice: rgb(167 139 250 / 12%);
@@ -154,6 +181,8 @@
   --accent: #a78bfa;
   --accent-strong: #c4b5fd;
   --accent-ice: #8b5cf6;
+  --on-accent: #091113;
+  --focus-ring: #c4b5fd;
   --ring: rgb(167 139 250 / 48%);
   --ambient-lime: rgb(167 139 250 / 11%);
   --ambient-ice: rgb(139 92 246 / 12%);
@@ -163,6 +192,8 @@
   --accent: #525252;
   --accent-strong: #404040;
   --accent-ice: #a3a3a3;
+  --on-accent: #ffffff;
+  --focus-ring: #404040;
   --ring: rgb(163 163 163 / 50%);
   --ambient-lime: rgb(82 82 82 / 8%);
   --ambient-ice: rgb(163 163 163 / 10%);
@@ -171,6 +202,8 @@
   --accent: #d4d4d4;
   --accent-strong: #e5e5e5;
   --accent-ice: #a3a3a3;
+  --on-accent: #091113;
+  --focus-ring: #e5e5e5;
   --ring: rgb(212 212 212 / 48%);
   --ambient-lime: rgb(212 212 212 / 9%);
   --ambient-ice: rgb(163 163 163 / 10%);
@@ -180,6 +213,8 @@
   --accent: #ea580c;
   --accent-strong: #c2410c;
   --accent-ice: #f97316;
+  --on-accent: #091113;
+  --focus-ring: #c2410c;
   --ring: rgb(249 115 22 / 50%);
   --ambient-lime: rgb(234 88 12 / 10%);
   --ambient-ice: rgb(249 115 22 / 12%);
@@ -188,6 +223,8 @@
   --accent: #fb923c;
   --accent-strong: #fdba74;
   --accent-ice: #f97316;
+  --on-accent: #091113;
+  --focus-ring: #fdba74;
   --ring: rgb(251 146 60 / 48%);
   --ambient-lime: rgb(251 146 60 / 11%);
   --ambient-ice: rgb(249 115 22 / 12%);
@@ -197,6 +234,8 @@
   --accent: #db2777;
   --accent-strong: #be185d;
   --accent-ice: #f472b6;
+  --on-accent: #ffffff;
+  --focus-ring: #be185d;
   --ring: rgb(244 114 182 / 50%);
   --ambient-lime: rgb(219 39 119 / 10%);
   --ambient-ice: rgb(244 114 182 / 12%);
@@ -205,6 +244,8 @@
   --accent: #f472b6;
   --accent-strong: #f9a8d4;
   --accent-ice: #ec4899;
+  --on-accent: #091113;
+  --focus-ring: #f9a8d4;
   --ring: rgb(244 114 182 / 48%);
   --ambient-lime: rgb(244 114 182 / 11%);
   --ambient-ice: rgb(236 72 153 / 12%);
@@ -367,15 +408,11 @@ button {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
-}
-
-.dark ::selection {
-  color: #091113;
+  color: var(--on-accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--ring);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -392,8 +429,8 @@ button {
 }
 
 .interactive-field-shell:focus-within {
-  border-color: color-mix(in srgb, var(--accent-ice) 56%, var(--line));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 72%, transparent);
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .interactive-field-input {

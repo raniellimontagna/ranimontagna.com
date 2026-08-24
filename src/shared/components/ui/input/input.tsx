@@ -101,16 +101,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }}
           className={cn(
             'block w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200',
-            'bg-surface-strong text-foreground placeholder:text-muted/50',
-            'dark:bg-background dark:text-foreground dark:placeholder:text-muted/40',
+            'bg-surface-strong text-foreground placeholder:text-secondary',
+            'dark:bg-background dark:text-foreground',
             'focus:outline-none',
             error
               ? 'border-red-300 ring-2 ring-red-100 focus:border-red-500 focus:ring-red-100 dark:border-red-800 dark:ring-red-900/30 dark:focus:border-red-500'
               : [
                   'border-line',
                   'hover:border-foreground/20',
-                  'focus:border-accent focus:ring-2 focus:ring-ring',
-                  'dark:focus:border-accent dark:focus:ring-ring',
+                  'focus:border-focus focus:ring-2 focus:ring-focus',
                 ],
           )}
         />
@@ -205,16 +204,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           }}
           className={cn(
             'block w-full resize-none rounded-lg border px-4 py-3 text-sm transition-all duration-200',
-            'bg-surface-strong text-foreground placeholder:text-muted/50',
-            'dark:bg-background dark:text-foreground dark:placeholder:text-muted/40',
+            'bg-surface-strong text-foreground placeholder:text-secondary',
+            'dark:bg-background dark:text-foreground',
             'focus:outline-none',
             error
               ? 'border-red-300 ring-2 ring-red-100 focus:border-red-500 focus:ring-red-100 dark:border-red-800 dark:ring-red-900/30 dark:focus:border-red-500'
               : [
                   'border-line',
                   'hover:border-foreground/20',
-                  'focus:border-accent focus:ring-2 focus:ring-ring',
-                  'dark:focus:border-accent dark:focus:ring-ring',
+                  'focus:border-focus focus:ring-2 focus:ring-focus',
                 ],
           )}
         />

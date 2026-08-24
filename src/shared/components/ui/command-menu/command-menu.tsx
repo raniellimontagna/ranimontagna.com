@@ -106,7 +106,7 @@ export function CommandMenu() {
                 heading={
                   <span className="font-bold uppercase tracking-widest">{t('sections')}</span>
                 }
-                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
+                className="px-2 pt-2 pb-1 text-[10px] text-secondary"
               >
                 <Command.Item
                   onSelect={() => navigateTo('#about')}
@@ -149,7 +149,7 @@ export function CommandMenu() {
 
               <Command.Group
                 heading={<span className="font-bold uppercase tracking-widest">{t('theme')}</span>}
-                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
+                className="px-2 pt-2 pb-1 text-[10px] text-secondary"
               >
                 <Command.Item
                   onSelect={() => runCommand(() => setTheme('light'))}
@@ -171,7 +171,7 @@ export function CommandMenu() {
 
               <Command.Group
                 heading={<span className="font-bold uppercase tracking-widest">{t('social')}</span>}
-                className="px-2 pt-2 pb-1 text-[10px] text-muted/60"
+                className="px-2 pt-2 pb-1 text-[10px] text-secondary"
               >
                 {commandSocialLinks.map((social) => {
                   const Icon = social.icon

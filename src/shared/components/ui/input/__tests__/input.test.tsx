@@ -12,7 +12,11 @@ describe('Input Component', () => {
     // Needs id for label association if testing by label, but here asking for placeholder text.
     // However, best practice to provide id.
     render(<Input label="Email" id="email" placeholder="Enter email" />)
-    expect(screen.getByPlaceholderText('Enter email')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Enter email')).toHaveClass('placeholder:text-secondary')
+    expect(screen.getByPlaceholderText('Enter email')).not.toHaveClass(
+      'placeholder:text-muted/50',
+      'dark:placeholder:text-muted/40',
+    )
   })
 
   it('shows error message', () => {

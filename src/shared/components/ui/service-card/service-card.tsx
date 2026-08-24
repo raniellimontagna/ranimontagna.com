@@ -96,7 +96,7 @@ export function ServiceCard({
           className={cn(
             'group/btn flex w-full items-center justify-between gap-2 rounded-full px-5 py-3.5 text-sm font-semibold transition-all duration-300',
             popular
-              ? 'bg-accent text-white hover:bg-accent-strong dark:bg-accent-ice dark:text-background dark:hover:bg-accent-ice/85'
+              ? 'bg-accent text-on-accent hover:shadow-lg dark:bg-accent-ice dark:text-on-accent'
               : 'border border-line bg-surface-strong text-foreground hover:border-foreground/24 hover:bg-foreground hover:text-background',
           )}
         >

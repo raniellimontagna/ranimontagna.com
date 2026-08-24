@@ -29,7 +29,7 @@ export function ErrorContent({
   return (
     <main
       data-spectral-zone="quiet"
-      className="relative flex min-h-screen w-full flex-col selection:bg-accent selection:text-background overflow-x-hidden"
+      className="relative flex min-h-screen w-full flex-col selection:bg-accent selection:text-on-accent overflow-x-hidden"
     >
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 p-4 py-12 sm:gap-8 sm:p-8">
         {/* Main Error Card */}
@@ -87,7 +87,7 @@ export function ErrorContent({
             {errorId && (
               <div className="group mt-8 flex items-center justify-center gap-2">
                 <div className="h-px w-4 bg-line transition-all group-hover:w-8" />
-                <p className="font-mono text-[10px] text-muted/60 uppercase tracking-widest">
+                <p className="font-mono text-[10px] text-secondary uppercase tracking-widest">
                   ID:{' '}
                   <code className="text-muted font-bold transition-colors group-hover:text-foreground">
                     {errorId}

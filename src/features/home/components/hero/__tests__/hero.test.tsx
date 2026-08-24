@@ -51,6 +51,8 @@ describe('Hero Component', () => {
     expect(screen.getByText('seoDescription')).toBeInTheDocument()
     expect(screen.getByText('cta.projects')).toBeInTheDocument()
     expect(screen.getByText('cta.contact')).toBeInTheDocument()
+    expect(screen.getByText('passion.highlight')).toHaveClass('bg-accent', 'text-on-accent')
+    expect(screen.getByText('passion.highlight')).not.toHaveClass('text-white')
   })
 })
 

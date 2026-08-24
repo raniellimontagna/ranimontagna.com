@@ -27,7 +27,7 @@ export default function NotFoundPage() {
           <StaggerItem>
             <div className="flex items-center gap-4">
               <div className="h-px flex-1 bg-line" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-muted/60">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
                 {t('suggestions')}
               </span>
               <div className="h-px flex-1 bg-line" />
@@ -51,7 +51,7 @@ export default function NotFoundPage() {
                   <p className="mb-2 text-[10px] text-muted leading-tight line-clamp-2">
                     {t(`links.${link.key}.description`)}
                   </p>
-                  <span className="inline-flex items-center text-[8px] font-bold uppercase tracking-widest text-accent-strong transition-opacity group-hover:opacity-100 opacity-60">
+                  <span className="inline-flex items-center text-[8px] font-bold uppercase tracking-widest text-accent-strong transition-opacity">
                     {t('visitSection')}
                     <ArrowRight className="ml-1 h-2 w-2 transition-transform group-hover:translate-x-1" />
                   </span>

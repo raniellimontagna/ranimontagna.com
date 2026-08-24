@@ -42,7 +42,7 @@ export async function Hero() {
             <div className="max-w-3xl flex flex-col gap-5">
               <p className="text-lg leading-[1.12] font-medium text-foreground sm:text-xl md:text-3xl lg:text-[2.6rem]">
                 {t('passion.part1')}{' '}
-                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-white dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
+                <span className="inline-block rounded-lg bg-accent px-2 py-0.5 font-bold text-on-accent dark:rounded-none dark:bg-transparent dark:bg-linear-to-r dark:from-accent dark:to-accent-strong dark:bg-clip-text dark:p-0 dark:text-transparent">
                   {t('passion.highlight')}
                 </span>{' '}
                 {t('passion.part2')}
