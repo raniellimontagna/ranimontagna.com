@@ -1,30 +1,8 @@
 import type { Repository } from '../../types/github.types'
-import { getGitHubProjectSnapshot } from '../github.server'
+import { createGitHubProjectSnapshotLoader } from '../github-snapshot'
 
-const { mockListForUser, mockGetByUsername } = vi.hoisted(() => ({
-  mockListForUser: vi.fn(),
-  mockGetByUsername: vi.fn(),
-}))
-
-const { mockOctokit } = vi.hoisted(() => ({
-  mockOctokit: vi.fn(),
-}))
-
-vi.mock('@octokit/rest', () => {
-  // We attach mocks to the prototype to simulate the instance methods
-  mockOctokit.prototype.repos = {
-    listForUser: mockListForUser,
-  }
-  mockOctokit.prototype.users = {
-    getByUsername: mockGetByUsername,
-  }
-  return { Octokit: mockOctokit }
-})
-
-vi.mock('next/cache', () => ({
-  // biome-ignore lint/suspicious/noExplicitAny: Mocking cache wrapper
-  unstable_cache: (fn: any) => fn,
-}))
+const mockListRepositories = vi.fn()
+const mockGetUser = vi.fn()
 
 const mockRepos: Repository[] = [
   {
@@ -36,7 +14,7 @@ const mockRepos: Repository[] = [
     language: 'TypeScript',
     stargazers_count: 100,
     forks_count: 10,
-    updated_at: new Date().toISOString(), // recent
+    updated_at: '2026-08-01T00:00:00Z',
     topics: ['react'],
     fork: false,
   },
@@ -49,7 +27,7 @@ const mockRepos: Repository[] = [
     language: 'JavaScript',
     stargazers_count: 50,
     forks_count: 5,
-    updated_at: new Date().toISOString(), // recent
+    updated_at: '2026-08-01T00:00:00Z',
     topics: [],
     fork: false,
   },
@@ -60,9 +38,9 @@ const mockRepos: Repository[] = [
     html_url: 'url3',
     homepage: null,
     language: 'Go',
-    stargazers_count: 200, // high stars but fork
+    stargazers_count: 200,
     forks_count: 0,
-    updated_at: new Date().toISOString(),
+    updated_at: '2026-08-01T00:00:00Z',
     topics: [],
     fork: true,
   },
@@ -75,7 +53,7 @@ const mockRepos: Repository[] = [
     language: 'Rust',
     stargazers_count: 150,
     forks_count: 0,
-    updated_at: '2020-01-01T00:00:00Z', // old
+    updated_at: '2020-01-01T00:00:00Z',
     topics: [],
     fork: false,
   },
@@ -88,7 +66,7 @@ const mockRepos: Repository[] = [
     language: 'Python',
     stargazers_count: 80,
     forks_count: 2,
-    updated_at: new Date().toISOString(),
+    updated_at: '2026-08-01T00:00:00Z',
     topics: [],
     fork: false,
   },
@@ -101,7 +79,7 @@ const mockRepos: Repository[] = [
     language: 'Java',
     stargazers_count: 90,
     forks_count: 1,
-    updated_at: new Date().toISOString(),
+    updated_at: '2026-08-01T00:00:00Z',
     topics: [],
     fork: false,
   },
@@ -110,50 +88,34 @@ const mockRepos: Repository[] = [
 describe('GitHub project snapshot', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockListRepositories.mockResolvedValue({ data: mockRepos })
+    mockGetUser.mockResolvedValue({ data: { public_repos: 10, followers: 20 } })
   })
 
-  describe('repository filtering', () => {
-    beforeEach(() => {
-      // Mock internal call inside unstable_cache
-      mockListForUser.mockResolvedValue({
-        data: mockRepos,
-      })
-    })
+  const loadSnapshot = () =>
+    createGitHubProjectSnapshotLoader({
+      listRepositories: mockListRepositories,
+      getUser: mockGetUser,
+      now: () => new Date('2026-08-23T00:00:00Z'),
+    })()
 
-    it('filters forks and old repos, and sorts by stars', async () => {
-      mockGetByUsername.mockResolvedValue({ data: { public_repos: 10, followers: 20 } })
+  it('filters forks and stale repositories, then derives every project view', async () => {
+    const snapshot = await loadSnapshot()
 
-      const snapshot = await getGitHubProjectSnapshot()
-
-      // Top 3 should be repo-1, repo-6, repo-5
-      expect(snapshot.featuredRepos.map((repo) => repo.name)).toEqual([
-        'repo-1',
-        'repo-6',
-        'repo-5',
-      ])
-      expect(snapshot.repos.map((repo) => repo.name)).toEqual(['repo-2'])
-      expect(snapshot.languages).toEqual(['Java', 'JavaScript', 'Python', 'TypeScript'])
-    })
+    expect(snapshot.featuredRepos.map((repository) => repository.name)).toEqual([
+      'repo-1',
+      'repo-6',
+      'repo-5',
+    ])
+    expect(snapshot.repos.map((repository) => repository.name)).toEqual(['repo-2'])
+    expect(snapshot.languages).toEqual(['Java', 'JavaScript', 'Python', 'TypeScript'])
   })
 
-  describe('snapshot statistics', () => {
-    it('uses one cold repository request for projects, languages and stars', async () => {
-      mockListForUser.mockResolvedValue({ data: mockRepos })
-      mockGetByUsername.mockResolvedValue({
-        data: {
-          public_repos: 10,
-          followers: 20,
-        },
-      })
+  it('uses one cold repository request for projects, languages and stars', async () => {
+    const snapshot = await loadSnapshot()
 
-      const snapshot = await getGitHubProjectSnapshot()
-
-      // Total stars from valid repos: 100 + 90 + 80 + 50 = 320
-      // (Filtered repos don't count? Logic in github.ts calls fetchRepositories which filters)
-
-      expect(snapshot.stats).toEqual({ public_repos: 10, followers: 20, total_stars: 320 })
-      expect(mockListForUser).toHaveBeenCalledTimes(1)
-      expect(mockGetByUsername).toHaveBeenCalledTimes(1)
-    })
+    expect(snapshot.stats).toEqual({ public_repos: 10, followers: 20, total_stars: 320 })
+    expect(mockListRepositories).toHaveBeenCalledTimes(1)
+    expect(mockGetUser).toHaveBeenCalledTimes(1)
   })
 })
