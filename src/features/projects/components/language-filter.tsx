@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import { useTranslations } from 'next-intl'
-import { LANGUAGE_COLORS } from '@/features/projects/lib/github'
+import { LANGUAGE_COLORS } from '@/features/projects/lib/project-presentation'
 
 interface LanguageFilterProps {
   languages: string[]

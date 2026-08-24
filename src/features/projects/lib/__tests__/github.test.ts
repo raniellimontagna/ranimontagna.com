@@ -1,10 +1,5 @@
-import type { Repository } from '../github'
-import {
-  getFeaturedRepositories,
-  getGitHubStats,
-  getLanguagesFromRepos,
-  getRegularRepositories,
-} from '../github'
+import type { Repository } from '../../types/github.types'
+import { getGitHubProjectSnapshot } from '../github.server'
 
 const { mockListForUser, mockGetByUsername } = vi.hoisted(() => ({
   mockListForUser: vi.fn(),
@@ -112,12 +107,12 @@ const mockRepos: Repository[] = [
   },
 ]
 
-describe('github library', () => {
+describe('GitHub project snapshot', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  describe('getRepositories (internal via consumers)', () => {
+  describe('repository filtering', () => {
     beforeEach(() => {
       // Mock internal call inside unstable_cache
       mockListForUser.mockResolvedValue({
@@ -126,31 +121,23 @@ describe('github library', () => {
     })
 
     it('filters forks and old repos, and sorts by stars', async () => {
-      // We test this via getFeaturedRepositories or getRegularRepositories
-      // Expected to pass: repo-1 (100), repo-2 (50), repo-5 (80), repo-6 (90)
-      // ExpectedFiltered: repo-1 (100), repo-6 (90), repo-5 (80), repo-2 (50)
-      // Filtered out: repo-3 (fork), repo-4 (old)
+      mockGetByUsername.mockResolvedValue({ data: { public_repos: 10, followers: 20 } })
 
-      const featured = await getFeaturedRepositories()
+      const snapshot = await getGitHubProjectSnapshot()
 
       // Top 3 should be repo-1, repo-6, repo-5
-      expect(featured).toHaveLength(3)
-      expect(featured[0].name).toBe('repo-1')
-      expect(featured[1].name).toBe('repo-6')
-      expect(featured[2].name).toBe('repo-5')
-    })
-
-    it('fetches regular repositories correctly', async () => {
-      // Regular should be slice(3, limit+3)
-      // Remaining valid repo is repo-2
-      const regular = await getRegularRepositories()
-      expect(regular).toHaveLength(1)
-      expect(regular[0].name).toBe('repo-2')
+      expect(snapshot.featuredRepos.map((repo) => repo.name)).toEqual([
+        'repo-1',
+        'repo-6',
+        'repo-5',
+      ])
+      expect(snapshot.repos.map((repo) => repo.name)).toEqual(['repo-2'])
+      expect(snapshot.languages).toEqual(['Java', 'JavaScript', 'Python', 'TypeScript'])
     })
   })
 
-  describe('getGitHubStats', () => {
-    it('calculates total stars correctly', async () => {
+  describe('snapshot statistics', () => {
+    it('uses one cold repository request for projects, languages and stars', async () => {
       mockListForUser.mockResolvedValue({ data: mockRepos })
       mockGetByUsername.mockResolvedValue({
         data: {
@@ -159,31 +146,14 @@ describe('github library', () => {
         },
       })
 
-      const stats = await getGitHubStats()
+      const snapshot = await getGitHubProjectSnapshot()
 
       // Total stars from valid repos: 100 + 90 + 80 + 50 = 320
       // (Filtered repos don't count? Logic in github.ts calls fetchRepositories which filters)
 
-      expect(stats.total_stars).toBe(320)
-      expect(stats.followers).toBe(20)
-      expect(stats.public_repos).toBe(10)
-    })
-  })
-
-  describe('getLanguagesFromRepos', () => {
-    it('extracts unique languages from repos', () => {
-      // Valid repos have: TypeScript, Java, Python, JavaScript
-      // We pass filtered repos usually, but unit test can pass any
-      const inputRepos = [
-        { ...mockRepos[0] }, // TypeScript
-        { ...mockRepos[1] }, // JavaScript
-        { ...mockRepos[4] }, // Python
-        { ...mockRepos[5] }, // Java
-        { ...mockRepos[0] }, // Duplicate TypeScript
-      ]
-
-      const languages = getLanguagesFromRepos(inputRepos)
-      expect(languages).toEqual(['Java', 'JavaScript', 'Python', 'TypeScript'])
+      expect(snapshot.stats).toEqual({ public_repos: 10, followers: 20, total_stars: 320 })
+      expect(mockListForUser).toHaveBeenCalledTimes(1)
+      expect(mockGetByUsername).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -1,4 +1,4 @@
-import type { Repository } from '@/features/projects/lib/github'
+import type { Repository } from '@/features/projects/types/github.types'
 import { fireEvent, render, screen } from '@/tests/test-utils'
 import { ProjectsList } from '../projects-list'
 

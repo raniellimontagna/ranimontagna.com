@@ -3,7 +3,7 @@
 import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 import { useRef } from 'react'
-import type { GitHubStats as GitHubStatsType } from '@/features/projects/lib/github'
+import type { GitHubStats as GitHubStatsType } from '@/features/projects/types/github.types'
 import { CountUp } from '@/shared/components/animations'
 
 interface GitHubStatsProps {

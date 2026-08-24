@@ -1,4 +1,4 @@
-import type { Repository } from '@/features/projects/lib/github'
+import type { Repository } from '@/features/projects/types/github.types'
 import { render, screen } from '@/tests/test-utils'
 import { FeaturedProject } from '../featured-project'
 

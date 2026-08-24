@@ -1,10 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { CTASection, GitHubStats, ProjectsList } from '@/features/projects/components'
-import {
-  getFeaturedRepositories,
-  getGitHubStats,
-  getRegularRepositories,
-} from '@/features/projects/lib/github'
+import { getGitHubProjectSnapshot } from '@/features/projects/lib/github.server'
 import { BlurReveal, FadeIn, RevealText } from '@/shared/components/animations'
 import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
@@ -62,11 +58,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
     ? rawPoints.filter((point): point is string => typeof point === 'string')
     : []
 
-  const [featuredRepos, repos, stats] = await Promise.all([
-    getFeaturedRepositories(),
-    getRegularRepositories(27), // 27 + 3 featured = 30 total
-    getGitHubStats(),
-  ])
+  const { featuredRepos, repos, stats } = await getGitHubProjectSnapshot()
 
   return (
     <div

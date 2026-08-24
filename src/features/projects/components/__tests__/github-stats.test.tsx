@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import type { GitHubStats as GitHubStatsType } from '@/features/projects/lib/github'
+import type { GitHubStats as GitHubStatsType } from '@/features/projects/types/github.types'
 import { render, screen } from '@/tests/test-utils'
 import { GitHubStats } from '../github-stats'
 

@@ -1,16 +1,19 @@
 import ProjectsPage from '@/app/[locale]/projects/page'
+import { getGitHubProjectSnapshot } from '@/features/projects/lib/github.server'
 import { render, screen } from '@/tests/test-utils'
 
 // Mocks
-vi.mock('@/features/projects/lib/github', () => ({
-  getFeaturedRepositories: vi.fn().mockResolvedValue([]),
-  getRegularRepositories: vi.fn().mockResolvedValue([]),
-  getGitHubStats: vi.fn().mockResolvedValue({
-    public_repos: 50,
-    followers: 10,
-    total_stars: 100,
+vi.mock('@/features/projects/lib/github.server', () => ({
+  getGitHubProjectSnapshot: vi.fn().mockResolvedValue({
+    featuredRepos: [],
+    repos: [],
+    languages: [],
+    stats: {
+      public_repos: 50,
+      followers: 10,
+      total_stars: 100,
+    },
   }),
-  getLanguagesFromRepos: vi.fn().mockReturnValue([]),
 }))
 
 vi.mock('next-intl/server', () => ({
@@ -41,5 +44,6 @@ describe('Projects Page', () => {
     // Check projects list headers (mock returns key strings)
     expect(screen.getByText('filterByLanguage')).toBeInTheDocument()
     expect(screen.getByText('allProjectsTitle')).toBeInTheDocument()
+    expect(getGitHubProjectSnapshot).toHaveBeenCalledTimes(1)
   })
 })

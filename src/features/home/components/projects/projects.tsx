@@ -128,7 +128,12 @@ export function Projects() {
                         region: t('carousel.region'),
                         pause: t('carousel.pause'),
                         resume: t('carousel.resume'),
-                        slide: (index, total) => t('carousel.slide', { index, total }),
+                        slides: leadProjectImages.map((_, index) =>
+                          t('carousel.slide', {
+                            index: index + 1,
+                            total: leadProjectImages.length,
+                          }),
+                        ),
                       }}
                     />
                   ) : (

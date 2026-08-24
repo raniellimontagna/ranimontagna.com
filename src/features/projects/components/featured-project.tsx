@@ -5,22 +5,14 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { motion, useInView, useReducedMotion } from 'motion/react'
 import { useTranslations } from 'next-intl'
 import { useRef } from 'react'
-import type { Repository } from '@/features/projects/lib/github'
-import { LANGUAGE_COLORS } from '@/features/projects/lib/github'
+import { hexToRgba, LANGUAGE_COLORS } from '@/features/projects/lib/project-presentation'
+import type { Repository } from '@/features/projects/types/github.types'
 
 dayjs.extend(relativeTime)
 
 interface FeaturedProjectProps {
   repo: Repository
   index: number
-}
-
-// Convert hex to rgba for background opacity
-const hexToRgba = (hex: string, alpha: number) => {
-  const r = Number.parseInt(hex.slice(1, 3), 16)
-  const g = Number.parseInt(hex.slice(3, 5), 16)
-  const b = Number.parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
 export function FeaturedProject({ repo, index }: FeaturedProjectProps) {

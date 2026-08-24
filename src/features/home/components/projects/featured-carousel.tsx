@@ -9,7 +9,7 @@ type CarouselLabels = {
   region: string
   pause: string
   resume: string
-  slide: (index: number, total: number) => string
+  slides?: string[]
 }
 
 type FeaturedCarouselProps = {
@@ -22,7 +22,6 @@ const DEFAULT_LABELS: CarouselLabels = {
   region: 'Image carousel',
   pause: 'Pause carousel',
   resume: 'Resume carousel',
-  slide: (index, total) => `View image ${index} of ${total}`,
 }
 
 export function FeaturedCarousel({ images, alt, labels = DEFAULT_LABELS }: FeaturedCarouselProps) {
@@ -134,7 +133,7 @@ export function FeaturedCarousel({ images, alt, labels = DEFAULT_LABELS }: Featu
               key={src}
               type="button"
               onClick={() => goTo(index)}
-              aria-label={labels.slide(index + 1, images.length)}
+              aria-label={labels.slides?.[index] ?? `View image ${index + 1} of ${images.length}`}
               aria-pressed={index === active}
               className={`relative min-h-8 min-w-8 overflow-hidden rounded-md border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:rounded-lg ${
                 index === active

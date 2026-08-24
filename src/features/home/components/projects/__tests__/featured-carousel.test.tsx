@@ -175,7 +175,7 @@ describe('FeaturedCarousel', () => {
           region: 'Carrusel de imágenes',
           pause: 'Pausar carrusel',
           resume: 'Reanudar carrusel',
-          slide: (index, total) => `Ver imagen ${index} de ${total}`,
+          slides: ['Ver imagen 1 de 3', 'Ver imagen 2 de 3', 'Ver imagen 3 de 3'],
         }}
       />,
     )
