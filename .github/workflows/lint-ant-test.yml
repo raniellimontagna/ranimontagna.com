@@ -41,26 +41,34 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
-      # Performance (only on push to main)
       - name: Build project
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: pnpm build
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Run Lighthouse audit
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           pnpm start &
-          SERVER_PID=$!
-          sleep 8
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl -fsS http://localhost:3000/ >/dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              echo "Next.js server did not become ready"
+              exit 1
+            fi
+            sleep 2
+          done
           pnpm lighthouse:ci
-          kill $SERVER_PID
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Upload Lighthouse reports
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-reports

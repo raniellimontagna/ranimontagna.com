@@ -19,12 +19,23 @@ export default defineConfig({
         'src/**/*.test.{ts,tsx}',
         'src/**/*.spec.{ts,tsx}',
         'src/tests/**',
-        'src/app/**',
+        'src/app/**/page.tsx',
+        'src/app/**/layout.tsx',
+        'src/app/**/head.tsx',
+        'src/app/**/loading.tsx',
+        'src/app/**/error.tsx',
+        'src/app/**/not-found.tsx',
         'src/**/*.types.ts',
         'src/**/index.ts',
         'src/proxy.ts', // Next.js middleware, no testable logic
         'src/middleware.ts', // Next.js middleware
       ],
+      thresholds: {
+        statements: 86,
+        branches: 78,
+        functions: 86,
+        lines: 87,
+      },
     },
   },
   resolve: {

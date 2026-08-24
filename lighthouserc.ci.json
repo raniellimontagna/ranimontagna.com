@@ -1,19 +1,69 @@
 {
   "ci": {
     "collect": {
-      "url": ["http://localhost:3000"],
-      "numberOfRuns": 1,
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/en/projects",
+        "http://localhost:3000/en/blog",
+        "http://localhost:3000/en/blog/um-novo-capitulo-na-lemon"
+      ],
+      "numberOfRuns": 3,
       "settings": {
-        "chromeFlags": "--no-sandbox --disable-dev-shm-usage --disable-gpu",
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage",
         "onlyCategories": ["performance", "seo", "accessibility"]
       }
     },
     "assert": {
-      "assertions": {
-        "categories:performance": ["warn", { "minScore": 0.7 }],
-        "categories:accessibility": ["error", { "minScore": 0.85 }],
-        "categories:seo": ["error", { "minScore": 0.9 }]
-      }
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": "^http://localhost:3000/(?:en)?$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 0.85 }],
+            "categories:accessibility": ["error", { "minScore": 0.9 }],
+            "categories:seo": ["error", { "minScore": 0.9 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 5000 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 200 }],
+            "resource-summary:script:size": ["error", { "maxNumericValue": 800000 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^http://localhost:3000/en/projects$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 0.85 }],
+            "categories:accessibility": ["error", { "minScore": 0.9 }],
+            "categories:seo": ["error", { "minScore": 0.9 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 5500 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 250 }],
+            "resource-summary:script:size": ["error", { "maxNumericValue": 880000 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^http://localhost:3000/en/blog$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 0.85 }],
+            "categories:accessibility": ["error", { "minScore": 0.9 }],
+            "categories:seo": ["error", { "minScore": 0.9 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 6500 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 250 }],
+            "resource-summary:script:size": ["error", { "maxNumericValue": 1020000 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^http://localhost:3000/en/blog/um-novo-capitulo-na-lemon$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 0.85 }],
+            "categories:accessibility": ["error", { "minScore": 0.9 }],
+            "categories:seo": ["error", { "minScore": 0.9 }],
+            "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+            "largest-contentful-paint": ["error", { "maxNumericValue": 6000 }],
+            "total-blocking-time": ["error", { "maxNumericValue": 250 }],
+            "resource-summary:script:size": ["error", { "maxNumericValue": 1040000 }]
+          }
+        }
+      ]
     },
     "upload": {
       "target": "temporary-public-storage"
