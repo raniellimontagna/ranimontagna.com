@@ -23,13 +23,21 @@ vi.mock('web-vitals', () => ({
 }))
 
 describe('WebVitals Component', () => {
-  // Save original window properties
   const originalGtag = window.gtag
   const originalVa = window.va
 
+  const metric: Metric = {
+    name: 'CLS',
+    value: 0.1,
+    id: 'v1-123',
+    rating: 'good',
+    delta: 0.1,
+    entries: [],
+    navigationType: 'navigate',
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
-    // Reset window mocks
     window.gtag = vi.fn()
     window.va = vi.fn()
   })
@@ -40,9 +48,26 @@ describe('WebVitals Component', () => {
     vi.unstubAllEnvs()
   })
 
-  it('registers all metrics listeners on mount', () => {
-    render(<WebVitals />)
-    // Check that mocking functions were called (meaning the component called onCLS etc.)
+  it('is inert without both a measurement ID and explicit consent', () => {
+    const intervalSpy = vi.spyOn(window, 'setInterval')
+
+    const first = render(<WebVitals measurementId="G-TEST" />)
+    first.unmount()
+    render(<WebVitals consentGranted />)
+
+    expect(mockOnCLS).not.toHaveBeenCalled()
+    expect(mockOnFCP).not.toHaveBeenCalled()
+    expect(mockOnLCP).not.toHaveBeenCalled()
+    expect(mockOnTTFB).not.toHaveBeenCalled()
+    expect(mockOnINP).not.toHaveBeenCalled()
+    expect(intervalSpy).not.toHaveBeenCalled()
+
+    intervalSpy.mockRestore()
+  })
+
+  it('registers all five metrics only when measurement is enabled', () => {
+    render(<WebVitals measurementId="G-TEST" consentGranted />)
+
     expect(mockOnCLS).toHaveBeenCalled()
     expect(mockOnFCP).toHaveBeenCalled()
     expect(mockOnLCP).toHaveBeenCalled()
@@ -50,70 +75,24 @@ describe('WebVitals Component', () => {
     expect(mockOnINP).toHaveBeenCalled()
   })
 
-  it('sends metrics to gtag if available', () => {
-    render(<WebVitals />)
-
-    // Extract the callback passed to onCLS
+  it('sends metrics through the consented gtag provider', () => {
+    render(<WebVitals measurementId="G-TEST" consentGranted />)
     const callback = mockOnCLS.mock.calls[0][0]
-
-    const metric: Metric = {
-      name: 'CLS',
-      value: 0.1,
-      id: 'v1-123',
-      rating: 'good',
-      delta: 0.1,
-      entries: [],
-      navigationType: 'navigate',
-    }
 
     callback(metric)
 
     expect(window.gtag).toHaveBeenCalledWith('event', 'CLS', {
       event_category: 'Web Vitals',
       event_label: 'v1-123',
-      value: 100, // 0.1 * 1000
+      send_to: 'G-TEST',
+      value: 100,
     })
   })
 
-  it('queues and flushes metrics when analytics loads later', () => {
-    vi.useFakeTimers()
-
-    window.gtag = undefined as unknown as Window['gtag']
-    window.va = undefined
-
-    render(<WebVitals />)
-
-    const callback = mockOnINP.mock.calls[0][0]
-    const metric: Metric = {
-      name: 'INP',
-      value: 120,
-      id: 'v4-100',
-      rating: 'good',
-      delta: 120,
-      entries: [],
-      navigationType: 'navigate',
-    }
-
-    callback(metric)
-
-    const lateGtag = vi.fn()
-    window.gtag = lateGtag
-
-    vi.advanceTimersByTime(1000)
-
-    expect(lateGtag).toHaveBeenCalledWith('event', 'INP', {
-      event_category: 'Web Vitals',
-      event_label: 'v4-100',
-      value: 120,
-    })
-
-    vi.useRealTimers()
-  })
-
-  it('sends metrics to va (Vercel) if available', () => {
-    render(<WebVitals />)
+  it('sends metrics to an existing Vercel provider under the same consent gate', () => {
+    render(<WebVitals measurementId="G-TEST" consentGranted />)
     const callback = mockOnFCP.mock.calls[0][0]
-    const metric: Metric = {
+    const fcpMetric: Metric = {
       name: 'FCP',
       value: 1000,
       id: 'v2-456',
@@ -123,7 +102,7 @@ describe('WebVitals Component', () => {
       navigationType: 'navigate',
     }
 
-    callback(metric)
+    callback(fcpMetric)
 
     expect(window.va).toHaveBeenCalledWith('track', 'Web Vitals', {
       metric: 'FCP',
@@ -132,13 +111,24 @@ describe('WebVitals Component', () => {
     })
   })
 
-  it('does not emit console noise in development', () => {
-    vi.stubEnv('NODE_ENV', 'development')
+  it('does not dispatch a stale callback after cleanup', () => {
+    const { unmount } = render(<WebVitals measurementId="G-TEST" consentGranted />)
+    const callback = mockOnCLS.mock.calls[0][0]
+
+    unmount()
+    callback(metric)
+
+    expect(window.gtag).not.toHaveBeenCalled()
+    expect(window.va).not.toHaveBeenCalled()
+  })
+
+  it('does not poll or emit console noise', () => {
+    const intervalSpy = vi.spyOn(window, 'setInterval')
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    render(<WebVitals />)
+    render(<WebVitals measurementId="G-TEST" consentGranted />)
     const callback = mockOnLCP.mock.calls[0][0]
-    const metric: Metric = {
+    const lcpMetric: Metric = {
       name: 'LCP',
       value: 2000,
       id: 'v3-789',
@@ -148,10 +138,12 @@ describe('WebVitals Component', () => {
       navigationType: 'navigate',
     }
 
-    callback(metric)
+    callback(lcpMetric)
 
+    expect(intervalSpy).not.toHaveBeenCalled()
     expect(consoleSpy).not.toHaveBeenCalled()
 
+    intervalSpy.mockRestore()
     consoleSpy.mockRestore()
   })
 })

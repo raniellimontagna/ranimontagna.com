@@ -3,28 +3,21 @@
 import { useEffect } from 'react'
 import { type Metric, onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 
-const pendingMetrics: Metric[] = []
-const MAX_PENDING_METRICS = 50
-
-function hasAnalyticsProvider() {
-  return typeof window !== 'undefined' && (Boolean(window.gtag) || Boolean(window.va))
+type WebVitalsProps = {
+  consentGranted?: boolean
+  measurementId?: string
 }
 
-function pushPendingMetric(metric: Metric) {
-  if (pendingMetrics.length >= MAX_PENDING_METRICS) {
-    pendingMetrics.shift()
-  }
-
-  pendingMetrics.push(metric)
-}
-
-function sendMetric(metric: Metric) {
+function sendMetric(metric: Metric, measurementId: string) {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', metric.name, {
+    const config = {
       event_category: 'Web Vitals',
       event_label: metric.id,
+      send_to: measurementId,
       value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-    })
+    }
+
+    window.gtag('event', metric.name, config)
   }
 
   if (typeof window !== 'undefined' && window.va) {
@@ -36,43 +29,29 @@ function sendMetric(metric: Metric) {
   }
 }
 
-function flushPendingMetrics() {
-  if (!hasAnalyticsProvider() || pendingMetrics.length === 0) {
-    return
-  }
-
-  while (pendingMetrics.length > 0) {
-    const metric = pendingMetrics.shift()
-    if (metric) {
-      sendMetric(metric)
-    }
-  }
-}
-
-function sendToAnalytics(metric: Metric) {
-  if (!hasAnalyticsProvider()) {
-    pushPendingMetric(metric)
-    return
-  }
-
-  sendMetric(metric)
-}
-
-export function WebVitals() {
+export function WebVitals({ consentGranted = false, measurementId }: WebVitalsProps) {
   useEffect(() => {
-    onCLS(sendToAnalytics)
-    onFCP(sendToAnalytics)
-    onLCP(sendToAnalytics)
-    onTTFB(sendToAnalytics)
-    onINP(sendToAnalytics)
+    if (!consentGranted || !measurementId) {
+      return
+    }
 
-    flushPendingMetrics()
-    const interval = window.setInterval(flushPendingMetrics, 1000)
+    let active = true
+    const reportMetric = (metric: Metric) => {
+      if (active) {
+        sendMetric(metric, measurementId)
+      }
+    }
+
+    onCLS(reportMetric)
+    onFCP(reportMetric)
+    onLCP(reportMetric)
+    onTTFB(reportMetric)
+    onINP(reportMetric)
 
     return () => {
-      window.clearInterval(interval)
+      active = false
     }
-  }, [])
+  }, [consentGranted, measurementId])
 
   return null
 }

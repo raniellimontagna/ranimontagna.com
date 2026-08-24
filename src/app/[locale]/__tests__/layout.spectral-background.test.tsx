@@ -20,6 +20,12 @@ vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
   SpectralBackground: () => <div data-testid="spectral-background" />,
 }))
 
+vi.mock('@/shared/components/web-vitals/web-vitals', () => ({
+  WebVitals: ({ consentGranted }: { consentGranted?: boolean }) => (
+    <div data-consent-granted={String(Boolean(consentGranted))} data-testid="web-vitals" />
+  ),
+}))
+
 describe('LocaleLayout spectral background', () => {
   it('mounts the shared background exactly once before locale content', async () => {
     const layout = await LocaleLayout({
@@ -35,6 +41,20 @@ describe('LocaleLayout spectral background', () => {
     expect(bodyChildren[0]?.getAttribute('href')).toBe('#main-content')
     expect(bodyChildren[1]?.getAttribute('data-testid')).toBe('spectral-background')
     expect(bodyChildren[2]?.getAttribute('data-testid')).toBe('locale-content')
+  })
+
+  it('mounts one inert metrics bridge until explicit consent exists', async () => {
+    const layout = await LocaleLayout({
+      children: <main id="main-content">Content</main>,
+      params: Promise.resolve({ locale: 'pt' }),
+    })
+
+    const markup = renderToStaticMarkup(layout)
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    const bridges = document.querySelectorAll('[data-testid="web-vitals"]')
+
+    expect(bridges).toHaveLength(1)
+    expect(bridges[0]?.getAttribute('data-consent-granted')).toBe('false')
   })
 
   it('renders a localized first-focusable skip link to the page main target', async () => {
