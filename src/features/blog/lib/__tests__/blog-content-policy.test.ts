@@ -30,9 +30,9 @@ describe('blog content policy', () => {
   it('fails closed when published is missing', () => {
     const { published: _published, ...frontmatterWithoutPublicationState } = validFrontmatter
 
-    expect(() =>
-      validateBlogFrontmatter(frontmatterWithoutPublicationState, '2026-08-22'),
-    ).toThrow('Invalid blog frontmatter')
+    expect(() => validateBlogFrontmatter(frontmatterWithoutPublicationState, '2026-08-22')).toThrow(
+      'Invalid blog frontmatter',
+    )
   })
 
   it('normalizes the exact UTC Date produced by the YAML parser', () => {
@@ -101,9 +101,9 @@ flowchart LR
   it('rejects prohibited nodes at the Remark AST compiler boundary', () => {
     const transform = remarkBlogContentPolicy()
 
-    expect(() =>
-      transform({ type: 'root', children: [{ type: 'mdxJsxFlowElement' }] }),
-    ).toThrow('Unsafe blog content')
+    expect(() => transform({ type: 'root', children: [{ type: 'mdxJsxFlowElement' }] })).toThrow(
+      'Unsafe blog content',
+    )
     expect(() =>
       transform({ type: 'root', children: [{ type: 'paragraph', children: [{ type: 'text' }] }] }),
     ).not.toThrow()

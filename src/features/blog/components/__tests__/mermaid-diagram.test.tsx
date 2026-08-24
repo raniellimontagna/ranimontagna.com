@@ -252,9 +252,7 @@ describe('MermaidDiagram Component', () => {
         diagramType: 'graph' as const,
       })
 
-      rerender(
-        <MermaidDiagram chart="graph TD\nNew --> Chart" loadMermaid={loadMermaid} />,
-      )
+      rerender(<MermaidDiagram chart="graph TD\nNew --> Chart" loadMermaid={loadMermaid} />)
 
       await waitFor(() => {
         const oldSvg = container.querySelector('[data-testid="mermaid-svg"]')

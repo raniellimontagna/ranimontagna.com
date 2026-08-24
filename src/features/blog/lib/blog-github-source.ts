@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest'
 import matter from 'gray-matter'
-import { validateBlogFrontmatter } from './blog-content-policy'
 import type { BlogContentSource, PostDocument, PostIndexEntry } from './blog.types'
+import { validateBlogFrontmatter } from './blog-content-policy'
 
 interface GitHubFile {
   name: string

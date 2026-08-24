@@ -3,8 +3,8 @@ import type { Post, PostSummary } from '../blog.types'
 
 const { mockRepositoryGetAllPosts, mockRepositoryGetPostBySlug, unstableCacheKeys } = vi.hoisted(
   () => ({
-  mockRepositoryGetAllPosts: vi.fn(),
-  mockRepositoryGetPostBySlug: vi.fn(),
+    mockRepositoryGetAllPosts: vi.fn(),
+    mockRepositoryGetPostBySlug: vi.fn(),
     unstableCacheKeys: [] as string[][],
   }),
 )

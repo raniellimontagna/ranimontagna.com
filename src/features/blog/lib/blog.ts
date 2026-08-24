@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache'
-import { BLOG_CONTENT_POLICY_VERSION } from './blog-content-policy'
 import type { PostSummary } from './blog.types'
+import { BLOG_CONTENT_POLICY_VERSION } from './blog-content-policy'
 import { createBlogRepository } from './blog-repository'
 
 export type { Post, PostSummary } from './blog.types'

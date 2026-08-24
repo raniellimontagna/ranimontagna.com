@@ -29,9 +29,9 @@ export function ImageWithLightbox({
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [loadFailed, setLoadFailed] = useState(false)
-  const [Viewer, setViewer] = useState<ComponentType<React.ComponentProps<LightboxComponent>> | null>(
-    null,
-  )
+  const [Viewer, setViewer] = useState<ComponentType<
+    React.ComponentProps<LightboxComponent>
+  > | null>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const prefersReducedMotion = useReducedMotion()
   const t = useTranslations('blog')
@@ -108,7 +108,10 @@ export function ImageWithLightbox({
           </span>
         )}
         {loadFailed && (
-          <span role="alert" className="mt-3 block text-center text-sm text-red-700 dark:text-red-300">
+          <span
+            role="alert"
+            className="mt-3 block text-center text-sm text-red-700 dark:text-red-300"
+          >
             {t('viewerError')}
           </span>
         )}

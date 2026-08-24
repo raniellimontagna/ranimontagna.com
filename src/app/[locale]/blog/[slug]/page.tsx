@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getTranslations } from 'next-intl/server'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import {
   ImageWithLightbox,

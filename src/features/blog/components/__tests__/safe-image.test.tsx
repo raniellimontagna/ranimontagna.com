@@ -2,12 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { SafeImage } from '../safe-image'
 
 vi.mock('next/image', () => ({
-  default: ({
-    fill: _fill,
-    priority: _priority,
-    alt,
-    ...props
-  }: Record<string, unknown>) => (
+  default: ({ fill: _fill, priority: _priority, alt, ...props }: Record<string, unknown>) => (
     // biome-ignore lint/performance/noImgElement: test double for next/image
     <img alt={String(alt ?? '')} {...props} />
   ),

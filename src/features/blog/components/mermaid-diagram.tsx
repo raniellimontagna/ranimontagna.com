@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { useEffect, useRef, useState } from 'react'
 
 type MermaidApi = typeof import('mermaid').default
 type MermaidLoader = () => Promise<MermaidApi>
@@ -51,7 +51,8 @@ export function MermaidDiagram({ chart, loadMermaid = loadDefaultMermaid }: Merm
       try {
         const mermaid = await loadMermaid()
         if (cancelled || !containerRef.current) return
-        const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+        const reducedMotion =
+          window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
         mermaid.initialize({
           startOnLoad: false,
           theme: 'default',

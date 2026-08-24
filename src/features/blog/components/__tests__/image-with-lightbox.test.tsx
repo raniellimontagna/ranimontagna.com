@@ -121,9 +121,7 @@ describe('ImageWithLightbox Component', () => {
   describe('Lightbox Interaction', () => {
     it('loads the viewer only after activation', async () => {
       const loadLightbox = vi.fn(async () => (await import('yet-another-react-lightbox')).default)
-      render(
-        <ImageWithLightbox src={mockSrc} alt={mockAlt} loadLightbox={loadLightbox} />,
-      )
+      render(<ImageWithLightbox src={mockSrc} alt={mockAlt} loadLightbox={loadLightbox} />)
 
       expect(loadLightbox).not.toHaveBeenCalled()
       expect(screen.queryByTestId('lightbox')).not.toBeInTheDocument()
