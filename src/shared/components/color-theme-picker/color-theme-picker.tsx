@@ -21,6 +21,8 @@ export function ColorThemePicker() {
   const { colorTheme, setColorTheme, theme, mounted } = useTheme()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const selectedRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -29,10 +31,14 @@ export function ColorThemePicker() {
       }
     }
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') {
+        setOpen(false)
+        triggerRef.current?.focus()
+      }
     }
 
     if (open) {
+      selectedRef.current?.focus()
       document.addEventListener('mousedown', handleClickOutside)
       document.addEventListener('keydown', handleEscape)
     }
@@ -53,36 +59,50 @@ export function ColorThemePicker() {
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(!open)}
         className="group relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl text-muted transition-all duration-300 hover:bg-surface-strong hover:text-accent-strong active:scale-90"
         aria-label="Change color theme"
+        aria-expanded={open}
+        aria-controls="color-theme-options"
       >
         <Palette className="h-5 w-5" />
         <div className="absolute inset-0 -z-10 bg-accent/5 opacity-0 transition-opacity group-hover:opacity-100" />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3">
-          <p className="mb-3 px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+        <fieldset
+          id="color-theme-options"
+          className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3"
+        >
+          <legend className="mb-3 w-full px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
             Color theme
-          </p>
+          </legend>
           <div className="grid grid-cols-3 gap-2">
             {COLOR_THEMES.map((t) => {
               const isActive = colorTheme === t.id
               const color = isDark ? t.swatchDark : t.swatch
               return (
-                <button
+                <label
                   key={t.id}
-                  type="button"
-                  onClick={() => {
-                    setColorTheme(t.id)
-                    setOpen(false)
-                  }}
-                  className={`group/item flex flex-col items-center gap-1.5 rounded-xl px-1 py-2 transition-colors ${
+                  className={`group/item flex cursor-pointer flex-col items-center gap-1.5 rounded-xl px-1 py-2 transition-colors focus-within:outline-3 focus-within:outline-offset-1 focus-within:outline-[var(--focus-ring)] ${
                     isActive ? 'bg-accent/12' : 'hover:bg-surface'
                   }`}
                 >
+                  <input
+                    ref={isActive ? selectedRef : undefined}
+                    type="radio"
+                    name="color-theme"
+                    value={t.id}
+                    checked={isActive}
+                    onChange={() => {
+                      setColorTheme(t.id)
+                      setOpen(false)
+                      triggerRef.current?.focus()
+                    }}
+                    className="sr-only"
+                  />
                   <span
                     className={`flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all ${
                       isActive ? 'scale-110 shadow-md' : 'group-hover/item:scale-105'
@@ -107,11 +127,11 @@ export function ColorThemePicker() {
                   >
                     {t.label}
                   </span>
-                </button>
+                </label>
               )
             })}
           </div>
-        </div>
+        </fieldset>
       )}
     </div>
   )

@@ -19,8 +19,6 @@ import { getPathname, Link, usePathname } from '@/shared/config/i18n/navigation'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
 
-const LOAD_HOME_SECTIONS_EVENT = 'home-sections:load'
-
 type NavigationItem = {
   name: string
   href: string
@@ -80,11 +78,6 @@ export const Header = ({
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    } else {
-      window.dispatchEvent(new Event(LOAD_HOME_SECTIONS_EVENT))
-      window.setTimeout(() => {
-        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 0)
     }
     setIsMenuOpen(false)
   }
@@ -119,7 +112,7 @@ export const Header = ({
   return (
     <header
       data-header-state={headerState}
-      className="fixed top-0 right-0 left-0 z-50 px-4 pt-4 sm:px-6 lg:px-8"
+      className="fixed top-0 right-0 left-0 z-50 pt-[max(1rem,var(--safe-top))] pr-[max(1rem,var(--safe-right))] pl-[max(1rem,var(--safe-left))] sm:pr-[max(1.5rem,var(--safe-right))] sm:pl-[max(1.5rem,var(--safe-left))] lg:pr-[max(2rem,var(--safe-right))] lg:pl-[max(2rem,var(--safe-left))]"
     >
       <nav
         className={`mx-auto max-w-7xl rounded-3xl border px-2 py-2 transition-all duration-500 sm:rounded-4xl sm:px-3 sm:py-3 ${
@@ -241,6 +234,8 @@ export const Header = ({
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                aria-controls="shared-mobile-navigation"
                 className="surface-panel relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-foreground transition-all hover:bg-surface-strong"
                 aria-label={t('mobileMenu.toggleAriaLabel')}
               >
@@ -255,33 +250,32 @@ export const Header = ({
           </div>
         </div>
 
-        <div
-          className={`overflow-hidden transition-all duration-300 xl:hidden ${
-            isMenuOpen
-              ? 'mt-3 max-h-100 border-t border-line pt-4 pb-2 opacity-100'
-              : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="flex flex-col gap-1">
-            {navigation.map((item) =>
-              renderNavigationItem(
-                item,
-                'block w-full rounded-2xl px-4 py-3 text-left font-medium text-foreground hover:bg-surface-strong',
-              ),
-            )}
+        {!title && isMenuOpen ? (
+          <div
+            id="shared-mobile-navigation"
+            className="mt-3 border-t border-line pt-4 pb-2 xl:hidden"
+          >
+            <div className="flex flex-col gap-1">
+              {navigation.map((item) =>
+                renderNavigationItem(
+                  item,
+                  'block w-full rounded-2xl px-4 py-3 text-left font-medium text-foreground hover:bg-surface-strong',
+                ),
+              )}
 
-            <div className="mt-4 px-2 pb-2">
-              <a
-                href={resumeLink.href}
-                download={resumeLink.filename}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-5 text-sm font-semibold text-background shadow-soft transition-all active:scale-95"
-              >
-                <Download className="h-4 w-4" />
-                {resumeLink.name}
-              </a>
+              <div className="mt-4 px-2 pb-2">
+                <a
+                  href={resumeLink.href}
+                  download={resumeLink.filename}
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-5 text-sm font-semibold text-background shadow-soft transition-all active:scale-95"
+                >
+                  <Download className="h-4 w-4" />
+                  {resumeLink.name}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </nav>
     </header>
   )

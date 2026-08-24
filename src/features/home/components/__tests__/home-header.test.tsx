@@ -38,8 +38,8 @@ vi.mock('@/shared/config/i18n/navigation', () => ({
 }))
 
 vi.mock('../home-header-controls', () => ({
-  HomeHeaderControls: () => (
-    <div data-testid="home-header-controls">
+  HomeHeaderControls: (props: Record<string, unknown>) => (
+    <div data-testid="home-header-controls" data-props={JSON.stringify(props)}>
       <button type="button" aria-label="Open command palette">
         Command
       </button>
@@ -55,6 +55,22 @@ describe('HomeHeader', () => {
 
     expect(screen.getByTestId('home-header-controls')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /open command palette/i })).toBeInTheDocument()
+    expect(screen.getByTestId('home-header-row')).toHaveClass('min-w-0')
+  })
+
+  it.each([320, 375, 390])('uses the compact control contract at %ipx', async (width) => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: width })
+    const header = await HomeHeader({ locale: 'en' })
+
+    const { unmount } = render(header)
+
+    expect(screen.getByRole('banner')).toHaveClass(
+      'pt-[max(1rem,var(--safe-top))]',
+      'pr-[max(1rem,var(--safe-right))]',
+      'pl-[max(1rem,var(--safe-left))]',
+    )
+    expect(screen.getByTestId('home-header-controls').dataset.props).toContain('resumeLink')
+    unmount()
   })
 
   it('does not prefetch the blog route from the initial home header', async () => {

@@ -46,13 +46,45 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         duration: prefersReducedMotion ? 0 : 0.6,
         ease: [0.19, 1, 0.22, 1],
       }}
+      className="group h-full"
     >
-      <a
-        href={repo.html_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="surface-panel group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line p-4 transition-all sm:rounded-4xl sm:p-5 lg:p-6 hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
-      >
+      <article className="surface-panel relative flex h-full flex-col overflow-hidden rounded-3xl border border-line p-4 transition-all sm:rounded-4xl sm:p-5 lg:p-6 group-hover:-translate-y-1 group-hover:border-foreground/20 group-hover:bg-surface group-hover:shadow-xl group-focus-within:border-foreground/30 group-focus-within:shadow-xl">
+        <a
+          href={repo.html_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={repo.name}
+          className="absolute inset-1 z-10 rounded-[calc(1.5rem-0.25rem)] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] sm:rounded-[calc(2rem-0.25rem)]"
+        >
+          <span className="sr-only">{repo.name}</span>
+        </a>
+
+        {repo.homepage && (
+          <a
+            href={repo.homepage}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface text-muted opacity-0 transition-all duration-300 hover:bg-background hover:text-foreground focus:opacity-100 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)] group-hover:opacity-100 group-focus-within:opacity-100 sm:top-5 sm:right-5 lg:top-6 lg:right-6"
+            aria-label={t('visitSite')}
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+            <span className="sr-only">{t('visitSite')}</span>
+          </a>
+        )}
+
         <div
           className="absolute -top-12 -right-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"
           style={{ background: `linear-gradient(to bottom right, ${languageColor}, transparent)` }}
@@ -85,34 +117,6 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               </h3>
             </div>
           </div>
-
-          {repo.homepage && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                window.open(repo.homepage as string, '_blank', 'noopener,noreferrer')
-              }}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface text-muted opacity-0 transition-all duration-300 hover:bg-background hover:text-foreground group-hover:opacity-100"
-              aria-label={t('visitSite')}
-            >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            </button>
-          )}
         </div>
 
         <p className="relative z-10 mb-6 line-clamp-2 grow text-sm leading-relaxed text-muted">
@@ -179,7 +183,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
             </div>
           )}
         </div>
-      </a>
+      </article>
     </motion.div>
   )
 }

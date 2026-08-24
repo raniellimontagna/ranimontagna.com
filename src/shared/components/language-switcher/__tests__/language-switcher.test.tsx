@@ -60,7 +60,10 @@ describe('LanguageSwitcher', () => {
     fireEvent.click(button)
 
     expect(screen.getByText('Select Language')).toBeInTheDocument()
-    expect(screen.getByRole('menu')).toBeInTheDocument()
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(button).toHaveAttribute('aria-controls', 'language-picker-options')
+    expect(screen.getByRole('group', { name: 'Select Language' })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: /English/i })).toBeChecked()
     expect(screen.getByText('English')).toBeInTheDocument()
     expect(screen.getByText('Português')).toBeInTheDocument()
   })
@@ -69,22 +72,24 @@ describe('LanguageSwitcher', () => {
     render(<LanguageSwitcher />)
     const button = screen.getByRole('button', { name: /Change language/i })
     fireEvent.click(button)
-    expect(screen.getByRole('menu')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Select Language' })).toBeInTheDocument()
 
     fireEvent.mouseDown(document.body)
     await waitFor(() => {
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+      expect(screen.queryByRole('group', { name: 'Select Language' })).not.toBeInTheDocument()
     })
   })
 
   it('closes menu on Escape key', async () => {
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
-    expect(screen.getByRole('menu')).toBeInTheDocument()
+    const trigger = screen.getByRole('button', { name: /Change language/i })
+    expect(screen.getByRole('group', { name: 'Select Language' })).toBeInTheDocument()
 
     fireEvent.keyDown(document, { key: 'Escape' })
     await waitFor(() => {
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+      expect(screen.queryByRole('group', { name: 'Select Language' })).not.toBeInTheDocument()
+      expect(trigger).toHaveFocus()
     })
   })
 
@@ -92,26 +97,29 @@ describe('LanguageSwitcher', () => {
     mockUsePathname.mockReturnValue('/about') // Path WITHOUT locale prefix (next-intl behaviour)
 
     render(<LanguageSwitcher />)
-    fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
+    const trigger = screen.getByRole('button', { name: /Change language/i })
+    expect(trigger).not.toHaveAttribute('aria-haspopup')
+    fireEvent.click(trigger)
 
-    const ptButton = screen.getByRole('menuitem', { name: /Português/i })
+    const ptButton = screen.getByRole('radio', { name: /Português/i })
     fireEvent.click(ptButton)
 
     // next-intl router.replace handles locale prefix logic internally
     expect(mockReplace).toHaveBeenCalledWith('/about', { locale: 'pt' })
+    expect(trigger).toHaveFocus()
   })
 
   it('closes menu when overlay is clicked', async () => {
     render(<LanguageSwitcher />)
     fireEvent.click(screen.getByRole('button', { name: /Change language/i }))
-    expect(screen.getByRole('menu')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Select Language' })).toBeInTheDocument()
 
     // Click the overlay (backdrop)
     const overlay = screen.getByLabelText('Close menu')
     fireEvent.click(overlay)
 
     await waitFor(() => {
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+      expect(screen.queryByRole('group', { name: 'Select Language' })).not.toBeInTheDocument()
     })
   })
 })

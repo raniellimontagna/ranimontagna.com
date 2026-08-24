@@ -1,4 +1,3 @@
-import { Download } from '@solar-icons/react/ssr'
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/shared/config/i18n/navigation'
@@ -20,10 +19,13 @@ export async function HomeHeader({ locale }: HomeHeaderProps) {
   ]
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 right-0 left-0 z-50 pt-[max(1rem,var(--safe-top))] pr-[max(1rem,var(--safe-right))] pl-[max(1rem,var(--safe-left))] sm:pr-[max(1.5rem,var(--safe-right))] sm:pl-[max(1.5rem,var(--safe-left))] lg:pr-[max(2rem,var(--safe-right))] lg:pl-[max(2rem,var(--safe-left))]">
       <nav className="mx-auto max-w-7xl rounded-3xl border border-white/20 bg-white/45 px-2 py-2 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] backdrop-blur-2xl sm:rounded-4xl sm:px-3 sm:py-3 dark:border-white/10 dark:bg-white/6">
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent-ice to-transparent opacity-60" />
-        <div className="flex items-center justify-between gap-3">
+        <div
+          data-testid="home-header-row"
+          className="flex min-w-0 items-center justify-between gap-2 sm:gap-3"
+        >
           <a
             href="#start"
             className="group flex min-w-0 items-center gap-3 rounded-[1.4rem] px-2 py-1.5"
@@ -75,18 +77,10 @@ export async function HomeHeader({ locale }: HomeHeaderProps) {
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <HomeHeaderControls />
-            <a
-              href={resumeLink.href}
-              download={resumeLink.filename}
-              className="inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-line bg-foreground px-4 text-sm font-semibold text-background shadow-soft transition-all hover:bg-foreground/90 sm:px-5"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">{resumeLink.name}</span>
-              <span className="sm:hidden">CV</span>
-            </a>
-          </div>
+          <HomeHeaderControls
+            resumeLink={resumeLink}
+            labels={{ command: t('controls.command'), more: t('controls.more') }}
+          />
         </div>
       </nav>
     </header>

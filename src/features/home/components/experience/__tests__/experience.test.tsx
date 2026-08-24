@@ -152,4 +152,15 @@ describe('Experience', () => {
     expect(screen.getAllByText('highlight 1').length).toBeGreaterThan(0)
     expect(screen.getAllByText('highlight 2').length).toBeGreaterThan(0)
   })
+
+  it('shows keyboard focus on the visible mobile company selector', () => {
+    const { container } = render(<Experience />)
+    const radio = container.querySelector<HTMLInputElement>('[data-experience-mobile-input="1"]')
+    const label = radio?.closest('label')
+
+    expect(label).toHaveAttribute('data-experience-mobile-dot', 'true')
+    expect(label).toHaveClass('focus-within:ring-3', 'focus-within:ring-ring')
+    radio?.focus()
+    expect(radio).toHaveFocus()
+  })
 })

@@ -26,6 +26,10 @@
     "mobileMenu": {
       "toggleAriaLabel": "Alternar menú"
     },
+    "controls": {
+      "command": "Abrir paleta de comandos",
+      "more": "Más opciones"
+    },
     "themeToggle": {
       "ariaLabel": "Cambiar a modo {mode}",
       "tooltip": "Cambiar a modo {mode}"
@@ -504,6 +508,7 @@
   },
   "chat": {
     "title": "Rani",
+    "dialogDescription": "Chat con el asistente de IA de Rani",
     "status": "Versión IA · Online",
     "betaNotice": "La IA puede equivocarse y usar proveedores de respaldo. No envíes datos personales, confidenciales ni sensibles.",
     "fabTooltip": "Habla con mi yo digital",

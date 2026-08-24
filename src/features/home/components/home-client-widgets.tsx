@@ -59,6 +59,7 @@ export function HomeClientWidgets() {
       ) : (
         <button
           type="button"
+          data-chat-launcher
           onClick={openChat}
           aria-label={t('fabTooltip')}
           className="fixed right-[max(1.5rem,var(--safe-right))] bottom-[max(1.5rem,var(--safe-bottom))] z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-emerald-500/25 transition-transform hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95"

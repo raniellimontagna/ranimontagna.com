@@ -166,11 +166,16 @@ describe('Header Component', () => {
     render(<Header />)
     const menuButton = screen.getByLabelText('mobileMenu.toggleAriaLabel')
 
+    expect(menuButton).toHaveAttribute('aria-expanded', 'false')
+    expect(menuButton).toHaveAttribute('aria-controls', 'shared-mobile-navigation')
+    expect(screen.getAllByText('navigation.about')).toHaveLength(1)
+
     fireEvent.click(menuButton)
 
-    // Mobile menu should be visible
-    const mobileNav = screen.getAllByText('navigation.about')[1] // Second one is in mobile menu
+    expect(menuButton).toHaveAttribute('aria-expanded', 'true')
+    const mobileNav = screen.getAllByText('navigation.about')[1]
     expect(mobileNav).toBeInTheDocument()
+    expect(mobileNav.closest('#shared-mobile-navigation')).toBeInTheDocument()
   })
 
   it('scrolls to section when navigation item clicked on home page', () => {
@@ -254,9 +259,11 @@ describe('Header Component', () => {
     const mobileAbout = screen.getAllByText('navigation.about')[1]
     fireEvent.click(mobileAbout)
 
-    // Menu should close (check that max-h-0 class is applied)
-    const mobileMenuContainer = mobileAbout.closest('div')?.parentElement
-    expect(mobileMenuContainer).toHaveClass('max-h-0')
+    expect(screen.getAllByText('navigation.about')).toHaveLength(1)
+    expect(screen.getByLabelText('mobileMenu.toggleAriaLabel')).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    )
   })
 
   it('handles scroll event listener cleanup', () => {

@@ -16,6 +16,8 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
   return (
     <div className="flex flex-wrap items-center gap-2">
       <motion.button
+        type="button"
+        aria-pressed={selected === null}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => onSelect(null)}
@@ -31,6 +33,8 @@ export function LanguageFilter({ languages, selected, onSelect }: LanguageFilter
         const color = LANGUAGE_COLORS[language] || '#6b7280'
         return (
           <motion.button
+            type="button"
+            aria-pressed={selected === language}
             key={language}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

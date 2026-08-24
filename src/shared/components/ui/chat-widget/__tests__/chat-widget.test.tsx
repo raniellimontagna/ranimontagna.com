@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { ChatMessage, ChatState } from '@/shared/store/use-chat/use-chat.types'
 import { act, fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import enMessages from '../../../../../../messages/en.json'
@@ -114,7 +115,7 @@ describe('ChatWidget', () => {
     vi.useRealTimers()
   })
 
-  it('renders the FAB when closed and toggles the widget', () => {
+  it('renders the FAB when closed and opens the widget through the dialog trigger', () => {
     const chatState = createChatState()
     mocks.useChat.mockReturnValue(chatState)
 
@@ -122,10 +123,11 @@ describe('ChatWidget', () => {
 
     const fabButton = screen.getByRole('button', { name: 'fabTooltip' })
     expect(fabButton).toBeInTheDocument()
+    expect(fabButton).toHaveAttribute('data-chat-launcher')
 
     fireEvent.click(fabButton)
 
-    expect(chatState.toggle).toHaveBeenCalledTimes(1)
+    expect(chatState.setOpen).toHaveBeenCalledWith(true)
   })
 
   it('renders the welcome state, focuses the input and sends suggestion prompts', () => {
@@ -136,10 +138,13 @@ describe('ChatWidget', () => {
 
     render(<ChatWidget />)
 
-    expect(screen.getByRole('dialog', { name: 'title' })).toBeInTheDocument()
+    const dialog = screen.getByRole('dialog', { name: 'title' })
+    expect(dialog).toBeInTheDocument()
+    expect(dialog).toHaveAttribute('aria-describedby')
     expect(screen.getByText('welcome')).toBeInTheDocument()
     expect(screen.getByText('welcomeSubtitle')).toBeInTheDocument()
     expect(screen.getByText('betaNotice')).toBeInTheDocument()
+    expect(screen.getByAltText('Rani')).toHaveAttribute('src', '/images/avatar-112.webp')
 
     fireEvent.click(screen.getByRole('button', { name: 'suggestions.skills' }))
 
@@ -297,23 +302,59 @@ describe('ChatWidget', () => {
     expect(chatState.sendMessage).not.toHaveBeenCalled()
   })
 
-  it('closes from overlay, outside click and Escape key', () => {
+  it('closes from an outside press and Escape key', () => {
     const chatState = createChatState({ isOpen: true })
     mocks.useChat.mockReturnValue(chatState)
 
-    const { container } = render(<ChatWidget />)
+    render(<ChatWidget />)
 
-    const overlay = container.querySelector('.sm\\:hidden')
-    expect(overlay).toBeTruthy()
+    fireEvent.click(screen.getByTestId('chat-overlay'))
+    expect(chatState.setOpen).toHaveBeenCalledWith(false)
 
-    fireEvent.click(overlay as Element)
-    fireEvent.mouseDown(document.body)
+    vi.mocked(chatState.setOpen).mockClear()
     fireEvent.keyDown(document, { key: 'Escape' })
 
-    expect(chatState.setOpen).toHaveBeenCalledTimes(3)
-    expect(chatState.setOpen).toHaveBeenNthCalledWith(1, false)
-    expect(chatState.setOpen).toHaveBeenNthCalledWith(2, false)
-    expect(chatState.setOpen).toHaveBeenNthCalledWith(3, false)
+    expect(chatState.setOpen).toHaveBeenCalledWith(false)
+  })
+
+  it('makes background controls unavailable while the modal is open', () => {
+    const chatState = createChatState({ isOpen: true })
+    mocks.useChat.mockReturnValue(chatState)
+
+    render(
+      <div>
+        <button type="button">Outside action</button>
+        <ChatWidget />
+      </div>,
+    )
+
+    const outside = screen.getByRole('button', { name: 'Outside action', hidden: true })
+    expect(outside.closest('[aria-hidden="true"]')).toBeInTheDocument()
+    expect(screen.getByRole('dialog', { name: 'title' })).toBeInTheDocument()
+  })
+
+  it('restores focus to the launcher after Escape closes the dialog', async () => {
+    mocks.useChat.mockImplementation(() => {
+      const [isOpen, setOpen] = useState(false)
+      return createChatState({ isOpen, setOpen })
+    })
+
+    render(<ChatWidget />)
+
+    const launcher = screen.getByRole('button', { name: 'fabTooltip' })
+    fireEvent.click(launcher)
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog', { name: 'title' })).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'placeholder' })).toHaveFocus()
+    })
+
+    fireEvent.keyDown(document, { key: 'Escape' })
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'title' })).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'fabTooltip' })).toHaveFocus()
+    })
   })
 
   it('keeps the widget open when the click happens inside the panel', () => {
@@ -338,8 +379,8 @@ describe('ChatWidget', () => {
     })
     mocks.useChat.mockReturnValue(chatState)
 
-    const { container } = render(<ChatWidget />)
+    render(<ChatWidget />)
 
-    expect(container.querySelectorAll('[class*="bg-slate-400"]').length).toBe(3)
+    expect(document.querySelectorAll('[class*="bg-slate-400"]').length).toBe(3)
   })
 })

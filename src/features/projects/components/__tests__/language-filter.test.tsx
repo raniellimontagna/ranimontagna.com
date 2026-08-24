@@ -70,6 +70,7 @@ describe('LanguageFilter', () => {
 
     const allButton = screen.getByText('filters.all')
     expect(allButton).toHaveClass('bg-foreground')
+    expect(allButton.closest('button')).toHaveAttribute('aria-pressed', 'true')
   })
 
   it('applies selected styling to language button when that language is selected', () => {
@@ -77,6 +78,11 @@ describe('LanguageFilter', () => {
 
     const tsButton = screen.getByText('TypeScript')
     expect(tsButton).toHaveClass('bg-foreground')
+    expect(tsButton.closest('button')).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByText('JavaScript').closest('button')).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    )
   })
 
   it('renders language color indicators', () => {

@@ -1,5 +1,5 @@
 import type { Repository } from '@/features/projects/types/github.types'
-import { fireEvent, render, screen } from '@/tests/test-utils'
+import { render, screen } from '@/tests/test-utils'
 import { ProjectCard } from '../project-card'
 
 // Mock next-intl
@@ -57,7 +57,7 @@ describe('ProjectCard', () => {
   it('renders repository name and description', () => {
     render(<ProjectCard repo={mockRepo} index={0} />)
 
-    expect(screen.getByText('test-repo')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'test-repo' })).toBeInTheDocument()
     expect(screen.getByText('A test repository')).toBeInTheDocument()
   })
 
@@ -74,14 +74,15 @@ describe('ProjectCard', () => {
     expect(screen.getByText('TypeScript')).toBeInTheDocument()
   })
 
-  it('renders homepage button when homepage is available', () => {
+  it('renders homepage link when homepage is available', () => {
     render(<ProjectCard repo={mockRepo} index={0} />)
 
-    const homepageButton = screen.getByLabelText('visitSite')
-    expect(homepageButton).toBeInTheDocument()
+    const homepageLink = screen.getByRole('link', { name: 'visitSite' })
+    expect(homepageLink).toHaveAttribute('href', 'https://test-repo.com')
+    expect(homepageLink).toHaveClass('group-focus-within:opacity-100')
   })
 
-  it('does not render homepage button when homepage is not available', () => {
+  it('does not render homepage link when homepage is not available', () => {
     const repoWithoutHomepage = { ...mockRepo, homepage: null }
     render(<ProjectCard repo={repoWithoutHomepage} index={0} />)
 
@@ -89,21 +90,13 @@ describe('ProjectCard', () => {
     expect(homepageButton).not.toBeInTheDocument()
   })
 
-  it('opens homepage in new window when homepage button is clicked', () => {
-    const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
-
+  it('keeps repository and homepage actions as sibling links', () => {
     render(<ProjectCard repo={mockRepo} index={0} />)
 
-    const homepageButton = screen.getByLabelText('visitSite')
-    fireEvent.click(homepageButton)
-
-    expect(windowOpenSpy).toHaveBeenCalledWith(
-      'https://test-repo.com',
-      '_blank',
-      'noopener,noreferrer',
-    )
-
-    windowOpenSpy.mockRestore()
+    const repositoryLink = screen.getByRole('link', { name: 'test-repo' })
+    const homepageLink = screen.getByRole('link', { name: 'visitSite' })
+    expect(repositoryLink).not.toContainElement(homepageLink)
+    expect(repositoryLink.parentElement).toBe(homepageLink.parentElement)
   })
 
   it('renders topics (max 3 visible)', () => {
@@ -133,5 +126,6 @@ describe('ProjectCard', () => {
 
     const link = container.querySelector('a[href="https://github.com/user/test-repo"]')
     expect(link).toBeInTheDocument()
+    expect(link).toHaveClass('focus-visible:outline-3')
   })
 })

@@ -230,18 +230,6 @@ export function Experience() {
                   </p>
                 </div>
 
-                {items.map((_, index) => (
-                  <input
-                    key={`experience-mobile-input-${index}`}
-                    id={`experience-mobile-${index}`}
-                    type="radio"
-                    name="experience-mobile-company"
-                    className="sr-only"
-                    defaultChecked={index === 0}
-                    data-experience-mobile-input={index}
-                  />
-                ))}
-
                 <div className="mb-3 flex min-h-10 items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
                     {items.map((exp, index) => (
@@ -254,7 +242,15 @@ export function Experience() {
                         data-active={index === 0}
                         aria-label={`${exp.company} - ${exp.period}`}
                       >
-                        {String(index + 1).padStart(2, '0')}
+                        <input
+                          id={`experience-mobile-${index}`}
+                          type="radio"
+                          name="experience-mobile-company"
+                          className="sr-only"
+                          defaultChecked={index === 0}
+                          data-experience-mobile-input={index}
+                        />
+                        <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                       </label>
                     ))}
                   </div>
