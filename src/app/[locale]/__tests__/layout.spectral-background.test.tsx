@@ -57,6 +57,23 @@ describe('LocaleLayout spectral background', () => {
     expect(bridges[0]?.getAttribute('data-consent-granted')).toBe('false')
   })
 
+  it.each(['pt', 'en', 'es'])('renders one canonical Person and WebSite entity for %s', async (locale) => {
+    const layout = await LocaleLayout({
+      children: <main id="main-content">Content</main>,
+      params: Promise.resolve({ locale }),
+    })
+
+    const markup = renderToStaticMarkup(layout)
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    const entities = [...document.querySelectorAll('script[type="application/ld+json"]')].map(
+      (script) => JSON.parse(script.textContent ?? '{}') as { '@id'?: string; '@type'?: string },
+    )
+
+    expect(entities.filter((entity) => entity['@type'] === 'Person')).toHaveLength(1)
+    expect(entities.filter((entity) => entity['@type'] === 'WebSite')).toHaveLength(1)
+    expect(entities.find((entity) => entity['@type'] === 'Person')?.['@id']).toMatch(/#person$/)
+  })
+
   it('renders a localized first-focusable skip link to the page main target', async () => {
     const layout = await LocaleLayout({
       children: <main id="main-content">Content</main>,

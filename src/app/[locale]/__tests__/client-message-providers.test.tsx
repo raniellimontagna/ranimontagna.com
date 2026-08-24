@@ -96,10 +96,17 @@ describe('route-scoped client message providers', () => {
   it('serializes only home client-island namespaces on the home route', async () => {
     const page = await HomePage({ params: Promise.resolve({ locale: 'en' }) })
     const [messages] = readProviderMessages(page)
+    const markup = renderToStaticMarkup(page)
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    const profilePage = document.querySelector('script[type="application/ld+json"]')
 
     expect(messages).toEqual(getClientMessages(enMessages, 'home'))
     expect(messages).not.toHaveProperty('blog')
     expect(messages).not.toHaveProperty('projectsPage')
+    expect(JSON.parse(profilePage?.textContent ?? '{}')).toMatchObject({
+      '@type': 'ProfilePage',
+      mainEntity: { '@type': 'Person' },
+    })
   })
 
   it('serializes only project client-island namespaces on the projects route', async () => {

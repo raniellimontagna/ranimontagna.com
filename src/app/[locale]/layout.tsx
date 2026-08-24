@@ -8,6 +8,7 @@ import { WebVitals } from '@/shared/components/web-vitals/web-vitals'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
 
@@ -101,6 +102,8 @@ export default async function LocaleLayout({ children, params }: Props) {
     getMessages({ locale }),
     getTranslations({ locale, namespace: 'accessibility' }),
   ])
+  const personJsonLd = generatePersonJsonLd(locale)
+  const websiteJsonLd = generateWebsiteJsonLd(locale)
 
   return (
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
@@ -122,6 +125,16 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
         </NextIntlClientProvider>
         <WebVitals measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        <script
+          data-jsonld="person"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(personJsonLd) }}
+        />
+        <script
+          data-jsonld="website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
+        />
       </body>
     </html>
   )
