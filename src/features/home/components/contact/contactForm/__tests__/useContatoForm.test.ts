@@ -120,6 +120,32 @@ describe('useContactForm', () => {
     expect(result.current.errors.message).toBeDefined()
   })
 
+  it('focuses the first invalid visible field after validation fails', async () => {
+    const { result } = renderHook(() => useContactForm())
+    const submit = vi.fn()
+    const focusByName = {
+      email: vi.fn(),
+      message: vi.fn(),
+      name: vi.fn(),
+      subject: vi.fn(),
+    }
+
+    await act(async () => {
+      await result.current.handleSubmit(submit)({
+        preventDefault: vi.fn(),
+        currentTarget: {
+          elements: {
+            namedItem: (name: keyof typeof focusByName) => ({ focus: focusByName[name] }),
+          },
+        },
+      } as unknown as FormEvent<HTMLFormElement>)
+    })
+
+    expect(focusByName.name).toHaveBeenCalledOnce()
+    expect(focusByName.email).not.toHaveBeenCalled()
+    expect(submit).not.toHaveBeenCalled()
+  })
+
   it('normalizes valid form data before submit', async () => {
     const { result } = renderHook(() => useContactForm())
     const submit = vi.fn()

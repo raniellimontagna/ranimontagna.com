@@ -508,6 +508,7 @@
   "chat": {
     "title": "Rani",
     "dialogDescription": "Chat com o assistente de IA do Rani",
+    "messagesLabel": "Mensagens da conversa",
     "status": "Versão IA · Online",
     "betaNotice": "IA pode errar e usar provedores de fallback. Não envie dados pessoais, confidenciais ou sensíveis.",
     "fabTooltip": "Fale com meu eu digital",

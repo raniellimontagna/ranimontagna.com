@@ -25,7 +25,7 @@ const { useContactForm: mockUseContactForm } = await import('../useContatoForm')
 describe('ContactForm Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockRegister.mockReturnValue({})
+    mockRegister.mockImplementation((name: string) => ({ name }))
     // biome-ignore lint/suspicious/noExplicitAny: Mock implementation
     mockHandleSubmit.mockImplementation((fn) => (e: any) => {
       e?.preventDefault()
@@ -55,6 +55,14 @@ describe('ContactForm Component', () => {
     expect(mockRegister).toHaveBeenCalledWith('subject')
     expect(mockRegister).toHaveBeenCalledWith('message')
     expect(mockRegister).toHaveBeenCalledWith('website')
+    expect(screen.getByRole('textbox', { name: 'name.label' })).toHaveAttribute(
+      'autocomplete',
+      'name',
+    )
+    expect(screen.getByRole('textbox', { name: 'email.label' })).toHaveAttribute(
+      'autocomplete',
+      'email',
+    )
   })
 
   it('displays submit button in idle state', () => {
@@ -88,8 +96,10 @@ describe('ContactForm Component', () => {
 
     render(<ContactForm />)
 
-    expect(screen.getByText('successTitle')).toBeInTheDocument()
-    expect(screen.getByText('success')).toBeInTheDocument()
+    const status = screen.getByRole('status')
+    expect(status).toHaveTextContent('successTitle')
+    expect(status).toHaveTextContent('success')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
   it('displays error message when status is error', () => {
@@ -100,8 +110,10 @@ describe('ContactForm Component', () => {
 
     render(<ContactForm />)
 
-    expect(screen.getByText('errorTitle')).toBeInTheDocument()
-    expect(screen.getByText('error')).toBeInTheDocument()
+    const alert = screen.getByRole('alert')
+    expect(alert).toHaveTextContent('errorTitle')
+    expect(alert).toHaveTextContent('error')
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 
   it('displays validation errors', () => {
@@ -117,5 +129,13 @@ describe('ContactForm Component', () => {
 
     expect(mockT).toHaveBeenCalledWith('validation.name')
     expect(mockT).toHaveBeenCalledWith('validation.email')
+    expect(screen.getByRole('textbox', { name: 'name.label' })).toHaveAttribute(
+      'aria-invalid',
+      'true',
+    )
+    expect(screen.getByRole('textbox', { name: 'name.label' })).toHaveAttribute(
+      'aria-describedby',
+      'name-error',
+    )
   })
 })

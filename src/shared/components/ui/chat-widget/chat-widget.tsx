@@ -54,8 +54,11 @@ export const ChatWidget = (): React.ReactElement => {
   const { isOpen, setOpen, messages, isLoading, error, sendMessage, clearMessages } = useChat()
 
   const [input, setInput] = useState('')
+  const [completionAnnouncement, setCompletionAnnouncement] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const wasLoadingRef = useRef(isLoading)
+  const lastMessage = messages.at(-1)
 
   const scrollToBottom = useCallback((): void => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -72,6 +75,20 @@ export const ChatWidget = (): React.ReactElement => {
   useEffect(() => {
     if (isOpen && (messages.length > 0 || isLoading)) scrollToBottom()
   }, [isLoading, isOpen, messages.length, scrollToBottom])
+
+  useEffect(() => {
+    const wasLoading = wasLoadingRef.current
+    wasLoadingRef.current = isLoading
+
+    if (isLoading || !lastMessage) {
+      setCompletionAnnouncement(null)
+      return
+    }
+
+    if (wasLoading && lastMessage.role === 'assistant' && lastMessage.content) {
+      setCompletionAnnouncement(lastMessage.content)
+    }
+  }, [isLoading, lastMessage])
 
   const handleSend = async (): Promise<void> => {
     const trimmed = input.trim()
@@ -253,21 +270,37 @@ export const ChatWidget = (): React.ReactElement => {
                       </div>
                     </div>
                   ) : (
-                    <>
+                    <div
+                      role="log"
+                      aria-label={t('messagesLabel')}
+                      aria-busy={isLoading}
+                      aria-relevant="additions"
+                      className="flex flex-col gap-3"
+                    >
                       {messages.map((message) => (
                         <MessageBubble key={message.id} message={message} />
                       ))}
                       {isLoading && messages[messages.length - 1]?.content === '' && (
                         <TypingIndicator />
                       )}
-                    </>
+                    </div>
                   )}
 
                   {error && (
-                    <div className="rounded-2xl border border-red-500/20 bg-red-500/8 px-3 py-2 text-xs text-red-600 dark:text-red-300">
+                    <div
+                      role="alert"
+                      aria-atomic="true"
+                      className="rounded-2xl border border-red-500/20 bg-red-500/8 px-3 py-2 text-xs text-red-600 dark:text-red-300"
+                    >
                       {t('error')}
                     </div>
                   )}
+
+                  {completionAnnouncement ? (
+                    <div role="status" aria-atomic="true" className="sr-only">
+                      {completionAnnouncement}
+                    </div>
+                  ) : null}
 
                   <div ref={setMessagesEnd} />
                 </div>

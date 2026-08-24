@@ -18,6 +18,7 @@ export function ContactForm() {
         <Input
           label={t('name.label')}
           placeholder={t('name.placeholder')}
+          autoComplete="name"
           error={errors.name ? t('validation.name') : undefined}
           {...register('name')}
         />
@@ -26,6 +27,7 @@ export function ContactForm() {
           type="email"
           label={t('email.label')}
           placeholder={t('email.placeholder')}
+          autoComplete="email"
           error={errors.email ? t('validation.email') : undefined}
           {...register('email')}
         />
@@ -77,7 +79,11 @@ export function ContactForm() {
 
       {/* Success Message */}
       {submitStatus === 'success' && (
-        <div className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-800/50 dark:bg-emerald-900/20">
+        <div
+          role="status"
+          aria-atomic="true"
+          className="flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-800/50 dark:bg-emerald-900/20"
+        >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
             <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
           </div>
@@ -92,7 +98,11 @@ export function ContactForm() {
 
       {/* Error Message */}
       {submitStatus === 'error' && (
-        <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
+        <div
+          role="alert"
+          aria-atomic="true"
+          className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20"
+        >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
             <DangerCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
           </div>

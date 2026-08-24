@@ -182,6 +182,8 @@ describe('ChatWidget', () => {
       'https://www.linkedin.com/in/rannimontagna',
     )
     expect(screen.getByText('error')).toBeInTheDocument()
+    expect(screen.getByRole('log', { name: 'messagesLabel' })).toBeInTheDocument()
+    expect(screen.getAllByRole('alert')).toHaveLength(1)
 
     fireEvent.click(screen.getByRole('button', { name: 'clear' }))
     fireEvent.click(screen.getByRole('button', { name: 'close' }))
@@ -382,5 +384,37 @@ describe('ChatWidget', () => {
     render(<ChatWidget />)
 
     expect(document.querySelectorAll('[class*="bg-slate-400"]').length).toBe(3)
+  })
+
+  it('announces a completed assistant response once without announcing partial tokens', async () => {
+    const userMessage = createMessage({ content: 'Pergunta', id: 'user-complete', role: 'user' })
+    const chatState = createChatState({
+      isLoading: true,
+      isOpen: true,
+      messages: [userMessage, createMessage({ content: '', id: 'assistant-complete' })],
+    })
+    mocks.useChat.mockReturnValue(chatState)
+
+    const { rerender } = render(<ChatWidget />)
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+    chatState.messages = [
+      userMessage,
+      createMessage({ content: 'Resposta parcial', id: 'assistant-complete' }),
+    ]
+    rerender(<ChatWidget />)
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+    chatState.isLoading = false
+    chatState.messages = [
+      userMessage,
+      createMessage({ content: 'Resposta completa', id: 'assistant-complete' }),
+    ]
+    rerender(<ChatWidget />)
+
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent('Resposta completa')
+    })
+    expect(screen.getAllByRole('status')).toHaveLength(1)
   })
 })

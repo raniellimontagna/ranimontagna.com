@@ -96,7 +96,23 @@ export function useContactForm(): UseContactFormReturn {
       const validationErrors = validate(data)
 
       setErrors(validationErrors)
-      if (Object.keys(validationErrors).length > 0) return
+      if (Object.keys(validationErrors).length > 0) {
+        const firstInvalidField = (['name', 'email', 'subject', 'message'] as const).find(
+          (field) => validationErrors[field],
+        )
+        const invalidControl = firstInvalidField
+          ? event?.currentTarget?.elements.namedItem(firstInvalidField)
+          : null
+
+        if (
+          invalidControl &&
+          'focus' in invalidControl &&
+          typeof invalidControl.focus === 'function'
+        ) {
+          invalidControl.focus()
+        }
+        return
+      }
 
       await handler(data)
     },
