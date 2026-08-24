@@ -204,6 +204,7 @@ export function Experience() {
             </FadeIn>
 
             <RevealText
+              as="h2"
               text={`${t('title.part1')} ${t('title.part2')}`}
               className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:max-w-none lg:whitespace-nowrap lg:text-4xl xl:text-[2.75rem]"
             />

@@ -128,6 +128,44 @@ describe('SpectralBackground', () => {
     await waitFor(() => expect(loader).not.toHaveBeenCalled())
   })
 
+  it('waits for the activation scheduler before importing the canvas', async () => {
+    const loader = createLoader()
+    let activate: (() => void) | undefined
+    const cancel = vi.fn()
+
+    render(
+      <SpectralBackground
+        canvasLoader={loader}
+        activationScheduler={(callback) => {
+          activate = callback
+          return cancel
+        }}
+      />,
+    )
+
+    expect(loader).not.toHaveBeenCalled()
+    await act(async () => activate?.())
+    await waitFor(() => expect(loader).toHaveBeenCalledOnce())
+  })
+
+  it('keeps the fallback on routes without a visible spectral surface', async () => {
+    const loader = createLoader()
+
+    render(
+      <SpectralBackground
+        pathname="/en/not-a-visual-route"
+        canvasLoader={loader}
+        activationScheduler={(callback) => {
+          callback()
+          return () => undefined
+        }}
+      />,
+    )
+
+    expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
+    await waitFor(() => expect(loader).not.toHaveBeenCalled())
+  })
+
   it.each([
     ['mobile', { coarsePointer: true, reducedMotion: false }, 1440],
     ['mobile', { coarsePointer: false, reducedMotion: false }, 767],

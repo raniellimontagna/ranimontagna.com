@@ -2,7 +2,11 @@
 
 import { type ComponentType, useEffect, useRef, useState } from 'react'
 import type { SpectralMode, SpectralVeilCanvasProps } from './spectral-background.types'
-import { resolveSpectralMode, supportsWebGl } from './spectral-background.utils'
+import {
+  resolveSpectralMode,
+  shouldActivateSpectral,
+  supportsWebGl,
+} from './spectral-background.utils'
 import { SpectralFallback } from './spectral-fallback'
 
 export type SpectralCanvasLoader = () => Promise<{
@@ -14,10 +18,33 @@ const loadSpectralCanvas: SpectralCanvasLoader = () =>
 
 type SpectralBackgroundProps = {
   canvasLoader?: SpectralCanvasLoader
+  pathname?: string
+  activationScheduler?: (callback: () => void) => () => void
 }
 
-export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: SpectralBackgroundProps) {
+function scheduleCanvasActivation(callback: () => void) {
+  let idleId: number | undefined
+  const timeoutId = window.setTimeout(() => {
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(callback, { timeout: 1800 })
+    } else {
+      callback()
+    }
+  }, 700)
+
+  return () => {
+    window.clearTimeout(timeoutId)
+    if (idleId !== undefined && 'cancelIdleCallback' in window) window.cancelIdleCallback(idleId)
+  }
+}
+
+export function SpectralBackground({
+  canvasLoader = loadSpectralCanvas,
+  pathname,
+  activationScheduler = scheduleCanvasActivation,
+}: SpectralBackgroundProps) {
   const [mode, setMode] = useState<SpectralMode>('static')
+  const [activationReady, setActivationReady] = useState(false)
   const [CanvasComponent, setCanvasComponent] =
     useState<ComponentType<SpectralVeilCanvasProps> | null>(null)
   const [permanentFailure, setPermanentFailure] = useState(false)
@@ -30,6 +57,22 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
     let frame: number | null = null
 
     const updateMode = () => {
+      const navigatorWithHints = navigator as Navigator & {
+        connection?: { saveData?: boolean }
+        deviceMemory?: number
+      }
+      const canActivate = shouldActivateSpectral({
+        pathname: pathname ?? window.location.pathname,
+        saveData: navigatorWithHints.connection?.saveData === true,
+        deviceMemory: navigatorWithHints.deviceMemory,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+      })
+
+      if (!canActivate) {
+        setMode('static')
+        return
+      }
+
       webGlSupport.current ??= supportsWebGl(document)
       setMode(
         resolveSpectralMode({
@@ -59,10 +102,16 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
       window.removeEventListener('resize', queueModeUpdate)
       if (frame !== null) window.cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [pathname])
 
   useEffect(() => {
-    if (mode === 'static' || CanvasComponent || permanentFailure) return
+    if (mode === 'static' || permanentFailure || activationReady) return
+
+    return activationScheduler(() => setActivationReady(true))
+  }, [activationReady, activationScheduler, mode, permanentFailure])
+
+  useEffect(() => {
+    if (!activationReady || mode === 'static' || CanvasComponent || permanentFailure) return
 
     let isMounted = true
     canvasLoadPromise.current ??= canvasLoader()
@@ -76,7 +125,7 @@ export function SpectralBackground({ canvasLoader = loadSpectralCanvas }: Spectr
     return () => {
       isMounted = false
     }
-  }, [CanvasComponent, canvasLoader, mode, permanentFailure])
+  }, [CanvasComponent, activationReady, canvasLoader, mode, permanentFailure])
 
   return (
     <div aria-hidden="true" className="spectral-background" data-testid="spectral-background">

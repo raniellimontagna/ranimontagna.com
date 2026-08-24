@@ -68,14 +68,32 @@ function scheduleSentryInit() {
     void getSentryClient()
   }
 
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(start, { timeout: 5000 })
-    return
-  }
+  globalThis.setTimeout(() => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(start, { timeout: 5000 })
+      return
+    }
 
-  globalThis.setTimeout(start, 5000)
+    globalThis.setTimeout(start, 3000)
+  }, 2000)
 }
 
+function captureCriticalPreInitErrors() {
+  if (!SENTRY_DSN || typeof window === 'undefined') return
+
+  const capture = (exception: unknown) => {
+    void getSentryClient()?.then((Sentry) => Sentry.captureException(exception))
+  }
+
+  window.addEventListener('error', (event) => capture(event.error ?? event.message), {
+    once: true,
+  })
+  window.addEventListener('unhandledrejection', (event) => capture(event.reason), {
+    once: true,
+  })
+}
+
+captureCriticalPreInitErrors()
 scheduleSentryInit()
 
 export const onRouterTransitionStart = ((...args: Parameters<RouterTransitionStart>) => {

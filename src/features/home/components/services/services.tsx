@@ -39,6 +39,7 @@ export function Services() {
         <div className="grid gap-6 sm:gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,30rem)] xl:items-end xl:gap-10">
           <div>
             <RevealText
+              as="h2"
               text={`${t('title.part1')} ${t('title.part2')}`}
               className="max-w-3xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />

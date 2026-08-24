@@ -1,4 +1,7 @@
 {
+  "accessibility": {
+    "skipToContent": "Skip to main content"
+  },
   "header": {
     "logo": {
       "initials": "RM",
@@ -170,6 +173,12 @@
     "subtitle": "A selection of my most recent work, including web, mobile applications, and APIs that demonstrate my technical skills.",
     "viewAll": "View all projects",
     "featuredTitle": "Featured Projects",
+    "carousel": {
+      "region": "Featured project image carousel",
+      "pause": "Pause carousel",
+      "resume": "Resume carousel",
+      "slide": "View image {index} of {total}"
+    },
     "filters": {
       "all": "All",
       "web": "Web",

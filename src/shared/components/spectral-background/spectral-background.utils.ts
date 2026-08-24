@@ -13,6 +13,13 @@ type SpectralModeInput = {
   width: number
 }
 
+type SpectralActivationInput = {
+  pathname: string
+  saveData: boolean
+  deviceMemory?: number
+  hardwareConcurrency?: number
+}
+
 const DEFAULT_ACCENT: SpectralRgb = [124 / 255, 92 / 255, 1]
 const DEFAULT_ICE: SpectralRgb = [198 / 255, 246 / 255, 1]
 
@@ -26,6 +33,26 @@ export function resolveSpectralMode({
   if (coarsePointer || width < 768) return 'mobile'
 
   return 'desktop'
+}
+
+export function shouldActivateSpectral({
+  pathname,
+  saveData,
+  deviceMemory,
+  hardwareConcurrency,
+}: SpectralActivationInput): boolean {
+  const normalizedPath = pathname.replace(/^\/(?:pt|en|es)(?=\/|$)/, '') || '/'
+  const visibleRoute =
+    normalizedPath === '/' ||
+    normalizedPath === '/projects' ||
+    normalizedPath === '/blog' ||
+    normalizedPath.startsWith('/blog/')
+
+  if (!visibleRoute || saveData) return false
+  if (deviceMemory !== undefined && deviceMemory <= 2) return false
+  if (hardwareConcurrency !== undefined && hardwareConcurrency <= 2) return false
+
+  return true
 }
 
 export function parseCssColor(value: string): SpectralRgb | null {

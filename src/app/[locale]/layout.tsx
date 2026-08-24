@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 import { routing } from '@/shared/config/i18n/routing'
@@ -95,6 +95,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'accessibility' })
 
   return (
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
@@ -105,6 +106,12 @@ export default async function LocaleLayout({ children, params }: Props) {
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body className="antialiased">
+        <a
+          href="#main-content"
+          className="fixed top-0 left-4 z-[100] -translate-y-full rounded-b-xl bg-foreground px-4 py-3 font-semibold text-background shadow-panel transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-focus"
+        >
+          {t('skipToContent')}
+        </a>
         <SpectralBackground />
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

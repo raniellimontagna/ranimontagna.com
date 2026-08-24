@@ -119,6 +119,7 @@ describe('Header Component', () => {
   it('renders correctly', () => {
     render(<Header />)
     expect(screen.getByRole('banner')).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
     expect(screen.getAllByAltText('Logo').length).toBeGreaterThan(0)
     expect(screen.getAllByText('navigation.about')[0]).toBeInTheDocument()
   })

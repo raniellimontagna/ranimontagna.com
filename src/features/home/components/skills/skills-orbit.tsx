@@ -12,8 +12,7 @@ import {
   SiTailwindcss,
   SiTypescript,
 } from '@icons-pack/react-simple-icons'
-import { motion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const ORBIT_DURATIONS = {
   inner: 20,
@@ -70,7 +69,15 @@ interface Skill {
   angle: number
 }
 
-function SkillNode({ skill, duration }: { skill: Skill; duration: number }) {
+function SkillNode({
+  skill,
+  duration,
+  animationActive,
+}: {
+  skill: Skill
+  duration: number
+  animationActive: boolean
+}) {
   const [isHovered, setIsHovered] = useState(false)
   const angleRad = (skill.angle * Math.PI) / 180
   const x = Number((Math.cos(angleRad) * skill.radius).toFixed(3))
@@ -92,15 +99,13 @@ function SkillNode({ skill, duration }: { skill: Skill; duration: number }) {
       aria-label={`Skill: ${skill.name}`}
     >
       {/* Counter-rotation to keep the icon upright */}
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{
-          duration,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface/90 shadow-sm backdrop-blur-md transition-all group-hover:scale-125 group-focus:scale-125"
+      <div
+        data-orbit-counter-rotation="true"
+        className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface/90 shadow-sm backdrop-blur-md motion-safe:animate-spin transition-all group-hover:scale-125 group-focus:scale-125"
         style={{
+          animationDirection: 'reverse',
+          animationDuration: `${duration}s`,
+          animationPlayState: animationActive ? 'running' : 'paused',
           boxShadow: isHovered ? `0 0 15px ${skill.hex}` : undefined,
           borderColor: isHovered ? skill.hex : undefined,
         }}
@@ -116,18 +121,60 @@ function SkillNode({ skill, duration }: { skill: Skill; duration: number }) {
             {skill.name}
           </span>
         </div>
-      </motion.div>
+      </div>
     </button>
   )
 }
 
 export function SkillsOrbit() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+  const [documentVisible, setDocumentVisible] = useState(true)
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setReducedMotion(query.matches)
+    update()
+    query.addEventListener?.('change', update)
+    return () => query.removeEventListener?.('change', update)
+  }, [])
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root || typeof IntersectionObserver === 'undefined') {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(Boolean(entry?.isIntersecting && entry.intersectionRatio > 0)),
+      { threshold: 0.05 },
+    )
+    observer.observe(root)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const update = () => setDocumentVisible(document.visibilityState === 'visible')
+    update()
+    document.addEventListener('visibilitychange', update)
+    return () => document.removeEventListener('visibilitychange', update)
+  }, [])
+
+  const animationActive = isVisible && documentVisible && !reducedMotion
+
   return (
-    <div className="relative flex h-125 w-full items-center justify-center overflow-hidden sm:h-150 md:h-175">
+    <div
+      ref={rootRef}
+      data-skills-orbit="true"
+      data-animation-active={String(animationActive)}
+      className="relative flex h-125 w-full items-center justify-center overflow-hidden sm:h-150 md:h-175"
+    >
       <div className="absolute inset-0 flex scale-[0.52] items-center justify-center sm:scale-[0.65] md:scale-100">
         {/* Center Core */}
         <div className="absolute z-10 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface/80 shadow-lg backdrop-blur-md">
-          <div className="h-8 w-8 rounded-full bg-foreground shadow-[0_0_20px_var(--color-foreground)] animate-pulse" />
+          <div className="h-8 w-8 rounded-full bg-foreground shadow-[0_0_20px_var(--color-foreground)] motion-safe:animate-pulse" />
         </div>
 
         {/* Rings */}
@@ -137,24 +184,26 @@ export function SkillsOrbit() {
           const ringSkills = skillsData.filter((s) => s.ring === ringName)
 
           return (
-            <motion.div
+            <div
               key={ringName}
-              animate={{ rotate: 360 }}
-              transition={{
-                duration,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
+              data-orbit-ring={ringName}
               style={{
                 width: radius * 2,
                 height: radius * 2,
+                animationDuration: `${duration}s`,
+                animationPlayState: animationActive ? 'running' : 'paused',
               }}
-              className="pointer-events-none absolute rounded-full border border-line border-dashed"
+              className="pointer-events-none absolute rounded-full border border-line border-dashed motion-safe:animate-spin"
             >
               {ringSkills.map((skill) => (
-                <SkillNode key={skill.name} skill={skill} duration={duration} />
+                <SkillNode
+                  key={skill.name}
+                  skill={skill}
+                  duration={duration}
+                  animationActive={animationActive}
+                />
               ))}
-            </motion.div>
+            </div>
           )
         })}
       </div>

@@ -12,6 +12,7 @@ vi.mock('next-intl', () => ({
 
 vi.mock('next-intl/server', () => ({
   setRequestLocale: vi.fn(),
+  getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 
 vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
@@ -30,7 +31,24 @@ describe('LocaleLayout spectral background', () => {
     const bodyChildren = [...document.body.children]
 
     expect(document.querySelectorAll('[data-testid="spectral-background"]')).toHaveLength(1)
-    expect(bodyChildren[0]?.getAttribute('data-testid')).toBe('spectral-background')
-    expect(bodyChildren[1]?.getAttribute('data-testid')).toBe('locale-content')
+    expect(bodyChildren[0]?.getAttribute('href')).toBe('#main-content')
+    expect(bodyChildren[1]?.getAttribute('data-testid')).toBe('spectral-background')
+    expect(bodyChildren[2]?.getAttribute('data-testid')).toBe('locale-content')
+  })
+
+  it('renders a localized first-focusable skip link to the page main target', async () => {
+    const layout = await LocaleLayout({
+      children: <main id="main-content">Content</main>,
+      params: Promise.resolve({ locale: 'pt' }),
+    })
+
+    const markup = renderToStaticMarkup(layout)
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    const firstBodyElement = document.body.firstElementChild
+    const skipLink = document.querySelector('a[href="#main-content"]')
+
+    expect(firstBodyElement).toBe(skipLink)
+    expect(skipLink?.textContent).toBe('skipToContent')
+    expect(skipLink?.classList.contains('focus:translate-y-0')).toBe(true)
   })
 })

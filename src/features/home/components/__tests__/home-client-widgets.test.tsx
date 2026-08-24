@@ -24,7 +24,7 @@ describe('HomeClientWidgets', () => {
     const avatar = screen.getByAltText('Rani')
 
     expect(launcher).toContainElement(avatar)
-    expect(avatar).toHaveAttribute('src', '/images/avatar.webp')
+    expect(avatar).toHaveAttribute('src', '/images/avatar-112.webp')
     expect(screen.queryByText('R')).not.toBeInTheDocument()
   })
 
@@ -36,7 +36,7 @@ describe('HomeClientWidgets', () => {
     expect(launcher).not.toHaveClass('overflow-hidden')
   })
 
-  it('defers heavy widgets until the command menu is requested', async () => {
+  it('loads only the command menu when the command shortcut is requested', async () => {
     render(<HomeClientWidgets />)
 
     expect(screen.queryByTestId('command-menu')).not.toBeInTheDocument()
@@ -47,7 +47,19 @@ describe('HomeClientWidgets', () => {
     })
 
     expect(await screen.findByTestId('command-menu')).toBeInTheDocument()
-    expect(screen.getByTestId('chat-widget')).toBeInTheDocument()
+    expect(screen.queryByTestId('chat-widget')).not.toBeInTheDocument()
     expect(useCommandMenu.getState().isOpen).toBe(true)
+  })
+
+  it('loads only chat when the launcher is requested', async () => {
+    render(<HomeClientWidgets />)
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'fabTooltip' }))
+    })
+
+    expect(await screen.findByTestId('chat-widget')).toBeInTheDocument()
+    expect(screen.queryByTestId('command-menu')).not.toBeInTheDocument()
+    expect(useChat.getState().isOpen).toBe(true)
   })
 })

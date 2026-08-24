@@ -11,4 +11,10 @@ describe('RevealText', () => {
     expect(container.firstChild).toHaveAttribute('data-gsap-delay', '0.2')
     expect(container.firstChild).toHaveAttribute('data-gsap-stagger-delay', '0.08')
   })
+
+  it('renders the requested semantic element', () => {
+    render(<RevealText as="h2" text="Accessible heading" />)
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Accessible heading' })).toBeInTheDocument()
+  })
 })

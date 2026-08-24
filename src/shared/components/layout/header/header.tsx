@@ -155,9 +155,9 @@ export const Header = ({
                   />
                 </div>
                 <div className="hidden min-w-0 sm:block">
-                  <h1 className="text-base font-semibold tracking-[-0.03em] text-foreground">
+                  <span className="block text-base font-semibold tracking-[-0.03em] text-foreground">
                     {t('logo.fullName')}
-                  </h1>
+                  </span>
                   <p className="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-muted uppercase">
                     {t('logo.jobTitle')}
                   </p>

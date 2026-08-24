@@ -1,6 +1,7 @@
 import { cn } from '@/shared/lib/utils'
 
 interface RevealTextProps {
+  as?: 'span' | 'h1' | 'h2' | 'h3' | 'p'
   text: string
   className?: string
   delay?: number
@@ -10,6 +11,7 @@ interface RevealTextProps {
 }
 
 export function RevealText({
+  as: Component = 'span',
   text,
   className,
   delay = 0,
@@ -23,7 +25,8 @@ export function RevealText({
       : text.split(' ')
 
   return (
-    <span
+    <Component
+      aria-label={text}
       className={cn(
         mode === 'word' ? 'inline-flex flex-wrap gap-x-[0.28em]' : 'inline-flex flex-wrap',
         className,
@@ -35,6 +38,7 @@ export function RevealText({
     >
       {segments.map((segment, index) => (
         <span
+          aria-hidden="true"
           key={`${segment}-${index}`}
           className={mode === 'char' ? 'inline-block whitespace-pre' : 'inline-block'}
           data-gsap-text-segment="true"
@@ -42,6 +46,6 @@ export function RevealText({
           {segment}
         </span>
       ))}
-    </span>
+    </Component>
   )
 }

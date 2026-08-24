@@ -40,6 +40,7 @@ export function About() {
 
             <div className="max-w-3xl">
               <RevealText
+                as="h2"
                 text={`${t('title.part1')} ${t('title.part2')}`}
                 className="font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-7xl"
               />

@@ -1,5 +1,5 @@
 import type React from 'react'
-import { DeferredHomeSections } from './components/deferred-home-sections'
+import { HomeSections } from './components/deferred-home-sections'
 import { HomeClientWidgets } from './components/home-client-widgets'
 
 interface HomeProps {
@@ -11,9 +11,9 @@ export const Home = ({ headerContent, heroContent }: HomeProps): React.ReactElem
   return (
     <>
       {headerContent}
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {heroContent}
-        <DeferredHomeSections />
+        <HomeSections />
       </main>
       <HomeClientWidgets />
     </>

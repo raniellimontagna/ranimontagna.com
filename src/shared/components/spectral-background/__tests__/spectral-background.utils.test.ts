@@ -3,6 +3,7 @@ import {
   parseCssColor,
   resolveSpectralMode,
   selectSpectralZone,
+  shouldActivateSpectral,
   supportsWebGl,
 } from '../spectral-background.utils'
 
@@ -15,6 +16,20 @@ describe('resolveSpectralMode', () => {
     [{ reducedMotion: false, webgl: true, coarsePointer: false, width: 1440 }, 'desktop'],
   ] as const)('maps %o to %s', (input, expected) => {
     expect(resolveSpectralMode(input)).toBe(expected)
+  })
+})
+
+describe('shouldActivateSpectral', () => {
+  it.each([
+    [{ pathname: '/en', saveData: false, deviceMemory: 8, hardwareConcurrency: 8 }, true],
+    [{ pathname: '/pt/projects', saveData: false, deviceMemory: 4, hardwareConcurrency: 4 }, true],
+    [{ pathname: '/es/blog/post', saveData: false, deviceMemory: undefined, hardwareConcurrency: 8 }, true],
+    [{ pathname: '/en/unknown', saveData: false, deviceMemory: 8, hardwareConcurrency: 8 }, false],
+    [{ pathname: '/en', saveData: true, deviceMemory: 8, hardwareConcurrency: 8 }, false],
+    [{ pathname: '/en', saveData: false, deviceMemory: 2, hardwareConcurrency: 8 }, false],
+    [{ pathname: '/en', saveData: false, deviceMemory: 8, hardwareConcurrency: 2 }, false],
+  ] as const)('maps %o to %s', (input, expected) => {
+    expect(shouldActivateSpectral(input)).toBe(expected)
   })
 })
 

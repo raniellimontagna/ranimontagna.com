@@ -112,7 +112,7 @@ describe('Projects Component', () => {
   })
 
   it('renders featured projects only', () => {
-    render(<Projects />)
+    const { container } = render(<Projects />)
     // Secondary featured projects remain in the reusable ProjectCard layout.
     const cards = screen.getAllByTestId('project-card')
     expect(cards).toHaveLength(1)
@@ -122,7 +122,9 @@ describe('Projects Component', () => {
     expect(screen.getByText('list.project3.title')).toBeInTheDocument()
     expect(screen.queryByText('list.project2.title')).not.toBeInTheDocument()
     expect(screen.getByAltText('list.project1.title')).toHaveAttribute('src', '/img1.jpg')
-    expect(screen.getByAltText(/list\.project1\.title.*2/)).toHaveAttribute('src', '/img1-2.jpg')
+    const inactiveImage = container.querySelector('img[src="/img1-2.jpg"]')
+    expect(inactiveImage).toHaveAttribute('alt', '')
+    expect(inactiveImage?.closest('[hidden]')).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('renders view all button', () => {

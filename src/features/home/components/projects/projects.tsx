@@ -74,6 +74,7 @@ export function Projects() {
             </FadeIn>
 
             <RevealText
+              as="h2"
               text={`${t('title.part1')} ${t('title.part2')}`}
               className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />
@@ -120,7 +121,16 @@ export function Projects() {
                 {/* Image carousel — full width top */}
                 <div className="relative aspect-video w-full overflow-hidden sm:aspect-21/9">
                   {leadProjectImages.length > 0 ? (
-                    <FeaturedCarousel images={leadProjectImages} alt={leadProject.title} />
+                    <FeaturedCarousel
+                      images={leadProjectImages}
+                      alt={leadProject.title}
+                      labels={{
+                        region: t('carousel.region'),
+                        pause: t('carousel.pause'),
+                        resume: t('carousel.resume'),
+                        slide: (index, total) => t('carousel.slide', { index, total }),
+                      }}
+                    />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center glow-gradient-preview">
                       <LeadIcon className="h-20 w-20 text-foreground/75" />
