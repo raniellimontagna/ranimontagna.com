@@ -28,6 +28,8 @@ export function ErrorContent({
 
   return (
     <main
+      id="main-content"
+      tabIndex={-1}
       data-spectral-zone="quiet"
       className="relative flex min-h-screen w-full flex-col selection:bg-accent selection:text-on-accent overflow-x-hidden"
     >
