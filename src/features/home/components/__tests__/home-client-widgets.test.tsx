@@ -3,13 +3,8 @@ import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu
 import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { HomeClientWidgets } from '../home-client-widgets'
 
-vi.mock('@/shared/components/ui/command-menu/command-menu', () => ({
-  CommandMenu: () => <div data-testid="command-menu" />,
-}))
-
-vi.mock('@/shared/components/ui/chat-widget/chat-widget', () => ({
-  ChatWidget: () => <div data-testid="chat-widget" />,
-}))
+const TestCommandMenu = () => <div role="dialog" aria-label="Command palette" />
+const TestChatWidget = () => <div role="dialog" aria-label="Chat widget" />
 
 describe('HomeClientWidgets', () => {
   beforeEach(() => {
@@ -37,29 +32,38 @@ describe('HomeClientWidgets', () => {
   })
 
   it('loads only the command menu when the command shortcut is requested', async () => {
-    render(<HomeClientWidgets />)
+    const loadCommandMenu = vi.fn().mockResolvedValue(TestCommandMenu)
+    const loadChatWidget = vi.fn().mockResolvedValue(TestChatWidget)
 
-    expect(screen.queryByTestId('command-menu')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('chat-widget')).not.toBeInTheDocument()
+    render(<HomeClientWidgets loadCommandMenu={loadCommandMenu} loadChatWidget={loadChatWidget} />)
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
     await act(async () => {
       fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
     })
 
-    expect(await screen.findByTestId('command-menu')).toBeInTheDocument()
-    expect(screen.queryByTestId('chat-widget')).not.toBeInTheDocument()
+    expect(await screen.findByRole('dialog', { name: 'Command palette' })).toBeInTheDocument()
+    expect(screen.queryByRole('dialog', { name: 'Chat widget' })).not.toBeInTheDocument()
+    expect(loadCommandMenu).toHaveBeenCalledTimes(1)
+    expect(loadChatWidget).not.toHaveBeenCalled()
     expect(useCommandMenu.getState().isOpen).toBe(true)
   })
 
   it('loads only chat when the launcher is requested', async () => {
-    render(<HomeClientWidgets />)
+    const loadCommandMenu = vi.fn().mockResolvedValue(TestCommandMenu)
+    const loadChatWidget = vi.fn().mockResolvedValue(TestChatWidget)
+
+    render(<HomeClientWidgets loadCommandMenu={loadCommandMenu} loadChatWidget={loadChatWidget} />)
 
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'fabTooltip' }))
     })
 
-    expect(await screen.findByTestId('chat-widget')).toBeInTheDocument()
-    expect(screen.queryByTestId('command-menu')).not.toBeInTheDocument()
+    expect(await screen.findByRole('dialog', { name: 'Chat widget' })).toBeInTheDocument()
+    expect(screen.queryByRole('dialog', { name: 'Command palette' })).not.toBeInTheDocument()
+    expect(loadChatWidget).toHaveBeenCalledTimes(1)
+    expect(loadCommandMenu).not.toHaveBeenCalled()
     expect(useChat.getState().isOpen).toBe(true)
   })
 })

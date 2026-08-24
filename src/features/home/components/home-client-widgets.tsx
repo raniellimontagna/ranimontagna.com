@@ -6,7 +6,23 @@ import { ProgressiveGsapAnimations } from '@/shared/components/animations/progre
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
 
-export function HomeClientWidgets() {
+type WidgetLoader = () => Promise<ComponentType>
+
+interface HomeClientWidgetsProps {
+  loadCommandMenu?: WidgetLoader
+  loadChatWidget?: WidgetLoader
+}
+
+const loadDefaultCommandMenu: WidgetLoader = () =>
+  import('@/shared/components/ui/command-menu/command-menu').then(({ CommandMenu }) => CommandMenu)
+
+const loadDefaultChatWidget: WidgetLoader = () =>
+  import('@/shared/components/ui/chat-widget/chat-widget').then(({ ChatWidget }) => ChatWidget)
+
+export function HomeClientWidgets({
+  loadCommandMenu = loadDefaultCommandMenu,
+  loadChatWidget = loadDefaultChatWidget,
+}: HomeClientWidgetsProps = {}) {
   const [CommandMenu, setCommandMenu] = useState<ComponentType | null>(null)
   const [ChatWidget, setChatWidget] = useState<ComponentType | null>(null)
   const commandLoadPromise = useRef<Promise<void> | null>(null)
@@ -16,37 +32,37 @@ export function HomeClientWidgets() {
   const setCommandMenuOpen = useCommandMenu((state) => state.setOpen)
   const setChatOpen = useChat((state) => state.setOpen)
 
-  const loadCommandMenu = useCallback(() => {
-    commandLoadPromise.current ??= import('@/shared/components/ui/command-menu/command-menu').then(
-      ({ CommandMenu: LoadedCommandMenu }) => setCommandMenu(() => LoadedCommandMenu),
+  const ensureCommandMenuLoaded = useCallback(() => {
+    commandLoadPromise.current ??= loadCommandMenu().then((LoadedCommandMenu) =>
+      setCommandMenu(() => LoadedCommandMenu),
     )
-  }, [])
+  }, [loadCommandMenu])
 
-  const loadChat = useCallback(() => {
-    chatLoadPromise.current ??= import('@/shared/components/ui/chat-widget/chat-widget').then(
-      ({ ChatWidget: LoadedChatWidget }) => setChatWidget(() => LoadedChatWidget),
+  const ensureChatLoaded = useCallback(() => {
+    chatLoadPromise.current ??= loadChatWidget().then((LoadedChatWidget) =>
+      setChatWidget(() => LoadedChatWidget),
     )
-  }, [])
+  }, [loadChatWidget])
 
   useEffect(() => {
-    if (isCommandMenuOpen) loadCommandMenu()
-  }, [isCommandMenuOpen, loadCommandMenu])
+    if (isCommandMenuOpen) ensureCommandMenuLoaded()
+  }, [ensureCommandMenuLoaded, isCommandMenuOpen])
 
   useEffect(() => {
     const handleCommandShortcut = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== 'k' || (!event.metaKey && !event.ctrlKey)) return
 
       event.preventDefault()
-      loadCommandMenu()
+      ensureCommandMenuLoaded()
       setCommandMenuOpen(true)
     }
 
     document.addEventListener('keydown', handleCommandShortcut)
     return () => document.removeEventListener('keydown', handleCommandShortcut)
-  }, [loadCommandMenu, setCommandMenuOpen])
+  }, [ensureCommandMenuLoaded, setCommandMenuOpen])
 
   const openChat = () => {
-    loadChat()
+    ensureChatLoaded()
     setChatOpen(true)
   }
 
