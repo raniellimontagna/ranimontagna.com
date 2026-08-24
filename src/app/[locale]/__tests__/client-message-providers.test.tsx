@@ -66,8 +66,8 @@ vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
   SpectralBackground: () => <div data-testid="spectral-background" />,
 }))
 
-vi.mock('@/shared/components/web-vitals/web-vitals', () => ({
-  WebVitals: () => null,
+vi.mock('@vercel/speed-insights/next', () => ({
+  SpeedInsights: () => null,
 }))
 
 function readProviderMessages(element: React.ReactNode): unknown[] {

@@ -25,12 +25,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=high
+
       # Code Quality
       - name: Run linting
         run: pnpm lint
 
       - name: Run typecheck
         run: pnpm typecheck
+
+      - name: Check unused code and dependencies
+        run: pnpm knip
 
       - name: Run tests with coverage
         run: pnpm test:coverage
@@ -45,7 +51,6 @@ jobs:
         run: pnpm build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Run Lighthouse audit
         run: |
@@ -65,7 +70,6 @@ jobs:
           pnpm lighthouse:ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Upload Lighthouse reports
         if: always()

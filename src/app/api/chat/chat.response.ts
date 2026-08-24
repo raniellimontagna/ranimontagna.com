@@ -32,7 +32,7 @@ export type {
   ChatValidationResult,
 } from './chat.response.shared'
 
-export const CHAT_CORRECTION_RULES: Record<ChatValidationCode, string> = {
+const CHAT_CORRECTION_RULES: Record<ChatValidationCode, string> = {
   'answer-too-large': 'Regenerate a concise answer within the response limit.',
   'availability-conflict':
     'Regenerate using the canonical availability fact: the Lemon Energia engagement is a non-exclusive contractor engagement, and Ranielli can evaluate projects and partnerships depending on the proposal, scope, fit, and his availability. Do not claim he is unavailable because he works at Lemon Energia.',

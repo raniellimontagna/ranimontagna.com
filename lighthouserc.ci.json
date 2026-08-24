@@ -17,6 +17,7 @@
       "assertMatrix": [
         {
           "matchingUrlPattern": "^http://localhost:3000/(?:en)?$",
+          "aggregationMethod": "median",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.85 }],
             "categories:accessibility": ["error", { "minScore": 0.9 }],
@@ -29,6 +30,7 @@
         },
         {
           "matchingUrlPattern": "^http://localhost:3000/en/projects$",
+          "aggregationMethod": "median",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.85 }],
             "categories:accessibility": ["error", { "minScore": 0.9 }],
@@ -41,6 +43,7 @@
         },
         {
           "matchingUrlPattern": "^http://localhost:3000/en/blog$",
+          "aggregationMethod": "median",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.85 }],
             "categories:accessibility": ["error", { "minScore": 0.9 }],
@@ -53,6 +56,7 @@
         },
         {
           "matchingUrlPattern": "^http://localhost:3000/en/blog/um-novo-capitulo-na-lemon$",
+          "aggregationMethod": "median",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.85 }],
             "categories:accessibility": ["error", { "minScore": 0.9 }],

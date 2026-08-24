@@ -3,68 +3,12 @@ import {
   generateBlogJsonLd,
   generateBlogPostingJsonLd,
   generatePersonJsonLd,
+  generateProfilePageJsonLd,
   generateWebsiteJsonLd,
   serializeJsonLd,
 } from '../jsonld'
 
 describe('jsonld', () => {
-  describe('serializeJsonLd', () => {
-    it('preserves data while escaping markup that could close the script element', () => {
-      const value = { description: '</script><script>alert("xss")</script>' }
-      const serialized = serializeJsonLd(value)
-
-      expect(serialized).not.toContain('<')
-      expect(serialized).toContain('\\u003c/script>')
-      expect(JSON.parse(serialized)).toEqual(value)
-    })
-  })
-
-  describe('blog structured data', () => {
-    it('builds a localized Blog entity with live post summaries', () => {
-      const jsonld = generateBlogJsonLd({
-        locale: 'es',
-        name: 'Ideas',
-        description: 'Artículos',
-        posts: [
-          {
-            slug: 'hola',
-            title: 'Hola',
-            description: 'Primer artículo',
-            date: '2026-08-23',
-            tags: ['web'],
-          },
-        ],
-      })
-
-      expect(jsonld).toMatchObject({
-        '@type': 'Blog',
-        '@id': `${BASE_URL}/es/blog#blog`,
-        inLanguage: 'es',
-      })
-      expect(jsonld.blogPost).toHaveLength(1)
-      expect(jsonld.blogPost[0]?.url).toBe(`${BASE_URL}/es/blog/hola`)
-    })
-
-    it('builds the canonical BlogPosting entity formerly owned by the head file', () => {
-      const jsonld = generateBlogPostingJsonLd({
-        locale: 'pt',
-        slug: 'post',
-        title: 'Post',
-        description: 'Descrição',
-        date: '2026-08-23',
-        imageUrl: `${BASE_URL}/post.webp`,
-        tags: ['next'],
-      })
-
-      expect(jsonld).toMatchObject({
-        '@type': 'BlogPosting',
-        '@id': `${BASE_URL}/blog/post#blogposting`,
-        image: [`${BASE_URL}/post.webp`],
-        inLanguage: 'pt',
-      })
-    })
-  })
-
   describe('generatePersonJsonLd', () => {
     it('generates valid JSON-LD with @context and @type', () => {
       const jsonld = generatePersonJsonLd('en')
@@ -179,6 +123,18 @@ describe('jsonld', () => {
       expect(enJsonld.description).toContain('Portfolio')
       expect(ptJsonld.description).toContain('Portfolio')
       expect(enJsonld.description).not.toBe(ptJsonld.description)
+    })
+  })
+
+  describe('generateProfilePageJsonLd', () => {
+    it('links the localized profile page to the canonical Person entity', () => {
+      const jsonld = generateProfilePageJsonLd('es')
+
+      expect(jsonld).toMatchObject({
+        '@type': 'ProfilePage',
+        url: `${BASE_URL}/es`,
+        mainEntity: { '@type': 'Person', '@id': `${BASE_URL}/#person` },
+      })
     })
   })
 

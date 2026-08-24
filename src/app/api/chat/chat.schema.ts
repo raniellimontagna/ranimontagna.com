@@ -17,5 +17,3 @@ export const requestSchema = z
       context.addIssue({ code: 'custom', message: 'Chat payload is too large' })
     }
   })
-
-export type ParsedRequest = z.infer<typeof requestSchema>

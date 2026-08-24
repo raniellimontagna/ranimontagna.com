@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
-import { WebVitals } from '@/shared/components/web-vitals/web-vitals'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -110,8 +110,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
       <body className="antialiased">
         <a
@@ -124,7 +122,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
           {children}
         </NextIntlClientProvider>
-        <WebVitals measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        <SpeedInsights />
         <script
           data-jsonld="person"
           type="application/ld+json"

@@ -86,14 +86,6 @@ export const socialLinks = {
   },
 } as const
 
-export function openEmailClient() {
-  if (typeof window === 'undefined') return
-
-  const emailUser = 'contato'
-  const emailDomain = 'ranimontagna.com'
-  window.location.href = `mailto:${emailUser}@${emailDomain}`
-}
-
 const resumeLinks = {
   en: {
     name: 'Resume',

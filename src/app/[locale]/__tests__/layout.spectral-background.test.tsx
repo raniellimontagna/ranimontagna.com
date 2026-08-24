@@ -20,10 +20,8 @@ vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
   SpectralBackground: () => <div data-testid="spectral-background" />,
 }))
 
-vi.mock('@/shared/components/web-vitals/web-vitals', () => ({
-  WebVitals: ({ consentGranted }: { consentGranted?: boolean }) => (
-    <div data-consent-granted={String(Boolean(consentGranted))} data-testid="web-vitals" />
-  ),
+vi.mock('@vercel/speed-insights/next', () => ({
+  SpeedInsights: () => <div data-testid="speed-insights" />,
 }))
 
 describe('LocaleLayout spectral background', () => {
@@ -43,7 +41,7 @@ describe('LocaleLayout spectral background', () => {
     expect(bodyChildren[2]?.getAttribute('data-testid')).toBe('locale-content')
   })
 
-  it('mounts one inert metrics bridge until explicit consent exists', async () => {
+  it('mounts Vercel Speed Insights exactly once', async () => {
     const layout = await LocaleLayout({
       children: <main id="main-content">Content</main>,
       params: Promise.resolve({ locale: 'pt' }),
@@ -51,10 +49,9 @@ describe('LocaleLayout spectral background', () => {
 
     const markup = renderToStaticMarkup(layout)
     const document = new DOMParser().parseFromString(markup, 'text/html')
-    const bridges = document.querySelectorAll('[data-testid="web-vitals"]')
+    const speedInsights = document.querySelectorAll('[data-testid="speed-insights"]')
 
-    expect(bridges).toHaveLength(1)
-    expect(bridges[0]?.getAttribute('data-consent-granted')).toBe('false')
+    expect(speedInsights).toHaveLength(1)
   })
 
   it.each(['pt', 'en', 'es'])('renders one canonical Person and WebSite entity for %s', async (locale) => {
