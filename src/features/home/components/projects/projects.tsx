@@ -86,7 +86,9 @@ export function Projects() {
 
         <ul className="mt-8 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
           {projects.map((project, index) => {
-            const wide = index === 0
+            // Primeiro case sempre largo; o último também quando sobra um buraco na grade de 4.
+            const lastWide = (projects.length + 1) % 4 === 3 && index === projects.length - 1
+            const wide = index === 0 || lastWide
             // Colunas alternadas flutuam em velocidades diferentes: profundidade sem pesar.
             const offset = index % 2 === 0 ? 14 : -10
             return (
