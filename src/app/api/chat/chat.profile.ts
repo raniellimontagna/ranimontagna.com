@@ -57,7 +57,7 @@ export type ChatProfile = {
 export const CHAT_PROFILE_BY_LOCALE = {
   pt: {
     availability:
-      'Trabalho na Lemon Energia como PJ em um compromisso não exclusivo e sou sócio-fundador da Atto. Projetos, orçamentos e parcerias de software ou marketing passam pela Atto; posso avaliar dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade. Conversas sobre engenharia, carreira e comunidade: aqui ou no LinkedIn.',
+      'Trabalho na Lemon Energia como PJ em um compromisso não exclusivo e sou sócio-fundador da Atto. Para projetos, orçamentos e parcerias há dois caminhos: a Atto, para trabalho com escopo, prazo e preço fechados, ou falar direto comigo pelo recado do chat ou LinkedIn; posso avaliar dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade. Conversas sobre engenharia, carreira e comunidade: aqui ou no LinkedIn.',
     experienceSummary: '5+ anos em software e 10 anos de trajetória profissional',
     experiences: [
       {
@@ -202,12 +202,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         'Marketing e aquisição (tráfego pago, presença digital, funil no WhatsApp)',
       ],
       routing:
-        'Pedidos de projeto, orçamento, prazo ou parceria: apresentar a Atto e direcionar para attodev.com.br.',
+        'Pedidos de projeto, orçamento, prazo ou parceria: apresentar a Atto (attodev.com.br) para trabalho com escopo e preço fechados e também oferecer o recado direto pelo chat; a escolha é do visitante.',
     },
   },
   en: {
     availability:
-      'I work at Lemon Energia as a contractor in a non-exclusive engagement and I am co-founder of Atto. Projects, quotes and software or marketing partnerships go through Atto; I can evaluate them depending on the proposal, scope, fit, and my availability. Engineering, career and community conversations: here or on LinkedIn.',
+      'I work at Lemon Energia as a contractor in a non-exclusive engagement and I am co-founder of Atto. For projects, quotes and partnerships there are two paths: Atto, for work with scope, timeline and price agreed upfront, or reaching me directly through the chat message or LinkedIn; I can evaluate them depending on the proposal, scope, fit, and my availability. Engineering, career and community conversations: here or on LinkedIn.',
     experienceSummary: '5+ years in software and 10 years of professional experience',
     experiences: [
       {
@@ -352,12 +352,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         'Marketing and acquisition (paid traffic, digital presence, WhatsApp funnel)',
       ],
       routing:
-        'Project, quote, timeline or partnership requests: introduce Atto and direct to attodev.com.br.',
+        'Project, quote, timeline or partnership requests: introduce Atto (attodev.com.br) for work with agreed scope and price, and also offer the direct message through the chat; the visitor chooses.',
     },
   },
   es: {
     availability:
-      'Trabajo en Lemon Energia como contratista en un compromiso no exclusivo y soy cofundador de Atto. Proyectos, presupuestos y colaboraciones de software o marketing pasan por Atto; puedo evaluarlos según la propuesta, el alcance, la compatibilidad y mi disponibilidad. Conversaciones sobre ingeniería, carrera y comunidad: aquí o en LinkedIn.',
+      'Trabajo en Lemon Energia como contratista en un compromiso no exclusivo y soy cofundador de Atto. Para proyectos, presupuestos y colaboraciones hay dos caminos: Atto, para trabajo con alcance, plazo y precio cerrados, o hablar directamente conmigo por el mensaje del chat o LinkedIn; puedo evaluarlos según la propuesta, el alcance, la compatibilidad y mi disponibilidad. Conversaciones sobre ingeniería, carrera y comunidad: aquí o en LinkedIn.',
     experienceSummary: '5+ años en software y 10 años de trayectoria profesional',
     experiences: [
       {
@@ -500,7 +500,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
         'Marketing y adquisición (tráfico pago, presencia digital, embudo en WhatsApp)',
       ],
       routing:
-        'Pedidos de proyecto, presupuesto, plazo o colaboración: presentar Atto y dirigir a attodev.com.br.',
+        'Pedidos de proyecto, presupuesto, plazo o colaboración: presentar Atto (attodev.com.br) para trabajo con alcance y precio cerrados y también ofrecer el mensaje directo por el chat; el visitante elige.',
     },
   },
 } satisfies Record<ChatLocale, ChatProfile>
