@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.26.0...v1.27.0) (2026-09-16)
+
+
+### Features
+
+* **chat:** send a direct message to Ranielli from inside the chat ([#56](https://github.com/raniellimontagna/ranimontagna.com/issues/56)) ([1c516f7](https://github.com/raniellimontagna/ranimontagna.com/commit/1c516f7e20ee22b33c24edd46d846d40da475250))
+
 ## [1.26.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.25.0...v1.26.0) (2026-09-16)
 
 
