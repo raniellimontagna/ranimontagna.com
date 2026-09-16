@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.24.1...v1.25.0) (2026-09-16)
+
+
+### Features
+
+* reposition as engineer + Atto co-founder, rework projects, services and contact ([#52](https://github.com/raniellimontagna/ranimontagna.com/issues/52)) ([d675b1c](https://github.com/raniellimontagna/ranimontagna.com/commit/d675b1cf80a5d708638be35a0b0deea872827cd3))
+
 ## [1.24.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.24.0...v1.24.1) (2026-08-24)
 
 
