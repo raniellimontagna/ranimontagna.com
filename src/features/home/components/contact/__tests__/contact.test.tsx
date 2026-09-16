@@ -57,6 +57,14 @@ describe('Contact Component', () => {
     expect(screen.getByText('methods.email.title')).toBeInTheDocument()
     expect(screen.getByText('methods.linkedin.title')).toBeInTheDocument()
     expect(screen.getByText('methods.phone.title')).toBeInTheDocument()
+    expect(screen.getByText('paths.project.title').closest('a')).toHaveAttribute(
+      'href',
+      'https://attodev.com.br',
+    )
+    expect(screen.getByText('contato@ranimontagna.com')).toHaveAttribute(
+      'href',
+      'mailto:contato@ranimontagna.com',
+    )
   })
 
   it('renders status indicator', () => {

@@ -13,6 +13,7 @@ vi.mock('next-intl', () => ({
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   RevealText: ({ text }: { text: string }) => <h2>{text}</h2>,
 }))
 

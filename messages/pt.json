@@ -355,6 +355,27 @@
         "subject": "Assunto deve ter pelo menos 5 caracteres",
         "message": "Mensagem deve ter pelo menos 10 caracteres"
       }
+    },
+    "paths": {
+      "label": "Dois caminhos",
+      "project": {
+        "title": "Projeto pra construir",
+        "description": "Escopo, prazo e preço fechados com a Atto.",
+        "action": "Ir pra Atto"
+      },
+      "talk": {
+        "title": "Trocar uma ideia",
+        "description": "Engenharia, produto, carreira ou comunidade — manda um e-mail."
+      }
+    },
+    "email": {
+      "copy": "Copiar e-mail",
+      "copied": "Copiado",
+      "open": "Abrir e-mail"
+    },
+    "localTime": {
+      "label": "Agora em Paraí, RS",
+      "timezone": "GMT-3"
     }
   },
   "footer": {

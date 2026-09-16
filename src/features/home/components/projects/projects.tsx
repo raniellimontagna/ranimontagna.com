@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import { getProjectImages } from '@/features/projects/lib/project-images'
 import type { ProjectType } from '@/features/projects/types/projects.types'
-import { FadeIn, MagneticHover, RevealText } from '@/shared/components/animations'
+import { FadeIn, MagneticHover, ParallaxLayer, RevealText } from '@/shared/components/animations'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
 import { ProjectTile } from './project-tile'
@@ -85,13 +85,20 @@ export function Projects() {
         </div>
 
         <ul className="mt-8 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
-          {projects.map((project, index) => (
-            <li key={project.id} className="h-full">
-              <FadeIn delay={0.2 + index * 0.08} className="h-full">
-                <ProjectTile project={project} priority={index === 0} />
-              </FadeIn>
-            </li>
-          ))}
+          {projects.map((project, index) => {
+            const wide = index === 0
+            // Colunas alternadas flutuam em velocidades diferentes: profundidade sem pesar.
+            const offset = index % 2 === 0 ? 14 : -10
+            return (
+              <li key={project.id} className={wide ? 'h-full sm:col-span-2' : 'h-full'}>
+                <FadeIn delay={0.15 + index * 0.07} blur className="h-full">
+                  <ParallaxLayer offset={offset} className="h-full">
+                    <ProjectTile project={project} priority={wide} wide={wide} />
+                  </ParallaxLayer>
+                </FadeIn>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </section>

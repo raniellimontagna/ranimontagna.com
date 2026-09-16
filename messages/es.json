@@ -356,6 +356,27 @@
         "subject": "El asunto debe tener al menos 5 caracteres",
         "message": "El mensaje debe tener al menos 10 caracteres"
       }
+    },
+    "paths": {
+      "label": "Dos caminos",
+      "project": {
+        "title": "Un proyecto para construir",
+        "description": "Alcance, plazo y precio cerrados con Atto.",
+        "action": "Ir a Atto"
+      },
+      "talk": {
+        "title": "Solo una charla",
+        "description": "Ingeniería, producto, carrera o comunidad — manda un e-mail."
+      }
+    },
+    "email": {
+      "copy": "Copiar e-mail",
+      "copied": "Copiado",
+      "open": "Abrir e-mail"
+    },
+    "localTime": {
+      "label": "Ahora en Paraí, Brasil",
+      "timezone": "GMT-3"
     }
   },
   "footer": {
