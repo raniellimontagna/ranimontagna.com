@@ -184,68 +184,73 @@ const prompts: Array<{
 ]
 
 describe('chat system prompt builder', () => {
-  it.each(prompts)('keeps facts, structure, and safety policies correct in $locale', ({
-    activeSearchPhrase,
-    canonicalDateRule,
-    currentPeriodMarker,
-    currentRole,
-    currentScopeFact,
-    currentScopePolicy,
-    injectionRefusalRule,
-    locale,
-    minimalAnswerRule,
-    orderedHeadings,
-    pastRolePolicy,
-    pastRoles,
-    securityTerms,
-  }) => {
-    const prompt = buildSystemPrompt(locale, runtime)
-    const headingIndexes = orderedHeadings.map((heading) => prompt.indexOf(heading))
-    const experienceLines = prompt
-      .split('\n')
-      .filter((line) => /^\d+\. (Lemon Energia|Luizalabs|Smarten|SBSistemas) \(/.test(line))
-    const currentExperienceLines = experienceLines.filter((line) =>
-      line.includes(currentPeriodMarker),
-    )
-    const authoritativeFactLines = prompt.split('\n').filter((line) => line.startsWith('COMPANY: '))
-
-    expect(prompt).toContain(currentRole)
-    expect(prompt).toContain(currentScopeFact)
-    pastRoles.forEach((role) => {
-      expect(prompt).toContain(role)
-    })
-    expect(experienceLines).toHaveLength(4)
-    expect(currentExperienceLines).toHaveLength(1)
-    expect(currentExperienceLines[0]).toContain('Lemon Energia')
-    expect(prompt).toContain(currentScopePolicy)
-    expect(prompt).toContain(pastRolePolicy)
-    expect(prompt).toContain(canonicalDateRule)
-    expect(prompt).toContain(injectionRefusalRule)
-    expect(prompt).toContain(minimalAnswerRule)
-    expect(prompt).not.toContain(activeSearchPhrase)
-    expect(headingIndexes.every((index) => index >= 0)).toBe(true)
-    expect(headingIndexes).toEqual([...headingIndexes].sort((a, b) => a - b))
-    securityTerms.forEach((term) => {
-      expect(prompt.toLowerCase()).toContain(term.toLowerCase())
-    })
-    expect(prompt).toContain('https://www.linkedin.com/in/rannimontagna')
-    expect(prompt).toContain('https://github.com/RanielliMontagna')
-    expect(prompt).toContain('https://ranimontagna.com')
-    expect(prompt).toContain('2026-07-16')
-    expect(prompt).toContain('America/Sao_Paulo')
-    expect(prompt).toContain('START_DATE: 2026-07')
-    expect(prompt).toContain('RANI_PUBLIC_POLICY_CANARY_7F3A')
-    expect(authoritativeFactLines).toHaveLength(canonicalExperienceDates.length)
-    canonicalExperienceDates.forEach(({ company, current, endDate, startDate }) => {
-      const factLine = authoritativeFactLines.find((line) =>
-        line.startsWith(`COMPANY: ${company} |`),
+  it.each(prompts)(
+    'keeps facts, structure, and safety policies correct in $locale',
+    ({
+      activeSearchPhrase,
+      canonicalDateRule,
+      currentPeriodMarker,
+      currentRole,
+      currentScopeFact,
+      currentScopePolicy,
+      injectionRefusalRule,
+      locale,
+      minimalAnswerRule,
+      orderedHeadings,
+      pastRolePolicy,
+      pastRoles,
+      securityTerms,
+    }) => {
+      const prompt = buildSystemPrompt(locale, runtime)
+      const headingIndexes = orderedHeadings.map((heading) => prompt.indexOf(heading))
+      const experienceLines = prompt
+        .split('\n')
+        .filter((line) => /^\d+\. (Lemon Energia|Luizalabs|Smarten|SBSistemas) \(/.test(line))
+      const currentExperienceLines = experienceLines.filter((line) =>
+        line.includes(currentPeriodMarker),
       )
+      const authoritativeFactLines = prompt
+        .split('\n')
+        .filter((line) => line.startsWith('COMPANY: '))
 
-      expect(factLine).toContain(`START_DATE: ${startDate}`)
-      expect(factLine).toContain(`END_DATE: ${endDate}`)
-      expect(factLine).toContain(`CURRENT: ${current}`)
-    })
-  })
+      expect(prompt).toContain(currentRole)
+      expect(prompt).toContain(currentScopeFact)
+      pastRoles.forEach((role) => {
+        expect(prompt).toContain(role)
+      })
+      expect(experienceLines).toHaveLength(4)
+      expect(currentExperienceLines).toHaveLength(1)
+      expect(currentExperienceLines[0]).toContain('Lemon Energia')
+      expect(prompt).toContain(currentScopePolicy)
+      expect(prompt).toContain(pastRolePolicy)
+      expect(prompt).toContain(canonicalDateRule)
+      expect(prompt).toContain(injectionRefusalRule)
+      expect(prompt).toContain(minimalAnswerRule)
+      expect(prompt).not.toContain(activeSearchPhrase)
+      expect(headingIndexes.every((index) => index >= 0)).toBe(true)
+      expect(headingIndexes).toEqual([...headingIndexes].sort((a, b) => a - b))
+      securityTerms.forEach((term) => {
+        expect(prompt.toLowerCase()).toContain(term.toLowerCase())
+      })
+      expect(prompt).toContain('https://www.linkedin.com/in/rannimontagna')
+      expect(prompt).toContain('https://github.com/RanielliMontagna')
+      expect(prompt).toContain('https://ranimontagna.com')
+      expect(prompt).toContain('2026-07-16')
+      expect(prompt).toContain('America/Sao_Paulo')
+      expect(prompt).toContain('START_DATE: 2026-07')
+      expect(prompt).toContain('RANI_PUBLIC_POLICY_CANARY_7F3A')
+      expect(authoritativeFactLines).toHaveLength(canonicalExperienceDates.length)
+      canonicalExperienceDates.forEach(({ company, current, endDate, startDate }) => {
+        const factLine = authoritativeFactLines.find((line) =>
+          line.startsWith(`COMPANY: ${company} |`),
+        )
+
+        expect(factLine).toContain(`START_DATE: ${startDate}`)
+        expect(factLine).toContain(`END_DATE: ${endDate}`)
+        expect(factLine).toContain(`CURRENT: ${current}`)
+      })
+    },
+  )
 
   it('uses the Sao Paulo calendar date at the UTC timezone boundary', () => {
     expect(createChatRuntimeContext(new Date('2026-07-17T01:30:00.000Z'))).toEqual({

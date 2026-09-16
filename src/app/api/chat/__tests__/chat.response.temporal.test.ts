@@ -13,26 +13,29 @@ describe('deterministic response validation', () => {
   it.each([
     ['pt', 'Trabalhei no Luizalabs em 2024 e 2025.'],
     ['en', 'I worked at Luizalabs in 2024 and 2025.'],
-  ] as const)('accepts internal employer years associated with Luizalabs in %s', (locale, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts internal employer years associated with Luizalabs in %s',
+    (locale, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
-  it.each([
-    'Em 2024 desenvolvi software.',
-    'A mudança aconteceu em 2025.',
-  ])('still rejects an unsupported unassociated year: %s', (answer) => {
-    expect(validateChatAnswer(createValidationInput(answer))).toEqual({
-      ok: false,
-      code: 'unsupported-year',
-    })
-  })
+  it.each(['Em 2024 desenvolvi software.', 'A mudança aconteceu em 2025.'])(
+    'still rejects an unsupported unassociated year: %s',
+    (answer) => {
+      expect(validateChatAnswer(createValidationInput(answer))).toEqual({
+        ok: false,
+        code: 'unsupported-year',
+      })
+    },
+  )
 
   it('allows a visitor year for historical discussion only within the employer interval', () => {
     const visitorMessage = 'Onde você trabalhava em 2024?'
@@ -149,15 +152,17 @@ describe('deterministic response validation', () => {
     ).toEqual({ ok: false, code: 'canonical-date-conflict' })
   })
 
-  it.each([
-    'Comecei no Luizalabs em novembro de 2023.',
-    'Saí do Luizalabs em maio de 2026.',
-  ])('requires exact Luizalabs boundary dates for a high-confidence assertion: %s', (answer) => {
-    expect(validateChatAnswer(createValidationInput(answer, { visitorMessage: answer }))).toEqual({
-      ok: false,
-      code: 'canonical-date-conflict',
-    })
-  })
+  it.each(['Comecei no Luizalabs em novembro de 2023.', 'Saí do Luizalabs em maio de 2026.'])(
+    'requires exact Luizalabs boundary dates for a high-confidence assertion: %s',
+    (answer) => {
+      expect(validateChatAnswer(createValidationInput(answer, { visitorMessage: answer }))).toEqual(
+        {
+          ok: false,
+          code: 'canonical-date-conflict',
+        },
+      )
+    },
+  )
 
   it('accepts exact Luizalabs start/end boundaries and a compact canonical timeline', () => {
     expect(
@@ -185,11 +190,14 @@ describe('deterministic response validation', () => {
       'Não; naquele ano eu estava no Luizalabs. Na Lemon, só comecei em julho de 2026.',
       true,
     ],
-  ] as const)('distinguishes boundary premise semantics: %s -> %s', (visitorMessage, answer, valid) => {
-    expect(validateChatAnswer(createValidationInput(answer, { visitorMessage }))).toEqual(
-      valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' },
-    )
-  })
+  ] as const)(
+    'distinguishes boundary premise semantics: %s -> %s',
+    (visitorMessage, answer, valid) => {
+      expect(validateChatAnswer(createValidationInput(answer, { visitorMessage }))).toEqual(
+        valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' },
+      )
+    },
+  )
 
   it.each([
     ['Luizalabs: novembro de 2023 a maio de 2026; Lemon: desde julho de 2026.', false],
@@ -304,33 +312,39 @@ describe('deterministic response validation', () => {
     ['es', '¿Fuiste contratado por Luizalabs en noviembre de 2023?', 'Sí.'],
     ['es', '¿Tu contrato en Luizalabs empezó en noviembre de 2023?', 'Sí.'],
     ['es', '¿Tu contrato en Luizalabs terminó en mayo de 2026?', 'Sí.'],
-  ] as const)('rejects a false %s start/end dialogue act across verb classes: %s', (locale, visitorMessage, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  ] as const)(
+    'rejects a false %s start/end dialogue act across verb classes: %s',
+    (locale, visitorMessage, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it.each([
     ['pt', 'Ingressei no Luizalabs em outubro de 2023 e saí em junho de 2026.'],
     ['en', 'I joined Luizalabs in October 2023 and left in June 2026.'],
     ['es', 'Me incorporé a Luizalabs en octubre de 2023 y salí en junio de 2026.'],
-  ] as const)('accepts canonical %s boundaries across the expanded verb classes', (locale, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage: answer,
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts canonical %s boundaries across the expanded verb classes',
+    (locale, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage: answer,
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it.each([
     'Fui contratado pelo Luizalabs em novembro de 2023.',
@@ -385,11 +399,14 @@ describe('deterministic response validation', () => {
       'Você começou na Lemon em 2024?',
       false,
     ],
-  ] as const)('keeps temporal carry tied to explicit discourse: %s', (answer, visitorMessage, valid) => {
-    expect(validateChatAnswer(createValidationInput(answer, { visitorMessage }))).toEqual(
-      valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' },
-    )
-  })
+  ] as const)(
+    'keeps temporal carry tied to explicit discourse: %s',
+    (answer, visitorMessage, valid) => {
+      expect(validateChatAnswer(createValidationInput(answer, { visitorMessage }))).toEqual(
+        valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' },
+      )
+    },
+  )
 
   it.each([
     'Comecei na Lemon. Foi uma mudança importante. Isso ocorreu em 2024.',
@@ -413,18 +430,23 @@ describe('deterministic response validation', () => {
       'en',
       'I started at Lemon. It was an important change. The process required adaptation. The team supported the transition. That change happened in 2024.',
     ],
-  ] as const)('carries an explicit same-event reference across neutral padding in %s', (locale, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage:
-            locale === 'pt' ? 'Você começou na Lemon em 2024?' : 'Did you start at Lemon in 2024?',
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  ] as const)(
+    'carries an explicit same-event reference across neutral padding in %s',
+    (locale, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage:
+              locale === 'pt'
+                ? 'Você começou na Lemon em 2024?'
+                : 'Did you start at Lemon in 2024?',
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it.each([
     [
@@ -435,16 +457,19 @@ describe('deterministic response validation', () => {
       'en',
       'I started at Lemon. It was an important change. The routine changed. The project evolved. I entered the technology field in May 2021.',
     ],
-  ] as const)('resets employer carry for a global career topic after padding in %s', (locale, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'resets employer carry for a global career topic after padding in %s',
+    (locale, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it('reanchors persistent event carry when a different employer becomes explicit', () => {
     expect(
@@ -497,17 +522,20 @@ describe('deterministic response validation', () => {
     ['pt', 'Comecei na Lemon não como contratado em 2024.'],
     ['en', 'I started at Lemon not as a contractor in 2024.'],
     ['es', 'Empecé en Lemon no como contratista en 2024.'],
-  ] as const)('does not mistake a %s object modifier for predicate negation: %s', (locale, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage: answer,
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  ] as const)(
+    'does not mistake a %s object modifier for predicate negation: %s',
+    (locale, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage: answer,
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it.each([
     [
@@ -525,17 +553,20 @@ describe('deterministic response validation', () => {
       'Aún no había empezado en Lemon en 2024; empecé en julio de 2026.',
       '¿Empezaste en Lemon en 2024?',
     ],
-  ] as const)('accepts a predicate-scoped %s not-yet refutation', (locale, answer, visitorMessage) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts a predicate-scoped %s not-yet refutation',
+    (locale, answer, visitorMessage) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it.each([
     [
@@ -565,17 +596,20 @@ describe('deterministic response validation', () => {
       'Você começou na Lemon em 2024?',
       false,
     ],
-  ] as const)('handles a %s temporal cleft with predicate-scoped negation: %s', (locale, answer, visitorMessage, valid) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual(valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' })
-  })
+  ] as const)(
+    'handles a %s temporal cleft with predicate-scoped negation: %s',
+    (locale, answer, visitorMessage, valid) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual(valid ? { ok: true } : { ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it.each([
     ['Comecei na Lemon em dois mil e vinte e seis.', true],
@@ -793,48 +827,57 @@ describe('deterministic response validation', () => {
     ['es', '¿Empezaste en Lemon en 2024?', 'Sí.'],
     ['es', '¿Empezaste en Lemon en 2024?', 'Sí, fue entonces.'],
     ['pt', 'Você começou na Lemon em 2024?', '- Sim.'],
-  ] as const)('rejects a locale %s answer that affirms or carries a false premise: %s', (locale, visitorMessage, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  ] as const)(
+    'rejects a locale %s answer that affirms or carries a false premise: %s',
+    (locale, visitorMessage, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it.each([
     ['pt', 'Você começou na Lemon em 2024?', 'Não. Comecei na Lemon em julho de 2026.'],
     ['en', 'Did you start at Lemon in 2024?', 'No. I started at Lemon in July 2026.'],
     ['es', '¿Empezaste en Lemon en 2024?', 'No. Empecé en Lemon en julio de 2026.'],
-  ] as const)('accepts an explicit %s refutation followed by the canonical correction', (locale, visitorMessage, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts an explicit %s refutation followed by the canonical correction',
+    (locale, visitorMessage, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it.each([
     ['pt', 'Naquele ano eu trabalhava no Luizalabs.', 'Você começou na Lemon em 2024?'],
     ['en', 'At that time I was working at Luizalabs.', 'Did you start at Lemon in 2024?'],
-  ] as const)('accepts a true %s coreference to another employer', (locale, answer, visitorMessage) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          profile: CHAT_PROFILE_BY_LOCALE[locale],
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts a true %s coreference to another employer',
+    (locale, answer, visitorMessage) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            profile: CHAT_PROFILE_BY_LOCALE[locale],
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it('does not let an earlier true negation suppress a later false start assertion', () => {
     expect(
@@ -846,18 +889,18 @@ describe('deterministic response validation', () => {
     ).toEqual({ ok: false, code: 'canonical-date-conflict' })
   })
 
-  it.each([
-    'Sim, foi nessa época.',
-    'Comecei na Lemon e isso foi em 2024.',
-  ])('rejects temporal coreference or coordination that reasserts the false premise: %s', (answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          visitorMessage: 'Você começou na Lemon em 2024?',
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  it.each(['Sim, foi nessa época.', 'Comecei na Lemon e isso foi em 2024.'])(
+    'rejects temporal coreference or coordination that reasserts the false premise: %s',
+    (answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            visitorMessage: 'Você começou na Lemon em 2024?',
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 
   it('does not treat negation of an unrelated verb as refuting the employer date', () => {
     expect(
@@ -873,13 +916,16 @@ describe('deterministic response validation', () => {
     ['Smarten', '2021'],
     ['SBSistemas', '2023'],
     ['Lemon', '2027'],
-  ])('rejects %s outside its canonical interval even when the visitor supplied %s', (company, year) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(`Trabalhei na ${company} em ${year}.`, {
-          visitorMessage: `Você trabalhou na ${company} em ${year}?`,
-        }),
-      ),
-    ).toEqual({ ok: false, code: 'canonical-date-conflict' })
-  })
+  ])(
+    'rejects %s outside its canonical interval even when the visitor supplied %s',
+    (company, year) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(`Trabalhei na ${company} em ${year}.`, {
+            visitorMessage: `Você trabalhou na ${company} em ${year}?`,
+          }),
+        ),
+      ).toEqual({ ok: false, code: 'canonical-date-conflict' })
+    },
+  )
 })

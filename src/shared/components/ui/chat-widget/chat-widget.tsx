@@ -120,6 +120,7 @@ export const ChatWidget = (): React.ReactElement => {
     t('suggestions.skills'),
     t('suggestions.experience'),
     t('suggestions.projects'),
+    t('suggestions.atto'),
   ]
 
   const handleSuggestion = (suggestion: string): void => {

@@ -1,16 +1,18 @@
 import { APPROVED_CHAT_URLS, CHAT_CONTACT_LINKS, isApprovedChatUrl } from '../chat-links'
 
 describe('shared chat link policy', () => {
-  it('contains only the three exact approved HTTPS contact URLs', () => {
+  it('contains only the four exact approved HTTPS contact URLs', () => {
     expect(CHAT_CONTACT_LINKS).toEqual({
       github: 'https://github.com/RanielliMontagna',
       linkedin: 'https://www.linkedin.com/in/rannimontagna',
       website: 'https://ranimontagna.com',
+      atto: 'https://attodev.com.br',
     })
     expect(APPROVED_CHAT_URLS).toEqual([
       CHAT_CONTACT_LINKS.github,
       CHAT_CONTACT_LINKS.linkedin,
       CHAT_CONTACT_LINKS.website,
+      CHAT_CONTACT_LINKS.atto,
     ])
     expect(APPROVED_CHAT_URLS.every((url) => new URL(url).protocol === 'https:')).toBe(true)
   })

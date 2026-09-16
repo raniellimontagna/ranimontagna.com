@@ -181,17 +181,20 @@ describe('shared chat execution context', () => {
   it.each([
     ['deadline', 'timeout'],
     ['client', 'cancelled'],
-  ] as const)('recognizes an already-aborted %s signal when creating the context', (abortedSignal, expectedCategory) => {
-    const clientController = new AbortController()
-    const deadlineController = new AbortController()
-    if (abortedSignal === 'deadline') deadlineController.abort()
-    else clientController.abort()
+  ] as const)(
+    'recognizes an already-aborted %s signal when creating the context',
+    (abortedSignal, expectedCategory) => {
+      const clientController = new AbortController()
+      const deadlineController = new AbortController()
+      if (abortedSignal === 'deadline') deadlineController.abort()
+      else clientController.abort()
 
-    const context = createExecution(clientController, deadlineController)
+      const context = createExecution(clientController, deadlineController)
 
-    expect(context.signal.aborted).toBe(true)
-    expect(getChatInterruptionCategory(context)).toBe(expectedCategory)
-  })
+      expect(context.signal.aborted).toBe(true)
+      expect(getChatInterruptionCategory(context)).toBe(expectedCategory)
+    },
+  )
 
   it('removes both one-shot listeners after the first abort', () => {
     const clientController = new AbortController()
@@ -216,30 +219,33 @@ describe('provider adapter contracts', () => {
     ['deepseek', 'callDeepSeek', 'https://api.deepseek.com/chat/completions'],
     ['openrouter', 'callOpenRouter', 'https://openrouter.ai/api/v1/chat/completions'],
     ['groq', 'callGroq', 'https://api.groq.com/openai/v1/chat/completions'],
-  ] as const)('sends authoritative OpenAI-compatible messages through %s', async (provider, adapterName, expectedUrl) => {
-    const { adapters, fetchMock } = createAdapterHarness()
+  ] as const)(
+    'sends authoritative OpenAI-compatible messages through %s',
+    async (provider, adapterName, expectedUrl) => {
+      const { adapters, fetchMock } = createAdapterHarness()
 
-    const result = await invoke(adapters[adapterName])
+      const result = await invoke(adapters[adapterName])
 
-    expect(result).toMatchObject({
-      ok: true,
-      attempt: {
-        durationMs: 25,
-        firstByteMs: 25,
-        format: 'openai-sse',
-        provider,
-      },
-    })
-    const [requestUrl, requestInit] = fetchMock.mock.calls[0] as [string, RequestInit]
-    const requestBody = JSON.parse(String(requestInit.body))
-    expect(requestUrl).toBe(expectedUrl)
-    expect(requestBody.messages).toEqual([
-      { role: 'system', content: 'system policy' },
-      { role: 'user', content: 'visitor payload' },
-    ])
-    expect(requestBody.temperature).toBe(CHAT_GENERATION_POLICY.temperature)
-    expect(requestBody.max_tokens).toBe(CHAT_GENERATION_POLICY.maxOutputTokens)
-  })
+      expect(result).toMatchObject({
+        ok: true,
+        attempt: {
+          durationMs: 25,
+          firstByteMs: 25,
+          format: 'openai-sse',
+          provider,
+        },
+      })
+      const [requestUrl, requestInit] = fetchMock.mock.calls[0] as [string, RequestInit]
+      const requestBody = JSON.parse(String(requestInit.body))
+      expect(requestUrl).toBe(expectedUrl)
+      expect(requestBody.messages).toEqual([
+        { role: 'system', content: 'system policy' },
+        { role: 'user', content: 'visitor payload' },
+      ])
+      expect(requestBody.temperature).toBe(CHAT_GENERATION_POLICY.temperature)
+      expect(requestBody.max_tokens).toBe(CHAT_GENERATION_POLICY.maxOutputTokens)
+    },
+  )
 
   it('uses one pinned OpenRouter model with strict privacy routing', async () => {
     const { adapters, fetchMock } = createAdapterHarness()
@@ -285,37 +291,40 @@ describe('provider adapter contracts', () => {
     ['callGemini', 'gemini', 'GEMINI_API_KEY'],
     ['callOpenRouter', 'openrouter', 'OPENROUTER_API_KEY'],
     ['callGroq', 'groq', 'GROQ_API_KEY'],
-  ] as const)('returns disabled for %s without reading its credential when its flag is false', async (adapterName, provider, credentialName) => {
-    const reads: PropertyKey[] = []
-    const environment = new Proxy<ChatProviderEnvironment>(
-      { [credentialName]: 'must-not-be-read' },
-      {
-        get(target, property, receiver) {
-          reads.push(property)
-          return Reflect.get(target, property, receiver)
+  ] as const)(
+    'returns disabled for %s without reading its credential when its flag is false',
+    async (adapterName, provider, credentialName) => {
+      const reads: PropertyKey[] = []
+      const environment = new Proxy<ChatProviderEnvironment>(
+        { [credentialName]: 'must-not-be-read' },
+        {
+          get(target, property, receiver) {
+            reads.push(property)
+            return Reflect.get(target, property, receiver)
+          },
         },
-      },
-    )
-    const config = createChatProviderConfig(environment)
-    reads.length = 0
-    const fetchMock = vi.fn()
-    const adapters = createChatProviderAdapters(config, {
-      environment,
-      fetch: fetchMock as typeof fetch,
-    })
+      )
+      const config = createChatProviderConfig(environment)
+      reads.length = 0
+      const fetchMock = vi.fn()
+      const adapters = createChatProviderAdapters(config, {
+        environment,
+        fetch: fetchMock as typeof fetch,
+      })
 
-    const result = await invoke(adapters[adapterName])
+      const result = await invoke(adapters[adapterName])
 
-    expect(result).toMatchObject({
-      category: 'disabled',
-      chainable: true,
-      firstByteMs: null,
-      ok: false,
-      provider,
-    })
-    expect(reads).not.toContain(credentialName)
-    expect(fetchMock).not.toHaveBeenCalled()
-  })
+      expect(result).toMatchObject({
+        category: 'disabled',
+        chainable: true,
+        firstByteMs: null,
+        ok: false,
+        provider,
+      })
+      expect(reads).not.toContain(credentialName)
+      expect(fetchMock).not.toHaveBeenCalled()
+    },
+  )
 
   it('keeps DeepSeek enabled and first-class without an enable flag', async () => {
     const environment = {
@@ -422,34 +431,37 @@ describe('provider adapter contracts', () => {
   it.each([
     ['cancelled', 'client'],
     ['timeout', 'deadline'],
-  ] as const)('prioritizes an already-%s execution over missing credentials and disabled flags', async (category, abortedSignal) => {
-    const clientController = new AbortController()
-    const deadlineController = new AbortController()
-    if (abortedSignal === 'client') clientController.abort()
-    else deadlineController.abort()
+  ] as const)(
+    'prioritizes an already-%s execution over missing credentials and disabled flags',
+    async (category, abortedSignal) => {
+      const clientController = new AbortController()
+      const deadlineController = new AbortController()
+      if (abortedSignal === 'client') clientController.abort()
+      else deadlineController.abort()
 
-    const execution = createExecution(clientController, deadlineController)
-    const environment: ChatProviderEnvironment = {}
-    const fetchMock = vi.fn()
-    const adapters = createChatProviderAdapters(createChatProviderConfig(environment), {
-      environment,
-      fetch: fetchMock as typeof fetch,
-    })
-
-    for (const adapter of [
-      adapters.callDeepSeek,
-      adapters.callGemini,
-      adapters.callOpenRouter,
-      adapters.callGroq,
-    ]) {
-      await expect(invoke(adapter, execution)).resolves.toMatchObject({
-        category,
-        chainable: false,
-        ok: false,
+      const execution = createExecution(clientController, deadlineController)
+      const environment: ChatProviderEnvironment = {}
+      const fetchMock = vi.fn()
+      const adapters = createChatProviderAdapters(createChatProviderConfig(environment), {
+        environment,
+        fetch: fetchMock as typeof fetch,
       })
-    }
-    expect(fetchMock).not.toHaveBeenCalled()
-  })
+
+      for (const adapter of [
+        adapters.callDeepSeek,
+        adapters.callGemini,
+        adapters.callOpenRouter,
+        adapters.callGroq,
+      ]) {
+        await expect(invoke(adapter, execution)).resolves.toMatchObject({
+          category,
+          chainable: false,
+          ok: false,
+        })
+      }
+      expect(fetchMock).not.toHaveBeenCalled()
+    },
+  )
 
   it('passes the one shared execution signal to every enabled adapter', async () => {
     const execution = createExecution()

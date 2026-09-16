@@ -31,6 +31,15 @@ export type ChatProject = {
   technologies: string[]
 }
 
+export type ChatVenture = {
+  name: string
+  role: string
+  summary: string
+  fronts: string[]
+  /** Como responder a pedidos de projeto: sempre via Atto. */
+  routing: string
+}
+
 export type ChatProfile = {
   availability: string
   experienceSummary: string
@@ -42,12 +51,13 @@ export type ChatProfile = {
   professionalProfile: string
   projects: ChatProject[]
   technicalAreas: Array<{ label: string; items: string[] }>
+  venture: ChatVenture
 }
 
 export const CHAT_PROFILE_BY_LOCALE = {
   pt: {
     availability:
-      'Atualmente atuo na Lemon Energia como PJ em um compromisso não exclusivo. Posso avaliar projetos e parcerias dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade.',
+      'Trabalho na Lemon Energia como PJ em um compromisso não exclusivo e sou sócio-fundador da Atto. Projetos, orçamentos e parcerias de software ou marketing passam pela Atto; posso avaliar dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade. Conversas sobre engenharia, carreira e comunidade: aqui ou no LinkedIn.',
     experienceSummary: '5+ anos em software e 10 anos de trajetória profissional',
     experiences: [
       {
@@ -117,9 +127,27 @@ export const CHAT_PROFILE_BY_LOCALE = {
       'Engenheiro de software na Lemon Energia e sócio-fundador da Atto (software sob medida e marketing)',
     projects: [
       {
-        name: 'North Clinic',
-        summary: 'Sistema de gestão para clínicas',
-        technologies: ['JavaScript', 'Go', 'REST API'],
+        name: 'NaN Solutions (Atto)',
+        summary:
+          'Site institucional de loja de tecnologia em Papanduva/SC, foco em loja física e e-commerce, Lighthouse 100 nas quatro notas',
+        technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
+      },
+      {
+        name: 'Fronteira Sul Drones (Atto)',
+        summary:
+          'E-commerce agrícola de drones e peças com catálogo, carrinho consultivo e checkout no WhatsApp',
+        technologies: ['React', 'TypeScript', 'Vite', 'Cloudflare Workers', 'R2'],
+      },
+      {
+        name: 'TALA Drone Partners (Atto)',
+        summary:
+          'Plataforma de parceiros para expansão regional de drones agrícolas: dashboard, CRM, rastreamento e comissões',
+        technologies: ['React', 'TypeScript', 'Vite', 'TanStack Router', 'GSAP'],
+      },
+      {
+        name: 'Quadralize (Atto)',
+        summary: 'Gestão de quadras esportivas: agendamento, CRM, PDV, pagamentos e financeiro',
+        technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
       },
       {
         name: 'Mobile Estoquista Magalu',
@@ -157,11 +185,29 @@ export const CHAT_PROFILE_BY_LOCALE = {
         label: 'IA e automação',
         items: ['LLMs', 'automação de processos', 'agentes', 'Model Context Protocol (MCP)'],
       },
+      {
+        label: 'Marketing e aquisição (Atto)',
+        items: ['Meta Ads', 'WhatsApp Cloud API', 'funil e mensuração', 'SEO e busca por IA'],
+      },
     ],
+    venture: {
+      name: 'Atto',
+      role: 'Sócio-fundador (com Juliano Paludo)',
+      summary:
+        'Software house e marketing: produtos digitais sob medida, integrações, automação com IA e campanhas que trazem cliente, com escopo, prazo e preço fechados antes de começar.',
+      fronts: [
+        'Sites, sistemas e e-commerce (React, Next.js, Astro)',
+        'Apps mobile (React Native)',
+        'Integrações e IA (APIs, WhatsApp, ERPs, automação)',
+        'Marketing e aquisição (tráfego pago, presença digital, funil no WhatsApp)',
+      ],
+      routing:
+        'Pedidos de projeto, orçamento, prazo ou parceria: apresentar a Atto e direcionar para attodev.com.br.',
+    },
   },
   en: {
     availability:
-      'I currently work at Lemon Energia as a contractor in a non-exclusive engagement. I can evaluate projects and partnerships depending on the proposal, scope, fit, and my availability.',
+      'I work at Lemon Energia as a contractor in a non-exclusive engagement and I am co-founder of Atto. Projects, quotes and software or marketing partnerships go through Atto; I can evaluate them depending on the proposal, scope, fit, and my availability. Engineering, career and community conversations: here or on LinkedIn.',
     experienceSummary: '5+ years in software and 10 years of professional experience',
     experiences: [
       {
@@ -231,9 +277,27 @@ export const CHAT_PROFILE_BY_LOCALE = {
       'Software engineer at Lemon Energia and co-founder of Atto (custom software and marketing)',
     projects: [
       {
-        name: 'North Clinic',
-        summary: 'Clinic management system',
-        technologies: ['JavaScript', 'Go', 'REST API'],
+        name: 'NaN Solutions (Atto)',
+        summary:
+          'Website for a tech store in Papanduva/SC focused on the physical store and e-commerce, Lighthouse 100 across the board',
+        technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
+      },
+      {
+        name: 'Fronteira Sul Drones (Atto)',
+        summary:
+          'Agricultural e-commerce for drones and parts with catalog, consultative cart and WhatsApp checkout',
+        technologies: ['React', 'TypeScript', 'Vite', 'Cloudflare Workers', 'R2'],
+      },
+      {
+        name: 'TALA Drone Partners (Atto)',
+        summary:
+          'Partner platform for regional expansion of agricultural drones: dashboard, CRM, tracking and commissions',
+        technologies: ['React', 'TypeScript', 'Vite', 'TanStack Router', 'GSAP'],
+      },
+      {
+        name: 'Quadralize (Atto)',
+        summary: 'Sports court management: bookings, CRM, POS, payments and finance',
+        technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
       },
       {
         name: 'Mobile Estoquista Magalu',
@@ -271,11 +335,29 @@ export const CHAT_PROFILE_BY_LOCALE = {
         label: 'AI and automation',
         items: ['LLMs', 'process automation', 'agents', 'Model Context Protocol (MCP)'],
       },
+      {
+        label: 'Marketing and acquisition (Atto)',
+        items: ['Meta Ads', 'WhatsApp Cloud API', 'funnel and measurement', 'SEO and AI search'],
+      },
     ],
+    venture: {
+      name: 'Atto',
+      role: 'Co-founder (with Juliano Paludo)',
+      summary:
+        'Software house and marketing studio: custom digital products, integrations, AI automation and campaigns that bring customers, with scope, timeline and price agreed before we start.',
+      fronts: [
+        'Websites, systems and e-commerce (React, Next.js, Astro)',
+        'Mobile apps (React Native)',
+        'Integrations and AI (APIs, WhatsApp, ERPs, automation)',
+        'Marketing and acquisition (paid traffic, digital presence, WhatsApp funnel)',
+      ],
+      routing:
+        'Project, quote, timeline or partnership requests: introduce Atto and direct to attodev.com.br.',
+    },
   },
   es: {
     availability:
-      'Actualmente trabajo en Lemon Energia como contratista en una relación no exclusiva. Puedo evaluar proyectos y colaboraciones según la propuesta, el alcance, la compatibilidad y mi disponibilidad.',
+      'Trabajo en Lemon Energia como contratista en un compromiso no exclusivo y soy cofundador de Atto. Proyectos, presupuestos y colaboraciones de software o marketing pasan por Atto; puedo evaluarlos según la propuesta, el alcance, la compatibilidad y mi disponibilidad. Conversaciones sobre ingeniería, carrera y comunidad: aquí o en LinkedIn.',
     experienceSummary: '5+ años en software y 10 años de trayectoria profesional',
     experiences: [
       {
@@ -343,9 +425,27 @@ export const CHAT_PROFILE_BY_LOCALE = {
       'Ingeniero de software en Lemon Energia y cofundador de Atto (software a medida y marketing)',
     projects: [
       {
-        name: 'North Clinic',
-        summary: 'Sistema de gestión para clínicas',
-        technologies: ['JavaScript', 'Go', 'REST API'],
+        name: 'NaN Solutions (Atto)',
+        summary:
+          'Sitio de una tienda de tecnología en Papanduva/SC enfocado en la tienda física y el e-commerce, Lighthouse 100 en las cuatro notas',
+        technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
+      },
+      {
+        name: 'Fronteira Sul Drones (Atto)',
+        summary:
+          'E-commerce agrícola de drones y piezas con catálogo, carrito consultivo y checkout por WhatsApp',
+        technologies: ['React', 'TypeScript', 'Vite', 'Cloudflare Workers', 'R2'],
+      },
+      {
+        name: 'TALA Drone Partners (Atto)',
+        summary:
+          'Plataforma de socios para la expansión regional de drones agrícolas: dashboard, CRM, seguimiento y comisiones',
+        technologies: ['React', 'TypeScript', 'Vite', 'TanStack Router', 'GSAP'],
+      },
+      {
+        name: 'Quadralize (Atto)',
+        summary: 'Gestión de canchas deportivas: reservas, CRM, punto de venta, pagos y finanzas',
+        technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
       },
       {
         name: 'Mobile Estoquista Magalu',
@@ -354,7 +454,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       },
       {
         name: 'Pratio',
-        summary: 'PDV para restaurantes con NFC-e y menú digital',
+        summary: 'Punto de venta para restaurantes con NFC-e y menú digital',
         technologies: ['React', 'Electron', 'TypeScript'],
       },
     ],
@@ -383,6 +483,24 @@ export const CHAT_PROFILE_BY_LOCALE = {
         label: 'IA y automatización',
         items: ['LLMs', 'automatización de procesos', 'agentes', 'Model Context Protocol (MCP)'],
       },
+      {
+        label: 'Marketing y adquisición (Atto)',
+        items: ['Meta Ads', 'WhatsApp Cloud API', 'embudo y medición', 'SEO y búsqueda por IA'],
+      },
     ],
+    venture: {
+      name: 'Atto',
+      role: 'Cofundador (con Juliano Paludo)',
+      summary:
+        'Software house y marketing: productos digitales a medida, integraciones, automatización con IA y campañas que traen clientes, con alcance, plazo y precio cerrados antes de empezar.',
+      fronts: [
+        'Sitios, sistemas y e-commerce (React, Next.js, Astro)',
+        'Apps móviles (React Native)',
+        'Integraciones e IA (APIs, WhatsApp, ERPs, automatización)',
+        'Marketing y adquisición (tráfico pago, presencia digital, embudo en WhatsApp)',
+      ],
+      routing:
+        'Pedidos de proyecto, presupuesto, plazo o colaboración: presentar Atto y dirigir a attodev.com.br.',
+    },
   },
 } satisfies Record<ChatLocale, ChatProfile>

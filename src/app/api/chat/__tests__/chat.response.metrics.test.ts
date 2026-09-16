@@ -131,11 +131,14 @@ describe('deterministic response validation', () => {
     ['Impactei trinta milhões de clientes na Lemon.', false],
     ['Demitimos 1.000 estoquistas no Luizalabs.', false],
     ['I managed 1,000 stock clerks at Luizalabs.', false],
-  ] as const)('validates typed spelled metrics without employer laundering: %s', (answer, valid) => {
-    expect(validateChatAnswer(createValidationInput(answer))).toEqual(
-      valid ? { ok: true } : { ok: false, code: 'unsupported-metric' },
-    )
-  })
+  ] as const)(
+    'validates typed spelled metrics without employer laundering: %s',
+    (answer, valid) => {
+      expect(validateChatAnswer(createValidationInput(answer))).toEqual(
+        valid ? { ok: true } : { ok: false, code: 'unsupported-metric' },
+      )
+    },
+  )
 
   it.each([
     ['pt', 'Contribuí para cento e vinte e três mil lojas no Luizalabs.'],
@@ -204,11 +207,14 @@ describe('deterministic response validation', () => {
     ['Tengo 3 proyectos principales.', true],
     ['Tenho 3 projetos principais na Lemon.', false],
     ['Tenho 5+ anos em software. Hoje trabalho na Lemon.', true],
-  ] as const)('keeps global, structural, and employer metric scopes separate: %s', (answer, valid) => {
-    expect(validateChatAnswer(createValidationInput(answer))).toEqual(
-      valid ? { ok: true } : { ok: false, code: 'unsupported-metric' },
-    )
-  })
+  ] as const)(
+    'keeps global, structural, and employer metric scopes separate: %s',
+    (answer, valid) => {
+      expect(validateChatAnswer(createValidationInput(answer))).toEqual(
+        valid ? { ok: true } : { ok: false, code: 'unsupported-metric' },
+      )
+    },
+  )
 
   it.each([
     'Na Lemon. Esse foi um grande resultado. Contribuí para produtos usados em 1.000 lojas.',

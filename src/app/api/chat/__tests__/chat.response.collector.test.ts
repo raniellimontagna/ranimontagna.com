@@ -447,11 +447,14 @@ describe('provider response collection', () => {
       geminiEvent({ candidates: [{ content: { parts: [] }, finishReason: 'SAFETY' }] }),
       '',
     ],
-  ] as const)('rejects a %s payload after the first terminal finish', async (_name, format, terminal, latePayload, sentinel) => {
-    await expect(
-      collectAnswer(attempt(format, [terminal, latePayload, sentinel].filter(Boolean))),
-    ).resolves.toEqual({ ok: false, code: 'malformed' })
-  })
+  ] as const)(
+    'rejects a %s payload after the first terminal finish',
+    async (_name, format, terminal, latePayload, sentinel) => {
+      await expect(
+        collectAnswer(attempt(format, [terminal, latePayload, sentinel].filter(Boolean))),
+      ).resolves.toEqual({ ok: false, code: 'malformed' })
+    },
+  )
 
   it.each([
     [
@@ -474,9 +477,12 @@ describe('provider response collection', () => {
       ],
       { ok: true, text: 'safe', finishReason: 'STOP' },
     ],
-  ] as const)('accepts only %s after a terminal finish', async (_name, format, chunks, expected) => {
-    await expect(collectAnswer(attempt(format, [...chunks]))).resolves.toEqual(expected)
-  })
+  ] as const)(
+    'accepts only %s after a terminal finish',
+    async (_name, format, chunks, expected) => {
+      await expect(collectAnswer(attempt(format, [...chunks]))).resolves.toEqual(expected)
+    },
+  )
 
   it('rejects an error event after partial text without returning the partial text', async () => {
     const result = await collectAnswer(
@@ -558,31 +564,31 @@ describe('provider response collection', () => {
     expect(cancel).toHaveBeenCalledOnce()
   })
 
-  it.each([
-    'cancelled',
-    'timeout',
-  ] as const)('cancels a pending reader on %s abort', async (code) => {
-    const cancel = vi.fn()
-    const clientController = new AbortController()
-    const deadlineController = new AbortController()
-    const execution = createChatExecutionContext(clientController.signal, 12_000, {
-      createDeadlineSignal: () => deadlineController.signal,
-      now: () => 0,
-    })
-    const pendingAttempt = attempt(
-      'openai-sse',
-      [openAiEvent({ choices: [{ delta: { content: 'partial' } }] })],
-      { close: false, cancel },
-    )
+  it.each(['cancelled', 'timeout'] as const)(
+    'cancels a pending reader on %s abort',
+    async (code) => {
+      const cancel = vi.fn()
+      const clientController = new AbortController()
+      const deadlineController = new AbortController()
+      const execution = createChatExecutionContext(clientController.signal, 12_000, {
+        createDeadlineSignal: () => deadlineController.signal,
+        now: () => 0,
+      })
+      const pendingAttempt = attempt(
+        'openai-sse',
+        [openAiEvent({ choices: [{ delta: { content: 'partial' } }] })],
+        { close: false, cancel },
+      )
 
-    const resultPromise = collectAnswer(pendingAttempt, execution)
-    if (code === 'cancelled') clientController.abort()
-    else deadlineController.abort()
+      const resultPromise = collectAnswer(pendingAttempt, execution)
+      if (code === 'cancelled') clientController.abort()
+      else deadlineController.abort()
 
-    expect(getChatInterruptionCategory(execution)).toBe(code)
-    await expect(resultPromise).resolves.toEqual({ ok: false, code })
-    expect(cancel).toHaveBeenCalledOnce()
-  })
+      expect(getChatInterruptionCategory(execution)).toBe(code)
+      await expect(resultPromise).resolves.toEqual({ ok: false, code })
+      expect(cancel).toHaveBeenCalledOnce()
+    },
+  )
 
   it('initiates cancellation and returns immediately when already aborted', async () => {
     const cancel = vi.fn(() => new Promise<void>(() => {}))
@@ -633,16 +639,19 @@ describe('provider response collection', () => {
       [openAiEvent({ choices: [{ delta: { content: 'x'.repeat(CHAT_MAX_ANSWER_CHARS + 1) } }] })],
       { ok: false, code: 'response-too-large' },
     ],
-  ] as const)('does not await a never-resolving body cancellation after %s', async (_name, chunks, expected) => {
-    const cancel = vi.fn(() => new Promise<void>(() => {}))
+  ] as const)(
+    'does not await a never-resolving body cancellation after %s',
+    async (_name, chunks, expected) => {
+      const cancel = vi.fn(() => new Promise<void>(() => {}))
 
-    const result = await settlesWithin(
-      collectAnswer(attempt('openai-sse', [...chunks], { close: false, cancel })),
-    )
+      const result = await settlesWithin(
+        collectAnswer(attempt('openai-sse', [...chunks], { close: false, cancel })),
+      )
 
-    expect(result).toEqual(expected)
-    expect(cancel).toHaveBeenCalledOnce()
-  })
+      expect(result).toEqual(expected)
+      expect(cancel).toHaveBeenCalledOnce()
+    },
+  )
 
   it('absorbs a rejected best-effort cancellation without leaking or blocking', async () => {
     const cancel = vi.fn(() => Promise.reject(new Error('private provider cancellation')))
