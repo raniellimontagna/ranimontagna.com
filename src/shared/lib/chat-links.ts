@@ -2,12 +2,14 @@ export const CHAT_CONTACT_LINKS = {
   github: 'https://github.com/RanielliMontagna',
   linkedin: 'https://www.linkedin.com/in/rannimontagna',
   website: 'https://ranimontagna.com',
+  atto: 'https://attodev.com.br',
 } as const
 
 export const APPROVED_CHAT_URLS = [
   CHAT_CONTACT_LINKS.github,
   CHAT_CONTACT_LINKS.linkedin,
   CHAT_CONTACT_LINKS.website,
+  CHAT_CONTACT_LINKS.atto,
 ] as const
 
 const APPROVED_CHAT_URL_SET: ReadonlySet<string> = new Set(APPROVED_CHAT_URLS)

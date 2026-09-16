@@ -63,47 +63,53 @@ const canonicalExperienceDates = [
 
 describe('chat professional profile', () => {
   it.each([
-    ['pt', /PJ/i, /posso avaliar projetos/i],
-    ['en', /contractor/i, /can evaluate projects/i],
-    ['es', /contratista/i, /puedo evaluar proyectos/i],
-  ] as const)('states the non-exclusive Lemon engagement and project openness in %s', (locale, engagementPattern, availabilityPattern) => {
-    const { availability } = CHAT_PROFILE_BY_LOCALE[locale]
+    ['pt', /PJ/i, /posso avaliar/i],
+    ['en', /contractor/i, /can evaluate/i],
+    ['es', /contratista/i, /puedo evaluarlos/i],
+  ] as const)(
+    'states the non-exclusive Lemon engagement, Atto routing and project openness in %s',
+    (locale, engagementPattern, availabilityPattern) => {
+      const { availability, venture } = CHAT_PROFILE_BY_LOCALE[locale]
 
-    expect(availability).toMatch(engagementPattern)
-    expect(availability).toMatch(availabilityPattern)
-  })
+      expect(availability).toMatch(engagementPattern)
+      expect(availability).toMatch(availabilityPattern)
+      expect(availability).toContain('Atto')
+      expect(venture.name).toBe('Atto')
+      expect(venture.fronts).toHaveLength(4)
+      expect(venture.routing).toContain('attodev.com.br')
+    },
+  )
 
   it('rejects details that do not belong to the experience state', () => {
     expectTypeOf<CurrentExperienceWithPastOutcomes>().not.toMatchTypeOf<ChatExperience>()
     expectTypeOf<PreviousExperienceWithCurrentScope>().not.toMatchTypeOf<ChatExperience>()
   })
 
-  it.each(locales)('separates current scope from verified outcomes in $locale', ({
-    locale,
-    currentPeriod,
-    previousPeriod,
-  }) => {
-    const [lemon, luizalabs] = CHAT_PROFILE_BY_LOCALE[locale].experiences
+  it.each(locales)(
+    'separates current scope from verified outcomes in $locale',
+    ({ locale, currentPeriod, previousPeriod }) => {
+      const [lemon, luizalabs] = CHAT_PROFILE_BY_LOCALE[locale].experiences
 
-    expect(lemon).toMatchObject({
-      company: 'Lemon Energia',
-      current: true,
-      endDate: null,
-      outcomes: [],
-      period: currentPeriod,
-      startDate: '2026-07',
-    })
-    expect(lemon.scope.length).toBeGreaterThan(0)
-    expect(luizalabs).toMatchObject({
-      company: 'Luizalabs',
-      current: false,
-      endDate: '2026-06',
-      period: previousPeriod,
-      scope: [],
-      startDate: '2023-10',
-    })
-    expect(luizalabs.outcomes.length).toBeGreaterThan(0)
-  })
+      expect(lemon).toMatchObject({
+        company: 'Lemon Energia',
+        current: true,
+        endDate: null,
+        outcomes: [],
+        period: currentPeriod,
+        startDate: '2026-07',
+      })
+      expect(lemon.scope.length).toBeGreaterThan(0)
+      expect(luizalabs).toMatchObject({
+        company: 'Luizalabs',
+        current: false,
+        endDate: '2026-06',
+        period: previousPeriod,
+        scope: [],
+        startDate: '2023-10',
+      })
+      expect(luizalabs.outcomes.length).toBeGreaterThan(0)
+    },
+  )
 
   it.each(locales)('keeps every canonical experience date aligned in $locale', ({ locale }) => {
     expect(

@@ -45,16 +45,15 @@ describe('deterministic response validation', () => {
     })
   })
 
-  it.each([
-    'mailto:rani@example.com',
-    'ftp://ranimontagna.com/file',
-    'tel:+5554999999999',
-  ])('rejects non-HTTPS protocol %s', (target) => {
-    expect(validateChatAnswer(createValidationInput(`[Contato](${target})`))).toEqual({
-      ok: false,
-      code: 'unsafe-protocol',
-    })
-  })
+  it.each(['mailto:rani@example.com', 'ftp://ranimontagna.com/file', 'tel:+5554999999999'])(
+    'rejects non-HTTPS protocol %s',
+    (target) => {
+      expect(validateChatAnswer(createValidationInput(`[Contato](${target})`))).toEqual({
+        ok: false,
+        code: 'unsafe-protocol',
+      })
+    },
+  )
 
   it.each([
     '[Contato](https://ranimontagna.com\n@evil.example)',

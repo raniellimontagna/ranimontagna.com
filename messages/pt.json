@@ -543,7 +543,8 @@
     "suggestions": {
       "skills": "Quais são suas principais skills?",
       "experience": "Me conte sobre sua experiência profissional",
-      "projects": "Quais projetos você já desenvolveu?"
+      "projects": "Quais projetos você já desenvolveu?",
+      "atto": "O que é a Atto e como funciona um projeto?"
     }
   }
 }

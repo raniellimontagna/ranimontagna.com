@@ -32,16 +32,19 @@ describe('project availability validation', () => {
       '¿Estás disponible para un proyecto?',
       'Puedo evaluar proyectos según la propuesta, el alcance y mi disponibilidad.',
     ],
-  ] as const)('accepts conditional project availability in %s', (locale, visitorMessage, answer) => {
-    expect(
-      validateChatAnswer(
-        createValidationInput(answer, {
-          locale,
-          visitorMessage,
-        }),
-      ),
-    ).toEqual({ ok: true })
-  })
+  ] as const)(
+    'accepts conditional project availability in %s',
+    (locale, visitorMessage, answer) => {
+      expect(
+        validateChatAnswer(
+          createValidationInput(answer, {
+            locale,
+            visitorMessage,
+          }),
+        ),
+      ).toEqual({ ok: true })
+    },
+  )
 
   it('does not apply the project rule to an unrelated question', () => {
     expect(
