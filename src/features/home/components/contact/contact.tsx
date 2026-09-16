@@ -1,4 +1,4 @@
-import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import { Buildings, Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import {
   BlurReveal,
@@ -23,6 +23,17 @@ export const Contact = (): React.ReactElement => {
   const emailHref = emailLink.direct ? `mailto:${emailLink.direct}` : emailLink.href
 
   const contactMethodsArray = [
+    {
+      id: 'atto',
+      icon: Buildings,
+      title: t('methods.atto.title'),
+      description: t('methods.atto.description'),
+      action: t('methods.atto.action'),
+      href: 'https://attodev.com.br',
+      external: true,
+      color: 'blue' as const,
+      endpoint: 'ATTO',
+    },
     {
       id: 'linkedin',
       icon: linkedinLink.icon,

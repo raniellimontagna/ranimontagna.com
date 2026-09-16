@@ -20,6 +20,16 @@ interface PersonJsonLd {
     caption: string
   }
   sameAs: string[]
+  worksFor: {
+    '@type': string
+    name: string
+  }
+  affiliation: {
+    '@type': string
+    name: string
+    url: string
+    description: string
+  }
   alumniOf: {
     '@type': string
     name: string
@@ -99,32 +109,32 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     .map((link) => link.href)
 
   const descriptions = {
-    en: 'Full Stack Software Engineer specializing in React, React Native, Node.js, TypeScript, APIs and micro frontends.',
-    pt: 'Engenheiro de Software Full Stack especializado em React, React Native, Node.js, TypeScript, APIs e micro frontends.',
-    es: 'Ingeniero de Software Full Stack especializado en React, React Native, Node.js, TypeScript, APIs y micro frontends.',
+    en: 'Software engineer at Lemon Energia and co-founder of Atto (custom software and marketing), working with React, React Native, Node.js, TypeScript, automation and applied AI.',
+    pt: 'Engenheiro de software na Lemon Energia e sócio-fundador da Atto (software sob medida e marketing), atuando com React, React Native, Node.js, TypeScript, automação e IA aplicada.',
+    es: 'Ingeniero de software en Lemon Energia y cofundador de Atto (software a medida y marketing), trabajando con React, React Native, Node.js, TypeScript, automatización e IA aplicada.',
   }
 
   const jobTitles = {
-    en: 'Full Stack Software Engineer',
-    pt: 'Engenheiro de Software Full Stack',
-    es: 'Ingeniero de Software Full Stack',
+    en: 'Software Engineer · Co-founder of Atto',
+    pt: 'Engenheiro de Software · Sócio-fundador da Atto',
+    es: 'Ingeniero de Software · Cofundador de Atto',
   }
 
   const hasOccupation = {
     en: {
-      name: 'Full Stack Software Engineer',
+      name: 'Software Engineer',
       description:
-        'Builds scalable web and mobile applications, REST APIs and micro frontends using React, React Native, Node.js, TypeScript and Next.js.',
+        'Builds scalable web and mobile products, APIs and automation with applied AI using React, React Native, Node.js, TypeScript and Next.js; co-founder of Atto, a software house and marketing studio.',
     },
     pt: {
-      name: 'Engenheiro de Software Full Stack',
+      name: 'Engenheiro de Software',
       description:
-        'Constrói aplicações web e mobile escaláveis, APIs REST e micro frontends usando React, React Native, Node.js, TypeScript e Next.js.',
+        'Constrói produtos web e mobile escaláveis, APIs e automação com IA aplicada usando React, React Native, Node.js, TypeScript e Next.js; sócio-fundador da Atto, software house e marketing.',
     },
     es: {
-      name: 'Ingeniero de Software Full Stack',
+      name: 'Ingeniero de Software',
       description:
-        'Construye aplicaciones web y móviles escalables, APIs REST y micro frontends usando React, React Native, Node.js, TypeScript y Next.js.',
+        'Construye productos web y móviles escalables, APIs y automatización con IA aplicada usando React, React Native, Node.js, TypeScript y Next.js; cofundador de Atto, software house y marketing.',
     },
   }
 
@@ -139,7 +149,7 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
     familyName: 'Montagna',
     alternateName: ['Rani Montagna', 'Ranni Montagna', 'Ranielli'],
     disambiguatingDescription:
-      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian Full Stack Software Engineer at Lemon Energia, specializing in React, React Native, Node.js and TypeScript.',
+      'Ranielli Montagna (also known as Rani Montagna) is a Brazilian software engineer at Lemon Energia and co-founder of Atto, a software house and marketing studio, working with React, React Native, Node.js, TypeScript and applied AI.',
     jobTitle: jobTitles[locale as keyof typeof jobTitles] || jobTitles.en,
     url: BASE_URL,
     image: {
@@ -147,7 +157,7 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
       url: `${BASE_URL}/photo.webp`,
       width: 800,
       height: 800,
-      caption: 'Ranielli Montagna - Full Stack Software Engineer',
+      caption: 'Ranielli Montagna - Software Engineer and co-founder of Atto',
     },
     sameAs: [...sameAs, 'https://x.com/rannimontagna'],
     alumniOf: [
@@ -161,6 +171,16 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
         name: 'Smarten',
       },
     ],
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Lemon Energia',
+    },
+    affiliation: {
+      '@type': 'Organization',
+      name: 'Atto',
+      url: 'https://attodev.com.br',
+      description: 'Software house e marketing',
+    },
     hasOccupation: {
       '@type': 'Occupation',
       name: occ.name,
@@ -245,15 +265,15 @@ export function generatePersonJsonLd(locale: string): PersonJsonLd {
 
 export function generateProfilePageJsonLd(locale: string): ProfilePageJsonLd {
   const descriptions = {
-    en: 'Official portfolio and blog of Ranielli Montagna, Full Stack Software Engineer from Brazil. Find experience, projects, articles and contact information.',
-    pt: 'Portfolio e blog oficial de Ranielli Montagna, Engenheiro de Software Full Stack do Brasil. Encontre experiência, projetos, artigos e informações de contato.',
-    es: 'Portfolio y blog oficial de Ranielli Montagna, Ingeniero de Software Full Stack de Brasil. Encuentra experiencia, proyectos, artículos e información de contacto.',
+    en: 'Official portfolio and blog of Ranielli Montagna, software engineer from Brazil and co-founder of Atto. Find experience, projects, articles and contact information.',
+    pt: 'Portfolio e blog oficial de Ranielli Montagna, engenheiro de software do Brasil e sócio-fundador da Atto. Encontre experiência, projetos, artigos e informações de contato.',
+    es: 'Portfolio y blog oficial de Ranielli Montagna, ingeniero de software de Brasil y cofundador de Atto. Encuentra experiencia, proyectos, artículos e información de contacto.',
   }
 
   const names = {
-    en: 'Ranielli Montagna - Full Stack Software Engineer Portfolio',
-    pt: 'Ranielli Montagna - Portfolio de Engenheiro de Software Full Stack',
-    es: 'Ranielli Montagna - Portfolio de Ingeniero de Software Full Stack',
+    en: 'Ranielli Montagna - Software Engineer Portfolio',
+    pt: 'Ranielli Montagna - Portfolio de Engenheiro de Software',
+    es: 'Ranielli Montagna - Portfolio de Ingeniero de Software',
   }
 
   const canonicalUrl = locale === 'pt' ? BASE_URL : `${BASE_URL}/${locale}`
@@ -296,9 +316,9 @@ export function generateWebsiteJsonLd(locale: string): WebsiteJsonLd & {
   }
 } {
   const descriptions = {
-    en: 'Portfolio of Ranielli Montagna - Full Stack Software Engineer specializing in React, React Native, Node.js, TypeScript and scalable product engineering.',
-    pt: 'Portfolio de Ranielli Montagna - Engenheiro de Software Full Stack especializado em React, React Native, Node.js, TypeScript e engenharia de produtos escaláveis.',
-    es: 'Portfolio de Ranielli Montagna - Ingeniero de Software Full Stack especializado en React, React Native, Node.js, TypeScript e ingeniería de productos escalables.',
+    en: 'Portfolio of Ranielli Montagna - software engineer and co-founder of Atto, working with React, React Native, Node.js, TypeScript, automation and applied AI.',
+    pt: 'Portfolio de Ranielli Montagna - engenheiro de software e sócio-fundador da Atto, atuando com React, React Native, Node.js, TypeScript, automação e IA aplicada.',
+    es: 'Portfolio de Ranielli Montagna - ingeniero de software y cofundador de Atto, trabajando con React, React Native, Node.js, TypeScript, automatización e IA aplicada.',
   }
 
   return {

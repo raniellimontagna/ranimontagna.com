@@ -36,9 +36,7 @@ const isDevelopmentLoopbackPair = (origin: string, requestOrigin: string): boole
   }
 }
 
-export const isTrustedBrowserRequest = (
-  request: Pick<Request, 'headers' | 'url'>,
-): boolean => {
+export const isTrustedBrowserRequest = (request: Pick<Request, 'headers' | 'url'>): boolean => {
   const fetchSite = request.headers.get('sec-fetch-site')?.trim().toLowerCase()
   if (fetchSite === 'cross-site') return false
 
@@ -46,7 +44,10 @@ export const isTrustedBrowserRequest = (
   if (!origin) return request.headers.get('origin') === null
 
   const requestOrigin = getRequestOrigin(request)
-  if (requestOrigin && (origin === requestOrigin || isDevelopmentLoopbackPair(origin, requestOrigin))) {
+  if (
+    requestOrigin &&
+    (origin === requestOrigin || isDevelopmentLoopbackPair(origin, requestOrigin))
+  ) {
     return true
   }
 

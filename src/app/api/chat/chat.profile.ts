@@ -113,7 +113,8 @@ export const CHAT_PROFILE_BY_LOCALE = {
     location: 'Paraí, Rio Grande do Sul, Brasil',
     name: 'Ranielli Montagna',
     nationality: 'Brasileiro',
-    professionalProfile: 'Engenheiro de Software Full Stack',
+    professionalProfile:
+      'Engenheiro de software na Lemon Energia e sócio-fundador da Atto (software sob medida e marketing)',
     projects: [
       {
         name: 'North Clinic',
@@ -226,7 +227,8 @@ export const CHAT_PROFILE_BY_LOCALE = {
     location: 'Paraí, Rio Grande do Sul, Brazil',
     name: 'Ranielli Montagna',
     nationality: 'Brazilian',
-    professionalProfile: 'Full Stack Software Engineer',
+    professionalProfile:
+      'Software engineer at Lemon Energia and co-founder of Atto (custom software and marketing)',
     projects: [
       {
         name: 'North Clinic',
@@ -337,7 +339,8 @@ export const CHAT_PROFILE_BY_LOCALE = {
     location: 'Paraí, Rio Grande do Sul, Brasil',
     name: 'Ranielli Montagna',
     nationality: 'Brasileño',
-    professionalProfile: 'Ingeniero de Software Full Stack',
+    professionalProfile:
+      'Ingeniero de software en Lemon Energia y cofundador de Atto (software a medida y marketing)',
     projects: [
       {
         name: 'North Clinic',

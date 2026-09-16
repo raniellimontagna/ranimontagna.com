@@ -1,57 +1,46 @@
 import { render, screen } from '@/tests/test-utils'
 import { Services } from '../services'
 
-// Mock next-intl
 vi.mock('next-intl', () => ({
   useTranslations: () => {
     const t = (key: string) => key
-    t.raw = () => ['Feature 1', 'Feature 2', 'Feature 3']
+    t.raw = (key: string) => key
     return t
   },
 }))
 
-// Mock animations
 vi.mock('@/shared/components/animations', () => ({
   FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
+  RevealText: ({ text }: { text: string }) => <h2>{text}</h2>,
   StaggerContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-// Mock ServiceCard
-vi.mock('@/shared/components/ui/service-card/service-card', () => ({
-  ServiceCard: ({ title }: { title: string }) => <div data-testid="service-card">{title}</div>,
-}))
-
-describe('Services Component', () => {
-  it('renders services section', () => {
+describe('Services Component (Atto bridge)', () => {
+  it('renders the section with title and subtitle', () => {
     const { container } = render(<Services />)
     expect(container.querySelector('#services')).toHaveAttribute('data-spectral-zone', 'balanced')
-    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()
     expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
   })
 
-  it('renders all service cards', () => {
+  it('lists the four Atto fronts', () => {
     render(<Services />)
-    const serviceCards = screen.getAllByTestId('service-card')
-    expect(serviceCards.length).toBeGreaterThan(0)
+    expect(screen.getAllByTestId('atto-front')).toHaveLength(4)
+    expect(screen.getByText('list.marketing.title')).toBeInTheDocument()
   })
 
-  it('renders CTA section', () => {
+  it('links the CTAs to attodev.com.br, not to a personal quote', () => {
     render(<Services />)
-    expect(screen.getByText('cta.badge')).toBeInTheDocument()
-    expect(screen.getByText('cta.title')).toBeInTheDocument()
-    expect(screen.getByText('cta.subtitle')).toBeInTheDocument()
-    expect(screen.getByText('cta.button')).toBeInTheDocument()
-  })
-
-  it('links CTA directly to the contact section', () => {
-    render(<Services />)
-
-    const ctaLink = screen.getByRole('link', { name: /cta\.button/i })
-    expect(ctaLink).toHaveAttribute('href', '#contact')
+    const primary = screen.getByRole('link', { name: /cta.button/ })
+    expect(primary).toHaveAttribute('href', 'https://attodev.com.br')
+    expect(primary).toHaveAttribute('target', '_blank')
+    expect(screen.getByRole('link', { name: /cta.secondary/ })).toHaveAttribute(
+      'href',
+      'https://attodev.com.br/#cases',
+    )
+    expect(screen.queryByText(/orçamento|quote/i)).not.toBeInTheDocument()
   })
 })

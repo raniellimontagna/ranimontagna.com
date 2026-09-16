@@ -6,7 +6,7 @@
     "logo": {
       "initials": "RM",
       "fullName": "Ranielli Montagna",
-      "jobTitle": "Ingeniero de Software Full Stack",
+      "jobTitle": "Ingeniero de software · Atto",
       "ariaLabel": "Ir al inicio de la página"
     },
     "navigation": {
@@ -41,10 +41,10 @@
     "passion": {
       "part1": "Ingeniero de",
       "highlight": "Software",
-      "part2": "Full Stack que actúa más allá del código, del producto al negocio, con React, Node.js y TypeScript"
+      "part2": "que construye productos, automatización e IA aplicada — y cofundador de Atto"
     },
-    "description": "Voy más allá del código: conecto arquitectura, negocio y personas para transformar problemas complejos en productos a escala. Uso IA aplicada como una de las palancas para entregar con más calidad y velocidad.",
-    "seoDescription": "5+ años en software con React, Next.js, React Native, Node.js, TypeScript, Design Systems, CI/CD, pruebas, accesibilidad, automatización e IA aplicada al desarrollo.",
+    "description": "Voy más allá del código: conecto arquitectura, negocio y personas para convertir problemas complejos en productos que escalan. En Lemon Energia hago el puente entre las áreas de negocio y la tecnología. En Atto saco del papel software a medida y marketing para empresas.",
+    "seoDescription": "5+ años con React, Next.js, React Native, Node.js y TypeScript. Design systems, CI/CD, pruebas, accesibilidad, automatización e IA aplicada al desarrollo.",
     "cta": {
       "projects": "Ver mis proyectos",
       "contact": "Ponte en contacto"
@@ -59,8 +59,8 @@
     "bio": {
       "greeting": "¡Hola! Soy",
       "name": "Ranielli Montagna",
-      "intro": "ingeniero de software full stack con 5+ años de experiencia creando aplicaciones web y móviles escalables. Trabajé con React, React Native, TypeScript, Node.js y Next.js en productos que exigían rendimiento, calidad y buena experiencia. Hoy actúo más allá del código, conectando ingeniería, producto y negocio.",
-      "journey": "Hoy, en Lemon Energia, energytech de generación distribuida, trabajo en el puente entre negocio y tecnología: conduzco discovery, traduzco reglas complejas en soluciones full stack y evalúo trade-offs de producto. Antes, en Luizalabs (Magalu), desarrollé soluciones para operaciones de 1.000+ tiendas y el flujo diario de 1.000+ almacenistas, lideré iniciativas frontend, creé un Design System adoptado en múltiples productos y capacité desarrolladores.",
+      "intro": "ingeniero de software con 5+ años construyendo productos web y móviles que necesitan escalar. Trabajé con React, React Native, TypeScript, Node.js y Next.js en productos que exigían rendimiento y buena experiencia. Hoy actúo más allá del código: ingeniería, producto y negocio en la misma conversación.",
+      "journey": "En Lemon Energia, energytech de generación distribuida, estoy en el puente entre negocio y tecnología: conduzco discovery, traduzco reglas complejas en soluciones full stack y evalúo trade-offs de producto. En paralelo soy cofundador de Atto, software house y marketing que construye productos a medida para empresas — del e-commerce a la automatización con IA. Antes, en Luizalabs (Magalu), desarrollé soluciones para operaciones de 1.000+ tiendas y el flujo diario de 1.000+ almacenistas, lideré iniciativas frontend, creé un Design System adoptado en múltiples productos y mentoricé desarrolladores.",
       "hobbies": "Una de las frentes que más me mueven es la IA aplicada al desarrollo y a la operación: LLMs, automatización, agentes y Model Context Protocol (MCP). La uso como palanca de productividad y evolución de productos, siempre con revisión crítica."
     },
     "cta": {
@@ -175,7 +175,7 @@
       "part1": "Mis",
       "part2": "Proyectos"
     },
-    "subtitle": "Una selección de mis trabajos más recientes, incluyendo aplicaciones web, móviles y APIs que demuestran mis habilidades técnicas.",
+    "subtitle": "Productos que salieron del papel — en Atto, en empresas y como freelancer. Cada uno con un problema real detrás.",
     "viewAll": "Ver todos los proyectos",
     "featuredTitle": "Proyectos Destacados",
     "carousel": {
@@ -234,8 +234,18 @@
         "analytics": "Analytics",
         "publicCatalog": "Catálogo Público",
         "imageGallery": "Galería de Imágenes",
-        "lgpdCompliance": "Conformidad LGPD"
-      }
+        "lgpdCompliance": "Conformidad LGPD",
+        "whatsappCheckout": "Checkout por WhatsApp",
+        "partnerNetwork": "Red de socios",
+        "commissions": "Comisiones",
+        "booking": "Reservas",
+        "pos": "Punto de venta",
+        "payments": "Pagos",
+        "physicalStore": "Tienda física",
+        "seoAi": "SEO y búsqueda por IA"
+      },
+      "technologiesLabel": "Tecnologías",
+      "openProject": "Abrir {name}"
     },
     "cta": {
       "text": "¿Quieres ver más proyectos? ¡Explora mi repositorio de GitHub con más de 100 proyectos open source!",
@@ -261,16 +271,32 @@
       "paludoImoveis": {
         "title": "Paludo Inmuebles - Plataforma Inmobiliaria",
         "description": "Plataforma para corredores de bienes raíces con catálogo público, compartición por enlaces tokenizados, captación de leads y dashboard analítico."
+      },
+      "fronteiraSul": {
+        "title": "Fronteira Sul Drones",
+        "description": "E-commerce agrícola de drones, piezas y líneas complementarias. El catálogo filtra la oferta, el carrito organiza la intención y WhatsApp cierra la negociación."
+      },
+      "talaPartners": {
+        "title": "TALA Drone Partners",
+        "description": "Plataforma de socios para la expansión regional de drones agrícolas: dashboard, CRM, seguimiento por enlaces y códigos QR y cálculo de comisiones."
+      },
+      "quadralize": {
+        "title": "Quadralize",
+        "description": "Gestión de canchas deportivas: reservas, CRM, punto de venta, pagos y control financiero para dueños de canchas y jugadores."
+      },
+      "nanSolutions": {
+        "title": "NaN Solutions",
+        "description": "Sitio de una tienda de tecnología en Papanduva/SC enfocado en llevar al cliente a la tienda física y al e-commerce. Lighthouse 100 en las cuatro notas."
       }
     }
   },
   "contact": {
-    "badge": "Ponte en Contacto",
+    "badge": "Hablemos",
     "title": {
-      "part1": "Trabajemos",
-      "part2": "juntos"
+      "part1": "Hablemos",
+      "part2": "un rato"
     },
-    "subtitle": "Estoy interesado en oportunidades freelance o a tiempo completo. Si tienes un proyecto en mente o simplemente quieres charlar, estaré encantado de conversar.",
+    "subtitle": "¿Tienes un proyecto para construir? Eso es con Atto — allí hay alcance, plazo y precio cerrados. Este canal es para hablar de ingeniería, producto, carrera o comunidad.",
     "methods": {
       "title": "Métodos de contacto",
       "subtitle": "¿Prefieres otro medio de contacto? Elige una de las opciones a continuación:",
@@ -288,10 +314,15 @@
         "title": "WhatsApp",
         "description": "Para conversaciones rápidas",
         "action": "Enviar mensaje"
+      },
+      "atto": {
+        "title": "¿Un proyecto? Habla con Atto",
+        "description": "Software a medida y marketing, con propuesta cerrada",
+        "action": "Conocer Atto"
       }
     },
     "status": {
-      "available": "Disponible para proyectos",
+      "available": "Abierto a conversaciones",
       "response": "Tiempo de respuesta: ~24h"
     },
     "form": {
@@ -343,67 +374,36 @@
     "madeWith": "Hecho con ❤️ usando Next.js, TypeScript y Tailwind CSS"
   },
   "services": {
-    "badge": "Servicios",
+    "badge": "Atto",
     "title": {
-      "part1": "Cómo puedo",
-      "part2": "ayudar tu proyecto"
+      "part1": "¿Necesitas software o marketing?",
+      "part2": "Eso es Atto."
     },
-    "subtitle": "Ofrezco soluciones completas de desarrollo, desde la concepción hasta la entrega, enfocándome en calidad y resultados excepcionales.",
-    "popularBadge": "Más Popular",
-    "includedTitle": "Qué está incluido:",
-    "ctaButton": "Solicitar Cotización",
-    "getStarted": "Comenzar",
+    "subtitle": "Atto es la software house que fundé con Juliano Paludo: productos digitales, integraciones, automatización con IA y campañas que traen clientes — con alcance, plazo y precio cerrados antes de empezar.",
     "list": {
-      "web-development": {
-        "title": "Desarrollo Web",
-        "description": "Creación de aplicaciones web modernas, responsivas y de alto rendimiento usando las mejores tecnologías del mercado.",
-        "features": [
-          "Landing pages de alta conversión",
-          "E-commerce completo",
-          "Dashboards administrativos",
-          "APIs REST y GraphQL",
-          "Integración con servicios externos"
-        ]
+      "web": {
+        "title": "Sitios, sistemas y e-commerce",
+        "description": "Landing pages, paneles, SaaS y tiendas — React, Next.js y Astro con rendimiento y accesibilidad por defecto."
       },
-      "mobile-development": {
-        "title": "Desarrollo Mobile",
-        "description": "Aplicaciones nativas e híbridas para iOS y Android con experiencia de usuario excepcional.",
-        "features": [
-          "Apps React Native",
-          "Interfaz nativa",
-          "Integración con APIs",
-          "Push notifications",
-          "Publicación en tiendas"
-        ]
+      "mobile": {
+        "title": "Apps móviles",
+        "description": "iOS y Android con React Native, de la concepción a la publicación en las tiendas."
       },
-      "api-development": {
-        "title": "Desarrollo de API",
-        "description": "Sistemas backend robustos y escalables, diseñados para potenciar tus aplicaciones con alto rendimiento.",
-        "features": [
-          "APIs RESTful y GraphQL",
-          "Arquitectura de Microservicios",
-          "Diseño de Bases de Datos (SQL/NoSQL)",
-          "Autenticación Segura (OAuth/JWT)",
-          "Infraestructura en la Nube"
-        ]
+      "ai": {
+        "title": "Integraciones e IA",
+        "description": "APIs, webhooks, ERPs, WhatsApp y automatización con IA que resuelve un proceso, no solo una demo."
       },
-      "ai-integration": {
-        "title": "Integración de IA",
-        "description": "Soluciones inteligentes impulsadas por Inteligencia Artificial para automatizar procesos y mejorar la experiencia del usuario.",
-        "features": [
-          "Integración de LLMs (GPT/Claude)",
-          "Chatbots y Asistentes Inteligentes",
-          "Flujos de Trabajo Automatizados",
-          "Análisis de Datos e Insights",
-          "Agentes de IA Personalizados"
-        ]
+      "marketing": {
+        "title": "Marketing y adquisición",
+        "description": "Tráfico pago, presencia digital y embudo conectado a WhatsApp, medido de punta a punta."
       }
     },
     "cta": {
-      "badge": "Trabajemos Juntos",
-      "title": "¿Listo para comenzar tu proyecto?",
-      "subtitle": "Hablemos sobre cómo puedo ayudar a convertir tu idea en realidad.",
-      "button": "Solicitar Cotización Gratuita"
+      "badge": "Software a medida y marketing",
+      "title": "Cuéntale a Atto qué necesitas construir.",
+      "subtitle": "Respuesta en hasta 24h hábiles con una lectura honesta de lo que se puede hacer.",
+      "button": "Conocer Atto",
+      "secondary": "Ver casos"
     }
   },
   "commandMenu": {

@@ -48,26 +48,26 @@ describe('jsonld', () => {
     it('returns English jobTitle for "en" locale', () => {
       const jsonld = generatePersonJsonLd('en')
 
-      expect(jsonld.jobTitle).toBe('Full Stack Software Engineer')
+      expect(jsonld.jobTitle).toBe('Software Engineer · Co-founder of Atto')
     })
 
     it('returns Portuguese jobTitle for "pt" locale', () => {
       const jsonld = generatePersonJsonLd('pt')
 
-      expect(jsonld.jobTitle).toBe('Engenheiro de Software Full Stack')
+      expect(jsonld.jobTitle).toBe('Engenheiro de Software · Sócio-fundador da Atto')
     })
 
     it('returns Spanish jobTitle for "es" locale', () => {
       const jsonld = generatePersonJsonLd('es')
 
-      expect(jsonld.jobTitle).toBe('Ingeniero de Software Full Stack')
+      expect(jsonld.jobTitle).toBe('Ingeniero de Software · Cofundador de Atto')
     })
 
     it('falls back to English for unknown locale', () => {
       const jsonld = generatePersonJsonLd('fr')
 
-      expect(jsonld.jobTitle).toBe('Full Stack Software Engineer')
-      expect(jsonld.description).toContain('Full Stack Software Engineer')
+      expect(jsonld.jobTitle).toBe('Software Engineer · Co-founder of Atto')
+      expect(jsonld.description).toContain('co-founder of Atto')
     })
 
     it('includes knowsAbout with technologies', () => {
