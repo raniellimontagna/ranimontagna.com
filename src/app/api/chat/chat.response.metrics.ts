@@ -347,9 +347,22 @@ const compositionalMetricNumberPattern = new RegExp(
   'g',
 )
 
+// Em português e espanhol "um/uma/un/una" antes de substantivo no singular é
+// artigo ("como funciona um projeto", "liderei uma equipe"), não quantidade.
+// Tratá-lo como "1" reprovava respostas corretas. "one" segue sendo numeral.
+const indefiniteArticleTokens = new Set(['um', 'uma', 'un', 'una'])
+
+const isIndefiniteArticle = (phrase: string, following: string): boolean => {
+  if (!indefiniteArticleTokens.has(phrase.trim())) return false
+  const nextWord = following.match(/^\s+([a-z]+)/)?.[1] ?? ''
+  return Boolean(nextWord) && !nextWord.endsWith('s')
+}
+
 const normalizeCompositionalMetricNumbers = (text: string): string =>
-  text.replace(compositionalMetricNumberPattern, (phrase) => {
+  text.replace(compositionalMetricNumberPattern, (phrase, ...rest) => {
     if (/^\d+$/.test(phrase)) return phrase
+    const offset = rest.find((value): value is number => typeof value === 'number') ?? 0
+    if (isIndefiniteArticle(phrase, text.slice(offset + phrase.length))) return phrase
     const parsed = parseMetricNumberPhrase(phrase)
     if (!parsed) return phrase
     return `${parsed.value}${parsed.vague ? '+' : ''}`
@@ -488,7 +501,12 @@ type CanonicalMetricFact = {
   value: number
 }
 
-const CANONICAL_METRIC_FACTS = [
+/**
+ * Fatos numéricos que o assistente pode repetir. O total de projetos vem do
+ * próprio perfil — hardcodá-lo fazia o validador reprovar respostas corretas
+ * sempre que a lista de projetos mudava.
+ */
+const canonicalMetricFacts = (profile: ChatProfile): readonly CanonicalMetricFact[] => [
   {
     comparator: 'at-least',
     kind: 'software',
@@ -511,7 +529,7 @@ const CANONICAL_METRIC_FACTS = [
     requiresOutcomePredicate: false,
     scope: 'structural',
     unit: 'projects',
-    value: 3,
+    value: profile.projects.length,
   },
   {
     comparator: 'at-least',
@@ -531,7 +549,17 @@ const CANONICAL_METRIC_FACTS = [
     unit: 'stock-clerks',
     value: 1_000,
   },
-] as const satisfies readonly CanonicalMetricFact[]
+  {
+    // "Liderei uma equipe de desenvolvimento frontend" é fato canônico da Smarten.
+    comparator: 'exact',
+    companyAlias: 'smarten',
+    kind: 'outcome',
+    requiresOutcomePredicate: false,
+    scope: 'employer',
+    unit: 'teams',
+    value: 1,
+  },
+]
 
 const metricComparatorMatchesFact = (
   metric: MetricReference,
@@ -549,15 +577,16 @@ const metricMatchesFact = (metric: MetricReference, fact: CanonicalMetricFact): 
   metricComparatorMatchesFact(metric, fact) &&
   (!fact.requiresOutcomePredicate || metric.outcomePredicate !== null)
 
-const metricAllowedUnscoped = (metric: MetricReference): boolean =>
-  CANONICAL_METRIC_FACTS.some((fact) => metricMatchesFact(metric, fact))
+const metricAllowedUnscoped = (metric: MetricReference, profile: ChatProfile): boolean =>
+  canonicalMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact))
 
 const metricAllowedForExperience = (
   metric: MetricReference,
   experience: ChatExperience,
+  profile: ChatProfile,
 ): boolean => {
   const alias = normalizedForAssociation(companyAlias(experience))
-  return CANONICAL_METRIC_FACTS.some(
+  return canonicalMetricFacts(profile).some(
     (fact) =>
       fact.scope === 'employer' && fact.companyAlias === alias && metricMatchesFact(metric, fact),
   )
@@ -599,10 +628,14 @@ export const answerHasUnsupportedMetric = (answer: string, profile: ChatProfile)
 
   for (const [clauseIndex, clause] of clauses.entries()) {
     const metrics = extractMetrics(clause).map((extractedMetric) => {
-      const inheritedPredicate =
-        !extractedMetric.outcomePredicate && /^(?:a|para|for|to)\b/.test(clause) && clauseIndex > 0
-          ? (predicatesByClause[clauseIndex - 1] ?? null)
-          : null
+      // Conjunções ("estoque e logística em 1.000+ lojas e por 1.000+ estoquistas")
+      // separam a cláusula da métrica do verbo que a qualifica. O predicado das duas
+      // cláusulas anteriores vale aqui — mesmo alcance usado para escopo de empresa.
+      // A métrica ainda precisa casar com um fato canônico, então herdar o predicado
+      // não abre espaço para número inventado.
+      const inheritedPredicate = extractedMetric.outcomePredicate
+        ? null
+        : (predicatesByClause[clauseIndex - 1] ?? predicatesByClause[clauseIndex - 2] ?? null)
       return inheritedPredicate
         ? { ...extractedMetric, outcomePredicate: inheritedPredicate }
         : extractedMetric
@@ -620,7 +653,7 @@ export const answerHasUnsupportedMetric = (answer: string, profile: ChatProfile)
       const pendingMetric = pendingOutcomeMetric.metric
       if (
         clauseExperiences.some(
-          (experience) => !metricAllowedForExperience(pendingMetric, experience),
+          (experience) => !metricAllowedForExperience(pendingMetric, experience, profile),
         )
       ) {
         return true
@@ -663,7 +696,9 @@ export const answerHasUnsupportedMetric = (answer: string, profile: ChatProfile)
 
       if (scopedExperiences.length) {
         if (
-          scopedExperiences.some((experience) => !metricAllowedForExperience(metric, experience))
+          scopedExperiences.some(
+            (experience) => !metricAllowedForExperience(metric, experience, profile),
+          )
         ) {
           return true
         }
@@ -671,7 +706,7 @@ export const answerHasUnsupportedMetric = (answer: string, profile: ChatProfile)
         continue
       }
 
-      if (!metricAllowedUnscoped(metric)) return true
+      if (!metricAllowedUnscoped(metric, profile)) return true
       if (metric.kind === 'outcome') pendingOutcomeMetric = { clauseIndex, metric }
     }
   }

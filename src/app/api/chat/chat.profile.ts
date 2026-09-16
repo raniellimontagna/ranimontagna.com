@@ -129,7 +129,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         name: 'NaN Solutions (Atto)',
         summary:
-          'Site institucional de loja de tecnologia em Papanduva/SC, foco em loja física e e-commerce, Lighthouse 100 nas quatro notas',
+          'Site institucional de loja de tecnologia em Papanduva/SC, foco em loja física e e-commerce, com performance e SEO no topo',
         technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
       },
       {
@@ -279,7 +279,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         name: 'NaN Solutions (Atto)',
         summary:
-          'Website for a tech store in Papanduva/SC focused on the physical store and e-commerce, Lighthouse 100 across the board',
+          'Website for a tech store in Papanduva/SC focused on the physical store and e-commerce, with top performance and SEO',
         technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
       },
       {
@@ -427,7 +427,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
       {
         name: 'NaN Solutions (Atto)',
         summary:
-          'Sitio de una tienda de tecnología en Papanduva/SC enfocado en la tienda física y el e-commerce, Lighthouse 100 en las cuatro notas',
+          'Sitio de una tienda de tecnología en Papanduva/SC enfocado en la tienda física y el e-commerce, con rendimiento y SEO en lo más alto',
         technologies: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Cloudflare Pages'],
       },
       {
