@@ -1,101 +1,81 @@
 import { render, screen } from '@/tests/test-utils'
 import { Projects } from '../projects'
 
-// Mocks
 vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string) => key,
-  useLocale: () => 'en',
+  useTranslations: () => {
+    const t = (key: string, values?: Record<string, string | number>) =>
+      values ? `${key}:${Object.values(values).join(',')}` : key
+    t.raw = (key: string) => key
+    return t
+  },
 }))
 
-vi.mock('next/image', () => ({
-  default: ({
-    alt,
-    fill: _fill,
-    priority: _priority,
-    ...props
-  }: React.ImgHTMLAttributes<HTMLImageElement> & {
-    fill?: boolean
-    priority?: boolean
-    // biome-ignore lint/performance/noImgElement: test double for next/image
-  }) => <img alt={alt} {...props} />,
+vi.mock('@/shared/components/animations', () => ({
+  FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  RevealText: ({ text }: { text: string }) => <h2>{text}</h2>,
 }))
 
 vi.mock('@/shared/config/i18n/navigation', () => ({
-  Link: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: React.ReactNode
-    href: string
-  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => (
     <a href={`/en${href}`} {...props}>
       {children}
     </a>
   ),
 }))
 
-vi.mock('@/shared/components/animations', () => ({
-  BlurReveal: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  FadeIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  MagneticHover: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  ParallaxLayer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  RevealText: ({ text }: { text: string }) => <span>{text}</span>,
-}))
-
-vi.mock('../project-card', () => ({
-  ProjectCard: ({ project }: { project: { title: string } }) => (
-    <div data-testid="project-card">{project.title}</div>
-  ),
-}))
-
-// Mock data
 vi.mock('@/features/projects/data/projects.static', () => ({
   projectsData: [
     {
-      id: '1',
+      id: 1,
       slug: 'project-1',
       i18nKey: 'project1',
       type: 'web',
       featured: true,
       image: '/img1.jpg',
-      images: ['/img1.jpg', '/img1-2.jpg'],
-      technologies: ['React'],
+      demo: 'https://project1.example',
+      github: null,
       role: 'fullstack',
-      year: 2024,
-      company: 'Company A',
+      year: 2026,
+      company: 'Atto',
       category: 'saas',
-      highlights: ['dashboard'],
-      integrations: [],
-    },
-    {
-      id: '2',
-      slug: 'project-2',
-      i18nKey: 'project2',
-      type: 'mobile',
-      featured: false, // Should be filtered out
-      image: '/img2.jpg',
-      technologies: ['React Native'],
-      role: 'frontend',
-      year: 2023,
-      company: 'Company B',
-      category: 'enterprise',
+      technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
       highlights: [],
       integrations: [],
     },
     {
-      id: '3',
+      id: 2,
+      slug: 'project-2',
+      i18nKey: 'project2',
+      type: 'mobile',
+      featured: false,
+      image: '/img2.jpg',
+      demo: null,
+      github: null,
+      role: 'frontend',
+      year: 2023,
+      company: 'Luizalabs',
+      category: 'enterprise',
+      technologies: ['React Native'],
+      highlights: [],
+      integrations: [],
+    },
+    {
+      id: 3,
       slug: 'project-3',
       i18nKey: 'project3',
-      type: 'web',
+      type: 'desktop',
       featured: true,
       image: '/img3.jpg',
-      technologies: ['Node.js'],
-      role: 'backend',
-      year: 2022,
-      company: 'Company C',
+      demo: null,
+      github: null,
+      role: 'fullstack',
+      year: 2021,
+      company: 'Pratio',
       category: 'saas',
-      highlights: ['reports'],
+      technologies: ['React', 'Electron'],
+      highlights: [],
       integrations: [],
     },
   ],
@@ -105,32 +85,41 @@ describe('Projects Component', () => {
   it('renders section title and subtitle', () => {
     const { container } = render(<Projects />)
     expect(container.querySelector('#projects')).toHaveAttribute('data-spectral-zone', 'balanced')
-    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
     expect(screen.getByText('title.part1 title.part2')).toBeInTheDocument()
     expect(screen.getByText('subtitle')).toBeInTheDocument()
     expect(screen.getByText('badge')).toBeInTheDocument()
   })
 
-  it('renders featured projects only', () => {
-    const { container } = render(<Projects />)
-    // Secondary featured projects remain in the reusable ProjectCard layout.
-    const cards = screen.getAllByTestId('project-card')
-    expect(cards).toHaveLength(1)
-
-    // The first featured item is promoted to the lead showcase.
+  it('renders one compact tile per featured project', () => {
+    render(<Projects />)
+    const tiles = screen.getAllByTestId('project-tile')
+    expect(tiles).toHaveLength(2)
     expect(screen.getByText('list.project1.title')).toBeInTheDocument()
     expect(screen.getByText('list.project3.title')).toBeInTheDocument()
     expect(screen.queryByText('list.project2.title')).not.toBeInTheDocument()
-    expect(screen.getByAltText('list.project1.title')).toHaveAttribute('src', '/img1.jpg')
-    const inactiveImage = container.querySelector('img[src="/img1-2.jpg"]')
-    expect(inactiveImage).toHaveAttribute('alt', '')
-    expect(inactiveImage?.closest('[hidden]')).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByAltText('list.project1.title')).toHaveAttribute(
+      'src',
+      expect.stringContaining('img1.jpg'),
+    )
+  })
+
+  it('links tiles to the live project when there is one, else to /projects', () => {
+    render(<Projects />)
+    const [live, internal] = screen.getAllByTestId('project-tile')
+    expect(live).toHaveAttribute('href', 'https://project1.example')
+    expect(live).toHaveAttribute('target', '_blank')
+    expect(internal).toHaveAttribute('href', '/en/projects')
+  })
+
+  it('shows at most three technologies per tile', () => {
+    render(<Projects />)
+    expect(screen.getByText('Node.js')).toBeInTheDocument()
+    expect(screen.queryByText('PostgreSQL')).not.toBeInTheDocument()
   })
 
   it('renders view all button', () => {
     render(<Projects />)
     const link = screen.getByRole('link', { name: /viewAll/i })
-    expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/en/projects')
   })
 })

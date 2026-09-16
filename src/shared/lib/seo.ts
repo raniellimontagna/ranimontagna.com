@@ -13,43 +13,43 @@ export interface SEOData {
 
 const seoData: Record<string, SEOData> = {
   en: {
-    title: 'Ranielli Montagna - Full Stack Software Engineer',
+    title: 'Ranielli Montagna - Software Engineer · Co-founder of Atto',
     description:
-      'Ranielli Montagna is a Full Stack Software Engineer at Lemon Energia, from Brazil, with 5+ years of experience in React, React Native, Node.js, TypeScript, APIs and micro frontends.',
+      'Ranielli Montagna is a software engineer at Lemon Energia and co-founder of Atto (custom software and marketing), from Brazil, with 5+ years in React, React Native, Node.js, TypeScript, automation and applied AI.',
     keywords:
       'Ranielli Montagna, Ranielli, Rani Montagna, full stack software engineer, full stack developer, software engineer, react developer, react native developer, nextjs developer, nodejs developer, typescript developer, frontend developer, backend developer, micro frontends, REST APIs, design system, CI/CD, testing, accessibility, AI automation, brazil developer, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Full Stack Software Engineer',
+    ogTitle: 'Ranielli Montagna - Software Engineer · Co-founder of Atto',
     ogDescription:
-      'Full Stack Software Engineer at Lemon Energia with experience in scalable web and mobile products, React, React Native, Node.js, TypeScript, APIs and micro frontends.',
-    twitterTitle: 'Ranielli Montagna - Full Stack Software Engineer',
+      'Software engineer at Lemon Energia and co-founder of Atto. Scalable web and mobile products, automation and applied AI with React, React Native, Node.js and TypeScript.',
+    twitterTitle: 'Ranielli Montagna - Software Engineer · Co-founder of Atto',
     twitterDescription:
-      'Full Stack Software Engineer at Lemon Energia, from Brazil, specializing in React, React Native, Node.js and TypeScript.',
+      'Software engineer at Lemon Energia and co-founder of Atto, from Brazil. React, React Native, Node.js, TypeScript and applied AI.',
   },
   pt: {
-    title: 'Ranielli Montagna - Engenheiro de Software Full Stack',
+    title: 'Ranielli Montagna - Engenheiro de Software · Sócio-fundador da Atto',
     description:
-      'Ranielli Montagna é Engenheiro de Software Full Stack na Lemon Energia, do Brasil, com 5+ anos de experiência em React, React Native, Node.js, TypeScript, APIs e micro frontends.',
+      'Ranielli Montagna é engenheiro de software na Lemon Energia e sócio-fundador da Atto (software sob medida e marketing), do Brasil, com 5+ anos em React, React Native, Node.js, TypeScript, automação e IA aplicada.',
     keywords:
       'Ranielli Montagna, Ranielli, Rani Montagna, engenheiro de software full stack, desenvolvedor full stack, engenheiro de software, desenvolvedor react, desenvolvedor react native, desenvolvedor nextjs, desenvolvedor nodejs, typescript, desenvolvedor frontend, desenvolvedor backend, micro frontends, APIs REST, design system, CI/CD, testes, acessibilidade, automação IA, desenvolvedor brasil, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Engenheiro de Software Full Stack',
+    ogTitle: 'Ranielli Montagna - Engenheiro de Software · Sócio-fundador da Atto',
     ogDescription:
-      'Engenheiro de Software Full Stack na Lemon Energia com experiência em produtos web e mobile escaláveis, React, React Native, Node.js, TypeScript, APIs e micro frontends.',
-    twitterTitle: 'Ranielli Montagna - Engenheiro de Software Full Stack',
+      'Engenheiro de software na Lemon Energia e sócio-fundador da Atto. Produtos web e mobile escaláveis, automação e IA aplicada com React, React Native, Node.js e TypeScript.',
+    twitterTitle: 'Ranielli Montagna - Engenheiro de Software · Sócio-fundador da Atto',
     twitterDescription:
-      'Engenheiro de Software Full Stack na Lemon Energia, do Brasil, especializado em React, React Native, Node.js e TypeScript.',
+      'Engenheiro de software na Lemon Energia e sócio-fundador da Atto, do Brasil. React, React Native, Node.js, TypeScript e IA aplicada.',
   },
   es: {
-    title: 'Ranielli Montagna - Ingeniero de Software Full Stack',
+    title: 'Ranielli Montagna - Ingeniero de Software · Cofundador de Atto',
     description:
-      'Ranielli Montagna es Ingeniero de Software Full Stack en Lemon Energia, de Brasil, con más de 5 años de experiencia en React, React Native, Node.js, TypeScript, APIs y micro frontends.',
+      'Ranielli Montagna es ingeniero de software en Lemon Energia y cofundador de Atto (software a medida y marketing), de Brasil, con más de 5 años en React, React Native, Node.js, TypeScript, automatización e IA aplicada.',
     keywords:
       'Ranielli Montagna, Ranielli, Rani Montagna, ingeniero de software full stack, desarrollador full stack, ingeniero de software, desarrollador react, desarrollador react native, desarrollador nextjs, desarrollador nodejs, typescript, desarrollador frontend, desarrollador backend, micro frontends, APIs REST, design system, CI/CD, pruebas, accesibilidad, automatización IA, desarrollador brasil, ranimontagna',
-    ogTitle: 'Ranielli Montagna - Ingeniero de Software Full Stack',
+    ogTitle: 'Ranielli Montagna - Ingeniero de Software · Cofundador de Atto',
     ogDescription:
-      'Ingeniero de Software Full Stack en Lemon Energia con experiencia en productos web y móviles escalables, React, React Native, Node.js, TypeScript, APIs y micro frontends.',
-    twitterTitle: 'Ranielli Montagna - Ingeniero de Software Full Stack',
+      'Ingeniero de software en Lemon Energia y cofundador de Atto. Productos web y móviles escalables, automatización e IA aplicada con React, React Native, Node.js y TypeScript.',
+    twitterTitle: 'Ranielli Montagna - Ingeniero de Software · Cofundador de Atto',
     twitterDescription:
-      'Ingeniero de Software Full Stack en Lemon Energia, de Brasil, especializado en React, React Native, Node.js y TypeScript.',
+      'Ingeniero de software en Lemon Energia y cofundador de Atto, de Brasil. React, React Native, Node.js, TypeScript e IA aplicada.',
   },
 }
 

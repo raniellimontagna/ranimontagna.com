@@ -6,7 +6,7 @@ describe('seo', () => {
     it('returns English data for "en" locale', () => {
       const data = getSEOData('en')
 
-      expect(data.title).toContain('Full Stack Software Engineer')
+      expect(data.title).toContain('Software Engineer · Co-founder of Atto')
       expect(data.description).toContain('React')
       expect(data.keywords).toContain('react')
     })
@@ -14,20 +14,20 @@ describe('seo', () => {
     it('returns Portuguese data for "pt" locale', () => {
       const data = getSEOData('pt')
 
-      expect(data.title).toContain('Engenheiro de Software Full Stack')
+      expect(data.title).toContain('Engenheiro de Software · Sócio-fundador da Atto')
       expect(data.description).toContain('React')
     })
 
     it('returns Spanish data for "es" locale', () => {
       const data = getSEOData('es')
 
-      expect(data.title).toContain('Ingeniero de Software Full Stack')
+      expect(data.title).toContain('Ingeniero de Software · Cofundador de Atto')
     })
 
     it('falls back to English for unknown locale', () => {
       const data = getSEOData('fr')
 
-      expect(data.title).toContain('Full Stack Software Engineer')
+      expect(data.title).toContain('Software Engineer · Co-founder of Atto')
     })
 
     it('contains all required fields', () => {

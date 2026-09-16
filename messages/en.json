@@ -6,7 +6,7 @@
     "logo": {
       "initials": "RM",
       "fullName": "Ranielli Montagna",
-      "jobTitle": "Full Stack Software Engineer",
+      "jobTitle": "Software engineer · Atto",
       "ariaLabel": "Go to top of page"
     },
     "navigation": {
@@ -40,10 +40,10 @@
     "passion": {
       "part1": "A",
       "highlight": "Software Engineer",
-      "part2": "who works beyond the code, from product to business, with React, Node.js, and TypeScript"
+      "part2": "who builds products, automation and applied AI — and co-founder of Atto"
     },
-    "description": "I work beyond the code: connecting architecture, business, and people to turn complex problems into products at scale. I use applied AI as one of the levers to deliver with more quality and speed.",
-    "seoDescription": "5+ years in software with React, Next.js, React Native, Node.js, TypeScript, Design Systems, CI/CD, testing, accessibility, automation, and AI applied to development.",
+    "description": "I work beyond the code: connecting architecture, business and people to turn complex problems into products that scale. At Lemon Energia I bridge business areas and technology. At Atto I ship custom software and marketing for companies.",
+    "seoDescription": "5+ years with React, Next.js, React Native, Node.js and TypeScript. Design systems, CI/CD, testing, accessibility, automation and AI applied to development.",
     "cta": {
       "projects": "See my projects",
       "contact": "Get in touch"
@@ -58,8 +58,8 @@
     "bio": {
       "greeting": "Hello! I'm",
       "name": "Ranielli Montagna",
-      "intro": "a full stack software engineer with 5+ years of experience building scalable web and mobile applications. I worked with React, React Native, TypeScript, Node.js, and Next.js on products that required performance, quality, and strong user experience. Today I work beyond the code, connecting engineering, product, and business.",
-      "journey": "Today, at Lemon Energia, a distributed-generation energytech, I work at the bridge between business and technology: I run discovery, translate complex rules into full stack solutions, and weigh product trade-offs. Before that, at Luizalabs (Magalu), I developed solutions for 1,000+ store operations and the daily workflow of 1,000+ stock clerks, led frontend initiatives, created a Design System adopted across multiple products, and mentored developers.",
+      "intro": "a software engineer with 5+ years building web and mobile products that need to scale. I worked with React, React Native, TypeScript, Node.js and Next.js on products that demanded performance and a great experience. Today I work beyond the code: engineering, product and business in the same conversation.",
+      "journey": "At Lemon Energia, a distributed-generation energytech, I sit at the bridge between business and technology: I run discovery, translate complex rules into full stack solutions and weigh product trade-offs. In parallel I am co-founder of Atto, a software house and marketing studio that builds custom products for companies — from e-commerce to AI automation. Before that, at Luizalabs (Magalu), I developed solutions for 1,000+ store operations and the daily workflow of 1,000+ stock clerks, led frontend initiatives, created a Design System adopted across multiple products and mentored developers.",
       "hobbies": "One of the areas that drives me most is AI applied to development and operations: LLMs, automation, agents, and the Model Context Protocol (MCP). I use it as a lever for productivity and product evolution, always with critical review."
     },
     "cta": {
@@ -174,7 +174,7 @@
       "part1": "My",
       "part2": "Projects"
     },
-    "subtitle": "A selection of my most recent work, including web, mobile applications, and APIs that demonstrate my technical skills.",
+    "subtitle": "Products that shipped — at Atto, at companies and as a freelancer. Each one with a real problem behind it.",
     "viewAll": "View all projects",
     "featuredTitle": "Featured Projects",
     "carousel": {
@@ -233,8 +233,18 @@
         "analytics": "Analytics",
         "publicCatalog": "Public Catalog",
         "imageGallery": "Image Gallery",
-        "lgpdCompliance": "LGPD Compliance"
-      }
+        "lgpdCompliance": "LGPD Compliance",
+        "whatsappCheckout": "WhatsApp checkout",
+        "partnerNetwork": "Partner network",
+        "commissions": "Commissions",
+        "booking": "Bookings",
+        "pos": "POS",
+        "payments": "Payments",
+        "physicalStore": "Physical store",
+        "seoAi": "SEO and AI search"
+      },
+      "technologiesLabel": "Technologies",
+      "openProject": "Open {name}"
     },
     "cta": {
       "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
@@ -260,16 +270,32 @@
       "paludoImoveis": {
         "title": "Paludo Imóveis - Real Estate Platform",
         "description": "Platform for real estate brokers with public catalog, tokenized link sharing, lead capture, and analytics dashboard."
+      },
+      "fronteiraSul": {
+        "title": "Fronteira Sul Drones",
+        "description": "Agricultural e-commerce for drones, parts and complementary lines. The catalog filters the offer, the cart organizes intent and WhatsApp closes the deal."
+      },
+      "talaPartners": {
+        "title": "TALA Drone Partners",
+        "description": "Partner platform for regional expansion of agricultural drones: dashboard, CRM, link and QR code tracking and commission calculation."
+      },
+      "quadralize": {
+        "title": "Quadralize",
+        "description": "Sports court management: bookings, CRM, POS, payments and financial control for court owners and players."
+      },
+      "nanSolutions": {
+        "title": "NaN Solutions",
+        "description": "Website for a tech store in Papanduva/SC focused on bringing customers to the physical store and the e-commerce. Lighthouse 100 across the board."
       }
     }
   },
   "contact": {
-    "badge": "Get in Touch",
+    "badge": "Let's talk",
     "title": {
-      "part1": "Let's work",
-      "part2": "together"
+      "part1": "Let's",
+      "part2": "talk"
     },
-    "subtitle": "I'm interested in freelance or full-time opportunities. If you have a project in mind or just want to chat, I'd be happy to talk.",
+    "subtitle": "Have a project to build? That's Atto — scope, timeline and price agreed upfront. This channel is for engineering, product, career or community conversations.",
     "methods": {
       "title": "Contact methods",
       "subtitle": "Prefer another way to get in touch? Choose one of the options below:",
@@ -287,10 +313,15 @@
         "title": "WhatsApp",
         "description": "For quick conversations",
         "action": "Send message"
+      },
+      "atto": {
+        "title": "A project? Talk to Atto",
+        "description": "Custom software and marketing, with a closed proposal",
+        "action": "Meet Atto"
       }
     },
     "status": {
-      "available": "Available for projects",
+      "available": "Open to conversations",
       "response": "Response time: ~24h"
     },
     "form": {
@@ -324,6 +355,27 @@
         "subject": "Subject must be at least 5 characters",
         "message": "Message must be at least 10 characters"
       }
+    },
+    "paths": {
+      "label": "Two paths",
+      "project": {
+        "title": "A project to build",
+        "description": "Scope, timeline and price agreed with Atto.",
+        "action": "Go to Atto"
+      },
+      "talk": {
+        "title": "Just a conversation",
+        "description": "Engineering, product, career or community — send an e-mail."
+      }
+    },
+    "email": {
+      "copy": "Copy e-mail",
+      "copied": "Copied",
+      "open": "Open e-mail"
+    },
+    "localTime": {
+      "label": "Now in Paraí, Brazil",
+      "timezone": "GMT-3"
     }
   },
   "footer": {
@@ -342,67 +394,36 @@
     "madeWith": "Made with ❤️ using Next.js, TypeScript and Tailwind CSS"
   },
   "services": {
-    "badge": "Services",
+    "badge": "Atto",
     "title": {
-      "part1": "How I can",
-      "part2": "help your project"
+      "part1": "Need software or marketing?",
+      "part2": "That's Atto."
     },
-    "subtitle": "I offer complete development solutions, from conception to delivery, focusing on quality and exceptional results.",
-    "popularBadge": "Most Popular",
-    "includedTitle": "What's included:",
-    "ctaButton": "Request Quote",
-    "getStarted": "Get Started",
+    "subtitle": "Atto is the software house I founded with Juliano Paludo: digital products, integrations, AI automation and campaigns that bring customers — with scope, timeline and price agreed before we start.",
     "list": {
-      "web-development": {
-        "title": "Web Development",
-        "description": "Creation of modern, responsive and performant web applications using the best market technologies.",
-        "features": [
-          "High-conversion landing pages",
-          "Complete e-commerce",
-          "Administrative dashboards",
-          "REST and GraphQL APIs",
-          "External services integration"
-        ]
+      "web": {
+        "title": "Websites, systems and e-commerce",
+        "description": "Landing pages, dashboards, SaaS and stores — React, Next.js and Astro with performance and accessibility by default."
       },
-      "mobile-development": {
-        "title": "Mobile Development",
-        "description": "Native and hybrid applications for iOS and Android with exceptional user experience.",
-        "features": [
-          "React Native apps",
-          "Native interface",
-          "API integration",
-          "Push notifications",
-          "App store publishing"
-        ]
+      "mobile": {
+        "title": "Mobile apps",
+        "description": "iOS and Android with React Native, from concept to the app stores."
       },
-      "api-development": {
-        "title": "API Development",
-        "description": "Robust and scalable backend systems designed to power your applications with high performance.",
-        "features": [
-          "RESTful & GraphQL APIs",
-          "Microservices Architecture",
-          "Database Design (SQL/NoSQL)",
-          "Secure Authentication (OAuth/JWT)",
-          "Cloud Infrastructure (AWS/Vercel)"
-        ]
+      "ai": {
+        "title": "Integrations and AI",
+        "description": "APIs, webhooks, ERPs, WhatsApp and AI automation that solves a process, not just a demo."
       },
-      "ai-integration": {
-        "title": "AI Integration",
-        "description": "Smart solutions powered by Artificial Intelligence to automate processes and enhance user experience.",
-        "features": [
-          "LLM Integration (GPT/Claude)",
-          "Smart Chatbots & Assistants",
-          "Automated Workflows",
-          "Data Analysis & Insights",
-          "Custom AI Agents"
-        ]
+      "marketing": {
+        "title": "Marketing and acquisition",
+        "description": "Paid traffic, digital presence and a funnel wired to WhatsApp, measured end to end."
       }
     },
     "cta": {
-      "badge": "Let's Work Together",
-      "title": "Ready to start your project?",
-      "subtitle": "Let's talk about how I can help turn your idea into reality.",
-      "button": "Request Free Quote"
+      "badge": "Custom software and marketing",
+      "title": "Tell Atto what you need to build.",
+      "subtitle": "Reply within 24 business hours with an honest read of what can be done.",
+      "button": "Meet Atto",
+      "secondary": "See case studies"
     }
   },
   "commandMenu": {

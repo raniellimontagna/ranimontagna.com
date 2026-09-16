@@ -18,9 +18,3 @@ export type ProjectType = {
   highlights: string[]
   integrations: string[]
 }
-
-export type ProjectCardProps = {
-  project: ProjectType
-  animationDelay: string
-  priority?: boolean
-}

@@ -1,49 +1,40 @@
-import { Code2, Monitor, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import { SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
-import {
-  BlurReveal,
-  FadeIn,
-  MagneticHover,
-  ParallaxLayer,
-  RevealText,
-  StaggerContainer,
-  StaggerItem,
-} from '@/shared/components/animations'
-
+import { FadeIn, MagneticHover, RevealText } from '@/shared/components/animations'
 import { contactMethods, socialLinks } from '@/shared/lib/social-links'
-
+import { AttoMark } from '../services/atto-mark'
 import { ContactForm } from './contactForm/contactForm'
+import { CopyEmail } from './copy-email'
+import { LocalTime } from './local-time'
 
+const ATTO_URL = 'https://attodev.com.br'
+
+/**
+ * Contato em dois caminhos: projeto vai para a Atto, conversa fica aqui.
+ * Esquerda enxuta (e-mail grande, canais em pílulas, horário local); direita o formulário.
+ */
 export const Contact = (): React.ReactElement => {
   const t = useTranslations('contact')
 
-  const emailLink = socialLinks.email
-  const linkedinLink = socialLinks.linkedin
-  const whatsappMethod = contactMethods.whatsapp
-  const emailHref = emailLink.direct ? `mailto:${emailLink.direct}` : emailLink.href
-
-  const contactMethodsArray = [
+  const email = socialLinks.email.direct ?? ''
+  const channels = [
     {
       id: 'linkedin',
-      icon: linkedinLink.icon,
+      icon: socialLinks.linkedin.icon,
       title: t('methods.linkedin.title'),
-      description: t('methods.linkedin.description'),
-      action: t('methods.linkedin.action'),
-      href: linkedinLink.href,
-      external: linkedinLink.external,
-      color: 'blue' as const,
-      endpoint: 'CONNECT',
+      href: socialLinks.linkedin.href,
     },
     {
       id: 'whatsapp',
-      icon: whatsappMethod.icon,
+      icon: contactMethods.whatsapp.icon,
       title: t('methods.phone.title'),
-      description: t('methods.phone.description'),
-      action: t('methods.phone.action'),
-      href: whatsappMethod.href,
-      external: whatsappMethod.external,
-      color: 'green' as const,
-      endpoint: 'SEND',
+      href: contactMethods.whatsapp.href,
+    },
+    {
+      id: 'github',
+      icon: socialLinks.github.icon,
+      title: 'GitHub',
+      href: socialLinks.github.href,
     },
   ]
 
@@ -54,8 +45,8 @@ export const Contact = (): React.ReactElement => {
       className="relative overflow-hidden py-14 sm:py-20 lg:py-32"
     >
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-          <div className="lg:col-span-2">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:self-start">
             <FadeIn delay={0.15}>
               <div className="editorial-kicker mb-6">
                 <span className="relative flex h-2.5 w-2.5">
@@ -69,163 +60,113 @@ export const Contact = (): React.ReactElement => {
             <RevealText
               as="h2"
               text={`${t('title.part1')} ${t('title.part2')}`}
-              className="w-full max-w-none font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
+              className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.08em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
             />
 
-            <FadeIn delay={0.35}>
-              <p className="mt-4 w-full max-w-none text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
+            <FadeIn delay={0.3}>
+              <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-6 sm:leading-8 sm:text-lg">
                 {t('subtitle')}
               </p>
             </FadeIn>
+
+            {/* Dois caminhos */}
+            <FadeIn delay={0.4}>
+              <div className="mt-8 divide-y divide-line border-y border-line">
+                <a
+                  href={ATTO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 py-5 transition-colors hover:text-foreground"
+                  aria-label={t('methods.atto.title')}
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent/12 text-accent-strong dark:text-accent">
+                    <AttoMark className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-foreground">
+                      {t('paths.project.title')}
+                    </span>
+                    <span className="block text-sm text-muted">
+                      {t('paths.project.description')}
+                    </span>
+                  </span>
+                  <span className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-foreground sm:inline-flex">
+                    {t('paths.project.action')}
+                    <SquareArrowRightUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </a>
+                <div className="py-5">
+                  <p className="font-semibold text-foreground">{t('paths.talk.title')}</p>
+                  <p className="mt-1 text-sm text-muted">{t('paths.talk.description')}</p>
+                  <div className="mt-4">
+                    <span className="sr-only">{t('methods.email.title')}</span>
+                    <CopyEmail
+                      email={email}
+                      labels={{
+                        copy: t('email.copy'),
+                        copied: t('email.copied'),
+                        open: t('email.open'),
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Canais + horário local */}
+            <FadeIn delay={0.5}>
+              <nav
+                className="mt-6 flex flex-wrap items-center gap-2"
+                aria-label={t('methods.title')}
+              >
+                <span className="sr-only">{t('methods.title')}</span>
+                {channels.map((channel) => {
+                  const Icon = channel.icon
+                  return (
+                    <MagneticHover key={channel.id} strength={8}>
+                      <a
+                        href={channel.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
+                      >
+                        <Icon className="h-4 w-4" />
+                        {channel.title}
+                      </a>
+                    </MagneticHover>
+                  )
+                })}
+              </nav>
+              <div className="mt-6 flex flex-col gap-2">
+                <LocalTime label={t('localTime.label')} timezone={t('localTime.timezone')} />
+                <p className="flex flex-wrap gap-x-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                  <span>{t('status.available')}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{t('status.response')}</span>
+                </p>
+              </div>
+            </FadeIn>
           </div>
 
-          <div className="lg:sticky lg:top-28 lg:h-fit">
-            <FadeIn delay={0.45} blur scale>
-              <div className="surface-panel-strong overflow-hidden rounded-2xl p-4 shadow-card sm:rounded-3xl sm:p-6">
-                <div className="flex items-center gap-2">
-                  <Code2 className="h-4 w-4 text-muted" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
-                    {t('methods.email.title')}
+          <FadeIn delay={0.35} blur className="lg:pt-2">
+            <div className="surface-panel-strong relative overflow-hidden rounded-3xl p-5 shadow-card sm:rounded-4xl sm:p-8">
+              <div className="absolute inset-0 glow-gradient" />
+              <div className="relative">
+                <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <h3 className="text-xl font-semibold tracking-[-0.04em] text-foreground sm:text-2xl">
+                      {t('form.title')}
+                    </h3>
+                    <p className="mt-1 text-sm leading-6 text-muted">{t('form.subtitle')}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                    {t('status.response')}
                   </span>
                 </div>
-
-                <a
-                  href={emailHref}
-                  className="mt-4 inline-flex text-lg font-semibold tracking-[-0.04em] text-foreground transition-opacity hover:opacity-70 sm:text-xl"
-                >
-                  {emailLink.direct}
-                </a>
-
-                <div className="mt-4 rounded-2xl border border-line bg-surface px-3 py-3 sm:mt-6 sm:rounded-3xl sm:px-4 sm:py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/12">
-                      <span className="relative flex h-3 w-3">
-                        <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
-                      </span>
-                    </div>
-                    <div>
-                      <p className="font-mono text-sm font-semibold text-foreground">
-                        {t('status.available')}
-                      </p>
-                      <p className="font-mono text-xs text-muted">{t('status.response')}</p>
-                    </div>
-                  </div>
-                </div>
+                <ContactForm />
               </div>
-            </FadeIn>
-
-            <FadeIn delay={0.5}>
-              <div className="mt-6 sm:mt-10">
-                <div className="mb-4 sm:mb-5">
-                  <h3 className="text-xl font-semibold tracking-[-0.05em] text-foreground sm:text-2xl">
-                    {t('methods.title')}
-                  </h3>
-                  <p className="mt-2 text-base leading-7 text-muted">{t('methods.subtitle')}</p>
-                </div>
-
-                <StaggerContainer staggerDelay={0.12}>
-                  <div className="flex flex-col gap-3 sm:gap-4">
-                    {contactMethodsArray.map((method) => {
-                      const IconComponent = method.icon
-                      return (
-                        <StaggerItem key={method.title}>
-                          <MagneticHover strength={10}>
-                            <a
-                              href={method.href}
-                              target={method.external ? '_blank' : undefined}
-                              rel={method.external ? 'noopener noreferrer' : undefined}
-                              className="group block overflow-hidden rounded-3xl border border-line bg-surface transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/16 hover:shadow-card"
-                            >
-                              <div className="flex items-center justify-between border-b border-line bg-surface-strong px-4 py-2.5">
-                                <div className="flex items-center gap-2">
-                                  <span
-                                    className={`rounded-full px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] ${
-                                      method.color === 'green'
-                                        ? 'bg-emerald-500/12 text-emerald-700 dark:text-emerald-300'
-                                        : 'bg-sky-500/12 text-sky-700 dark:text-sky-300'
-                                    }`}
-                                  >
-                                    {method.endpoint}
-                                  </span>
-                                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                    /contact/{method.id}
-                                  </span>
-                                </div>
-                                <SquareArrowRightUp className="h-3.5 w-3.5 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                              </div>
-
-                              <div className="flex items-center gap-4 p-4">
-                                <div
-                                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-line transition-all duration-300 ${
-                                    method.color === 'green'
-                                      ? 'bg-emerald-500/12 text-emerald-700 dark:text-emerald-300'
-                                      : 'bg-sky-500/12 text-sky-700 dark:text-sky-300'
-                                  }`}
-                                >
-                                  <IconComponent className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <h4 className="font-semibold text-foreground">{method.title}</h4>
-                                  <p className="truncate text-sm text-muted">
-                                    {method.description}
-                                  </p>
-                                </div>
-                                <span className="hidden rounded-full border border-line bg-surface-strong px-3 py-1.5 text-xs font-semibold text-foreground sm:inline-flex">
-                                  {method.action}
-                                </span>
-                              </div>
-                            </a>
-                          </MagneticHover>
-                        </StaggerItem>
-                      )
-                    })}
-                  </div>
-                </StaggerContainer>
-              </div>
-            </FadeIn>
-          </div>
-          <BlurReveal delay={0.5}>
-            <ParallaxLayer offset={26}>
-              <div className="surface-panel-strong relative overflow-hidden rounded-3xl shadow-card sm:rounded-4xl">
-                <div className="absolute inset-0 glow-gradient" />
-
-                <div className="relative flex items-center gap-2 border-b border-line bg-surface-strong px-3 py-3 sm:px-5 sm:py-4">
-                  <div className="flex gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-red-500" />
-                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                    <div className="h-3 w-3 rounded-full bg-green-500" />
-                  </div>
-                  <div className="ml-2 flex items-center gap-2 text-xs text-muted">
-                    <Monitor className="h-3.5 w-3.5" />
-                    <span className="font-mono">contact-form.tsx</span>
-                  </div>
-                </div>
-
-                <div className="relative p-4 sm:p-6 lg:p-10">
-                  <div className="mb-6 grid gap-3 rounded-2xl border border-line bg-surface p-4 sm:mb-8 sm:gap-4 sm:rounded-3xl sm:p-5 sm:grid-cols-[1fr_auto] sm:items-end">
-                    <div className="font-mono text-sm text-muted">
-                      <p className="text-emerald-600 dark:text-emerald-400">
-                        {'// '}
-                        {t('form.title')}
-                      </p>
-                      <p className="mt-2 leading-6">
-                        {'/* '}
-                        {t('form.subtitle')}
-                        {' */'}
-                      </p>
-                    </div>
-
-                    <div className="rounded-full border border-line bg-surface-strong px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-                      {t('status.response')}
-                    </div>
-                  </div>
-
-                  <ContactForm />
-                </div>
-              </div>
-            </ParallaxLayer>
-          </BlurReveal>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>

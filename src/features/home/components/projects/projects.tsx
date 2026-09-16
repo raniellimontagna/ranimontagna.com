@@ -1,61 +1,34 @@
 import { SiGithub } from '@icons-pack/react-simple-icons'
-import {
-  Buildings,
-  Code,
-  Global,
-  Monitor,
-  Smartphone,
-  SquareArrowRightUp,
-  User,
-} from '@solar-icons/react/ssr'
+import { Code, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import { getProjectImages } from '@/features/projects/lib/project-images'
 import type { ProjectType } from '@/features/projects/types/projects.types'
-import {
-  BlurReveal,
-  FadeIn,
-  MagneticHover,
-  ParallaxLayer,
-  RevealText,
-} from '@/shared/components/animations'
+import { FadeIn, MagneticHover, ParallaxLayer, RevealText } from '@/shared/components/animations'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
-import { FeaturedCarousel } from './featured-carousel'
-import {
-  getProjectTechBadgeTone,
-  ProjectBadge,
-  ProjectFeaturedIcon,
-  projectTypeBadgeTone,
-} from './project-badge'
-import { ProjectCard } from './project-card'
+import { ProjectTile } from './project-tile'
 
-const typeIcons = {
-  web: Global,
-  mobile: Smartphone,
-  desktop: Monitor,
-}
+const MAX_HOME_PROJECTS = 8
 
 export function Projects() {
   const t = useTranslations('projects')
 
-  const projects: ProjectType[] = projectsData.map((p) => ({
-    ...p,
-    type: p.type as ProjectType['type'],
-    role: p.role as ProjectType['role'],
-    category: p.category as ProjectType['category'],
-    title: t(`list.${p.i18nKey}.title`),
-    description: t(`list.${p.i18nKey}.description`),
-    image: getProjectImages(p)[0] ?? '',
-    images: getProjectImages(p),
-    github: p.github ?? '',
-    demo: p.demo ?? '',
-  }))
-
-  const featuredProjects = projects.filter((p) => p.featured)
-  const [leadProject, ...secondaryProjects] = featuredProjects
-  const LeadIcon = leadProject ? typeIcons[leadProject.type] : Global
-  const leadProjectImages = leadProject?.images ?? []
+  const projects: ProjectType[] = projectsData
+    .filter((p) => p.featured)
+    .slice(0, MAX_HOME_PROJECTS)
+    .map((p) => ({
+      ...p,
+      type: p.type as ProjectType['type'],
+      role: p.role as ProjectType['role'],
+      category: p.category as ProjectType['category'],
+      title: t(`list.${p.i18nKey}.title`),
+      description: t(`list.${p.i18nKey}.description`),
+      image: getProjectImages(p)[0] ?? '',
+      images: getProjectImages(p),
+      github: p.github ?? '',
+      demo: p.demo ?? '',
+    }))
 
   return (
     <section
@@ -111,157 +84,24 @@ export function Projects() {
           </FadeIn>
         </div>
 
-        {/* Lead Project — full width */}
-        {leadProject && (
-          <BlurReveal delay={0.35} className="mt-8 sm:mt-14">
-            <ParallaxLayer offset={28}>
-              <article className="surface-panel-strong relative overflow-hidden rounded-3xl shadow-(--shadow-card) sm:rounded-4xl">
-                <div className="absolute inset-0 glow-gradient-strong" />
-
-                {/* Image carousel — full width top */}
-                <div className="relative aspect-video w-full overflow-hidden sm:aspect-21/9">
-                  {leadProjectImages.length > 0 ? (
-                    <FeaturedCarousel
-                      images={leadProjectImages}
-                      alt={leadProject.title}
-                      labels={{
-                        region: t('carousel.region'),
-                        pause: t('carousel.pause'),
-                        resume: t('carousel.resume'),
-                        slides: leadProjectImages.map((_, index) =>
-                          t('carousel.slide', {
-                            index: index + 1,
-                            total: leadProjectImages.length,
-                          }),
-                        ),
-                      }}
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center glow-gradient-preview">
-                      <LeadIcon className="h-20 w-20 text-foreground/75" />
-                    </div>
-                  )}
-
-                  {/* Badges over image */}
-                  <div className="pointer-events-none absolute top-4 left-4 z-20 flex items-center gap-2 sm:top-6 sm:left-6">
-                    <ProjectBadge
-                      icon={<LeadIcon className="h-3.5 w-3.5" />}
-                      variant="overlay"
-                      className={projectTypeBadgeTone[leadProject.type]}
-                    >
-                      {leadProject.type}
-                    </ProjectBadge>
-                    <ProjectBadge
-                      icon={<ProjectFeaturedIcon className="h-3 w-3" />}
-                      variant="overlayAccent"
-                    >
-                      {t('card.featuredBadge')}
-                    </ProjectBadge>
-                  </div>
-
-                  {/* Company badge top-right */}
-                  <div className="pointer-events-none absolute top-4 right-4 z-20 sm:top-6 sm:right-6">
-                    <ProjectBadge icon={<Buildings className="h-3 w-3" />} variant="overlayMuted">
-                      {leadProject.company}
-                    </ProjectBadge>
-                  </div>
-                </div>
-
-                {/* Content area */}
-                <div className="relative p-5 sm:p-8 lg:p-10">
-                  <div>
-                    <div className="max-w-3xl">
-                      <h3 className="text-2xl font-semibold tracking-[-0.06em] text-foreground sm:text-3xl lg:text-4xl">
-                        {leadProject.title}
-                      </h3>
-
-                      <p className="mt-4 max-w-2xl text-base leading-8 text-muted sm:text-lg">
-                        {leadProject.description}
-                      </p>
-
-                      <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted">
-                        <span className="inline-flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5" />
-                          {t(`card.role.${leadProject.role}`)}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5">
-                          <Buildings className="h-3.5 w-3.5" />
-                          {leadProject.company}
-                        </span>
-                      </div>
-
-                      <div className="mt-5 flex flex-wrap gap-1.5">
-                        {leadProject.highlights.slice(0, 6).map((h) => (
-                          <ProjectBadge key={h} variant="accent">
-                            {t(`card.highlights.${h}`)}
-                          </ProjectBadge>
-                        ))}
-                        {leadProject.highlights.length > 6 && (
-                          <ProjectBadge variant="muted">
-                            +{leadProject.highlights.length - 6}
-                          </ProjectBadge>
-                        )}
-                      </div>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {leadProject.technologies.slice(0, 6).map((tech) => (
-                          <ProjectBadge
-                            key={tech}
-                            typography="label"
-                            className={getProjectTechBadgeTone(tech)}
-                          >
-                            {tech}
-                          </ProjectBadge>
-                        ))}
-                        {leadProject.technologies.length > 6 && (
-                          <ProjectBadge variant="muted">
-                            {t('card.moreCount', {
-                              count: leadProject.technologies.length - 6,
-                            })}
-                          </ProjectBadge>
-                        )}
-                      </div>
-
-                      <div className="mt-7 flex flex-wrap gap-3">
-                        {leadProject.demo && (
-                          <a
-                            href={leadProject.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform duration-300 hover:-translate-y-0.5"
-                          >
-                            <SquareArrowRightUp className="h-4 w-4" />
-                            {t('featuredTitle')}
-                          </a>
-                        )}
-                        {leadProject.github && (
-                          <a
-                            href={leadProject.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex min-h-12 items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/30 hover:bg-surface-strong"
-                          >
-                            <SiGithub className="h-4 w-4" />
-                            {t('cta.button')}
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </ParallaxLayer>
-          </BlurReveal>
-        )}
-
-        {/* Secondary Projects — 3-column grid */}
-        <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
-          {secondaryProjects.map((project, index) => (
-            <FadeIn key={project.id} delay={0.45 + index * 0.12} blur scale className="h-full">
-              <ProjectCard project={project} animationDelay="0ms" />
-            </FadeIn>
-          ))}
-        </div>
+        <ul className="mt-8 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 xl:grid-cols-4">
+          {projects.map((project, index) => {
+            // Primeiro case sempre largo; o último também quando sobra um buraco na grade de 4.
+            const lastWide = (projects.length + 1) % 4 === 3 && index === projects.length - 1
+            const wide = index === 0 || lastWide
+            // Colunas alternadas flutuam em velocidades diferentes: profundidade sem pesar.
+            const offset = index % 2 === 0 ? 14 : -10
+            return (
+              <li key={project.id} className={wide ? 'h-full sm:col-span-2' : 'h-full'}>
+                <FadeIn delay={0.15 + index * 0.07} blur className="h-full">
+                  <ParallaxLayer offset={offset} className="h-full">
+                    <ProjectTile project={project} priority={wide} wide={wide} />
+                  </ParallaxLayer>
+                </FadeIn>
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </section>
   )

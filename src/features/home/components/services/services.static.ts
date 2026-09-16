@@ -1,27 +1,13 @@
-import { Cpu, Database, Global, Smartphone } from '@solar-icons/react/ssr'
+import { Cpu, Global, Smartphone, StarFall } from '@solar-icons/react/ssr'
 import type { ServiceType } from './services.types'
 
-export const servicesData: Omit<ServiceType, 'title' | 'description' | 'features'>[] = [
-  {
-    id: 'web-development',
-    icon: Global,
-    category: 'web',
-    popular: true,
-  },
-  {
-    id: 'api-development',
-    icon: Database,
-    category: 'backend',
-  },
-  {
-    id: 'ai-integration',
-    icon: Cpu,
-    category: 'ai',
-    popular: true,
-  },
-  {
-    id: 'mobile-development',
-    icon: Smartphone,
-    category: 'mobile',
-  },
+/** Frentes da Atto exibidas na ponte do site pessoal. Textos em messages/*.json (services.list). */
+export const servicesData: Omit<ServiceType, 'title' | 'description'>[] = [
+  { id: 'web', icon: Global },
+  { id: 'mobile', icon: Smartphone },
+  { id: 'ai', icon: Cpu },
+  { id: 'marketing', icon: StarFall },
 ]
+
+export const ATTO_URL = 'https://attodev.com.br'
+export const ATTO_CASES_URL = 'https://attodev.com.br/#cases'

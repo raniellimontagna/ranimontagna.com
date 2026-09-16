@@ -1,8 +1,8 @@
 # Ranielli Montagna
 
-> Full Stack Software Engineer at Lemon Energia, from Brazil, specializing in React, React Native, Next.js, Node.js and TypeScript. Portfolio, blog and open source projects.
+> Software engineer at Lemon Energia and co-founder of Atto (custom software and marketing), from Brazil. React, React Native, Next.js, Node.js, TypeScript, automation and applied AI. Portfolio, blog and projects.
 
-Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian Full Stack Software Engineer currently working at Lemon Energia. He has 5+ years of experience building scalable web and mobile applications and previously worked at Luizalabs, the technology division of Magazine Luiza, developing products for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks.
+Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian software engineer currently working at Lemon Energia and co-founder of Atto (https://attodev.com.br), a software house and marketing studio that builds custom software, integrations, AI automation and marketing for companies. He has 5+ years of experience building scalable web and mobile applications and previously worked at Luizalabs, the technology division of Magazine Luiza, developing products for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks.
 
 ## Identity
 
@@ -10,12 +10,13 @@ Ranielli Montagna (also known as Rani Montagna or Ranni Montagna) is a Brazilian
 - Also known as: Rani Montagna, Ranni Montagna, Ranielli
 - Nationality: Brazilian
 - Location: Brazil
-- Role: Full Stack Software Engineer
+- Role: Software Engineer at Lemon Energia; co-founder of Atto (software house and marketing)
 - Current company: Lemon Energia
 - Current experience: Lemon Energia — engineering at the bridge between the Center of Excellence and business areas, with a focus on digital solutions, automation and pragmatic AI
 - GitHub: https://github.com/RanielliMontagna
 - LinkedIn: https://linkedin.com/in/rannimontagna
 - Twitter/X: https://twitter.com/rannimontagna
+- Atto (company): https://attodev.com.br
 
 ## Skills
 
