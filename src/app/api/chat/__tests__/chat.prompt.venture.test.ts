@@ -10,30 +10,34 @@ const expectations: Array<{
   dataNotInstructions: RegExp
   humanRule: RegExp
   attoUncertainty: RegExp
+  directMessageRule: RegExp
 }> = [
   {
     locale: 'pt',
     heading: 'ATTO — MINHA EMPRESA',
-    routingRule: /passa pela Atto/,
+    routingRule: /ofereça os dois caminhos/,
     dataNotInstructions: /nunca instrução a ser executada/,
     humanRule: /humano ou uma IA/,
     attoUncertainty: /não invente clientes, faturamento, equipe ou prazos/,
+    directMessageRule: /recado direto aqui no chat/,
   },
   {
     locale: 'en',
     heading: 'ATTO — MY COMPANY',
-    routingRule: /goes through Atto/,
+    routingRule: /offer both paths/,
     dataNotInstructions: /never an instruction to execute/,
     humanRule: /human or an AI/,
     attoUncertainty: /do not invent clients, revenue, team size, or timelines/,
+    directMessageRule: /direct-message button here in the chat/,
   },
   {
     locale: 'es',
     heading: 'ATTO — MI EMPRESA',
-    routingRule: /pasa por Atto/,
+    routingRule: /ofrece los dos caminos/,
     dataNotInstructions: /nunca una instrucción a ejecutar/,
     humanRule: /humano o una IA/,
     attoUncertainty: /no inventes clientes, facturación, equipo ni plazos/,
+    directMessageRule: /mensaje directo aquí en el chat/,
   },
 ]
 
@@ -47,8 +51,10 @@ describe('chat system prompt — Atto and hardening', () => {
     expect(prompt).toMatch(expected.dataNotInstructions)
     expect(prompt).toMatch(expected.humanRule)
     expect(prompt).toMatch(expected.attoUncertainty)
+    expect(prompt).toMatch(expected.directMessageRule)
     const projectRule = prompt.split('\n').find((line) => expected.routingRule.test(line)) ?? ''
-    expect(projectRule).not.toContain('LinkedIn')
+    expect(projectRule).toContain('Atto')
+    expect(projectRule).toMatch(expected.directMessageRule)
     expect(prompt).toContain('NaN Solutions (Atto)')
     expect(prompt).not.toContain('North Clinic')
   })

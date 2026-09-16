@@ -545,6 +545,24 @@
       "experience": "Me conte sobre sua experiência profissional",
       "projects": "Quais projetos você já desenvolveu?",
       "atto": "O que é a Atto e como funciona um projeto?"
+    },
+    "directMessage": {
+      "trigger": "📨 Prefere me mandar um recado direto?",
+      "title": "Recado direto pro Ranielli",
+      "subtitle": "Chega no meu e-mail. Respondo em até 24h úteis.",
+      "name": "Seu nome",
+      "email": "Seu e-mail",
+      "message": "Sua mensagem",
+      "send": "Enviar recado",
+      "sending": "Enviando...",
+      "cancel": "Voltar",
+      "successTitle": "Recado enviado!",
+      "success": "Obrigado — retorno em até 24h úteis no e-mail que você deixou.",
+      "backToChat": "Voltar ao chat",
+      "error": "Não consegui enviar agora. Tente de novo ou fale pelo LinkedIn.",
+      "invalid": "Confira nome, e-mail e uma mensagem com pelo menos 10 caracteres.",
+      "subject": "Recado pelo chat do site — {name}",
+      "privacy": "Uso seus dados só para responder este contato."
     }
   }
 }

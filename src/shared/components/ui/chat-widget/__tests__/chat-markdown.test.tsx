@@ -7,18 +7,19 @@ const renderMarkdown = (content: string): void => {
 }
 
 describe('renderChatMarkdown', () => {
-  it.each(
-    Object.entries(CHAT_CONTACT_LINKS),
-  )('renders the exact approved %s URL as a safe link', (_name, target) => {
-    renderMarkdown(`Acesse [meu perfil](${target}).`)
+  it.each(Object.entries(CHAT_CONTACT_LINKS))(
+    'renders the exact approved %s URL as a safe link',
+    (_name, target) => {
+      renderMarkdown(`Acesse [meu perfil](${target}).`)
 
-    expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute('href', target)
-    expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute('target', '_blank')
-    expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute(
-      'rel',
-      'noopener noreferrer',
-    )
-  })
+      expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute('href', target)
+      expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute('target', '_blank')
+      expect(screen.getByRole('link', { name: 'meu perfil' })).toHaveAttribute(
+        'rel',
+        'noopener noreferrer',
+      )
+    },
+  )
 
   it.each([
     ['HTTP', 'http://ranimontagna.com'],

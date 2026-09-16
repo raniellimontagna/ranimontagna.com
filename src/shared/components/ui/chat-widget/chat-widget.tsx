@@ -1,7 +1,13 @@
 'use client'
 
 import * as Dialog from '@radix-ui/react-dialog'
-import { CloseCircle, MinimalisticMagnifier, Restart, SendSquare } from '@solar-icons/react/ssr'
+import {
+  CloseCircle,
+  Letter,
+  MinimalisticMagnifier,
+  Restart,
+  SendSquare,
+} from '@solar-icons/react/ssr'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
@@ -9,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/shared/lib/utils'
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import type { ChatMessage } from '@/shared/store/use-chat/use-chat.types'
+import { ChatContactForm } from './chat-contact-form'
 import { renderChatMarkdown } from './chat-markdown'
 
 const TypingIndicator = ({ reducedMotion }: { reducedMotion: boolean }): React.ReactElement => (
@@ -66,6 +73,7 @@ export const ChatWidget = (): React.ReactElement => {
 
   const [input, setInput] = useState('')
   const [completionAnnouncement, setCompletionAnnouncement] = useState<string | null>(null)
+  const [isContactFormOpen, setContactFormOpen] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const wasLoadingRef = useRef(isLoading)
@@ -116,6 +124,8 @@ export const ChatWidget = (): React.ReactElement => {
     }
   }
 
+  const lastVisitorMessage = [...messages].reverse().find((message) => message.role === 'user')
+
   const suggestions = [
     t('suggestions.skills'),
     t('suggestions.experience'),
@@ -126,6 +136,8 @@ export const ChatWidget = (): React.ReactElement => {
   const handleSuggestion = (suggestion: string): void => {
     sendMessage(suggestion, locale)
   }
+
+  const openContactForm = (): void => setContactFormOpen(true)
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setOpen}>
@@ -328,29 +340,47 @@ export const ChatWidget = (): React.ReactElement => {
 
                 {/* Input */}
                 <div className="border-t border-line bg-surface p-3">
-                  <div className="interactive-field-shell flex items-center gap-2 rounded-2xl bg-background p-2 hover:bg-surface-strong focus-within:bg-surface-strong">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      placeholder={t('placeholder')}
-                      disabled={isLoading}
-                      maxLength={500}
-                      aria-label={t('placeholder')}
-                      className="interactive-field-input flex-1 px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none disabled:opacity-50"
+                  {isContactFormOpen ? (
+                    <ChatContactForm
+                      draft={lastVisitorMessage?.content ?? ''}
+                      onCancel={() => setContactFormOpen(false)}
                     />
-                    <button
-                      type="button"
-                      onClick={handleSend}
-                      disabled={!input.trim() || isLoading}
-                      aria-label={t('send')}
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-foreground text-background transition-all hover:opacity-90 focus-visible:outline-none disabled:opacity-40 disabled:hover:opacity-40"
-                    >
-                      <SendSquare className="h-5 w-5" />
-                    </button>
-                  </div>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={openContactForm}
+                        data-testid="chat-contact-trigger"
+                        className="mb-2 flex w-full items-center justify-between gap-2 rounded-2xl border border-line bg-background px-3 py-2.5 text-left text-xs font-semibold text-foreground transition-colors hover:border-foreground/25 hover:bg-surface-strong"
+                      >
+                        <span>{t('directMessage.trigger')}</span>
+                        <Letter className="h-4 w-4 text-muted" />
+                      </button>
+                      <div className="interactive-field-shell flex items-center gap-2 rounded-2xl bg-background p-2 hover:bg-surface-strong focus-within:bg-surface-strong">
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                          placeholder={t('placeholder')}
+                          disabled={isLoading}
+                          maxLength={500}
+                          aria-label={t('placeholder')}
+                          className="interactive-field-input flex-1 px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-0 focus-visible:outline-none disabled:opacity-50"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleSend}
+                          disabled={!input.trim() || isLoading}
+                          aria-label={t('send')}
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-foreground text-background transition-all hover:opacity-90 focus-visible:outline-none disabled:opacity-40 disabled:hover:opacity-40"
+                        >
+                          <SendSquare className="h-5 w-5" />
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </motion.div>
             </Dialog.Content>

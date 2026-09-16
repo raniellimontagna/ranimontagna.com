@@ -545,6 +545,24 @@
       "experience": "Tell me about your professional experience",
       "projects": "What projects have you developed?",
       "atto": "What is Atto and how does a project work?"
+    },
+    "directMessage": {
+      "trigger": "📨 Rather send me a direct message?",
+      "title": "Direct message to Ranielli",
+      "subtitle": "It lands in my inbox. I reply within 24 business hours.",
+      "name": "Your name",
+      "email": "Your e-mail",
+      "message": "Your message",
+      "send": "Send message",
+      "sending": "Sending...",
+      "cancel": "Back",
+      "successTitle": "Message sent!",
+      "success": "Thanks — I reply within 24 business hours to the e-mail you left.",
+      "backToChat": "Back to chat",
+      "error": "I couldn't send it right now. Try again or reach me on LinkedIn.",
+      "invalid": "Check your name, e-mail and a message with at least 10 characters.",
+      "subject": "Message from the website chat — {name}",
+      "privacy": "I use your data only to answer this contact."
     }
   }
 }
