@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.25.0...v1.26.0) (2026-09-16)
+
+
+### Features
+
+* **chat:** route projects to Atto and harden the assistant policy ([#54](https://github.com/raniellimontagna/ranimontagna.com/issues/54)) ([c39d1b9](https://github.com/raniellimontagna/ranimontagna.com/commit/c39d1b98788e60f206e45cc7198c76d3e55e7d11))
+
 ## [1.25.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.24.1...v1.25.0) (2026-09-16)
 
 
