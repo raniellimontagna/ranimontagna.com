@@ -118,35 +118,35 @@ export const extractDateReferences = (text: string): DateReference[] => {
   }> = [
     {
       day: 1,
-      month: (match) => monthNumberByToken[match[2] ?? ''] ?? 0,
+      month: (match) => monthNumberByToken[(match[2] ?? '').toLowerCase()] ?? 0,
       pattern: new RegExp(
         `\\b(\\d{1,2})\\s+(?:(?:de|del|of)\\s+)?(${monthTokenSource})\\.?\\s+(?:(?:de|del|of)\\s+)?((?:19|20)\\d{2})\\b`,
-        'g',
+        'gi',
       ),
       year: 3,
     },
     {
       day: 2,
-      month: (match) => monthNumberByToken[match[1] ?? ''] ?? 0,
+      month: (match) => monthNumberByToken[(match[1] ?? '').toLowerCase()] ?? 0,
       pattern: new RegExp(
         `\\b(${monthTokenSource})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?\\s+((?:19|20)\\d{2})\\b`,
-        'g',
+        'gi',
       ),
       year: 3,
     },
     {
-      month: (match) => monthNumberByToken[match[1] ?? ''] ?? 0,
+      month: (match) => monthNumberByToken[(match[1] ?? '').toLowerCase()] ?? 0,
       pattern: new RegExp(
         `\\b(${monthTokenSource})\\.?\\s*(?:(?:de|del|of)\\s+)?((?:19|20)\\d{2})\\b`,
-        'g',
+        'gi',
       ),
       year: 2,
     },
     {
-      month: (match) => monthNumberByToken[match[1] ?? ''] ?? 0,
+      month: (match) => monthNumberByToken[(match[1] ?? '').toLowerCase()] ?? 0,
       pattern: new RegExp(
         `\\b(${monthTokenSource})\\.?\\s*[/.-]\\s*(\\d{2}|(?:19|20)\\d{2})\\b`,
-        'g',
+        'gi',
       ),
       year: 2,
     },
@@ -234,7 +234,12 @@ const assertionSources: Array<[AssertionKind, string]> = [
 const extractEmploymentAssertions = (clause: string): EmploymentAssertion[] => {
   const assertions: EmploymentAssertion[] = []
   for (const [kind, source] of assertionSources) {
-    for (const match of clause.matchAll(new RegExp(`\\b(?:${source})\\b`, 'g'))) {
+    // O hífen conta como limite de palavra, então `\b` casaria o "end" de
+    // "front-end" e leria um cargo como fim de vínculo. Exigimos que a asserção
+    // não seja parte de uma palavra composta.
+    for (const match of clause.matchAll(
+      new RegExp(`(?<![\\p{L}\\p{N}-])(?:${source})(?![\\p{L}\\p{N}-])`, 'gu'),
+    )) {
       assertions.push({
         index: match.index ?? 0,
         kind,

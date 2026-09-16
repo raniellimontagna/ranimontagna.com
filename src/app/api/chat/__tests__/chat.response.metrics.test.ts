@@ -98,11 +98,17 @@ describe('deterministic response validation', () => {
   })
 
   it('allows a structural project count globally but not as a Lemon outcome', () => {
-    expect(validateChatAnswer(createValidationInput('Tenho 3 projetos principais.'))).toEqual({
-      ok: true,
-    })
+    // O total vem do perfil: fixar o número aqui reprovaria respostas corretas
+    // sempre que a lista de projetos mudasse.
+    const total = CHAT_PROFILE_BY_LOCALE.pt.projects.length
+
     expect(
-      validateChatAnswer(createValidationInput('Na Lemon, entreguei 3 projetos principais.')),
+      validateChatAnswer(createValidationInput(`Tenho ${total} projetos principais.`)),
+    ).toEqual({ ok: true })
+    expect(
+      validateChatAnswer(
+        createValidationInput(`Na Lemon, entreguei ${total} projetos principais.`),
+      ),
     ).toEqual({ ok: false, code: 'unsupported-metric' })
   })
 
@@ -119,7 +125,7 @@ describe('deterministic response validation', () => {
     ['At Lemon, I delivered forty-two projects.', false],
     ['En Lemon, entregué quinientos proyectos.', false],
     ['Na Lemon, entreguei quatro projetos.', false],
-    ['Tenho três projetos principais.', true],
+    ['Tenho três projetos principais.', false],
     ['No Luizalabs, contribuí para 1k+ lojas.', true],
     ['Na Lemon, contribuí para 1k+ lojas.', false],
     ['Contribuí para vinte mil lojas no Luizalabs.', false],
@@ -202,10 +208,10 @@ describe('deterministic response validation', () => {
   })
 
   it.each([
-    ['Tenho 3 projetos principais.', true],
-    ['I have 3 main projects.', true],
-    ['Tengo 3 proyectos principales.', true],
-    ['Tenho 3 projetos principais na Lemon.', false],
+    [`Tenho ${CHAT_PROFILE_BY_LOCALE.pt.projects.length} projetos principais.`, true],
+    [`I have ${CHAT_PROFILE_BY_LOCALE.pt.projects.length} main projects.`, true],
+    [`Tengo ${CHAT_PROFILE_BY_LOCALE.pt.projects.length} proyectos principales.`, true],
+    [`Tenho ${CHAT_PROFILE_BY_LOCALE.pt.projects.length} projetos principais na Lemon.`, false],
     ['Tenho 5+ anos em software. Hoje trabalho na Lemon.', true],
   ] as const)(
     'keeps global, structural, and employer metric scopes separate: %s',
