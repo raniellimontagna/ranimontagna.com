@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.0...v1.27.1) (2026-09-16)
+
+
+### Bug Fixes
+
+* **chat:** stop the answer validator from rejecting correct answers ([#58](https://github.com/raniellimontagna/ranimontagna.com/issues/58)) ([95d9f72](https://github.com/raniellimontagna/ranimontagna.com/commit/95d9f728e15fe7961072fbf6ccf30ae138550361))
+
 ## [1.27.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.26.0...v1.27.0) (2026-09-16)
 
 
