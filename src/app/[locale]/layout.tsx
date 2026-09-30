@@ -1,9 +1,10 @@
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
+import { RetroExperience } from '@/shared/components/retro-mode/retro-mode'
 import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
@@ -120,6 +121,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </a>
         <SpectralBackground />
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
+          <RetroExperience locale={locale} />
           {children}
         </NextIntlClientProvider>
         <SpeedInsights />

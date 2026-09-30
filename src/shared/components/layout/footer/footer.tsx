@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
+import { RetroTrigger } from '@/shared/components/retro-mode/retro-mode'
 import type { SocialLink } from '@/shared/lib/social-links'
 import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 
@@ -21,7 +22,10 @@ export const Footer = (): React.ReactElement => {
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:gap-0">
           <FadeIn>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background">
+              <div
+                data-footer-logo
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background"
+              >
                 <Image
                   src="logo/white.svg"
                   alt="Logo"
@@ -72,7 +76,10 @@ export const Footer = (): React.ReactElement => {
         </div>
 
         <div className="mt-12 flex flex-col-reverse items-center justify-between gap-4 border-t border-line pt-8 text-sm md:flex-row">
-          <p className="text-muted">{t('copyright', { year: currentYear })}</p>
+          <div className="flex items-center gap-3">
+            <RetroTrigger label={t('restoreBackup')} />
+            <p className="text-muted">{t('copyright', { year: currentYear })}</p>
+          </div>
 
           <div className="flex items-center gap-6">
             <p className="text-muted">{t('madeWith')}</p>

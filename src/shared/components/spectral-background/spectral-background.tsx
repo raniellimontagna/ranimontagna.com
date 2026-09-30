@@ -1,6 +1,7 @@
 'use client'
 
 import { type ComponentType, useEffect, useRef, useState } from 'react'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import type { SpectralMode, SpectralVeilCanvasProps } from './spectral-background.types'
 import {
   resolveSpectralMode,
@@ -43,6 +44,7 @@ export function SpectralBackground({
   pathname,
   activationScheduler = scheduleCanvasActivation,
 }: SpectralBackgroundProps) {
+  const retroActive = useRetroMode((state) => state.active)
   const [mode, setMode] = useState<SpectralMode>('static')
   const [activationReady, setActivationReady] = useState(false)
   const [CanvasComponent, setCanvasComponent] =
@@ -105,13 +107,14 @@ export function SpectralBackground({
   }, [pathname])
 
   useEffect(() => {
-    if (mode === 'static' || permanentFailure || activationReady) return
+    if (retroActive || mode === 'static' || permanentFailure || activationReady) return
 
     return activationScheduler(() => setActivationReady(true))
-  }, [activationReady, activationScheduler, mode, permanentFailure])
+  }, [activationReady, activationScheduler, mode, permanentFailure, retroActive])
 
   useEffect(() => {
-    if (!activationReady || mode === 'static' || CanvasComponent || permanentFailure) return
+    if (retroActive || !activationReady || mode === 'static' || CanvasComponent || permanentFailure)
+      return
 
     let isMounted = true
     canvasLoadPromise.current ??= canvasLoader()
@@ -125,12 +128,12 @@ export function SpectralBackground({
     return () => {
       isMounted = false
     }
-  }, [CanvasComponent, activationReady, canvasLoader, mode, permanentFailure])
+  }, [CanvasComponent, activationReady, canvasLoader, mode, permanentFailure, retroActive])
 
   return (
     <div aria-hidden="true" className="spectral-background" data-testid="spectral-background">
       <SpectralFallback />
-      {CanvasComponent && mode !== 'static' && !permanentFailure ? (
+      {!retroActive && CanvasComponent && mode !== 'static' && !permanentFailure ? (
         <div className="spectral-canvas-shell">
           <CanvasComponent mode={mode} onPermanentFailure={() => setPermanentFailure(true)} />
         </div>

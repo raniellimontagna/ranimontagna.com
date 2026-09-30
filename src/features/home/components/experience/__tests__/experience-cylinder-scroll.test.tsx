@@ -1,3 +1,4 @@
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { ExperienceCylinderScroll } from '../experience-cylinder-scroll'
 
@@ -101,6 +102,7 @@ function StageFixture() {
 
 describe('ExperienceCylinderScroll', () => {
   beforeEach(() => {
+    useRetroMode.getState().setActive(false)
     vi.clearAllMocks()
     setupMatchMedia()
     window.requestAnimationFrame = vi.fn((callback: FrameRequestCallback) => {
@@ -145,5 +147,25 @@ describe('ExperienceCylinderScroll', () => {
     expect(scrollTriggerCreate).toHaveBeenCalledWith(
       expect.objectContaining({ pin: true, pinSpacing: true }),
     )
+  })
+  it('unpins and exposes all experience entries in retro mode, then restores modern scrolling', async () => {
+    const { container } = render(<StageFixture />)
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    expect(container.querySelector('[data-experience-enhanced]')).toBeInTheDocument()
+    expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument()
+    act(() => useRetroMode.getState().setActive(true))
+    expect(gsapContextRevert).toHaveBeenCalled()
+    expect(container.querySelector('[data-experience-enhanced]')).not.toBeInTheDocument()
+    expect(container.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
+    scrollTriggerCreate.mockClear()
+    await act(async () => {
+      useRetroMode.getState().setActive(false)
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    expect(scrollTriggerCreate).toHaveBeenCalled()
   })
 })

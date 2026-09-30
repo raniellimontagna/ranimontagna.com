@@ -1,5 +1,11 @@
 export const THEME_INIT_SCRIPT = `
 (() => {
+  try {
+    if (sessionStorage.getItem('retro-mode') === 'true') {
+      document.documentElement.setAttribute('data-retro', 'true');
+    }
+  } catch {}
+
   const storageKey = 'theme-storage';
   const fallbackTheme = 'dark';
   const validColorThemes = ['ocean', 'rose', 'emerald', 'amber', 'violet', 'mono', 'sunset', 'cherry'];

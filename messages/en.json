@@ -391,6 +391,7 @@
       }
     },
     "copyright": "© {year} Ranielli Montagna. All rights reserved.",
+    "restoreBackup": "Restore the 1998 backup",
     "madeWith": "Made with ❤️ using Next.js, TypeScript and Tailwind CSS"
   },
   "services": {

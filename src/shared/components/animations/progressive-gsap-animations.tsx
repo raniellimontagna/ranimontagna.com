@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 
 type GsapModule = typeof import('gsap')
 type GsapApi = GsapModule['gsap']
@@ -356,9 +357,10 @@ interface ProgressiveGsapAnimationsProps {
 export function ProgressiveGsapAnimations({
   loadGsap = loadDefaultGsap,
 }: ProgressiveGsapAnimationsProps = {}) {
+  const retroActive = useRetroMode((state) => state.active)
   useEffect(() => {
     const motionPreference = window.matchMedia?.(REDUCED_MOTION_QUERY)
-    let prefersReducedMotion = motionPreference?.matches ?? false
+    let prefersReducedMotion = retroActive || (motionPreference?.matches ?? false)
     let cancelled = false
     let generation = 0
     let gsapPromise: Promise<GsapApi> | null = null
@@ -438,7 +440,7 @@ export function ProgressiveGsapAnimations({
     }
 
     const handleMotionPreferenceChange = (event: MediaQueryListEvent) => {
-      prefersReducedMotion = event.matches
+      prefersReducedMotion = retroActive || event.matches
 
       if (prefersReducedMotion) {
         suspendAnimations()
@@ -460,7 +462,7 @@ export function ProgressiveGsapAnimations({
       suspendAnimations()
       motionPreference?.removeEventListener('change', handleMotionPreferenceChange)
     }
-  }, [loadGsap])
+  }, [loadGsap, retroActive])
 
   return null
 }

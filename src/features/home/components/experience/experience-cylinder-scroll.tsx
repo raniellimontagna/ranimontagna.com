@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 
 const STAGE_SELECTOR = '[data-experience-cylinder-stage="true"]'
 const DESKTOP_QUERY = '(min-width: 1024px)'
@@ -32,6 +33,7 @@ function supportsMediaListener(query: MediaQueryList) {
 }
 
 export function ExperienceCylinderScroll() {
+  const retroActive = useRetroMode((state) => state.active)
   useEffect(() => {
     const desktopQuery = window.matchMedia(DESKTOP_QUERY)
     const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY)
@@ -47,7 +49,7 @@ export function ExperienceCylinderScroll() {
 
     const setup = async () => {
       if (teardown || setupRequested || isDisposed) return
-      if (!desktopQuery.matches || reducedMotionQuery.matches) {
+      if (retroActive || !desktopQuery.matches || reducedMotionQuery.matches) {
         runTeardown()
         return
       }
@@ -58,7 +60,7 @@ export function ExperienceCylinderScroll() {
         import('gsap/ScrollTrigger'),
       ])
 
-      if (isDisposed || !desktopQuery.matches || reducedMotionQuery.matches) {
+      if (isDisposed || retroActive || !desktopQuery.matches || reducedMotionQuery.matches) {
         setupRequested = false
         return
       }
@@ -246,7 +248,7 @@ export function ExperienceCylinderScroll() {
     }
 
     const sync = () => {
-      if (!desktopQuery.matches || reducedMotionQuery.matches) {
+      if (retroActive || !desktopQuery.matches || reducedMotionQuery.matches) {
         runTeardown()
         return
       }
@@ -276,7 +278,7 @@ export function ExperienceCylinderScroll() {
         reducedMotionQuery.removeListener(sync)
       }
     }
-  }, [])
+  }, [retroActive])
 
   return null
 }

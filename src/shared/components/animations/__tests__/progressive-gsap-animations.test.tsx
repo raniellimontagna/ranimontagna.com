@@ -1,3 +1,4 @@
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { act, render } from '@/tests/test-utils'
 import { ProgressiveGsapAnimations } from '../progressive-gsap-animations'
 
@@ -128,6 +129,7 @@ function createMotionPreference(initialMatches = false) {
 
 describe('ProgressiveGsapAnimations', () => {
   beforeEach(() => {
+    useRetroMode.getState().setActive(false)
     vi.clearAllMocks()
     intersectionObservers.length = 0
     window.IntersectionObserver =
@@ -362,5 +364,33 @@ describe('ProgressiveGsapAnimations', () => {
     expect(reveal.style.color).toBe('red')
 
     reveal.remove()
+  })
+  it('restores visible content and stops preparing reveals while the retro mode is active', async () => {
+    const loadGsap = vi.fn().mockResolvedValue(gsapApi)
+    const { container } = render(
+      <>
+        <div data-gsap-reveal="true">Content</div>
+        <ProgressiveGsapAnimations loadGsap={loadGsap} />
+      </>,
+    )
+    await act(async () => {
+      await Promise.resolve()
+    })
+    const reveal = container.querySelector('[data-gsap-reveal]') as HTMLElement
+    expect(reveal.style.visibility).toBe('hidden')
+    act(() => useRetroMode.getState().setActive(true))
+    expect(gsapContextRevert).toHaveBeenCalled()
+    expect(reveal.style.visibility).toBe('')
+    loadGsap.mockClear()
+    await act(async () => {
+      window.dispatchEvent(new Event('home-sections:load'))
+      await Promise.resolve()
+    })
+    expect(loadGsap).not.toHaveBeenCalled()
+    await act(async () => {
+      useRetroMode.getState().setActive(false)
+      await Promise.resolve()
+    })
+    expect(loadGsap).toHaveBeenCalled()
   })
 })

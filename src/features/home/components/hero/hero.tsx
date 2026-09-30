@@ -101,7 +101,7 @@ export async function Hero() {
           </div>
         </div>
 
-        <div className="hidden lg:block">
+        <div className="retro-hero-visual hidden lg:block">
           <HeroVisual />
         </div>
       </div>
