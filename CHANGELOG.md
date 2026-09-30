@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.28.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.1...v1.28.0) (2026-09-30)
+
+
+### Features
+
+* add hidden retro homepage easter egg ([a3fae4c](https://github.com/raniellimontagna/ranimontagna.com/commit/a3fae4c115c30d9d5417de97eb57cb572e1a4b20))
+* add six secret portfolio worlds ([de29e6c](https://github.com/raniellimontagna/ranimontagna.com/commit/de29e6cdd0017273231407803a7045a93f9be631))
+
 ## [1.27.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.0...v1.27.1) (2026-09-16)
 
 
