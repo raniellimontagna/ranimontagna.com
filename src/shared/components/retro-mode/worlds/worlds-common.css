@@ -1,0 +1,20 @@
+.retro-secret { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; vertical-align: middle; color: var(--muted); cursor: pointer; border-radius: 4px; }
+.retro-secret:hover { color: var(--foreground); background: var(--surface); }
+.retro-secret:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+html[data-retro="true"] .retro-secret { min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--foreground); }
+.world-exit { min-height: 44px; padding: 8px 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font: bold 13px/1.3 Arial, sans-serif; white-space: nowrap; }
+.world-loading { width: min(980px, 100%); margin: auto; padding: 16px; color: #161616; background: #fff; border: 2px ridge #c0c0c0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+html[data-retro-mode] main { overflow-wrap: anywhere; }
+html[data-retro-mode] :where(input, textarea, select) { color: var(--foreground); background: var(--background); }
+html[data-retro-mode] :where(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
+html[data-retro-mode] [data-retro-exit]:focus-visible { outline: 2px dotted currentColor !important; outline-offset: -5px; }
+/* Keep the assistant reachable above the fixed return bar in every universe. */
+html[data-retro="true"] [data-chat-launcher],
+html[data-retro="true"] [data-chat-panel] { bottom: calc(88px + var(--safe-bottom)); }
+html[data-retro="true"] [data-chat-panel] { max-height: calc(100dvh - 112px - var(--safe-top) - var(--safe-bottom)); }
+html[data-retro="true"] [data-chat-launcher] img { box-shadow: none; border: 1px solid var(--line); }
+html[data-retro="true"] [data-chat-launcher] > span > span { background: var(--accent-strong); }
+html[data-retro="true"][data-retro-mode="gameboy"] [data-chat-launcher] img { filter: grayscale(1) sepia(1) hue-rotate(25deg) saturate(1.8) contrast(1.1); }
+html[data-retro="true"][data-retro-mode="dos"] [data-chat-launcher] img { filter: grayscale(1); }
+html[data-retro="true"][data-retro-mode="newspaper"] [data-chat-launcher] img { filter: grayscale(1) sepia(.25); }
+html[data-retro="true"][data-retro-mode="mac"] [data-chat-launcher] img { filter: grayscale(1) contrast(1.2); }

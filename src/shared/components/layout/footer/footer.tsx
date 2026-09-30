@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import { RetroTrigger } from '@/shared/components/retro-mode/retro-mode'
+import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
 import type { SocialLink } from '@/shared/lib/social-links'
 import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 
@@ -43,8 +44,9 @@ export const Footer = (): React.ReactElement => {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-foreground">{t('logo.fullName')}</h3>
-                <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.18em] text-muted">
+                <p className="flex items-center font-mono text-[0.68rem] font-medium uppercase tracking-[0.18em] text-muted">
                   Full Stack Engineer
+                  <RetroSecret mode="xp" />
                 </p>
               </div>
             </div>
@@ -79,10 +81,13 @@ export const Footer = (): React.ReactElement => {
           <div className="flex items-center gap-3">
             <RetroTrigger label={t('restoreBackup')} />
             <p className="text-muted">{t('copyright', { year: currentYear })}</p>
+            <RetroSecret mode="newspaper" />
           </div>
 
           <div className="flex items-center gap-6">
-            <p className="text-muted">{t('madeWith')}</p>
+            <p className="text-muted">
+              {t('madeWith')} <RetroSecret mode="ide" />
+            </p>
           </div>
         </div>
       </div>

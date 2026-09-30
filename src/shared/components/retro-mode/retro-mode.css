@@ -279,7 +279,7 @@ html[data-retro="true"] :where([data-gsap-reveal], [data-gsap-text-segment]) {
   filter: none !important;
   transform: none !important;
 }
-html[data-retro="true"] .absolute[class*="blur-"] { display: none; }
+html[data-retro="true"] .absolute[class*="blur-"]:not([class*="backdrop-blur-"]) { display: none; }
 html[data-retro="true"] [data-experience-panels] { min-height: 0; }
 html[data-retro="true"] [data-experience-intro] h2 { white-space: normal; }
 html[data-retro="true"] [data-experience-panel] .text-emerald-700 { color: #005200; background: #ddeedd; border-color: #808080; }

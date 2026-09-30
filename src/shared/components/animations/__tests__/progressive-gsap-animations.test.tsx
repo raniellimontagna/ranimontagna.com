@@ -393,4 +393,94 @@ describe('ProgressiveGsapAnimations', () => {
     })
     expect(loadGsap).toHaveBeenCalled()
   })
+
+  it.each(['reveal', 'text', 'stagger'] as const)(
+    'preserves a restored focus target when %s animations restart outside the viewport',
+    async (animation) => {
+      useRetroMode.getState().setMode('xp')
+      const loadGsap = vi.fn().mockResolvedValue(gsapApi)
+      const { getByRole, getByTestId } = render(
+        <>
+          <div
+            data-testid="focused-group"
+            data-gsap-reveal={animation === 'reveal' ? 'true' : undefined}
+            data-gsap-text={animation === 'text' ? 'true' : undefined}
+            data-gsap-stagger={animation === 'stagger' ? 'true' : undefined}
+          >
+            <div
+              data-testid="focused-item"
+              data-gsap-text-segment={animation === 'text' ? 'true' : undefined}
+              data-gsap-stagger-item={animation === 'stagger' ? 'true' : undefined}
+            >
+              <button type="button">Open Windows XP</button>
+            </div>
+          </div>
+          <div
+            data-testid="unfocused-group"
+            data-gsap-reveal={animation === 'reveal' ? 'true' : undefined}
+            data-gsap-text={animation === 'text' ? 'true' : undefined}
+            data-gsap-stagger={animation === 'stagger' ? 'true' : undefined}
+          >
+            <div
+              data-testid="unfocused-item"
+              data-gsap-text-segment={animation === 'text' ? 'true' : undefined}
+              data-gsap-stagger-item={animation === 'stagger' ? 'true' : undefined}
+            >
+              Other portfolio content
+            </div>
+          </div>
+          <ProgressiveGsapAnimations loadGsap={loadGsap} />
+        </>,
+      )
+      const trigger = getByRole('button', { name: 'Open Windows XP' })
+      trigger.focus({ preventScroll: true })
+      expect(loadGsap).not.toHaveBeenCalled()
+
+      await act(async () => {
+        useRetroMode.getState().setActive(false)
+        await Promise.resolve()
+      })
+
+      expect(trigger).toHaveFocus()
+      expect(getByTestId('focused-group').style.visibility).not.toBe('hidden')
+      expect(getByTestId('focused-item').style.visibility).not.toBe('hidden')
+      expect(getByTestId('focused-group').style.opacity).not.toBe('0')
+      expect(getByTestId('focused-item').style.opacity).not.toBe('0')
+      const unfocusedTarget = getByTestId(
+        animation === 'reveal' ? 'unfocused-group' : 'unfocused-item',
+      )
+      expect(unfocusedTarget.style.visibility).toBe('hidden')
+      expect(gsapTo).toHaveBeenCalledTimes(1)
+    },
+  )
+
+  it('does not prepare the focused element itself or any marked reveal ancestor', async () => {
+    useRetroMode.getState().setMode('dos')
+    const { getByRole, getByTestId } = render(
+      <>
+        <div data-testid="outer-reveal" data-gsap-reveal="true">
+          <div data-testid="inner-reveal" data-gsap-reveal="true">
+            <button type="button" data-gsap-reveal="true">
+              Open DOS
+            </button>
+          </div>
+        </div>
+        <ProgressiveGsapAnimations loadGsap={vi.fn().mockResolvedValue(gsapApi)} />
+      </>,
+    )
+    const trigger = getByRole('button', { name: 'Open DOS' })
+    trigger.focus({ preventScroll: true })
+
+    await act(async () => {
+      useRetroMode.getState().setActive(false)
+      await Promise.resolve()
+    })
+
+    for (const element of [trigger, getByTestId('inner-reveal'), getByTestId('outer-reveal')]) {
+      expect(element.style.visibility).not.toBe('hidden')
+      expect(element.style.opacity).not.toBe('0')
+    }
+    expect(gsapSet).not.toHaveBeenCalled()
+    expect(trigger).toHaveFocus()
+  })
 })

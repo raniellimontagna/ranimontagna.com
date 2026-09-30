@@ -1,6 +1,7 @@
 import { ArrowDown, SquareArrowRightUp } from '@solar-icons/react/ssr'
 import { getTranslations } from 'next-intl/server'
 import { MagneticHover, RevealText } from '@/shared/components/animations'
+import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
 import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 import { ScrollIndicator } from './hero-content'
 import { HeroVisual } from './hero-visual'
@@ -81,6 +82,7 @@ export async function Hero() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:justify-start">
+            <RetroSecret mode="dos" />
             {socialLinks.map((social) => {
               const Icon = social.icon
 

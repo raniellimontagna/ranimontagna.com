@@ -3,6 +3,7 @@ import { Footer } from '../footer'
 
 // Mocks
 vi.mock('next-intl', () => ({
+  useLocale: () => 'pt',
   useTranslations: () => (key: string) => {
     if (key === 'copyright') return `© ${new Date().getFullYear()} All rights reserved`
     return key

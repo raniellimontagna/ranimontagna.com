@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <title>Original landscape of green hills beneath a clear blue sky</title>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#2276cf"/>
+      <stop offset=".7" stop-color="#86c8f3"/>
+      <stop offset="1" stop-color="#c8eaff"/>
+    </linearGradient>
+    <linearGradient id="distant" x2="0" y2="1">
+      <stop stop-color="#7db249"/>
+      <stop offset="1" stop-color="#517e2b"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2=".25" y2="1">
+      <stop stop-color="#90c950"/>
+      <stop offset=".4" stop-color="#5ea52a"/>
+      <stop offset="1" stop-color="#286814"/>
+    </linearGradient>
+    <linearGradient id="foreground" x2="0" y2="1">
+      <stop stop-color="#71aa30"/>
+      <stop offset="1" stop-color="#316813"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1600v1000H0z"/>
+  <g fill="#fff" opacity=".88">
+    <ellipse cx="265" cy="136" rx="79" ry="28"/>
+    <ellipse cx="312" cy="121" rx="61" ry="39"/>
+    <ellipse cx="370" cy="143" rx="73" ry="27"/>
+    <ellipse cx="1056" cy="187" rx="72" ry="24"/>
+    <ellipse cx="1110" cy="169" rx="61" ry="34"/>
+    <ellipse cx="1161" cy="184" rx="82" ry="27"/>
+    <ellipse cx="1380" cy="93" rx="58" ry="21"/>
+    <ellipse cx="1420" cy="79" rx="39" ry="28"/>
+    <ellipse cx="1460" cy="95" rx="58" ry="20"/>
+  </g>
+  <g fill="#dbeefe" opacity=".7">
+    <ellipse cx="320" cy="157" rx="97" ry="11"/>
+    <ellipse cx="1129" cy="206" rx="91" ry="11"/>
+    <ellipse cx="1415" cy="110" rx="60" ry="9"/>
+  </g>
+  <path d="M0 602c177-77 314-46 492-47 224-2 365-130 602-93 225 35 359 130 506 97v441H0z" fill="url(#distant)"/>
+  <path d="M0 645c231-159 398-286 656-216 286 78 467 350 944 198v373H0z" fill="url(#hill)"/>
+  <path d="M0 820c262-110 421-51 661 26 261 84 572-106 939-106v260H0z" fill="url(#foreground)"/>
+  <path d="M0 647c231-159 398-286 656-216" fill="none" stroke="#a7d96b" stroke-width="5" opacity=".3"/>
+  <path d="M957 590c141 88 359 114 643 37" fill="none" stroke="#447f20" stroke-width="3" opacity=".28"/>
+  <g fill="none" stroke="#8bc448" stroke-width="2" opacity=".26">
+    <path d="m45 962 4-17m9 17 4-11m27-10 3-16m107 26 4-16m25 8 3-14m103 39 4-16m20 15 4-11m91-35 4-16m45 31 4-13m115 9 4-17m29 16 4-12m93-27 4-14m16 16 4-13m106 9 3-14m59 7 3-16m81 40 4-13m15 15 4-19m94-7 4-17m66 18 4-11m126-9 4-15m28 17 4-13m98 18 4-17m61 1 4-16"/>
+  </g>
+</svg>

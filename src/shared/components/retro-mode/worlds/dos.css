@@ -1,0 +1,175 @@
+/* The shared retro stylesheet supplies structural resets; DOS owns the palette. */
+:root[data-retro="true"][data-retro-mode="dos"],
+:root[data-retro="true"][data-retro-mode="dos"][data-color-theme] {
+  color-scheme: dark !important;
+  --background: #111713;
+  --foreground: #b7dca1;
+  --canvas: #0a100b;
+  --surface: #172019;
+  --surface-strong: #1e2b20;
+  --line: #5f8054;
+  --line-strong: #8baf75;
+  --muted: #9ab38d;
+  --secondary: #a8c69a;
+  --accent: #c7e5b4;
+  --accent-strong: #dcf2ce;
+  --accent-ice: #c7e5b4;
+  --on-accent: #0a100b;
+  --focus-ring: #dcf2ce;
+  --font-manrope: "Courier New", Courier, monospace;
+  --font-space-grotesk: "Courier New", Courier, monospace;
+  --font-geist-mono: "Courier New", Courier, monospace;
+}
+
+html[data-retro="true"][data-retro-mode="dos"] body {
+  background: #0a100b;
+  color: #b7dca1;
+  font: 16px/1.6 "Courier New", Courier, monospace;
+  padding-bottom: calc(88px + var(--safe-bottom));
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(main, body > header, .dos-terminal) {
+  max-width: 1060px;
+}
+html[data-retro="true"][data-retro-mode="dos"] main {
+  background: #111713;
+  border: 1px solid #5f8054;
+  margin-top: 20px;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(h1, h2, h3, .font-heading, .font-display, button, input, textarea, select) {
+  font-family: "Courier New", Courier, monospace;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(a, a:visited) {
+  color: #c7e5b4;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(a:hover) { color: #dcf2ce; }
+html[data-retro="true"][data-retro-mode="dos"] :where(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid #dcf2ce !important;
+  outline-offset: 3px;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(button, a[class*="rounded"]):not(.retro-trigger),
+html[data-retro="true"][data-retro-mode="dos"] :where(input, textarea, select) {
+  min-height: 44px;
+  border: 1px solid #5f8054;
+  background: #172019;
+  color: #c7e5b4;
+  box-shadow: none;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(input, textarea)::placeholder { color: #9ab38d; opacity: 1; }
+html[data-retro="true"][data-retro-mode="dos"] :where(button):hover { background: #253528; }
+html[data-retro="true"][data-retro-mode="dos"] button:active { border-style: solid; }
+html[data-retro="true"][data-retro-mode="dos"] :where(.surface-panel, .surface-panel-strong) {
+  border: 1px solid #5f8054;
+  background: #172019;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where([class*="bg-clip-text"]) {
+  color: #c7e5b4;
+  -webkit-text-fill-color: #c7e5b4;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(.editorial-kicker) {
+  border: 1px solid #5f8054;
+  background: #172019;
+  color: #c7e5b4;
+  font-family: "Courier New", Courier, monospace;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(body > header, body > header > nav) {
+  background: #111713;
+  border: 1px solid #5f8054;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(main footer) { border-color: #5f8054; }
+html[data-retro="true"][data-retro-mode="dos"] [data-orbit-counter-rotation] > svg { color: #b7dca1 !important; }
+html[data-retro="true"][data-retro-mode="dos"] [data-orbit-counter-rotation] > div > span {
+  color: #b7dca1;
+  font-family: "Courier New", Courier, monospace;
+}
+html[data-retro="true"][data-retro-mode="dos"] [data-experience-panel] .text-emerald-700 {
+  color: #b7dca1;
+  background: #172019;
+  border-color: #5f8054;
+}
+html[data-retro="true"][data-retro-mode="dos"] [data-footer-logo] {
+  border: 1px solid #5f8054;
+  background: #172019;
+}
+html[data-retro="true"][data-retro-mode="dos"] :where(body > header, [data-footer-logo]) img[src$="logo/white.svg"] { display: block; }
+html[data-retro="true"][data-retro-mode="dos"] :where(body > header, [data-footer-logo]) img[src$="logo/black.svg"] { display: none; }
+html[data-retro="true"][data-retro-mode="dos"] :where(.retro-trigger, .retro-secret) { color: #b7dca1; }
+html[data-retro="true"][data-retro-mode="dos"] .retro-trigger-tooltip {
+  border-color: #5f8054;
+  background: #172019;
+  color: #c7e5b4;
+}
+
+html[data-retro="true"][data-retro-mode="dos"] .dos-terminal {
+  width: 100%;
+  margin-inline: auto;
+  border: 1px solid #8baf75;
+  background: #0a100b;
+}
+.dos-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid #5f8054;
+  background: #172019;
+  font-weight: bold;
+  font-size: 13px;
+}
+.dos-titlebar-memory { margin-left: auto; }
+.dos-screen { padding: 22px; }
+.dos-output {
+  min-height: 110px;
+  max-height: 340px;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+  scrollbar-color: #5f8054 #0a100b;
+  white-space: pre-wrap;
+}
+.dos-entry { margin-bottom: 16px; }
+.dos-entry p { margin: 0; }
+.dos-echo { color: #dcf2ce; font-weight: bold; }
+.dos-command-form { margin-top: 18px; }
+.dos-input-label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 14px; }
+.dos-command-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.dos-prompt { flex-shrink: 0; color: #dcf2ce; }
+html[data-retro="true"][data-retro-mode="dos"] .dos-command-row input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 8px 10px;
+  border-bottom: 1px solid #8baf75;
+  background: #0a100b;
+  font-size: 16px;
+  caret-color: #dcf2ce;
+}
+.dos-run { flex-shrink: 0; padding: 8px 14px; cursor: pointer; }
+.dos-hint { margin-top: 8px; color: #9ab38d; font-size: 12px; }
+.dos-shortcuts { min-width: 0; margin-top: 22px; padding: 0; border: 0; }
+.dos-shortcuts legend { margin-bottom: 8px; font-size: 12px; color: #9ab38d; }
+.dos-shortcuts > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.dos-shortcuts button { padding: 8px 12px; cursor: pointer; font-size: 13px; }
+html[data-retro="true"][data-retro-mode="dos"] .dos-statusbar {
+  position: fixed;
+  z-index: 60;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #5f8054;
+  background: #111713;
+  padding: 8px max(12px, var(--safe-right)) calc(8px + var(--safe-bottom)) max(12px, var(--safe-left));
+}
+.dos-statusbar .world-exit { min-height: 44px; padding: 8px 12px; cursor: pointer; font-weight: bold; }
+.dos-ready { margin-left: auto; color: #9ab38d; font-size: 12px; }
+
+@media (max-width: 640px) {
+  .dos-screen { padding: 16px 12px; }
+  .dos-command-row { flex-wrap: wrap; gap: 8px; }
+  html[data-retro="true"][data-retro-mode="dos"] .dos-command-row input { flex-basis: calc(100% - 90px); }
+  .dos-run { margin-left: auto; }
+  .dos-titlebar-memory { display: none; }
+  .dos-ready { font-size: 10px; }
+  .dos-statusbar .world-exit { max-width: 70%; }
+}

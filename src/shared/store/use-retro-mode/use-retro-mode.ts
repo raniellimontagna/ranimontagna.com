@@ -1,40 +1,55 @@
 'use client'
 
 import { create } from 'zustand'
+import { parseRetroMode, type RetroMode } from './retro-modes'
 
 interface RetroModeStore {
   active: boolean
+  mode: RetroMode | null
   init: () => void
   setActive: (active: boolean) => void
+  setMode: (mode: RetroMode | null) => void
 }
 
-function applyRetroMode(active: boolean) {
+function applyRetroMode(mode: RetroMode | null) {
   if (typeof document === 'undefined') return
-  if (active) document.documentElement.setAttribute('data-retro', 'true')
-  else document.documentElement.removeAttribute('data-retro')
+  if (mode) {
+    document.documentElement.setAttribute('data-retro', 'true')
+    document.documentElement.setAttribute('data-retro-mode', mode)
+  } else {
+    document.documentElement.removeAttribute('data-retro')
+    document.documentElement.removeAttribute('data-retro-mode')
+  }
 }
 
 export const useRetroMode = create<RetroModeStore>((set, get) => ({
   active: false,
+  mode: null,
   init: () => {
-    let active = get().active
+    let mode = get().mode
     try {
-      active = sessionStorage.getItem('retro-mode') === 'true'
+      mode = parseRetroMode(sessionStorage.getItem('retro-mode'))
     } catch {
       // The easter egg remains usable when browser storage is blocked.
-      active ||= document.documentElement.dataset.retro === 'true'
+      if (typeof document !== 'undefined') {
+        mode ??= parseRetroMode(document.documentElement.dataset.retroMode ?? null)
+        if (!mode && document.documentElement.dataset.retro === 'true') mode = '1998'
+      }
     }
-    applyRetroMode(active)
-    set({ active })
+    applyRetroMode(mode)
+    set({ mode, active: mode !== null })
   },
   setActive: (active) => {
-    applyRetroMode(active)
+    get().setMode(active ? (get().mode ?? '1998') : null)
+  },
+  setMode: (mode) => {
+    applyRetroMode(mode)
     try {
-      if (active) sessionStorage.setItem('retro-mode', 'true')
+      if (mode) sessionStorage.setItem('retro-mode', mode === '1998' ? 'true' : mode)
       else sessionStorage.removeItem('retro-mode')
     } catch {
       // Persistence is optional; changing the presentation is not.
     }
-    set({ active })
+    set({ mode, active: mode !== null })
   },
 }))

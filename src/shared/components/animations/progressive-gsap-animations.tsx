@@ -107,7 +107,9 @@ function observeElements(
 
   for (const element of elements) {
     element.dataset.gsapBound = 'true'
-    if (isInViewport(element)) {
+    // A focus restored with preventScroll can be outside the viewport. Hiding
+    // its ancestor during preparation would make the browser drop that focus.
+    if (isInViewport(element) || element.contains(document.activeElement)) {
       element.dataset.gsapVisibleAtBind = 'true'
     } else {
       onPrepare?.(element)

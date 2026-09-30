@@ -1,0 +1,63 @@
+:root[data-retro="true"][data-retro-mode="mac"], :root[data-retro="true"][data-retro-mode="mac"][data-color-theme] { --background:#fff; --foreground:#111; --canvas:#ddd; --surface:#eee; --surface-strong:#fff; --muted:#333; --line:#111; --accent:#111; --accent-strong:#111; --accent-ice:#111; --focus-ring:#111; --on-accent:#fff; }
+html[data-retro="true"][data-retro-mode="mac"] body { background-color:#bbb; background-image:repeating-conic-gradient(#999 0% 25%,#ddd 0% 50%); background-size:4px 4px; color:#111; font:16px/1.6 Monaco,'Courier New',monospace; padding:0 16px 80px; }
+.mac-menubar { max-width:980px; margin:auto; display:flex; align-items:center; flex-wrap:wrap; gap:0 20px; background:#fff; color:#111; border:2px solid #111; padding:0 16px; font:bold 13px/1.4 Monaco,monospace; }
+html[data-retro="true"][data-retro-mode="mac"] .mac-menubar a { color:#111; padding-block:12px; min-height:44px; text-decoration:none; }
+.mac-desktop { max-width:980px; margin:auto; padding:32px 20px; color:#111; }
+.mac-desktop > p { display:inline-block; padding:4px 8px; background:#fff; font:13px/1.4 Monaco,monospace; border:1px solid #111; }
+.mac-desktop nav { display:flex; flex-wrap:wrap; gap:24px; padding-top:24px; }
+html[data-retro="true"][data-retro-mode="mac"] .mac-desktop a { display:flex; flex-direction:column; align-items:center; gap:8px; width:100px; text-decoration:none; color:#111; font:bold 13px/1.4 Monaco,monospace; }
+.mac-desktop a span { background:#fff; padding:3px 6px; }
+.mac-window-title { max-width:980px; margin:auto; display:flex; align-items:center; gap:12px; border:2px solid #111; background:repeating-linear-gradient(#fff 0 2px,#111 2px 3px); color:#111; padding:5px 12px; font:14px/1.5 Monaco,monospace; }
+.mac-window-title strong { flex:1; text-align:center; background:#fff; padding:3px 10px; }.mac-window-title>span { background:#fff; padding:2px 4px; border:1px solid #111; }
+html[data-retro="true"][data-retro-mode="mac"] :where(main,body>header) { border:2px solid #111; background:#fff; }
+html[data-retro="true"][data-retro-mode="mac"] body>header>nav { background:#fff; border:0; }
+html[data-retro="true"][data-retro-mode="mac"] :where(h1,h2,h3,.font-heading,.font-display) { font-family:Monaco,'Courier New',monospace; }
+html[data-retro="true"][data-retro-mode="mac"] :where(a),html[data-retro="true"][data-retro-mode="mac"] :where(a):visited { color:#111; }
+html[data-retro="true"][data-retro-mode="mac"] :where(button,a[class*="rounded"],.surface-panel,.surface-panel-strong) { color:#111; background:#fff; border:2px solid #111; box-shadow:2px 2px #111; }
+html[data-retro="true"][data-retro-mode="mac"] .editorial-kicker { background:#111; color:#fff; }
+html[data-retro="true"][data-retro-mode="mac"] [class*="bg-clip-text"] { color:#111; -webkit-text-fill-color:#111; }
+html[data-retro="true"][data-retro-mode="mac"] main img { filter:grayscale(1) contrast(1.2); image-rendering:pixelated; }
+html[data-retro="true"][data-retro-mode="mac"] [data-footer-logo] { border:2px solid #111; background:#fff; }
+html[data-retro="true"][data-retro-mode="mac"] [data-experience-panel] .text-emerald-700 { color:#111; background:#fff; border:2px solid #111; }
+.mac-bottom { position:fixed; z-index:60; inset:auto 0 0; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:4px max(12px,var(--safe-right)) calc(4px + var(--safe-bottom)); background:#fff; border-top:2px solid #111; color:#111; font:12px/1.4 Monaco,monospace; }
+@media(max-width:640px) { html[data-retro="true"][data-retro-mode="mac"] body { padding-inline:8px; }.mac-menubar { gap:0 12px; padding-inline:8px; }.mac-menubar strong { width:100%; padding-top:8px; }.mac-desktop nav { gap:20px; }.mac-desktop a { width:96px; }.mac-bottom>span { display:none; }.mac-bottom { justify-content:center; } }
+
+/* Macintosh controls use a solid black edge and a hard shadow, never a bevel. */
+:root[data-retro="true"][data-retro-mode="mac"],
+:root[data-retro="true"][data-retro-mode="mac"][data-color-theme] {
+  --secondary: #333;
+  --line-strong: #111;
+  --font-manrope: Monaco, "Courier New", monospace;
+  --font-space-grotesk: Monaco, "Courier New", monospace;
+  --font-geist-mono: Monaco, "Courier New", monospace;
+}
+html[data-retro="true"][data-retro-mode="mac"] body { padding-bottom: calc(80px + var(--safe-bottom)); }
+html[data-retro="true"][data-retro-mode="mac"] :where(button, input, textarea, select) { font-family: Monaco, "Courier New", monospace; }
+html[data-retro="true"][data-retro-mode="mac"] :where(button, a[class*="rounded"]):not(.retro-trigger):not(.retro-secret) {
+  min-height: 44px;
+  border: 2px solid #111;
+  border-radius: 0;
+  box-shadow: 2px 2px #111;
+  background: #fff;
+  color: #111;
+}
+html[data-retro="true"][data-retro-mode="mac"] :where(button):not(.retro-trigger):not(.retro-secret):active {
+  border-style: solid;
+  box-shadow: none;
+  background: #111;
+  color: #fff;
+}
+html[data-retro="true"][data-retro-mode="mac"] :where(input, textarea, select) {
+  min-height: 44px;
+  border: 1px solid #111;
+  border-radius: 0;
+  box-shadow: none;
+  background: #fff;
+  color: #111;
+}
+html[data-retro="true"][data-retro-mode="mac"] :where(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid #111 !important;
+  outline-offset: 3px;
+}
+html[data-retro="true"][data-retro-mode="mac"] [data-orbit-counter-rotation] > div > span { font-family: Monaco, "Courier New", monospace; }
+html[data-retro="true"][data-retro-mode="mac"] main footer { border-top: 2px solid #111; }

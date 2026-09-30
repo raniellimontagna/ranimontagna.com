@@ -9,6 +9,7 @@ import {
   ParallaxLayer,
   RevealText,
 } from '@/shared/components/animations'
+import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 
 export function About() {
@@ -54,6 +55,7 @@ export function About() {
                   </p>
                   <p>{t('bio.journey')}</p>
                   <p>{t('bio.hobbies')}</p>
+                  <RetroSecret mode="mac" />
                 </div>
               </FadeIn>
 

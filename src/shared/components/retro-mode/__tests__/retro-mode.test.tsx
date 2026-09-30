@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { THEME_INIT_SCRIPT } from '@/app/[locale]/theme-init-script'
 import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { RetroExperience, RetroTrigger } from '../retro-mode'
+import { RetroSecret } from '../retro-secret'
 
 beforeEach(() => {
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
@@ -86,3 +87,37 @@ it('retains active mode across client shell remounts', () => {
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
   expect(screen.getByRole('button', { name: 'Volver al futuro' })).toBeInTheDocument()
 })
+
+it('switches universes and returns focus to the original secret icon', async () => {
+  render(
+    <>
+      <RetroSecret mode="xp" />
+      <RetroTrigger label="1998" />
+      <RetroExperience locale="pt" />
+    </>,
+  )
+  const trigger = screen.getByRole('button', { name: 'Entrar no Windows XP' })
+  trigger.focus()
+  fireEvent.click(trigger)
+  await screen.findByRole('button', { name: 'Iniciar' })
+  expect(document.documentElement).toHaveAttribute('data-retro-mode', 'xp')
+  expect(screen.getByRole('button', { name: 'Voltar ao futuro' })).toHaveFocus()
+  fireEvent.click(screen.getByRole('button', { name: '1998' }))
+  expect(document.documentElement).toHaveAttribute('data-retro-mode', '1998')
+  fireEvent.click(screen.getByRole('button', { name: 'Voltar ao futuro' }))
+  expect(trigger).toHaveFocus()
+  expect(document.documentElement).not.toHaveAttribute('data-retro-mode')
+  fireEvent.click(trigger)
+  await screen.findByRole('button', { name: 'Iniciar' })
+  fireEvent.click(screen.getByRole('button', { name: 'Voltar ao futuro' }))
+  expect(trigger).toHaveFocus()
+})
+
+it.each(['xp', 'dos', 'gameboy', 'newspaper', 'ide', 'mac'])(
+  'restores %s before hydration',
+  (mode) => {
+    sessionStorage.setItem('retro-mode', mode)
+    new Function(THEME_INIT_SCRIPT)()
+    expect(document.documentElement).toHaveAttribute('data-retro-mode', mode)
+  },
+)

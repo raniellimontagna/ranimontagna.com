@@ -202,6 +202,7 @@ export const ChatWidget = (): React.ReactElement => {
               }}
             >
               <motion.div
+                data-chat-panel
                 initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
                 animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
                 exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}

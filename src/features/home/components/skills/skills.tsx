@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { FadeIn } from '@/shared/components/animations'
 import { ParallaxLayer } from '@/shared/components/animations/parallax-layer'
+import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
 import { SkillsOrbit } from './skills-orbit'
 
 export function Skills() {
@@ -27,6 +28,7 @@ export function Skills() {
         <div className="mb-12 sm:mb-16 text-center">
           <p className="font-mono text-sm font-semibold uppercase tracking-[0.24em] text-muted">
             {t('title')}
+            <RetroSecret mode="gameboy" />
           </p>
           <h2 className="mx-auto mt-4 text-3xl font-display font-medium leading-tight sm:text-4xl md:text-5xl text-foreground max-w-3xl">
             {t('subtitle')}

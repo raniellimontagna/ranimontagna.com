@@ -1,8 +1,13 @@
+import { RETRO_MODES } from '@/shared/store/use-retro-mode/retro-modes'
+
 export const THEME_INIT_SCRIPT = `
 (() => {
   try {
-    if (sessionStorage.getItem('retro-mode') === 'true') {
+    const saved = sessionStorage.getItem('retro-mode');
+    const mode = saved === 'true' ? '1998' : saved;
+    if (${JSON.stringify(RETRO_MODES)}.includes(mode)) {
       document.documentElement.setAttribute('data-retro', 'true');
+      document.documentElement.setAttribute('data-retro-mode', mode);
     }
   } catch {}
 

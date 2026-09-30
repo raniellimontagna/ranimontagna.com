@@ -1,0 +1,70 @@
+:root[data-retro="true"][data-retro-mode="newspaper"], :root[data-retro="true"][data-retro-mode="newspaper"][data-color-theme] {
+  --background: #f4efdf; --foreground: #27231d; --canvas: #e9e2cf; --surface: #ede6d5; --surface-strong: #f9f4e7; --muted: #514739; --line: #857961; --accent: #762c24; --accent-strong: #762c24; --accent-ice: #762c24; --on-accent: #fff; --focus-ring: #762c24;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] body { background: #d9d0bb; padding: 24px 16px 80px; font-family: Georgia, 'Times New Roman', serif; }
+.newspaper-masthead { max-width: 980px; margin: auto; padding: 24px 32px 0; background: #f4efdf; color: #27231d; text-align: center; }
+.newspaper-edition { display: flex; justify-content: space-between; gap: 12px; border-block: 1px solid #27231d; padding: 8px 0; font: 12px/1.4 Georgia, serif; }
+.newspaper-name { margin: 20px 0 0; font: bold clamp(2rem, 7vw, 4.5rem)/1.15 Georgia, serif; letter-spacing: -.04em; }
+.newspaper-motto { margin: 8px 0 20px; font: italic 15px/1.5 Georgia, serif; }
+.newspaper-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; border-top: 4px double #27231d; border-bottom: 1px solid #27231d; }
+html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-nav a { padding: 12px 0; color: #27231d; font: bold 14px/1.4 Georgia, serif; }
+.newspaper-headline { padding: 20px 0; font: italic clamp(1.25rem, 3vw, 1.8rem)/1.3 Georgia, serif; border-bottom: 4px double #27231d; }
+html[data-retro="true"][data-retro-mode="newspaper"] :where(main, body > header) { background: #f4efdf; border: 0; }
+html[data-retro="true"][data-retro-mode="newspaper"] body > header > nav { background: #ede6d5; border: 0; border-bottom: 1px solid #857961; }
+html[data-retro="true"][data-retro-mode="newspaper"] :where(h1,h2,h3,.font-heading,.font-display) { font-family: Georgia, 'Times New Roman', serif; }
+html[data-retro="true"][data-retro-mode="newspaper"] :where(main section) { border-bottom: 1px solid #857961; }
+html[data-retro="true"][data-retro-mode="newspaper"] :where(a) { color: #762c24; }
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a[class*="rounded"], .surface-panel, .surface-panel-strong) { background: #ede6d5; color: #27231d; border: 1px solid #857961; }
+html[data-retro="true"][data-retro-mode="newspaper"] .editorial-kicker { background: #27231d; color: #f4efdf; font-family: Georgia, serif; }
+html[data-retro="true"][data-retro-mode="newspaper"] main img { filter: grayscale(1) sepia(.25); }
+html[data-retro="true"][data-retro-mode="newspaper"] main footer { background: #f4efdf; }
+html[data-retro="true"][data-retro-mode="newspaper"] [data-footer-logo] { background: #ede6d5; border: 1px solid #857961; }
+html[data-retro="true"][data-retro-mode="newspaper"] [class*="bg-clip-text"] { color: #762c24; -webkit-text-fill-color: #762c24; }
+.newspaper-bottom { position: fixed; z-index: 60; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 4px max(12px,var(--safe-right)) calc(4px + var(--safe-bottom)); background: #f4efdf; border-top: 3px double #27231d; color: #27231d; font: 12px/1.4 Georgia,serif; }
+@media(max-width:640px) { .newspaper-masthead { padding: 16px 16px 0; } .newspaper-edition { font-size: 10px; } .newspaper-bottom > span { display: none; } .newspaper-bottom { justify-content: center; } html[data-retro="true"][data-retro-mode="newspaper"] body { padding-inline: 8px; } }
+
+/* The 1998 sheet supplies layout resets; the Gazeta owns its paper and ink. */
+:root[data-retro="true"][data-retro-mode="newspaper"],
+:root[data-retro="true"][data-retro-mode="newspaper"][data-color-theme] {
+  --secondary: #514739;
+  --line-strong: #514739;
+  --font-manrope: Georgia, "Times New Roman", serif;
+  --font-space-grotesk: Georgia, "Times New Roman", serif;
+  --font-geist-mono: Georgia, "Times New Roman", serif;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] body {
+  padding-bottom: calc(80px + var(--safe-bottom));
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button, input, textarea, select) {
+  font-family: Georgia, "Times New Roman", serif;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a[class*="rounded"]):not(.retro-trigger):not(.retro-secret) {
+  min-height: 44px;
+  border: 1px solid #857961;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ede6d5;
+  color: #27231d;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button):not(.retro-trigger):not(.retro-secret):active {
+  border-style: solid;
+  background: #e3dac3;
+  box-shadow: none;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(input, textarea, select) {
+  min-height: 44px;
+  border: 1px solid #857961;
+  border-radius: 0;
+  box-shadow: none;
+  background: #f9f4e7;
+  color: #27231d;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid #762c24 !important;
+  outline-offset: 3px;
+}
+html[data-retro="true"][data-retro-mode="newspaper"] :where(a):visited { color: #5b342f; }
+html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-nav a:visited { color: #27231d; }
+html[data-retro="true"][data-retro-mode="newspaper"] main footer { border-top: 3px double #27231d; }
+html[data-retro="true"][data-retro-mode="newspaper"] [data-orbit-counter-rotation] > div > span { font-family: Georgia, "Times New Roman", serif; }
+html[data-retro="true"][data-retro-mode="newspaper"] [data-experience-panel] .text-emerald-700 { color: #514739; background: #e9e2cf; border-color: #857961; }
