@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckCircle, Copy } from '@solar-icons/react/ssr'
+import { CheckCircleIcon as CheckCircle, CopyIcon as Copy } from '@solar-icons/react/linear'
 import { useEffect, useState } from 'react'
 
 type CopyEmailProps = {

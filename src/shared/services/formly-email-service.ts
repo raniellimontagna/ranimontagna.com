@@ -27,7 +27,12 @@ export async function sendContactEmail(data: ContactFormInput): Promise<ContactF
       throw new Error('Contact request failed')
     }
 
-    if (!result || typeof result !== 'object' || !('success' in result) || result.success !== true) {
+    if (
+      !result ||
+      typeof result !== 'object' ||
+      !('success' in result) ||
+      result.success !== true
+    ) {
       throw new Error('Contact request failed')
     }
 

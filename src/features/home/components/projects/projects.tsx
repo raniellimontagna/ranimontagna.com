@@ -1,5 +1,8 @@
 import { SiGithub } from '@icons-pack/react-simple-icons'
-import { Code, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import {
+  CodeIcon as Code,
+  SquareArrowRightUpIcon as SquareArrowRightUp,
+} from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { projectsData } from '@/features/projects/data/projects.static'
 import { getProjectImages } from '@/features/projects/lib/project-images'

@@ -1,12 +1,12 @@
 'use client'
 
 import {
-  ArrowLeft,
-  CloseCircle,
-  Download,
-  HamburgerMenu,
-  SquareAltArrowUp,
-} from '@solar-icons/react/ssr'
+  ArrowLeftIcon as ArrowLeft,
+  CloseCircleIcon as CloseCircle,
+  DownloadIcon as Download,
+  HamburgerMenuIcon as HamburgerMenu,
+  SquareAltArrowUpIcon as SquareAltArrowUp,
+} from '@solar-icons/react/linear'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'

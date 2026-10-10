@@ -1,4 +1,4 @@
-import { SquareArrowRightUp } from '@solar-icons/react/ssr'
+import { SquareArrowRightUpIcon as SquareArrowRightUp } from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { FadeIn, MagneticHover, RevealText } from '@/shared/components/animations'
 import { contactMethods, socialLinks } from '@/shared/lib/social-links'

@@ -93,8 +93,6 @@ describe('instrumentation', () => {
     const module = await import('@/instrumentation')
     await module.register()
 
-    expect(sentryMocks.init).toHaveBeenCalledWith(
-      expect.objectContaining({ tracesSampleRate: 1 }),
-    )
+    expect(sentryMocks.init).toHaveBeenCalledWith(expect.objectContaining({ tracesSampleRate: 1 }))
   })
 })

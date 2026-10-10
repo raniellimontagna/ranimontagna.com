@@ -1,7 +1,7 @@
 'use client'
 
 import * as Sentry from '@sentry/nextjs'
-import { Home, Restart } from '@solar-icons/react/ssr'
+import { HomeIcon as Home, RestartIcon as Restart } from '@solar-icons/react/linear'
 import { useEffect } from 'react'
 import { ErrorLayout } from '@/shared/components/ui/error-view'
 

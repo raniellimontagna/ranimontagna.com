@@ -1,4 +1,9 @@
-import { Cpu, Global, Smartphone, StarFall } from '@solar-icons/react/ssr'
+import {
+  CpuIcon as Cpu,
+  GlobalIcon as Global,
+  SmartphoneIcon as Smartphone,
+  StarFallIcon as StarFall,
+} from '@solar-icons/react/linear'
 import type { ServiceType } from './services.types'
 
 /** Frentes da Atto exibidas na ponte do site pessoal. Textos em messages/*.json (services.list). */
