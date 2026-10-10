@@ -1,6 +1,9 @@
 'use client'
 
-import { CheckCircle, SendSquare } from '@solar-icons/react/ssr'
+import {
+  CheckCircleIcon as CheckCircle,
+  SendSquareIcon as SendSquare,
+} from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { useId, useState } from 'react'
 import { contactFormSchema } from '@/shared/lib/contact-form'

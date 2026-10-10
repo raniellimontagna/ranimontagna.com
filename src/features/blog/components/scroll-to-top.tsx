@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowUp } from '@solar-icons/react/ssr'
+import { ArrowUpIcon as ArrowUp } from '@solar-icons/react/linear'
 import { useEffect, useState } from 'react'
 
 interface ScrollToTopProps {

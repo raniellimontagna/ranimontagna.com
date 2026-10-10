@@ -1,4 +1,8 @@
-import { ChatRound, Download, User } from '@solar-icons/react/ssr'
+import {
+  ChatRoundIcon as ChatRound,
+  DownloadIcon as Download,
+  UserIcon as User,
+} from '@solar-icons/react/linear'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import {

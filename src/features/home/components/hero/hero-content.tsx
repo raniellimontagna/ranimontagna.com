@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDown } from '@solar-icons/react/ssr'
+import { ArrowDownIcon as ArrowDown } from '@solar-icons/react/linear'
 
 export function ScrollIndicator() {
   const handleScroll = () => {

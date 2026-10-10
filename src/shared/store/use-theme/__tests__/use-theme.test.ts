@@ -158,27 +158,23 @@ describe('useTheme store', () => {
 
   describe('SSR scenarios', () => {
     it('handles applyTheme when document is undefined', () => {
-      const originalDocument = global.document
-      // biome-ignore lint/suspicious/noExplicitAny: Testing SSR scenario
-      ;(global as any).document = undefined
+      vi.stubGlobal('document', undefined)
 
       const { setTheme } = useTheme.getState()
       // Should not throw error
       expect(() => setTheme('light')).not.toThrow()
 
-      global.document = originalDocument
+      vi.unstubAllGlobals()
     })
 
     it('handles initTheme when window is undefined', () => {
-      const originalWindow = global.window
-      // biome-ignore lint/suspicious/noExplicitAny: Testing SSR scenario
-      ;(global as any).window = undefined
+      vi.stubGlobal('window', undefined)
 
       const { initTheme } = useTheme.getState()
       // Should not throw error and not change state
       expect(() => initTheme()).not.toThrow()
 
-      global.window = originalWindow
+      vi.unstubAllGlobals()
     })
   })
 })

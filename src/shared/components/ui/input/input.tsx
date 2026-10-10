@@ -1,6 +1,6 @@
 'use client'
 
-import { DangerCircle } from '@solar-icons/react/ssr'
+import { DangerCircleIcon as DangerCircle } from '@solar-icons/react/linear'
 import {
   forwardRef,
   type InputHTMLAttributes,

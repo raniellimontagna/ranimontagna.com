@@ -27,6 +27,8 @@ describe('RevealText', () => {
   it('renders the requested semantic element', () => {
     render(<RevealText as="h2" text="Accessible heading" />)
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Accessible heading' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Accessible heading' }),
+    ).toBeInTheDocument()
   })
 })

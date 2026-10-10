@@ -1,4 +1,7 @@
-import { ArrowDown, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import {
+  ArrowDownIcon as ArrowDown,
+  SquareArrowRightUpIcon as SquareArrowRightUp,
+} from '@solar-icons/react/linear'
 import { getTranslations } from 'next-intl/server'
 import { MagneticHover, RevealText } from '@/shared/components/animations'
 import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'

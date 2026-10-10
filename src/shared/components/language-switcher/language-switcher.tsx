@@ -1,6 +1,10 @@
 'use client'
 
-import { AltArrowDown, CheckCircle, Global } from '@solar-icons/react/ssr'
+import {
+  AltArrowDownIcon as AltArrowDown,
+  CheckCircleIcon as CheckCircle,
+  GlobalIcon as Global,
+} from '@solar-icons/react/linear'
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'

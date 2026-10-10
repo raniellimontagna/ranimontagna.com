@@ -24,10 +24,7 @@ function isClientMessageScope(scope: string): scope is ClientMessageScope {
   return Object.hasOwn(CLIENT_MESSAGE_NAMESPACES, scope)
 }
 
-export function getClientMessages(
-  messages: MessageCatalog,
-  scope: string,
-): AbstractIntlMessages {
+export function getClientMessages(messages: MessageCatalog, scope: string): AbstractIntlMessages {
   if (!isClientMessageScope(scope)) {
     throw new Error(`Unknown client message scope "${scope}"`)
   }

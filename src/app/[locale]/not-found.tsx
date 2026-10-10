@@ -1,6 +1,13 @@
 'use client'
 
-import { ArrowRight, Document, Home, Letter, Suitcase, User } from '@solar-icons/react/ssr'
+import {
+  ArrowRightIcon as ArrowRight,
+  DocumentIcon as Document,
+  HomeIcon as Home,
+  LetterIcon as Letter,
+  SuitcaseIcon as Suitcase,
+  UserIcon as User,
+} from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import { ErrorContent } from '@/shared/components/ui/error-view'

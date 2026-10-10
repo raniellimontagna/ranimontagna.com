@@ -1,4 +1,10 @@
-import { AltArrowLeft, AltArrowRight, Buildings, Calendar, MapPoint } from '@solar-icons/react/ssr'
+import {
+  AltArrowLeftIcon as AltArrowLeft,
+  AltArrowRightIcon as AltArrowRight,
+  BuildingsIcon as Buildings,
+  CalendarIcon as Calendar,
+  MapPointIcon as MapPoint,
+} from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { type CSSProperties, Fragment } from 'react'
 import { FadeIn, RevealText } from '@/shared/components/animations'
