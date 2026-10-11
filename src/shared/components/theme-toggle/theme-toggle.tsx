@@ -4,11 +4,22 @@ import { MoonIcon as Moon, SunIcon as Sun } from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 
+/**
+ * The labels only interpolate `{mode}`, so they are filled in by hand from the
+ * raw message. Calling `t()` with values builds an IntlMessageFormat, and the
+ * first Intl call on the page pays the cold ICU locale lookup: about 110 ms of
+ * main thread on a throttled mobile CPU, right after hydration.
+ */
+function withMode(template: string, mode: string): string {
+  return template.replaceAll('{mode}', mode)
+}
+
 export const ThemeToggle = (): React.ReactElement => {
   const t = useTranslations('header')
   const { theme, toggleTheme, mounted } = useTheme()
 
   const isDark = theme === 'dark'
+  const nextMode = isDark ? 'light' : 'dark'
 
   if (!mounted) {
     return (
@@ -21,8 +32,8 @@ export const ThemeToggle = (): React.ReactElement => {
       type="button"
       onClick={toggleTheme}
       className="group relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl text-muted transition-all duration-300 hover:bg-surface-strong hover:text-accent-strong active:scale-90"
-      aria-label={t('themeToggle.ariaLabel', { mode: isDark ? 'light' : 'dark' })}
-      title={t('themeToggle.tooltip', { mode: isDark ? 'light' : 'dark' })}
+      aria-label={withMode(t.raw('themeToggle.ariaLabel') as string, nextMode)}
+      title={withMode(t.raw('themeToggle.tooltip') as string, nextMode)}
     >
       <span className="relative flex h-5 w-5 items-center justify-center">
         {isDark ? (
