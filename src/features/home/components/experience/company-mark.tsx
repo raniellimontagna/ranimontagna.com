@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { cn } from '@/shared/lib/utils'
 
 type CompanyMarkProps = {
@@ -34,12 +34,14 @@ export function CompanyMark({ alt, company, logo }: CompanyMarkProps) {
         className={cn('absolute z-10', isContained ? 'inset-3' : 'inset-0')}
         data-company-mark-image-frame="true"
       >
-        <Image
+        {/* Fixed 80px box: a 1x/2x srcSet instead of fill's 16 widths, which would
+            repeat ~1 KB per logo in the RSC payload (12 logos on the home). */}
+        <StaticImage
           src={logo}
           alt={alt}
-          fill
-          sizes="(min-width: 1024px) 80px, 72px"
-          className={cn('h-full w-full', isContained ? 'object-contain' : 'object-cover')}
+          width={80}
+          height={80}
+          className={cn('block h-full w-full', isContained ? 'object-contain' : 'object-cover')}
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { Link } from '@/shared/config/i18n/navigation'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 import { HomeHeaderControls } from './home-header-controls'
@@ -31,14 +31,14 @@ export async function HomeHeader({ locale }: HomeHeaderProps) {
             className="group flex min-w-0 items-center gap-3 rounded-[1.4rem] px-2 py-1.5"
           >
             <div className="surface-panel-strong relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-11 sm:w-11 sm:rounded-[1.2rem]">
-              <Image
+              <StaticImage
                 src="/logo/black.svg"
                 alt="Logo"
                 width={28}
                 height={28}
                 className="h-6 w-6 block sm:h-7 sm:w-7 dark:hidden"
               />
-              <Image
+              <StaticImage
                 src="/logo/white.svg"
                 alt="Logo"
                 width={28}

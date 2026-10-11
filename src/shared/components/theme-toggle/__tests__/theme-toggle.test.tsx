@@ -14,8 +14,8 @@ vi.mock('@/shared/store/use-theme/use-theme', () => ({
 }))
 
 vi.mock('next-intl', () => ({
-  useTranslations: () => (key: string, params?: Record<string, unknown>) =>
-    params ? `${key}:${JSON.stringify(params)}` : key,
+  useTranslations: () =>
+    Object.assign((key: string) => key, { raw: (key: string) => `${key}:{mode}` }),
 }))
 
 describe('ThemeToggle', () => {
@@ -63,8 +63,8 @@ describe('ThemeToggle', () => {
     render(<ThemeToggle />)
 
     const button = screen.getByRole('button', { name: /themeToggle.ariaLabel/ })
-    expect(button).toHaveAttribute('aria-label', 'themeToggle.ariaLabel:{"mode":"light"}')
-    expect(button).toHaveAttribute('title', 'themeToggle.tooltip:{"mode":"light"}')
+    expect(button).toHaveAttribute('aria-label', 'themeToggle.ariaLabel:light')
+    expect(button).toHaveAttribute('title', 'themeToggle.tooltip:light')
     expect(button.querySelector('svg')).toBeInTheDocument()
   })
 })

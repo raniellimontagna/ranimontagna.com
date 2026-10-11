@@ -12,30 +12,11 @@ import { CompanyMark } from './company-mark'
 import { experiences } from './experience.static'
 import { ExperienceCylinderScroll } from './experience-cylinder-scroll'
 import { ExperienceMobileCarouselGestures } from './experience-mobile-carousel-gestures'
+import './experience.css'
 
 export function Experience() {
   const t = useTranslations('experience')
   const items = experiences(t)
-  const mobileCarouselRules = items
-    .map(
-      (_, index) => `
-            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-slide="true"][data-experience-index="${index}"] {
-              animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
-              display: grid;
-            }
-
-            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-dot="true"][data-experience-index="${index}"] {
-              background: color-mix(in srgb, var(--accent) 82%, var(--background));
-              border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
-              color: var(--background);
-            }
-
-            [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="${index}"]:checked) [data-experience-mobile-arrow][data-experience-index="${index}"] {
-              display: inline-flex;
-            }
-      `,
-    )
-    .join('\n')
 
   return (
     <section
@@ -46,156 +27,6 @@ export function Experience() {
       <ExperienceCylinderScroll />
       <ExperienceMobileCarouselGestures />
       <div className="section-shell relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <style>{`
-          @keyframes experience-mobile-slide-in {
-            from {
-              opacity: 0;
-              transform: translate3d(0.75rem, 0, 0) scale(0.985);
-            }
-
-            to {
-              opacity: 1;
-              transform: translate3d(0, 0, 0) scale(1);
-            }
-          }
-
-          @keyframes experience-mobile-slide-in-reverse {
-            from {
-              opacity: 0;
-              transform: translate3d(-0.75rem, 0, 0) scale(0.985);
-            }
-
-            to {
-              opacity: 1;
-              transform: translate3d(0, 0, 0) scale(1);
-            }
-          }
-
-          @media (max-width: 1023px) {
-            [data-experience-mobile-slide="true"] {
-              display: none;
-            }
-
-            [data-experience-mobile-slide="true"][data-active="true"] {
-              display: grid;
-            }
-
-            [data-experience-mobile-dot="true"][data-active="true"] {
-              background: color-mix(in srgb, var(--accent) 82%, var(--background));
-              border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
-              color: var(--background);
-            }
-
-            [data-experience-mobile-arrow] {
-              display: none;
-            }
-
-            [data-experience-mobile-arrow][data-active="true"] {
-              display: inline-flex;
-            }
-
-            [data-experience-mobile-gesture-zone="true"] {
-              touch-action: pan-y;
-            }
-
-            [data-experience-mobile-gesture-zone="true"][data-experience-mobile-dragging="true"] {
-              cursor: grabbing;
-            }
-
-            [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
-              animation-name: experience-mobile-slide-in-reverse;
-            }
-
-            @supports selector(:has(*)) {
-              [data-experience-cylinder-stage="true"] [data-experience-mobile-slide="true"] {
-                display: none;
-              }
-
-              [data-experience-cylinder-stage="true"] [data-experience-mobile-dot="true"] {
-                background: var(--surface);
-                border-color: var(--line);
-                color: var(--muted);
-              }
-
-              [data-experience-cylinder-stage="true"] [data-experience-mobile-arrow] {
-                display: none;
-              }
-
-              ${mobileCarouselRules}
-
-              [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
-                animation-name: experience-mobile-slide-in-reverse;
-              }
-            }
-          }
-
-          @media (min-width: 1024px) {
-            [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel-slot="true"] {
-              display: block;
-              position: relative;
-            }
-
-            [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel="true"] {
-              inset: 0;
-              opacity: 0;
-              pointer-events: none;
-              position: absolute;
-              transform: translate3d(0, 1rem, 0) scale(0.985);
-              transition:
-                border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 280ms step-end;
-              visibility: hidden;
-            }
-
-            [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel="true"][data-active="true"] {
-              border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
-              opacity: 1;
-              pointer-events: auto;
-              transform: translate3d(0, 0, 0) scale(1);
-              transition:
-                border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 0ms;
-              visibility: visible;
-            }
-
-            [data-experience-cylinder="true"] {
-              transform-style: preserve-3d;
-            }
-
-            [data-experience-cylinder-card="true"] {
-              opacity: 0.42;
-              transform: translate(-50%, -50%) rotateY(var(--card-angle)) translateZ(10.25rem);
-              transition:
-                opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
-                filter 260ms cubic-bezier(0.22, 1, 0.36, 1);
-            }
-
-            [data-experience-cylinder-card="true"][data-active="true"] {
-              filter: saturate(1.08);
-              opacity: 1;
-            }
-
-            [data-experience-control="true"][data-active="true"] {
-              border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
-              color: var(--foreground);
-              opacity: 1;
-            }
-
-            [data-experience-panel-mark="true"],
-            [data-experience-panel-heading="true"],
-            [data-experience-panel-meta="true"],
-            [data-experience-panel-body="true"],
-            [data-experience-panel-highlight="true"],
-            [data-experience-panel-tech="true"] {
-              will-change: opacity, transform;
-            }
-          }
-        `}</style>
-
         <div
           className="grid gap-8 sm:gap-10 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[minmax(28rem,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12 xl:gap-16"
           data-experience-cylinder-stage="true"

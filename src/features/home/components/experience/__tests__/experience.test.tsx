@@ -13,8 +13,8 @@ vi.mock('next-intl', () => ({
   },
 }))
 
-vi.mock('next/image', () => ({
-  default: ({
+vi.mock('@/shared/components/ui/static-image/static-image', () => ({
+  StaticImage: ({
     alt,
     fill: _fill,
     priority: _priority,
@@ -22,7 +22,7 @@ vi.mock('next/image', () => ({
   }: React.ImgHTMLAttributes<HTMLImageElement> & {
     fill?: boolean
     priority?: boolean
-    // biome-ignore lint/performance/noImgElement: test double for next/image
+    // biome-ignore lint/performance/noImgElement: test double for StaticImage
   }) => <img alt={alt} {...props} />,
 }))
 

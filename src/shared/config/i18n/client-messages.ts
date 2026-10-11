@@ -2,17 +2,10 @@ import type { AbstractIntlMessages } from 'next-intl'
 
 export const CLIENT_MESSAGE_NAMESPACES = {
   shell: ['notFound'],
-  home: [
-    'header',
-    'about',
-    'experience',
-    'projects',
-    'contact',
-    'footer',
-    'services',
-    'commandMenu',
-    'chat',
-  ],
+  // About, experience, projects, services and footer render as server
+  // components; only the header controls, contact form, ⌘K menu and chat
+  // translate on the client. Every extra namespace is parsed during hydration.
+  home: ['header', 'contact', 'commandMenu', 'chat'],
   projects: ['header', 'projectsPage'],
   blog: ['header', 'blog'],
 } as const satisfies Record<string, readonly string[]>

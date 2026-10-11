@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from '@/tests/test-utils'
 import { Hero } from '../hero'
 import { ScrollIndicator } from '../hero-content'
 
-vi.mock('next/image', () => ({
-  default: ({
+vi.mock('@/shared/components/ui/static-image/static-image', () => ({
+  StaticImage: ({
     alt,
     fill: _fill,
     priority: _priority,
@@ -12,7 +12,7 @@ vi.mock('next/image', () => ({
     fill?: boolean
     priority?: boolean
   }) => (
-    // biome-ignore lint/performance/noImgElement: Test double for next/image.
+    // biome-ignore lint/performance/noImgElement: Test double for StaticImage.
     <img alt={alt} {...props} />
   ),
 }))

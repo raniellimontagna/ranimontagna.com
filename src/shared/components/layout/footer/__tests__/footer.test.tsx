@@ -16,8 +16,8 @@ vi.mock('@/shared/components/animations', () => ({
   StaggerItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-vi.mock('next/image', () => ({
-  default: ({
+vi.mock('@/shared/components/ui/static-image/static-image', () => ({
+  StaticImage: ({
     alt,
     fill: _fill,
     priority: _priority,

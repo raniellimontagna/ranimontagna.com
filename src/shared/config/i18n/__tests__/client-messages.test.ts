@@ -32,6 +32,9 @@ describe('client message scopes', () => {
     expect(messages).not.toHaveProperty('hero')
     expect(messages).not.toHaveProperty('blog')
     expect(messages).not.toHaveProperty('projectsPage')
+    for (const serverOnly of ['about', 'experience', 'projects', 'services', 'footer']) {
+      expect(messages).not.toHaveProperty(serverOnly)
+    }
     expect(Object.keys(messages)).toEqual([...CLIENT_MESSAGE_NAMESPACES.home])
   })
 

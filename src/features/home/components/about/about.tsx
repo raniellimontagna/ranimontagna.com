@@ -3,7 +3,6 @@ import {
   DownloadIcon as Download,
   UserIcon as User,
 } from '@solar-icons/react/linear'
-import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
 import {
   BlurReveal,
@@ -14,6 +13,7 @@ import {
   RevealText,
 } from '@/shared/components/animations'
 import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { getResumeByLocale } from '@/shared/lib/social-links'
 
 export function About() {
@@ -124,7 +124,7 @@ export function About() {
 
                     <div className="relative overflow-hidden rounded-[1.65rem] border border-white/55 bg-canvas dark:border-white/10">
                       <div className="relative aspect-4/5 sm:aspect-[5/6]">
-                        <Image
+                        <StaticImage
                           src="/images/about-ranielli.webp"
                           alt={photoName}
                           fill

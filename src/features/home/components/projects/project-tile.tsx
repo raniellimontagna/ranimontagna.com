@@ -5,9 +5,9 @@ import {
   SmartphoneIcon as Smartphone,
   SquareArrowRightUpIcon as SquareArrowRightUp,
 } from '@solar-icons/react/linear'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { ProjectType } from '@/features/projects/types/projects.types'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { Link } from '@/shared/config/i18n/navigation'
 import { getProjectTechBadgeTone, ProjectBadge, projectTypeBadgeTone } from './project-badge'
 
@@ -41,7 +41,7 @@ export function ProjectTile({ project, priority = false, wide = false }: Project
         className={`relative overflow-hidden bg-surface-strong ${wide ? 'h-52 sm:h-60 xl:h-64' : 'h-52 sm:h-56 xl:h-52'}`}
       >
         {project.image ? (
-          <Image
+          <StaticImage
             src={project.image}
             alt={project.title}
             fill

@@ -1,0 +1,212 @@
+/*
+ * Carrossel mobile (rádios + :has) e cilindro desktop da seção de experiência.
+ * Antes ficava num <style> inline, repetido no HTML e no payload RSC da home.
+ * As regras por índice cobrem as 4 experiências de experience.static.ts; o
+ * teste experience-css.test.ts falha se a lista mudar sem atualizar este CSS.
+ */
+
+@keyframes experience-mobile-slide-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0.75rem, 0, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes experience-mobile-slide-in-reverse {
+  from {
+    opacity: 0;
+    transform: translate3d(-0.75rem, 0, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (max-width: 1023px) {
+  [data-experience-mobile-slide="true"] {
+    display: none;
+  }
+
+  [data-experience-mobile-slide="true"][data-active="true"] {
+    display: grid;
+  }
+
+  [data-experience-mobile-dot="true"][data-active="true"] {
+    background: color-mix(in srgb, var(--accent) 82%, var(--background));
+    border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+    color: var(--background);
+  }
+
+  [data-experience-mobile-arrow] {
+    display: none;
+  }
+
+  [data-experience-mobile-arrow][data-active="true"] {
+    display: inline-flex;
+  }
+
+  [data-experience-mobile-gesture-zone="true"] {
+    touch-action: pan-y;
+  }
+
+  [data-experience-mobile-gesture-zone="true"][data-experience-mobile-dragging="true"] {
+    cursor: grabbing;
+  }
+
+  [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
+    animation-name: experience-mobile-slide-in-reverse;
+  }
+
+  @supports selector(:has(*)) {
+    [data-experience-cylinder-stage="true"] [data-experience-mobile-slide="true"] {
+      display: none;
+    }
+
+    [data-experience-cylinder-stage="true"] [data-experience-mobile-dot="true"] {
+      background: var(--surface);
+      border-color: var(--line);
+      color: var(--muted);
+    }
+
+    [data-experience-cylinder-stage="true"] [data-experience-mobile-arrow] {
+      display: none;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="0"]:checked) [data-experience-mobile-slide="true"][data-experience-index="0"] {
+      animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="0"]:checked) [data-experience-mobile-dot="true"][data-experience-index="0"] {
+      background: color-mix(in srgb, var(--accent) 82%, var(--background));
+      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+      color: var(--background);
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="0"]:checked) [data-experience-mobile-arrow][data-experience-index="0"] {
+      display: inline-flex;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="1"]:checked) [data-experience-mobile-slide="true"][data-experience-index="1"] {
+      animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="1"]:checked) [data-experience-mobile-dot="true"][data-experience-index="1"] {
+      background: color-mix(in srgb, var(--accent) 82%, var(--background));
+      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+      color: var(--background);
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="1"]:checked) [data-experience-mobile-arrow][data-experience-index="1"] {
+      display: inline-flex;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="2"]:checked) [data-experience-mobile-slide="true"][data-experience-index="2"] {
+      animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="2"]:checked) [data-experience-mobile-dot="true"][data-experience-index="2"] {
+      background: color-mix(in srgb, var(--accent) 82%, var(--background));
+      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+      color: var(--background);
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="2"]:checked) [data-experience-mobile-arrow][data-experience-index="2"] {
+      display: inline-flex;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="3"]:checked) [data-experience-mobile-slide="true"][data-experience-index="3"] {
+      animation: experience-mobile-slide-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="3"]:checked) [data-experience-mobile-dot="true"][data-experience-index="3"] {
+      background: color-mix(in srgb, var(--accent) 82%, var(--background));
+      border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+      color: var(--background);
+    }
+
+    [data-experience-cylinder-stage="true"]:has([data-experience-mobile-input="3"]:checked) [data-experience-mobile-arrow][data-experience-index="3"] {
+      display: inline-flex;
+    }
+
+    [data-experience-mobile-carousel="true"][data-experience-mobile-swipe-direction="previous"] [data-experience-mobile-slide="true"][data-active="true"] {
+      animation-name: experience-mobile-slide-in-reverse;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel-slot="true"] {
+    display: block;
+    position: relative;
+  }
+
+  [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel="true"] {
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transform: translate3d(0, 1rem, 0) scale(0.985);
+    transition:
+      border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 280ms step-end;
+    visibility: hidden;
+  }
+
+  [data-experience-cylinder-stage="true"][data-experience-enhanced="true"] [data-experience-panel="true"][data-active="true"] {
+    border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+      border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0ms;
+    visibility: visible;
+  }
+
+  [data-experience-cylinder="true"] {
+    transform-style: preserve-3d;
+  }
+
+  [data-experience-cylinder-card="true"] {
+    opacity: 0.42;
+    transform: translate(-50%, -50%) rotateY(var(--card-angle)) translateZ(10.25rem);
+    transition:
+      opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-experience-cylinder-card="true"][data-active="true"] {
+    filter: saturate(1.08);
+    opacity: 1;
+  }
+
+  [data-experience-control="true"][data-active="true"] {
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+    color: var(--foreground);
+    opacity: 1;
+  }
+
+  [data-experience-panel-mark="true"],
+  [data-experience-panel-heading="true"],
+  [data-experience-panel-meta="true"],
+  [data-experience-panel-body="true"],
+  [data-experience-panel-highlight="true"],
+  [data-experience-panel-tech="true"] {
+    will-change: opacity, transform;
+  }
+}

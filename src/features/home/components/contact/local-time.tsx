@@ -2,14 +2,26 @@
 
 import { useEffect, useState } from 'react'
 
-const TIME_ZONE = 'America/Sao_Paulo'
+/**
+ * Horário de Brasília (America/Sao_Paulo) é UTC−3 fixo desde que o Brasil
+ * acabou com o horário de verão, em 2019. A conta é feita à mão porque um
+ * Intl.DateTimeFormat com fuso, ainda frio, carrega os dados do ICU e trava a
+ * thread principal por ~65 ms numa CPU móvel lenta logo depois da hidratação.
+ */
+const SAO_PAULO_UTC_OFFSET_MINUTES = -3 * 60
+const MINUTES_PER_DAY = 24 * 60
 
-function formatNow(): string {
-  return new Intl.DateTimeFormat('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: TIME_ZONE,
-  }).format(new Date())
+function pad(value: number): string {
+  return String(value).padStart(2, '0')
+}
+
+export function formatNow(now: Date = new Date()): string {
+  const utcMinutes = now.getUTCHours() * 60 + now.getUTCMinutes()
+  const minutes =
+    (((utcMinutes + SAO_PAULO_UTC_OFFSET_MINUTES) % MINUTES_PER_DAY) + MINUTES_PER_DAY) %
+    MINUTES_PER_DAY
+
+  return `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}`
 }
 
 /** Relógio do fuso de Paraí: um detalhe humano na seção de contato. Só renderiza no cliente. */
