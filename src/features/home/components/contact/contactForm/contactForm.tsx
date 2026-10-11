@@ -1,6 +1,11 @@
 'use client'
 
-import { ArrowRight, CheckCircle, DangerCircle, Restart } from '@solar-icons/react/ssr'
+import {
+  ArrowRightIcon as ArrowRight,
+  CheckCircleIcon as CheckCircle,
+  DangerCircleIcon as DangerCircle,
+  RestartIcon as Restart,
+} from '@solar-icons/react/linear'
 import { Input, Textarea } from '@/shared/components/ui/input/input'
 import { useContactForm } from './useContatoForm'
 

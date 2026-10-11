@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from '@solar-icons/react/ssr'
+import { ArrowLeftIcon as ArrowLeft, ArrowRightIcon as ArrowRight } from '@solar-icons/react/linear'
 import { Link } from '@/shared/config/i18n/navigation'
 
 interface PostLink {

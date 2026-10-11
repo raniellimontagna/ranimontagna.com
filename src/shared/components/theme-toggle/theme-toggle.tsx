@@ -1,6 +1,6 @@
 'use client'
 
-import { Moon, Sun } from '@solar-icons/react/ssr'
+import { MoonIcon as Moon, SunIcon as Sun } from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 

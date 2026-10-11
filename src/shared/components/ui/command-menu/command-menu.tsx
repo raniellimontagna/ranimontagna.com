@@ -3,15 +3,15 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import {
-  BookMinimalistic,
-  Code,
-  Laptop,
-  Letter,
-  Magnifer,
-  Moon,
-  Sun,
-  User,
-} from '@solar-icons/react/ssr'
+  BookMinimalisticIcon as BookMinimalistic,
+  CodeIcon as Code,
+  LaptopIcon as Laptop,
+  LetterIcon as Letter,
+  MagnifierIcon as Magnifer,
+  MoonIcon as Moon,
+  SunIcon as Sun,
+  UserIcon as User,
+} from '@solar-icons/react/linear'
 import { Command } from 'cmdk'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'

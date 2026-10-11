@@ -1,4 +1,8 @@
-import { ArrowRight, CheckCircle, StarFall } from '@solar-icons/react/ssr'
+import {
+  ArrowRightIcon as ArrowRight,
+  CheckCircleIcon as CheckCircle,
+  StarFallIcon as StarFall,
+} from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
 import type { ComponentType, SVGProps } from 'react'
 import { cn } from '@/shared/lib/utils'

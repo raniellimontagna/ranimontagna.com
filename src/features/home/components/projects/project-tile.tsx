@@ -1,4 +1,10 @@
-import { Buildings, Global, Monitor, Smartphone, SquareArrowRightUp } from '@solar-icons/react/ssr'
+import {
+  BuildingsIcon as Buildings,
+  GlobalIcon as Global,
+  MonitorIcon as Monitor,
+  SmartphoneIcon as Smartphone,
+  SquareArrowRightUpIcon as SquareArrowRightUp,
+} from '@solar-icons/react/linear'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { ProjectType } from '@/features/projects/types/projects.types'

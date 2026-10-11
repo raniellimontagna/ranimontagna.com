@@ -1,6 +1,6 @@
 'use client'
 
-import { Home } from '@solar-icons/react/ssr'
+import { HomeIcon as Home } from '@solar-icons/react/linear'
 import { ErrorLayout } from '@/shared/components/ui/error-view'
 
 export default function NotFound() {

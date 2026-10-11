@@ -1,6 +1,6 @@
 'use client'
 
-import { Palette } from '@solar-icons/react/ssr'
+import { PaletteIcon as Palette } from '@solar-icons/react/linear'
 import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 import type { ColorTheme } from '@/shared/store/use-theme/use-theme.types'

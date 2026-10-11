@@ -17,10 +17,7 @@ import {
 } from './chat.response.shared'
 import { answerHasCanonicalDateConflict, answerHasUnsupportedYear } from './chat.response.temporal'
 
-export type {
-  CollectedAnswer,
-  ProviderCollectionFailureCode,
-} from './chat.response.collector'
+export type { ProviderCollectionFailureCode } from './chat.response.collector'
 export {
   CHAT_MAX_ANSWER_CHARS,
   CHAT_MAX_PROVIDER_BUFFER_BYTES,

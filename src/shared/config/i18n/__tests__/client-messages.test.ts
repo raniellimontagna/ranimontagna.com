@@ -2,8 +2,8 @@ import enMessages from '../../../../../messages/en.json'
 import esMessages from '../../../../../messages/es.json'
 import ptMessages from '../../../../../messages/pt.json'
 import {
-  type ClientMessageScope,
   CLIENT_MESSAGE_NAMESPACES,
+  type ClientMessageScope,
   getClientMessages,
 } from '../client-messages'
 

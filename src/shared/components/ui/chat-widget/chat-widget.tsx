@@ -2,12 +2,12 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import {
-  CloseCircle,
-  Letter,
-  MinimalisticMagnifier,
-  Restart,
-  SendSquare,
-} from '@solar-icons/react/ssr'
+  CloseCircleIcon as CloseCircle,
+  LetterIcon as Letter,
+  MinimalisticMagnifierIcon as MinimalisticMagnifier,
+  RestartIcon as Restart,
+  SendSquareIcon as SendSquare,
+} from '@solar-icons/react/linear'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'

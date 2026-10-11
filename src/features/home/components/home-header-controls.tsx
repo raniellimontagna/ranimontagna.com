@@ -1,6 +1,9 @@
 'use client'
 
-import { Download, SquareAltArrowUp } from '@solar-icons/react/ssr'
+import {
+  DownloadIcon as Download,
+  SquareAltArrowUpIcon as SquareAltArrowUp,
+} from '@solar-icons/react/linear'
 import { useEffect, useRef, useState } from 'react'
 import { UserPreferenceControls } from '@/shared/components/user-preference-controls/user-preference-controls'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'

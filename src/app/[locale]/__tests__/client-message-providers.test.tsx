@@ -1,9 +1,9 @@
 import { renderToStaticMarkup } from 'react-dom/server'
-import enMessages from '../../../../messages/en.json'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
+import enMessages from '../../../../messages/en.json'
+import BlogLayout from '../blog/layout'
 import LocaleLayout from '../layout'
 import HomePage from '../page'
-import BlogLayout from '../blog/layout'
 import ProjectsLayout from '../projects/layout'
 
 const mocks = vi.hoisted(() => ({
