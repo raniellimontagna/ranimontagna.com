@@ -6,6 +6,7 @@ import type { SpectralMode } from './spectral-background.types'
 
 type SpectralRenderSchedulerProps = {
   mode: Exclude<SpectralMode, 'static'>
+  onFirstFrame?: () => void
   visible: boolean
 }
 
@@ -14,13 +15,20 @@ const FRAME_INTERVAL = {
   mobile: 1000 / 30,
 } as const
 
-export function SpectralRenderScheduler({ mode, visible }: SpectralRenderSchedulerProps) {
+export function SpectralRenderScheduler({
+  mode,
+  onFirstFrame,
+  visible,
+}: SpectralRenderSchedulerProps) {
   const advance = useThree((state) => state.advance)
   const lastFrame = useRef<number | null>(null)
   const lastRaf = useRef<number | null>(null)
   const logicalTime = useRef(0)
   const pendingVisibleTime = useRef(0)
   const rafId = useRef<number | null>(null)
+  const firstFrameReported = useRef(false)
+  const onFirstFrameRef = useRef(onFirstFrame)
+  onFirstFrameRef.current = onFirstFrame
 
   useEffect(() => {
     lastFrame.current = null
@@ -44,6 +52,11 @@ export function SpectralRenderScheduler({ mode, visible }: SpectralRenderSchedul
           logicalTime.current += pendingVisibleTime.current / 1000
           pendingVisibleTime.current = 0
           advance(logicalTime.current)
+
+          if (!firstFrameReported.current) {
+            firstFrameReported.current = true
+            onFirstFrameRef.current?.()
+          }
         }
       }
 

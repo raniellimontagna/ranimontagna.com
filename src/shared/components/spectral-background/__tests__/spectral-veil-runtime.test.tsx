@@ -187,6 +187,23 @@ describe('Spectral Veil runtime', () => {
     unmount()
   })
 
+  it('reports the first rendered frame exactly once', () => {
+    const onFirstFrame = vi.fn()
+    const { unmount } = render(
+      <SpectralRenderScheduler mode="desktop" onFirstFrame={onFirstFrame} visible />,
+    )
+
+    runNextFrame(1_000)
+    expect(onFirstFrame).not.toHaveBeenCalled()
+
+    runNextFrame(1_023)
+    runNextFrame(1_046)
+
+    expect(runtime.advance).toHaveBeenCalledTimes(2)
+    expect(onFirstFrame).toHaveBeenCalledOnce()
+    unmount()
+  })
+
   it('does not schedule while hidden or accumulate hidden time', () => {
     const { rerender, unmount } = render(<SpectralRenderScheduler mode="desktop" visible />)
 

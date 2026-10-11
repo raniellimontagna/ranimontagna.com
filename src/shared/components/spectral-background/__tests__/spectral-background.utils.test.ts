@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   parseCssColor,
   resolveSpectralMode,
@@ -42,18 +42,77 @@ describe('shouldActivateSpectral', () => {
 })
 
 describe('supportsWebGl', () => {
-  it('requires WebGL2 and treats WebGL1-only browsers as unsupported', () => {
-    const getContext = vi.fn((context: string) => (context === 'webgl' ? {} : null))
+  const RENDERER = 0x1f01
+  const UNMASKED_RENDERER = 0x9246
+
+  function mockCanvas(context: unknown) {
+    const getContext = vi.fn(() => context)
     const createElement = vi
       .spyOn(document, 'createElement')
       .mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
 
+    return { createElement, getContext }
+  }
+
+  function createContext(renderer: string, { debugInfo = true } = {}) {
+    const loseContext = vi.fn()
+
+    return {
+      loseContext,
+      context: {
+        RENDERER,
+        getExtension: vi.fn((name: string) => {
+          if (name === 'WEBGL_debug_renderer_info')
+            return debugInfo ? { UNMASKED_RENDERER_WEBGL: UNMASKED_RENDERER } : null
+          if (name === 'WEBGL_lose_context') return { loseContext }
+          return null
+        }),
+        getParameter: vi.fn((parameter: number) =>
+          parameter === UNMASKED_RENDERER || parameter === RENDERER ? renderer : null,
+        ),
+      },
+    }
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('requires WebGL2 without a major performance caveat', () => {
+    const { createElement, getContext } = mockCanvas(null)
+
     expect(supportsWebGl(document)).toBe(false)
     expect(createElement).toHaveBeenCalledWith('canvas')
     expect(getContext).toHaveBeenCalledOnce()
-    expect(getContext).toHaveBeenCalledWith('webgl2')
+    expect(getContext).toHaveBeenCalledWith('webgl2', { failIfMajorPerformanceCaveat: true })
+  })
 
-    createElement.mockRestore()
+  it('accepts a hardware renderer and releases the probe context', () => {
+    const { context, loseContext } = createContext('ANGLE (NVIDIA GeForce RTX 3060)')
+    mockCanvas(context)
+
+    expect(supportsWebGl(document)).toBe(true)
+    expect(loseContext).toHaveBeenCalledOnce()
+  })
+
+  it.each([
+    'Google SwiftShader',
+    'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)',
+    'llvmpipe (LLVM 15.0.7, 256 bits)',
+    'Microsoft Basic Render Driver (Software)',
+  ])('rejects the software renderer %s', (renderer) => {
+    const { context } = createContext(renderer)
+    mockCanvas(context)
+
+    expect(supportsWebGl(document)).toBe(false)
+  })
+
+  it('falls back to the masked renderer when debug info is unavailable', () => {
+    const { context } = createContext('SwiftShader', { debugInfo: false })
+    mockCanvas(context)
+
+    expect(supportsWebGl(document)).toBe(false)
+    expect(context.getParameter).toHaveBeenCalledWith(RENDERER)
   })
 })
 

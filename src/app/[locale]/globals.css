@@ -363,7 +363,12 @@ body {
 }
 
 .spectral-canvas-shell {
-  transition: opacity 300ms ease;
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+
+.spectral-canvas-shell[data-ready="true"] {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

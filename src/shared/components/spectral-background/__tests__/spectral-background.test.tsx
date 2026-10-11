@@ -81,10 +81,21 @@ function installMatchMedia(state: MatchMediaState) {
 
 function createLoader() {
   return vi.fn(async () => ({
-    SpectralVeilCanvas: ({ mode, onPermanentFailure }: SpectralVeilCanvasProps) => (
-      <canvas data-mode={mode} data-testid="spectral-canvas" onClick={onPermanentFailure} />
+    SpectralVeilCanvas: ({ mode, onPermanentFailure, onReady }: SpectralVeilCanvasProps) => (
+      <canvas
+        data-mode={mode}
+        data-testid="spectral-canvas"
+        onClick={onPermanentFailure}
+        onDoubleClick={onReady}
+      />
     ),
   }))
+}
+
+function interact(eventName = 'pointermove') {
+  act(() => {
+    window.dispatchEvent(new Event(eventName))
+  })
 }
 
 describe('SpectralBackground', () => {
@@ -118,14 +129,79 @@ describe('SpectralBackground', () => {
     await waitFor(() => expect(loader).not.toHaveBeenCalled())
   })
 
-  it('keeps the fallback and skips loading without WebGL support', async () => {
+  it('keeps the fallback and skips loading without hardware WebGL support', async () => {
     supportsWebGl.mockReturnValue(false)
     const loader = createLoader()
 
     render(<SpectralBackground canvasLoader={loader} />)
+    expect(supportsWebGl).not.toHaveBeenCalled()
 
+    interact()
+
+    await waitFor(() => expect(supportsWebGl).toHaveBeenCalledOnce())
     expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
-    await waitFor(() => expect(loader).not.toHaveBeenCalled())
+    expect(loader).not.toHaveBeenCalled()
+  })
+
+  it('never imports the canvas without a visitor interaction', async () => {
+    vi.useFakeTimers()
+    const loader = createLoader()
+
+    try {
+      render(<SpectralBackground canvasLoader={loader} />)
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(30_000)
+      })
+
+      expect(loader).not.toHaveBeenCalled()
+      expect(supportsWebGl).not.toHaveBeenCalled()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it.each([
+    'pointermove',
+    'pointerdown',
+    'touchstart',
+    'wheel',
+    'scroll',
+    'keydown',
+  ])('imports the canvas after the first %s and drops the listeners', async (eventName) => {
+    const addListener = vi.spyOn(window, 'addEventListener')
+    const removeListener = vi.spyOn(window, 'removeEventListener')
+    const loader = createLoader()
+
+    render(<SpectralBackground canvasLoader={loader} />)
+    expect(addListener).toHaveBeenCalledWith(eventName, expect.any(Function), {
+      once: true,
+      passive: true,
+    })
+
+    interact(eventName)
+    interact('pointerdown')
+
+    await waitFor(() => expect(loader).toHaveBeenCalledOnce())
+    expect(removeListener).toHaveBeenCalledWith(eventName, expect.any(Function))
+  })
+
+  it('fades the canvas in only after its first frame is ready', async () => {
+    const loader = createLoader()
+
+    render(<SpectralBackground canvasLoader={loader} />)
+    interact()
+
+    const canvas = await screen.findByTestId('spectral-canvas')
+    const shell = canvas.parentElement
+
+    expect(shell).toHaveAttribute('data-ready', 'false')
+    expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
+
+    act(() => {
+      canvas.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }))
+    })
+
+    expect(shell).toHaveAttribute('data-ready', 'true')
   })
 
   it('waits for the activation scheduler before importing the canvas', async () => {
@@ -178,8 +254,9 @@ describe('SpectralBackground', () => {
     render(<SpectralBackground canvasLoader={loader} />)
 
     expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
+    interact()
     await waitFor(() => expect(loader).toHaveBeenCalledOnce())
-    expect(screen.getByTestId('spectral-canvas')).toHaveAttribute('data-mode', mode)
+    expect(await screen.findByTestId('spectral-canvas')).toHaveAttribute('data-mode', mode)
   })
 
   it('reuses one pending canvas import during strict effect replay', async () => {
@@ -197,6 +274,7 @@ describe('SpectralBackground', () => {
         <SpectralBackground canvasLoader={loader} />
       </StrictMode>,
     )
+    interact()
 
     await waitFor(() => expect(loader).toHaveBeenCalledOnce())
     await act(async () => {
@@ -223,6 +301,7 @@ describe('SpectralBackground', () => {
     const loader = createLoader()
 
     render(<SpectralBackground canvasLoader={loader} />)
+    interact()
     await waitFor(() => expect(screen.getByTestId('spectral-canvas')).toBeInTheDocument())
 
     act(() => {
@@ -236,6 +315,7 @@ describe('SpectralBackground', () => {
     const loader = vi.fn(() => Promise.reject(new Error('unavailable')))
 
     render(<SpectralBackground canvasLoader={loader} />)
+    interact()
 
     await waitFor(() => expect(loader).toHaveBeenCalledOnce())
     expect(screen.getByTestId('spectral-fallback')).toBeInTheDocument()
@@ -249,6 +329,7 @@ describe('SpectralBackground', () => {
     const loader = createLoader()
 
     render(<SpectralBackground canvasLoader={loader} />)
+    interact()
 
     await waitFor(() => expect(screen.getByTestId('spectral-canvas')).toBeInTheDocument())
     act(() => screen.getByTestId('spectral-canvas').click())

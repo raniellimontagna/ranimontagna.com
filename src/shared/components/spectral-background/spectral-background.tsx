@@ -23,20 +23,34 @@ type SpectralBackgroundProps = {
   activationScheduler?: (callback: () => void) => () => void
 }
 
-function scheduleCanvasActivation(callback: () => void) {
-  let idleId: number | undefined
-  const timeoutId = window.setTimeout(() => {
-    if ('requestIdleCallback' in window) {
-      idleId = window.requestIdleCallback(callback, { timeout: 1800 })
-    } else {
-      callback()
-    }
-  }, 700)
+const ACTIVATION_EVENTS = [
+  'pointermove',
+  'pointerdown',
+  'touchstart',
+  'wheel',
+  'scroll',
+  'keydown',
+] as const
 
-  return () => {
-    window.clearTimeout(timeoutId)
-    if (idleId !== undefined && 'cancelIdleCallback' in window) window.cancelIdleCallback(idleId)
+/**
+ * The WebGL chunk (three.js + R3F) is only requested after the first real
+ * interaction. No timer or idle fallback: a visitor that never interacts, such
+ * as a lab audit, keeps the CSS fallback and never downloads the chunk.
+ */
+function scheduleCanvasActivation(callback: () => void) {
+  const removeListeners = () => {
+    for (const eventName of ACTIVATION_EVENTS) window.removeEventListener(eventName, activate)
   }
+  function activate() {
+    removeListeners()
+    callback()
+  }
+
+  for (const eventName of ACTIVATION_EVENTS) {
+    window.addEventListener(eventName, activate, { once: true, passive: true })
+  }
+
+  return removeListeners
 }
 
 export function SpectralBackground({
@@ -50,6 +64,7 @@ export function SpectralBackground({
   const [CanvasComponent, setCanvasComponent] =
     useState<ComponentType<SpectralVeilCanvasProps> | null>(null)
   const [permanentFailure, setPermanentFailure] = useState(false)
+  const [canvasReady, setCanvasReady] = useState(false)
   const canvasLoadPromise = useRef<ReturnType<SpectralCanvasLoader> | null>(null)
   const webGlSupport = useRef<boolean | null>(null)
 
@@ -75,11 +90,12 @@ export function SpectralBackground({
         return
       }
 
-      webGlSupport.current ??= supportsWebGl(document)
+      // WebGL is probed lazily after activation; until then only a known
+      // failure keeps the background static.
       setMode(
         resolveSpectralMode({
           reducedMotion: reducedMotion.matches,
-          webgl: webGlSupport.current,
+          webgl: webGlSupport.current !== false,
           coarsePointer: coarsePointer.matches,
           width: window.innerWidth,
         }),
@@ -116,6 +132,12 @@ export function SpectralBackground({
     if (retroActive || !activationReady || mode === 'static' || CanvasComponent || permanentFailure)
       return
 
+    webGlSupport.current ??= supportsWebGl(document)
+    if (!webGlSupport.current) {
+      setPermanentFailure(true)
+      return
+    }
+
     let isMounted = true
     canvasLoadPromise.current ??= canvasLoader()
 
@@ -130,12 +152,22 @@ export function SpectralBackground({
     }
   }, [CanvasComponent, activationReady, canvasLoader, mode, permanentFailure, retroActive])
 
+  const showCanvas = !retroActive && CanvasComponent !== null && mode !== 'static' && !permanentFailure
+
+  useEffect(() => {
+    if (!showCanvas) setCanvasReady(false)
+  }, [showCanvas])
+
   return (
     <div aria-hidden="true" className="spectral-background" data-testid="spectral-background">
       <SpectralFallback />
-      {!retroActive && CanvasComponent && mode !== 'static' && !permanentFailure ? (
-        <div className="spectral-canvas-shell">
-          <CanvasComponent mode={mode} onPermanentFailure={() => setPermanentFailure(true)} />
+      {showCanvas && CanvasComponent ? (
+        <div className="spectral-canvas-shell" data-ready={canvasReady ? 'true' : 'false'}>
+          <CanvasComponent
+            mode={mode}
+            onPermanentFailure={() => setPermanentFailure(true)}
+            onReady={() => setCanvasReady(true)}
+          />
         </div>
       ) : null}
     </div>
