@@ -1,6 +1,10 @@
 'use client'
 
 import { DangerCircleIcon as DangerCircle } from '@solar-icons/react/linear'
+// Plain clsx instead of cn(): none of the class lists below conflict, so the
+// output is the same, and tailwind-merge's one-off config build (~40 ms on a
+// throttled mobile CPU) stays out of the contact form's hydration.
+import { clsx } from 'clsx'
 import {
   forwardRef,
   type InputHTMLAttributes,
@@ -9,7 +13,6 @@ import {
   useId,
   useState,
 } from 'react'
-import { cn } from '@/shared/lib/utils'
 
 interface BaseInputProps {
   label: string
@@ -59,18 +62,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     )
 
     return (
-      <div className={cn('group', className)}>
+      <div className={clsx('group', className)}>
         {/* Label */}
         <label
           htmlFor={inputId}
-          className={cn(
+          className={clsx(
             'mb-2 flex items-center gap-2 text-sm font-medium transition-colors duration-200',
             error ? 'text-red-600 dark:text-red-400' : isFocused ? 'text-foreground' : 'text-muted',
           )}
         >
           <span
             aria-hidden="true"
-            className={cn(
+            className={clsx(
               'font-mono text-xs transition-colors',
               error
                 ? 'text-red-400 dark:text-red-500'
@@ -99,7 +102,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             setIsFocused(false)
             onBlur?.(e)
           }}
-          className={cn(
+          className={clsx(
             'block w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200',
             'bg-surface-strong text-foreground placeholder:text-secondary',
             'dark:bg-background dark:text-foreground',
@@ -162,18 +165,18 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     )
 
     return (
-      <div className={cn('group', className)}>
+      <div className={clsx('group', className)}>
         {/* Label */}
         <label
           htmlFor={textareaId}
-          className={cn(
+          className={clsx(
             'mb-2 flex items-center gap-2 text-sm font-medium transition-colors duration-200',
             error ? 'text-red-600 dark:text-red-400' : isFocused ? 'text-foreground' : 'text-muted',
           )}
         >
           <span
             aria-hidden="true"
-            className={cn(
+            className={clsx(
               'font-mono text-xs transition-colors',
               error
                 ? 'text-red-400 dark:text-red-500'
@@ -202,7 +205,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             setIsFocused(false)
             onBlur?.(e)
           }}
-          className={cn(
+          className={clsx(
             'block w-full resize-none rounded-lg border px-4 py-3 text-sm transition-all duration-200',
             'bg-surface-strong text-foreground placeholder:text-secondary',
             'dark:bg-background dark:text-foreground',
