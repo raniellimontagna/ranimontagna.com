@@ -152,7 +152,8 @@ export function SpectralBackground({
     }
   }, [CanvasComponent, activationReady, canvasLoader, mode, permanentFailure, retroActive])
 
-  const showCanvas = !retroActive && CanvasComponent !== null && mode !== 'static' && !permanentFailure
+  const showCanvas =
+    !retroActive && CanvasComponent !== null && mode !== 'static' && !permanentFailure
 
   useEffect(() => {
     if (!showCanvas) setCanvasReady(false)

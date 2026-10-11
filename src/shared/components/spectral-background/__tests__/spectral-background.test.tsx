@@ -160,30 +160,26 @@ describe('SpectralBackground', () => {
     }
   })
 
-  it.each([
-    'pointermove',
-    'pointerdown',
-    'touchstart',
-    'wheel',
-    'scroll',
-    'keydown',
-  ])('imports the canvas after the first %s and drops the listeners', async (eventName) => {
-    const addListener = vi.spyOn(window, 'addEventListener')
-    const removeListener = vi.spyOn(window, 'removeEventListener')
-    const loader = createLoader()
+  it.each(['pointermove', 'pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'])(
+    'imports the canvas after the first %s and drops the listeners',
+    async (eventName) => {
+      const addListener = vi.spyOn(window, 'addEventListener')
+      const removeListener = vi.spyOn(window, 'removeEventListener')
+      const loader = createLoader()
 
-    render(<SpectralBackground canvasLoader={loader} />)
-    expect(addListener).toHaveBeenCalledWith(eventName, expect.any(Function), {
-      once: true,
-      passive: true,
-    })
+      render(<SpectralBackground canvasLoader={loader} />)
+      expect(addListener).toHaveBeenCalledWith(eventName, expect.any(Function), {
+        once: true,
+        passive: true,
+      })
 
-    interact(eventName)
-    interact('pointerdown')
+      interact(eventName)
+      interact('pointerdown')
 
-    await waitFor(() => expect(loader).toHaveBeenCalledOnce())
-    expect(removeListener).toHaveBeenCalledWith(eventName, expect.any(Function))
-  })
+      await waitFor(() => expect(loader).toHaveBeenCalledOnce())
+      expect(removeListener).toHaveBeenCalledWith(eventName, expect.any(Function))
+    },
+  )
 
   it('fades the canvas in only after its first frame is ready', async () => {
     const loader = createLoader()

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 
 type GsapModule = typeof import('gsap')
@@ -10,7 +10,14 @@ type GsapLoader = () => Promise<GsapApi>
 
 const LOAD_HOME_SECTIONS_EVENT = 'home-sections:load'
 const HOME_SECTIONS_READY_EVENT = 'home-sections:ready'
-const LOAD_EVENTS = ['pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'] as const
+const LOAD_EVENTS = [
+  'pointermove',
+  'pointerdown',
+  'touchstart',
+  'wheel',
+  'scroll',
+  'keydown',
+] as const
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
 
 const loadDefaultGsap: GsapLoader = () => import('gsap').then(({ gsap }) => gsap)
@@ -360,7 +367,13 @@ export function ProgressiveGsapAnimations({
   loadGsap = loadDefaultGsap,
 }: ProgressiveGsapAnimationsProps = {}) {
   const retroActive = useRetroMode((state) => state.active)
+  // GSAP and its setup pass only start after the first interaction, so the
+  // initial load stays free of the extra chunk and its layout work. Leaving
+  // the retro mode is itself an interaction, so it restarts immediately.
+  const deferUntilInteraction = useRef(true)
+
   useEffect(() => {
+    if (retroActive) deferUntilInteraction.current = false
     const motionPreference = window.matchMedia?.(REDUCED_MOTION_QUERY)
     let prefersReducedMotion = retroActive || (motionPreference?.matches ?? false)
     let cancelled = false
@@ -388,6 +401,8 @@ export function ProgressiveGsapAnimations({
 
     const scheduleSetup = () => {
       if (cancelled || prefersReducedMotion || setupPending) return
+
+      deferUntilInteraction.current = false
 
       cancelIdleSetup()
       const scheduledGeneration = generation
@@ -455,7 +470,7 @@ export function ProgressiveGsapAnimations({
 
     if (!prefersReducedMotion) {
       registerTriggerListeners()
-      scheduleSetup()
+      if (!deferUntilInteraction.current) scheduleSetup()
     }
     motionPreference?.addEventListener('change', handleMotionPreferenceChange)
 

@@ -52,11 +52,7 @@ class SpectralCanvasErrorBoundary extends Component<
   }
 }
 
-export function SpectralVeilCanvas({
-  mode,
-  onPermanentFailure,
-  onReady,
-}: SpectralVeilCanvasProps) {
+export function SpectralVeilCanvas({ mode, onPermanentFailure, onReady }: SpectralVeilCanvasProps) {
   const environment = useSpectralEnvironment(mode)
   const [contextLost, setContextLost] = useState(false)
   const [generation, setGeneration] = useState(0)
