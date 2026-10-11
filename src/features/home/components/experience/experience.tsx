@@ -274,11 +274,11 @@ export function Experience() {
                             data-experience-mobile-arrow="prev"
                             data-experience-index={index}
                             data-active={index === 0}
-                            aria-label={`${items[previousIndex]?.company ?? ''} - ${
-                              items[previousIndex]?.period ?? ''
-                            }`}
                           >
-                            <AltArrowLeft className="h-4 w-4" />
+                            <AltArrowLeft aria-hidden="true" className="h-4 w-4" />
+                            <span className="sr-only">
+                              {`${items[previousIndex]?.company ?? ''} - ${items[previousIndex]?.period ?? ''}`}
+                            </span>
                           </label>
                           <label
                             htmlFor={`experience-mobile-${nextIndex}`}
@@ -286,11 +286,11 @@ export function Experience() {
                             data-experience-mobile-arrow="next"
                             data-experience-index={index}
                             data-active={index === 0}
-                            aria-label={`${items[nextIndex]?.company ?? ''} - ${
-                              items[nextIndex]?.period ?? ''
-                            }`}
                           >
-                            <AltArrowRight className="h-4 w-4" />
+                            <AltArrowRight aria-hidden="true" className="h-4 w-4" />
+                            <span className="sr-only">
+                              {`${items[nextIndex]?.company ?? ''} - ${items[nextIndex]?.period ?? ''}`}
+                            </span>
                           </label>
                         </Fragment>
                       )

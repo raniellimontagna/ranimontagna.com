@@ -1,12 +1,6 @@
 import { SquareArrowRightUpIcon as SquareArrowRightUp } from '@solar-icons/react/linear'
 import { useTranslations } from 'next-intl'
-import {
-  FadeIn,
-  MagneticHover,
-  RevealText,
-  StaggerContainer,
-  StaggerItem,
-} from '@/shared/components/animations'
+import { FadeIn, MagneticHover, RevealText, StaggerContainer } from '@/shared/components/animations'
 import { AttoMark } from './atto-mark'
 import { ATTO_CASES_URL, ATTO_URL, servicesData } from './services.static'
 import type { ServiceType } from './services.types'
@@ -93,24 +87,22 @@ export function Services() {
                 {services.map((service) => {
                   const Icon = service.icon
                   return (
-                    <StaggerItem key={service.id}>
-                      <li
-                        className="flex items-start gap-4 rounded-2xl border border-line bg-surface px-4 py-4"
-                        data-testid="atto-front"
-                      >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent-strong dark:text-accent">
-                          <Icon className="h-5 w-5" />
+                    <li
+                      key={service.id}
+                      className="flex items-start gap-4 rounded-2xl border border-line bg-surface px-4 py-4"
+                      data-gsap-stagger-item="true"
+                      data-testid="atto-front"
+                    >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent-strong dark:text-accent">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-semibold text-foreground">{service.title}</span>
+                        <span className="mt-1 block text-sm leading-6 text-muted">
+                          {service.description}
                         </span>
-                        <span className="min-w-0">
-                          <span className="block font-semibold text-foreground">
-                            {service.title}
-                          </span>
-                          <span className="mt-1 block text-sm leading-6 text-muted">
-                            {service.description}
-                          </span>
-                        </span>
-                      </li>
-                    </StaggerItem>
+                      </span>
+                    </li>
                   )
                 })}
               </ul>
