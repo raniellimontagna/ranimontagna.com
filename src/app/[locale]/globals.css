@@ -363,7 +363,12 @@ body {
 }
 
 .spectral-canvas-shell {
-  transition: opacity 300ms ease;
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+
+.spectral-canvas-shell[data-ready="true"] {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -587,6 +592,17 @@ button {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@keyframes error-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 

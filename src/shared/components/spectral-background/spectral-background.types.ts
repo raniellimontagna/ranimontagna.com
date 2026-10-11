@@ -18,6 +18,8 @@ export type SpectralEnvironment = {
 export type SpectralVeilCanvasProps = {
   mode: Exclude<SpectralMode, 'static'>
   onPermanentFailure: () => void
+  /** Called once the first frame is on screen, so the shell can fade in. */
+  onReady?: () => void
 }
 export type ZoneCandidate = {
   zone: SpectralZone

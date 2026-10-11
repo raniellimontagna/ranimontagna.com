@@ -106,10 +106,25 @@ export function selectSpectralZone(candidates: readonly ZoneCandidate[]): Spectr
   )
 }
 
+const SOFTWARE_RENDERER_PATTERN = /swiftshader|llvmpipe|software/i
+
+/**
+ * Only hardware-accelerated WebGL2 is worth the canvas. Software rasterizers
+ * (SwiftShader, llvmpipe) burn the main thread, so they keep the CSS fallback.
+ */
 export function supportsWebGl(document: Document): boolean {
   try {
     const canvas = document.createElement('canvas')
-    return Boolean(canvas.getContext('webgl2'))
+    const gl = canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true })
+    if (!gl) return false
+
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
+    const renderer: unknown = gl.getParameter(
+      debugInfo ? debugInfo.UNMASKED_RENDERER_WEBGL : gl.RENDERER,
+    )
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
+
+    return !(typeof renderer === 'string' && SOFTWARE_RENDERER_PATTERN.test(renderer))
   } catch {
     return false
   }

@@ -142,7 +142,7 @@ describe('ProgressiveGsapAnimations', () => {
     window.matchMedia = vi.fn().mockReturnValue(createMotionPreference().mediaQuery)
   })
 
-  it('binds server-rendered sections during idle before the first interaction', async () => {
+  it('waits for the first interaction before loading GSAP', async () => {
     const loadGsap = vi.fn().mockResolvedValue(gsapApi)
     const reveal = document.createElement('div')
     reveal.dataset.gsapReveal = 'true'
@@ -151,6 +151,14 @@ describe('ProgressiveGsapAnimations', () => {
     const { unmount } = render(<ProgressiveGsapAnimations loadGsap={loadGsap} />)
 
     await act(async () => {
+      await Promise.resolve()
+    })
+
+    expect(loadGsap).not.toHaveBeenCalled()
+    expect(reveal.style.visibility).toBe('')
+
+    await act(async () => {
+      window.dispatchEvent(new Event('pointermove'))
       await Promise.resolve()
     })
 
@@ -374,6 +382,7 @@ describe('ProgressiveGsapAnimations', () => {
       </>,
     )
     await act(async () => {
+      window.dispatchEvent(new Event('pointerdown'))
       await Promise.resolve()
     })
     const reveal = container.querySelector('[data-gsap-reveal]') as HTMLElement
