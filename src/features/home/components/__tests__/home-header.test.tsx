@@ -5,8 +5,8 @@ vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 
-vi.mock('next/image', () => ({
-  default: ({
+vi.mock('@/shared/components/ui/static-image/static-image', () => ({
+  StaticImage: ({
     alt,
     fill: _fill,
     priority: _priority,
@@ -15,7 +15,7 @@ vi.mock('next/image', () => ({
     fill?: boolean
     priority?: boolean
   }) => (
-    // biome-ignore lint/performance/noImgElement: Test double for next/image.
+    // biome-ignore lint/performance/noImgElement: Test double for StaticImage.
     <img alt={alt} {...props} />
   ),
 }))

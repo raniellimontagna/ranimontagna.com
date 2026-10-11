@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { MagneticHover, ParallaxLayer } from '@/shared/components/animations'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { TerminalWindow } from '@/shared/components/ui/terminal-window/terminal-window'
 
 export function HeroVisual() {
@@ -28,7 +28,7 @@ export function HeroVisual() {
                 <div className="absolute inset-x-12 top-3 h-10 rounded-full bg-ambient-ice blur-2xl" />
                 <div className="absolute inset-3 overflow-hidden rounded-[1.55rem] border border-line-strong bg-canvas">
                   <div className="absolute inset-0 glow-gradient-portrait" />
-                  <Image
+                  <StaticImage
                     src="/images/hero-ranielli.webp"
                     alt="Ranielli Montagna working at a laptop"
                     fill

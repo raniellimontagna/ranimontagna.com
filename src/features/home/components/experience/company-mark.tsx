@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { cn } from '@/shared/lib/utils'
 
 type CompanyMarkProps = {
@@ -34,7 +34,7 @@ export function CompanyMark({ alt, company, logo }: CompanyMarkProps) {
         className={cn('absolute z-10', isContained ? 'inset-3' : 'inset-0')}
         data-company-mark-image-frame="true"
       >
-        <Image
+        <StaticImage
           src={logo}
           alt={alt}
           fill

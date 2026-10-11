@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/shared/components/animations'
 import { RetroTrigger } from '@/shared/components/retro-mode/retro-mode'
 import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import type { SocialLink } from '@/shared/lib/social-links'
 import { getSocialLinksAsArray } from '@/shared/lib/social-links'
 
@@ -27,14 +27,14 @@ export const Footer = (): React.ReactElement => {
                 data-footer-logo
                 className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background"
               >
-                <Image
+                <StaticImage
                   src="logo/white.svg"
                   alt="Logo"
                   width={24}
                   height={24}
                   className="dark:hidden"
                 />
-                <Image
+                <StaticImage
                   src="logo/black.svg"
                   alt="Logo"
                   width={24}

@@ -1,8 +1,8 @@
 import { render, screen } from '@/tests/test-utils'
 import { About } from '../about'
 
-vi.mock('next/image', () => ({
-  default: ({
+vi.mock('@/shared/components/ui/static-image/static-image', () => ({
+  StaticImage: ({
     alt,
     fill: _fill,
     priority,
@@ -10,7 +10,7 @@ vi.mock('next/image', () => ({
   }: React.ImgHTMLAttributes<HTMLImageElement> & {
     fill?: boolean
     priority?: boolean
-    // biome-ignore lint/performance/noImgElement: test double for next/image.
+    // biome-ignore lint/performance/noImgElement: test double for StaticImage.
   }) => <img alt={alt} data-priority={priority ? 'true' : undefined} {...props} />,
 }))
 
