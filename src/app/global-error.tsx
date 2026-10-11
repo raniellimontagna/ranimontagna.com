@@ -1,6 +1,5 @@
 'use client'
 
-import * as Sentry from '@sentry/nextjs'
 import { HomeIcon as Home, RestartIcon as Restart } from '@solar-icons/react/linear'
 import { useEffect } from 'react'
 import { ErrorLayout } from '@/shared/components/ui/error-view'
@@ -13,7 +12,9 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    Sentry.captureException(error)
+    // Imported on demand: this boundary ships with every page's initial
+    // JavaScript, and Sentry is only needed once an error actually happens.
+    void import('@sentry/nextjs').then((Sentry) => Sentry.captureException(error))
   }, [error])
 
   return (
