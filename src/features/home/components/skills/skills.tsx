@@ -1,5 +1,3 @@
-'use client'
-
 import { useTranslations } from 'next-intl'
 import { FadeIn } from '@/shared/components/animations'
 import { ParallaxLayer } from '@/shared/components/animations/parallax-layer'
