@@ -24,6 +24,10 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   turbopack: { root: projectRoot },
+  // Vercel's adapter turns immutable assets on and collects the content-hashed
+  // chunks inside `next build`, so scripts/compile-hints.mjs would edit files
+  // that are never deployed. Per-deployment chunks let the hint ship.
+  supportsImmutableAssets: false,
   experimental: {
     optimizePackageImports: ['@solar-icons/react', 'framer-motion', 'motion'],
   },
