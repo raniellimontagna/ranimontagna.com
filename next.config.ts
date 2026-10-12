@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { withSentryConfig } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
+import { addCompileHints } from './scripts/compile-hints.mjs'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
@@ -24,6 +25,14 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   turbopack: { root: projectRoot },
+  // Vercel's adapter turns immutable assets on: chunks named by a content hash
+  // and shared across deployments. The compile hints change their content, so
+  // they need per-deployment chunks.
+  supportsImmutableAssets: false,
+  compiler: {
+    // Inside `next build`, before Vercel's adapter collects the static files.
+    runAfterProductionCompile: ({ distDir }) => addCompileHints(distDir),
+  },
   experimental: {
     optimizePackageImports: ['@solar-icons/react', 'framer-motion', 'motion'],
   },
