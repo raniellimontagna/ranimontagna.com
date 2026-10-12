@@ -43,14 +43,18 @@ const commonExtra = (event: ChatTelemetryEvent) => ({
   validationCode: event.validationCode,
 })
 
+// Fresh scopes keep request data (user, headers, body) out of chat telemetry.
+// The current scope needs the client, otherwise captureEvent drops the event.
+const createDetachedScope = (): Sentry.Scope => {
+  const scope = new Sentry.Scope()
+  scope.setClient(Sentry.getClient())
+  return scope
+}
+
 export function recordChatAttempt(event: ChatTelemetryEvent): void {
   try {
-    Sentry.withIsolationScope((isolationScope) => {
-      isolationScope.clear()
-
-      Sentry.withScope((currentScope) => {
-        currentScope.clear()
-
+    Sentry.withIsolationScope(new Sentry.Scope(), () => {
+      Sentry.withScope(createDetachedScope(), () => {
         if (event.kind === 'provider-attempt') {
           Sentry.captureEvent({
             extra: commonExtra(event),

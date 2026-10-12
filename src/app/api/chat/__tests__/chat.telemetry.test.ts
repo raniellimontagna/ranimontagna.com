@@ -1,19 +1,4 @@
 import type { Event } from '@sentry/nextjs'
-import type { Mock } from 'vitest'
-
-const sentryMocks = vi.hoisted(() => ({
-  captureEvent: vi.fn(),
-  withIsolationScope: vi.fn(),
-  withScope: vi.fn(),
-})) satisfies Record<string, Mock>
-
-vi.mock('@sentry/nextjs', () => ({
-  captureEvent: sentryMocks.captureEvent,
-  withIsolationScope: sentryMocks.withIsolationScope,
-  withScope: sentryMocks.withScope,
-}))
-
-import { type ChatTelemetryEvent, recordChatAttempt } from '../chat.telemetry'
 
 type FakeScopeState = {
   contexts?: Record<string, unknown>
@@ -22,45 +7,95 @@ type FakeScopeState = {
   user?: Record<string, unknown>
 }
 
-const inheritedSecret = 'inherited-private-value'
-const capturedEvents: Record<string, unknown>[] = []
+const sentryMocks = vi.hoisted(() => {
+  class FakeScope {
+    client: unknown = undefined
+    state: Record<string, unknown> = {}
+    setClient = vi.fn((client: unknown) => {
+      this.client = client
+    })
+  }
 
-const createFakeScope = (state: FakeScopeState) => ({
-  clear: vi.fn(() => {
-    for (const key of Object.keys(state)) delete state[key as keyof FakeScopeState]
-  }),
+  return {
+    FakeScope,
+    captureEvent: vi.fn(),
+    getClient: vi.fn(),
+    withIsolationScope: vi.fn(),
+    withScope: vi.fn(),
+  }
 })
 
+vi.mock('@sentry/nextjs', () => ({
+  Scope: sentryMocks.FakeScope,
+  captureEvent: sentryMocks.captureEvent,
+  getClient: sentryMocks.getClient,
+  withIsolationScope: sentryMocks.withIsolationScope,
+  withScope: sentryMocks.withScope,
+}))
+
+import { type ChatTelemetryEvent, recordChatAttempt } from '../chat.telemetry'
+
+type FakeScope = InstanceType<typeof sentryMocks.FakeScope>
+type ScopeCallback = (scope: FakeScope) => unknown
+
+const inheritedSecret = 'inherited-private-value'
+const capturedEvents: Record<string, unknown>[] = []
+const sentryClient = { name: 'sentry-client' }
+
+// Mirrors Sentry: the callback-only overload forks the active (inherited) scope,
+// while passing a scope runs the callback with exactly that scope.
+const runWithScope =
+  (inherited: FakeScope, onActivate: (scope: FakeScope) => void) =>
+  (scopeOrCallback: FakeScope | ScopeCallback, maybeCallback?: ScopeCallback) => {
+    const scope = typeof scopeOrCallback === 'function' ? inherited : scopeOrCallback
+    const callback = typeof scopeOrCallback === 'function' ? scopeOrCallback : maybeCallback
+    onActivate(scope)
+    return callback?.(scope)
+  }
+
 describe('chat telemetry', () => {
-  const isolationState: FakeScopeState = {}
-  const currentState: FakeScopeState = {}
-  const isolationScope = createFakeScope(isolationState)
-  const currentScope = createFakeScope(currentState)
+  const inheritedIsolationScope = new sentryMocks.FakeScope()
+  const inheritedCurrentScope = new sentryMocks.FakeScope()
+  let activeIsolationScope: FakeScope | undefined
+  let activeCurrentScope: FakeScope | undefined
 
   beforeEach(() => {
     vi.clearAllMocks()
     capturedEvents.length = 0
+    activeIsolationScope = undefined
+    activeCurrentScope = undefined
 
-    Object.assign(isolationState, {
+    inheritedIsolationScope.state = {
       contexts: { requestContext: inheritedSecret },
       extra: { headers: { authorization: inheritedSecret } },
       request: { headers: { cookie: inheritedSecret } },
       user: { email: inheritedSecret },
-    })
-    Object.assign(currentState, {
+    } satisfies FakeScopeState
+    inheritedCurrentScope.state = {
       contexts: { activeSpanContext: inheritedSecret },
       extra: { rawBody: inheritedSecret },
       request: { data: inheritedSecret },
       user: { id: inheritedSecret },
-    })
+    } satisfies FakeScopeState
+    inheritedCurrentScope.client = sentryClient
 
+    sentryMocks.getClient.mockReturnValue(sentryClient)
     sentryMocks.withIsolationScope.mockImplementation(
-      (callback: (scope: typeof isolationScope) => unknown) => callback(isolationScope),
+      runWithScope(inheritedIsolationScope, (scope) => {
+        activeIsolationScope = scope
+      }),
     )
-    sentryMocks.withScope.mockImplementation((callback: (scope: typeof currentScope) => unknown) =>
-      callback(currentScope),
+    sentryMocks.withScope.mockImplementation(
+      runWithScope(inheritedCurrentScope, (scope) => {
+        activeCurrentScope = scope
+      }),
     )
     sentryMocks.captureEvent.mockImplementation((event: Event) => {
+      const isolationState = (activeIsolationScope?.state ?? {}) as FakeScopeState
+      const currentState = (activeCurrentScope?.state ?? {}) as FakeScopeState
+      // Sentry drops events when the current scope has no client.
+      if (!activeCurrentScope?.client) return 'dropped'
+
       capturedEvents.push({
         ...isolationState,
         ...currentState,
@@ -91,13 +126,11 @@ describe('chat telemetry', () => {
       validationCode: null,
     })
 
-    expect(isolationScope.clear).toHaveBeenCalledOnce()
-    expect(currentScope.clear).toHaveBeenCalledOnce()
-    expect(isolationScope.clear.mock.invocationCallOrder[0]).toBeLessThan(
-      currentScope.clear.mock.invocationCallOrder[0] ?? Number.POSITIVE_INFINITY,
-    )
-    expect(currentScope.clear.mock.invocationCallOrder[0]).toBeLessThan(
-      sentryMocks.captureEvent.mock.invocationCallOrder[0] ?? Number.POSITIVE_INFINITY,
+    expect(activeIsolationScope).not.toBe(inheritedIsolationScope)
+    expect(activeCurrentScope).not.toBe(inheritedCurrentScope)
+    expect(activeCurrentScope?.setClient).toHaveBeenCalledWith(sentryClient)
+    expect(sentryMocks.withIsolationScope.mock.invocationCallOrder[0]).toBeLessThan(
+      sentryMocks.withScope.mock.invocationCallOrder[0] ?? Number.POSITIVE_INFINITY,
     )
     expect(capturedEvents).toEqual([
       {
