@@ -69,7 +69,9 @@ async function addHint(file) {
 async function main() {
   const nextDir = resolve(process.argv[2] ?? '.next')
   const staticDir = join(nextDir, 'static')
-  const htmlFiles = (await listFiles(join(nextDir, 'server', 'app'))).filter((file) =>
+  // A plain `next build` writes prerendered HTML to server/app. On Vercel, whose
+  // adapter takes over the outputs, it lands in server/route-cache instead.
+  const htmlFiles = (await listFiles(join(nextDir, 'server'))).filter((file) =>
     file.endsWith('.html'),
   )
 
