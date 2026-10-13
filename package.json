@@ -28,7 +28,7 @@
     "@radix-ui/react-dialog": "^1.2.0",
     "@radix-ui/react-visually-hidden": "^1.2.12",
     "@react-three/fiber": "^9.8.1",
-    "@sentry/nextjs": "^10.76.2",
+    "@sentry/nextjs": "^11.6.0",
     "@solar-icons/react": "^2.3.2",
     "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
