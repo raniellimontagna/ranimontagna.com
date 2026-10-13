@@ -107,12 +107,14 @@ const nextConfig: NextConfig = {
     return [
       { source: '/(.*)', headers: baseHeaders },
       {
-        source: '/robots.txt',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
-      },
-      {
-        source: '/(.*)\\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2)',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        // Files in public/ keep their names when they change, so they get a day
+        // of cache instead of a year. /_next/ is left to Next.js, which marks
+        // only files that exist as immutable: the old one-year rule also covered
+        // 404s, and Cloudflare kept one for a chunk that a later deploy needed.
+        source: '/:path((?!_next/).*)\\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
       },
     ]
   },
