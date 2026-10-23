@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest'
-import matter from 'gray-matter'
 import type { BlogContentSource, PostDocument, PostIndexEntry } from './blog.types'
 import { validateBlogFrontmatter } from './blog-content-policy'
+import { parseFrontMatter } from './blog-front-matter'
 
 interface GitHubFile {
   name: string
@@ -23,7 +23,7 @@ const parseFilename = (filename: string): { date: string; slug: string } | null 
 }
 
 const parsePostDocument = (entry: PostIndexEntry, content: string): PostDocument => {
-  const { data: frontmatter, content: markdown } = matter(content)
+  const { data: frontmatter, content: markdown } = parseFrontMatter(content)
   const metadata = validateBlogFrontmatter(frontmatter, entry.filenameDate)
 
   return {
