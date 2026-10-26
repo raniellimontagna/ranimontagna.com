@@ -42,7 +42,7 @@ export function ExperienceMobileCarouselGestures() {
     const getActiveIndex = () => {
       const currentInputs = inputs()
       const activeIndex = currentInputs.findIndex((input) => input.checked)
-      return activeIndex >= 0 ? activeIndex : 0
+      return Math.max(activeIndex, 0)
     }
 
     const syncActiveTargets = (activeIndex = getActiveIndex()) => {
