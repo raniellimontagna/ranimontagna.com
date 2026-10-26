@@ -79,17 +79,23 @@ function installMatchMedia(state: MatchMediaState) {
   }
 }
 
+function MockSpectralVeilCanvas({ mode, onPermanentFailure, onReady }: SpectralVeilCanvasProps) {
+  return (
+    <canvas
+      data-mode={mode}
+      data-testid="spectral-canvas"
+      onClick={onPermanentFailure}
+      onDoubleClick={onReady}
+    />
+  )
+}
+
+function StaticSpectralVeilCanvas({ mode }: SpectralVeilCanvasProps) {
+  return <canvas data-mode={mode} data-testid="spectral-canvas" />
+}
+
 function createLoader() {
-  return vi.fn(async () => ({
-    SpectralVeilCanvas: ({ mode, onPermanentFailure, onReady }: SpectralVeilCanvasProps) => (
-      <canvas
-        data-mode={mode}
-        data-testid="spectral-canvas"
-        onClick={onPermanentFailure}
-        onDoubleClick={onReady}
-      />
-    ),
-  }))
+  return vi.fn(async () => ({ SpectralVeilCanvas: MockSpectralVeilCanvas }))
 }
 
 function interact(eventName = 'pointermove') {
@@ -282,11 +288,7 @@ describe('SpectralBackground', () => {
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
     })
     await act(async () => {
-      resolveLoader?.({
-        SpectralVeilCanvas: ({ mode }: SpectralVeilCanvasProps) => (
-          <canvas data-mode={mode} data-testid="spectral-canvas" />
-        ),
-      })
+      resolveLoader?.({ SpectralVeilCanvas: StaticSpectralVeilCanvas })
     })
 
     expect(loader).toHaveBeenCalledOnce()
