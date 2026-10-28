@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.28.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.1...v1.28.0) (2026-10-28)
+
+
+### Features
+
+* add hidden retro homepage easter egg ([a3fae4c](https://github.com/raniellimontagna/ranimontagna.com/commit/a3fae4c115c30d9d5417de97eb57cb572e1a4b20))
+* add six secret portfolio worlds ([de29e6c](https://github.com/raniellimontagna/ranimontagna.com/commit/de29e6cdd0017273231407803a7045a93f9be631))
+
+
+### Bug Fixes
+
+* **blog:** aceita só front matter YAML nos posts ([#70](https://github.com/raniellimontagna/ranimontagna.com/issues/70)) ([488213c](https://github.com/raniellimontagna/ranimontagna.com/commit/488213c773ebdb6ceb5192493879b0d5b0bffc68))
+* tira o cache de um ano de 404s e dos arquivos do public ([#68](https://github.com/raniellimontagna/ranimontagna.com/issues/68)) ([1f9b867](https://github.com/raniellimontagna/ranimontagna.com/commit/1f9b8676690b30518f9d86ad5f82f18162012ae2))
+
+
+### Performance Improvements
+
+* compile hints chegam no deploy da Vercel ([#67](https://github.com/raniellimontagna/ranimontagna.com/issues/67)) ([a58719d](https://github.com/raniellimontagna/ranimontagna.com/commit/a58719d198310303a91a989731b73b327b0910be))
+* fundo WebGL sob demanda para o Lighthouse do CI passar ([#64](https://github.com/raniellimontagna/ranimontagna.com/issues/64)) ([8cf2064](https://github.com/raniellimontagna/ranimontagna.com/commit/8cf2064f22b63b96d8ea8899198b083669ebef7a))
+* menos trabalho na hidratação da home para o Lighthouse ter folga ([#65](https://github.com/raniellimontagna/ranimontagna.com/issues/65)) ([189c36d](https://github.com/raniellimontagna/ranimontagna.com/commit/189c36db640d8a7dcca7fdefe195d5d754b08644))
+
 ## [1.27.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.0...v1.27.1) (2026-09-16)
 
 
