@@ -1,7 +1,7 @@
 import { CHAT_DEFAULT_TOTAL_DEADLINE_MS, CHAT_MAX_TOTAL_DEADLINE_MS } from './chat.constants'
 
-export type ChatProviderId = 'deepseek' | 'gemini' | 'openrouter' | 'groq'
-export type ProviderStreamFormat = 'openai-sse' | 'gemini-sse'
+export type ChatProviderId = 'deepseek' | 'openrouter'
+export type ProviderStreamFormat = 'openai-sse'
 
 export type ProviderAttempt = {
   provider: ChatProviderId
@@ -71,14 +71,10 @@ export function createChatProviderConfig(environment: ChatProviderEnvironment): 
 
   return {
     fallbackEnabled: {
-      gemini: environment.CHAT_ENABLE_GEMINI_FALLBACK === 'true',
-      groq: environment.CHAT_ENABLE_GROQ_FALLBACK === 'true',
       openrouter: environment.CHAT_ENABLE_OPENROUTER_FALLBACK === 'true',
     },
     models: {
       deepseek: configuredValue(environment, 'DEEPSEEK_MODEL', 'deepseek-chat'),
-      gemini: configuredValue(environment, 'GEMINI_MODEL', 'gemini-2.5-flash-lite'),
-      groq: configuredValue(environment, 'GROQ_MODEL', 'llama-3.1-8b-instant'),
       openrouter: configuredOpenRouterModel(environment),
     },
     totalDeadlineMs:
@@ -177,9 +173,7 @@ export type ProviderAdapter = (input: ProviderAdapterInput) => Promise<ProviderR
 
 export type ChatProviderAdapters = {
   callDeepSeek: ProviderAdapter
-  callGemini: ProviderAdapter
   callOpenRouter: ProviderAdapter
-  callGroq: ProviderAdapter
 }
 
 type ProviderAdapterDependencies = {
@@ -299,13 +293,6 @@ const openAiBody = (model: string, input: ProviderAdapterInput) => ({
   temperature: CHAT_GENERATION_POLICY.temperature,
 })
 
-const geminiSafetySettings = [
-  { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-  { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-  { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-  { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-] as const
-
 export function createChatProviderAdapters(
   config: ChatProviderConfig,
   dependencies: ProviderAdapterDependencies,
@@ -362,47 +349,6 @@ export function createChatProviderAdapters(
     )
   }
 
-  const callGemini: ProviderAdapter = async (input) => {
-    const interrupted = interruptedResult('gemini', input)
-    if (interrupted) return interrupted
-
-    if (!config.fallbackEnabled.gemini) return disabledResult('gemini', now())
-
-    const apiKey = dependencies.environment.GEMINI_API_KEY?.trim()
-    if (!apiKey) return missingKeyResult('gemini', now())
-
-    return executeProviderRequest(
-      {
-        ...input,
-        format: 'gemini-sse',
-        model: config.models.gemini,
-        provider: 'gemini',
-        request: {
-          init: {
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: input.userContent }] }],
-              generationConfig: {
-                maxOutputTokens: CHAT_GENERATION_POLICY.maxOutputTokens,
-                temperature: CHAT_GENERATION_POLICY.temperature,
-                topP: 0.9,
-              },
-              safetySettings: geminiSafetySettings,
-              system_instruction: { parts: [{ text: input.systemPrompt }] },
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-              'x-goog-api-key': apiKey,
-            },
-            method: 'POST',
-          },
-          url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.models.gemini)}:streamGenerateContent?alt=sse`,
-        },
-      },
-      dependencies.fetch,
-      now,
-    )
-  }
-
   const callOpenRouter: ProviderAdapter = async (input) => {
     const interrupted = interruptedResult('openrouter', input)
     if (interrupted) return interrupted
@@ -440,37 +386,5 @@ export function createChatProviderAdapters(
     )
   }
 
-  const callGroq: ProviderAdapter = async (input) => {
-    const interrupted = interruptedResult('groq', input)
-    if (interrupted) return interrupted
-
-    if (!config.fallbackEnabled.groq) return disabledResult('groq', now())
-
-    const apiKey = dependencies.environment.GROQ_API_KEY?.trim()
-    if (!apiKey) return missingKeyResult('groq', now())
-
-    return executeProviderRequest(
-      {
-        ...input,
-        format: 'openai-sse',
-        model: config.models.groq,
-        provider: 'groq',
-        request: {
-          init: {
-            body: JSON.stringify(openAiBody(config.models.groq, input)),
-            headers: {
-              Authorization: `Bearer ${apiKey}`,
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          },
-          url: 'https://api.groq.com/openai/v1/chat/completions',
-        },
-      },
-      dependencies.fetch,
-      now,
-    )
-  }
-
-  return { callDeepSeek, callGemini, callGroq, callOpenRouter }
+  return { callDeepSeek, callOpenRouter }
 }

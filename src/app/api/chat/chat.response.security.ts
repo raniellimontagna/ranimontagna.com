@@ -11,8 +11,8 @@ const secretPatterns = [
   /\bbearer\s+[a-z0-9._~+/-]{4,}\b/i,
   /\b[a-z0-9]+(?:_[a-z0-9]+)*_(?:api_?key|token|secret)\b/i,
   /\b(?:api_?key|token|secret)\s*[:=]\s*\S{4,}/i,
-  /\b(?:deepseek|gemini|openrouter|groq|chat|upstash|sentry)_[a-z0-9_]+\b/i,
-  /\b(?:deepseek|gemini|openrouter|groq)(?:api)?key\b/i,
+  /\b(?:deepseek|openrouter|chat|upstash|sentry)_[a-z0-9_]+\b/i,
+  /\b(?:deepseek|openrouter)(?:api)?key\b/i,
 ] as const
 
 const decodePlausibleBase64 = (candidate: string): string | null => {

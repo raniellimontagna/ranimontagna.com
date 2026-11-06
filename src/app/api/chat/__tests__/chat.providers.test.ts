@@ -19,12 +19,8 @@ const createExecution = (
   })
 
 const enabledEnvironment = (): ChatProviderEnvironment => ({
-  CHAT_ENABLE_GEMINI_FALLBACK: 'true',
-  CHAT_ENABLE_GROQ_FALLBACK: 'true',
   CHAT_ENABLE_OPENROUTER_FALLBACK: 'true',
   DEEPSEEK_API_KEY: 'deepseek-test-key',
-  GEMINI_API_KEY: 'gemini-test-key',
-  GROQ_API_KEY: 'groq-test-key',
   OPENROUTER_API_KEY: 'openrouter-test-key',
 })
 
@@ -54,14 +50,10 @@ describe('chat provider configuration', () => {
 
     expect(config).toEqual({
       fallbackEnabled: {
-        gemini: false,
-        groq: false,
         openrouter: false,
       },
       models: {
         deepseek: 'deepseek-chat',
-        gemini: 'gemini-2.5-flash-lite',
-        groq: 'llama-3.1-8b-instant',
         openrouter: 'google/gemma-3-4b-it:free',
       },
       totalDeadlineMs: 12_000,
@@ -73,21 +65,15 @@ describe('chat provider configuration', () => {
   it('resolves model, deadline, and fallback overrides from the injected environment', () => {
     expect(
       createChatProviderConfig({
-        CHAT_ENABLE_GEMINI_FALLBACK: 'true',
-        CHAT_ENABLE_GROQ_FALLBACK: 'true',
         CHAT_ENABLE_OPENROUTER_FALLBACK: 'true',
         CHAT_TOTAL_DEADLINE_MS: '9000',
         DEEPSEEK_MODEL: 'deepseek-custom',
-        GEMINI_MODEL: 'gemini-custom',
-        GROQ_MODEL: 'groq-custom',
         OPENROUTER_MODEL_PRIMARY: 'google/gemma-3-4b-it:free',
       }),
     ).toEqual({
-      fallbackEnabled: { gemini: true, groq: true, openrouter: true },
+      fallbackEnabled: { openrouter: true },
       models: {
         deepseek: 'deepseek-custom',
-        gemini: 'gemini-custom',
-        groq: 'groq-custom',
         openrouter: 'google/gemma-3-4b-it:free',
       },
       totalDeadlineMs: 9000,
@@ -218,7 +204,6 @@ describe('provider adapter contracts', () => {
   it.each([
     ['deepseek', 'callDeepSeek', 'https://api.deepseek.com/chat/completions'],
     ['openrouter', 'callOpenRouter', 'https://openrouter.ai/api/v1/chat/completions'],
-    ['groq', 'callGroq', 'https://api.groq.com/openai/v1/chat/completions'],
   ] as const)(
     'sends authoritative OpenAI-compatible messages through %s',
     async (provider, adapterName, expectedUrl) => {
@@ -260,38 +245,7 @@ describe('provider adapter contracts', () => {
     expect(fetchMock).toHaveBeenCalledOnce()
   })
 
-  it('keeps the Gemini key out of the URL and sends a system instruction', async () => {
-    const { adapters, fetchMock } = createAdapterHarness()
-
-    const result = await invoke(adapters.callGemini)
-
-    expect(result).toMatchObject({
-      ok: true,
-      attempt: { format: 'gemini-sse', provider: 'gemini' },
-    })
-    const [requestUrl, requestInit] = fetchMock.mock.calls[0] as [string, RequestInit]
-    const requestBody = JSON.parse(String(requestInit.body))
-    expect(requestUrl).toBe(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:streamGenerateContent?alt=sse',
-    )
-    expect(requestUrl).not.toContain('gemini-test-key')
-    expect(requestInit.headers).toMatchObject({
-      'Content-Type': 'application/json',
-      'x-goog-api-key': 'gemini-test-key',
-    })
-    expect(requestBody.system_instruction).toEqual({ parts: [{ text: 'system policy' }] })
-    expect(requestBody.contents).toEqual([{ role: 'user', parts: [{ text: 'visitor payload' }] }])
-    expect(requestBody.generationConfig).toMatchObject({
-      maxOutputTokens: 600,
-      temperature: 0.1,
-    })
-  })
-
-  it.each([
-    ['callGemini', 'gemini', 'GEMINI_API_KEY'],
-    ['callOpenRouter', 'openrouter', 'OPENROUTER_API_KEY'],
-    ['callGroq', 'groq', 'GROQ_API_KEY'],
-  ] as const)(
+  it.each([['callOpenRouter', 'openrouter', 'OPENROUTER_API_KEY']] as const)(
     'returns disabled for %s without reading its credential when its flag is false',
     async (adapterName, provider, credentialName) => {
       const reads: PropertyKey[] = []
@@ -447,12 +401,7 @@ describe('provider adapter contracts', () => {
         fetch: fetchMock as typeof fetch,
       })
 
-      for (const adapter of [
-        adapters.callDeepSeek,
-        adapters.callGemini,
-        adapters.callOpenRouter,
-        adapters.callGroq,
-      ]) {
+      for (const adapter of [adapters.callDeepSeek, adapters.callOpenRouter]) {
         await expect(invoke(adapter, execution)).resolves.toMatchObject({
           category,
           chainable: false,
@@ -468,11 +417,9 @@ describe('provider adapter contracts', () => {
     const { adapters, fetchMock } = createAdapterHarness()
 
     await invoke(adapters.callDeepSeek, execution)
-    await invoke(adapters.callGemini, execution)
     await invoke(adapters.callOpenRouter, execution)
-    await invoke(adapters.callGroq, execution)
 
-    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
     for (const [, requestInit] of fetchMock.mock.calls as Array<[string, RequestInit]>) {
       expect(requestInit.signal).toBe(execution.signal)
     }

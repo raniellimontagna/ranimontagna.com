@@ -121,9 +121,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     })
     const providers = [
       adapters.callDeepSeek,
-      adapters.callGemini,
       adapters.callOpenRouter,
-      adapters.callGroq,
     ] satisfies readonly ProviderAdapter[]
 
     const validationInput = (answer: string) => ({
