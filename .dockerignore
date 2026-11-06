@@ -1,0 +1,9 @@
+.git
+.next
+node_modules
+coverage
+.worktrees
+.vercel
+.playwright-mcp
+.pnpm-store
+*.tsbuildinfo

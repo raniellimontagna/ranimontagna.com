@@ -30,7 +30,6 @@
     "@react-three/fiber": "^9.8.2",
     "@sentry/nextjs": "^11.10.0",
     "@solar-icons/react": "^2.3.3",
-    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "dayjs": "^1.11.23",

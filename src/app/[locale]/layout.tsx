@@ -1,4 +1,3 @@
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
@@ -124,7 +123,6 @@ export default async function LocaleLayout({ children, params }: Props) {
           <RetroExperience locale={locale} />
           {children}
         </NextIntlClientProvider>
-        <SpeedInsights />
         <script
           data-jsonld="person"
           type="application/ld+json"
