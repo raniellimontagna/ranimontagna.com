@@ -32,26 +32,22 @@ Os identificadores padrão aprovados são:
 | Ordem | Provedor | Modelo padrão | Estado inicial |
 | --- | --- | --- | --- |
 | 1 | DeepSeek | `deepseek-chat` | sempre primário |
-| 2 | Gemini | `gemini-2.5-flash-lite` | desabilitado |
-| 3 | OpenRouter | `google/gemma-3-4b-it:free` | desabilitado |
-| 4 | Groq | `llama-3.1-8b-instant` | desabilitado |
+| 2 | OpenRouter | `google/gemma-3-4b-it:free` | desabilitado |
 
-O OpenRouter aceita somente o modelo allowlisted acima. Os demais modelos podem ser definidos
-pelas variáveis correspondentes, mas devem passar pelo corpus antes de uso em produção. A política
-de geração é compartilhada (`temperature: 0.1`, no máximo 600 tokens de saída).
+O OpenRouter aceita somente o modelo allowlisted acima. O modelo do DeepSeek pode ser definido por
+`DEEPSEEK_MODEL`, mas deve passar pelo corpus antes de uso em produção. A política de geração é
+compartilhada (`temperature: 0.1`, no máximo 600 tokens de saída).
 
-DeepSeek não possui flag de desativação. Cada fallback é opt-in e só participa da cadeia quando a
-flag correspondente for exatamente `true`:
+DeepSeek não possui flag de desativação. O fallback do OpenRouter é opt-in e só participa da cadeia
+quando a flag for exatamente `true`:
 
 ```bash
-CHAT_ENABLE_GEMINI_FALLBACK=true
 CHAT_ENABLE_OPENROUTER_FALLBACK=true
-CHAT_ENABLE_GROQ_FALLBACK=true
 ```
 
-Nos provedores compatíveis com OpenAI, as instruções são enviadas com role `system`. No Gemini,
-elas usam `system_instruction`. O prompt nunca é rebaixado para uma mensagem `user`. O OpenRouter
-também exige `data_collection: deny` e `zdr: true`.
+Os dois provedores são compatíveis com OpenAI e recebem as instruções com role `system`. O prompt
+nunca é rebaixado para uma mensagem `user`. O OpenRouter também exige `data_collection: deny` e
+`zdr: true`.
 
 ## Variáveis de ambiente
 
@@ -59,17 +55,9 @@ também exige `data_collection: deny` e `zdr: true`.
 DEEPSEEK_API_KEY=...
 DEEPSEEK_MODEL=deepseek-chat
 
-GEMINI_API_KEY=...
-GEMINI_MODEL=gemini-2.5-flash-lite
-CHAT_ENABLE_GEMINI_FALLBACK=false
-
 OPENROUTER_API_KEY=...
 OPENROUTER_MODEL_PRIMARY=google/gemma-3-4b-it:free
 CHAT_ENABLE_OPENROUTER_FALLBACK=false
-
-GROQ_API_KEY=...
-GROQ_MODEL=llama-3.1-8b-instant
-CHAT_ENABLE_GROQ_FALLBACK=false
 
 CHAT_TOTAL_DEADLINE_MS=12000
 UPSTASH_REDIS_REST_URL=...
@@ -165,16 +153,14 @@ Quando o arquivo de ambiente está em outro checkout, informe o diretório sem c
 CHAT_EVAL_ENV_DIR=/caminho/para/o/projeto pnpm chat:eval
 ```
 
-Para certificar um fallback, selecione-o explicitamente:
+Para certificar o fallback do OpenRouter, selecione-o explicitamente:
 
 ```bash
-CHAT_EVAL_PROVIDER=gemini pnpm chat:eval
 CHAT_EVAL_PROVIDER=openrouter pnpm chat:eval
-CHAT_EVAL_PROVIDER=groq pnpm chat:eval
 ```
 
 Essa seleção ignora somente a flag de fallback dentro do script de avaliação; ela não altera e não
-é alcançável por `/api/chat`. Um nome desconhecido falha fechado. Um fallback não deve ser
+é alcançável por `/api/chat`. Um nome desconhecido falha fechado. O fallback não deve ser
 habilitado em produção até o corpus completo dele terminar com exit code zero.
 
 O terminal mostra apenas o ID do caso, `PASS`/`FAIL` e a resposta do modelo. Prompt interno,

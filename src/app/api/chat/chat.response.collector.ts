@@ -23,13 +23,6 @@ export type CollectedAnswer =
 
 const terminalOpenAiFinishReasons = new Set(['stop'])
 const incompleteOpenAiFinishReasons = new Set(['length'])
-const safetyFinishReasons = new Set([
-  'SAFETY',
-  'BLOCKLIST',
-  'PROHIBITED_CONTENT',
-  'RECITATION',
-  'CONTENT_FILTER',
-])
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
@@ -125,162 +118,77 @@ export async function collectProviderAnswer(
     }
     currentEventType = ''
 
-    if (attempt.format === 'openai-sse') {
-      if (!hasOwn(parsed, 'choices') || !Array.isArray(parsed.choices)) {
-        streamFailure = 'malformed'
-        return
-      }
-
-      const choices = parsed.choices
-      const choiceRecords = choices.filter(isRecord)
-      if (choiceRecords.length !== choices.length) streamFailure = 'malformed'
-      if (choiceRecords.length !== 1) incompleteFinish = true
-
-      for (const record of choiceRecords) {
-        if (hasOwn(record, 'delta') && !isRecord(record.delta)) incompleteFinish = true
-        const recordDelta = isRecord(record.delta) ? record.delta : null
-        if (
-          recordDelta &&
-          (hasOwn(recordDelta, 'tool_calls') ||
-            hasOwn(recordDelta, 'function_call') ||
-            recordDelta.role === 'tool')
-        ) {
-          incompleteFinish = true
-        }
-        if (
-          recordDelta &&
-          hasOwn(recordDelta, 'content') &&
-          typeof recordDelta.content !== 'string'
-        ) {
-          incompleteFinish = true
-        }
-
-        if (hasOwn(record, 'message') && !isRecord(record.message)) streamFailure = 'malformed'
-        const recordMessage = isRecord(record.message) ? record.message : null
-        if (
-          recordMessage &&
-          (hasOwn(recordMessage, 'tool_calls') ||
-            hasOwn(recordMessage, 'function_call') ||
-            recordMessage.role === 'tool' ||
-            (hasOwn(recordMessage, 'content') && typeof recordMessage.content !== 'string'))
-        ) {
-          incompleteFinish = true
-        }
-
-        if (
-          hasOwn(record, 'finish_reason') &&
-          record.finish_reason !== null &&
-          typeof record.finish_reason !== 'string'
-        ) {
-          streamFailure = 'malformed'
-          continue
-        }
-        if (typeof record.finish_reason !== 'string') continue
-        const reason = record.finish_reason.toLowerCase()
-        if (reason === 'content_filter') streamFailure = 'safety'
-        else if (reason !== 'stop') incompleteFinish = true
-      }
-      const choice = isRecord(choices[0]) ? choices[0] : null
-      if (!choice) return
-
-      const delta = isRecord(choice.delta) ? choice.delta : null
-      if (typeof delta?.content === 'string') appendText(delta.content)
-      if (typeof choice.finish_reason === 'string') {
-        finishReason = choice.finish_reason
-        const normalizedReason = choice.finish_reason.toLowerCase()
-        if (terminalOpenAiFinishReasons.has(normalizedReason)) {
-          sawTerminalFinish = true
-        } else if (incompleteOpenAiFinishReasons.has(normalizedReason)) {
-          incompleteFinish = true
-        } else if (normalizedReason === 'content_filter') {
-          streamFailure = 'safety'
-        } else {
-          incompleteFinish = true
-        }
-      }
-      return
-    }
-
-    if (hasOwn(parsed, 'promptFeedback') && !isRecord(parsed.promptFeedback)) {
-      streamFailure = 'malformed'
-      return
-    }
-    const promptFeedback = isRecord(parsed.promptFeedback) ? parsed.promptFeedback : null
-    if (typeof promptFeedback?.blockReason === 'string' && promptFeedback.blockReason) {
-      streamFailure = 'safety'
-      return
-    }
-
-    if (!hasOwn(parsed, 'candidates') || !Array.isArray(parsed.candidates)) {
+    if (!hasOwn(parsed, 'choices') || !Array.isArray(parsed.choices)) {
       streamFailure = 'malformed'
       return
     }
 
-    const candidates = parsed.candidates
-    const candidateRecords = candidates.filter(isRecord)
-    if (candidateRecords.length !== candidates.length) streamFailure = 'malformed'
-    if (candidateRecords.length !== 1) incompleteFinish = true
-    for (const record of candidateRecords) {
+    const choices = parsed.choices
+    const choiceRecords = choices.filter(isRecord)
+    if (choiceRecords.length !== choices.length) streamFailure = 'malformed'
+    if (choiceRecords.length !== 1) incompleteFinish = true
+
+    for (const record of choiceRecords) {
+      if (hasOwn(record, 'delta') && !isRecord(record.delta)) incompleteFinish = true
+      const recordDelta = isRecord(record.delta) ? record.delta : null
       if (
-        hasOwn(record, 'finishReason') &&
-        record.finishReason !== null &&
-        typeof record.finishReason !== 'string'
+        recordDelta &&
+        (hasOwn(recordDelta, 'tool_calls') ||
+          hasOwn(recordDelta, 'function_call') ||
+          recordDelta.role === 'tool')
+      ) {
+        incompleteFinish = true
+      }
+      if (
+        recordDelta &&
+        hasOwn(recordDelta, 'content') &&
+        typeof recordDelta.content !== 'string'
+      ) {
+        incompleteFinish = true
+      }
+
+      if (hasOwn(record, 'message') && !isRecord(record.message)) streamFailure = 'malformed'
+      const recordMessage = isRecord(record.message) ? record.message : null
+      if (
+        recordMessage &&
+        (hasOwn(recordMessage, 'tool_calls') ||
+          hasOwn(recordMessage, 'function_call') ||
+          recordMessage.role === 'tool' ||
+          (hasOwn(recordMessage, 'content') && typeof recordMessage.content !== 'string'))
+      ) {
+        incompleteFinish = true
+      }
+
+      if (
+        hasOwn(record, 'finish_reason') &&
+        record.finish_reason !== null &&
+        typeof record.finish_reason !== 'string'
       ) {
         streamFailure = 'malformed'
         continue
       }
-      if (typeof record.finishReason !== 'string') continue
-      const reason = record.finishReason.toUpperCase()
-      if (safetyFinishReasons.has(reason)) streamFailure = 'safety'
-      else if (reason !== 'STOP') incompleteFinish = true
+      if (typeof record.finish_reason !== 'string') continue
+      const reason = record.finish_reason.toLowerCase()
+      if (reason === 'content_filter') streamFailure = 'safety'
+      else if (reason !== 'stop') incompleteFinish = true
     }
-    if (
-      candidateRecords.some((record) => {
-        if (hasOwn(record, 'content') && !isRecord(record.content)) {
-          streamFailure = 'malformed'
-          return false
-        }
-        const recordContent = isRecord(record.content) ? record.content : null
-        if (
-          recordContent &&
-          hasOwn(recordContent, 'parts') &&
-          !Array.isArray(recordContent.parts)
-        ) {
-          return true
-        }
-        const recordParts = Array.isArray(recordContent?.parts) ? recordContent.parts : []
-        return recordParts.some(
-          (part) =>
-            !isRecord(part) ||
-            typeof part.text !== 'string' ||
-            Object.keys(part).some((key) => key !== 'text' && key !== 'thoughtSignature') ||
-            isRecord(part.functionCall) ||
-            isRecord(part.functionResponse),
-        )
-      })
-    ) {
-      incompleteFinish = true
-    }
-    const candidate = isRecord(candidates[0]) ? candidates[0] : null
-    if (!candidate) return
+    const choice = isRecord(choices[0]) ? choices[0] : null
+    if (!choice) return
 
-    if (typeof candidate.finishReason === 'string') {
-      finishReason = candidate.finishReason
-      const normalizedReason = candidate.finishReason.toUpperCase()
-      if (safetyFinishReasons.has(normalizedReason)) {
+    const delta = isRecord(choice.delta) ? choice.delta : null
+    if (typeof delta?.content === 'string') appendText(delta.content)
+    if (typeof choice.finish_reason === 'string') {
+      finishReason = choice.finish_reason
+      const normalizedReason = choice.finish_reason.toLowerCase()
+      if (terminalOpenAiFinishReasons.has(normalizedReason)) {
+        sawTerminalFinish = true
+      } else if (incompleteOpenAiFinishReasons.has(normalizedReason)) {
+        incompleteFinish = true
+      } else if (normalizedReason === 'content_filter') {
         streamFailure = 'safety'
-        return
+      } else {
+        incompleteFinish = true
       }
-      if (normalizedReason === 'STOP') sawTerminalFinish = true
-      else incompleteFinish = true
-    }
-
-    const content = isRecord(candidate.content) ? candidate.content : null
-    const parts = Array.isArray(content?.parts) ? content.parts : []
-    for (const part of parts) {
-      if (!isRecord(part)) continue
-      if (typeof part.text === 'string') appendText(part.text)
-      if (isRecord(part.functionCall) || isRecord(part.functionResponse)) incompleteFinish = true
     }
   }
 

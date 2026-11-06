@@ -33,7 +33,7 @@
 ## Features
 
 - **Three languages.** Portuguese (default, served at `/`), English (`/en`) and Spanish (`/es`) with `next-intl`.
-- **AI chat.** A chat widget answers questions about Ranielli's public profile, career and projects. `POST /api/chat` uses DeepSeek, with optional Gemini, OpenRouter and Groq fallbacks, validates each answer before streaming it and rate-limits visitors. See [docs/ai-chat.md](docs/ai-chat.md) (Portuguese).
+- **AI chat.** A chat widget answers questions about Ranielli's public profile, career and projects. `POST /api/chat` uses DeepSeek, with an optional OpenRouter fallback, validates each answer before streaming it and rate-limits visitors. See [docs/ai-chat.md](docs/ai-chat.md) (Portuguese).
 - **Blog.** Posts live in the public [ranimontagna-blog-content](https://github.com/raniellimontagna/ranimontagna-blog-content) repository and are read at runtime through the GitHub API, cached, and refreshed by a signed webhook on `POST /api/revalidate`. Posts are validated before rendering, support GitHub Flavored Markdown and Mermaid diagrams, and include an image lightbox and a reading progress bar.
 - **Projects page.** `/projects` lists projects with a language filter and live GitHub stats (public repos, stars, followers).
 - **Hidden retro modes.** Small icons around the page switch the whole site, blog and projects included, into a 1998 look, Windows XP, a DOS prompt with working commands, a Game Boy, a newspaper, an IDE or a classic Macintosh. The choice lasts for the browser session.

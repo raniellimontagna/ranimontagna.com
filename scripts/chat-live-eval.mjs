@@ -9,16 +9,12 @@ const FIXED_RUNTIME = Object.freeze({
 
 const PROVIDER_ADAPTER_METHODS = Object.freeze({
   deepseek: 'callDeepSeek',
-  gemini: 'callGemini',
   openrouter: 'callOpenRouter',
-  groq: 'callGroq',
 })
 
 const PROVIDER_CREDENTIAL_NAMES = Object.freeze({
   deepseek: 'DEEPSEEK_API_KEY',
-  gemini: 'GEMINI_API_KEY',
   openrouter: 'OPENROUTER_API_KEY',
-  groq: 'GROQ_API_KEY',
 })
 
 const cases = [
@@ -235,8 +231,6 @@ const loadChatModules = async (server) => {
 const evaluationConfig = (provider, config) => ({
   ...config,
   fallbackEnabled: {
-    gemini: provider === 'gemini',
-    groq: provider === 'groq',
     openrouter: provider === 'openrouter',
   },
 })
