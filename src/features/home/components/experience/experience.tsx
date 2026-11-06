@@ -229,7 +229,7 @@ export function Experience() {
                   {items.map((exp, index) => (
                     <div
                       key={exp.company}
-                      className="absolute top-1/2 left-1/2 w-40 rounded-3xl border border-line bg-background/88 p-4 shadow-panel backdrop-blur"
+                      className="absolute top-1/2 left-1/2 w-40 rounded-3xl border border-line bg-background/88 p-4 shadow-panel"
                       style={
                         {
                           '--card-angle': `${(360 / items.length) * index}deg`,

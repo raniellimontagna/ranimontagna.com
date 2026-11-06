@@ -464,23 +464,16 @@ button {
 }
 
 /* Visual foundation utilities */
+/*
+ * No backdrop-filter anywhere on this site. Chrome on macOS (Metal) intermittently drops
+ * backdrop-filtered layers, including their text, for one frame on physical mouse input,
+ * and the WebGL spectral background makes it worse (crbug.com/414525204). Glass surfaces
+ * use a tinted, more opaque background instead.
+ */
 .surface-panel {
   border: 1px solid var(--line);
   background: var(--surface);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
-}
-
-/*
- * A glass panel inside another glass surface already sits on a blurred backdrop.
- * A second backdrop blur adds one GPU render surface per element with no visible
- * difference, and over the animated spectral background every one of them is
- * re-blurred each frame. Too many of these made Chrome drop composited layers
- * for a frame (header and hero cards "blinking").
- */
-.surface-panel .surface-panel,
-header nav .surface-panel {
-  backdrop-filter: none;
 }
 
 .surface-panel-strong {

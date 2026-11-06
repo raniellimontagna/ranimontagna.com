@@ -83,7 +83,7 @@ export function ImageWithLightbox({
             className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
           />
           <span className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-300 group-hover:bg-black/10 group-hover:opacity-100 motion-reduce:transition-none">
-            <span className="rounded-full bg-surface/90 p-3 shadow-lg backdrop-blur-sm">
+            <span className="rounded-full bg-surface/90 p-3 shadow-lg">
               <svg
                 className="h-6 w-6 text-foreground"
                 fill="none"
