@@ -126,11 +126,12 @@ const createAnonymousFingerprint = (headers: Headers): string => {
 }
 
 export const getRateLimitIdentifier = (headers: Headers): string => {
-  const trustedHeader = process.env.CF_PAGES
-    ? headers.get('cf-connecting-ip')
-    : process.env.VERCEL
-      ? headers.get('x-forwarded-for')
-      : null
+  const trustedHeader =
+    process.env.CF_PAGES || process.env.TRUST_CF_CONNECTING_IP
+      ? headers.get('cf-connecting-ip')
+      : process.env.VERCEL
+        ? headers.get('x-forwarded-for')
+        : null
   const trustedIp = sanitizeForwardedIp(trustedHeader)
 
   if (trustedIp) {

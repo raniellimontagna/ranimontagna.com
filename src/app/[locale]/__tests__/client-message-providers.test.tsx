@@ -66,10 +66,6 @@ vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
   SpectralBackground: () => <div data-testid="spectral-background" />,
 }))
 
-vi.mock('@vercel/speed-insights/next', () => ({
-  SpeedInsights: () => null,
-}))
-
 function readProviderMessages(element: React.ReactNode): unknown[] {
   const markup = renderToStaticMarkup(element)
   const document = new DOMParser().parseFromString(markup, 'text/html')

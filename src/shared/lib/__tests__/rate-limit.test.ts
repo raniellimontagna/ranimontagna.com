@@ -57,6 +57,16 @@ describe('shared rate limit boundary', () => {
     expect(getRateLimitIdentifier(headers)).toBe('ip:198.51.100.10')
   })
 
+  it('trusts cf-connecting-ip on a self-hosted origin behind the Cloudflare proxy', () => {
+    const headers = new Headers({
+      'cf-connecting-ip': '198.51.100.30',
+      'x-forwarded-for': '198.51.100.40',
+    })
+
+    vi.stubEnv('TRUST_CF_CONNECTING_IP', '1')
+    expect(getRateLimitIdentifier(headers)).toBe('ip:198.51.100.30')
+  })
+
   it('evicts the oldest live entry when the memory store reaches its hard cap', async () => {
     vi.stubEnv('RATE_LIMIT_MEMORY_MAX_ENTRIES', '2')
 

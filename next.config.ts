@@ -10,13 +10,12 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://vercel.live https://static.cloudflareinsights.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https:",
-  "font-src 'self' data: https://fonts.gstatic.com https://vercel.live",
-  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://generativelanguage.googleapis.com https://openrouter.ai https://api.groq.com https://*.google-analytics.com https://*.googletagmanager.com https://formly.email https://*.upstash.io https://vercel.live wss://vercel.live https://cloudflareinsights.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://generativelanguage.googleapis.com https://openrouter.ai https://api.groq.com https://*.google-analytics.com https://*.googletagmanager.com https://formly.email https://*.upstash.io https://cloudflareinsights.com",
   "worker-src 'self' blob:",
-  'frame-src https://vercel.live',
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

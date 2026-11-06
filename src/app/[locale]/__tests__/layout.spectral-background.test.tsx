@@ -24,10 +24,6 @@ vi.mock('@/shared/components/retro-mode/retro-mode', () => ({
   RetroExperience: () => <div data-testid="retro-experience" />,
 }))
 
-vi.mock('@vercel/speed-insights/next', () => ({
-  SpeedInsights: () => <div data-testid="speed-insights" />,
-}))
-
 describe('LocaleLayout spectral background', () => {
   it('mounts the shared background exactly once before locale content', async () => {
     const layout = await LocaleLayout({
@@ -44,19 +40,6 @@ describe('LocaleLayout spectral background', () => {
     expect(bodyChildren[1]?.getAttribute('data-testid')).toBe('spectral-background')
     expect(bodyChildren[2]?.getAttribute('data-testid')).toBe('retro-experience')
     expect(bodyChildren[3]?.getAttribute('data-testid')).toBe('locale-content')
-  })
-
-  it('mounts Vercel Speed Insights exactly once', async () => {
-    const layout = await LocaleLayout({
-      children: <main id="main-content">Content</main>,
-      params: Promise.resolve({ locale: 'pt' }),
-    })
-
-    const markup = renderToStaticMarkup(layout)
-    const document = new DOMParser().parseFromString(markup, 'text/html')
-    const speedInsights = document.querySelectorAll('[data-testid="speed-insights"]')
-
-    expect(speedInsights).toHaveLength(1)
   })
 
   it.each(['pt', 'en', 'es'])(
