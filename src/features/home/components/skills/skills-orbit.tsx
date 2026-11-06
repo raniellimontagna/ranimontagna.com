@@ -101,7 +101,7 @@ function SkillNode({
       {/* Counter-rotation to keep the icon upright */}
       <div
         data-orbit-counter-rotation="true"
-        className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface/90 shadow-sm backdrop-blur-md motion-safe:animate-spin transition-all group-hover:scale-125 group-focus:scale-125"
+        className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface/90 shadow-sm motion-safe:animate-spin transition-all group-hover:scale-125 group-focus:scale-125"
         style={{
           animationDirection: 'reverse',
           animationDuration: `${duration}s`,
