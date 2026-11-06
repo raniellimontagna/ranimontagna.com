@@ -48,7 +48,7 @@ export function FeaturedProject({ repo, index }: FeaturedProjectProps) {
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="surface-panel group relative block overflow-hidden rounded-3xl border border-line p-4 shadow-sm transition-all sm:rounded-4xl sm:p-6 lg:p-8 hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl dark:backdrop-blur-md"
+        className="surface-panel group relative block overflow-hidden rounded-3xl border border-line p-4 shadow-sm transition-all sm:rounded-4xl sm:p-6 lg:p-8 hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
       >
         <div
           className="absolute -top-20 -right-20 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10"

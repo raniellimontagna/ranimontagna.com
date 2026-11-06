@@ -74,7 +74,7 @@ export function ColorThemePicker() {
       {open && (
         <fieldset
           id="color-theme-options"
-          className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel backdrop-blur-xl sm:w-52 sm:p-3"
+          className="absolute right-0 top-full z-50 mt-3 w-48 origin-top-right overflow-hidden rounded-2xl border border-line bg-surface-strong p-2.5 shadow-panel sm:w-52 sm:p-3"
         >
           <legend className="mb-3 w-full px-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
             Color theme

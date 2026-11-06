@@ -183,7 +183,7 @@ export const ChatWidget = (): React.ReactElement => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm sm:bg-transparent sm:backdrop-blur-none"
+                className="fixed inset-0 z-50 bg-black/40 sm:bg-transparent"
                 onClick={() => setOpen(false)}
               />
             </Dialog.Overlay>

@@ -173,7 +173,7 @@ export function SkillsOrbit() {
     >
       <div className="absolute inset-0 flex scale-[0.52] items-center justify-center sm:scale-[0.65] md:scale-100">
         {/* Center Core */}
-        <div className="absolute z-10 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface/80 shadow-lg backdrop-blur-md">
+        <div className="absolute z-10 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface/80 shadow-lg">
           <div className="h-8 w-8 rounded-full bg-foreground shadow-[0_0_20px_var(--color-foreground)] motion-safe:animate-pulse" />
         </div>
 

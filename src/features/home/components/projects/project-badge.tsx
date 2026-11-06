@@ -24,12 +24,10 @@ const badgeVariants: Record<ProjectBadgeVariant, string> = {
   surface: 'border-line bg-surface/94 text-foreground shadow-sm',
   muted: 'border-line bg-surface/72 text-muted shadow-sm',
   accent: 'border-accent/20 bg-accent/8 text-accent-strong shadow-sm dark:text-accent-ice',
-  overlay:
-    'border-white/16 bg-slate-950/62 text-white/92 shadow-lg shadow-slate-950/25 backdrop-blur-md',
+  overlay: 'border-white/16 bg-slate-950/78 text-white/92 shadow-lg shadow-slate-950/25',
   overlayAccent:
-    'border-amber-400/30 bg-slate-950/78 text-amber-200 shadow-lg shadow-slate-950/30 backdrop-blur-md dark:border-amber-400/25 dark:text-amber-300',
-  overlayMuted:
-    'border-white/16 bg-slate-950/55 text-white/86 shadow-lg shadow-slate-950/20 backdrop-blur-md',
+    'border-amber-400/30 bg-slate-950/78 text-amber-200 shadow-lg shadow-slate-950/30 dark:border-amber-400/25 dark:text-amber-300',
+  overlayMuted: 'border-white/16 bg-slate-950/72 text-white/86 shadow-lg shadow-slate-950/20',
 }
 
 const badgeTypography: Record<ProjectBadgeTypography, string> = {

@@ -84,7 +84,7 @@ export const LanguageSwitcher = (): React.ReactElement => {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 cursor-default bg-background/40 backdrop-blur-[2px] md:hidden"
+            className="fixed inset-0 z-40 cursor-default bg-background/60 md:hidden"
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
             tabIndex={-1}
@@ -92,7 +92,7 @@ export const LanguageSwitcher = (): React.ReactElement => {
 
           <fieldset
             id="language-picker-options"
-            className="surface-panel absolute top-full right-0 z-50 mt-2 w-52 origin-top-right overflow-hidden rounded-2xl bg-surface-strong shadow-panel backdrop-blur-3xl"
+            className="surface-panel absolute top-full right-0 z-50 mt-2 w-52 origin-top-right overflow-hidden rounded-2xl bg-surface-strong shadow-panel"
           >
             <legend className="flex w-full items-center gap-2 border-b border-line bg-surface-strong px-4 py-3">
               <Global className="h-3 w-3 text-muted" />

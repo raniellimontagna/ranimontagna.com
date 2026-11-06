@@ -117,8 +117,8 @@ export const Header = ({
       <nav
         className={`mx-auto max-w-7xl rounded-3xl border px-2 py-2 transition-all duration-500 sm:rounded-4xl sm:px-3 sm:py-3 ${
           headerState === 'elevated'
-            ? 'surface-panel border-line shadow-panel'
-            : 'border-white/20 bg-white/45 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/6'
+            ? 'border-line bg-surface-strong/95 shadow-panel'
+            : 'border-white/20 bg-surface-strong/95 shadow-[0_24px_80px_-52px_rgba(7,12,11,0.24)] dark:border-white/10'
         }`}
       >
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-linear-to-r from-transparent via-accent-ice to-transparent opacity-60" />

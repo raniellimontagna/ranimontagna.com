@@ -65,7 +65,7 @@ export function CommandMenu() {
     <Dialog.Root open={isOpen} onOpenChange={setOpen}>
       <Dialog.Portal>
         <Dialog.Overlay
-          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300"
+          className="fixed inset-0 z-50 bg-background/80 animate-in fade-in duration-300"
           onClick={() => setOpen(false)}
         />
 
