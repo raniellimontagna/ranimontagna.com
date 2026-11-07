@@ -298,6 +298,85 @@
     "resume": "Currículo",
     "socialsLabel": "Redes"
   },
+  "cases": {
+    "common": {
+      "kicker": "case",
+      "live": "Ver no ar",
+      "repo": "Código no GitHub",
+      "pain": "a dor",
+      "decisions": "as decisões",
+      "product": "o produto",
+      "build": "como foi feito",
+      "stack": "Tecnologias",
+      "next": "próximo case"
+    },
+    "klick": {
+      "name": "Klick",
+      "tagline": "Timer de speedcubing offline-first para os 13 eventos da WCA.",
+      "heroAlt": "Timer do Klick no computador, com o embaralhamento e as médias da sessão",
+      "pain": {
+        "title": "O histórico que sumia.",
+        "body": "Na pesquisa antes do Klick v2, o relato que mais se repetia era o de quem perdeu de meses a três anos de tempos: dados do navegador limpos, celular trocado, app que não guardava direito.",
+        "caption": "paráfrase de relatos reais em fóruns de cubers, da pesquisa do Klick v2"
+      },
+      "decisions": {
+        "title": "O que entrou primeiro.",
+        "items": [
+          "Os tempos moram no aparelho (IndexedDB) e o app funciona offline depois da primeira visita.",
+          "Backup automático local a cada 50 solves e uma vez por dia, com lixeira de 30 dias.",
+          "Conta opcional e sem senha (código por e-mail ou passkey) para sincronizar e guardar cópias na nuvem.",
+          "Os 13 eventos da WCA com embaralhamentos oficiais, e importação do csTimer para quem vem de lá."
+        ]
+      },
+      "product": {
+        "title": "No ar, no computador e no celular.",
+        "body": "PWA instalável com estatísticas, metas, calendário de treino, uma trilha de aprendizado com cubo 3D e desafios por link, sem precisar de conta."
+      },
+      "gallery": [
+        "Aba de estatísticas do Klick com recordes, médias, metas e o calendário de treino",
+        "Timer do Klick no celular",
+        "Timer do Klick no computador marcando 0:10.81"
+      ],
+      "build": {
+        "title": "Construído com agentes, revisado por mim.",
+        "body": "Svelte 5 no front, um Worker da Cloudflare no servidor (um Durable Object por conta, D1 e R2) e testes com Vitest, Playwright e axe.",
+        "stat": "428 de 429 commits com coautoria de agente de IA (até 06/11/2026)."
+      }
+    },
+    "grimory": {
+      "name": "Grimory",
+      "tagline": "Mesa de D&D 5e em português, do personagem à sessão.",
+      "heroAlt": "Compêndio do Grimory aberto na Espada Longa",
+      "pain": {
+        "title": "A ficha no meio da sessão.",
+        "body": "Jogadores abrem a ficha no celular no meio do jogo: uma mão, olhadas rápidas, números para rolar e regras para conferir sem sair da ficha. O mestre conduz o combate pelo notebook.",
+        "caption": ""
+      },
+      "decisions": {
+        "title": "A IA propõe, as regras decidem.",
+        "items": [
+          "Descreva um conceito e a IA propõe uma ficha completa e justificada, que abre no construtor para revisão.",
+          "O motor de regras valida tudo: opção inválida nunca aparece.",
+          "Cada mesa escolhe as regras de 2014 ou de 2024, e toda tela respeita a escolha.",
+          "Só conteúdo que pode ser distribuído: SRD 5.1 e 5.2 sob CC-BY-4.0, com a fonte em cada regra."
+        ]
+      },
+      "product": {
+        "title": "Em uso pela mesa do grupo.",
+        "body": "Ficha que conhece as regras, compêndio traduzido com o homebrew da mesa, diário de sessão e a Chama-guia, o familiar que dá rosto à IA."
+      },
+      "gallery": [
+        "Início do Grimory com a próxima sessão da mesa de exemplo",
+        "Inventário do personagem no celular, com a Chama-guia no canto",
+        "Compêndio do Grimory aberto na Espada Longa"
+      ],
+      "build": {
+        "title": "Construído com agentes, revisado por mim.",
+        "body": "React e Vite no app, Astro na página pública e Workers da Cloudflare para a API da mesa e para a IA (Claude pela API da Anthropic). Hoje é um protótipo, com beta fechada na nuvem.",
+        "stat": "2328 de 2495 commits com coautoria de agente de IA (até 07/11/2026)."
+      }
+    }
+  },
   "about": {
     "badge": "Conheça mais sobre mim",
     "title": {

@@ -298,6 +298,85 @@
     "resume": "Resume",
     "socialsLabel": "Elsewhere"
   },
+  "cases": {
+    "common": {
+      "kicker": "case",
+      "live": "See it live",
+      "repo": "Code on GitHub",
+      "pain": "the pain",
+      "decisions": "the decisions",
+      "product": "the product",
+      "build": "how it was built",
+      "stack": "Technologies",
+      "next": "next case"
+    },
+    "klick": {
+      "name": "Klick",
+      "tagline": "An offline-first speedcubing timer for all 13 WCA events.",
+      "heroAlt": "Klick's timer on desktop, with the scramble and the session averages",
+      "pain": {
+        "title": "The history that vanished.",
+        "body": "In the research before Klick v2, the most repeated story was from people who lost months to three years of times: cleared browser data, a new phone, an app that didn't keep them properly.",
+        "caption": "paraphrased from real reports on cubing forums, from the Klick v2 research"
+      },
+      "decisions": {
+        "title": "What came first.",
+        "items": [
+          "Times live on the device (IndexedDB) and the app works offline after the first visit.",
+          "Automatic local backups every 50 solves and once a day, with a 30-day trash.",
+          "An optional, passwordless account (email code or passkey) to sync and keep cloud copies.",
+          "All 13 WCA events with official scrambles, and csTimer import for people coming from it."
+        ]
+      },
+      "product": {
+        "title": "Live, on desktop and phone.",
+        "body": "An installable PWA with stats, goals, a training calendar, a learning trail with a 3D cube and challenge links, no account needed."
+      },
+      "gallery": [
+        "Klick's stats tab with records, averages, goals and the training calendar",
+        "Klick's timer on a phone",
+        "Klick's timer on desktop showing 0:10.81"
+      ],
+      "build": {
+        "title": "Built with agents, reviewed by me.",
+        "body": "Svelte 5 on the front end, a Cloudflare Worker on the server (a Durable Object per account, D1 and R2) and tests with Vitest, Playwright and axe.",
+        "stat": "428 of 429 commits co-authored by an AI agent (as of 06/11/2026)."
+      }
+    },
+    "grimory": {
+      "name": "Grimory",
+      "tagline": "A D&D 5e table in Portuguese, from character to session.",
+      "heroAlt": "Grimory's compendium open on the Longsword",
+      "pain": {
+        "title": "The sheet in the middle of the session.",
+        "body": "Players open their sheet on the phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The DM runs combat from a laptop.",
+        "caption": ""
+      },
+      "decisions": {
+        "title": "The AI proposes, the rules decide.",
+        "items": [
+          "Describe a concept and the AI proposes a complete, justified sheet that opens in the builder for review.",
+          "The rules engine validates everything: an invalid option never shows up.",
+          "Each table picks the 2014 or the 2024 rules, and every screen respects that choice.",
+          "Only distributable content: SRD 5.1 and 5.2 under CC-BY-4.0, with the source on every rule."
+        ]
+      },
+      "product": {
+        "title": "Used by his group's table.",
+        "body": "A sheet that knows the rules, a translated compendium with the table's homebrew, a session diary and the Chama-guia, the familiar that gives the AI a face."
+      },
+      "gallery": [
+        "Grimory's home with the sample table's next session",
+        "A character's inventory on a phone, with the Chama-guia in the corner",
+        "Grimory's compendium open on the Longsword"
+      ],
+      "build": {
+        "title": "Built with agents, reviewed by me.",
+        "body": "React and Vite for the app, Astro for the public page and Cloudflare Workers for the table API and the AI (Claude through the Anthropic API). Today it is a prototype, with a closed beta in the cloud.",
+        "stat": "2328 of 2495 commits co-authored by an AI agent (as of 07/11/2026)."
+      }
+    }
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

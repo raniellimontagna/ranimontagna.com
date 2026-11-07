@@ -298,6 +298,85 @@
     "resume": "Currículum",
     "socialsLabel": "Redes"
   },
+  "cases": {
+    "common": {
+      "kicker": "caso",
+      "live": "Ver en línea",
+      "repo": "Código en GitHub",
+      "pain": "el dolor",
+      "decisions": "las decisiones",
+      "product": "el producto",
+      "build": "cómo se hizo",
+      "stack": "Tecnologías",
+      "next": "siguiente caso"
+    },
+    "klick": {
+      "name": "Klick",
+      "tagline": "Timer de speedcubing offline-first para los 13 eventos de la WCA.",
+      "heroAlt": "Timer de Klick en la computadora, con la mezcla y los promedios de la sesión",
+      "pain": {
+        "title": "El historial que desaparecía.",
+        "body": "En la investigación antes de Klick v2, el relato que más se repetía era el de quien perdió de meses a tres años de tiempos: datos del navegador borrados, celular nuevo, una app que no los guardaba bien.",
+        "caption": "paráfrasis de relatos reales en foros de cuberos, de la investigación de Klick v2"
+      },
+      "decisions": {
+        "title": "Lo que entró primero.",
+        "items": [
+          "Los tiempos viven en el dispositivo (IndexedDB) y la app funciona offline después de la primera visita.",
+          "Backup local automático cada 50 solves y una vez al día, con papelera de 30 días.",
+          "Cuenta opcional y sin contraseña (código por correo o passkey) para sincronizar y guardar copias en la nube.",
+          "Los 13 eventos de la WCA con mezclas oficiales, e importación de csTimer para quien viene de ahí."
+        ]
+      },
+      "product": {
+        "title": "En línea, en la computadora y en el celular.",
+        "body": "PWA instalable con estadísticas, metas, calendario de entrenamiento, un camino de aprendizaje con cubo 3D y desafíos por link, sin cuenta."
+      },
+      "gallery": [
+        "Pestaña de estadísticas de Klick con récords, promedios, metas y el calendario de entrenamiento",
+        "Timer de Klick en el celular",
+        "Timer de Klick en la computadora marcando 0:10.81"
+      ],
+      "build": {
+        "title": "Construido con agentes, revisado por mí.",
+        "body": "Svelte 5 en el front, un Worker de Cloudflare en el servidor (un Durable Object por cuenta, D1 y R2) y pruebas con Vitest, Playwright y axe.",
+        "stat": "428 de 429 commits con coautoría de un agente de IA (hasta el 06/11/2026)."
+      }
+    },
+    "grimory": {
+      "name": "Grimory",
+      "tagline": "Una mesa de D&D 5e en portugués, del personaje a la sesión.",
+      "heroAlt": "Compendio de Grimory abierto en la Espada Larga",
+      "pain": {
+        "title": "La ficha en medio de la sesión.",
+        "body": "Los jugadores abren la ficha en el celular en medio del juego: una mano, miradas rápidas, números para tirar y reglas para revisar sin salir de la ficha. El máster conduce el combate desde la notebook.",
+        "caption": ""
+      },
+      "decisions": {
+        "title": "La IA propone, las reglas deciden.",
+        "items": [
+          "Describe un concepto y la IA propone una ficha completa y justificada, que se abre en el constructor para revisión.",
+          "El motor de reglas valida todo: una opción inválida nunca aparece.",
+          "Cada mesa elige las reglas de 2014 o de 2024, y cada pantalla respeta la elección.",
+          "Solo contenido distribuible: SRD 5.1 y 5.2 bajo CC-BY-4.0, con la fuente en cada regla."
+        ]
+      },
+      "product": {
+        "title": "En uso por la mesa de su grupo.",
+        "body": "Una ficha que conoce las reglas, un compendio traducido con el homebrew de la mesa, un diario de sesión y la Chama-guia, el familiar que le da cara a la IA."
+      },
+      "gallery": [
+        "Inicio de Grimory con la próxima sesión de la mesa de ejemplo",
+        "Inventario del personaje en el celular, con la Chama-guia en la esquina",
+        "Compendio de Grimory abierto en la Espada Larga"
+      ],
+      "build": {
+        "title": "Construido con agentes, revisado por mí.",
+        "body": "React y Vite en la app, Astro en la página pública y Workers de Cloudflare para la API de la mesa y para la IA (Claude por la API de Anthropic). Hoy es un prototipo, con beta cerrada en la nube.",
+        "stat": "2328 de 2495 commits con coautoría de un agente de IA (hasta el 07/11/2026)."
+      }
+    }
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {

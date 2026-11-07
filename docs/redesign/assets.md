@@ -39,3 +39,13 @@ Estilo comum a todas:
 | `products/grimory-compendium.webp` | `grimory/.superpowers/reports/arte-equipamento/4-espada-longa-desktop-dark.png` (compêndio do Grimory, mesa de exemplo) | 07/11/2026 |
 
 Conferidas antes de copiar: só dados de exemplo, nenhum dado pessoal.
+
+## Capturas reais (Fase 2, 07/11/2026)
+
+| Arquivo | Origem |
+|---|---|
+| `products/klick-stats.webp` | `klick/docs/screenshots/stats.png` (aba de estatísticas do Klick) |
+| `products/grimory-mesa.webp` | `grimory/.superpowers/reports/criar-mesa/home-desktop-1280-escuro.png` (início com a mesa de exemplo "A Torre de Sal") |
+| `products/grimory-inventory.webp` | `grimory/.superpowers/reports/arte-equipamento/2-inventario-desktop-dark.png` (inventário com a Chama-guia) |
+
+Todas com dados de exemplo, conferidas antes de copiar.
