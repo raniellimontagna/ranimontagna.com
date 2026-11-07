@@ -244,6 +244,42 @@
       }
     }
   },
+  "atto": {
+    "kicker": "atto",
+    "title": "The brand that takes it further.",
+    "lead": "Atto is the software house and marketing agency I co-founded. It builds digital products, integrations and campaigns that bring in customers, with precise engineering and no empty promises.",
+    "servicesLabel": "What Atto does",
+    "services": {
+      "web": "Web",
+      "mobile": "Mobile",
+      "apis": "APIs",
+      "ai": "AI & Automation",
+      "marketing": "Marketing"
+    },
+    "casesLabel": "Cases published by Atto",
+    "cases": {
+      "fronteira-sul-drones": {
+        "tagline": "Agricultural e-commerce and consultative catalog",
+        "description": "A store for drones, parts and complementary lines for agriculture. The catalog filters the offer, the cart organizes purchase intent and WhatsApp closes the deal."
+      },
+      "tala": {
+        "tagline": "Commercial partner platform",
+        "description": "A partner platform for the regional expansion of agricultural drones. Dashboard, CRM, tracking and commissions in one place."
+      },
+      "quadralize": {
+        "tagline": "Sports court management",
+        "description": "A complete platform to manage sports courts: booking, CRM, point of sale, payments and financial control for court owners and players."
+      },
+      "nan": {
+        "tagline": "Tech store — institutional site",
+        "description": "The site of a tech store in Papanduva/SC, built to bring customers to the physical store and the e-commerce. Featured brands, ways to buy and WhatsApp support."
+      }
+    },
+    "visitSite": "Visit the site",
+    "ctaWhatsapp": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
+    "siteLink": "Meet Atto and Vega"
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

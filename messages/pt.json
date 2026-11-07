@@ -244,6 +244,42 @@
       }
     }
   },
+  "atto": {
+    "kicker": "a atto",
+    "title": "A marca que leva isso adiante.",
+    "lead": "A Atto é a software house e agência de marketing da qual sou sócio-fundador. Constrói produtos digitais, integrações e campanhas que trazem cliente, com engenharia de precisão e sem promessa vazia.",
+    "servicesLabel": "O que a Atto faz",
+    "services": {
+      "web": "Web",
+      "mobile": "Mobile",
+      "apis": "APIs",
+      "ai": "IA & Automação",
+      "marketing": "Marketing"
+    },
+    "casesLabel": "Cases publicados pela Atto",
+    "cases": {
+      "fronteira-sul-drones": {
+        "tagline": "E-commerce agrícola e catálogo consultivo",
+        "description": "Loja para drones, peças e linhas complementares no agro. O catálogo filtra a oferta, o carrinho organiza a intenção de compra e o WhatsApp fecha a negociação."
+      },
+      "tala": {
+        "tagline": "Plataforma de parceiros comerciais",
+        "description": "Plataforma de parceiros para expansão regional de drones agrícolas. Dashboard, CRM, rastreamento e comissões — tudo em um só lugar."
+      },
+      "quadralize": {
+        "tagline": "Gestão de quadras esportivas",
+        "description": "Plataforma completa para gestão de quadras esportivas. Agendamento, CRM, PDV, pagamentos e controle financeiro para donos de quadras e jogadores."
+      },
+      "nan": {
+        "tagline": "Loja de tecnologia — site institucional",
+        "description": "Site da loja de tecnologia de Papanduva/SC, com foco em levar o cliente à loja física e ao e-commerce. Marcas em destaque, formas de comprar e atendimento no WhatsApp."
+      }
+    },
+    "visitSite": "Ver o site",
+    "ctaWhatsapp": "Falar com a Atto no WhatsApp",
+    "whatsappMessage": "Olá! Vim pelo site do Ranielli e quero conversar sobre um projeto.",
+    "siteLink": "Conhecer a Atto e a Vega"
+  },
   "about": {
     "badge": "Conheça mais sobre mim",
     "title": {
