@@ -1,4 +1,4 @@
-import { buildGlyphGrid, cellSizeFor, coverCrop, glyphFor } from '../glyph-grid'
+import { buildGlyphGrid, cellSizeFor, coverCrop, coverDestination, glyphFor } from '../glyph-grid'
 
 describe('glyph grid', () => {
   it('maps luminance to the ramp', () => {
@@ -38,5 +38,29 @@ describe('glyph grid', () => {
   it('uses bigger cells on phones', () => {
     expect(cellSizeFor(390)).toEqual({ w: 9, h: 13.95 })
     expect(cellSizeFor(1440)).toEqual({ w: 8, h: 12.4 })
+  })
+  it('maps the whole photo to a destination rect that shows the tall crop', () => {
+    const d = coverDestination(1000, 2000, 100, 100)
+    expect(d.dx).toBeCloseTo(0)
+    expect(d.dw).toBeCloseTo(100)
+    expect(d.dh).toBeCloseTo(129.03, 1)
+    expect(d.dy).toBeCloseTo(-5.81, 1)
+  })
+
+  it('maps the whole photo to a destination rect that shows the wide crop', () => {
+    const d = coverDestination(2000, 1000, 100, 100)
+    expect(d.dy).toBeCloseTo(0)
+    expect(d.dh).toBeCloseTo(100)
+    expect(d.dw).toBeCloseTo(310, 0)
+    expect(d.dx).toBeCloseTo(-105, 0)
+  })
+
+  it('gives the same destination for a density-corrected size (srcset) as for raw pixels', () => {
+    const raw = coverDestination(640, 857, 44, 36)
+    const corrected = coverDestination(390, 522.2, 44, 36)
+    expect(corrected.dx).toBeCloseTo(raw.dx, 1)
+    expect(corrected.dy).toBeCloseTo(raw.dy, 1)
+    expect(corrected.dw).toBeCloseTo(raw.dw, 1)
+    expect(corrected.dh).toBeCloseTo(raw.dh, 1)
   })
 })

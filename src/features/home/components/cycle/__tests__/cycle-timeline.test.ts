@@ -50,6 +50,7 @@ describe('buildCycleTimeline', () => {
           pin: true,
           scrub: 0.6,
           end: '+=420%',
+          refreshPriority: 1,
         }),
       }),
     )
@@ -96,6 +97,8 @@ describe('buildCycleTimeline', () => {
 
     const typing = timelineStub.to.mock.calls.find(([, vars]) => 'onUpdate' in (vars as object))
     expect(typing).toBeDefined()
+    // Types while the code chapter's progress bar fills, not after it.
+    expect(typing?.[2]).toBe('<')
     const [proxy, vars] = typing as [{ progress: number }, { onUpdate: () => void }]
     proxy.progress = 1
     vars.onUpdate()

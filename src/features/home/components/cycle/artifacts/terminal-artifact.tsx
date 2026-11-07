@@ -23,6 +23,13 @@ export function TerminalArtifact({ lines }: { lines: readonly TerminalLine[] }) 
             {line.text}
           </span>
         ))}
+        <span
+          data-terminal-cursor
+          aria-hidden="true"
+          className="text-[#d9ff5a] motion-safe:animate-pulse"
+        >
+          ▍
+        </span>
       </pre>
     </div>
   )

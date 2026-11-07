@@ -47,6 +47,9 @@ export function buildCycleTimeline(
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,
+      // Sections below with their own pins are created before this one; refreshing this
+      // first puts its spacer in place before they measure where they start.
+      refreshPriority: 1,
     },
   })
 
@@ -80,13 +83,20 @@ export function buildCycleTimeline(
       .to(bars[index] ?? {}, { scaleX: 1, duration: 1.4, ease: 'none' }, '<')
   })
 
+  // The terminal types while the code chapter's bar fills, then holds a beat.
   const typing = { progress: 0 }
-  timeline.to(typing, {
-    progress: 1,
-    duration: 1.4,
-    ease: 'none',
-    onUpdate: () => onTerminal(terminalLinesFor(typing.progress, TERMINAL_LINES.length)),
-  })
+  timeline
+    .to(
+      typing,
+      {
+        progress: 1,
+        duration: 1.4,
+        ease: 'none',
+        onUpdate: () => onTerminal(terminalLinesFor(typing.progress, TERMINAL_LINES.length)),
+      },
+      '<',
+    )
+    .to({}, { duration: 0.4 })
 
   const total = timeline.duration()
   for (const background of backgrounds) {

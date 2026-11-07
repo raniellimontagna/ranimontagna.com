@@ -95,4 +95,11 @@ describe('CodePortrait', () => {
     expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
     expect(screen.getByAltText(ALT)).toBeInTheDocument()
   })
+  it('draws the whole photo into a destination rect, never a source crop (srcset density)', () => {
+    const img = renderPortrait()
+    loadPhoto(img)
+    const [call] = canvas.ctx.drawImage.mock.calls
+    expect(call).toHaveLength(5)
+    expect(call[0]).toBe(img)
+  })
 })

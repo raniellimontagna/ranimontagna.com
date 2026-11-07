@@ -7,7 +7,7 @@ import {
   buildGlyphGrid,
   CODE_GLYPHS,
   cellSizeFor,
-  coverCrop,
+  coverDestination,
   type GlyphCell,
   glyphFor,
 } from './glyph-grid'
@@ -87,8 +87,8 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
       const sampleCtx = sample.getContext('2d')
       if (!sampleCtx) return
 
-      const crop = coverCrop(img.naturalWidth, img.naturalHeight, cols, rows)
-      sampleCtx.drawImage(img, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, cols, rows)
+      const dest = coverDestination(img.naturalWidth, img.naturalHeight, cols, rows)
+      sampleCtx.drawImage(img, dest.dx, dest.dy, dest.dw, dest.dh)
       cells = buildGlyphGrid(sampleCtx.getImageData(0, 0, cols, rows).data, cols, rows)
 
       if (!ready) startedAt = performance.now()

@@ -12,6 +12,7 @@ import { buildCycleTimeline } from '../cycle-timeline'
 import { WorkCycle } from '../work-cycle'
 
 const revert = vi.fn()
+const scrollTrigger = { sort: vi.fn(), refresh: vi.fn() }
 const matchMedia = vi.fn(() => ({
   add: (
     conditions: Record<string, string>,
@@ -27,7 +28,9 @@ const matchMedia = vi.fn(() => ({
 
 vi.mock('@/shared/components/motion', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/shared/components/motion')>()),
-  loadScrollMotion: vi.fn(() => Promise.resolve({ gsap: { matchMedia }, ScrollTrigger: {} })),
+  loadScrollMotion: vi.fn(() =>
+    Promise.resolve({ gsap: { matchMedia }, ScrollTrigger: scrollTrigger }),
+  ),
 }))
 
 vi.mock('../cycle-timeline', () => ({ buildCycleTimeline: vi.fn() }))
@@ -117,5 +120,19 @@ describe('WorkCycle', () => {
     await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
     unmount()
     expect(revert).toHaveBeenCalled()
+  })
+  it('re-sorts and refreshes every ScrollTrigger once the pin exists, so later pins start below it', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    await waitFor(() => expect(scrollTrigger.refresh).toHaveBeenCalled())
+    expect(scrollTrigger.sort).toHaveBeenCalled()
+    expect(vi.mocked(buildCycleTimeline).mock.invocationCallOrder[0]).toBeLessThan(
+      scrollTrigger.sort.mock.invocationCallOrder[0],
+    )
+  })
+  it('keeps a decorative cursor at the end of the terminal', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    expect(document.querySelector('[data-terminal-cursor]')).toHaveAttribute('aria-hidden', 'true')
   })
 })

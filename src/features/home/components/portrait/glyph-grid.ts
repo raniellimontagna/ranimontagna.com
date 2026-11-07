@@ -29,6 +29,19 @@ export function coverCrop(srcW: number, srcH: number, cols: number, rows: number
   return { sx: 0, sy: (srcH - sh) * TALL_PHOTO_ANCHOR, sw: srcW, sh }
 }
 
+/**
+ * Destination rect (in grid cells) that shows the cover crop when the WHOLE
+ * photo is drawn into it. Drawing without a source rect sidesteps srcset:
+ * Chrome reports a density-corrected naturalWidth but crops sources in raw
+ * pixels, which shifted the face sideways on phones.
+ */
+export function coverDestination(srcW: number, srcH: number, cols: number, rows: number) {
+  const crop = coverCrop(srcW, srcH, cols, rows)
+  const scaleX = cols / crop.sw
+  const scaleY = rows / crop.sh
+  return { dx: -crop.sx * scaleX, dy: -crop.sy * scaleY, dw: srcW * scaleX, dh: srcH * scaleY }
+}
+
 /** One cell per RGBA pixel of a cols × rows downscaled image, row by row. */
 export function buildGlyphGrid(
   pixels: Uint8ClampedArray,

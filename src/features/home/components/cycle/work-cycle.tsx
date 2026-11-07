@@ -64,6 +64,10 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
           onTerminal(TERMINAL_LINES.length)
         }
       })
+      // Triggers created earlier (the experience pin below) measured the page without
+      // this pin's spacer. Re-sort by position and refresh so they start below it.
+      motion.ScrollTrigger.sort()
+      motion.ScrollTrigger.refresh()
       revert = () => media.revert()
     })
 
