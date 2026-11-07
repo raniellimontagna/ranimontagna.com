@@ -280,6 +280,12 @@
     "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
     "siteLink": "Meet Atto and Vega"
   },
+  "writing": {
+    "kicker": "writing",
+    "title": "Thinking out loud.",
+    "lead": "What I learn building products with AI, written for people who build too.",
+    "all": "Read the blog"
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

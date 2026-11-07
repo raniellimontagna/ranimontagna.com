@@ -280,6 +280,12 @@
     "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto.",
     "siteLink": "Conocer Atto y Vega"
   },
+  "writing": {
+    "kicker": "escritura",
+    "title": "Pensando en voz alta.",
+    "lead": "Lo que aprendo construyendo producto con IA, escrito para quien también construye.",
+    "all": "Leer el blog"
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {
