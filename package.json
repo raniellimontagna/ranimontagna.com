@@ -29,7 +29,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.561.0",
     "motion": "^12.23.12",
-    "next": "16.0.10",
+    "next": "16.4.3",
     "next-intl": "^4.3.6",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8.5.6",

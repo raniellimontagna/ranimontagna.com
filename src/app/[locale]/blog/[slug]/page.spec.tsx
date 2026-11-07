@@ -70,8 +70,8 @@ describe('PostPage', () => {
   })
 
   describe('blog utilities', () => {
-    it('getPostBySlug should return a post', () => {
-      const post = getPostBySlug('test-post', 'pt')
+    it('getPostBySlug should return a post', async () => {
+      const post = await getPostBySlug('test-post', 'pt')
 
       expect(post).toBeDefined()
       expect(post.slug).toBe('test-post')
