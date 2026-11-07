@@ -24,7 +24,9 @@ describe('WordReveal', () => {
 
   it('renders as the requested element', () => {
     render(<WordReveal text="Oi" as="p" />)
-    expect(screen.getByLabelText('Oi').tagName).toBe('P')
+    const sentence = screen.getByText('Oi', { selector: '.sr-only' })
+    expect(sentence.closest('p')).not.toBeNull()
+    expect(sentence.closest('p')).not.toHaveAttribute('aria-label')
   })
 })
 

@@ -6,14 +6,16 @@ type WordRevealProps = {
 }
 
 /**
- * A sentence split into words that `Reveal` can stagger in. The element keeps
- * the whole sentence as its accessible name; the word spans are decoration.
+ * A sentence split into words that `Reveal` can stagger in. Assistive tech
+ * reads the whole sentence from a visually hidden copy; the word spans are
+ * decoration (aria-label is not reliable on paragraphs).
  */
 export function WordReveal({ text, as: Tag = 'h2', id, className }: WordRevealProps) {
   const words = text.split(/\s+/).filter(Boolean)
 
   return (
-    <Tag id={id} aria-label={text} className={className}>
+    <Tag id={id} className={className}>
+      <span className="sr-only">{text}</span>
       {words.map((word, index) => (
         <span
           // biome-ignore lint/suspicious/noArrayIndexKey: words repeat; order is the identity.

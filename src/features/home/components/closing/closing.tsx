@@ -64,10 +64,8 @@ export async function Closing() {
       </Reveal>
 
       <Reveal stagger={0.035} className="mt-20 sm:mt-28">
-        <p
-          aria-label={NAME}
-          className="px-2 text-center text-[clamp(56px,13.5vw,240px)] leading-[0.82] font-semibold tracking-[-0.06em] whitespace-nowrap text-foreground"
-        >
+        <p className="px-2 text-center text-[clamp(56px,13.5vw,240px)] leading-[0.82] font-semibold tracking-[-0.06em] whitespace-nowrap text-foreground">
+          <span className="sr-only">{NAME}</span>
           {Array.from(NAME, (letter, index) => (
             <span
               // biome-ignore lint/suspicious/noArrayIndexKey: letters repeat; position is the identity.

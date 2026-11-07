@@ -11,7 +11,7 @@ describe('Interlude', () => {
   it('renders the statement as text and the photo with alt, visible without motion', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(await Interlude())
-    expect(screen.getByLabelText('statement')).toBeInTheDocument()
+    expect(screen.getByText('statement', { selector: '.sr-only' })).toBeInTheDocument()
     expect(screen.getByText('detail')).toBeInTheDocument()
     const img = screen.getByAltText('photoAlt') as HTMLImageElement
     expect(img.style.opacity).not.toBe('0')

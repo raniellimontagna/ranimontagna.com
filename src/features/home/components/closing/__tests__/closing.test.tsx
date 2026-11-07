@@ -24,7 +24,7 @@ describe('Closing', () => {
       /^https:\/\/wa\.me\/5554999906417\?text=/,
     )
     expect(screen.getByRole('link', { name: /resume/ })).toHaveAttribute('href', '/cv/pt.pdf')
-    expect(screen.getByLabelText('Ranielli Montagna')).toBeInTheDocument()
+    expect(screen.getByText('Ranielli Montagna', { selector: '.sr-only' })).toBeInTheDocument()
   })
 })
 
