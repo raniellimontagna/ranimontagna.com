@@ -1,0 +1,98 @@
+import { loadScrollMotion, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { mockMatchMedia } from '@/tests/mocks/match-media'
+import { render, screen } from '@/tests/test-utils'
+import { ActionLink } from '../action-link'
+import { PhotoReveal } from '../photo-reveal'
+import { Reveal } from '../reveal'
+import { SectionHeading } from '../section-heading'
+import { WordReveal } from '../word-reveal'
+
+vi.mock('@/shared/components/motion', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/components/motion')>()),
+  loadScrollMotion: vi.fn(() => new Promise(() => {})),
+}))
+
+describe('WordReveal', () => {
+  it('keeps the sentence accessible and splits words', () => {
+    render(<WordReveal text="Coloca no ar." />)
+    expect(screen.getByRole('heading', { level: 2, name: 'Coloca no ar.' })).toBeInTheDocument()
+    expect(document.querySelectorAll('[data-reveal-word]')).toHaveLength(3)
+    for (const word of document.querySelectorAll('[data-reveal-word]')) {
+      expect(word).toHaveAttribute('aria-hidden', 'true')
+    }
+  })
+
+  it('renders as the requested element', () => {
+    render(<WordReveal text="Oi" as="p" />)
+    expect(screen.getByLabelText('Oi').tagName).toBe('P')
+  })
+})
+
+describe('Reveal', () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  it('loads no motion under reduced motion and hides nothing', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(
+      <Reveal>
+        <p data-reveal>texto</p>
+      </Reveal>,
+    )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(loadScrollMotion).not.toHaveBeenCalled()
+    expect(screen.getByText('texto')).toBeVisible()
+  })
+
+  it('loads scroll motion when motion is allowed', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    render(
+      <Reveal>
+        <p data-reveal>texto</p>
+      </Reveal>,
+    )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(loadScrollMotion).toHaveBeenCalled()
+  })
+})
+
+describe('ActionLink', () => {
+  it('opens external links in a new tab safely', () => {
+    render(
+      <ActionLink href="https://wa.me/1" external>
+        Falar
+      </ActionLink>,
+    )
+    const link = screen.getByRole('link', { name: 'Falar' })
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('keeps internal links in the same tab', () => {
+    render(<ActionLink href="/blog">Blog</ActionLink>)
+    const link = screen.getByRole('link', { name: 'Blog' })
+    expect(link).toHaveAttribute('href', '/blog')
+    expect(link).not.toHaveAttribute('target')
+  })
+})
+
+describe('PhotoReveal', () => {
+  it('renders a visible img with alt before motion loads', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    render(<PhotoReveal src="/photo.webp" alt="Ranielli" effect="mask" sizes="100vw" />)
+    const img = screen.getByAltText('Ranielli') as HTMLImageElement
+    expect(img.style.opacity).not.toBe('0')
+    expect(img.style.clipPath).toBe('')
+  })
+})
+
+describe('SectionHeading', () => {
+  it('renders kicker, an accessible h2 title and the lead', () => {
+    render(<SectionHeading id="atto" kicker="a atto" title="Quem escala" lead="Texto" />)
+    expect(screen.getByText('a atto')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Quem escala' })).toHaveAttribute(
+      'id',
+      'atto-title',
+    )
+    expect(screen.getByText('Texto')).toBeInTheDocument()
+  })
+})
