@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.28.1](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.28.0...v1.28.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* **hero:** center terminal card, translate its copy, drop ghost circle ([#81](https://github.com/raniellimontagna/ranimontagna.com/issues/81)) ([11f8ca3](https://github.com/raniellimontagna/ranimontagna.com/commit/11f8ca3691765d53b104e04ce47e71d9489c215a))
+* **ui:** drop redundant backdrop blurs that made glass panels blink ([#78](https://github.com/raniellimontagna/ranimontagna.com/issues/78)) ([d07d962](https://github.com/raniellimontagna/ranimontagna.com/commit/d07d962438f687a1011a5ba85767482a84128ef0))
+* **ui:** remove backdrop-filter to stop panels vanishing on mouse move ([#80](https://github.com/raniellimontagna/ranimontagna.com/issues/80)) ([080e919](https://github.com/raniellimontagna/ranimontagna.com/commit/080e919e22788b093154bba88093eb6d1e988e9d))
+
 ## [1.28.0](https://github.com/raniellimontagna/ranimontagna.com/compare/v1.27.1...v1.28.0) (2026-10-28)
 
 
