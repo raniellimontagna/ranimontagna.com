@@ -22,7 +22,7 @@ const post = (n: number) => ({
 describe('Writing', () => {
   it('lists the four latest posts linking to their pages', async () => {
     vi.mocked(getAllPosts).mockResolvedValue([6, 5, 4, 3, 2, 1].map(post))
-    render(await Writing({ locale: 'pt' }))
+    render((await Writing({ locale: 'pt' })) as React.ReactElement)
     const links = screen
       .getAllByRole('link')
       .filter((a) => a.getAttribute('href')?.startsWith('/blog/'))
@@ -50,7 +50,7 @@ describe('Writing', () => {
 
   it('the cursor image is decorative', async () => {
     vi.mocked(getAllPosts).mockResolvedValue([3, 2, 1].map(post))
-    render(await Writing({ locale: 'pt' }))
+    render((await Writing({ locale: 'pt' })) as React.ReactElement)
     expect(document.querySelector('[data-cursor-image]')).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getByRole('link', { name: /Post 3/ })).toBeInTheDocument()
   })
