@@ -60,6 +60,62 @@
     "stackAi": "Agentes de IA",
     "stackProduct": "Produto"
   },
+  "cycle": {
+    "heading": "Como eu trabalho",
+    "chapters": {
+      "pain": {
+        "kicker": "a dor",
+        "title": "Começa ouvindo.",
+        "body": "Antes do código, alguém perdendo três anos de dados de treino. É daí que o produto sai."
+      },
+      "solution": {
+        "kicker": "a solução",
+        "title": "Decide o que importa.",
+        "body": "O que resolver primeiro, o que deixar de fora e quem decide. No Grimory: a IA propõe, as regras validam, o jogador decide."
+      },
+      "product": {
+        "kicker": "o produto",
+        "title": "Coloca no ar.",
+        "body": "Grimory na mesa do grupo, Klick no bolso de quem treina. Produtos no ar, usados de verdade."
+      },
+      "code": {
+        "kicker": "o código",
+        "title": "Com IA, sob julgamento.",
+        "body": "Agentes escrevem a maior parte do código. Cada mudança passa pela minha revisão antes de ir para o ar."
+      }
+    },
+    "thread": {
+      "caption": "paráfrase de relatos reais em fóruns de cubers, da pesquisa do Klick v2",
+      "messages": [
+        {
+          "from": "comunidade de speedcubing",
+          "text": "Troquei de celular e perdi três anos de tempos. Todo o meu histórico."
+        },
+        {
+          "from": "outra pessoa",
+          "text": "Aconteceu comigo também. Nenhum timer guarda isso direito."
+        },
+        {
+          "from": "eu",
+          "text": "Vou resolver isso: o histórico nunca mais se perde.",
+          "mine": true
+        }
+      ]
+    },
+    "spec": {
+      "title": "Grimory: a IA propõe, as regras decidem",
+      "items": [
+        "Cada mesa escolhe as regras de 2014 ou de 2024.",
+        "Compêndio SRD em português, com o homebrew da mesa.",
+        "A IA sugere; o motor de regras valida.",
+        "A palavra final é sempre do jogador."
+      ]
+    },
+    "product": {
+      "desktopAlt": "Compêndio do Grimory aberto na Espada Longa",
+      "phoneAlt": "Timer do Klick no celular"
+    }
+  },
   "about": {
     "badge": "Conheça mais sobre mim",
     "title": {

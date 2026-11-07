@@ -61,6 +61,62 @@
     "stackAi": "Agentes de IA",
     "stackProduct": "Producto"
   },
+  "cycle": {
+    "heading": "Cómo trabajo",
+    "chapters": {
+      "pain": {
+        "kicker": "el dolor",
+        "title": "Empieza escuchando.",
+        "body": "Antes del código, alguien perdiendo tres años de datos de entrenamiento. De ahí sale el producto."
+      },
+      "solution": {
+        "kicker": "la solución",
+        "title": "Decide lo que importa.",
+        "body": "Qué resolver primero, qué dejar fuera y quién decide. En Grimory: la IA propone, las reglas validan, el jugador decide."
+      },
+      "product": {
+        "kicker": "el producto",
+        "title": "Lo pone en línea.",
+        "body": "Grimory en la mesa del grupo, Klick en el bolsillo de quien entrena. Productos en línea, usados de verdad."
+      },
+      "code": {
+        "kicker": "el código",
+        "title": "Con IA, bajo criterio.",
+        "body": "Los agentes escriben la mayor parte del código. Cada cambio pasa por mi revisión antes de salir."
+      }
+    },
+    "thread": {
+      "caption": "paráfrasis de relatos reales en foros de cuberos, de la investigación de Klick v2",
+      "messages": [
+        {
+          "from": "comunidad de speedcubing",
+          "text": "Cambié de celular y perdí tres años de tiempos. Todo mi historial."
+        },
+        {
+          "from": "otra persona",
+          "text": "Me pasó también. Ningún timer guarda eso bien."
+        },
+        {
+          "from": "yo",
+          "text": "Lo voy a resolver: el historial nunca más se pierde.",
+          "mine": true
+        }
+      ]
+    },
+    "spec": {
+      "title": "Grimory: la IA propone, las reglas deciden",
+      "items": [
+        "Cada mesa elige las reglas de 2014 o de 2024.",
+        "Compendio SRD en portugués, con el homebrew de la mesa.",
+        "La IA sugiere; el motor de reglas valida.",
+        "La última palabra siempre es del jugador."
+      ]
+    },
+    "product": {
+      "desktopAlt": "Compendio de Grimory abierto en la Espada Larga",
+      "phoneAlt": "Timer de Klick en el celular"
+    }
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {

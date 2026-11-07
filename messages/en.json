@@ -60,6 +60,62 @@
     "stackAi": "AI agents",
     "stackProduct": "Product"
   },
+  "cycle": {
+    "heading": "How I work",
+    "chapters": {
+      "pain": {
+        "kicker": "the pain",
+        "title": "It starts by listening.",
+        "body": "Before any code, someone losing three years of practice data. That is where the product comes from."
+      },
+      "solution": {
+        "kicker": "the solution",
+        "title": "Decide what matters.",
+        "body": "What to solve first, what to leave out and who decides. In Grimory: the AI proposes, the rules validate, the player decides."
+      },
+      "product": {
+        "kicker": "the product",
+        "title": "Ship it.",
+        "body": "Grimory at the group's table, Klick in the pocket of whoever practices. Products that are live and actually used."
+      },
+      "code": {
+        "kicker": "the code",
+        "title": "With AI, under judgment.",
+        "body": "Agents write most of the code. Every change goes through my review before it ships."
+      }
+    },
+    "thread": {
+      "caption": "paraphrased from real reports on cubing forums, from the Klick v2 research",
+      "messages": [
+        {
+          "from": "speedcubing community",
+          "text": "I switched phones and lost three years of times. My whole history."
+        },
+        {
+          "from": "someone else",
+          "text": "Same here. No timer keeps that properly."
+        },
+        {
+          "from": "me",
+          "text": "I'll fix it: the history never gets lost again.",
+          "mine": true
+        }
+      ]
+    },
+    "spec": {
+      "title": "Grimory: the AI proposes, the rules decide",
+      "items": [
+        "Each table picks the 2014 or the 2024 rules.",
+        "An SRD compendium in Portuguese, with the table's homebrew.",
+        "The AI suggests; the rules engine validates.",
+        "The player always has the final word."
+      ]
+    },
+    "product": {
+      "desktopAlt": "Grimory's compendium open on the Longsword",
+      "phoneAlt": "Klick's timer on a phone"
+    }
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {
