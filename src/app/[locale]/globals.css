@@ -251,9 +251,13 @@
   --ambient-ice: rgb(236 72 153 / 12%);
 }
 
+/* Native smooth scrolling fights Lenis; keep it only where Lenis is off. */
+html:not(.lenis) {
+  scroll-behavior: smooth;
+}
+
 html {
   position: relative;
-  scroll-behavior: smooth;
   scroll-padding-top: 7rem;
   background: var(--background);
   scrollbar-width: thin;
