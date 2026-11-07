@@ -377,6 +377,30 @@
       }
     }
   },
+  "projectsIndex": {
+    "metaTitle": "Projetos · Ranielli Montagna",
+    "kicker": "projetos",
+    "title": "O que eu coloquei no ar.",
+    "lead": "Os cases contam o caminho da dor ao produto. Embaixo, tudo o que está público no GitHub.",
+    "casesTitle": "Cases",
+    "githubTitle": "No GitHub",
+    "stats": {
+      "repos": "repositórios públicos",
+      "stars": "estrelas",
+      "followers": "seguidores"
+    },
+    "repos": {
+      "label": "Repositórios",
+      "all": "todas",
+      "empty": "Os repositórios não carregaram agora. Tente de novo em alguns minutos.",
+      "stars": "",
+      "updated": "atualizado em",
+      "site": "site"
+    },
+    "atto": "Precisa de algo assim para a sua empresa? A Atto constrói.",
+    "attoCta": "Falar com a Atto no WhatsApp",
+    "whatsappMessage": "Olá! Vim pelo site do Ranielli e quero conversar sobre um projeto."
+  },
   "about": {
     "badge": "Conheça mais sobre mim",
     "title": {

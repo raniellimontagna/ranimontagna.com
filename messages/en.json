@@ -377,6 +377,30 @@
       }
     }
   },
+  "projectsIndex": {
+    "metaTitle": "Projects · Ranielli Montagna",
+    "kicker": "projects",
+    "title": "What I put in production.",
+    "lead": "The cases tell the path from pain to product. Below, everything public on GitHub.",
+    "casesTitle": "Cases",
+    "githubTitle": "On GitHub",
+    "stats": {
+      "repos": "public repositories",
+      "stars": "stars",
+      "followers": "followers"
+    },
+    "repos": {
+      "label": "Repositories",
+      "all": "all",
+      "empty": "The repositories didn't load right now. Try again in a few minutes.",
+      "stars": "",
+      "updated": "updated",
+      "site": "site"
+    },
+    "atto": "Need something like this for your company? Atto builds it.",
+    "attoCta": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project."
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

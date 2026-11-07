@@ -70,12 +70,7 @@ export async function Closing() {
             <span key={word} data-name-word className="inline-block whitespace-nowrap">
               {wordIndex > 0 ? <span aria-hidden="true"> </span> : null}
               {Array.from(word, (letter, index) => (
-                <span
-                  key={index}
-                  data-reveal-word
-                  aria-hidden="true"
-                  className="inline-block"
-                >
+                <span key={index} data-reveal-word aria-hidden="true" className="inline-block">
                   {letter}
                 </span>
               ))}
