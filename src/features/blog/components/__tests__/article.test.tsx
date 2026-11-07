@@ -26,6 +26,24 @@ describe('article MDX components', () => {
     expect(screen.getByRole('button', { name: /copy/i })).toBeInTheDocument()
   })
 
+  it('never nests an image figure inside a paragraph (hydration-safe HTML)', () => {
+    const P = articleComponents.p
+    const Img = articleComponents.img
+    const { container } = render(
+      <P>
+        <Img src="https://media.example.com/a.webp" alt="Tela" />
+      </P>,
+    )
+    expect(container.querySelector('p figure')).toBeNull()
+    expect(container.querySelector('figure img')).not.toBeNull()
+  })
+
+  it('keeps regular paragraphs as paragraphs', () => {
+    const P = articleComponents.p
+    const { container } = render(<P>texto</P>)
+    expect(container.querySelector('p')).toHaveTextContent('texto')
+  })
+
   it('opens external links in a new tab safely', () => {
     const A = articleComponents.a
     render(<A href="https://example.com">fora</A>)
