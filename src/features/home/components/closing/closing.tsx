@@ -64,17 +64,22 @@ export async function Closing() {
       </Reveal>
 
       <Reveal stagger={0.035} className="mt-20 sm:mt-28">
-        <p className="px-2 text-center text-[clamp(56px,13.5vw,240px)] leading-[0.82] font-semibold tracking-[-0.06em] whitespace-nowrap text-foreground">
+        <p className="px-2 pb-[0.06em] text-center text-[21vw] leading-[0.9] font-semibold tracking-[-0.06em] text-foreground sm:text-[clamp(56px,13.5vw,240px)] sm:whitespace-nowrap">
           <span className="sr-only">{NAME}</span>
-          {Array.from(NAME, (letter, index) => (
-            <span
-              // biome-ignore lint/suspicious/noArrayIndexKey: letters repeat; position is the identity.
-              key={index}
-              data-reveal-word
-              aria-hidden="true"
-              className="inline-block"
-            >
-              {letter === ' ' ? ' ' : letter}
+          {NAME.split(' ').map((word, wordIndex) => (
+            <span key={word} data-name-word className="inline-block whitespace-nowrap">
+              {wordIndex > 0 ? <span aria-hidden="true"> </span> : null}
+              {Array.from(word, (letter, index) => (
+                <span
+                  // biome-ignore lint/suspicious/noArrayIndexKey: letters repeat; position is the identity.
+                  key={index}
+                  data-reveal-word
+                  aria-hidden="true"
+                  className="inline-block"
+                >
+                  {letter}
+                </span>
+              ))}
             </span>
           ))}
         </p>

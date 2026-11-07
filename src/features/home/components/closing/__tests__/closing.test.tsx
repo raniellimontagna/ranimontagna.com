@@ -25,6 +25,10 @@ describe('Closing', () => {
     )
     expect(screen.getByRole('link', { name: /resume/ })).toHaveAttribute('href', '/cv/pt.pdf')
     expect(screen.getByText('Ranielli Montagna', { selector: '.sr-only' })).toBeInTheDocument()
+    // Each word stays whole and the name can break between words on narrow phones.
+    const words = document.querySelectorAll('[data-name-word]')
+    expect(words).toHaveLength(2)
+    expect(words[0].className).toContain('whitespace-nowrap')
   })
 })
 

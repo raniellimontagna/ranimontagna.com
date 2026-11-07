@@ -21,9 +21,10 @@ export function CopyEmailButton({ email, label, copied }: CopyEmailButtonProps) 
           await navigator.clipboard.writeText(email)
           setDone(true)
         }}
-        className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground"
+        className="inline-flex flex-col items-start gap-0.5 rounded-2xl border border-line px-6 py-3 text-left text-sm font-semibold text-foreground transition-colors hover:border-foreground sm:flex-row sm:items-center sm:gap-2 sm:rounded-full"
       >
-        {label} · <span className="font-mono">{email}</span>
+        <span>{label}</span>
+        <span className="font-mono text-xs text-muted sm:text-sm sm:text-foreground">{email}</span>
       </button>
       <span role="status" aria-live="polite" className="font-mono text-xs text-accent">
         {done ? copied : ''}
