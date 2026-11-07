@@ -21,6 +21,9 @@ vi.mock('next/image', () => ({
     // biome-ignore lint/performance/noImgElement: test double for next/image
     return <img alt={String(alt ?? '')} {...imageProps} />
   },
+  getImageProps: (props: { src: string; alt: string }) => ({
+    props: { src: props.src, alt: props.alt },
+  }),
 }))
 
 vi.mock('@/features/blog/lib/blog', () => {
