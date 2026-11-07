@@ -148,6 +148,13 @@
       "phoneAlt": "Timer de Klick en el celular"
     }
   },
+  "interlude": {
+    "label": "Quién es",
+    "kicker": "quién es",
+    "statement": "Ingeniería, producto y negocio en la misma conversación.",
+    "detail": "Más de 5 años construyendo productos web y mobile que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.",
+    "photoAlt": "Ranielli Montagna en su portátil, con la mano en el mentón, frente a una ventana con la ciudad al fondo"
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {

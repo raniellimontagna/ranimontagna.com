@@ -148,6 +148,13 @@
       "phoneAlt": "Klick's timer on a phone"
     }
   },
+  "interlude": {
+    "label": "Who he is",
+    "kicker": "who he is",
+    "statement": "Engineering, product and business in the same conversation.",
+    "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own products in production.",
+    "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city behind"
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {
