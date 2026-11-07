@@ -401,6 +401,13 @@
     "attoCta": "Talk to Atto on WhatsApp",
     "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project."
   },
+  "blogIndex": {
+    "kicker": "blog",
+    "title": "Thinking out loud.",
+    "lead": "What I learn building products with AI: decisions, mistakes and tools, written for people who build too.",
+    "latest": "latest",
+    "empty": "The posts didn't load right now. Come back in a few minutes."
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

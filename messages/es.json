@@ -401,6 +401,13 @@
     "attoCta": "Hablar con Atto por WhatsApp",
     "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto."
   },
+  "blogIndex": {
+    "kicker": "blog",
+    "title": "Pensando en voz alta.",
+    "lead": "Lo que aprendo construyendo producto con IA: decisiones, errores y herramientas, escrito para quien también construye.",
+    "latest": "más reciente",
+    "empty": "Los posts no cargaron ahora. Vuelve en unos minutos."
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {

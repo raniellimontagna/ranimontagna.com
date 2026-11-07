@@ -82,7 +82,7 @@ describe('Blog Page', () => {
     nextImageProps.length = 0
   })
 
-  it('renders blog page correctly', async () => {
+  it('renders the new blog index with the Blog JSON-LD, without loading article bodies', async () => {
     const page = await BlogPage({
       params: Promise.resolve({ locale: 'pt' }),
     })
@@ -90,11 +90,12 @@ describe('Blog Page', () => {
 
     const { container } = render(page)
 
-    expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'quiet')
-    expect(container.firstElementChild).toHaveClass('bg-background/80')
-    expect(container.firstElementChild).not.toHaveClass('bg-background')
-    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
+    expect(container.querySelector('[data-spectral-zone]')).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Featured Post/ })).toHaveAttribute(
+      'href',
+      '/blog/featured-post',
+    )
     const jsonLd = container.querySelector('script[type="application/ld+json"]')
     expect(jsonLd).toBeInTheDocument()
     expect(JSON.parse(jsonLd?.textContent ?? '')).toMatchObject({ '@type': 'Blog' })
