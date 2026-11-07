@@ -12,7 +12,9 @@ vi.mock('next-intl', () => ({
 
 vi.mock('next-intl/server', () => ({
   setRequestLocale: vi.fn(),
-  getMessages: vi.fn().mockResolvedValue({ notFound: { title: 'Not found' }, chat: { title: 'Chat' } }),
+  getMessages: vi
+    .fn()
+    .mockResolvedValue({ notFound: { title: 'Not found' }, chat: { title: 'Chat' } }),
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 

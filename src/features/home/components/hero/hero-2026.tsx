@@ -57,7 +57,7 @@ export async function Hero2026() {
             {t('ctaAltair')}
           </AltairTrigger>
           <a
-            href="#projects"
+            href="#no-ar"
             className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground"
           >
             {t('ctaWork')}

@@ -9,6 +9,7 @@ export type CycleCopy = {
   thread: { caption: string; messages: { from: string; text: string; mine?: boolean }[] }
   spec: { title: string; items: string[] }
   product: { desktopAlt: string; phoneAlt: string }
+  casesLink: string
 }
 
 export const CYCLE_CHAPTERS: readonly {

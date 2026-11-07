@@ -39,8 +39,8 @@ describe('client message scopes', () => {
   })
 
   it('fails immediately when a required client namespace is missing', () => {
-    expect(() => getClientMessages({ notFound: {} }, 'home')).toThrow(
-      'Missing client message namespace "contact" for scope "home"',
+    expect(() => getClientMessages({ notFound: {} }, 'projects')).toThrow(
+      'Missing client message namespace "projectsPage" for scope "projects"',
     )
   })
 

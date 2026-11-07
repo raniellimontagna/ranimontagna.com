@@ -33,37 +33,25 @@ vi.mock('next-intl/server', () => ({
 
 vi.mock('@/features/home', () => ({
   Home: ({
-    headerContent,
     heroContent,
+    bodyContent,
   }: {
-    headerContent: React.ReactNode
     heroContent: React.ReactNode
+    bodyContent: React.ReactNode
   }) => (
     <main>
-      {headerContent}
       {heroContent}
+      {bodyContent}
     </main>
   ),
 }))
 
-vi.mock('@/features/home/components/hero/hero', () => ({
-  Hero: vi.fn(async () => <div>Hero</div>),
+vi.mock('@/features/home/components/hero/hero-2026', () => ({
+  Hero2026: vi.fn(async () => <div>Hero</div>),
 }))
 
-vi.mock('@/features/home/components/home-header', () => ({
-  HomeHeader: () => <div>Home header</div>,
-}))
-
-vi.mock('@/features/projects/components', () => ({
-  ProjectsHeader: () => <div>Projects header</div>,
-}))
-
-vi.mock('@/features/blog/components', () => ({
-  BlogHeader: () => <div>Blog header</div>,
-}))
-
-vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
-  SpectralBackground: () => <div data-testid="spectral-background" />,
+vi.mock('@/features/home/components/home-body', () => ({
+  HomeBody: vi.fn(async () => <div>Body</div>),
 }))
 
 function readProviderMessages(element: React.ReactNode): unknown[] {

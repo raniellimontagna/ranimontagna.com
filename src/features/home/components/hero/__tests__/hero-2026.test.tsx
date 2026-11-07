@@ -21,7 +21,7 @@ describe('Hero2026', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Ranielli Montagna' })).toBeInTheDocument()
     expect(screen.getByText('lead')).toBeVisible()
     expect(screen.getByRole('button', { name: 'ctaAltair' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'ctaWork' })).toHaveAttribute('href', '#projects')
+    expect(screen.getByRole('link', { name: 'ctaWork' })).toHaveAttribute('href', '#no-ar')
     expect(screen.getByAltText('portraitAlt')).toBeInTheDocument()
   })
 

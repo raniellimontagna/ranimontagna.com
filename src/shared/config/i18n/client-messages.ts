@@ -5,7 +5,7 @@ export const CLIENT_MESSAGE_NAMESPACES = {
   // on the server or gets its text as props: every extra namespace is parsed
   // during hydration.
   shell: ['notFound', 'chat'],
-  home: ['contact'],
+  home: [],
   projects: ['projectsPage'],
   blog: ['blog'],
 } as const satisfies Record<string, readonly string[]>

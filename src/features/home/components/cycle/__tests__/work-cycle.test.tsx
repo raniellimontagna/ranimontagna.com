@@ -52,6 +52,7 @@ const copy: CycleCopy = {
   thread: { caption: 'caption', messages: [{ from: 'cuber', text: 'lost my history' }] },
   spec: { title: 'spec.title', items: ['spec.item'] },
   product: { desktopAlt: 'desktopAlt', phoneAlt: 'phoneAlt' },
+  casesLink: 'casesLink',
 }
 
 describe('WorkCycle', () => {
@@ -134,5 +135,11 @@ describe('WorkCycle', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     expect(document.querySelector('[data-terminal-cursor]')).toHaveAttribute('aria-hidden', 'true')
+  })
+  it('carries the como-trabalho id and ends with a link to the live work', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    expect(document.getElementById('como-trabalho')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'casesLink' })).toHaveAttribute('href', '#no-ar')
   })
 })

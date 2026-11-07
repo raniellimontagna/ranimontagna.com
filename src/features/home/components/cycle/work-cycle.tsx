@@ -80,6 +80,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
   return (
     <section
       ref={rootRef}
+      id="como-trabalho"
       aria-labelledby="work-cycle-heading"
       className="group/cycle relative bg-background data-[pinned=true]:h-svh data-[pinned=true]:overflow-hidden"
     >
@@ -133,6 +134,14 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
                   {text.title}
                 </h3>
                 <p className="mt-4 text-lg leading-snug text-foreground sm:text-xl">{text.body}</p>
+                {chapter.id === 'code' ? (
+                  <a
+                    href="#no-ar"
+                    className="mt-6 inline-flex text-sm font-semibold text-foreground underline decoration-accent underline-offset-[6px]"
+                  >
+                    {copy.casesLink}
+                  </a>
+                ) : null}
               </div>
             </div>
           </article>
