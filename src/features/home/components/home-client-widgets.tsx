@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { type ComponentType, useCallback, useEffect, useRef, useState } from 'react'
 import { ProgressiveGsapAnimations } from '@/shared/components/animations/progressive-gsap-animations'
+import { ALTAIR_OPEN_EVENT } from '@/shared/lib/altair-events'
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
 
@@ -61,10 +62,15 @@ export function HomeClientWidgets({
     return () => document.removeEventListener('keydown', handleCommandShortcut)
   }, [ensureCommandMenuLoaded, setCommandMenuOpen])
 
-  const openChat = () => {
+  const openChat = useCallback(() => {
     ensureChatLoaded()
     setChatOpen(true)
-  }
+  }, [ensureChatLoaded, setChatOpen])
+
+  useEffect(() => {
+    window.addEventListener(ALTAIR_OPEN_EVENT, openChat)
+    return () => window.removeEventListener(ALTAIR_OPEN_EVENT, openChat)
+  }, [openChat])
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import { useCommandMenu } from '@/shared/store/use-command-menu/use-command-menu'
-import { act, fireEvent, render, screen } from '@/tests/test-utils'
+import { act, fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import { HomeClientWidgets } from '../home-client-widgets'
 
 const TestCommandMenu = () => <div role="dialog" aria-label="Command palette" />
@@ -64,6 +64,19 @@ describe('HomeClientWidgets', () => {
     expect(screen.queryByRole('dialog', { name: 'Command palette' })).not.toBeInTheDocument()
     expect(loadChatWidget).toHaveBeenCalledTimes(1)
     expect(loadCommandMenu).not.toHaveBeenCalled()
+    expect(useChat.getState().isOpen).toBe(true)
+  })
+  it('opens the chat when altair:open fires', async () => {
+    const loadChatWidget = vi.fn().mockResolvedValue(TestChatWidget)
+    const loadCommandMenu = vi.fn().mockResolvedValue(TestCommandMenu)
+
+    render(<HomeClientWidgets loadChatWidget={loadChatWidget} loadCommandMenu={loadCommandMenu} />)
+
+    act(() => {
+      window.dispatchEvent(new Event('altair:open'))
+    })
+
+    await waitFor(() => expect(loadChatWidget).toHaveBeenCalledTimes(1))
     expect(useChat.getState().isOpen).toBe(true)
   })
 })

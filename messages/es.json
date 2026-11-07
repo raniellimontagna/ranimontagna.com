@@ -51,6 +51,14 @@
     },
     "terminal": "web, mobile, SEO técnico, accesibilidad y rendimiento."
   },
+  "hero2026": {
+    "lead": "Ingeniero de producto. Tomo el dolor de alguien y pongo el producto en línea, con la IA escribiendo el código y yo decidiendo lo que importa.",
+    "ctaAltair": "Pregúntale a Altair",
+    "ctaWork": "Ver lo que está en línea",
+    "portraitAlt": "Retrato de Ranielli Montagna",
+    "hint": "pasa el mouse por el retrato · desplázate para revelar",
+    "hintTouch": "toca el retrato · desplázate para revelar"
+  },
   "about": {
     "badge": "Conoce más sobre mí",
     "title": {

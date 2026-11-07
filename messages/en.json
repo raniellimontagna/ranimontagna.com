@@ -50,6 +50,14 @@
     },
     "terminal": "web, mobile, technical SEO, accessibility and performance."
   },
+  "hero2026": {
+    "lead": "Product engineer. I take someone's pain and ship the product, with AI writing the code and me deciding what matters.",
+    "ctaAltair": "Ask Altair",
+    "ctaWork": "See what's live",
+    "portraitAlt": "Portrait of Ranielli Montagna",
+    "hint": "hover the portrait · scroll to reveal",
+    "hintTouch": "touch the portrait · scroll to reveal"
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {
