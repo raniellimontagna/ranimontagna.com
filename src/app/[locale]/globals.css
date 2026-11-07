@@ -304,12 +304,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-manrope), sans-serif;
   isolation: isolate;
-  background-image:
-    radial-gradient(circle at 12% 16%, var(--ambient-lime) 0, transparent 26%),
-    radial-gradient(circle at 84% 12%, var(--ambient-ice) 0, transparent 28%),
-    linear-gradient(180deg, var(--canvas) 0%, var(--background) 100%);
-  background-repeat: no-repeat;
-  background-size: 100vw 100vh, 100vw 100vh, 100vw 100vh;
   min-height: 100vh;
   letter-spacing: -0.01em;
   text-rendering: optimizeLegibility;
