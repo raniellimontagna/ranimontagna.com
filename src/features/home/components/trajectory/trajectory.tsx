@@ -29,6 +29,9 @@ export async function Trajectory() {
 
   return (
     <section id="trajetoria" className={`${SECTION_X} bg-background py-24 sm:py-32`}>
+      {/* Old anchors (#about, #experience) from links to the previous site land here. */}
+      <span id="about" aria-hidden="true" />
+      <span id="experience" aria-hidden="true" />
       <Reveal>
         <SectionHeading id="trajetoria" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
       </Reveal>

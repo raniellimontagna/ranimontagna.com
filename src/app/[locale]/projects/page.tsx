@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { ProjectsIndex } from '@/features/projects/components-2026/projects-index'
+import { ProjectsIndex } from '@/features/projects/components/projects-index'
 import { getGitHubProjectSnapshot } from '@/features/projects/lib/github.server'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'

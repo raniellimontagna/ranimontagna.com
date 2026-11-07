@@ -5,7 +5,6 @@ export { SectionHeading } from './section-heading'
 export { WordReveal } from './word-reveal'
 
 export const SECTION_X = 'px-4 sm:px-8 lg:px-12'
-export const SECTION_Y = 'py-24 sm:py-32'
 export { AttoLogo } from './atto-logo'
 export { StatusDocument } from './status-document'
 export { StatusView } from './status-view'

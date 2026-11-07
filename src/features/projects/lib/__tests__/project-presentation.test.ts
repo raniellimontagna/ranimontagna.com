@@ -27,13 +27,7 @@ describe('project presentation helpers', () => {
   })
 
   it('keeps every projects client component out of the server entry point', () => {
-    const clientModules = [
-      'featured-project.tsx',
-      'github-stats.tsx',
-      'language-filter.tsx',
-      'project-card.tsx',
-      'projects-list.tsx',
-    ]
+    const clientModules = ['language-filter.tsx', 'repo-list.tsx']
 
     for (const clientModule of clientModules) {
       const source = readFileSync(

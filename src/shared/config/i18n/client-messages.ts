@@ -6,7 +6,7 @@ export const CLIENT_MESSAGE_NAMESPACES = {
   // during hydration.
   shell: ['notFound', 'chat'],
   home: [],
-  projects: ['projectsPage'],
+  projects: [],
   blog: ['blog'],
 } as const satisfies Record<string, readonly string[]>
 

@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { BlogIndex } from '@/features/blog/components-2026/blog-index'
+import { BlogIndex } from '@/features/blog/components/blog-index'
 import { getAllPosts, type PostSummary } from '@/features/blog/lib/blog'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'

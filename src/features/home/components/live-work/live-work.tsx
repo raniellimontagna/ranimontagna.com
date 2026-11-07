@@ -52,6 +52,8 @@ export async function LiveWork() {
       id="no-ar"
       className="relative overflow-hidden bg-background py-24 sm:py-32 lg:flex lg:h-svh lg:flex-col lg:justify-center lg:py-0"
     >
+      {/* The old #projects anchor lands here. */}
+      <span id="projects" aria-hidden="true" />
       <Reveal className={SECTION_X}>
         <SectionHeading id="no-ar" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
       </Reveal>

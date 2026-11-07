@@ -1,91 +1,41 @@
-'use client'
-
-import { useLocale, useTranslations } from 'next-intl'
 import type { PostSummary } from '@/features/blog/lib/blog'
 import { formatBlogDate } from '@/features/blog/lib/blog-date'
+import { resolveBlogImageUrl } from '@/features/blog/lib/media'
 import { Link } from '@/shared/config/i18n/navigation'
-import { SafeImage } from './safe-image'
+import { PhotoReveal } from '@/shared/ui-2026'
 
-interface FeaturedPostProps {
+export function FeaturedPost({
+  post,
+  locale,
+  label,
+}: {
   post: PostSummary
-}
-
-export function FeaturedPost({ post }: FeaturedPostProps) {
-  const t = useTranslations('blog')
-  const locale = useLocale()
-  const coverImage = post.metadata.coverImage
-
+  locale: string
+  label: string
+}) {
   return (
-    <div className="mb-8 sm:mb-12">
-      <Link
-        href={`/blog/${post.slug}`}
-        className="surface-panel group relative block overflow-hidden rounded-3xl border border-line transition-all sm:rounded-4xl hover:-translate-y-1 hover:border-foreground/20 hover:bg-surface hover:shadow-xl"
-      >
-        <div className="relative h-40 overflow-hidden sm:h-48 md:h-64">
-          <SafeImage
-            src={coverImage}
-            alt={post.metadata.title}
-            fill
-            loading="eager"
-            fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) calc(100vw - 3rem), 1152px"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent dark:from-slate-900" />
-        </div>
-        <div className="p-4 pt-4 sm:p-6 sm:pt-5 md:p-8 md:pt-6 lg:p-12 lg:pt-8">
-          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-64 w-64 rounded-full bg-linear-to-br from-accent/10 to-accent-ice/10 blur-3xl transition-all group-hover:scale-150" />
-
-          <div className="relative">
-            <div className="mb-4 flex flex-wrap items-center gap-3 text-sm sm:mb-6 sm:gap-4">
-              <time
-                dateTime={post.metadata.date}
-                className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted"
-              >
-                {formatBlogDate(post.metadata.date, locale)}
-              </time>
-              <span className="flex flex-wrap gap-2">
-                {post.metadata.tags?.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-line/50 bg-surface/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted transition-colors group-hover:bg-background group-hover:shadow-sm"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </span>
-            </div>
-
-            <h2 className="mb-4 text-2xl font-semibold tracking-[-0.04em] text-foreground sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl">
-              <span className="bg-linear-to-r from-foreground to-foreground/70 bg-size-[0%_2px] bg-bottom-left bg-no-repeat transition-all duration-500 group-hover:bg-size-[100%_2px]">
-                {post.metadata.title}
-              </span>
-            </h2>
-
-            <p className="mb-6 max-w-3xl text-base leading-relaxed text-muted sm:mb-8 sm:text-lg md:text-xl">
-              {post.metadata.description}
-            </p>
-
-            <span className="inline-flex items-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform sm:px-6 sm:py-3 group-hover:scale-105">
-              {t('readFeaturedStory')}
-              <svg
-                className="ml-2 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </Link>
-    </div>
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end lg:gap-14"
+    >
+      <PhotoReveal
+        src={resolveBlogImageUrl(post.metadata.coverImage)}
+        alt=""
+        effect="scale"
+        sizes="(max-width: 1023px) 100vw, 60vw"
+        priority
+        className="aspect-[16/10] w-full border border-line"
+      />
+      <span className="flex flex-col gap-4">
+        <span className="font-mono text-xs tracking-[0.2em] text-accent uppercase">{label}</span>
+        <span className="text-[clamp(32px,3.8vw,60px)] leading-[1] font-semibold tracking-[-0.03em] text-foreground">
+          {post.metadata.title}
+        </span>
+        <span className="text-lg leading-snug text-foreground">{post.metadata.description}</span>
+        <span className="font-mono text-xs text-muted">
+          {formatBlogDate(post.metadata.date, locale)}
+        </span>
+      </span>
+    </Link>
   )
 }

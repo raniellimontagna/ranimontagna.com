@@ -18,6 +18,8 @@ export async function Closing() {
 
   return (
     <section id="contato" className="overflow-hidden bg-background pt-24 sm:pt-32">
+      {/* The old #contact anchor lands here. */}
+      <span id="contact" aria-hidden="true" />
       <Reveal className={`${SECTION_X} flex flex-col gap-8`}>
         <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
           {t('kicker')}

@@ -44,10 +44,19 @@ describe('Home', () => {
     }
   })
 
-  it('no longer renders the old sections', async () => {
+  it('keeps the old anchors working, pointing into the new sections', async () => {
     render(<Home heroContent={<div />} bodyContent={await HomeBody({ locale: 'pt' })} />)
-    for (const id of ['about', 'experience', 'projects', 'services', 'contact']) {
-      expect(document.getElementById(id)).toBeNull()
+    const expected = {
+      about: 'trajetoria',
+      experience: 'trajetoria',
+      projects: 'no-ar',
+      contact: 'contato',
+    }
+    for (const [oldId, sectionId] of Object.entries(expected)) {
+      const anchor = document.getElementById(oldId)
+      expect(anchor, oldId).toBeInTheDocument()
+      expect(anchor?.tagName).not.toBe('SECTION')
+      expect(anchor?.closest('section')?.id).toBe(sectionId)
     }
   })
 })

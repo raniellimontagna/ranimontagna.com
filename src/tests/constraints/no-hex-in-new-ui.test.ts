@@ -13,8 +13,8 @@ const DIRS = [
   'src/features/home/components/writing',
   'src/features/home/components/closing',
   'src/features/cases',
-  'src/features/blog/components-2026',
-  'src/features/projects/components-2026',
+  'src/features/blog/components',
+  'src/features/projects/components',
 ]
 const ALLOW = [/terminal/i]
 const HEX = /#[0-9a-fA-F]{3,8}\b/

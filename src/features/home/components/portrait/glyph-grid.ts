@@ -1,9 +1,9 @@
 /** Luminance ramp, darkest to brightest. */
-export const GLYPH_RAMP = ' .:-=+*#%@'
+const GLYPH_RAMP = ' .:-=+*#%@'
 /** Characters a cell turns into near the pointer: the photo becomes code. */
 export const CODE_GLYPHS = '{}[]()<>/=;:+*#$&|_?!'
 /** Monospace cells are taller than wide. */
-export const CELL_ASPECT = 1.55
+const CELL_ASPECT = 1.55
 
 const PHONE_MAX_WIDTH = 760
 const TALL_PHOTO_ANCHOR = 0.2
