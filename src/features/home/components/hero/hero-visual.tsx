@@ -2,7 +2,11 @@ import { MagneticHover, ParallaxLayer } from '@/shared/components/animations'
 import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { TerminalWindow } from '@/shared/components/ui/terminal-window/terminal-window'
 
-export function HeroVisual() {
+type HeroVisualProps = {
+  terminalSummary: string
+}
+
+export function HeroVisual({ terminalSummary }: HeroVisualProps) {
   return (
     <div className="relative mx-auto w-full max-w-xl">
       <ParallaxLayer
@@ -12,10 +16,6 @@ export function HeroVisual() {
       <ParallaxLayer
         offset={42}
         className="absolute top-0 right-0 h-36 w-36 rounded-full bg-ambient-ice blur-3xl"
-      />
-      <ParallaxLayer
-        offset={24}
-        className="absolute right-8 bottom-18 h-16 w-16 rounded-full border border-line bg-surface"
       />
 
       <MagneticHover className="relative">
@@ -51,16 +51,14 @@ export function HeroVisual() {
             </ParallaxLayer>
           </div>
 
-          <div className="relative mt-4 grid gap-2 sm:mt-6 sm:gap-3 md:mt-8 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="relative mx-auto mt-4 w-full max-w-sm sm:mt-6 md:mt-8">
             <TerminalWindow title="delivery.state" className="h-full">
               <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 font-bold text-ballance">
+                <div className="flex items-center gap-2 font-bold text-balance">
                   <span>&gt;</span>
                   <span>stack --ship</span>
                 </div>
-                <p className="text-muted">
-                  web, mobile, SEO tecnico, acessibilidade e performance.
-                </p>
+                <p className="text-muted">{terminalSummary}</p>
                 <div className="flex items-center gap-2 font-bold text-balance">
                   <span>&gt;</span>
                   <span>status --ready</span>

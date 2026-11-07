@@ -107,7 +107,7 @@ export async function Hero() {
         </div>
 
         <div className="retro-hero-visual hidden lg:block">
-          <HeroVisual />
+          <HeroVisual terminalSummary={t('terminal')} />
         </div>
       </div>
 
