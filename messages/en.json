@@ -56,7 +56,9 @@
     "ctaWork": "See what's live",
     "portraitAlt": "Portrait of Ranielli Montagna",
     "hint": "hover the portrait · scroll to reveal",
-    "hintTouch": "touch the portrait · scroll to reveal"
+    "hintTouch": "touch the portrait · scroll to reveal",
+    "stackAi": "AI agents",
+    "stackProduct": "Product"
   },
   "about": {
     "badge": "Learn more about me",
