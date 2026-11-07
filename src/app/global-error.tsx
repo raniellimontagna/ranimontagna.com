@@ -1,8 +1,7 @@
 'use client'
 
-import { HomeIcon as Home, RestartIcon as Restart } from '@solar-icons/react/linear'
 import { useEffect } from 'react'
-import { ErrorLayout } from '@/shared/components/ui/error-view'
+import { StatusDocument, StatusView } from '@/shared/ui-2026'
 
 export default function GlobalError({
   error,
@@ -18,30 +17,16 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <ErrorLayout
-      code="500"
-      variant="danger"
-      title="Algo quebrou"
-      description="Ocorreu um erro inesperado no servidor. Nossa equipe já foi notificada e estamos trabalhando para resolver o quanto antes."
-      errorId={error.digest}
-    >
-      <button
-        type="button"
-        onClick={reset}
-        className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-foreground px-6 py-4 font-bold text-background transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-      >
-        <Restart className="h-5 w-5 shrink-0 transition-transform group-hover:rotate-180 duration-700" />
-        <span className="whitespace-nowrap">Tentar Novamente</span>
-        <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-      </button>
-
-      <a
-        href="/"
-        className="group flex items-center justify-center gap-2 rounded-2xl border border-line bg-surface px-6 py-4 font-bold transition-all hover:bg-surface-strong hover:scale-[1.02] active:scale-[0.98]"
-      >
-        <Home className="h-5 w-5 shrink-0" />
-        <span className="whitespace-nowrap">Voltar ao Início</span>
-      </a>
-    </ErrorLayout>
+    <StatusDocument lang="pt-BR">
+      <StatusView
+        code="500"
+        title="Algo quebrou"
+        body={`Um erro inesperado aconteceu e já foi registrado.${error.digest ? ` Código: ${error.digest}.` : ''}`}
+        actions={[
+          { label: 'Tentar de novo', onClick: reset },
+          { label: 'Voltar ao início', href: '/' },
+        ]}
+      />
+    </StatusDocument>
   )
 }
