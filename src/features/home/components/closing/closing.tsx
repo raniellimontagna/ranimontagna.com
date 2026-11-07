@@ -40,7 +40,7 @@ export async function Closing() {
             label={t('copyEmail')}
             copied={t('copied')}
           />
-          <ActionLink href={resume.href} variant="quiet">
+          <ActionLink href={resume.href} variant="quiet" download>
             {t('resume')} ({resume.language})
           </ActionLink>
         </div>

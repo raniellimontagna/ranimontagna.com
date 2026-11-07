@@ -15,6 +15,8 @@ const TARGETS = '[data-reveal], [data-reveal-word]'
  * Raises `[data-reveal]` and `[data-reveal-word]` descendants into place once,
  * as they enter. Only elements still below the fold are hidden first, so
  * nothing on screen blinks and nothing depends on the script to be visible.
+ * Hidden items keep only opacity at 0 (never visibility), so links stay in the
+ * tab order, and an item shows at once when focus lands in it.
  */
 export function Reveal({ children, className, stagger = 0.07 }: RevealProps) {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -35,13 +37,20 @@ export function Reveal({ children, className, stagger = 0.07 }: RevealProps) {
         )
         if (!below.length) return
 
-        gsap.set(below, { y: 24, autoAlpha: 0 })
+        gsap.set(below, { y: 24, opacity: 0 })
         ScrollTrigger.batch(below, {
           start: 'top 88%',
           once: true,
           onEnter: (batch) =>
-            gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'expo.out', stagger }),
+            gsap.to(batch, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger }),
         })
+
+        const onFocusIn = (event: FocusEvent) => {
+          const item = (event.target as Element | null)?.closest<HTMLElement>(TARGETS)
+          if (item && below.includes(item)) gsap.to(item, { y: 0, opacity: 1, duration: 0.3 })
+        }
+        root.addEventListener('focusin', onFocusIn)
+        return () => root.removeEventListener('focusin', onFocusIn)
       }, root)
 
       revert = () => context.revert()

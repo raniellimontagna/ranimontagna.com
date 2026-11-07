@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllPosts } from '@/features/blog/lib/blog'
+import { CASE_SLUGS } from '@/features/cases/cases.data'
 import { locales, routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 
@@ -35,6 +36,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
+    ...CASE_SLUGS.map((slug) => ({
+      url: getLocalizedUrl(lang, `projects/${slug}`),
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
   ])
 
   // Add blog posts to sitemap

@@ -5,6 +5,8 @@ type ActionLinkProps = {
   href: string
   variant?: 'solid' | 'outline' | 'quiet'
   external?: boolean
+  /** A file (résumé, PDF): plain anchor, outside the locale routing. */
+  download?: boolean
   className?: string
   children: ReactNode
 }
@@ -20,10 +22,19 @@ export function ActionLink({
   href,
   variant = 'solid',
   external,
+  download,
   className = '',
   children,
 }: ActionLinkProps) {
   const classes = `inline-flex items-center justify-center gap-2 text-sm font-semibold transition-[transform,border-color,text-decoration-color] duration-200 ${VARIANTS[variant]} ${className}`
+
+  if (download) {
+    return (
+      <a href={href} download className={classes}>
+        {children}
+      </a>
+    )
+  }
 
   if (href.startsWith('/') && !external) {
     return (

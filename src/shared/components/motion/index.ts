@@ -1,5 +1,6 @@
 export {
   DESKTOP_QUERY,
+  LG_QUERY,
   loadScrollMotion,
   MOBILE_QUERY,
   prefersReducedMotion,

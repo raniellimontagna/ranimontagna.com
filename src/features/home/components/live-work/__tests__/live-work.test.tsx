@@ -1,5 +1,6 @@
 import {
   DESKTOP_QUERY,
+  LG_QUERY,
   loadScrollMotion,
   MOBILE_QUERY,
   REDUCED_MOTION_QUERY,
@@ -86,10 +87,17 @@ describe('LiveWork', () => {
     expect(loadScrollMotion).not.toHaveBeenCalled()
   })
 
-  it('pins the horizontal track on desktop only', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+  it('pins the horizontal track only where the layout is horizontal (lg and up)', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true, [LG_QUERY]: true })
     render(await LiveWork())
     await waitFor(() => expect(buildLiveTrack).toHaveBeenCalled())
+  })
+
+  it('keeps the vertical list on tablets between the phone and lg breakpoints', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    render(await LiveWork())
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(buildLiveTrack).not.toHaveBeenCalled()
   })
 
   it('keeps a vertical list on phones', async () => {

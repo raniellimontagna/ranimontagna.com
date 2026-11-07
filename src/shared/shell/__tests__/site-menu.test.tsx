@@ -44,4 +44,14 @@ describe('SiteMenu', () => {
     fireEvent.click(screen.getByRole('link', { name: 'atto' }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
+
+  it('renders the open menu at the document body, outside the moving header', () => {
+    render(
+      <header style={{ transform: 'translateY(-100%)' }}>
+        <SiteMenu labels={labels} />
+      </header>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    expect(screen.getByRole('dialog', { name: 'Navegação' }).parentElement).toBe(document.body)
+  })
 })

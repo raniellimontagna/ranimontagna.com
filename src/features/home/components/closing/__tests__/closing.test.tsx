@@ -45,4 +45,9 @@ describe('CopyEmailButton', () => {
     expect(writeText).toHaveBeenCalledWith('contato@ranimontagna.com')
     expect(screen.getByRole('status')).toHaveTextContent('Copiado')
   })
+
+  it('serves the résumé as a plain download link, outside the locale routing', async () => {
+    render(await Closing())
+    expect(screen.getByRole('link', { name: /resume/ })).toHaveAttribute('download')
+  })
 })

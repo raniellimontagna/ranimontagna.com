@@ -97,4 +97,15 @@ describe('SectionHeading', () => {
     )
     expect(screen.getByText('Texto')).toBeInTheDocument()
   })
+
+  describe('ActionLink downloads', () => {
+    it('renders a plain anchor with download for files', () => {
+      render(
+        <ActionLink href="/cv/en.pdf" download>
+          CV
+        </ActionLink>,
+      )
+      expect(screen.getByRole('link', { name: 'CV' })).toHaveAttribute('download')
+    })
+  })
 })

@@ -1,6 +1,7 @@
 'use client'
 
 import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
 import { SITE_NAV, type SiteNavId } from './site-nav'
@@ -80,71 +81,76 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
         {labels.open}
       </button>
 
-      {open ? (
-        <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label={labels.title}
-          data-lenis-prevent
-          onKeyDown={trapFocus}
-          className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-background px-4 pt-6 pb-10 sm:px-8 lg:px-12"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
-              {labels.title}
-            </span>
-            <button
-              type="button"
-              onClick={close}
-              className="flex h-10 items-center rounded-full border border-line px-4 text-sm font-semibold text-foreground hover:border-foreground"
+      {/* Portaled to body: the header moves with the scroll, and a transformed
+          ancestor would carry a fixed overlay with it. */}
+      {open
+        ? createPortal(
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={labels.title}
+              data-lenis-prevent
+              onKeyDown={trapFocus}
+              className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-background px-4 pt-6 pb-10 sm:px-8 lg:px-12"
             >
-              {labels.close}
-            </button>
-          </div>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+                  {labels.title}
+                </span>
+                <button
+                  type="button"
+                  onClick={close}
+                  className="flex h-10 items-center rounded-full border border-line px-4 text-sm font-semibold text-foreground hover:border-foreground"
+                >
+                  {labels.close}
+                </button>
+              </div>
 
-          <nav className="mt-12 flex-1">
-            <ul className="flex flex-col gap-2">
-              {SITE_NAV.map((item, index) => (
-                <li key={item.id}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="group flex items-baseline gap-4 text-[clamp(40px,9vw,96px)] leading-none font-semibold tracking-[-0.04em] text-foreground"
-                  >
-                    <span aria-hidden="true" className="font-mono text-sm text-muted">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-2">
-                      {labels.items[item.id]}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+              <nav className="mt-12 flex-1">
+                <ul className="flex flex-col gap-2">
+                  {SITE_NAV.map((item, index) => (
+                    <li key={item.id}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="group flex items-baseline gap-4 text-[clamp(40px,9vw,96px)] leading-none font-semibold tracking-[-0.04em] text-foreground"
+                      >
+                        <span aria-hidden="true" className="font-mono text-sm text-muted">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="transition-transform duration-300 group-hover:translate-x-2">
+                          {labels.items[item.id]}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
 
-          <div className="mt-12 flex flex-col gap-4">
-            <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
-              {labels.socials}
-            </span>
-            <ul className="flex flex-wrap gap-x-6 gap-y-3">
-              {SOCIALS.map((social) => (
-                <li key={social.name}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg font-semibold text-foreground underline decoration-line underline-offset-[6px] hover:decoration-accent"
-                  >
-                    {social.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+              <div className="mt-12 flex flex-col gap-4">
+                <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+                  {labels.socials}
+                </span>
+                <ul className="flex flex-wrap gap-x-6 gap-y-3">
+                  {SOCIALS.map((social) => (
+                    <li key={social.name}>
+                      <a
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-lg font-semibold text-foreground underline decoration-line underline-offset-[6px] hover:decoration-accent"
+                      >
+                        {social.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   )
 }
