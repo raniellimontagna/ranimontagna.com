@@ -2,6 +2,38 @@
   "accessibility": {
     "skipToContent": "Pular para o conteúdo principal"
   },
+  "shell": {
+    "altair": "Pergunte ao Altair",
+    "nav": {
+      "label": "Seções",
+      "noAr": "No ar",
+      "trajetoria": "Trajetória",
+      "atto": "Atto",
+      "escrita": "Escrita",
+      "blog": "Blog",
+      "projetos": "Projetos"
+    },
+    "menu": {
+      "open": "Menu",
+      "close": "Fechar",
+      "title": "Navegação",
+      "socials": "Redes"
+    },
+    "prefs": {
+      "open": "Preferências: idioma e tema",
+      "language": "Idioma",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Escuro",
+      "accent": "Cor de destaque"
+    },
+    "footer": {
+      "madeWith": "feito com IA, revisado por mim",
+      "blog": "Blog",
+      "projects": "Projetos",
+      "retro": "Outras épocas"
+    }
+  },
   "header": {
     "logo": {
       "initials": "RM",

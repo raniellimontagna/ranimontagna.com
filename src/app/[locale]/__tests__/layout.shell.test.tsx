@@ -12,20 +12,23 @@ vi.mock('next-intl', () => ({
 
 vi.mock('next-intl/server', () => ({
   setRequestLocale: vi.fn(),
-  getMessages: vi.fn().mockResolvedValue({ notFound: { title: 'Not found' } }),
+  getMessages: vi.fn().mockResolvedValue({ notFound: { title: 'Not found' }, chat: { title: 'Chat' } }),
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 
-vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
-  SpectralBackground: () => <div data-testid="spectral-background" />,
+vi.mock('@/shared/shell', () => ({
+  SiteHeader: () => <header data-testid="site-header" />,
+  SiteFooter: () => <footer data-testid="site-footer" />,
+  AltairLauncher: () => <button type="button" data-testid="altair-launcher" />,
+  ShellWidgets: () => null,
 }))
 
 vi.mock('@/shared/components/retro-mode/retro-mode', () => ({
   RetroExperience: () => <div data-testid="retro-experience" />,
 }))
 
-describe('LocaleLayout spectral background', () => {
-  it('mounts the shared background exactly once before locale content', async () => {
+describe('LocaleLayout shell', () => {
+  it('renders the skip link, the shell around the page and no spectral background', async () => {
     const layout = await LocaleLayout({
       children: <main data-testid="locale-content">Content</main>,
       params: Promise.resolve({ locale: 'pt' }),
@@ -33,13 +36,19 @@ describe('LocaleLayout spectral background', () => {
 
     const markup = renderToStaticMarkup(layout)
     const document = new DOMParser().parseFromString(markup, 'text/html')
-    const bodyChildren = [...document.body.children]
+    const order = [...document.body.children].map(
+      (child) => child.getAttribute('data-testid') ?? child.getAttribute('href') ?? child.tagName,
+    )
 
-    expect(document.querySelectorAll('[data-testid="spectral-background"]')).toHaveLength(1)
-    expect(bodyChildren[0]?.getAttribute('href')).toBe('#main-content')
-    expect(bodyChildren[1]?.getAttribute('data-testid')).toBe('spectral-background')
-    expect(bodyChildren[2]?.getAttribute('data-testid')).toBe('retro-experience')
-    expect(bodyChildren[3]?.getAttribute('data-testid')).toBe('locale-content')
+    expect(document.querySelector('[data-testid="spectral-background"]')).toBeNull()
+    expect(order.slice(0, 6)).toEqual([
+      '#main-content',
+      'retro-experience',
+      'site-header',
+      'locale-content',
+      'site-footer',
+      'altair-launcher',
+    ])
   })
 
   it.each(['pt', 'en', 'es'])(

@@ -4,13 +4,13 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { RetroExperience } from '@/shared/components/retro-mode/retro-mode'
-import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 import { isIndexingDisabled, robotsMetadata } from '@/shared/lib/seo/indexing'
+import { AltairLauncher, ShellWidgets, SiteFooter, SiteHeader } from '@/shared/shell'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 type Props = {
@@ -89,9 +89,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
-  const [messages, t] = await Promise.all([
+  const [messages, t, tShell] = await Promise.all([
     getMessages({ locale }),
     getTranslations({ locale, namespace: 'accessibility' }),
+    getTranslations({ locale, namespace: 'shell' }),
   ])
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)
@@ -109,10 +110,13 @@ export default async function LocaleLayout({ children, params }: Props) {
         >
           {t('skipToContent')}
         </a>
-        <SpectralBackground />
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
           <RetroExperience locale={locale} />
+          <SiteHeader />
           {children}
+          <SiteFooter />
+          <AltairLauncher label={tShell('altair')} />
+          <ShellWidgets />
         </NextIntlClientProvider>
         <script
           data-jsonld="person"

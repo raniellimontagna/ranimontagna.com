@@ -65,7 +65,12 @@ const MessageBubble = ({
   )
 }
 
-export const ChatWidget = (): React.ReactElement => {
+// hideLauncher: the shell's Altair star opens the chat (Phase 2); Phase 3 replaces this widget.
+export const ChatWidget = ({
+  hideLauncher = false,
+}: {
+  hideLauncher?: boolean
+} = {}): React.ReactElement => {
   const t = useTranslations('chat')
   const locale = useLocale()
   const prefersReducedMotion = useReducedMotion() ?? false
@@ -143,7 +148,7 @@ export const ChatWidget = (): React.ReactElement => {
     <Dialog.Root open={isOpen} onOpenChange={setOpen}>
       {/* FAB Button */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && !hideLauncher && (
           <Dialog.Trigger asChild>
             <motion.button
               type="button"

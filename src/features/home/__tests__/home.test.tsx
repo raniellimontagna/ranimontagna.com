@@ -3,14 +3,8 @@ import { Home } from '../home'
 
 describe('Home Feature', () => {
   it('server-renders every semantic section before interaction', () => {
-    render(
-      <Home
-        headerContent={<div data-testid="home-header">Header</div>}
-        heroContent={<div data-testid="hero">Hero Content</div>}
-      />,
-    )
+    render(<Home heroContent={<div data-testid="hero">Hero Content</div>} />)
 
-    expect(screen.getByTestId('home-header')).toBeInTheDocument()
     expect(screen.getByTestId('hero')).toBeInTheDocument()
     expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content')
     expect(screen.getByTestId('about')).toBeInTheDocument()

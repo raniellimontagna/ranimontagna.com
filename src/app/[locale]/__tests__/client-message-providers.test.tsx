@@ -75,12 +75,19 @@ function readProviderMessages(element: React.ReactNode): unknown[] {
   )
 }
 
+vi.mock('@/shared/shell', () => ({
+  SiteHeader: () => null,
+  SiteFooter: () => null,
+  AltairLauncher: () => null,
+  ShellWidgets: () => null,
+}))
+
 describe('route-scoped client message providers', () => {
   beforeEach(() => {
     mocks.getMessages.mockResolvedValue(enMessages)
   })
 
-  it('serializes only the not-found namespace in the locale shell', async () => {
+  it('serializes the not-found and chat namespaces in the locale shell', async () => {
     const layout = await LocaleLayout({
       children: <main>Content</main>,
       params: Promise.resolve({ locale: 'en' }),
