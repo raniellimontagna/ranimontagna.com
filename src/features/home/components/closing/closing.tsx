@@ -71,7 +71,6 @@ export async function Closing() {
               {wordIndex > 0 ? <span aria-hidden="true"> </span> : null}
               {Array.from(word, (letter, index) => (
                 <span
-                  // biome-ignore lint/suspicious/noArrayIndexKey: letters repeat; position is the identity.
                   key={index}
                   data-reveal-word
                   aria-hidden="true"
