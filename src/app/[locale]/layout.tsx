@@ -10,6 +10,7 @@ import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
+import { isIndexingDisabled, robotsMetadata } from '@/shared/lib/seo/indexing'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 type Props = {
@@ -63,17 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: '@rannimontagna',
       images: [`${BASE_URL}/og-image.png`],
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    robots: robotsMetadata(isIndexingDisabled(process.env)),
     manifest: '/manifest.json',
     icons: {
       icon: [{ url: '/logo/white.svg', type: 'image/svg+xml' }],

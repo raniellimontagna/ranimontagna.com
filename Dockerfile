@@ -5,6 +5,9 @@ RUN npm install -g pnpm@10.28.0
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
+# Preview deployments pass SITE_NOINDEX=1 so the statically generated metadata says noindex.
+ARG SITE_NOINDEX
+ENV SITE_NOINDEX=${SITE_NOINDEX}
 RUN NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0
 EXPOSE 3000
