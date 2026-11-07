@@ -61,6 +61,7 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
     let cells: GlyphCell[] = []
     let cell = cellSizeFor(window.innerWidth)
     let ready = false
+    let builtSize = ''
     let visible = true
     let frame = 0
     let startedAt = 0
@@ -74,11 +75,18 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
       if (!rect.width || !rect.height || !img.naturalWidth) return
 
       const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
+      const nextCell = cellSizeFor(window.innerWidth)
+      // Phones fire resize when the URL bar collapses, mid-reveal. Rebuilding then would
+      // re-roll every cell's dissolve threshold, so only rebuild when the grid changes.
+      const size = `${Math.round(rect.width)}x${Math.round(rect.height)}@${dpr}/${nextCell.w}/${img.naturalWidth}x${img.naturalHeight}`
+      if (ready && size === builtSize) return
+      builtSize = size
+
       canvas.width = rect.width * dpr
       canvas.height = rect.height * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      cell = cellSizeFor(window.innerWidth)
+      cell = nextCell
       const cols = Math.ceil(rect.width / cell.w)
       const rows = Math.ceil(rect.height / cell.h)
       const sample = document.createElement('canvas')

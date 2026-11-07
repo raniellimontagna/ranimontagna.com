@@ -102,4 +102,11 @@ describe('CodePortrait', () => {
     expect(call).toHaveLength(5)
     expect(call[0]).toBe(img)
   })
+  it('keeps the grid when a resize does not change its size (phone URL bar)', () => {
+    const img = renderPortrait()
+    loadPhoto(img)
+    expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+    fireEvent(window, new Event('resize'))
+    expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+  })
 })

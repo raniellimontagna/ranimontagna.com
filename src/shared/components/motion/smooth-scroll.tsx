@@ -25,7 +25,12 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       ([{ default: Lenis }, { gsap, ScrollTrigger }]) => {
         if (cancelled) return
 
-        const lenis = new Lenis({ lerp: 0.09, autoRaf: false, anchors: true })
+        const lenis = new Lenis({
+          lerp: 0.09,
+          autoRaf: false,
+          anchors: true,
+          allowNestedScroll: true,
+        })
         const raf = (time: number) => lenis.raf(time * 1000)
 
         lenis.on('scroll', ScrollTrigger.update)
