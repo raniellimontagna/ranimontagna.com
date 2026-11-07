@@ -406,7 +406,8 @@
     "title": "Pensando alto.",
     "lead": "O que aprendo construindo produto com IA: decisões, erros e ferramentas, escrito para quem também constrói.",
     "latest": "mais recente",
-    "empty": "Os posts não carregaram agora. Volte em alguns minutos."
+    "empty": "Os posts não carregaram agora. Volte em alguns minutos.",
+    "closeImage": "Fechar"
   },
   "about": {
     "badge": "Conheça mais sobre mim",

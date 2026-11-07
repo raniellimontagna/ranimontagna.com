@@ -406,7 +406,8 @@
     "title": "Pensando en voz alta.",
     "lead": "Lo que aprendo construyendo producto con IA: decisiones, errores y herramientas, escrito para quien también construye.",
     "latest": "más reciente",
-    "empty": "Los posts no cargaron ahora. Vuelve en unos minutos."
+    "empty": "Los posts no cargaron ahora. Vuelve en unos minutos.",
+    "closeImage": "Cerrar"
   },
   "about": {
     "badge": "Conoce más sobre mí",

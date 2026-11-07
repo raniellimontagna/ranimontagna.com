@@ -712,3 +712,89 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+/* Blog article typography (2026). Long reading measure, tokens only. */
+.article-2026 {
+  color: var(--foreground);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+.article-2026 > * + * {
+  margin-top: 1.4em;
+}
+.article-2026 h2 {
+  margin-top: 2.6em;
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.article-2026 h3 {
+  margin-top: 2em;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.article-2026 a {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.22em;
+  overflow-wrap: anywhere;
+}
+.article-2026 ul,
+.article-2026 ol {
+  padding-left: 1.4em;
+}
+.article-2026 ul {
+  list-style: square;
+}
+.article-2026 ol {
+  list-style: decimal;
+}
+.article-2026 li + li {
+  margin-top: 0.5em;
+}
+.article-2026 li::marker {
+  color: var(--accent);
+}
+.article-2026 blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.2em;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.article-2026 :not(pre) > code {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.article-2026 hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 3em 0;
+}
+.article-2026 .article-table {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+}
+.article-2026 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.article-2026 th,
+.article-2026 td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.6em 0.9em;
+  text-align: left;
+}
+.article-2026 th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}

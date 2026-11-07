@@ -2,19 +2,13 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import {
-  ImageWithLightbox,
-  MermaidDiagram,
-  PostNavigation,
-  ReadingProgressBar,
-  SafeImage,
-  ScrollToTop,
-} from '@/features/blog/components'
+import { createArticleComponents } from '@/features/blog/components-2026/article-body'
+import { ArticleHeader } from '@/features/blog/components-2026/article-header'
+import { PostNav } from '@/features/blog/components-2026/post-nav'
+import { ReadingProgress } from '@/features/blog/components-2026/reading-progress'
 import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/features/blog/lib/blog'
 import { remarkBlogContentPolicy } from '@/features/blog/lib/blog-content-policy'
-import { formatBlogDate } from '@/features/blog/lib/blog-date'
 import { resolveBlogImageUrl, resolveBlogMediaUrl } from '@/features/blog/lib/media'
-import { Breadcrumbs } from '@/shared/components/ui'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generateBlogPostingJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
@@ -103,95 +97,6 @@ export async function generateMetadata({
   }
 }
 
-// Components mapping for MDX
-const components = {
-  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 {...props} className="mb-8 text-3xl font-semibold tracking-tight text-foreground" />
-  ),
-  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 {...props} className="mb-4 mt-8 text-2xl font-semibold tracking-tight text-foreground" />
-  ),
-  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 {...props} className="mb-3 mt-6 text-xl font-semibold tracking-tight text-foreground" />
-  ),
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p {...props} className="mb-6 leading-relaxed text-muted" />
-  ),
-  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="mb-6 list-disc pl-6 text-muted" />
-  ),
-  ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...props} className="mb-6 list-decimal pl-6 text-muted" />
-  ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li {...props} className="mb-2 text-muted" />,
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => {
-    // Check if this is a mermaid code block
-    const children = props.children as React.ReactElement
-    const className = (children?.props as { className?: string })?.className || ''
-    const code = (children?.props as { children?: string })?.children || ''
-
-    if (className.includes('language-mermaid')) {
-      return <MermaidDiagram chart={String(code).trim()} />
-    }
-
-    // Regular code block
-    return (
-      <pre
-        {...props}
-        className="mb-6 overflow-x-auto rounded-xl border border-line bg-surface p-4 text-sm text-foreground"
-      />
-    )
-  },
-  code: (props: React.HTMLAttributes<HTMLElement>) => {
-    // Check if it's inline code (no className with language-)
-    const isInline = !props.className?.includes('language-')
-    if (isInline) {
-      return (
-        <code
-          {...props}
-          className="rounded-md border border-line/50 bg-surface px-1.5 py-0.5 text-sm font-mono text-muted"
-        />
-      )
-    }
-    return <code {...props} />
-  },
-  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a
-      {...props}
-      className="font-medium text-blue-600 underline decoration-blue-600/30 underline-offset-2 transition-colors hover:text-blue-700 hover:decoration-blue-700/50 dark:text-blue-400 dark:decoration-blue-400/30 dark:hover:text-blue-300 dark:hover:decoration-blue-300/50 wrap-break-word [word-break:break-word]"
-      target={props.href?.startsWith('http') ? '_blank' : undefined}
-      rel={props.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-    />
-  ),
-  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <ImageWithLightbox src={props.src?.toString()} alt={props.alt} />
-  ),
-  // Table components with modern styling
-  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
-    <div className="my-8 overflow-x-auto rounded-xl border border-line">
-      <table {...props} className="w-full min-w-full divide-y divide-line" />
-    </div>
-  ),
-  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead {...props} className="bg-surface" />
-  ),
-  tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-    <tbody {...props} className="divide-y divide-line bg-background" />
-  ),
-  tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
-    <tr {...props} className="transition-colors hover:bg-surface-hover" />
-  ),
-  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
-    <th
-      {...props}
-      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted"
-    />
-  ),
-  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-    <td {...props} className="px-4 py-3 text-sm text-muted" />
-  ),
-}
-
 export default async function PostPage(props: {
   params: Promise<{ slug: string; locale: string }>
 }) {
@@ -216,62 +121,24 @@ export default async function PostPage(props: {
     tags: post.metadata.tags ?? [],
   })
 
+  const tIndex = await getTranslations({ locale: params.locale, namespace: 'blogIndex' })
+  const components = createArticleComponents({ zoom: t('zoomIn'), close: tIndex('closeImage') })
+
   return (
-    <div
-      data-spectral-zone="quiet"
-      className="relative min-h-screen overflow-x-hidden bg-background/80"
-    >
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
-      <ReadingProgressBar />
-      <ScrollToTop label={t('scrollToTop')} />
-      <article className="container mx-auto max-w-3xl overflow-x-hidden px-4 pt-8 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:pb-24">
-        <div className="mb-6 sm:mb-8">
-          <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: post.metadata.title }]} />
-        </div>
-
-        <header className="mb-8 sm:mb-12">
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <time dateTime={post.metadata.date} className="text-sm text-muted">
-              {formatBlogDate(post.metadata.date, params.locale)}
-            </time>
-            <div className="flex flex-wrap gap-2">
-              {post.metadata.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-line/50 bg-surface/50 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div>
-          <h1 className="font-heading text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl md:text-5xl">
-            {post.metadata.title}
-          </h1>
-          <p className="mt-3 text-base leading-relaxed text-muted sm:mt-4 sm:text-lg lg:text-xl">
-            {post.metadata.description}
-          </p>
-          {coverImage && (
-            <div className="mt-8 -mx-4 sm:mx-0 sm:rounded-2xl overflow-hidden">
-              <div className="relative aspect-21/9 w-full sm:aspect-2/1">
-                <SafeImage
-                  src={coverImage}
-                  alt={post.metadata.title}
-                  fill
-                  preload
-                  sizes="(max-width: 768px) 100vw, 768px"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-background/80 to-transparent" />
-              </div>
-            </div>
-          )}
-        </header>
-
-        <div className="prose prose-slate mt-8 mb-14 max-w-none overflow-x-hidden sm:mt-12 sm:mb-20 dark:prose-invert">
+      <ReadingProgress />
+      <article className="px-4 pb-24 sm:px-8 sm:pb-32 lg:px-12">
+        <ArticleHeader
+          post={post}
+          locale={params.locale}
+          cover={coverImage}
+          backLabel={t('backToBlog')}
+        />
+        <div className="article-2026 mx-auto mt-14 max-w-[68ch] sm:mt-20">
           <MDXRemote
             source={post.content}
             components={components}
@@ -282,28 +149,22 @@ export default async function PostPage(props: {
             }}
           />
         </div>
-
-        <PostNavigation
-          previousLabel={t('previous')}
-          nextLabel={t('next')}
-          prevPost={
-            adjacentPosts.prev
-              ? {
-                  slug: adjacentPosts.prev.slug,
-                  title: adjacentPosts.prev.metadata.title,
-                }
-              : undefined
-          }
-          nextPost={
-            adjacentPosts.next
-              ? {
-                  slug: adjacentPosts.next.slug,
-                  title: adjacentPosts.next.metadata.title,
-                }
-              : undefined
-          }
-        />
+        <div className="mx-auto max-w-[68ch]">
+          <PostNav
+            labels={{ previous: t('previous'), next: t('next'), back: t('backToBlog') }}
+            prev={
+              adjacentPosts.prev
+                ? { slug: adjacentPosts.prev.slug, title: adjacentPosts.prev.metadata.title }
+                : undefined
+            }
+            next={
+              adjacentPosts.next
+                ? { slug: adjacentPosts.next.slug, title: adjacentPosts.next.metadata.title }
+                : undefined
+            }
+          />
+        </div>
       </article>
-    </div>
+    </>
   )
 }
