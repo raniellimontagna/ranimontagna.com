@@ -15,7 +15,7 @@ export function TerminalWindow({ children, className, title = 'bash' }: Terminal
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b border-line bg-surface-strong px-4 py-3">
+      <div className="relative flex items-center justify-between border-b border-line bg-surface-strong px-4 py-3">
         <div className="flex items-center gap-2">
           <div className="h-3 w-3 rounded-full bg-red-400" />
           <div className="h-3 w-3 rounded-full bg-yellow-400" />
