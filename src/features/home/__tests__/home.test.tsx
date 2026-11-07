@@ -25,4 +25,18 @@ describe('Home Feature', () => {
       expect(document.querySelector(`#${sectionId} h2`)).toBeInTheDocument()
     }
   })
+  it('places the intro between the hero and the current sections', () => {
+    render(
+      <Home
+        heroContent={<div data-testid="hero">Hero Content</div>}
+        introContent={<div data-testid="intro">Intro</div>}
+      />,
+    )
+
+    const hero = screen.getByTestId('hero')
+    const intro = screen.getByTestId('intro')
+    const about = screen.getByTestId('about')
+    expect(hero.compareDocumentPosition(intro) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(intro.compareDocumentPosition(about) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
 })

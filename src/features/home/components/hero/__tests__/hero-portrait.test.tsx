@@ -7,7 +7,13 @@ const create = vi.fn()
 const to = vi.fn()
 const revert = vi.fn()
 const motion = {
-  gsap: { to, context: (fn: () => void) => (fn(), { revert }) },
+  gsap: {
+    to,
+    context: (fn: () => void) => {
+      fn()
+      return { revert }
+    },
+  },
   ScrollTrigger: { create },
 }
 

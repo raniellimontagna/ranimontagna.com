@@ -46,7 +46,9 @@ describe('SmoothScroll', () => {
       </SmoothScroll>,
     )
     await waitFor(() =>
-      expect(LenisMock).toHaveBeenCalledWith(expect.objectContaining({ lerp: 0.09, anchors: true })),
+      expect(LenisMock).toHaveBeenCalledWith(
+        expect.objectContaining({ lerp: 0.09, anchors: true }),
+      ),
     )
     expect(lenisInstance.on).toHaveBeenCalledWith('scroll', ScrollTriggerMock.update)
     expect(gsapMock.ticker.add).toHaveBeenCalled()
