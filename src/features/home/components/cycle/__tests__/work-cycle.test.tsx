@@ -142,4 +142,16 @@ describe('WorkCycle', () => {
     expect(document.getElementById('como-trabalho')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'casesLink' })).toHaveAttribute('href', '#no-ar')
   })
+
+  it('does not query the DOM on every terminal tick', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
+    const [, root, options] = vi.mocked(buildCycleTimeline).mock.calls[0]
+    const spy = vi.spyOn(root as HTMLElement, 'querySelectorAll')
+    options.onTerminal(1)
+    options.onTerminal(2)
+    options.onTerminal(3)
+    expect(spy).not.toHaveBeenCalled()
+  })
 })

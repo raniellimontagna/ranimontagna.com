@@ -66,6 +66,10 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
     let boost = 0
     let frame = 0
     let visible = true
+    let half = track.scrollWidth / 2
+    const measure = () => {
+      half = track.scrollWidth / 2
+    }
 
     const tick = () => {
       frame = 0
@@ -73,7 +77,6 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
 
       boost = Math.max(boost * BOOST_DECAY, Math.min(MAX_BOOST, velocity.current * VELOCITY_GAIN))
       x -= BASE_SPEED + boost
-      const half = track.scrollWidth / 2
       if (half > 0 && -x >= half) x += half
       track.style.transform = `translate3d(${x}px, 0, 0)`
       frame = requestAnimationFrame(tick)
@@ -84,11 +87,13 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
       if (visible && !frame) frame = requestAnimationFrame(tick)
     })
     observer.observe(root)
+    window.addEventListener('resize', measure)
     frame = requestAnimationFrame(tick)
 
     return () => {
       cancelAnimationFrame(frame)
       observer.disconnect()
+      window.removeEventListener('resize', measure)
       track.style.transform = ''
     }
   }, [velocity])

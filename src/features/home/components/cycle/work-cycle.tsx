@@ -39,8 +39,9 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
     const root = rootRef.current
     if (!root || prefersReducedMotion()) return
 
+    const lines = Array.from(root.querySelectorAll<HTMLElement>('[data-terminal-line]'))
     const onTerminal = (count: number) => {
-      root.querySelectorAll<HTMLElement>('[data-terminal-line]').forEach((line, index) => {
+      lines.forEach((line, index) => {
         line.hidden = index >= count
       })
     }

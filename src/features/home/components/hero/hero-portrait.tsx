@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { CodePortrait } from '@/features/home/components/portrait/code-portrait'
-import { loadScrollMotion, MOBILE_QUERY, prefersReducedMotion } from '@/shared/components/motion'
+import {
+  DESKTOP_QUERY,
+  loadScrollMotion,
+  MOBILE_QUERY,
+  prefersReducedMotion,
+} from '@/shared/components/motion'
 
 type HeroPortraitProps = {
   src: string
@@ -25,8 +30,10 @@ export function HeroPortrait({ src, alt }: HeroPortraitProps) {
     loadScrollMotion().then(({ gsap, ScrollTrigger }) => {
       if (cancelled) return
 
-      const mobile = window.matchMedia(MOBILE_QUERY).matches
-      const context = gsap.context(() => {
+      // matchMedia rebuilds the reveal when a phone rotates across the breakpoint.
+      const media = gsap.matchMedia()
+      media.add({ desktop: DESKTOP_QUERY, mobile: MOBILE_QUERY }, (context) => {
+        const mobile = Boolean(context.conditions?.mobile)
         ScrollTrigger.create({
           trigger: section,
           start: 'top top',
@@ -45,9 +52,9 @@ export function HeroPortrait({ src, alt }: HeroPortraitProps) {
             scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true },
           })
         }
-      }, section)
+      })
 
-      revert = () => context.revert()
+      revert = () => media.revert()
     })
 
     return () => {

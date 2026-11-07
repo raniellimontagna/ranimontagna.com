@@ -2,6 +2,7 @@
 
 import { getImageProps } from 'next/image'
 import { useEffect, useRef } from 'react'
+import { preload } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
 import {
   buildGlyphGrid,
@@ -173,16 +174,27 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
 
     const visibility = new IntersectionObserver((entries) => {
       visible = entries[0]?.isIntersecting ?? true
-      if (visible) start()
+      if (visible && ready) start()
     })
     visibility.observe(canvas)
 
-    const theme = new MutationObserver(() => {
-      colorsStale = true
+    // Only a real theme change re-reads the colors: Lenis toggles classes on
+    // <html> at every scroll start and stop.
+    const themeOf = (classes: string | null) => /\b(light|dark)\b/.exec(classes ?? '')?.[1]
+    const theme = new MutationObserver((records) => {
+      for (const record of records) {
+        if (
+          record.attributeName === 'data-color-theme' ||
+          themeOf(record.oldValue) !== themeOf(document.documentElement.className)
+        ) {
+          colorsStale = true
+        }
+      }
     })
     theme.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'data-color-theme'],
+      attributeOldValue: true,
     })
 
     img.addEventListener('load', onLoad)
@@ -212,6 +224,13 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
     fill: true,
     priority: true,
     sizes: '(max-width: 760px) 100vw, 50vw',
+  })
+
+  preload(imageProps.src, {
+    as: 'image',
+    imageSrcSet: imageProps.srcSet,
+    imageSizes: imageProps.sizes,
+    fetchPriority: 'high',
   })
 
   return (

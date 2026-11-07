@@ -50,7 +50,7 @@ describe('buildCycleTimeline', () => {
           pin: true,
           scrub: 0.6,
           end: '+=420%',
-          refreshPriority: 1,
+          refreshPriority: 2,
         }),
       }),
     )

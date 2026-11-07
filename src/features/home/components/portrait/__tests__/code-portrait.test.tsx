@@ -1,9 +1,15 @@
+import { preload } from 'react-dom'
 import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
 import { captureIntersection, installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { CodePortrait } from '../code-portrait'
 import { CODE_GLYPHS } from '../glyph-grid'
+
+vi.mock('react-dom', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('react-dom')>()),
+  preload: vi.fn(),
+}))
 
 const ALT = 'Ranielli Montagna'
 
@@ -108,5 +114,37 @@ describe('CodePortrait', () => {
     expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
     fireEvent(window, new Event('resize'))
     expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+  })
+
+  it('runs no frame loop before the photo loads', () => {
+    renderPortrait()
+    act(() => intersection.setVisible(true))
+    expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+  })
+
+  it('preloads the photo it samples', () => {
+    renderPortrait()
+    expect(preload).toHaveBeenCalledWith(
+      expect.stringContaining('photo.webp'),
+      expect.objectContaining({ as: 'image' }),
+    )
+  })
+
+  it('re-reads theme colors when the theme changes, not when Lenis toggles classes', async () => {
+    const img = renderPortrait()
+    loadPhoto(img)
+    act(() => frames.flush(1))
+    const spy = vi.spyOn(window, 'getComputedStyle')
+
+    document.documentElement.classList.add('lenis-scrolling')
+    await Promise.resolve()
+    act(() => frames.flush(1))
+    expect(spy).not.toHaveBeenCalledWith(document.documentElement)
+
+    document.documentElement.classList.add('light')
+    await Promise.resolve()
+    act(() => frames.flush(1))
+    expect(spy).toHaveBeenCalledWith(document.documentElement)
+    document.documentElement.classList.remove('lenis-scrolling', 'light')
   })
 })

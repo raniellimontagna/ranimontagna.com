@@ -47,9 +47,10 @@ export function buildCycleTimeline(
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,
-      // Sections below with their own pins are created before this one; refreshing this
-      // first puts its spacer in place before they measure where they start.
-      refreshPriority: 1,
+      // Pins below this one (the live work track) may be created first. A higher
+      // priority refreshes this pin first, so its spacer exists before they measure
+      // where they start; WorkCycle also re-sorts every trigger after building.
+      refreshPriority: 2,
     },
   })
 

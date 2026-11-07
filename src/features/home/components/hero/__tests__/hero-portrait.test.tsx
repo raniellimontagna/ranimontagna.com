@@ -1,4 +1,9 @@
-import { loadScrollMotion, MOBILE_QUERY, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import {
+  DESKTOP_QUERY,
+  loadScrollMotion,
+  MOBILE_QUERY,
+  REDUCED_MOTION_QUERY,
+} from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, waitFor } from '@/tests/test-utils'
 import { HeroPortrait } from '../hero-portrait'
@@ -6,14 +11,20 @@ import { HeroPortrait } from '../hero-portrait'
 const create = vi.fn()
 const to = vi.fn()
 const revert = vi.fn()
-const motion = {
-  gsap: {
-    to,
-    context: (fn: () => void) => {
-      fn()
-      return { revert }
-    },
+const matchMedia = vi.fn(() => ({
+  add: (
+    conditions: Record<string, string>,
+    callback: (context: { conditions: Record<string, boolean> }) => void,
+  ) => {
+    const states = Object.fromEntries(
+      Object.entries(conditions).map(([name, query]) => [name, window.matchMedia(query).matches]),
+    )
+    if (Object.values(states).some(Boolean)) callback({ conditions: states })
   },
+  revert,
+}))
+const motion = {
+  gsap: { to, matchMedia },
   ScrollTrigger: { create },
 }
 
@@ -46,7 +57,7 @@ describe('HeroPortrait', () => {
   })
 
   it('scrubs the reveal over the whole hero on desktop and parallaxes the title', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
     const { container } = renderInSection()
     await waitFor(() => expect(create).toHaveBeenCalled())
     expect(create).toHaveBeenCalledWith(
@@ -72,10 +83,16 @@ describe('HeroPortrait', () => {
   })
 
   it('reverts the scroll animations on unmount', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
     const { unmount } = renderInSection()
     await waitFor(() => expect(create).toHaveBeenCalled())
     unmount()
     expect(revert).toHaveBeenCalled()
+  })
+
+  it('rebuilds the reveal per breakpoint through gsap.matchMedia (rotation)', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    renderInSection()
+    await waitFor(() => expect(matchMedia).toHaveBeenCalled())
   })
 })
