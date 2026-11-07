@@ -286,6 +286,17 @@
     "lead": "What I learn building products with AI, written for people who build too.",
     "all": "Read the blog"
   },
+  "closing": {
+    "kicker": "contact",
+    "title": "Got a problem to solve?",
+    "lead": "Atto turns it into a product. Or reach me directly: I answer email and messages here.",
+    "ctaAtto": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
+    "copyEmail": "Copy email",
+    "copied": "copied",
+    "resume": "Resume",
+    "socialsLabel": "Elsewhere"
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {

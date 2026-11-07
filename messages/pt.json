@@ -286,6 +286,17 @@
     "lead": "O que aprendo construindo produto com IA, escrito para quem também constrói.",
     "all": "Ler o blog"
   },
+  "closing": {
+    "kicker": "contato",
+    "title": "Tem um problema para resolver?",
+    "lead": "A Atto transforma em produto. Ou me chama direto: respondo e-mail e mensagem por aqui.",
+    "ctaAtto": "Falar com a Atto no WhatsApp",
+    "whatsappMessage": "Olá! Vim pelo site do Ranielli e quero conversar sobre um projeto.",
+    "copyEmail": "Copiar e-mail",
+    "copied": "copiado",
+    "resume": "Currículo",
+    "socialsLabel": "Redes"
+  },
   "about": {
     "badge": "Conheça mais sobre mim",
     "title": {
