@@ -192,6 +192,58 @@
       }
     }
   },
+  "trajectory": {
+    "kicker": "path",
+    "title": "From writing screens to leading the whole product.",
+    "lead": "Five years, four stages, each one closer to the decision.",
+    "stackLabel": "Technologies",
+    "stages": {
+      "sbsistemas": {
+        "role": "Front-end Developer · SBSistemas",
+        "period": "May 2021 - May 2022",
+        "what": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
+        "impact": [
+          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
+          "Implemented reusable components and interface standards",
+          "Applied maintainability, testing, and code quality practices"
+        ],
+        "photoAlt": "Ranielli at his computer, typing"
+      },
+      "smarten": {
+        "role": "Front-end Tech Lead · Smarten",
+        "period": "May 2022 - September 2023",
+        "what": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
+        "impact": [
+          "Technically led a team of developers",
+          "Created and maintained a Design System adopted across multiple products",
+          "Implemented CI/CD, monitoring, and quality standards"
+        ],
+        "photoAlt": "Ranielli in glasses and a black t-shirt, in a room with a floor lamp"
+      },
+      "luizalabs": {
+        "role": "Mid-level Developer · Luizalabs",
+        "period": "October 2023 - June 2026",
+        "what": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
+        "impact": [
+          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
+          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
+          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript"
+        ],
+        "photoAlt": "Studio portrait of Ranielli, hands resting under his chin"
+      },
+      "lemon-atto": {
+        "role": "Software engineer at Lemon Energia · co-founder of Atto",
+        "period": "Lemon since July 2026 · Atto alongside",
+        "what": "At Lemon, the bridge between business and technology: continuous discovery, complex energy-journey rules turned into full-stack solutions, AI with critical review. At Atto, a software and marketing house, he builds tailored products for companies, from e-commerce to AI automation.",
+        "impact": [
+          "Business-team discovery to clarify needs and requirements",
+          "Building AI-first full-stack solutions",
+          "Critical review of AI output before product use"
+        ],
+        "photoAlt": "Ranielli at his laptop, hand on his chin, in front of a window with the city"
+      }
+    }
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {
