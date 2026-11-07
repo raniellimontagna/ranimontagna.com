@@ -155,6 +155,43 @@
     "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own products in production.",
     "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city behind"
   },
+  "liveWork": {
+    "kicker": "live",
+    "title": "Things that are live.",
+    "lead": "His own products, actually used. The details of each one live on the project page.",
+    "items": {
+      "grimory": {
+        "name": "Grimory",
+        "line": "A D&D table in Portuguese. The AI proposes, the rules validate, the player decides.",
+        "meta": "own product · used by his group",
+        "alt": "Grimory's compendium open on the Longsword"
+      },
+      "klick": {
+        "name": "Klick",
+        "line": "An offline-first speedcubing timer, rebuilt after hearing what cubers lost the most.",
+        "meta": "klick.ranimontagna.com · open source",
+        "alt": "Klick's timer showing 0:10.81"
+      },
+      "agent-toolkit": {
+        "name": "agent-toolkit",
+        "line": "One command installs the same AI tools and skills in five agents: Claude Code, Codex, OpenCode, Gemini CLI and Antigravity.",
+        "meta": "Node.js CLI · published on npm",
+        "alt": ""
+      },
+      "argus": {
+        "name": "Argus",
+        "line": "A personal data hub: news, quotes and lookups served through an API, MCP, Discord and a CLI.",
+        "meta": "TypeScript · private repository",
+        "alt": "Ambient image: a server rack with lit LEDs (not a product capture)"
+      },
+      "atto-read": {
+        "name": "Atto Read",
+        "line": "Atto's personal reader, built with React Native and Expo.",
+        "meta": "mobile app · private repository",
+        "alt": ""
+      }
+    }
+  },
   "about": {
     "badge": "Learn more about me",
     "title": {
