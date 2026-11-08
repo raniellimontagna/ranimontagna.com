@@ -88,3 +88,18 @@ Registro das decisões que tomei durante a execução da Fase 2 (07/11/2026), ti
 - capas remotas com <img> sem fallback de erro (SafeImage tinha)
 - supressão noArrayIndexKey sem efeito em word-reveal.tsx
 - globals.css ainda tem CSS morto do visual antigo (spectral-*, glow-gradient-*, surface-panel*, --ambient-*); limpar com cuidado por causa dos estilos do modo retrô.
+
+## Rodada 2 (07/11/2026)
+
+Spec: `docs/superpowers/specs/2026-11-07-redesign-rodada-2-design.md`. Plano: `docs/superpowers/plans/2026-11-07-redesign-rodada-2.md`.
+
+- **Ícones de AWS:** os serviços (Fargate, Aurora, EventBridge, SQS, API Gateway) usam a marca da AWS, não os ícones de arquitetura. Aqueles são ladrilhos coloridos e virariam quadrados chapados como máscara monocromática.
+- **`#ia` não entrou no menu do header,** que já tem seis itens.
+- **Cartões da Vega com caminho sem idioma** (`/projects/klick`, `/#trajetoria`): o `Link` do next-intl põe o prefixo. O texto dos cartões fica em `chat.cards.ts`, como o resto do texto localizado do chat. Cartão de post vai sem imagem, porque a capa pode ser remota. "Lemon" leva ao cartão da trajetória.
+- **Persona:** as linhas de experiência do perfil continuam em primeira pessoa, porque os validadores leem os verbos delas. A persona, as regras, a disponibilidade e o fallback estão em terceira pessoa.
+- **Fatos aprovados:** seis produtos e três meses na Lemon, e os commits dos cases (2328/2495 e 428/429). Entrou também a unidade `commits` e a expansão de "N de M <unidade>", com um "vs" neutro.
+- **Saíram:**
+  - o widget de chat antigo, o formulário de contato do chat, `/api/contact`, o serviço Formly e o `contact-form`;
+  - a entrada Formly do CSP e do `.env.example`, e o namespace `chat`;
+  - as dependências `@radix-ui/react-dialog`, `@solar-icons/react` e `framer-motion`.
+- **O `chat:eval` ao vivo não foi rodado** (sem chave do provedor nesta sessão). Fica para o Ranielli: `pnpm chat:eval`.

@@ -4,7 +4,7 @@ import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } fr
 import { prefersReducedMotion } from '@/shared/components/motion'
 
 export const RM3D_LAYERS = 26
-export const RM3D_DEPTH_STEP = 1.25
+const RM3D_DEPTH_STEP = 1.25
 
 const LOGO_MASK = 'url(/logo/white.svg)'
 const STATIC_TRANSFORM = 'rotateY(-18deg) rotateX(8deg)'

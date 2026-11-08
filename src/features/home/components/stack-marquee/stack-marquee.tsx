@@ -15,7 +15,7 @@ const VELOCITY_GAIN = 0.8
 const BOOST_DECAY = 0.92
 
 /** The fixed stack labels; the AI and product labels come translated as props. */
-export const STACK_ITEMS = [
+const STACK_ITEMS = [
   'React',
   'Next.js',
   'React Native',

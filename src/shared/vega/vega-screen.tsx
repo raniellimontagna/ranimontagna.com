@@ -251,5 +251,3 @@ export function VegaScreen() {
     document.body,
   )
 }
-
-export default VegaScreen

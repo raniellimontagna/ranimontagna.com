@@ -6,7 +6,7 @@ Também é possível ver tudo no lugar, na prévia: https://next.ranimontagna.co
 
 ## Topo do site (menu, preferências, rodapé)
 
-- `shell.altair`: Pergunte ao Altair
+- `shell.vega`: Falar com a Vega
 - `shell.nav.label`: Seções
 - `shell.nav.noAr`: No ar
 - `shell.nav.trajetoria`: Trajetória
@@ -32,7 +32,7 @@ Também é possível ver tudo no lugar, na prévia: https://next.ranimontagna.co
 ## Abertura
 
 - `hero2026.lead`: Engenheiro de produto. Pego a dor de alguém e entrego o produto no ar, com IA escrevendo o código e eu decidindo o que importa.
-- `hero2026.ctaAltair`: Pergunte ao Altair
+- `hero2026.ctaVega`: Pergunte à Vega
 - `hero2026.ctaWork`: Ver o que está no ar
 - `hero2026.portraitAlt`: Retrato de Ranielli Montagna
 - `hero2026.hint`: passe o mouse no retrato · role para revelar
@@ -70,6 +70,61 @@ Também é possível ver tudo no lugar, na prévia: https://next.ranimontagna.co
 - `cycle.product.desktopAlt`: Compêndio do Grimory aberto na Espada Longa
 - `cycle.product.phoneAlt`: Timer do Klick no celular
 - `cycle.casesLink`: Ver o que está no ar
+
+## IA (seção nova, rodada 2)
+
+- `aiMethod.kicker`: ia
+- `aiMethod.title`: Sem amarra de modelo. Com método.
+- `aiMethod.lead`: Escolho o modelo pela tarefa, não pela marca. E nenhum deles escreve código sem uma especificação antes e uma revisão minha depois.
+- `aiMethod.modelsLabel`: Modelos e ferramentas de IA
+- `aiMethod.stepsLabel`: O método, passo a passo
+- `aiMethod.free.title`: Sem amarra
+- `aiMethod.free.body`: Modelos e ferramentas de empresas diferentes, todos no dia a dia. Se um muda de preço ou sai do ar, troco sem reescrever nada.
+- `aiMethod.method.title`: Do jeito certo
+- `aiMethod.method.body`: Spec-driven development: a ideia vira especificação, a especificação vira plano, o plano vira teste e só então código.
+- `aiMethod.steps.talk.title`: Conversa
+- `aiMethod.steps.talk.lines.0`: o que dói?
+- `aiMethod.steps.talk.lines.1`: para quem?
+- `aiMethod.steps.talk.lines.2`: o que seria um fracasso?
+- `aiMethod.steps.spec.title`: Spec
+- `aiMethod.steps.spec.lines.0`: ## Metas
+- `aiMethod.steps.spec.lines.1`: ## Anti-metas
+- `aiMethod.steps.spec.lines.2`: - cara de IA genérica
+- `aiMethod.steps.plan.title`: Plano
+- `aiMethod.steps.plan.lines.0`: - [ ] Task 1
+- `aiMethod.steps.plan.lines.1`: - [ ] Task 2
+- `aiMethod.steps.plan.lines.2`: cada uma com seu teste
+- `aiMethod.steps.test.title`: Teste primeiro
+- `aiMethod.steps.test.lines.0`: ✗ falha
+- `aiMethod.steps.test.lines.1`: ✓ passa
+- `aiMethod.steps.agent.title`: Agente codifica
+- `aiMethod.steps.agent.lines.0`: + código
+- `aiMethod.steps.agent.lines.1`: + testes
+- `aiMethod.steps.agent.lines.2`: commit a commit
+- `aiMethod.steps.review.title`: Revisão
+- `aiMethod.steps.review.lines.0`: revisor novo
+- `aiMethod.steps.review.lines.1`: lê tudo
+- `aiMethod.steps.review.lines.2`: eu decido o que vai ao ar
+- `aiMethod.terms.sdd.term`: SDD
+- `aiMethod.terms.sdd.meaning`: spec antes de código
+- `aiMethod.terms.tdd.term`: TDD
+- `aiMethod.terms.tdd.meaning`: o teste falha primeiro
+- `aiMethod.terms.mcp.term`: MCP
+- `aiMethod.terms.mcp.meaning`: agentes com ferramentas
+- `aiMethod.terms.agentsmd.term`: AGENTS.md
+- `aiMethod.terms.agentsmd.meaning`: contexto escrito, não lembrado
+- `aiMethod.terms.evals.term`: evals
+- `aiMethod.terms.evals.meaning`: medir a resposta do modelo
+- `aiMethod.terms.review.term`: revisão humana
+- `aiMethod.terms.review.meaning`: a última palavra é minha
+- `aiMethod.proofs.products.value`: 6 produtos
+- `aiMethod.proofs.products.label`: em produção em três meses no time de IA da Lemon, com agentes no fluxo e revisão antes de ir ao ar
+- `aiMethod.proofs.agents.value`: 5 agentes
+- `aiMethod.proofs.agents.label`: o agent-toolkit instala as mesmas skills em Claude Code, Codex, OpenCode, Gemini CLI e Antigravity
+- `aiMethod.proofs.providers.value`: 2 provedores
+- `aiMethod.proofs.providers.label`: a Vega roda em DeepSeek, e o código já aceita o OpenRouter como reserva
+- `aiMethod.proofs.tests.value`: +1.000 testes
+- `aiMethod.proofs.tests.label`: neste site, escritos antes do código
 
 ## Quem é (interlúdio com foto)
 
@@ -115,28 +170,25 @@ Também é possível ver tudo no lugar, na prévia: https://next.ranimontagna.co
 - `trajectory.stages.sbsistemas.impact.0`: Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript
 - `trajectory.stages.sbsistemas.impact.1`: Implementei componentes reutilizáveis e padrões de interface
 - `trajectory.stages.sbsistemas.impact.2`: Apliquei boas práticas de manutenção, testes e qualidade de código
-- `trajectory.stages.sbsistemas.photoAlt`: Ranielli no computador, digitando
 - `trajectory.stages.smarten.role`: Tech Lead Front-end · Smarten
 - `trajectory.stages.smarten.period`: Maio 2022 - Setembro 2023
 - `trajectory.stages.smarten.what`: Atuei como Tech Lead Front-end em produtos SaaS, liderando desenvolvedores, definindo padrões de qualidade, evoluindo arquitetura de interface e conectando decisões técnicas a entregas de produto.
 - `trajectory.stages.smarten.impact.0`: Liderei tecnicamente uma equipe de desenvolvedores
 - `trajectory.stages.smarten.impact.1`: Criei e mantive Design System adotado em múltiplos produtos
 - `trajectory.stages.smarten.impact.2`: Implementei CI/CD, monitoramento e padrões de qualidade
-- `trajectory.stages.smarten.photoAlt`: Ranielli de óculos e camiseta preta, numa sala com luminária
 - `trajectory.stages.luizalabs.role`: Desenvolvedor Pleno · Luizalabs
 - `trajectory.stages.luizalabs.period`: Outubro 2023 - Junho 2026
 - `trajectory.stages.luizalabs.what`: Atuei na Luizalabs, unidade de tecnologia do Magalu, desenvolvendo aplicações web e mobile para operações de lojas físicas, APIs REST e soluções backend para um ambiente de varejo nacional de alta escala.
 - `trajectory.stages.luizalabs.impact.0`: Desenvolvi soluções usadas em operações de estoque e logística de 1.000+ lojas
 - `trajectory.stages.luizalabs.impact.1`: Contribuí para o fluxo diário de 1.000+ estoquistas em aplicações corporativas
 - `trajectory.stages.luizalabs.impact.2`: Mantive APIs REST, integrações e micro frontends com React, React Native, Node.js e TypeScript
-- `trajectory.stages.luizalabs.photoAlt`: Retrato de Ranielli em estúdio, com as mãos apoiadas no queixo
-- `trajectory.stages.lemon-atto.role`: Engenheiro de software na Lemon Energia · sócio-fundador da Atto
-- `trajectory.stages.lemon-atto.period`: Lemon desde julho de 2026 · Atto em paralelo
-- `trajectory.stages.lemon-atto.what`: Na Lemon, a ponte entre negócio e tecnologia: discovery contínuo, regras complexas da jornada de energia viradas soluções full stack, IA com revisão crítica. Na Atto, software house e marketing, constrói produtos sob medida para empresas, do e-commerce à automação com IA.
-- `trajectory.stages.lemon-atto.impact.0`: Condução de descobertas com as áreas de negócio para esclarecer necessidades e requisitos
-- `trajectory.stages.lemon-atto.impact.1`: Construção de soluções full stack orientadas por IA
-- `trajectory.stages.lemon-atto.impact.2`: Revisão crítica de saídas de IA antes de seu uso no produto
-- `trajectory.stages.lemon-atto.photoAlt`: Ranielli no notebook, com a mão no queixo, diante de uma janela com a cidade
+- `trajectory.stages.lemon.role`: Engenheiro de software · Lemon Energia
+- `trajectory.stages.lemon.period`: Julho 2026 - hoje · time de IA, dentro de Finanças
+- `trajectory.stages.lemon.what`: No time de IA da Lemon, trabalho de dentro de uma área de negócio: vivo a operação de Finanças, encontro o trabalho manual e decido o que vira produto. Desde agosto, coloquei seis produtos internos em produção, da tela ao banco e à infraestrutura na AWS.
+- `trajectory.stages.lemon.impact.0`: Seis produtos de finanças em três meses: conciliação bancária, lotes de pagamento, fornecedores, notas fiscais e notas de débito
+- `trajectory.stages.lemon.impact.1`: Cada um de ponta a ponta: front em React, API em Fastify com PostgreSQL e a infraestrutura escrita em código com Pulumi
+- `trajectory.stages.lemon.impact.2`: Na AWS: containers no ECS Fargate, banco no Aurora (RDS), eventos com EventBridge e SQS, segredos no Secrets Manager, entrega por API Gateway e CloudFront
+- `trajectory.stages.lemon.impact.3`: Ritmo alto de entrega, com agentes de IA no fluxo e revisão crítica antes de ir ao ar
 
 ## Atto
 
@@ -277,7 +329,25 @@ Também é possível ver tudo no lugar, na prévia: https://next.ranimontagna.co
 - `notFound.links.blog.description`: Artigos e pensamentos tech
 - `notFound.links.contact.title`: Contato
 - `notFound.links.contact.description`: Vamos conversar sobre ideias
-- `notFound.askAltair`: Perguntar ao Altair
+- `notFound.askVega`: Pergunte à Vega
+
+## Vega (tela cheia, rodada 2)
+
+- `vega.label`: Vega
+- `vega.greeting`: Oi, eu sou a Vega.
+- `vega.greetingAsk`: Por onde começamos?
+- `vega.placeholder`: Pergunte sobre o Ranielli, os projetos ou a Atto…
+- `vega.suggestions.0`: O que ele faz com IA?
+- `vega.suggestions.1`: Me mostra o Grimory
+- `vega.suggestions.2`: Por onde ele passou?
+- `vega.suggestions.3`: Quero falar com a Atto
+- `vega.back`: Voltar ao site
+- `vega.newChat`: Nova conversa
+- `vega.thinking`: pensando…
+- `vega.error`: Não consegui responder agora.
+- `vega.retry`: Tentar de novo
+- `vega.send`: Enviar
+- `vega.cardCta`: Ver no site
 
 ## Fixos no código
 

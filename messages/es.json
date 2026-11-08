@@ -491,45 +491,6 @@
     },
     "askVega": "Pregúntale a Vega"
   },
-  "chat": {
-    "title": "Rani",
-    "dialogDescription": "Chat con el asistente de IA de Rani",
-    "messagesLabel": "Mensajes de la conversación",
-    "status": "Versión IA · Online",
-    "betaNotice": "La IA puede equivocarse y usar proveedores de respaldo. No envíes datos personales, confidenciales ni sensibles.",
-    "fabTooltip": "Habla con mi yo digital",
-    "placeholder": "Pregunta algo a Rani...",
-    "send": "Enviar mensaje",
-    "close": "Cerrar chat",
-    "clear": "Limpiar conversación",
-    "welcome": "¡Hola! Soy Rani 👋",
-    "welcomeSubtitle": "Soy la versión IA de Ranielli — ¡pregunta lo que quieras sobre mi experiencia, proyectos o habilidades!",
-    "error": "Ocurrió un error. Inténtalo de nuevo.",
-    "suggestions": {
-      "skills": "¿Cuáles son tus principales habilidades?",
-      "experience": "Cuéntame sobre tu experiencia profesional",
-      "projects": "¿Qué proyectos has desarrollado?",
-      "atto": "¿Qué es Atto y cómo funciona un proyecto?"
-    },
-    "directMessage": {
-      "trigger": "📨 ¿Prefieres mandarme un mensaje directo?",
-      "title": "Mensaje directo para Ranielli",
-      "subtitle": "Llega a mi correo. Respondo en hasta 24h hábiles.",
-      "name": "Tu nombre",
-      "email": "Tu correo",
-      "message": "Tu mensaje",
-      "send": "Enviar mensaje",
-      "sending": "Enviando...",
-      "cancel": "Volver",
-      "successTitle": "¡Mensaje enviado!",
-      "success": "Gracias — respondo en hasta 24h hábiles al correo que dejaste.",
-      "backToChat": "Volver al chat",
-      "error": "No pude enviarlo ahora. Inténtalo de nuevo o escríbeme por LinkedIn.",
-      "invalid": "Revisa tu nombre, correo y un mensaje con al menos 10 caracteres.",
-      "subject": "Mensaje desde el chat del sitio — {name}",
-      "privacy": "Uso tus datos solo para responder este contacto."
-    }
-  },
   "vega": {
     "label": "Vega",
     "greeting": "Hola, soy Vega.",

@@ -1,12 +1,12 @@
 import { CHAT_CONTACT_LINKS } from '@/shared/lib/chat-links'
 import { render, screen } from '@/tests/test-utils'
-import { renderChatMarkdown } from '../chat-markdown'
+import { renderVegaMarkdown } from '../vega-markdown'
 
 const renderMarkdown = (content: string): void => {
-  render(<p>{renderChatMarkdown(content)}</p>)
+  render(<p>{renderVegaMarkdown(content)}</p>)
 }
 
-describe('renderChatMarkdown', () => {
+describe('renderVegaMarkdown', () => {
   it.each(Object.entries(CHAT_CONTACT_LINKS))(
     'renders the exact approved %s URL as a safe link',
     (_name, target) => {
