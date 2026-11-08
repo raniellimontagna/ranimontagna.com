@@ -1,3 +1,4 @@
+import type { VegaCard } from '@/shared/vega/vega-card'
 import { answerHasAvailabilityConflict } from './chat.response.availability'
 import { CHAT_MAX_ANSWER_CHARS } from './chat.response.collector'
 import { answerHasUnsupportedMetric } from './chat.response.metrics'
@@ -93,11 +94,17 @@ export function validateChatAnswer(input: ChatValidationInput): ChatValidationRe
   return { ok: true }
 }
 
-export function buildTextStream(text: string): ReadableStream<Uint8Array> {
+export function buildTextStream(
+  text: string,
+  cards: readonly VegaCard[] = [],
+): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder()
   return new ReadableStream({
     start(controller) {
       controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`))
+      if (cards.length) {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ cards })}\n\n`))
+      }
       controller.enqueue(encoder.encode('data: [DONE]\n\n'))
       controller.close()
     },

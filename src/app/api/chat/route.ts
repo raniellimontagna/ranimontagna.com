@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { isTrustedBrowserRequest, readBoundedJsonBody } from '@/shared/lib/request-security'
+import { buildCardCatalog, pickCards } from './chat.cards'
 import {
   FALLBACK_MESSAGES,
   RATE_LIMIT_MAX,
@@ -166,7 +167,8 @@ export async function POST(request: NextRequest): Promise<Response> {
           state = fallbackState('timeout')
           continue
         }
-        return new Response(buildTextStream(state.text), { headers: SSE_HEADERS })
+        const cards = pickCards(state.text, await buildCardCatalog(locale))
+        return new Response(buildTextStream(state.text, cards), { headers: SSE_HEADERS })
       }
 
       if (state.kind === 'correction') {

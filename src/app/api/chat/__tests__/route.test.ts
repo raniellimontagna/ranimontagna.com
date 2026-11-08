@@ -26,6 +26,8 @@ vi.mock('../chat.telemetry', () => ({
   recordChatAttempt: mockRecordChatAttempt,
 }))
 
+vi.mock('@/features/blog/lib/blog', () => ({ getAllPosts: vi.fn(async () => []) }))
+
 import { POST } from '../route'
 
 const createRequest = (signal?: AbortSignal) =>
@@ -68,8 +70,15 @@ const createOpenAiPayloadResponse = (events: string[]) =>
 
 const openAiEvent = (value: unknown) => `data: ${JSON.stringify(value)}\n\n`
 
+// Cards are an optional extra event; the answer contract is one text event and one DONE.
+const withoutCardsEvent = (body: string) =>
+  body
+    .split('\n\n')
+    .filter((event) => !event.startsWith('data: {"cards":'))
+    .join('\n\n')
+
 const expectSingleAnswerStream = async (response: Response, answer: string) => {
-  const body = await response.text()
+  const body = withoutCardsEvent(await response.text())
   expect(body).toBe(`data: ${JSON.stringify({ text: answer })}\n\ndata: [DONE]\n\n`)
   expect(body.match(/data: \[DONE]/g)).toHaveLength(1)
   expect(body.match(/data: \{"text":/g)).toHaveLength(1)
@@ -131,6 +140,26 @@ describe('chat route provider order', () => {
     vi.restoreAllMocks()
     resetRateLimitStateForTests()
     vi.useRealTimers()
+  })
+
+  it('appends server-picked cards when the answer mentions a site destination', async () => {
+    mockCallDeepSeek.mockResolvedValueOnce(
+      providerSuccess('deepseek', createOpenAiStreamResponse('O Grimory é o melhor exemplo.')),
+    )
+    const response = await POST(createRequest() as never)
+    const body = await response.text()
+    const events = body.split('\n\n').filter(Boolean)
+    expect(events).toHaveLength(3)
+    expect(JSON.parse(events[1].slice(6)).cards.map((c: { id: string }) => c.id)).toEqual([
+      'case-grimory',
+    ])
+  })
+
+  it('never attaches cards to the static fallback', async () => {
+    const response = await POST(createRequest() as never)
+    const body = await response.text()
+    expect(body).toContain(JSON.stringify({ text: FALLBACK_MESSAGES.pt }))
+    expect(body).not.toContain('"cards"')
   })
 
   it('streams a successful DeepSeek response without calling fallback providers', async () => {
