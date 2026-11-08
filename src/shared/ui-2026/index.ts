@@ -2,7 +2,6 @@ export { ActionLink } from './action-link'
 export { PhotoReveal } from './photo-reveal'
 export { Reveal } from './reveal'
 export { SectionHeading } from './section-heading'
-export { SnapCounter } from './snap-counter'
 export { WordReveal } from './word-reveal'
 
 export const SECTION_X = 'px-4 sm:px-8 lg:px-12'

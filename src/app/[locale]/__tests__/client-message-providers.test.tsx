@@ -67,6 +67,7 @@ vi.mock('@/shared/shell', () => ({
   SiteHeader: () => null,
   SiteFooter: () => null,
   VegaLauncher: () => null,
+  ScrollProgress: () => null,
   ShellWidgets: () => null,
 }))
 

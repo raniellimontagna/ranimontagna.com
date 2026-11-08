@@ -22,6 +22,7 @@ vi.mock('@/shared/shell', () => ({
   SiteHeader: () => <header data-testid="site-header" />,
   SiteFooter: () => <footer data-testid="site-footer" />,
   VegaLauncher: () => <button type="button" data-testid="vega-launcher" />,
+  ScrollProgress: () => <div data-testid="scroll-progress" />,
   ShellWidgets: () => null,
 }))
 
@@ -43,9 +44,10 @@ describe('LocaleLayout shell', () => {
     )
 
     expect(document.querySelector('[data-testid="spectral-background"]')).toBeNull()
-    expect(order.slice(0, 6)).toEqual([
+    expect(order.slice(0, 7)).toEqual([
       '#main-content',
       'retro-experience',
+      'scroll-progress',
       'site-header',
       'locale-content',
       'site-footer',
