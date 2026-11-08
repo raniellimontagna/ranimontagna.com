@@ -35,6 +35,8 @@ export function buildAiRail({ ScrollTrigger }: ScrollMotion, list: HTMLOListElem
     onUpdate: ({ progress }: { progress: number }) => update(progress),
     onRefresh: measure,
   })
+  // ScrollTrigger only calls onUpdate once progress moves: set the starting state now.
+  update(trigger.progress ?? 0)
 
   return () => {
     trigger.kill()

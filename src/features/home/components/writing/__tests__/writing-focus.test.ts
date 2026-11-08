@@ -55,9 +55,11 @@ describe('buildWritingFocus', () => {
     buildWritingFocus(motion, list)
     // innerHeight 768, row 100 px: its centre crosses mid-screen at progress 0.5.
     created[0].onUpdate?.({ progress: 0.5 })
-    expect(title(list)?.style.opacity).toBe('1')
+    expect(title(list)?.style.getPropertyValue('--focus')).toBe('1')
     created[0].onUpdate?.({ progress: 0 })
-    expect(title(list)?.style.opacity).toBe('0.4')
+    expect(title(list)?.style.getPropertyValue('--focus')).toBe('0')
+    // CSS maps --focus onto the theme's floor; no inline opacity to go stale.
+    expect(title(list)?.style.opacity).toBe('')
   })
 
   it('thumb scales from 0.82 to 1, from its left edge', () => {
@@ -81,7 +83,7 @@ describe('buildWritingFocus', () => {
     const cleanup = buildWritingFocus(motion, list)
     cleanup()
     expect(kill).toHaveBeenCalledTimes(2)
-    expect(title(list)?.style.opacity).toBe('')
+    expect(title(list)?.style.getPropertyValue('--focus')).toBe('')
     expect(thumb(list)?.style.transform).toBe('')
   })
 })

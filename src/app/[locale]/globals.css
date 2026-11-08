@@ -649,6 +649,16 @@ button {
 }
 /* end follow header */
 
+/* Scrubbed dimming: script sets the progress, CSS maps it onto the theme's
+   large-text floor, so the floor follows a theme switch. Unset means full. */
+[data-scrub-text='fill'] [data-reveal-word] {
+  opacity: calc(var(--dim-large) + (1 - var(--dim-large)) * var(--fill, 1));
+}
+
+[data-post-title] {
+  opacity: calc(var(--dim-large) + (1 - var(--dim-large)) * var(--focus, 1));
+}
+
 /* Hero 2026: each letter of the name rises out of its line. */
 @keyframes letter-rise {
   from {

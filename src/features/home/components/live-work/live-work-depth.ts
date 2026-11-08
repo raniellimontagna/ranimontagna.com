@@ -16,12 +16,14 @@ export function attachCarouselDepth(track: HTMLElement): () => void {
   const cards = Array.from(track.querySelectorAll<HTMLElement>('[data-live-card]'))
   let centers: number[] = []
   let widths: number[] = []
+  let pictures: Array<HTMLElement | null> = []
   let gap = 0
   let padding = 0
   let frame = 0
 
   const measure = () => {
     widths = cards.map((card) => card.offsetWidth)
+    pictures = cards.map((card) => card.querySelector<HTMLElement>('img'))
     centers = cards.map((card, index) => card.offsetLeft + widths[index] / 2)
     gap = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft - widths[0] : 0
     padding = Number.parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0
@@ -29,13 +31,15 @@ export function attachCarouselDepth(track: HTMLElement): () => void {
 
   const update = () => {
     frame = 0
+    // One read, then only writes: reading scrollLeft between writes forces a style recalc per card.
+    const left = track.scrollLeft
     cards.forEach((card, index) => {
       const width = widths[index]
       if (!width) return
-      const distance = (centers[index] - (track.scrollLeft + padding + width / 2)) / (width + gap)
+      const distance = (centers[index] - (left + padding + width / 2)) / (width + gap)
       const away = Math.min(Math.abs(distance), 1)
       card.style.transform = `scale(${1 - SCALE_DROP * away})`
-      const picture = card.querySelector<HTMLElement>('img')
+      const picture = pictures[index]
       if (picture) {
         picture.style.transform = `translateX(${-distance * IMAGE_SLIDE}%) scale(${IMAGE_ZOOM})`
         picture.style.opacity = String(1 - IMAGE_DIM * away)

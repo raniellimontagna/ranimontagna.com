@@ -58,20 +58,31 @@ describe('buildScrubText', () => {
     document.body.innerHTML = ''
   })
 
-  it('fill: word opacity runs from the --dim-large floor to 1, in order', () => {
+  it('fill: hands each word its progress; CSS turns it into opacity from the theme floor', () => {
     const { created, ScrollTrigger } = fakeTrigger()
-    const root = makeRoot(4, '0.4')
+    const root = makeRoot(4)
     buildScrubText(ScrollTrigger as never, root, 'fill')
     expect(created[0]).toMatchObject({ trigger: root, start: 'top 85%', end: 'top 50%' })
     created[0].onUpdate?.({ progress: 0.5 })
-    expect(words(root).map((word) => word.style.opacity)).toEqual(['1', '1', '0.4', '0.4'])
+    expect(words(root).map((word) => word.style.getPropertyValue('--fill'))).toEqual([
+      '1',
+      '1',
+      '0',
+      '0',
+    ])
+    // No inline opacity: a theme switch must move the floor with it.
+    expect(words(root).every((word) => word.style.opacity === '')).toBe(true)
   })
 
-  it('fill: starts every word at the floor before the scroll reaches it', () => {
+  it('fill: starts every word unfilled before the scroll reaches it', () => {
     const { ScrollTrigger } = fakeTrigger()
-    const root = makeRoot(3, '0.5')
+    const root = makeRoot(3)
     buildScrubText(ScrollTrigger as never, root, 'fill')
-    expect(words(root).map((word) => word.style.opacity)).toEqual(['0.5', '0.5', '0.5'])
+    expect(words(root).map((word) => word.style.getPropertyValue('--fill'))).toEqual([
+      '0',
+      '0',
+      '0',
+    ])
   })
 
   it('rise: letters climb with the scroll, staggered', () => {
@@ -91,11 +102,11 @@ describe('buildScrubText', () => {
 
   it('cleanup kills the trigger and clears the words', () => {
     const { kill, ScrollTrigger } = fakeTrigger()
-    const root = makeRoot(2, '0.4')
+    const root = makeRoot(2)
     const cleanup = buildScrubText(ScrollTrigger as never, root, 'fill')
     cleanup()
     expect(kill).toHaveBeenCalled()
-    expect(words(root).every((word) => word.style.opacity === '')).toBe(true)
+    expect(words(root).every((word) => word.style.getPropertyValue('--fill') === '')).toBe(true)
   })
 })
 

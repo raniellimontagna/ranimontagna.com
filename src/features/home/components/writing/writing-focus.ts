@@ -1,7 +1,6 @@
 import type { ScrollMotion } from '@/shared/components/motion'
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const FALLBACK_FLOOR = 0.4
 const FOCUS_REACH = 0.35
 const THUMB_MIN = 0.82
 
@@ -9,12 +8,11 @@ const THUMB_MIN = 0.82
  * Below lg, the phone take on the desktop's cursor cover: the post nearest the
  * middle of the screen is lit, with its cover at full size; the others rest
  * with the title at the large-text contrast floor and the cover at 0.82.
+ * The title gets its focus in --focus and CSS maps it onto the theme floor.
  * The date never dims. Row heights are measured once and on refresh.
  */
 export function buildWritingFocus({ ScrollTrigger }: ScrollMotion, list: HTMLUListElement) {
   const rows = Array.from(list.querySelectorAll<HTMLElement>(':scope > li'))
-  const floor =
-    Number.parseFloat(getComputedStyle(list).getPropertyValue('--dim-large')) || FALLBACK_FLOOR
 
   const triggers = rows.map((row) => {
     const title = row.querySelector<HTMLElement>('[data-post-title]')
@@ -26,7 +24,7 @@ export function buildWritingFocus({ ScrollTrigger }: ScrollMotion, list: HTMLULi
       const screen = window.innerHeight
       const centre = screen - progress * (screen + height) + height / 2
       const focus = clamp(1 - Math.abs(centre - screen / 2) / (FOCUS_REACH * screen))
-      if (title) title.style.opacity = String(floor + (1 - floor) * focus)
+      if (title) title.style.setProperty('--focus', String(focus))
       if (thumb) thumb.style.transform = `scale(${THUMB_MIN + (1 - THUMB_MIN) * focus})`
     }
 
@@ -46,7 +44,7 @@ export function buildWritingFocus({ ScrollTrigger }: ScrollMotion, list: HTMLULi
   return () => {
     for (const trigger of triggers) trigger.kill()
     for (const row of rows) {
-      row.querySelector<HTMLElement>('[data-post-title]')?.style.removeProperty('opacity')
+      row.querySelector<HTMLElement>('[data-post-title]')?.style.removeProperty('--focus')
       const thumb = row.querySelector<HTMLElement>('[data-post-thumb]')
       thumb?.style.removeProperty('transform')
       thumb?.style.removeProperty('transform-origin')

@@ -27,4 +27,13 @@ describe('mobile motion foundations', () => {
     )
     expect(rules).toMatch(/prefers-reduced-motion: reduce\)[\s\S]*transition: none/)
   })
+
+  it('maps scrubbed progress onto the theme floor in CSS, so a theme switch moves it', () => {
+    expect(css).toMatch(
+      /\[data-scrub-text='fill'\] \[data-reveal-word\]\s*\{\s*opacity: calc\(var\(--dim-large\) \+ \(1 - var\(--dim-large\)\) \* var\(--fill, 1\)\);/,
+    )
+    expect(css).toMatch(
+      /\[data-post-title\]\s*\{\s*opacity: calc\(var\(--dim-large\) \+ \(1 - var\(--dim-large\)\) \* var\(--focus, 1\)\);/,
+    )
+  })
 })

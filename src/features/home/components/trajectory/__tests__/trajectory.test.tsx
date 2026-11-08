@@ -194,13 +194,14 @@ describe('company strip below lg', () => {
     expect(es.trajectory.now).toBe('hoy')
   })
 
-  it('turns the strip on and hides the per-stage bands once mounted', async () => {
+  it('chooses strip or bands at first paint, so nothing shifts after mount', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(await Trajectory())
-    const root = strip().closest('.group\\/traj') as HTMLElement
-    await waitFor(() => expect(root).toHaveAttribute('data-strip', 'on'))
+    expect(strip().className).toContain('[@media(scripting:enabled)]:max-lg:block')
+    expect(strip().className).not.toContain('data-[strip')
     for (const band of document.querySelectorAll('[data-stage-band]')) {
-      expect(band.className).toContain('group-data-[strip=on]/traj:hidden')
+      expect(band.className).toContain('[@media(scripting:enabled)]:hidden')
+      expect(band.className).not.toContain('strip=on')
     }
   })
 

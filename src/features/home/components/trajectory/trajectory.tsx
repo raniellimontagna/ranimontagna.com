@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import type { CSSProperties } from 'react'
 import { BrandIcon, Reveal, SECTION_X, SectionHeading, TechChip } from '@/shared/ui-2026'
-import { STAGES, type Stage } from './trajectory.data'
+import { STAGES, STRIP_INK, type Stage } from './trajectory.data'
 import { TrajectoryScroller } from './trajectory-scroller'
 
 function maskStyle(src: string, extra: CSSProperties): CSSProperties {
@@ -19,9 +19,6 @@ function maskStyle(src: string, extra: CSSProperties): CSSProperties {
   }
 }
 
-const LIGHT_INK = '#ffffff'
-const DARK_INK = '#070b0c'
-
 function luminance(hex: string): number {
   const channels = [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16) / 255)
   const [r, g, b] = channels.map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
@@ -30,7 +27,7 @@ function luminance(hex: string): number {
 
 /** White text where it reads on the brand color (4.5:1), dark ink where it does not. */
 function inkFor(color: string): string {
-  return 1.05 / (luminance(color) + 0.05) >= 4.5 ? LIGHT_INK : DARK_INK
+  return 1.05 / (luminance(color) + 0.05) >= 4.5 ? STRIP_INK.light : STRIP_INK.dark
 }
 
 /** The company logo in white, drawn through a mask so it never needs a photo. */
@@ -102,14 +99,15 @@ export async function Trajectory() {
 
           <div>
             {/* Below lg the desktop panel becomes a strip that sticks under the header
-              and swaps color, logo and years with the stage. Shown once the scroller
-              mounts; without script the per-stage bands below stay. The negative
+              and swaps color, logo and years with the stage. Strip or bands is decided at
+              first paint (scripting media feature), so nothing shifts after mount;
+              without script the per-stage bands below stay. The negative
               margin cancels the header offset, so it never covers the first stage. */}
             <div
               aria-hidden="true"
               data-stage-strip
               data-follow-header
-              className="sticky top-0 z-10 -mt-16 mb-16 hidden h-16 overflow-hidden rounded-[2px] group-data-[strip=on]/traj:max-lg:block lg:hidden"
+              className="sticky top-0 z-10 -mt-16 mb-16 hidden h-16 overflow-hidden rounded-[2px] [@media(scripting:enabled)]:max-lg:block lg:hidden"
             >
               {STAGES.map((stage, index) => (
                 <span
@@ -146,7 +144,7 @@ export async function Trajectory() {
                 >
                   <div
                     data-stage-band={stage.id}
-                    className="flex h-[92px] items-center justify-center rounded-[2px] group-data-[strip=on]/traj:hidden lg:hidden"
+                    className="flex h-[92px] items-center justify-center rounded-[2px] [@media(scripting:enabled)]:hidden lg:hidden"
                     style={{ backgroundColor: stage.company.color }}
                   >
                     <CompanyLogo company={stage.company} style={{ height: 44, maxWidth: '70%' }} />

@@ -26,7 +26,7 @@ function setup() {
     ScrollTrigger: {
       create: vi.fn((config: Config) => {
         created.push(config)
-        return { kill }
+        return { kill, progress: 0 }
       }),
     },
   } as unknown as ScrollMotion
@@ -58,6 +58,15 @@ describe('buildAiRail', () => {
     )
     // Rail from 16 px, 600 px tall: half way is 316 px; nodes sit 22 px into each step.
     expect(lit(list)).toEqual(['true', 'true', 'true', 'false', 'false', 'false'])
+  })
+
+  it('starts empty and unlit when the list is still below its start, without waiting for a scroll', () => {
+    const { wrapper, list, motion } = setup()
+    buildAiRail(motion, list)
+    expect(wrapper.querySelector<HTMLElement>('[data-ai-rail-fill]')?.style.transform).toBe(
+      'scaleY(0)',
+    )
+    expect(lit(list).every((value) => value === 'false')).toBe(true)
   })
 
   it('lights nothing before the rail starts and everything at the end', () => {

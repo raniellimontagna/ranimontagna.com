@@ -82,3 +82,6 @@ export const STAGES: readonly Stage[] = [
     ],
   },
 ]
+
+/** Text on the strip: white where it reads on a brand color (4.5:1), dark ink where not. */
+export const STRIP_INK = { light: '#ffffff', dark: '#070b0c' } as const

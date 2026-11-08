@@ -19,8 +19,12 @@ function makeTrack(withImage = [true, true, true]) {
     Object.defineProperty(card, 'offsetWidth', { value: WIDTH })
   })
   let left = 0
+  const reads = { count: 0 }
   Object.defineProperty(track, 'scrollLeft', {
-    get: () => left,
+    get: () => {
+      reads.count++
+      return left
+    },
     set: (value: number) => {
       left = value
     },
@@ -28,7 +32,7 @@ function makeTrack(withImage = [true, true, true]) {
   })
   track.scrollTo = vi.fn() as unknown as typeof track.scrollTo
   document.body.appendChild(track)
-  return track
+  return Object.assign(track, { reads })
 }
 
 const card = (track: HTMLElement, index: number) =>
@@ -61,6 +65,17 @@ describe('attachCarouselDepth', () => {
     frames.flush()
     expect(image(track, 1).style.transform).toBe('translateX(-4.5%) scale(1.2)')
     expect(image(track, 0).style.transform).toBe('translateX(4.5%) scale(1.2)')
+  })
+
+  it('reads the scroll position once per frame, not once per card', () => {
+    const frames = installFrameStub()
+    const track = makeTrack()
+    attachCarouselDepth(track)
+    track.reads.count = 0
+    track.scrollLeft = 100
+    track.dispatchEvent(new Event('scroll'))
+    frames.flush()
+    expect(track.reads.count).toBe(1)
   })
 
   it('a card without a picture only scales', () => {

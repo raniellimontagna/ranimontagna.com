@@ -16,7 +16,6 @@ export function TrajectoryScroller({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
-    root.dataset.strip = 'on'
 
     let cancelled = false
     let revert: (() => void) | undefined
@@ -60,9 +59,5 @@ export function TrajectoryScroller({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  return (
-    <div ref={rootRef} className="group/traj">
-      {children}
-    </div>
-  )
+  return <div ref={rootRef}>{children}</div>
 }

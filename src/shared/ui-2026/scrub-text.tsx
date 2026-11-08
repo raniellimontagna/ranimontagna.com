@@ -11,14 +11,14 @@ import {
 type Effect = 'fill' | 'rise'
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const FALLBACK_FLOOR = 0.4
 const RISE_SPEED = 1.8
 const RISE_STAGGER = 0.05
 
 /**
  * Ties the `[data-reveal-word]` pieces inside `root` to the scroll.
- * - fill: each word goes from the large-text contrast floor (--dim-large) to
- *   full opacity, in order, between the top passing 85% and 50% of the screen.
+ * - fill: each word gets its progress in --fill, in order, between the top
+ *   passing 85% and 50% of the screen; CSS turns it into opacity from the
+ *   theme's large-text floor (--dim-large), so a theme switch moves the floor.
  * - rise: each letter climbs out of its mask, staggered, from the block
  *   entering until its bottom meets the bottom of the screen.
  */
@@ -28,13 +28,11 @@ export function buildScrubText(
   effect: Effect,
 ) {
   const words = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal-word]'))
-  const floor =
-    Number.parseFloat(getComputedStyle(root).getPropertyValue('--dim-large')) || FALLBACK_FLOOR
 
   const update = (progress: number) => {
     words.forEach((word, index) => {
       if (effect === 'fill') {
-        word.style.opacity = String(floor + (1 - floor) * clamp(progress * words.length - index))
+        word.style.setProperty('--fill', String(clamp(progress * words.length - index)))
       } else {
         const climbed = clamp(progress * RISE_SPEED - index * RISE_STAGGER)
         word.style.transform = `translateY(${(1 - climbed) * 100}%)`
@@ -54,7 +52,7 @@ export function buildScrubText(
   return () => {
     trigger.kill()
     for (const word of words) {
-      word.style.removeProperty('opacity')
+      word.style.removeProperty('--fill')
       word.style.removeProperty('transform')
     }
   }
