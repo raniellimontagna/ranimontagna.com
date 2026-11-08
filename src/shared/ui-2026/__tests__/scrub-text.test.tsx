@@ -78,7 +78,8 @@ describe('buildScrubText', () => {
     const { created, ScrollTrigger } = fakeTrigger()
     const root = makeRoot(3)
     buildScrubText(ScrollTrigger as never, root, 'rise')
-    expect(created[0]).toMatchObject({ trigger: root, start: 'top bottom', end: 'top 25%' })
+    // It closes the page: it must finish by the time its bottom can reach the screen bottom.
+    expect(created[0]).toMatchObject({ trigger: root, start: 'top bottom', end: 'bottom bottom' })
     expect(words(root)[0].style.transform).toBe('translateY(100%)')
     created[0].onUpdate?.({ progress: 0.5 })
     const travel = words(root).map((word) => Number.parseFloat(word.style.transform.slice(11)))

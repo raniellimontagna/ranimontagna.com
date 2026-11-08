@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 type WordRevealProps = {
   text: string
   as?: 'h1' | 'h2' | 'h3' | 'p'
@@ -19,16 +21,18 @@ export function WordReveal({ text, as: Tag = 'h2', id, className }: WordRevealPr
       {words.map((word, index) => (
         // Below lg each word sits in its own mask and rises out of it (Reveal);
         // the padding keeps descenders inside the mask, the margin cancels it.
-        <span
-          key={index}
-          aria-hidden="true"
-          className="inline-block max-lg:-mb-[0.1em] max-lg:overflow-hidden max-lg:pb-[0.1em] max-lg:align-bottom"
-        >
-          <span data-reveal-word aria-hidden="true" className="inline-block">
-            {word}
-            {index < words.length - 1 ? ' ' : ''}
+        // The space stays outside the mask: inside nested inline-blocks it collapses.
+        <Fragment key={index}>
+          <span
+            aria-hidden="true"
+            className="inline-block max-lg:-mb-[0.1em] max-lg:overflow-hidden max-lg:pb-[0.1em] max-lg:align-bottom"
+          >
+            <span data-reveal-word aria-hidden="true" className="inline-block">
+              {word}
+            </span>
           </span>
-        </span>
+          {index < words.length - 1 ? ' ' : null}
+        </Fragment>
       ))}
     </Tag>
   )

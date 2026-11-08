@@ -19,7 +19,8 @@ const RISE_STAGGER = 0.05
  * Ties the `[data-reveal-word]` pieces inside `root` to the scroll.
  * - fill: each word goes from the large-text contrast floor (--dim-large) to
  *   full opacity, in order, between the top passing 85% and 50% of the screen.
- * - rise: each letter climbs out of its mask, staggered, as the block enters.
+ * - rise: each letter climbs out of its mask, staggered, from the block
+ *   entering until its bottom meets the bottom of the screen.
  */
 export function buildScrubText(
   ScrollTrigger: ScrollMotion['ScrollTrigger'],
@@ -44,7 +45,8 @@ export function buildScrubText(
   const trigger = ScrollTrigger.create({
     trigger: root,
     start: effect === 'fill' ? 'top 85%' : 'top bottom',
-    end: effect === 'fill' ? 'top 50%' : 'top 25%',
+    // The rise closes the page, so it ends when its bottom meets the screen's.
+    end: effect === 'fill' ? 'top 50%' : 'bottom bottom',
     onUpdate: ({ progress }: { progress: number }) => update(progress),
   })
   update(trigger.progress ?? 0)

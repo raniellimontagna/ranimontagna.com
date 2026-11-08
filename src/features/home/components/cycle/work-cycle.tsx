@@ -182,7 +182,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
             />
             <SceneTreatment />
 
-            <div className="relative z-10 grid flex-1 grid-rows-[auto_1fr] gap-8 px-4 pt-32 pb-12 sm:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:pt-28 lg:pb-16">
+            <div className="relative z-10 grid flex-1 grid-rows-[auto_1fr] gap-6 px-4 pt-24 pb-8 sm:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:pt-28 lg:pb-16">
               <div
                 data-scene-art
                 className="order-1 w-full max-w-[90vw] justify-self-center lg:order-2 lg:max-w-xl"

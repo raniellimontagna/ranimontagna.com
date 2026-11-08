@@ -17,7 +17,7 @@ export function TerminalArtifact({ lines }: { lines: readonly TerminalLine[] }) 
         <span className="h-2.5 w-2.5 rounded-full bg-[#3a3f3c]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#3a3f3c]" />
       </div>
-      <pre className="overflow-x-auto p-4 font-mono text-[12px] leading-relaxed sm:text-[13px] max-lg:flex max-lg:max-h-[38svh] max-lg:flex-col max-lg:justify-end max-lg:overflow-hidden">
+      <pre className="overflow-x-auto p-4 font-mono text-[12px] leading-relaxed sm:text-[13px] max-lg:flex max-lg:max-h-[38svh] max-lg:[@media(max-height:700px)]:max-h-[30svh] max-lg:flex-col max-lg:justify-end max-lg:overflow-hidden">
         {lines.map((line) => (
           <span key={line.text} data-terminal-line className={`block ${LINE_COLOR[line.kind]}`}>
             {line.text}

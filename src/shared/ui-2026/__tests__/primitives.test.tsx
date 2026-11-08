@@ -22,6 +22,19 @@ describe('WordReveal', () => {
     }
   })
 
+  it('keeps the space between words outside the word masks, where it cannot collapse', () => {
+    render(<WordReveal text="Coloca no ar." />)
+    const masks = [...document.querySelectorAll('[data-reveal-word]')].map(
+      (word) => word.parentElement as HTMLElement,
+    )
+    for (const word of document.querySelectorAll('[data-reveal-word]')) {
+      expect(word.textContent).not.toMatch(/\s/)
+    }
+    expect(masks[0].nextSibling?.textContent).toBe(' ')
+    expect(masks[1].nextSibling?.textContent).toBe(' ')
+    expect(masks[2].nextSibling).toBeNull()
+  })
+
   it('renders as the requested element', () => {
     render(<WordReveal text="Oi" as="p" />)
     const sentence = screen.getByText('Oi', { selector: '.sr-only' })

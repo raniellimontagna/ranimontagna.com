@@ -166,6 +166,18 @@ describe('WorkCycle', () => {
     expect(document.querySelector('.scroll-scene, .scroll-scene-copy')).toBeNull()
   })
 
+  it('keeps each chapter inside one short phone screen: tighter padding, a lower terminal cap', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    const grid = document.querySelector('[data-scene-art]')?.parentElement as HTMLElement
+    for (const token of ['pt-24', 'pb-8', 'gap-6', 'lg:pt-28', 'lg:pb-16', 'lg:gap-16']) {
+      expect(grid.className.split(' ')).toContain(token)
+    }
+    expect(document.querySelector('[data-terminal-line]')?.parentElement?.className).toContain(
+      'max-lg:[@media(max-height:700px)]:max-h-[30svh]',
+    )
+  })
+
   it('renders a reading spacer after the last chapter and progress bars that follow the header', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)
