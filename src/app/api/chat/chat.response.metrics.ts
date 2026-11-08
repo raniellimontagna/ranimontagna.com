@@ -647,9 +647,23 @@ const siteMetricFacts = (profile: ChatProfile): readonly CanonicalMetricFact[] =
   return facts
 }
 
+const knownMetricUnits: ReadonlySet<string> = new Set([
+  'percent',
+  ...metricUnitDefinitions.map(([unit]) => unit),
+])
+
+// "Dos 2.495 commits, 2.328 tiveram…" names the unit once; the second number
+// reads as unit "tiveram". A number with no recognizable unit passes only when
+// it is exactly a number the site publishes.
+const publishedNumberWithoutUnit = (metric: MetricReference, profile: ChatProfile): boolean =>
+  !knownMetricUnits.has(metric.unit) &&
+  metric.comparator === 'exact' &&
+  siteMetricFacts(profile).some((fact) => fact.value === metric.value)
+
 const metricAllowedUnscoped = (metric: MetricReference, profile: ChatProfile): boolean =>
   canonicalMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact)) ||
-  siteMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact))
+  siteMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact)) ||
+  publishedNumberWithoutUnit(metric, profile)
 
 const metricAllowedForExperience = (
   metric: MetricReference,

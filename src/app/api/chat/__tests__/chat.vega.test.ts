@@ -78,16 +78,18 @@ describe('numbers published in the site facts', () => {
     'O Klick cobre os 13 eventos da WCA.',
     'O agent-toolkit instala as mesmas skills em 5 agentes.',
     'A Vega usa 2 provedores.',
+    'Dos 2.495 commits do projeto, 2.328 tiveram coautoria de IA, todos revisados por ele.',
   ])('accepts: %s', (answer) => {
     expect(answerHasUnsupportedMetric(answer, pt)).toBe(false)
   })
 
-  it.each(['O site tem 5.000 testes.', 'O Klick cobre 40 eventos da WCA.'])(
-    'still rejects invented numbers: %s',
-    (answer) => {
-      expect(answerHasUnsupportedMetric(answer, pt)).toBe(true)
-    },
-  )
+  it.each([
+    'O site tem 5.000 testes.',
+    'O Klick cobre 40 eventos da WCA.',
+    'Dos 2.495 commits, 2.329 tiveram coautoria de IA.',
+  ])('still rejects invented numbers: %s', (answer) => {
+    expect(answerHasUnsupportedMetric(answer, pt)).toBe(true)
+  })
 
   it('site facts carry no page paths that could become unapproved links', () => {
     for (const locale of ['pt', 'en', 'es'] as const) {
