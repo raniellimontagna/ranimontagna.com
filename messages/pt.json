@@ -313,7 +313,8 @@
     "visitSite": "Ver o site",
     "ctaWhatsapp": "Falar com a Atto no WhatsApp",
     "whatsappMessage": "Olá! Vim pelo site do Ranielli e quero conversar sobre um projeto.",
-    "siteLink": "Conhecer a Atto e a Vega"
+    "siteLink": "Conhecer a Atto e a Vega",
+    "caseImageAlt": "Site {name} no navegador e no celular"
   },
   "writing": {
     "kicker": "escrita",

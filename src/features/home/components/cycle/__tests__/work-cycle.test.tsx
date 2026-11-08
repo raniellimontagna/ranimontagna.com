@@ -92,6 +92,20 @@ describe('WorkCycle', () => {
     expect(config.images?.qualities).toContain(90)
   })
 
+  it('treats each scene with a directional scrim and film grain instead of a flat overlay', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    const scenes = document.querySelectorAll('[data-scene]')
+    expect(scenes).toHaveLength(4)
+    for (const scene of scenes) {
+      expect(scene.querySelector('[data-scene-scrim]')).not.toBeNull()
+      expect(scene.querySelector('[data-scene-grain]')).not.toBeNull()
+      expect(scene.querySelector('.bg-background\\/75')).toBeNull()
+      // On phones the subject sits on the right of the frame: keep it in view.
+      expect(scene.querySelector('[data-scene-bg]')?.className).toContain('object-[72%_50%]')
+    }
+  })
+
   it('shows every terminal line without motion', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)

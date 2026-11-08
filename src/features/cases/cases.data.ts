@@ -18,7 +18,7 @@ export const CASES: Record<CaseSlug, CaseStudy> = {
     slug: 'klick',
     liveUrl: 'https://klick.ranimontagna.com',
     repoUrl: 'https://github.com/raniellimontagna/klick',
-    hero: { src: '/redesign/products/klick-timer.webp', width: 1600, height: 1000 },
+    hero: { src: '/redesign/products/frame-klick.webp', width: 2000, height: 1250 },
     gallery: [
       { src: '/redesign/products/klick-stats.webp', width: 1600, height: 1000 },
       { src: '/redesign/products/klick-mobile.webp', width: 780, height: 1688, phone: true },
@@ -42,7 +42,7 @@ export const CASES: Record<CaseSlug, CaseStudy> = {
     slug: 'grimory',
     liveUrl: 'https://grimory.com.br',
     repoUrl: null,
-    hero: { src: '/redesign/products/grimory-compendium.webp', width: 1600, height: 1125 },
+    hero: { src: '/redesign/products/frame-grimory.webp', width: 2000, height: 1250 },
     gallery: [
       { src: '/redesign/products/grimory-mesa.webp', width: 1280, height: 1067 },
       { src: '/redesign/products/grimory-inventory.webp', width: 780, height: 1598, phone: true },

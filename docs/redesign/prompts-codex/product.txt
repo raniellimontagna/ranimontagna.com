@@ -1,0 +1,4 @@
+LEFT_SURFACE = an empty stretch of dark wall and the unlit end of the desk, deeply out of focus
+FOCUS = the near edge of the monitor and the keyboard in front of it
+[SCENE] A real home office at night, room lights off. On the right, an ultrawide curved monitor on a solid wood desk, seen at a strong angle so the screen is foreshortened, showing a dark-theme code editor rendered as soft, out-of-focus horizontal strokes of muted gray with a few acid-lime highlights, completely unreadable. The monitor is the only light: its glow falls on the desk, a mechanical keyboard with blank keycaps, a closed notebook, a pen, cables tangled behind. Dust, fine scratches in the wood, fingerprints near the screen edge.
+[CAMERA] 35mm lens, f/2, seated eye level, from the left end of the desk.

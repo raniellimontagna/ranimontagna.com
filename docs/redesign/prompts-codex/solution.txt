@@ -1,0 +1,4 @@
+LEFT_SURFACE = the dark interior wall and wooden window frame in deep shadow
+FOCUS = the laptop's edge and the window frame
+[SCENE] Pre-dawn blue hour inside a quiet wooden house in the highlands of Rio Grande do Sul, southern Brazil. On the right, a large window over a valley filled with low fog; silhouettes of Araucaria angustifolia trees, tall straight trunks with flat candelabra-shaped crowns, rise from the fog in layered ridgelines fading into haze. The view is dim blue-gray, never white; fog stays mid-gray. On the sill, an open laptop with its screen facing away from the camera, its glow casting a faint chartreuse tint on the wood, beside a chimarrão gourd with a metal bomba. Light condensation on the glass, worn paint on the frame, a loose charging cable.
+[CAMERA] 35mm lens, f/2.8, standing eye level, slightly behind the laptop.

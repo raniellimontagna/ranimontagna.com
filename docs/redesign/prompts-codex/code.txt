@@ -1,0 +1,4 @@
+LEFT_SURFACE = the far end of the keyboard and desk dissolving into deep blur and shadow
+FOCUS = the fingertips and the three keys under them
+[SCENE] Macro close-up of a mechanical keyboard with matte charcoal blank keycaps (no legends); one single acid-lime Enter key. One right hand enters from the right edge, relaxed, mid-keystroke, fingertips resting naturally on the keys; five correctly formed fingers, short natural nails, real skin texture. Dust between keys, slight shine on worn keycaps. Low raking light from the right reveals keycap texture.
+[CAMERA] 100mm macro lens, f/2.8, very thin focus plane, low angle just above keycap height.

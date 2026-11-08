@@ -4,17 +4,40 @@ Origem de cada imagem em `public/redesign/`. Regra do projeto: IA só gera ambie
 
 ## Cenas de ambiente (geradas)
 
-Geradas em 07/11/2026 pelo **Codex CLI 0.167.0**, com a ferramenta `image_generation` (OpenAI), uma imagem por cena, em 1536×1024. Convertidas para webp no tamanho original (1536×1024, sem ampliar), qualidade 88 com `-sharp_yuv`, para não criar faixas nas áreas escuras. Os nomes levam `-codex` para nenhum cache servir a versão antiga. Substituíram as versões do FLUX local, que o Ranielli achou de baixa qualidade (rodada 2 do redesign).
+Versão 2, de 08/11/2026. As imagens foram geradas pelo **Codex CLI 0.167.0** (`image_generation`, OpenAI), uma por cena, em 1536×1024, seguindo uma pesquisa de direção de arte para foto atrás de texto:
+- metade esquerda vazia e escura para o texto;
+- uma única luz vinda da direita;
+- profundidade de campo rasa;
+- um único detalhe lima por cena;
+- nada de "cinematic/8K/neon".
 
-Os prompts ficam em `docs/redesign/prompts-codex/`: cada cena usa `style.txt` seguido do arquivo da cena.
+A cena `pain` serviu de referência de estilo (`-i`) para as outras, para formarem uma série. Os prompts ficam em `docs/redesign/prompts-codex/`: `series.txt` mais o arquivo da cena.
+
+A conversão para webp foi feita no tamanho original, sem ampliar, com qualidade 88 e `-sharp_yuv`. O otimizador usa qualidade 90 nos fundos. Ampliar 2× com Real-ESRGAN (Upscayl) foi testado e descartado, porque transformava o desfoque em textura de pintura.
+
+No site, cada cena fica debaixo de um escurecimento em degradê (forte atrás do texto, leve sobre a foto), com vinheta e grão de filme. Os nomes mudam a cada versão, para nenhum cache servir a anterior.
 
 | Arquivo | Prompt | Onde aparece |
 |---|---|---|
-| `scenes/discovery-codex.webp` | `discovery.txt` (parede de fichas com fios) | ciclo, etapa "dor" |
-| `scenes/fog-window-codex.webp` | `fog-window.txt` (cozinha na serra, neblina e araucárias) | ciclo, etapa "solução" |
-| `scenes/night-setup-codex.webp` | `night-setup.txt` (escritório à noite) | ciclo, etapa "produto" |
-| `scenes/keyboard-codex.webp` | `keyboard.txt` (mãos no teclado) | ciclo, etapa "código" |
-| `scenes/server-codex.webp` | `server.txt` (traseira do rack) | capa do Argus no "No ar" |
+| `scenes/pain-codex.webp` | `pain.txt` (parede de fichas, um fio lima) | ciclo, etapa "dor" |
+| `scenes/solution-codex.webp` | `solution.txt` (janela na serra, araucárias, chimarrão) | ciclo, etapa "solução" |
+| `scenes/product-codex.webp` | `product.txt` (monitor ultrawide à noite) | ciclo, etapa "produto" |
+| `scenes/code-codex.webp` | `code.txt` (mão no teclado, Enter lima) | ciclo, etapa "código" |
+| `scenes/homelab-codex.webp` | `homelab.txt` (rack com LEDs) | capa do Argus no "No ar" |
+
+## Projetos em moldura (capturas reais, 08/11/2026)
+
+Telas reais montadas em código: navegador e celular em leve perspectiva, sobre o fundo escuro. O render é feito no Chrome headless, em 2000×1250, e exportado em webp q84. Nenhuma tela foi gerada por IA.
+
+| Arquivo | Origem |
+|---|---|
+| `products/frame-klick.webp` | `klick-timer` + `klick-mobile` (capturas do app) |
+| `products/frame-grimory.webp` | `grimory-compendium` + `grimory-inventory` |
+| `atto/quadralize.webp` | quadralize.com.br, capturado em 08/11/2026 (desktop e celular, 2×) |
+| `atto/fronteira.webp` | fronteirasuldrones.com, capturado em 08/11/2026 |
+| `atto/nan.webp` | nansolutions.com.br, capturado em 08/11/2026 |
+
+A TALA não tem site público, então fica sem imagem até chegar uma captura real. As antigas `public/projects/atto-*.webp` (aparelhos com tela vazia) saíram.
 
 ## Capturas reais
 

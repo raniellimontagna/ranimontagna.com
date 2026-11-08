@@ -14,13 +14,13 @@ export type LiveWorkItem = {
 export const LIVE_WORK: readonly LiveWorkItem[] = [
   {
     slug: 'grimory',
-    image: { src: '/redesign/products/grimory-compendium.webp' },
+    image: { src: '/redesign/products/frame-grimory.webp' },
     href: '/projects/grimory',
     external: false,
   },
   {
     slug: 'klick',
-    image: { src: '/redesign/products/klick-timer.webp' },
+    image: { src: '/redesign/products/frame-klick.webp' },
     href: '/projects/klick',
     external: false,
   },
@@ -38,7 +38,7 @@ export const LIVE_WORK: readonly LiveWorkItem[] = [
   },
   {
     slug: 'argus',
-    image: { src: '/redesign/scenes/server-codex.webp' },
+    image: { src: '/redesign/scenes/homelab-codex.webp' },
     href: null,
     external: false,
   },

@@ -17,10 +17,10 @@ export const CYCLE_CHAPTERS: readonly {
   transition: Transition
   background: string
 }[] = [
-  { id: 'pain', transition: 'card', background: '/redesign/scenes/discovery-codex.webp' },
-  { id: 'solution', transition: 'wipe-up', background: '/redesign/scenes/fog-window-codex.webp' },
-  { id: 'product', transition: 'circle', background: '/redesign/scenes/night-setup-codex.webp' },
-  { id: 'code', transition: 'split', background: '/redesign/scenes/keyboard-codex.webp' },
+  { id: 'pain', transition: 'card', background: '/redesign/scenes/pain-codex.webp' },
+  { id: 'solution', transition: 'wipe-up', background: '/redesign/scenes/solution-codex.webp' },
+  { id: 'product', transition: 'circle', background: '/redesign/scenes/product-codex.webp' },
+  { id: 'code', transition: 'split', background: '/redesign/scenes/code-codex.webp' },
 ]
 
 export type TerminalLine = { kind: 'prompt' | 'note' | 'add' | 'fail' | 'ok'; text: string }

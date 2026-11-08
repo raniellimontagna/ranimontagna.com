@@ -32,6 +32,47 @@ function artifactFor(id: ChapterId, copy: CycleCopy): ReactNode {
  * How he works, in four chapters. Without motion the chapters are stacked
  * blocks; with motion the section pins and the chapters replace each other.
  */
+const shade = (percent: number) => `color-mix(in oklab, var(--background) ${percent}%, transparent)`
+
+// Film grain as a tiny SVG noise tile: it unifies the four scenes and hides
+// banding and softness in the dark areas.
+const GRAIN =
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")"
+
+/**
+ * A directional scrim instead of a flat overlay: dark where the text sits
+ * (left on desktop, bottom on phones), lighter where the photo's subject is,
+ * plus a soft vignette and grain. A flat 75% overlay crushed the photo into a
+ * quarter of its tonal range.
+ */
+function SceneTreatment() {
+  return (
+    <>
+      <div
+        aria-hidden="true"
+        data-scene-scrim
+        className="absolute inset-0 lg:hidden"
+        style={{
+          backgroundImage: `linear-gradient(180deg, ${shade(55)} 0%, ${shade(68)} 40%, ${shade(92)} 100%)`,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 hidden lg:block"
+        style={{
+          backgroundImage: `linear-gradient(90deg, ${shade(94)} 0%, ${shade(86)} 38%, ${shade(52)} 62%, ${shade(34)} 100%), radial-gradient(ellipse at 72% 50%, transparent 35%, ${shade(55)} 100%)`,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        data-scene-grain
+        className="pointer-events-none absolute inset-0 opacity-[0.09] mix-blend-overlay"
+        style={{ backgroundImage: GRAIN }}
+      />
+    </>
+  )
+}
+
 export function WorkCycle({ copy }: { copy: CycleCopy }) {
   const rootRef = useRef<HTMLElement>(null)
 
@@ -116,9 +157,9 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
               fill
               sizes="100vw"
               quality={90}
-              className="object-cover"
+              className="object-cover object-[72%_50%] lg:object-center"
             />
-            <div aria-hidden="true" className="absolute inset-0 bg-background/75" />
+            <SceneTreatment />
 
             <div className="relative z-10 grid flex-1 grid-rows-[auto_1fr] gap-8 px-4 pt-32 pb-12 sm:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:pt-28 lg:pb-16">
               <div

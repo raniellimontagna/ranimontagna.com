@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { ActionLink, AttoLogo, Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
 import { ATTO_CASES, ATTO_CONTACT, ATTO_SERVICES, attoWhatsappHref } from './atto.data'
 
@@ -53,7 +54,12 @@ export async function AttoSection() {
           </p>
           <ol className="border-t border-line">
             {ATTO_CASES.map((item, index) => (
-              <li key={item.id} data-reveal className="border-b border-line">
+              <li
+                key={item.id}
+                data-reveal
+                data-atto-case={item.id}
+                className="border-b border-line"
+              >
                 <details className="group">
                   <summary className="flex cursor-pointer list-none items-baseline gap-5 py-6 [&::-webkit-details-marker]:hidden">
                     <span aria-hidden="true" className="font-mono text-xs text-muted">
@@ -73,6 +79,17 @@ export async function AttoSection() {
                     </span>
                   </summary>
                   <div className="flex flex-col gap-4 pb-8 pl-10">
+                    {item.image ? (
+                      <div className="relative aspect-[8/5] w-full max-w-2xl overflow-hidden rounded-[2px] bg-surface">
+                        <StaticImage
+                          src={item.image}
+                          alt={t('caseImageAlt', { name: item.name })}
+                          fill
+                          sizes="(min-width: 1024px) 40vw, 90vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : null}
                     <p className="max-w-xl text-base leading-relaxed text-foreground">
                       {t(`cases.${item.id}.description`)}
                     </p>

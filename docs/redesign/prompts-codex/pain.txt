@@ -1,0 +1,4 @@
+LEFT_SURFACE = a bare, unlit plaster wall seen at a steep angle, fading into shadow
+FOCUS = the nearest cluster of cards and the single lime thread
+[SCENE] Late night in a small home office. On the right part of the wall, a dense, overlapping mess of paper index cards and torn sticky notes held by pushpins, linked by a chaotic web of thin threads pulled in conflicting directions. Most threads are dull oxblood red; one single acid-lime thread cuts cleanly through the tangle. Cards are blank or carry faint, illegible pencil marks. Curled corners, pinholes, masking tape, a coffee-ring stain, frayed thread ends, hard pushpin shadows. Lit only by a small neutral desk lamp just below the right edge of the frame, raking across the paper.
+[CAMERA] 50mm lens, f/2.8, eye level, wall shot obliquely from the left so it recedes to the right.

@@ -313,7 +313,8 @@
     "visitSite": "Visit the site",
     "ctaWhatsapp": "Talk to Atto on WhatsApp",
     "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
-    "siteLink": "Meet Atto and Vega"
+    "siteLink": "Meet Atto and Vega",
+    "caseImageAlt": "The {name} site on desktop and phone"
   },
   "writing": {
     "kicker": "writing",

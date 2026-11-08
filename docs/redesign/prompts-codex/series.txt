@@ -1,0 +1,8 @@
+[SERIES STYLE]
+Photorealistic real photograph, as if taken on a full-frame mirrorless camera by a documentary photographer. Natural, motivated available light only. Exposure falls off left-to-right: the left side drops to near-black, the right side holds real midtones and a few clean highlights. Color: neutral charcoal blacks with a faint green-gray tint, muted desaturated midtones, exactly one small acid-lime (chartreuse, #d9ff5a-like) accent as the only saturated color. Fine 35mm film grain, gentle natural lens vignetting, real-world imperfections (dust, scuffs, wear). Honest and unstaged. No glossy CGI look, no HDR, no teal-and-orange grade, no heavy retouching.
+
+[LAYOUT]
+Landscape 3:2 frame used as a full-bleed website background behind large text. LEFT HALF (0-50% of width): calm negative space — {LEFT_SURFACE}, dark, plain and softly out of focus, with no objects, no edges, no highlights, no busy texture. All visual interest sits between 55% and 90% of the width, inside the middle 65% of the height, with breathing room at every edge. Single key light from the right. Shallow depth of field: only {FOCUS} is sharp; everything else melts into soft blur.
+
+[CONSTRAINTS]
+No faces. No legible text, letters, numbers, logos, brand marks, UI or watermarks anywhere; screens and labels show only soft, unreadable abstract shapes. No neon, no sci-fi glow, no holograms, no lens flares, no god rays.
