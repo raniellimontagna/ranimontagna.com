@@ -99,3 +99,26 @@ describe('numbers published in the site facts', () => {
     }
   })
 })
+
+describe('numbers and links guidance', () => {
+  it.each([
+    ['pt', /sem arredondar/, /não escreva links para páginas deste site/i],
+    ['en', /without rounding/, /do not write links to pages of this site/i],
+    ['es', /sin redondear/, /no escribas enlaces a páginas de este sitio/i],
+  ] as const)(
+    'tells Vega to copy numbers exactly and not link site pages (%s)',
+    (locale, numbers, links) => {
+      const prompt = buildSystemPrompt(locale, runtime)
+      expect(prompt).toMatch(numbers)
+      expect(prompt).toMatch(links)
+    },
+  )
+
+  it('correction rules repeat the exact-number and no-site-link guidance', async () => {
+    const { buildCorrectionSystemPrompt } = await import('../chat.response')
+    expect(buildCorrectionSystemPrompt('base', 'unsupported-metric')).toMatch(
+      /no rounding|without rounding/i,
+    )
+    expect(buildCorrectionSystemPrompt('base', 'unsafe-link')).toMatch(/pages of this site/i)
+  })
+})

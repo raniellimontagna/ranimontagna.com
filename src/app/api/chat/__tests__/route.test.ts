@@ -320,7 +320,7 @@ describe('chat route provider order', () => {
     expect(body).not.toContain(rejected)
     expect(mockCallDeepSeek).toHaveBeenCalledTimes(2)
     expect(mockCallDeepSeek.mock.calls[1]?.[0]?.systemPrompt).toContain(
-      'Regenerate using only metrics explicitly present in the authoritative facts.',
+      'Regenerate using only numbers explicitly present in the authoritative and site facts, copied exactly: no rounding, no percentages, no new totals.',
     )
     expect(mockCallDeepSeek.mock.calls[1]?.[0]?.systemPrompt).not.toContain(rejected)
     expect(mockCallOpenRouter).not.toHaveBeenCalled()

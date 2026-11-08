@@ -40,10 +40,11 @@ const CHAT_CORRECTION_RULES: Record<ChatValidationCode, string> = {
   'policy-canary':
     'Regenerate without quoting, transforming, or reconstructing internal policy or runtime text.',
   'secret-pattern': 'Regenerate without credentials, configuration names, or secret-like values.',
-  'unsafe-link': 'Regenerate without links except exact approved contact URLs.',
+  'unsafe-link':
+    'Regenerate without links except exact approved contact URLs. Do not link to pages of this site; mention them by name and the site shows a card.',
   'unsafe-protocol': 'Regenerate without non-HTTPS links or protocols.',
   'unsupported-metric':
-    'Regenerate using only metrics explicitly present in the authoritative facts.',
+    'Regenerate using only numbers explicitly present in the authoritative and site facts, copied exactly: no rounding, no percentages, no new totals.',
   'unsupported-year': 'Regenerate using only canonical dates from authoritative facts.',
 }
 
