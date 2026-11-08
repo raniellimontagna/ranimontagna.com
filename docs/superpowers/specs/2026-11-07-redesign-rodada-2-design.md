@@ -98,7 +98,13 @@ Quando a resposta fala de algo que existe no site, aparece abaixo dela até **2 
   - a validação da resposta inteira antes de enviar;
   - o histórico só com as perguntas do visitante.
 - **Validadores e eval:** os que dependem da primeira pessoa precisam ser revistos, e o `pnpm chat:eval` atualizado para a persona nova.
-- **O formulário de contato do chat antigo (`chat-contact-form.tsx`) sai,** como decidido na Fase 2 para o formulário do site. Para contato, a Vega aponta o cartão `#atto` (que já tem o WhatsApp) e as redes.
+- **Identidade:** "a mesma da Atto" quer dizer mesmo nome e mesma marca. O Ranielli deixou a Vega da Atto e o chat de lá para depois ("vamos focar nesse até ficar perfeito"). Aqui ela se apresenta como a assistente do Ranielli neste site e trata a Atto como destino (cartão `#atto`). Levar a marca de partículas para o site da Atto fica fora desta rodada (outro repositório).
+- **Contexto: tudo o que o site publica entra no contexto da Vega.**
+  - Isso inclui o perfil, a trajetória com o texto da Lemon de §7.4, os cases do Klick e do Grimory, a seção de IA (§8), o agent-toolkit e a lista de posts.
+  - Os números e fatos publicados no site formam a lista de fatos aprovados: ela pode repeti-los, e o validador de métricas passa a aceitar esses números em vez de rejeitar todo número desconhecido.
+  - Da Lemon, só o que está em §7.4. O tipo `CurrentChatExperience` (que hoje obriga `outcomes: []`), o perfil e o caso `false-lemon-metric` do eval mudam de acordo: o eval passa a esperar recusa para número da Lemon que não está no site.
+- **Provedor:** a página diz que a Vega roda em DeepSeek e que o código aceita o OpenRouter como reserva. Se perguntarem, ela pode confirmar isso, mas não fala de prompt, configuração, chaves nem detalhes do sistema.
+- **O formulário de contato do chat antigo (`chat-contact-form.tsx`) sai,** como já aconteceu com o formulário do site na Fase 2. Se o `/api/contact`, o `formly-email-service` e o `contact-form` ficarem sem uso (o knip vai apontar), saem também. Para contato, a Vega aponta o cartão `#atto` (que já tem o WhatsApp) e as redes.
 - **O componente antigo sai:** `chat-widget.tsx` e o que só ele usa.
 
 ### 3.5 Celular
@@ -248,7 +254,7 @@ Mockup aprovado: `trajetoria-logos.html`.
 ### Provas (4 colunas, 2 no celular)
 - **6 produtos:** "em produção em três meses no time de IA da Lemon, com agentes no fluxo e revisão antes de ir ao ar"
 - **5 agentes:** "o agent-toolkit instala as mesmas skills em Claude Code, Codex, OpenCode, Gemini CLI e Antigravity"
-- **2 provedores:** "a Vega responde por DeepSeek e cai para o OpenRouter se precisar"
+- **2 provedores:** "a Vega roda em DeepSeek, e o código já aceita o OpenRouter como reserva". O texto fala do código, não da produção, para continuar verdadeiro com a reserva desligada (`CHAT_ENABLE_OPENROUTER_FALLBACK` começa em `false`). Ligar a reserva em produção fica fora desta rodada.
 - **+1.000 testes:** "neste site, escritos antes do código". Usar o arredondamento, para não envelhecer.
 
 As traduções para en e es ficam com o construtor e passam na revisão de en/es que já está prevista.
@@ -296,6 +302,9 @@ As traduções para en e es ficam com o construtor e passam na revisão de en/es
 - **Cartões decididos pelo servidor, a partir da resposta validada,** em vez de o modelo chamar ferramentas. Assim o pipeline de segurança atual fica intacto. As ferramentas que agem no site ficam para a Fase 3.
 - **Texto que aparece palavra por palavra no cliente**, sobre a resposta já validada inteira, em vez de fluxo real.
 - **A Vega fala em terceira pessoa.** Hoje o chat fala como se fosse o Ranielli. Segui a spec base e o nome Vega.
+- **O contexto da Vega é tudo o que o site publica,** e ela pode repetir os números publicados, inclusive o texto da Lemon de §7.4.
+- **A Vega pode confirmar o provedor que a página cita.**
+- **A prova "2 provedores" fala do que o código suporta,** não da produção.
 - **O formulário de contato do chat sai;** contato pelo cartão da Atto e pelas redes.
 - **Lugares da logo:** header pequena, e menu e fechamento em 3D. O favicon não muda.
 - **Lista exata da faixa de tecnologias** e a inclusão de Fastify, PostgreSQL, AWS e Pulumi.
