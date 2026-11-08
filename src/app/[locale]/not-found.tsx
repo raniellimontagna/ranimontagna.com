@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocale, useTranslations } from 'next-intl'
-import { openAltair } from '@/shared/lib/altair-events'
+import { openVega } from '@/shared/lib/vega-events'
 import { StatusView } from '@/shared/ui-2026'
 
 export default function NotFoundPage() {
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
       actions={[
         { label: t('backHome'), href: prefix || '/' },
         { label: t('links.blog.title'), href: `${prefix}/blog` },
-        { label: t('askAltair'), onClick: openAltair },
+        { label: t('askVega'), onClick: openVega },
       ]}
     />
   )

@@ -14,14 +14,14 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: vi.fn(),
   getMessages: vi
     .fn()
-    .mockResolvedValue({ notFound: { title: 'Not found' }, chat: { title: 'Chat' } }),
+    .mockResolvedValue({ notFound: { title: 'Not found' }, vega: { label: 'Vega' } }),
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 
 vi.mock('@/shared/shell', () => ({
   SiteHeader: () => <header data-testid="site-header" />,
   SiteFooter: () => <footer data-testid="site-footer" />,
-  AltairLauncher: () => <button type="button" data-testid="altair-launcher" />,
+  VegaLauncher: () => <button type="button" data-testid="vega-launcher" />,
   ShellWidgets: () => null,
 }))
 
@@ -49,7 +49,7 @@ describe('LocaleLayout shell', () => {
       'site-header',
       'locale-content',
       'site-footer',
-      'altair-launcher',
+      'vega-launcher',
     ])
   })
 

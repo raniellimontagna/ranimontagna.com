@@ -66,7 +66,7 @@ function readProviderMessages(element: React.ReactNode): unknown[] {
 vi.mock('@/shared/shell', () => ({
   SiteHeader: () => null,
   SiteFooter: () => null,
-  AltairLauncher: () => null,
+  VegaLauncher: () => null,
   ShellWidgets: () => null,
 }))
 

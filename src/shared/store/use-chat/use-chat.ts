@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { sanitizeCards } from '@/shared/vega/vega-card'
 import type { ChatMessage, ChatState } from './use-chat.types'
 
 const generateId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
@@ -8,8 +9,10 @@ export const useChat = create<ChatState>((set, get) => ({
   messages: [],
   isLoading: false,
   error: null,
+  failedQuestion: null,
+  typingId: null,
 
-  setOpen: (open) => set({ isOpen: open }),
+  setOpen: (open) => set(open ? { isOpen: true } : { isOpen: false, typingId: null }),
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 
   sendMessage: async (content, locale) => {
@@ -36,6 +39,7 @@ export const useChat = create<ChatState>((set, get) => ({
       messages: [...state.messages, userMessage, assistantMessage],
       isLoading: true,
       error: null,
+      failedQuestion: null,
     }))
 
     try {
@@ -75,6 +79,14 @@ export const useChat = create<ChatState>((set, get) => ({
               ),
             }))
           }
+          if (parsed.cards) {
+            const cards = sanitizeCards(parsed.cards)
+            set((state) => ({
+              messages: state.messages.map((m) =>
+                m.id === assistantMessage.id ? { ...m, cards } : m,
+              ),
+            }))
+          }
         } catch {
           // Skip malformed chunks
         }
@@ -99,11 +111,13 @@ export const useChat = create<ChatState>((set, get) => ({
       }
 
       reader.releaseLock()
+      set((state) => ({ typingId: state.isOpen ? assistantMessage.id : null }))
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
       set((state) => ({
         error: errorMessage,
+        failedQuestion: content,
         messages: state.messages.filter((m) => m.id !== assistantMessage.id),
       }))
     } finally {
@@ -111,5 +125,22 @@ export const useChat = create<ChatState>((set, get) => ({
     }
   },
 
-  clearMessages: () => set({ messages: [], error: null }),
+  retry: async (locale) => {
+    const question = get().failedQuestion
+    if (!question) return
+    // The failed question is still on screen; drop it so the resend shows it once.
+    set((state) => {
+      const last = state.messages.at(-1)
+      const keep =
+        last?.role === 'user' && last.content === question
+          ? state.messages.slice(0, -1)
+          : state.messages
+      return { messages: keep }
+    })
+    await get().sendMessage(question, locale)
+  },
+
+  finishTyping: () => set({ typingId: null }),
+
+  clearMessages: () => set({ messages: [], error: null, failedQuestion: null, typingId: null }),
 }))

@@ -7,4 +7,9 @@ export {
   REDUCED_MOTION_QUERY,
   type ScrollMotion,
 } from './load-scroll-motion'
-export { SmoothScroll, useScrollVelocity } from './smooth-scroll'
+export {
+  SmoothScroll,
+  startSmoothScroll,
+  stopSmoothScroll,
+  useScrollVelocity,
+} from './smooth-scroll'

@@ -1,46 +1,45 @@
 'use client'
 
 import { type ComponentType, useCallback, useEffect, useRef, useState } from 'react'
-import { ALTAIR_OPEN_EVENT, openAltair } from '@/shared/lib/altair-events'
+import { openVega, VEGA_OPEN_EVENT } from '@/shared/lib/vega-events'
 import { useChat } from '@/shared/store/use-chat/use-chat'
 
-type ChatWidgetComponent = ComponentType<{ hideLauncher?: boolean }>
+type VegaComponent = ComponentType
 
-const loadDefaultChatWidget = (): Promise<ChatWidgetComponent> =>
-  import('@/shared/components/ui/chat-widget/chat-widget').then(({ ChatWidget }) => ChatWidget)
+const loadDefaultVega = (): Promise<VegaComponent> =>
+  import('@/shared/vega/vega-screen').then(({ VegaScreen }) => VegaScreen)
 
 /**
- * Wires the assistant on every page: ⌘K or Ctrl+K asks for it, and
- * `altair:open` loads the chat lazily and opens it. Phase 3 swaps the chat
- * for the Altair panel behind the same event.
+ * Wires Vega on every page: ⌘K or Ctrl+K asks for her, and `vega:open` loads
+ * the full-screen chat lazily and opens it.
  */
 export function ShellWidgets({
-  loadChatWidget = loadDefaultChatWidget,
+  loadVega = loadDefaultVega,
 }: {
-  loadChatWidget?: () => Promise<ChatWidgetComponent>
+  loadVega?: () => Promise<VegaComponent>
 }) {
-  const [ChatWidget, setChatWidget] = useState<ChatWidgetComponent | null>(null)
+  const [Vega, setVega] = useState<VegaComponent | null>(null)
   const loading = useRef<Promise<void> | null>(null)
   const setChatOpen = useChat((state) => state.setOpen)
 
-  const openChat = useCallback(() => {
-    loading.current ??= loadChatWidget().then((Loaded) => setChatWidget(() => Loaded))
+  const open = useCallback(() => {
+    loading.current ??= loadVega().then((Loaded) => setVega(() => Loaded))
     setChatOpen(true)
-  }, [loadChatWidget, setChatOpen])
+  }, [loadVega, setChatOpen])
 
   useEffect(() => {
     const onShortcut = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== 'k' || (!event.metaKey && !event.ctrlKey)) return
       event.preventDefault()
-      openAltair()
+      openVega()
     }
-    window.addEventListener(ALTAIR_OPEN_EVENT, openChat)
+    window.addEventListener(VEGA_OPEN_EVENT, open)
     document.addEventListener('keydown', onShortcut)
     return () => {
-      window.removeEventListener(ALTAIR_OPEN_EVENT, openChat)
+      window.removeEventListener(VEGA_OPEN_EVENT, open)
       document.removeEventListener('keydown', onShortcut)
     }
-  }, [openChat])
+  }, [open])
 
-  return ChatWidget ? <ChatWidget hideLauncher /> : null
+  return Vega ? <Vega /> : null
 }

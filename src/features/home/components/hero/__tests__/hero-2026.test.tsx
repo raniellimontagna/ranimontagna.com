@@ -20,7 +20,7 @@ describe('Hero2026', () => {
     render(await Hero2026())
     expect(screen.getByRole('heading', { level: 1, name: 'Ranielli Montagna' })).toBeInTheDocument()
     expect(screen.getByText('lead')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'ctaAltair' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'ctaVega' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'ctaWork' })).toHaveAttribute('href', '#no-ar')
     expect(screen.getByAltText('portraitAlt')).toBeInTheDocument()
   })
@@ -32,12 +32,12 @@ describe('Hero2026', () => {
     )
   })
 
-  it('the Altair action dispatches altair:open', async () => {
+  it('the Vega action dispatches vega:open', async () => {
     const spy = vi.fn()
-    window.addEventListener('altair:open', spy)
+    window.addEventListener('vega:open', spy)
     render(await Hero2026())
-    fireEvent.click(screen.getByRole('button', { name: 'ctaAltair' }))
+    fireEvent.click(screen.getByRole('button', { name: 'ctaVega' }))
     expect(spy).toHaveBeenCalledTimes(1)
-    window.removeEventListener('altair:open', spy)
+    window.removeEventListener('vega:open', spy)
   })
 })

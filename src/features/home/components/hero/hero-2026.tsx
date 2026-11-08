@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import type { CSSProperties } from 'react'
-import { AltairTrigger } from './altair-trigger'
 import { HeroPortrait } from './hero-portrait'
+import { VegaTrigger } from './vega-trigger'
 
 const NAME_LINES = ['Ranielli', 'Montagna'] as const
 const LETTER_STAGGER_MS = 35
@@ -52,10 +52,10 @@ export async function Hero2026() {
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <AltairTrigger className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:translate-y-0">
+          <VegaTrigger className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:translate-y-0">
             <span aria-hidden="true">✦</span>
-            {t('ctaAltair')}
-          </AltairTrigger>
+            {t('ctaVega')}
+          </VegaTrigger>
           <a
             href="#no-ar"
             className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground"

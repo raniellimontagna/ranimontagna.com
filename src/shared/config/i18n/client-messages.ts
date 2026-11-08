@@ -1,10 +1,10 @@
 import type { AbstractIntlMessages } from 'next-intl'
 
 export const CLIENT_MESSAGE_NAMESPACES = {
-  // The chat opens from the Altair star on every page. Everything else renders
+  // Vega opens from the launcher on every page. Everything else renders
   // on the server or gets its text as props: every extra namespace is parsed
   // during hydration.
-  shell: ['notFound', 'chat'],
+  shell: ['notFound', 'vega'],
   home: [],
   projects: [],
   blog: ['blog'],

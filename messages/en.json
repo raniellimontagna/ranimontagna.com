@@ -3,7 +3,7 @@
     "skipToContent": "Skip to main content"
   },
   "shell": {
-    "altair": "Ask Altair",
+    "vega": "Talk to Vega",
     "nav": {
       "label": "Sections",
       "noAr": "Live",
@@ -36,7 +36,7 @@
   },
   "hero2026": {
     "lead": "Product engineer. I take someone's pain and ship the product, with AI writing the code and me deciding what matters.",
-    "ctaAltair": "Ask Altair",
+    "ctaVega": "Ask Vega",
     "ctaWork": "See what's live",
     "portraitAlt": "Portrait of Ranielli Montagna",
     "hint": "hover the portrait · scroll to reveal",
@@ -489,7 +489,7 @@
         "description": "Let's talk about ideas"
       }
     },
-    "askAltair": "Ask Altair"
+    "askVega": "Ask Vega"
   },
   "chat": {
     "title": "Rani",
@@ -529,5 +529,24 @@
       "subject": "Message from the website chat — {name}",
       "privacy": "I use your data only to answer this contact."
     }
+  },
+  "vega": {
+    "label": "Vega",
+    "greeting": "Hi, I'm Vega.",
+    "greetingAsk": "Where should we start?",
+    "placeholder": "Ask about Ranielli, his projects or Atto…",
+    "suggestions": [
+      "What does he do with AI?",
+      "Show me Grimory",
+      "Where has he worked?",
+      "I want to talk to Atto"
+    ],
+    "back": "Back to the site",
+    "newChat": "New chat",
+    "thinking": "thinking…",
+    "error": "I couldn't answer right now.",
+    "retry": "Try again",
+    "send": "Send",
+    "cardCta": "See it on the site"
   }
 }

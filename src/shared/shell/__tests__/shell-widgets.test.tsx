@@ -1,37 +1,37 @@
 import { useChat } from '@/shared/store/use-chat/use-chat'
 import { act, fireEvent, render, screen, waitFor } from '@/tests/test-utils'
-import { AltairLauncher } from '../altair-launcher'
 import { ShellWidgets } from '../shell-widgets'
+import { VegaLauncher } from '../vega-launcher'
 
-describe('Altair entry points', () => {
+describe('Vega entry points', () => {
   beforeEach(() => useChat.setState({ isOpen: false }))
 
-  it('the star and ⌘K both dispatch altair:open', () => {
+  it('the launcher and ⌘K both dispatch vega:open', () => {
     const spy = vi.fn()
-    window.addEventListener('altair:open', spy)
-    render(<AltairLauncher label="Pergunte ao Altair" />)
-    render(<ShellWidgets loadChatWidget={vi.fn().mockResolvedValue(() => null)} />)
-    fireEvent.click(screen.getByRole('button', { name: 'Pergunte ao Altair' }))
+    window.addEventListener('vega:open', spy)
+    render(<VegaLauncher label="Falar com a Vega" />)
+    render(<ShellWidgets loadVega={vi.fn().mockResolvedValue(() => null)} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Falar com a Vega' }))
     fireEvent.keyDown(document, { key: 'k', metaKey: true })
     fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
     expect(spy).toHaveBeenCalledTimes(3)
-    window.removeEventListener('altair:open', spy)
+    window.removeEventListener('vega:open', spy)
   })
 
-  it('opens the chat when altair:open fires', async () => {
-    const loadChatWidget = vi.fn().mockResolvedValue(() => null)
-    render(<ShellWidgets loadChatWidget={loadChatWidget} />)
+  it('opens Vega when vega:open fires', async () => {
+    const loadVega = vi.fn().mockResolvedValue(() => null)
+    render(<ShellWidgets loadVega={loadVega} />)
     act(() => {
-      window.dispatchEvent(new Event('altair:open'))
+      window.dispatchEvent(new Event('vega:open'))
     })
-    await waitFor(() => expect(loadChatWidget).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(loadVega).toHaveBeenCalledTimes(1))
     expect(useChat.getState().isOpen).toBe(true)
   })
 
-  it('the star is where focus returns after the chat closes', () => {
-    render(<AltairLauncher label="Pergunte ao Altair" />)
-    expect(screen.getByRole('button', { name: 'Pergunte ao Altair' })).toHaveAttribute(
-      'data-chat-launcher',
-    )
+  it('the launcher shows the Vega mark and is where focus returns', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    expect(button).toHaveAttribute('data-chat-launcher')
+    expect(button.querySelector('canvas')).not.toBeNull()
   })
 })
