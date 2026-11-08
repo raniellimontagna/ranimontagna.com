@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { PhotoReveal, Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
+import { PhotoReveal, Reveal, ScrubText, SECTION_X, WordReveal } from '@/shared/ui-2026'
 
 /** A pause after the cycle: a real photo that opens with the scroll, and one line about him. */
 export async function Interlude() {
@@ -21,11 +21,14 @@ export async function Interlude() {
         <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
           {t('kicker')}
         </p>
-        <WordReveal
-          as="p"
-          text={t('statement')}
-          className="text-[clamp(36px,4.8vw,80px)] leading-[0.98] font-semibold tracking-[-0.035em] text-foreground"
-        />
+        {/* Below lg the statement lights up word by word with the scroll. */}
+        <ScrubText effect="fill">
+          <WordReveal
+            as="p"
+            text={t('statement')}
+            className="text-[clamp(36px,4.8vw,80px)] leading-[0.98] font-semibold tracking-[-0.035em] text-foreground"
+          />
+        </ScrubText>
         <p data-reveal className="max-w-xl text-lg leading-snug text-foreground sm:text-xl">
           {t('detail')}
         </p>

@@ -1,6 +1,7 @@
 export { ActionLink } from './action-link'
 export { PhotoReveal } from './photo-reveal'
 export { Reveal } from './reveal'
+export { ScrubText } from './scrub-text'
 export { SectionHeading } from './section-heading'
 export { WordReveal } from './word-reveal'
 

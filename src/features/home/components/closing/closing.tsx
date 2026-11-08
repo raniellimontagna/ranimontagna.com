@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { getResumeByLocale, socialLinks } from '@/shared/lib/social-links'
-import { ActionLink, Reveal, RmLogo3D, SECTION_X, WordReveal } from '@/shared/ui-2026'
+import { ActionLink, Reveal, RmLogo3D, ScrubText, SECTION_X, WordReveal } from '@/shared/ui-2026'
 import { attoWhatsappHref } from '../atto/atto.data'
 import { CopyEmailButton } from './copy-email-button'
 
@@ -70,19 +70,26 @@ export async function Closing() {
       </div>
 
       <Reveal stagger={0.035} className="mt-10 sm:mt-14">
-        <p className="px-2 pb-[0.06em] text-center text-[21vw] leading-[0.9] font-semibold tracking-[-0.06em] text-foreground sm:text-[clamp(56px,13.5vw,240px)] sm:whitespace-nowrap">
-          <span className="sr-only">{NAME}</span>
-          {NAME.split(' ').map((word, wordIndex) => (
-            <span key={word} data-name-word className="inline-block whitespace-nowrap">
-              {wordIndex > 0 ? <span aria-hidden="true"> </span> : null}
-              {Array.from(word, (letter, index) => (
-                <span key={index} data-reveal-word aria-hidden="true" className="inline-block">
-                  {letter}
-                </span>
-              ))}
-            </span>
-          ))}
-        </p>
+        {/* Below lg the letters climb with the scroll instead of once. */}
+        <ScrubText effect="rise">
+          <p className="px-2 pb-[0.06em] text-center text-[21vw] leading-[0.9] font-semibold tracking-[-0.06em] text-foreground sm:text-[clamp(56px,13.5vw,240px)] sm:whitespace-nowrap">
+            <span className="sr-only">{NAME}</span>
+            {NAME.split(' ').map((word, wordIndex) => (
+              <span
+                key={word}
+                data-name-word
+                className="inline-block whitespace-nowrap max-lg:-mb-[0.12em] max-lg:overflow-hidden max-lg:pb-[0.12em]"
+              >
+                {wordIndex > 0 ? <span aria-hidden="true"> </span> : null}
+                {Array.from(word, (letter, index) => (
+                  <span key={index} data-reveal-word aria-hidden="true" className="inline-block">
+                    {letter}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </p>
+        </ScrubText>
       </Reveal>
     </section>
   )
