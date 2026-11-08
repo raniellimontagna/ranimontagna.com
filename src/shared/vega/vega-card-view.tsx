@@ -17,14 +17,17 @@ export function VegaCardView({
     <Link
       href={card.href}
       onClick={onOpen}
-      className="group/card grid grid-cols-[96px_minmax(0,1fr)] overflow-hidden rounded-[10px] border border-line bg-surface transition-colors duration-300 hover:border-accent"
+      className={`press group/card grid overflow-hidden rounded-[10px] border border-line bg-surface transition-colors duration-300 hover:border-accent ${
+        card.image ? 'grid-cols-[96px_minmax(0,1fr)]' : 'grid-cols-1'
+      }`}
     >
-      <span className="relative block min-h-[72px] bg-background">
-        {card.image ? (
-          // biome-ignore lint/performance/noImgElement: tiny decorative thumbnail inside an overlay.
+      {/* Sections, pages and posts have no picture: no empty slot for them. */}
+      {card.image ? (
+        <span data-card-thumb className="relative block min-h-[72px] bg-background">
+          {/* biome-ignore lint/performance/noImgElement: tiny decorative thumbnail inside an overlay. */}
           <img src={card.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        ) : null}
-      </span>
+        </span>
+      ) : null}
       <span className="flex flex-col gap-1 px-3 py-2.5">
         <span className="text-sm font-semibold text-foreground">{card.title}</span>
         <span className="text-xs leading-snug text-muted">{card.summary}</span>
