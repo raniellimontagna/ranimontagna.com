@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/shared/config/i18n/navigation'
+import { RmLogo } from '@/shared/ui-2026'
 import { HeaderBehavior } from './header-behavior'
 import { PreferencesMenu } from './preferences-menu'
 import { SiteMenu } from './site-menu'
@@ -14,7 +15,11 @@ export async function SiteHeader() {
   return (
     <HeaderBehavior>
       <div className="flex h-16 items-center justify-between gap-6 px-4 sm:px-8 lg:px-12">
-        <Link href="/" className="font-mono text-sm font-semibold tracking-tight text-foreground">
+        <Link
+          href="/"
+          className="group flex items-center gap-2.5 font-mono text-sm font-semibold tracking-tight text-foreground"
+        >
+          <RmLogo className="h-7 w-7 transition-transform duration-300 group-hover:[transform:perspective(200px)_rotateY(-20deg)_rotateX(8deg)]" />
           Ranielli Montagna
         </Link>
 

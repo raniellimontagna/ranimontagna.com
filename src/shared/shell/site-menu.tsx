@@ -4,6 +4,7 @@ import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from '@/shared/config/i18n/navigation'
 import { socialLinks } from '@/shared/lib/social-links'
+import { RmLogo3D } from '@/shared/ui-2026'
 import { SITE_NAV, type SiteNavId } from './site-nav'
 
 type SiteMenuLabels = {
@@ -105,6 +106,10 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                 >
                   {labels.close}
                 </button>
+              </div>
+
+              <div className="pointer-events-auto absolute top-1/2 right-12 hidden -translate-y-1/2 lg:block">
+                <RmLogo3D size={200} label="Ranielli Montagna" />
               </div>
 
               <nav className="mt-12 flex-1">

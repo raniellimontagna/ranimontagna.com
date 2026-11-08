@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { getResumeByLocale, socialLinks } from '@/shared/lib/social-links'
-import { ActionLink, Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
+import { ActionLink, Reveal, RmLogo3D, SECTION_X, WordReveal } from '@/shared/ui-2026'
 import { attoWhatsappHref } from '../atto/atto.data'
 import { CopyEmailButton } from './copy-email-button'
 
@@ -65,7 +65,11 @@ export async function Closing() {
         </ul>
       </Reveal>
 
-      <Reveal stagger={0.035} className="mt-20 sm:mt-28">
+      <div className="mt-20 flex justify-center sm:mt-28">
+        <RmLogo3D size={180} label="Ranielli Montagna" />
+      </div>
+
+      <Reveal stagger={0.035} className="mt-10 sm:mt-14">
         <p className="px-2 pb-[0.06em] text-center text-[21vw] leading-[0.9] font-semibold tracking-[-0.06em] text-foreground sm:text-[clamp(56px,13.5vw,240px)] sm:whitespace-nowrap">
           <span className="sr-only">{NAME}</span>
           {NAME.split(' ').map((word, wordIndex) => (

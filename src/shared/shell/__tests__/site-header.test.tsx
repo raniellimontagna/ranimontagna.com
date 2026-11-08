@@ -17,4 +17,10 @@ describe('SiteHeader', () => {
     render(await SiteHeader())
     expect(screen.getByRole('link', { name: 'Ranielli Montagna' })).toHaveAttribute('href', '/')
   })
+
+  it('shows the RM mark next to the name', async () => {
+    render(await SiteHeader())
+    const link = screen.getByRole('link', { name: 'Ranielli Montagna' })
+    expect(link.querySelector('svg[data-rm-mark]')).not.toBeNull()
+  })
 })
