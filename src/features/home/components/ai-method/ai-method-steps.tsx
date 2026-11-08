@@ -1,8 +1,13 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
-import { SnapCounter } from '@/shared/ui-2026/snap-counter'
+import { Fragment, useEffect, useRef } from 'react'
+import {
+  BELOW_LG_QUERY,
+  LG_QUERY,
+  loadScrollMotion,
+  prefersReducedMotion,
+} from '@/shared/components/motion'
+import { buildAiRail } from './ai-rail-motion'
 
 type Step = { id: string; title: string; lines: string[] }
 
@@ -10,7 +15,7 @@ type Step = { id: string; title: string; lines: string[] }
  * The method lights up step by step as the list scrolls through the screen.
  * Server HTML ships every step lit, so nothing hides if the script fails or
  * motion is reduced; the client dims them only right before animating.
- * Below lg the list is a swipe carousel (cards of ~80vw) with a counter.
+ * Below lg a rail draws down the list and lights each step it reaches.
  */
 export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }) {
   const listRef = useRef<HTMLOListElement>(null)
@@ -30,8 +35,6 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
           item.dataset.lit = String(index < count)
         })
       }
-      // From lg up only: below it the list swipes sideways, and a light-up
-      // driven by the vertical scroll would leave the cards in view dimmed.
       const media = gsap.matchMedia()
       media.add({ lg: LG_QUERY }, () => {
         light(0)
@@ -44,6 +47,7 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
         })
         return () => light(items.length)
       })
+      media.add({ mobile: BELOW_LG_QUERY }, () => buildAiRail({ gsap, ScrollTrigger }, list))
       revert = () => {
         media.revert()
         light(items.length)
@@ -57,33 +61,48 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
   }, [])
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="relative">
+      <div
+        aria-hidden="true"
+        data-ai-rail
+        className="pointer-events-none absolute top-4 bottom-4 left-[7px] w-0.5 bg-line lg:hidden"
+      >
+        <span data-ai-rail-fill className="block h-full w-full origin-top bg-accent" />
+      </div>
       <ol
         ref={listRef}
         data-ai-steps
         aria-label={label}
-        className="gap-3 lg:grid lg:grid-cols-6 max-lg:-mx-4 max-lg:flex max-lg:snap-x max-lg:snap-mandatory max-lg:scroll-px-4 max-lg:overflow-x-auto max-lg:px-4 max-lg:pb-2 max-lg:sm:-mx-8 max-lg:sm:scroll-px-8 max-lg:sm:px-8"
+        className="relative flex flex-col gap-3 max-lg:pl-8 lg:grid lg:grid-cols-6"
       >
         {steps.map((step, index) => (
           <li
             key={step.id}
             data-ai-step={step.id}
             data-lit="true"
-            className="group/step flex min-h-[150px] w-[80vw] max-w-[360px] shrink-0 snap-start flex-col lg:w-auto lg:max-w-none gap-2 rounded-[2px] border border-line bg-surface p-4 transition-[border-color,transform] duration-500 data-[lit=true]:border-accent motion-safe:translate-y-2 motion-safe:data-[lit=true]:translate-y-0"
+            className="group/step relative flex flex-col gap-2 rounded-[2px] border border-line bg-surface p-4 transition-[border-color,transform] duration-500 data-[lit=true]:border-accent max-lg:transition-[border-color,translate] max-lg:before:absolute max-lg:before:top-4 max-lg:before:-left-[30px] max-lg:before:h-3 max-lg:before:w-3 max-lg:before:rounded-full max-lg:before:border-2 max-lg:before:border-line max-lg:before:bg-background max-lg:before:transition-colors max-lg:data-[lit=true]:before:border-accent max-lg:data-[lit=true]:before:bg-accent lg:min-h-[150px] motion-safe:lg:translate-y-2 motion-safe:lg:data-[lit=true]:translate-y-0 max-lg:motion-safe:translate-x-3 max-lg:motion-safe:data-[lit=true]:translate-x-0"
           >
             <span className="font-mono text-xs text-muted transition-colors duration-500 group-data-[lit=true]/step:text-accent">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <h4 className="text-base font-semibold text-foreground">{step.title}</h4>
-            <div className="flex flex-col font-mono text-xs leading-relaxed text-muted">
-              {step.lines.map((line) => (
-                <span key={line}>{line}</span>
+            <h4 className="text-base font-semibold text-foreground transition-opacity duration-500 max-lg:group-data-[lit=false]/step:opacity-[var(--dim-body)]">
+              {step.title}
+            </h4>
+            <div className="flex flex-col font-mono text-xs leading-relaxed text-muted max-lg:flex-row max-lg:flex-wrap">
+              {step.lines.map((line, lineIndex) => (
+                <Fragment key={line}>
+                  {lineIndex > 0 ? (
+                    <span aria-hidden="true" className="whitespace-pre lg:hidden">
+                      {' · '}
+                    </span>
+                  ) : null}
+                  <span>{line}</span>
+                </Fragment>
               ))}
             </div>
           </li>
         ))}
       </ol>
-      <SnapCounter targetSelector="[data-ai-steps]" total={steps.length} className="lg:hidden" />
     </div>
   )
 }

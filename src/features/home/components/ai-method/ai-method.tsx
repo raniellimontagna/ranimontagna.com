@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { BrandIcon, Reveal, SECTION_X, SectionHeading } from '@/shared/ui-2026'
 import { AI_MODELS, AI_PROOF_IDS, AI_STEP_IDS, AI_TERM_IDS } from './ai-method.data'
 import { AiMethodSteps } from './ai-method-steps'
+import { ModelDeal } from './ai-model-deal'
 
 /** No lock-in to one model, and a method that keeps a human in charge. */
 export async function AiMethod() {
@@ -25,26 +26,28 @@ export async function AiMethod() {
           </h3>
           <p className="text-sm leading-snug text-muted">{t('free.body')}</p>
         </div>
-        <ul
-          data-ai-models
-          aria-label={t('modelsLabel')}
-          className="grid grid-cols-3 border-t border-l border-line"
-        >
-          {AI_MODELS.map((model) => (
-            <li
-              key={model.name}
-              className="group/model flex flex-col items-center gap-2 border-r border-b border-line px-2 py-5 sm:gap-3 sm:px-5 sm:py-8"
-            >
-              <BrandIcon
-                name={model.icon}
-                className="h-8 w-8 text-foreground transition-[color,transform] sm:h-11 sm:w-11 duration-300 group-hover/model:-translate-y-[3px] group-hover/model:text-accent"
-              />
-              <span data-ai-model className="text-sm font-semibold text-foreground sm:text-base">
-                {model.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <ModelDeal>
+          <ul
+            data-ai-models
+            aria-label={t('modelsLabel')}
+            className="grid grid-cols-3 border-t border-l border-line"
+          >
+            {AI_MODELS.map((model) => (
+              <li
+                key={model.name}
+                className="group/model flex flex-col items-center gap-2 border-r border-b border-line px-2 py-5 sm:gap-3 sm:px-5 sm:py-8"
+              >
+                <BrandIcon
+                  name={model.icon}
+                  className="h-8 w-8 text-foreground transition-[color,transform] sm:h-11 sm:w-11 duration-300 group-hover/model:-translate-y-[3px] group-hover/model:text-accent"
+                />
+                <span data-ai-model className="text-sm font-semibold text-foreground sm:text-base">
+                  {model.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </ModelDeal>
       </div>
 
       <div className="mt-16 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-12">

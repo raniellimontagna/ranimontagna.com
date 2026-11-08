@@ -1,10 +1,17 @@
-import { LG_QUERY, loadScrollMotion, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import {
+  BELOW_LG_QUERY,
+  LG_QUERY,
+  loadScrollMotion,
+  REDUCED_MOTION_QUERY,
+} from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, screen, waitFor } from '@/tests/test-utils'
 import pt from '../../../../../../messages/pt.json'
 import { AiMethod } from '../ai-method'
 import { AI_MODELS, AI_PROOF_IDS, AI_STEP_IDS, AI_TERM_IDS } from '../ai-method.data'
 import { AiMethodSteps } from '../ai-method-steps'
+import { ModelDeal } from '../ai-model-deal'
+import { buildAiRail } from '../ai-rail-motion'
 
 type Tree = { [key: string]: string | string[] | Tree }
 
@@ -21,6 +28,8 @@ vi.mock('next-intl/server', () => ({
       Object.assign((key: string) => lookup(key) as string, { raw: (key: string) => lookup(key) }),
     ),
 }))
+
+vi.mock('../ai-rail-motion', () => ({ buildAiRail: vi.fn(() => () => {}) }))
 
 vi.mock('@/shared/components/motion', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/shared/components/motion')>()),
@@ -55,12 +64,26 @@ describe('AiMethod', () => {
     expect(grid.querySelector('[data-brand-icon]')?.getAttribute('class')).toContain('h-8')
   })
 
-  it('turns the steps into a swipe carousel below lg with a position counter', async () => {
+  it('below lg the steps are a vertical list with a rail, no carousel', async () => {
     render(await AiMethod())
     const steps = document.querySelector('[data-ai-steps]') as HTMLElement
-    expect(steps.className).toContain('max-lg:snap-x')
-    expect(steps.className).toContain('max-lg:overflow-x-auto')
-    expect(document.querySelector('[data-snap-counter]')).toHaveTextContent('01 / 06')
+    expect(steps.className).not.toContain('snap-x')
+    expect(steps.className).not.toContain('overflow-x-auto')
+    expect(steps.className).toContain('flex-col')
+    expect(steps.className).toContain('lg:grid-cols-6')
+    const rail = document.querySelector('[data-ai-rail]') as HTMLElement
+    expect(rail.className).toContain('lg:hidden')
+    expect(rail.querySelector('[data-ai-rail-fill]')).not.toBeNull()
+    expect(document.querySelector('[data-snap-counter]')).toBeNull()
+  })
+
+  it('dims only the step title below lg, down to the body contrast floor', async () => {
+    render(await AiMethod())
+    for (const step of document.querySelectorAll('[data-ai-step]')) {
+      expect(step.querySelector('h4')?.className).toContain(
+        'max-lg:group-data-[lit=false]/step:opacity-[var(--dim-body)]',
+      )
+    }
   })
 
   it('lets the steps column shrink below its cards, so the carousel never widens the page', async () => {
@@ -130,18 +153,15 @@ describe('AiMethod', () => {
         ScrollTrigger: { create },
       }) as never
 
-    it('keeps every step lit below lg, where the list swipes sideways', async () => {
-      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: false })
+    it('below lg it builds the rail and not the lg lighting', async () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: false, [BELOW_LG_QUERY]: true })
       const create = vi.fn()
       vi.mocked(loadScrollMotion).mockResolvedValueOnce(fakeMotion(create))
       render(<AiMethodSteps steps={steps} label="steps" />)
-      await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
-      await new Promise((resolve) => setTimeout(resolve, 0))
-      expect(create).not.toHaveBeenCalled()
-      const lit = [...document.querySelectorAll('[data-ai-step]')].map((step) =>
-        step.getAttribute('data-lit'),
+      await waitFor(() =>
+        expect(buildAiRail).toHaveBeenCalledWith(expect.anything(), expect.any(HTMLOListElement)),
       )
-      expect(lit.every((value) => value === 'true')).toBe(true)
+      expect(create).not.toHaveBeenCalled()
     })
 
     it('lights them with the vertical scroll from lg up', async () => {
@@ -150,6 +170,69 @@ describe('AiMethod', () => {
       vi.mocked(loadScrollMotion).mockResolvedValueOnce(fakeMotion(create))
       render(<AiMethodSteps steps={steps} label="steps" />)
       await waitFor(() => expect(create).toHaveBeenCalledTimes(1))
+    })
+  })
+
+  describe('ModelDeal', () => {
+    const motion = () => {
+      const set = vi.fn()
+      const to = vi.fn()
+      const create = vi.fn()
+      return {
+        set,
+        create,
+        value: {
+          gsap: {
+            set,
+            to,
+            matchMedia: () => ({
+              add: (conditions: Record<string, string>, callback: () => void) => {
+                if (Object.values(conditions).some((query) => window.matchMedia(query).matches))
+                  callback()
+              },
+              revert: vi.fn(),
+            }),
+          },
+          ScrollTrigger: { create },
+        } as never,
+      }
+    }
+    const grid = (
+      <ModelDeal>
+        <ul data-ai-models>
+          <li>Claude</li>
+          <li>Codex</li>
+        </ul>
+      </ModelDeal>
+    )
+
+    it('deals the tiles in below lg when the grid is below the fold', async () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true })
+      const fake = motion()
+      vi.mocked(loadScrollMotion).mockResolvedValueOnce(fake.value)
+      const spy = vi
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockReturnValue({ top: 5000 } as DOMRect)
+      render(grid)
+      await waitFor(() => expect(fake.set).toHaveBeenCalled())
+      expect(fake.set).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ rotationX: -75, y: 16, opacity: 0 }),
+      )
+      expect(fake.create).toHaveBeenCalledWith(
+        expect.objectContaining({ start: 'top 85%', once: true }),
+      )
+      spy.mockRestore()
+    })
+
+    it('never hides tiles already on screen', async () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true })
+      const fake = motion()
+      vi.mocked(loadScrollMotion).mockResolvedValueOnce(fake.value)
+      render(grid)
+      await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(fake.set).not.toHaveBeenCalled()
     })
   })
 })
