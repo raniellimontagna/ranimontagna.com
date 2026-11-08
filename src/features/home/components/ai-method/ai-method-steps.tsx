@@ -57,13 +57,13 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
           key={step.id}
           data-ai-step={step.id}
           data-lit="true"
-          className="flex min-h-[150px] flex-col gap-2 rounded-[2px] border border-line bg-surface p-4 opacity-35 transition-[opacity,border-color,transform] duration-500 data-[lit=true]:border-accent data-[lit=true]:opacity-100 motion-safe:translate-y-2 motion-safe:data-[lit=true]:translate-y-0"
+          className="group/step flex min-h-[150px] flex-col gap-2 rounded-[2px] border border-line bg-surface p-4 transition-[border-color,transform] duration-500 data-[lit=true]:border-accent motion-safe:translate-y-2 motion-safe:data-[lit=true]:translate-y-0"
         >
-          <span className="font-mono text-[10px] text-muted">
+          <span className="font-mono text-[11px] text-muted transition-colors duration-500 group-data-[lit=true]/step:text-accent">
             {String(index + 1).padStart(2, '0')}
           </span>
           <h4 className="text-base font-semibold text-foreground">{step.title}</h4>
-          <div className="flex flex-col font-mono text-[11px] leading-relaxed text-muted">
+          <div className="flex flex-col font-mono text-xs leading-relaxed text-muted">
             {step.lines.map((line) => (
               <span key={line}>{line}</span>
             ))}

@@ -78,4 +78,11 @@ describe('AiMethod', () => {
       expect(step).toHaveAttribute('data-lit', 'true')
     }
   })
+
+  it('keeps step text at full contrast while dimmed: only border and position animate', async () => {
+    render(await AiMethod())
+    for (const step of document.querySelectorAll('[data-ai-step]')) {
+      expect(step.className).not.toMatch(/opacity-/)
+    }
+  })
 })
