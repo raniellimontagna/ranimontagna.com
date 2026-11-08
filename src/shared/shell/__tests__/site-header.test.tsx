@@ -33,4 +33,9 @@ describe('SiteHeader', () => {
     const link = screen.getByRole('link', { name: 'Ranielli Montagna' })
     expect(link.querySelector('svg[data-rm-mark]')).not.toBeNull()
   })
+
+  it('marks the header for followers', async () => {
+    const { container } = render(await SiteHeader())
+    expect(container.querySelector('header[data-site-header]')).not.toBeNull()
+  })
 })

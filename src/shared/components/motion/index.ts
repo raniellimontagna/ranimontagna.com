@@ -1,4 +1,5 @@
 export {
+  BELOW_LG_QUERY,
   DESKTOP_QUERY,
   LG_QUERY,
   loadScrollMotion,

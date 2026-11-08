@@ -17,6 +17,9 @@
   --line: rgb(130 142 136 / 38%);
   --line-strong: rgb(16 20 20 / 14%);
   --muted: #4d5a55;
+  /* Opacity floors for dimmed foreground text: large (>= 3:1) and body (>= 4.5:1). */
+  --dim-large: 0.5;
+  --dim-body: 0.62;
   --secondary: #4d5a55;
   --accent: #4f46e5;
   --accent-strong: #4338ca;
@@ -65,6 +68,8 @@
   --line: rgb(114 135 130 / 28%);
   --line-strong: rgb(237 244 239 / 8%);
   --muted: #91a09a;
+  --dim-large: 0.4;
+  --dim-body: 0.52;
   --secondary: #91a09a;
   --accent: #ddff6f;
   --accent-strong: #d0ff44;
@@ -659,6 +664,26 @@ button {
   display: none;
 }
 /* end scroll progress */
+
+/* follow header */
+/* Below lg, sticky strips sit under the header and rise with it when it hides. */
+@media (max-width: 1023px) {
+  [data-follow-header] {
+    translate: 0 4rem;
+    transition: translate 300ms;
+  }
+
+  :root:has([data-site-header][data-hidden='true']) [data-follow-header] {
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-follow-header] {
+    transition: none;
+  }
+}
+/* end follow header */
 
 /* Hero 2026: each letter of the name rises out of its line. */
 @keyframes letter-rise {

@@ -3,6 +3,8 @@ export const MOBILE_QUERY = '(max-width: 760px)'
 export const DESKTOP_QUERY = '(min-width: 761px)'
 /** Tailwind's lg: where layouts that change shape on desktop (the live work track) switch. */
 export const LG_QUERY = '(min-width: 1024px)'
+/** Everything below Tailwind's lg: where the phone motion (stacked chapters, rails, depth) runs. */
+export const BELOW_LG_QUERY = '(max-width: 1023px)'
 
 export type ScrollMotion = {
   gsap: typeof import('gsap').gsap

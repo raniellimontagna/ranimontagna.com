@@ -40,6 +40,7 @@ export function HeaderBehavior({ children }: { children: ReactNode }) {
   return (
     <header
       ref={ref}
+      data-site-header
       className="fixed inset-x-0 top-0 z-40 border-b border-transparent transition-[translate,background-color,border-color] duration-300 data-[hidden=true]:-translate-y-full data-[scrolled=true]:border-line data-[scrolled=true]:bg-background"
     >
       {children}
