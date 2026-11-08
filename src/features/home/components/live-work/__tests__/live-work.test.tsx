@@ -93,17 +93,35 @@ describe('LiveWork', () => {
     await waitFor(() => expect(buildLiveTrack).toHaveBeenCalled())
   })
 
-  it('keeps the vertical list on tablets between the phone and lg breakpoints', async () => {
+  it('does not pin on tablets between the phone and lg breakpoints', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
     render(await LiveWork())
     await new Promise((resolve) => setTimeout(resolve, 0))
     expect(buildLiveTrack).not.toHaveBeenCalled()
   })
 
-  it('keeps a vertical list on phones', async () => {
+  it('does not pin on phones', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [MOBILE_QUERY]: true })
     render(await LiveWork())
     await new Promise((resolve) => setTimeout(resolve, 0))
     expect(buildLiveTrack).not.toHaveBeenCalled()
+  })
+
+  it('turns the list into a swipe carousel below lg with a position counter', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await LiveWork())
+    const track = document.querySelector('[data-live-track]') as HTMLElement
+    expect(track.className).toContain('max-lg:overflow-x-auto')
+    expect(track.className).toContain('max-lg:snap-x')
+    expect(document.querySelector('[data-snap-counter]')).toHaveTextContent(
+      `01 / ${String(LIVE_WORK.length).padStart(2, '0')}`,
+    )
+  })
+
+  it('wraps the terminal lines on phones instead of cutting them', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await LiveWork())
+    const terminal = document.querySelector('[data-live-track] pre')
+    expect(terminal?.className).toContain('max-lg:whitespace-pre-wrap')
   })
 })

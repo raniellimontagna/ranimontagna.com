@@ -2,10 +2,14 @@
 
 import { type ReactNode, useEffect, useRef } from 'react'
 import { LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
+import { SnapCounter } from '@/shared/ui-2026/snap-counter'
 import { buildLiveTrack } from './live-work-motion'
 
-/** Turns the list into a pinned horizontal track from lg up; smaller screens keep the vertical list. */
-export function LiveWorkTrack({ children }: { children: ReactNode }) {
+/**
+ * Turns the list into a pinned horizontal track from lg up. Smaller screens
+ * swipe it as a snap carousel, with a position counter under it.
+ */
+export function LiveWorkTrack({ children, total }: { children: ReactNode; total: number }) {
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -36,5 +40,14 @@ export function LiveWorkTrack({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  return <div ref={rootRef}>{children}</div>
+  return (
+    <div ref={rootRef}>
+      {children}
+      <SnapCounter
+        targetSelector="[data-live-track]"
+        total={total}
+        className="mt-4 px-4 sm:px-8 lg:hidden"
+      />
+    </div>
+  )
 }

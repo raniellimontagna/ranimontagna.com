@@ -47,6 +47,21 @@ describe('AiMethod', () => {
     expect(screen.queryByText(/contexto longo|segunda opinião|agentes de código/i)).toBeNull()
   })
 
+  it('keeps the model grid compact on phones: three columns, 32 px logos', async () => {
+    render(await AiMethod())
+    const grid = document.querySelector('[data-ai-models]') as HTMLElement
+    expect(grid.className).toMatch(/(^|\s)grid-cols-3(\s|$)/)
+    expect(grid.querySelector('[data-brand-icon]')?.getAttribute('class')).toContain('h-8')
+  })
+
+  it('turns the steps into a swipe carousel below lg with a position counter', async () => {
+    render(await AiMethod())
+    const steps = document.querySelector('[data-ai-steps]') as HTMLElement
+    expect(steps.className).toContain('max-lg:snap-x')
+    expect(steps.className).toContain('max-lg:overflow-x-auto')
+    expect(document.querySelector('[data-snap-counter]')).toHaveTextContent('01 / 06')
+  })
+
   it('renders the six method steps in order with artifact lines', async () => {
     render(await AiMethod())
     const steps = [...document.querySelectorAll('[data-ai-step]')]

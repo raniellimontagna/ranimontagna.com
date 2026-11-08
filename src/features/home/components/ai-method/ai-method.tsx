@@ -28,18 +28,18 @@ export async function AiMethod() {
         <ul
           data-ai-models
           aria-label={t('modelsLabel')}
-          className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3"
+          className="grid grid-cols-3 border-t border-l border-line"
         >
           {AI_MODELS.map((model) => (
             <li
               key={model.name}
-              className="group/model flex flex-col items-center gap-3 border-r border-b border-line px-5 py-8"
+              className="group/model flex flex-col items-center gap-2 border-r border-b border-line px-2 py-5 sm:gap-3 sm:px-5 sm:py-8"
             >
               <BrandIcon
                 name={model.icon}
-                className="h-11 w-11 text-foreground transition-[color,transform] duration-300 group-hover/model:-translate-y-[3px] group-hover/model:text-accent"
+                className="h-8 w-8 text-foreground transition-[color,transform] sm:h-11 sm:w-11 duration-300 group-hover/model:-translate-y-[3px] group-hover/model:text-accent"
               />
-              <span data-ai-model className="text-base font-semibold text-foreground">
+              <span data-ai-model className="text-sm font-semibold text-foreground sm:text-base">
                 {model.name}
               </span>
             </li>

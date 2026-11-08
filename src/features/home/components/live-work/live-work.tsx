@@ -28,7 +28,7 @@ function CardArt({ item, t }: { item: LiveWorkItem; t: Translate }) {
         data-live-media
         className="flex h-full w-full items-center justify-center p-6"
       >
-        <pre className="w-full overflow-x-auto font-mono text-xs leading-relaxed text-foreground sm:text-sm">
+        <pre className="w-full overflow-x-auto font-mono text-xs leading-relaxed text-foreground sm:text-sm max-lg:break-words max-lg:whitespace-pre-wrap">
           {item.terminal.join('\n')}
         </pre>
       </div>
@@ -58,10 +58,11 @@ export async function LiveWork() {
         <SectionHeading id="no-ar" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
       </Reveal>
 
-      <LiveWorkTrack>
+      <LiveWorkTrack total={LIVE_WORK.length}>
+        {/* Below lg: a swipe carousel of ~84vw cards. From lg: the pinned horizontal track. */}
         <ul
           data-live-track
-          className={`${SECTION_X} mt-14 flex flex-col gap-16 lg:mt-10 lg:w-max lg:flex-row lg:gap-8`}
+          className={`${SECTION_X} mt-14 flex gap-4 lg:mt-10 lg:w-max lg:gap-8 max-lg:snap-x max-lg:snap-mandatory max-lg:scroll-px-4 max-lg:overflow-x-auto max-lg:pb-2 max-lg:sm:scroll-px-8`}
         >
           {LIVE_WORK.map((item, index) => {
             const body = (
@@ -87,7 +88,11 @@ export async function LiveWork() {
             )
 
             return (
-              <li key={item.slug} data-live-card className="lg:w-[min(60vw,880px)] lg:shrink-0">
+              <li
+                key={item.slug}
+                data-live-card
+                className="w-[84vw] max-w-[560px] shrink-0 snap-start lg:w-[min(60vw,880px)] lg:max-w-none"
+              >
                 {item.href ? (
                   item.external ? (
                     <a
