@@ -101,6 +101,91 @@
     },
     "casesLink": "See what's live"
   },
+  "aiMethod": {
+    "kicker": "ai",
+    "title": "No model lock-in. With a method.",
+    "lead": "I pick the model for the task, not the brand. And none of them writes code without a specification first and my review after.",
+    "modelsLabel": "AI models and tools",
+    "stepsLabel": "The method, step by step",
+    "free": {
+      "title": "No lock-in",
+      "body": "Models and tools from different companies, all in daily use. If one changes its price or goes down, I switch without rewriting anything."
+    },
+    "method": {
+      "title": "The right way",
+      "body": "Spec-driven development: the idea becomes a specification, the specification becomes a plan, the plan becomes tests and only then code."
+    },
+    "steps": {
+      "talk": {
+        "title": "Conversation",
+        "lines": ["what hurts?", "for whom?", "what would failure look like?"]
+      },
+      "spec": {
+        "title": "Spec",
+        "lines": ["## Goals", "## Anti-goals", "- generic AI look"]
+      },
+      "plan": {
+        "title": "Plan",
+        "lines": ["- [ ] Task 1", "- [ ] Task 2", "each with its test"]
+      },
+      "test": {
+        "title": "Test first",
+        "lines": ["✗ fails", "✓ passes"]
+      },
+      "agent": {
+        "title": "Agent codes",
+        "lines": ["+ code", "+ tests", "commit by commit"]
+      },
+      "review": {
+        "title": "Review",
+        "lines": ["fresh reviewer", "reads it all", "I decide what ships"]
+      }
+    },
+    "terms": {
+      "sdd": {
+        "term": "SDD",
+        "meaning": "spec before code"
+      },
+      "tdd": {
+        "term": "TDD",
+        "meaning": "the test fails first"
+      },
+      "mcp": {
+        "term": "MCP",
+        "meaning": "agents with tools"
+      },
+      "agentsmd": {
+        "term": "AGENTS.md",
+        "meaning": "context written down, not remembered"
+      },
+      "evals": {
+        "term": "evals",
+        "meaning": "measuring the model's answers"
+      },
+      "review": {
+        "term": "human review",
+        "meaning": "the last word is mine"
+      }
+    },
+    "proofs": {
+      "products": {
+        "value": "6 products",
+        "label": "in production in three months on Lemon's AI team, with agents in the loop and review before going live"
+      },
+      "agents": {
+        "value": "5 agents",
+        "label": "agent-toolkit installs the same skills in Claude Code, Codex, OpenCode, Gemini CLI and Antigravity"
+      },
+      "providers": {
+        "value": "2 providers",
+        "label": "Vega runs on DeepSeek, and the code already accepts OpenRouter as a fallback"
+      },
+      "tests": {
+        "value": "1,000+ tests",
+        "label": "on this site, written before the code"
+      }
+    }
+  },
   "interlude": {
     "label": "Who he is",
     "kicker": "who he is",

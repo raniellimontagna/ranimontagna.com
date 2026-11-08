@@ -9,6 +9,8 @@ const DIRS = [
   'src/features/home/components/interlude',
   'src/features/home/components/live-work',
   'src/features/home/components/trajectory',
+  'src/features/home/components/ai-method',
+  'src/shared/vega',
   'src/features/home/components/atto',
   'src/features/home/components/writing',
   'src/features/home/components/closing',

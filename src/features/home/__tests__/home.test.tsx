@@ -34,7 +34,7 @@ describe('Home', () => {
     const main = screen.getByRole('main')
     expect(main).toHaveAttribute('id', 'main-content')
     const ids = [...main.querySelectorAll('section[id]')].map((section) => section.id)
-    expect(ids).toEqual(['como-trabalho', 'no-ar', 'trajetoria', 'atto', 'escrita', 'contato'])
+    expect(ids).toEqual(['como-trabalho', 'ia', 'no-ar', 'trajetoria', 'atto', 'escrita', 'contato'])
   })
 
   it('every home link in the site nav points to a section that exists', async () => {

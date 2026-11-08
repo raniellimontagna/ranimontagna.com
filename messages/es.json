@@ -101,6 +101,91 @@
     },
     "casesLink": "Ver lo que está en línea"
   },
+  "aiMethod": {
+    "kicker": "ia",
+    "title": "Sin ataduras de modelo. Con método.",
+    "lead": "Elijo el modelo por la tarea, no por la marca. Y ninguno escribe código sin una especificación antes y una revisión mía después.",
+    "modelsLabel": "Modelos y herramientas de IA",
+    "stepsLabel": "El método, paso a paso",
+    "free": {
+      "title": "Sin ataduras",
+      "body": "Modelos y herramientas de empresas distintas, todos en el día a día. Si uno cambia de precio o se cae, cambio sin reescribir nada."
+    },
+    "method": {
+      "title": "Como se debe",
+      "body": "Spec-driven development: la idea se vuelve especificación, la especificación se vuelve plan, el plan se vuelve pruebas y solo entonces código."
+    },
+    "steps": {
+      "talk": {
+        "title": "Conversación",
+        "lines": ["¿qué duele?", "¿para quién?", "¿qué sería un fracaso?"]
+      },
+      "spec": {
+        "title": "Spec",
+        "lines": ["## Metas", "## Anti-metas", "- cara de IA genérica"]
+      },
+      "plan": {
+        "title": "Plan",
+        "lines": ["- [ ] Task 1", "- [ ] Task 2", "cada una con su prueba"]
+      },
+      "test": {
+        "title": "Prueba primero",
+        "lines": ["✗ falla", "✓ pasa"]
+      },
+      "agent": {
+        "title": "El agente programa",
+        "lines": ["+ código", "+ pruebas", "commit a commit"]
+      },
+      "review": {
+        "title": "Revisión",
+        "lines": ["revisor nuevo", "lee todo", "yo decido qué sale al aire"]
+      }
+    },
+    "terms": {
+      "sdd": {
+        "term": "SDD",
+        "meaning": "spec antes del código"
+      },
+      "tdd": {
+        "term": "TDD",
+        "meaning": "la prueba falla primero"
+      },
+      "mcp": {
+        "term": "MCP",
+        "meaning": "agentes con herramientas"
+      },
+      "agentsmd": {
+        "term": "AGENTS.md",
+        "meaning": "contexto escrito, no recordado"
+      },
+      "evals": {
+        "term": "evals",
+        "meaning": "medir las respuestas del modelo"
+      },
+      "review": {
+        "term": "revisión humana",
+        "meaning": "la última palabra es mía"
+      }
+    },
+    "proofs": {
+      "products": {
+        "value": "6 productos",
+        "label": "en producción en tres meses en el equipo de IA de Lemon, con agentes en el flujo y revisión antes de salir al aire"
+      },
+      "agents": {
+        "value": "5 agentes",
+        "label": "el agent-toolkit instala las mismas skills en Claude Code, Codex, OpenCode, Gemini CLI y Antigravity"
+      },
+      "providers": {
+        "value": "2 proveedores",
+        "label": "Vega funciona con DeepSeek, y el código ya acepta OpenRouter como respaldo"
+      },
+      "tests": {
+        "value": "+1.000 pruebas",
+        "label": "en este sitio, escritas antes del código"
+      }
+    }
+  },
   "interlude": {
     "label": "Quién es",
     "kicker": "quién es",
