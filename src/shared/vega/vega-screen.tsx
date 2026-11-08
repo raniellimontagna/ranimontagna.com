@@ -268,7 +268,7 @@ export function VegaScreen() {
                 <button
                   type="button"
                   onClick={() => ask(suggestion)}
-                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
+                  className="press inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
                 >
                   {suggestion}
                 </button>

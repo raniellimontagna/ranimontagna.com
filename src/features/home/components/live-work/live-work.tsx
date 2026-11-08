@@ -99,12 +99,12 @@ export async function LiveWork() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group block"
+                      className="press group block"
                     >
                       {body}
                     </a>
                   ) : (
-                    <Link href={item.href} className="group block">
+                    <Link href={item.href} className="press group block">
                       {body}
                     </Link>
                   )

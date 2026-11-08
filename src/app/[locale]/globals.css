@@ -621,6 +621,43 @@ button {
 }
 /* end scroll scenes */
 
+/* press */
+/* Touch feedback for links and buttons. An animation, not a transition,
+   so it never replaces the element's own transition list. */
+@keyframes press {
+  to {
+    scale: 0.97;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .press:active {
+    animation: press 100ms ease-out forwards;
+  }
+}
+/* end press */
+
+/* Scroll progress line (shell). Blog posts keep their own reading progress. */
+@keyframes scroll-progress {
+  to {
+    scale: 1 1;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+:root:has([data-reading-progress]) .scroll-progress {
+  display: none;
+}
+/* end scroll progress */
+
 /* Hero 2026: each letter of the name rises out of its line. */
 @keyframes letter-rise {
   from {

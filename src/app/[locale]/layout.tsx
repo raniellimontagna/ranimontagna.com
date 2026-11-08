@@ -10,7 +10,7 @@ import { BASE_URL } from '@/shared/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
 import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
 import { isIndexingDisabled, robotsMetadata } from '@/shared/lib/seo/indexing'
-import { ShellWidgets, SiteFooter, SiteHeader, VegaLauncher } from '@/shared/shell'
+import { ScrollProgress, ShellWidgets, SiteFooter, SiteHeader, VegaLauncher } from '@/shared/shell'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 type Props = {
@@ -115,6 +115,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </a>
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
           <RetroExperience locale={locale} />
+          <ScrollProgress />
           <SiteHeader />
           {children}
           <SiteFooter />

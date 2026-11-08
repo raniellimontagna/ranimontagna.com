@@ -92,7 +92,7 @@ export function VegaLauncher({ label }: { label: string }) {
       aria-label={label}
       title={label}
       onClick={openVega}
-      className="fixed right-[max(1.25rem,var(--safe-right))] bottom-[max(1.25rem,var(--safe-bottom))] z-40 flex h-14 w-14 items-center justify-center rounded-full border border-line bg-background transition-[translate,scale,opacity] duration-[250ms] hover:scale-105 active:scale-95 data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-24 data-[hidden=true]:opacity-0 motion-reduce:data-[hidden=true]:translate-y-0"
+      className="fixed right-[max(1.25rem,var(--safe-right))] bottom-[max(1.25rem,var(--safe-bottom))] z-40 flex h-14 w-14 items-center justify-center rounded-full border border-line bg-background transition-[translate,scale,opacity] duration-[250ms] press hover:scale-105 data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-24 data-[hidden=true]:opacity-0 motion-reduce:data-[hidden=true]:translate-y-0"
     >
       <VegaMark size={46} density={60} />
     </button>

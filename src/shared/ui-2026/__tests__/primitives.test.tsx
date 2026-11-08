@@ -84,6 +84,11 @@ describe('ActionLink', () => {
     )
     expect(screen.getByRole('link', { name: 'Currículo' }).className).toContain('min-h-11')
   })
+
+  it('answers the press on every variant', () => {
+    render(<ActionLink href="/blog">Blog</ActionLink>)
+    expect(screen.getByRole('link', { name: 'Blog' }).className).toMatch(/(^|\s)press(\s|$)/)
+  })
 })
 
 describe('PhotoReveal', () => {

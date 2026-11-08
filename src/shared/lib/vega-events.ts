@@ -4,6 +4,8 @@
  */
 export const VEGA_OPEN_EVENT = 'vega:open'
 
+/** Also a 10 ms tap on phones that can vibrate (Android); iOS has no vibrate. */
 export function openVega(): void {
+  navigator.vibrate?.(10)
   window.dispatchEvent(new Event(VEGA_OPEN_EVENT))
 }

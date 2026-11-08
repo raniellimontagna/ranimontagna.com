@@ -302,7 +302,7 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                         <Link
                           href={item.href}
                           onClick={() => requestClose({ returnFocus: false, viaLink: true })}
-                          className="group flex items-baseline gap-4 overflow-hidden py-1 text-[clamp(40px,9vw,96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
+                          className="press group flex items-baseline gap-4 overflow-hidden py-1 text-[clamp(40px,9vw,96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
                         >
                           <span
                             aria-hidden="true"
@@ -336,7 +336,7 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                           href={social.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex min-h-[46px] items-center justify-between gap-2 rounded-xl border border-line px-4 text-sm font-semibold text-foreground transition-colors hover:border-foreground"
+                          className="press flex min-h-[46px] items-center justify-between gap-2 rounded-xl border border-line px-4 text-sm font-semibold text-foreground transition-colors hover:border-foreground"
                         >
                           {social.name}
                           <span aria-hidden="true" className="text-muted">
