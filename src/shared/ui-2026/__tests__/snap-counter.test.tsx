@@ -53,4 +53,13 @@ describe('SnapCounter', () => {
     scroll(0, { itemWidth: 300 })
     expect(counter()).toHaveTextContent('01 / 01')
   })
+
+  it('fills a bar to (index + 1) / total', () => {
+    render(<Carousel count={4} />)
+    const fill = () =>
+      (document.querySelector('[data-snap-bar]')?.firstElementChild as HTMLElement).style.transform
+    expect(fill()).toBe('scaleX(0.25)')
+    scroll(300, { itemWidth: 300, scrollWidth: 1200, clientWidth: 300 })
+    expect(fill()).toBe('scaleX(0.5)')
+  })
 })

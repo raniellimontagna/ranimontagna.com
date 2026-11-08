@@ -1,13 +1,19 @@
 'use client'
 
 import { type ReactNode, useEffect, useRef } from 'react'
-import { LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
+import {
+  BELOW_LG_QUERY,
+  LG_QUERY,
+  loadScrollMotion,
+  prefersReducedMotion,
+} from '@/shared/components/motion'
 import { SnapCounter } from '@/shared/ui-2026/snap-counter'
+import { attachCarouselDepth, nudgeOnce } from './live-work-depth'
 import { buildLiveTrack } from './live-work-motion'
 
 /**
  * Turns the list into a pinned horizontal track from lg up. Smaller screens
- * swipe it as a snap carousel, with a position counter under it.
+ * swipe it as a snap carousel with depth, a one-time nudge and a counter.
  */
 export function LiveWorkTrack({ children, total }: { children: ReactNode; total: number }) {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -28,6 +34,15 @@ export function LiveWorkTrack({ children, total }: { children: ReactNode; total:
       // earlier would pin a vertical list and shrink its cards for nothing.
       media.add({ wide: LG_QUERY }, () => {
         buildLiveTrack(motion, section, track)
+      })
+      // Below lg the list swipes: depth follows the swipe and it nudges once.
+      media.add({ mobile: BELOW_LG_QUERY }, () => {
+        const detachDepth = attachCarouselDepth(track)
+        const cancelNudge = nudgeOnce(track)
+        return () => {
+          detachDepth()
+          cancelNudge()
+        }
       })
       motion.ScrollTrigger.sort?.()
       motion.ScrollTrigger.refresh?.()

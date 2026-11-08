@@ -1,4 +1,5 @@
 import {
+  BELOW_LG_QUERY,
   DESKTOP_QUERY,
   LG_QUERY,
   loadScrollMotion,
@@ -9,6 +10,7 @@ import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, screen, waitFor } from '@/tests/test-utils'
 import { LiveWork } from '../live-work'
 import { LIVE_WORK } from '../live-work.data'
+import { attachCarouselDepth, nudgeOnce } from '../live-work-depth'
 import { buildLiveTrack } from '../live-work-motion'
 
 vi.mock('next-intl/server', () => ({
@@ -44,6 +46,10 @@ vi.mock('@/shared/components/motion', async (importOriginal) => ({
   ),
 }))
 vi.mock('../live-work-motion', () => ({ buildLiveTrack: vi.fn() }))
+vi.mock('../live-work-depth', () => ({
+  attachCarouselDepth: vi.fn(() => () => {}),
+  nudgeOnce: vi.fn(() => () => {}),
+}))
 
 describe('LiveWork', () => {
   beforeEach(() => vi.clearAllMocks())
@@ -105,6 +111,30 @@ describe('LiveWork', () => {
     render(await LiveWork())
     await new Promise((resolve) => setTimeout(resolve, 0))
     expect(buildLiveTrack).not.toHaveBeenCalled()
+  })
+
+  it('below lg attaches depth and the nudge, and never pins', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true, [LG_QUERY]: false })
+    render(await LiveWork())
+    await waitFor(() => expect(attachCarouselDepth).toHaveBeenCalled())
+    const track = document.querySelector('[data-live-track]')
+    expect(attachCarouselDepth).toHaveBeenCalledWith(track)
+    expect(nudgeOnce).toHaveBeenCalledWith(track)
+    expect(buildLiveTrack).not.toHaveBeenCalled()
+  })
+
+  it('from lg builds the pinned track only', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false, [LG_QUERY]: true })
+    render(await LiveWork())
+    await waitFor(() => expect(buildLiveTrack).toHaveBeenCalled())
+    expect(attachCarouselDepth).not.toHaveBeenCalled()
+    expect(nudgeOnce).not.toHaveBeenCalled()
+  })
+
+  it('positions the track below lg so card offsets are measured inside it', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await LiveWork())
+    expect(document.querySelector('[data-live-track]')?.className).toContain('max-lg:relative')
   })
 
   it('turns the list into a swipe carousel below lg with a position counter', async () => {

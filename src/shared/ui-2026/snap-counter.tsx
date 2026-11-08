@@ -46,9 +46,17 @@ export function SnapCounter({
     <p
       data-snap-counter
       aria-hidden="true"
-      className={`font-mono text-xs tracking-[0.14em] text-muted tabular-nums ${className}`}
+      className={`flex items-center gap-3 font-mono text-xs tracking-[0.14em] text-muted tabular-nums ${className}`}
     >
-      <span className="text-foreground">{pad(index + 1)}</span> / {pad(total)}
+      <span className="shrink-0">
+        <span className="text-foreground">{pad(index + 1)}</span> / {pad(total)}
+      </span>
+      <span data-snap-bar className="relative h-0.5 flex-1 overflow-hidden bg-line">
+        <span
+          className="absolute inset-0 origin-left bg-accent transition-transform duration-200 motion-reduce:transition-none"
+          style={{ transform: `scaleX(${(index + 1) / total})` }}
+        />
+      </span>
     </p>
   )
 }
