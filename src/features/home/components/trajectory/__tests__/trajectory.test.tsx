@@ -34,41 +34,93 @@ vi.mock('@/shared/components/motion', async (importOriginal) => ({
   ),
 }))
 
+const LEMON_PT = {
+  role: 'Engenheiro de software · Lemon Energia',
+  period: 'Julho 2026 - hoje · time de IA, dentro de Finanças',
+  what: 'No time de IA da Lemon, trabalho de dentro de uma área de negócio: vivo a operação de Finanças, encontro o trabalho manual e decido o que vira produto. Desde agosto, coloquei seis produtos internos em produção, da tela ao banco e à infraestrutura na AWS.',
+  impact: [
+    'Seis produtos de finanças em três meses: conciliação bancária, lotes de pagamento, fornecedores, notas fiscais e notas de débito',
+    'Cada um de ponta a ponta: front em React, API em Fastify com PostgreSQL e a infraestrutura escrita em código com Pulumi',
+    'Na AWS: containers no ECS Fargate, banco no Aurora (RDS), eventos com EventBridge e SQS, segredos no Secrets Manager, entrega por API Gateway e CloudFront',
+    'Ritmo alto de entrega, com agentes de IA no fluxo e revisão crítica antes de ir ao ar',
+  ],
+}
+
 describe('Trajectory', () => {
   beforeEach(() => {
     toggles.length = 0
   })
 
-  it('renders every stage in order with logo, role, period and stack', async () => {
+  it('renders four stages oldest first ending with Lemon', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(await Trajectory())
-    const articles = document.querySelectorAll('[data-stage]')
-    expect([...articles].map((a) => a.getAttribute('data-stage'))).toEqual(STAGES.map((s) => s.id))
-    expect([...articles].map((a) => a.querySelector('[data-year]')?.textContent)).toEqual([
+    const stages = document.querySelectorAll('[data-stage]')
+    expect([...stages].map((a) => a.getAttribute('data-stage'))).toEqual([
+      'sbsistemas',
+      'smarten',
+      'luizalabs',
+      'lemon',
+    ])
+    expect([...stages].map((a) => a.querySelector('[data-year]')?.textContent)).toEqual([
       '2021',
       '2022',
       '2023',
       '2026',
     ])
-    expect(screen.getByRole('img', { name: 'Atto' })).toBeInTheDocument()
-    expect(screen.getByAltText('Luizalabs')).toBeInTheDocument()
+    expect(screen.getByText('stages.lemon.role')).toBeVisible()
     expect(document.getElementById('trajetoria')).toBeInTheDocument()
   })
 
-  it('all stage text is server-rendered and visible without motion', async () => {
+  it('has no Atto and no photos inside the trajectory', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const section = document.getElementById('trajetoria') as HTMLElement
+    expect(section.querySelector('[aria-label="Atto"]')).toBeNull()
+    expect(section.textContent).not.toMatch(/atto/i)
+    expect(section.querySelectorAll('img')).toHaveLength(0)
+  })
+
+  it('paints each panel and mobile band with the company color', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const panel = (id: string) =>
+      document.querySelector(`[data-stage-panel="${id}"]`) as HTMLElement
+    expect(panel('sbsistemas').style.backgroundColor).toBe('rgb(4, 91, 168)')
+    expect(panel('lemon').style.backgroundColor).toBe('rgb(0, 60, 0)')
+    const band = document.querySelector('[data-stage-band="lemon"]') as HTMLElement
+    expect(band.style.backgroundColor).toBe('rgb(0, 60, 0)')
+    expect(panel('lemon').querySelector('[data-company-logo]')?.getAttribute('style')).toContain(
+      '/companies/white/lemon.png',
+    )
+  })
+
+  it('renders the stack as tech chips', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const smarten = document.querySelector('[data-stage="smarten"]') as HTMLElement
+    const chip = (label: string) =>
+      [...smarten.querySelectorAll('li')].find((li) => li.textContent === label) as HTMLElement
+    expect(chip('CI/CD').querySelector('[data-brand-icon]')).toBeNull()
+    expect(chip('React').querySelector('[data-brand-icon="react"]')).not.toBeNull()
+  })
+
+  it('keeps the first stage and panel active without motion', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(await Trajectory())
     for (const stage of STAGES) {
-      expect(screen.getByText(`stages.${stage.id}.role`)).toBeVisible()
       expect(screen.getByText(`stages.${stage.id}.impact.0`)).toBeVisible()
     }
     expect(document.querySelector('[data-stage="sbsistemas"]')).toHaveAttribute(
       'data-active',
       'true',
     )
+    expect(document.querySelector('[data-stage-panel="sbsistemas"]')).toHaveAttribute(
+      'data-active',
+      'true',
+    )
   })
 
-  it('marks the active stage and its photo from the scroll position', async () => {
+  it('marks the active stage and its panel from the scroll position', async () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
     render(await Trajectory())
     await waitFor(() => expect(toggles).toHaveLength(STAGES.length))
@@ -81,9 +133,23 @@ describe('Trajectory', () => {
       'data-active',
       'false',
     )
-    expect(document.querySelector('[data-stage-photo="luizalabs"]')).toHaveAttribute(
+    expect(document.querySelector('[data-stage-panel="luizalabs"]')).toHaveAttribute(
       'data-active',
       'true',
     )
+    expect(document.querySelector('[data-stage-panel="sbsistemas"]')).toHaveAttribute(
+      'data-active',
+      'false',
+    )
+  })
+})
+
+describe('trajectory messages', () => {
+  it('carry the approved Lemon text in pt and drop Atto and photo alts', async () => {
+    const pt = (await import('../../../../../../messages/pt.json')).default
+    const stages = pt.trajectory.stages as Record<string, Record<string, unknown>>
+    expect(stages.lemon).toEqual(LEMON_PT)
+    expect(stages['lemon-atto']).toBeUndefined()
+    for (const stage of Object.values(stages)) expect(stage.photoAlt).toBeUndefined()
   })
 })

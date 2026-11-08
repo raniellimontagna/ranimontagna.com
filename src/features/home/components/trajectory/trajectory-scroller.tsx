@@ -4,8 +4,8 @@ import { type ReactNode, useEffect, useRef } from 'react'
 import { loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
 
 /**
- * Lights the stage in view and swaps the pinned photo with a curtain. Without
- * motion the first stage stays marked and every stage reads normally.
+ * Lights the stage in view and fades in its company panel. Without motion the
+ * first stage stays marked and every stage reads normally.
  */
 export function TrajectoryScroller({ children }: { children: ReactNode }) {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -24,16 +24,8 @@ export function TrajectoryScroller({ children }: { children: ReactNode }) {
         for (const stage of root.querySelectorAll<HTMLElement>('[data-stage]')) {
           stage.dataset.active = String(stage.dataset.stage === id)
         }
-        for (const photo of root.querySelectorAll<HTMLElement>('[data-stage-photo]')) {
-          const isActive = photo.dataset.stagePhoto === id
-          if (isActive && photo.dataset.active !== 'true') {
-            gsap.fromTo(
-              photo,
-              { clipPath: 'inset(100% 0% 0% 0%)' },
-              { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'expo.out' },
-            )
-          }
-          photo.dataset.active = String(isActive)
+        for (const panel of root.querySelectorAll<HTMLElement>('[data-stage-panel]')) {
+          panel.dataset.active = String(panel.dataset.stagePanel === id)
         }
       }
 

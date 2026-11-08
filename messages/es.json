@@ -159,8 +159,7 @@
           "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
           "Implementé componentes reutilizables y estándares de interfaz",
           "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código"
-        ],
-        "photoAlt": "Ranielli en la computadora, escribiendo"
+        ]
       },
       "smarten": {
         "role": "Líder Técnico Front-end · Smarten",
@@ -170,8 +169,7 @@
           "Lideré técnicamente un equipo de desarrolladores",
           "Creé y mantuve un Design System adoptado en múltiples productos",
           "Implementé CI/CD, monitoreo y estándares de calidad"
-        ],
-        "photoAlt": "Ranielli con gafas y camiseta negra, en una sala con lámpara"
+        ]
       },
       "luizalabs": {
         "role": "Desarrollador Pleno · Luizalabs",
@@ -181,19 +179,18 @@
           "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
           "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
           "Mantuve APIs REST, integraciones y micro frontends con React, React Native, Node.js y TypeScript"
-        ],
-        "photoAlt": "Retrato de Ranielli en estudio, con las manos bajo el mentón"
+        ]
       },
-      "lemon-atto": {
-        "role": "Ingeniero de software en Lemon Energia · socio fundador de Atto",
-        "period": "Lemon desde julio de 2026 · Atto en paralelo",
-        "what": "En Lemon, el puente entre negocio y tecnología: discovery continuo, reglas complejas de la jornada de energía convertidas en soluciones full stack, IA con revisión crítica. En Atto, software house y marketing, construye productos a medida para empresas, del e-commerce a la automatización con IA.",
+      "lemon": {
+        "role": "Ingeniero de software · Lemon Energia",
+        "period": "Julio 2026 - hoy · equipo de IA, dentro de Finanzas",
+        "what": "En el equipo de IA de Lemon, trabajo desde dentro de un área de negocio: vivo la operación de Finanzas, encuentro el trabajo manual y decido qué se convierte en producto. Desde agosto, puse seis productos internos en producción, de la pantalla a la base de datos y a la infraestructura en AWS.",
         "impact": [
-          "Descubrimiento con las áreas de negocio para aclarar necesidades y requisitos",
-          "Construcción de soluciones full stack orientadas por IA",
-          "Revisión crítica de las salidas de IA antes de su uso en el producto"
-        ],
-        "photoAlt": "Ranielli en su portátil, con la mano en el mentón, frente a una ventana con la ciudad"
+          "Seis productos de finanzas en tres meses: conciliación bancaria, lotes de pago, proveedores, facturas y notas de débito",
+          "Cada uno de punta a punta: front en React, API en Fastify con PostgreSQL y la infraestructura escrita como código con Pulumi",
+          "En AWS: contenedores en ECS Fargate, base de datos en Aurora (RDS), eventos con EventBridge y SQS, secretos en Secrets Manager, entrega por API Gateway y CloudFront",
+          "Ritmo alto de entrega, con agentes de IA en el flujo y revisión crítica antes de salir al aire"
+        ]
       }
     }
   },

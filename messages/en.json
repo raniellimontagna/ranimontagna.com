@@ -159,8 +159,7 @@
           "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
           "Implemented reusable components and interface standards",
           "Applied maintainability, testing, and code quality practices"
-        ],
-        "photoAlt": "Ranielli at his computer, typing"
+        ]
       },
       "smarten": {
         "role": "Front-end Tech Lead · Smarten",
@@ -170,8 +169,7 @@
           "Technically led a team of developers",
           "Created and maintained a Design System adopted across multiple products",
           "Implemented CI/CD, monitoring, and quality standards"
-        ],
-        "photoAlt": "Ranielli in glasses and a black t-shirt, in a room with a floor lamp"
+        ]
       },
       "luizalabs": {
         "role": "Mid-level Developer · Luizalabs",
@@ -181,19 +179,18 @@
           "Developed solutions used in inventory and logistics operations across 1,000+ stores",
           "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
           "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript"
-        ],
-        "photoAlt": "Studio portrait of Ranielli, hands resting under his chin"
+        ]
       },
-      "lemon-atto": {
-        "role": "Software engineer at Lemon Energia · co-founder of Atto",
-        "period": "Lemon since July 2026 · Atto alongside",
-        "what": "At Lemon, the bridge between business and technology: continuous discovery, complex energy-journey rules turned into full-stack solutions, AI with critical review. At Atto, a software and marketing house, he builds tailored products for companies, from e-commerce to AI automation.",
+      "lemon": {
+        "role": "Software engineer · Lemon Energia",
+        "period": "July 2026 - present · AI team, inside Finance",
+        "what": "On Lemon's AI team, I work from inside a business area: I live the Finance operation, find the manual work and decide what becomes product. Since August, I have shipped six internal products to production, from the screen to the database and the AWS infrastructure.",
         "impact": [
-          "Business-team discovery to clarify needs and requirements",
-          "Building AI-first full-stack solutions",
-          "Critical review of AI output before product use"
-        ],
-        "photoAlt": "Ranielli at his laptop, hand on his chin, in front of a window with the city"
+          "Six finance products in three months: bank reconciliation, payment batches, suppliers, invoices and debit notes",
+          "Each one end to end: React front end, Fastify API with PostgreSQL and the infrastructure written as code with Pulumi",
+          "On AWS: containers on ECS Fargate, database on Aurora (RDS), events with EventBridge and SQS, secrets in Secrets Manager, delivery through API Gateway and CloudFront",
+          "A fast delivery pace, with AI agents in the loop and critical review before anything goes live"
+        ]
       }
     }
   },

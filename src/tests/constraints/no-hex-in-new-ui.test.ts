@@ -16,7 +16,8 @@ const DIRS = [
   'src/features/blog/components',
   'src/features/projects/components',
 ]
-const ALLOW = [/terminal/i]
+// Brand colors of past employers are data, not theme.
+const ALLOW = [/terminal/i, /trajectory\.data\.ts$/]
 const HEX = /#[0-9a-fA-F]{3,8}\b/
 
 function walk(dir: string, files: string[] = []): string[] {

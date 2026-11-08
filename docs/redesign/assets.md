@@ -35,3 +35,14 @@ Conferidas antes de copiar: só dados de exemplo, nenhum dado pessoal.
 | `products/grimory-inventory.webp` | `grimory/.superpowers/reports/arte-equipamento/2-inventario-desktop-dark.png` (inventário com a Chama-guia) |
 
 Todas com dados de exemplo, conferidas antes de copiar.
+
+## Logos das empresas em branco (rodada 2, 07/11/2026)
+
+`public/companies/white/` guarda cada logo em branco sobre transparente, para o painel da trajetória pintar a cor da empresa por trás.
+
+| Arquivo | Origem | Como |
+|---|---|---|
+| `sbsistemas.svg` | `companies/sbsistemas.svg` | `fill` trocado por branco |
+| `smarten.png` | `companies/smarten.webp` (marca branca sobre roxo) | alfa pelo limiar da luminância, recortado (canvas no Chrome headless) |
+| `luizalabs.png` | `companies/luizalabs.webp` (marca branca sobre azul) | igual ao da Smarten |
+| `lemon.png` | `companies/lemon-logo-green.png` | alfa original, RGB branco |
