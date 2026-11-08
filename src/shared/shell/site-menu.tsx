@@ -209,7 +209,8 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
     const previous = root.style.overflow
     root.style.overflow = 'hidden'
     document.addEventListener('keydown', onEscape)
-    const raf = window.requestAnimationFrame ?? ((callback: FrameRequestCallback) => setTimeout(callback, 16))
+    const raf =
+      window.requestAnimationFrame ?? ((callback: FrameRequestCallback) => setTimeout(callback, 16))
     const frame = raf(() => setCrossed(true))
     return () => {
       root.style.overflow = previous
@@ -291,7 +292,10 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                 </div>
 
                 {/* On phones the links sit low, where the thumb reaches. */}
-                <nav data-menu-links className="flex flex-1 flex-col pt-10 max-lg:justify-end lg:pt-12">
+                <nav
+                  data-menu-links
+                  className="flex flex-1 flex-col pt-10 max-lg:justify-end lg:pt-12"
+                >
                   <ul className="flex flex-col gap-1 lg:gap-2">
                     {SITE_NAV.map((item, index) => (
                       <li key={item.id}>

@@ -59,7 +59,12 @@ describe('SiteMenu', () => {
 })
 
 describe('SiteMenu motion (opening A)', () => {
-  type FakeAnimation = { finished: Promise<void>; cancel: ReturnType<typeof vi.fn>; resolve: () => void; keyframes: Keyframe[] }
+  type FakeAnimation = {
+    finished: Promise<void>
+    cancel: ReturnType<typeof vi.fn>
+    resolve: () => void
+    keyframes: Keyframe[]
+  }
   let animations: FakeAnimation[] = []
   const original = Element.prototype.animate
 
@@ -95,7 +100,9 @@ describe('SiteMenu motion (opening A)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
     expect(document.querySelector('[data-menu-links]')?.className).toContain('justify-end')
     for (const name of ['LinkedIn', 'GitHub']) {
-      expect(screen.getByRole('link', { name: new RegExp(name) }).className).toContain('min-h-[46px]')
+      expect(screen.getByRole('link', { name: new RegExp(name) }).className).toContain(
+        'min-h-[46px]',
+      )
     }
   })
 
@@ -103,7 +110,11 @@ describe('SiteMenu motion (opening A)', () => {
     render(<SiteMenu labels={labels} />)
     const trigger = screen.getByRole('button', { name: 'Menu' })
     fireEvent.click(trigger)
-    expect(animations.some((a) => a.keyframes.some((k) => String(k.clipPath ?? '').startsWith('circle(')))).toBe(true)
+    expect(
+      animations.some((a) =>
+        a.keyframes.some((k) => String(k.clipPath ?? '').startsWith('circle(')),
+      ),
+    ).toBe(true)
     fireEvent.click(screen.getByRole('button', { name: 'Fechar' }))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     await act(async () => {
@@ -117,7 +128,9 @@ describe('SiteMenu motion (opening A)', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<SiteMenu labels={labels} />)
     fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
-    expect(animations.some((a) => a.keyframes.some((k) => 'clipPath' in k || 'transform' in k))).toBe(false)
+    expect(
+      animations.some((a) => a.keyframes.some((k) => 'clipPath' in k || 'transform' in k)),
+    ).toBe(false)
   })
 
   it('reopening while it closes ends open with the page scroll locked', () => {

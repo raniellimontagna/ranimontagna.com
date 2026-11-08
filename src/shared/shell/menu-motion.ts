@@ -85,7 +85,9 @@ export function openMenuMotion(els: MenuMotionEls, origin: Origin, reduced: bool
     ),
   )
   if (els.page) {
-    run.push(els.page.animate([IN_PLACE, RECEDED], { duration: 620, easing: EASE_IN_OUT, fill: 'both' }))
+    run.push(
+      els.page.animate([IN_PLACE, RECEDED], { duration: 620, easing: EASE_IN_OUT, fill: 'both' }),
+    )
   }
   for (const el of els.chrome) {
     run.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 300, fill }))
@@ -152,8 +154,8 @@ export function closeMenuMotion(els: MenuMotionEls, origin: Origin, reduced: boo
     )
     if (els.page) run.push(els.page.animate([RECEDED, IN_PLACE], timing))
   }
-  const finished = Promise.all(run.map((animation) => animation.finished.catch(() => undefined))).then(
-    () => undefined,
-  )
+  const finished = Promise.all(
+    run.map((animation) => animation.finished.catch(() => undefined)),
+  ).then(() => undefined)
   return { animations: run, finished }
 }
