@@ -95,6 +95,13 @@ describe('SiteMenu motion (opening A)', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
   })
 
+  it('lines its title up with the header row', () => {
+    render(<SiteMenu labels={labels} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    const row = screen.getByText('Navegação').parentElement as HTMLElement
+    expect(row.className).toContain('h-16')
+  })
+
   it('anchors the links in the thumb zone and gives the socials big targets', () => {
     render(<SiteMenu labels={labels} />)
     fireEvent.click(screen.getByRole('button', { name: 'Menu' }))

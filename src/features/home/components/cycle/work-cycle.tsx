@@ -177,7 +177,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
                 {chapter.id === 'code' ? (
                   <a
                     href="#no-ar"
-                    className="mt-6 inline-flex text-sm font-semibold text-foreground underline decoration-accent underline-offset-[6px]"
+                    className="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-foreground underline decoration-accent underline-offset-[6px]"
                   >
                     {copy.casesLink}
                   </a>

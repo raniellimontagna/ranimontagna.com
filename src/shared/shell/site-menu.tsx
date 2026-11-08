@@ -268,14 +268,14 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                 type="button"
                 onClick={toggle}
                 style={box ?? undefined}
-                className={`${BUTTON} fixed z-10 bg-background ${box ? '' : 'top-6 right-4 h-11'}`}
+                className={`${BUTTON} fixed z-10 bg-background ${box ? '' : 'top-2.5 right-4 h-11'}`}
               >
                 <Burger crossed={crossed} />
                 {isOpen ? labels.close : labels.open}
               </button>
 
-              <div className="relative flex min-h-full flex-col px-4 pt-6 pb-8 sm:px-8 lg:px-12">
-                <div className="flex h-11 items-center">
+              <div className="relative flex min-h-full flex-col px-4 pb-8 sm:px-8 lg:px-12">
+                <div className="flex h-16 items-center">
                   <span
                     data-menu-chrome
                     className="font-mono text-xs tracking-[0.2em] text-muted uppercase"

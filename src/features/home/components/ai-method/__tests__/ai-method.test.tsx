@@ -62,6 +62,14 @@ describe('AiMethod', () => {
     expect(document.querySelector('[data-snap-counter]')).toHaveTextContent('01 / 06')
   })
 
+  it('lets the steps column shrink below its cards, so the carousel never widens the page', async () => {
+    render(await AiMethod())
+    const column = (document.querySelector('[data-ai-steps]') as HTMLElement).closest(
+      '.grid > *',
+    ) as HTMLElement
+    expect(column.className).toMatch(/(^|\s)min-w-0(\s|$)/)
+  })
+
   it('renders the six method steps in order with artifact lines', async () => {
     render(await AiMethod())
     const steps = [...document.querySelectorAll('[data-ai-step]')]

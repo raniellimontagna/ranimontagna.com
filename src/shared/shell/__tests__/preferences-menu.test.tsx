@@ -23,6 +23,11 @@ describe('PreferencesMenu', () => {
     window.location.hash = '#a'
   })
 
+  it('gives its button a 44 px tap target', () => {
+    render(<PreferencesMenu labels={labels} />)
+    expect(screen.getByRole('button', { name: 'Preferências' }).className).toContain('h-11')
+  })
+
   it('changing language keeps the path and the hash', () => {
     render(<PreferencesMenu labels={labels} />)
     fireEvent.click(screen.getByRole('button', { name: 'Preferências' }))

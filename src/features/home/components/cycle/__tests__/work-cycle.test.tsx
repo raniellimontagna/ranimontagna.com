@@ -196,6 +196,7 @@ describe('WorkCycle', () => {
     render(<WorkCycle copy={copy} />)
     expect(document.getElementById('como-trabalho')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'casesLink' })).toHaveAttribute('href', '#no-ar')
+    expect(screen.getByRole('link', { name: 'casesLink' }).className).toContain('min-h-11')
   })
 
   it('does not query the DOM on every terminal tick', async () => {

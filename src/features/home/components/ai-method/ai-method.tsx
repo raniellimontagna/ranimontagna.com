@@ -54,7 +54,9 @@ export async function AiMethod() {
           </h3>
           <p className="text-sm leading-snug text-muted">{t('method.body')}</p>
         </div>
-        <div className="flex flex-col gap-5">
+        {/* min-w-0: a grid item grows to its content's min-content, and the
+            step carousel's content is six cards wide. */}
+        <div className="flex min-w-0 flex-col gap-5">
           <AiMethodSteps steps={steps} label={t('stepsLabel')} />
           <ul className="flex flex-wrap gap-2">
             {AI_TERM_IDS.map((id) => (
