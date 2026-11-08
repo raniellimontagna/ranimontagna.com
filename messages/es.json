@@ -259,11 +259,13 @@
       "luizalabs": {
         "role": "Desarrollador Pleno · Luizalabs",
         "period": "Octubre 2023 - Junio 2026",
-        "what": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, desarrollando aplicaciones web y móviles para operaciones de tiendas físicas, APIs REST y soluciones backend para un entorno minorista nacional de alta escala.",
+        "what": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, en aplicaciones web y móviles para las operaciones de las tiendas físicas y en los servicios detrás de ellas, con back-end en Go sobre GCP, en un entorno minorista nacional de alta escala.",
         "impact": [
           "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
           "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
-          "Mantuve APIs REST, integraciones y micro frontends con React, React Native, Node.js y TypeScript"
+          "Servicios en Go y Node.js sobre GCP, comunicados por colas en RabbitMQ, además de APIs REST y micro frontends en React y React Native",
+          "Código y operación seguidos en SonarQube y Grafana",
+          "Viví Black Fridays desde adentro, la semana en que un sistema minorista no puede fallar"
         ]
       },
       "lemon": {

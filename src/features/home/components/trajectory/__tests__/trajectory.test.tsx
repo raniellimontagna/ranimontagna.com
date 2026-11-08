@@ -144,6 +144,31 @@ describe('Trajectory', () => {
   })
 })
 
+describe('Luizalabs stage', () => {
+  const TOOLS = ['Go', 'GCP', 'RabbitMQ', 'SonarQube', 'Grafana']
+
+  it('lists Go, GCP, RabbitMQ, SonarQube and Grafana in its stack, with Go in the panel', async () => {
+    const { STAGES } = await import('../trajectory.data')
+    const luizalabs = STAGES.find((stage) => stage.id === 'luizalabs')
+    for (const tool of TOOLS) expect(luizalabs?.stack).toContain(tool)
+    expect(luizalabs?.panelIcons).toContain('go')
+  })
+
+  it.each(['pt', 'en', 'es'])(
+    'tells the Go back end, the tools and Black Friday in %s',
+    async (locale) => {
+      const messages = (await import(`../../../../../../messages/${locale}.json`)).default
+      const stage = messages.trajectory.stages.luizalabs as { what: string; impact: string[] }
+      const text = [stage.what, ...stage.impact].join(' ')
+      for (const tool of ['Go', 'GCP', 'RabbitMQ', 'SonarQube', 'Grafana', 'Black Friday']) {
+        expect(text).toContain(tool)
+      }
+      // The published store numbers stay as they were.
+      expect(text).toMatch(/1[.,]000\+/)
+    },
+  )
+})
+
 describe('trajectory messages', () => {
   it('carry the approved Lemon text in pt and drop Atto and photo alts', async () => {
     const pt = (await import('../../../../../../messages/pt.json')).default

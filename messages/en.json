@@ -259,11 +259,13 @@
       "luizalabs": {
         "role": "Mid-level Developer · Luizalabs",
         "period": "October 2023 - June 2026",
-        "what": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
+        "what": "I worked at Luizalabs, Magalu's technology unit, on web and mobile applications for physical store operations and on the services behind them, with a Go back end on GCP, in a high-scale national retail environment.",
         "impact": [
           "Developed solutions used in inventory and logistics operations across 1,000+ stores",
           "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
-          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript"
+          "Services in Go and Node.js on GCP, talking through RabbitMQ queues, plus REST APIs and micro frontends in React and React Native",
+          "Code and operations tracked in SonarQube and Grafana",
+          "Went through Black Fridays from the inside, the week a retail system cannot fail"
         ]
       },
       "lemon": {

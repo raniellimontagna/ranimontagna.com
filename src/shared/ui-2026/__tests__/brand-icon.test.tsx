@@ -27,6 +27,14 @@ describe('brand icons', () => {
     expect(techIcon('IA')).toBeNull()
   })
 
+  it('has the Luizalabs stack marks: Go, Google Cloud, RabbitMQ, SonarQube and Grafana', () => {
+    expect(techIcon('Go')).toBe('go')
+    expect(techIcon('GCP')).toBe('googlecloud')
+    expect(techIcon('RabbitMQ')).toBe('rabbitmq')
+    expect(techIcon('SonarQube')).toBe('sonarqubeserver')
+    expect(techIcon('Grafana')).toBe('grafana')
+  })
+
   it('BrandIcon is decorative and masks the icon file', () => {
     const { container } = render(<BrandIcon name="claude" className="h-4 w-4" />)
     const icon = container.firstElementChild as HTMLElement

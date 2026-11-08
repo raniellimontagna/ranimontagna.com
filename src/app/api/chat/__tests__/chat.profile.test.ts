@@ -125,4 +125,15 @@ describe('chat professional profile', () => {
       ),
     ).toEqual(canonicalExperienceDates)
   })
+
+  it.each(['pt', 'en', 'es'] as const)(
+    'tells Vega about the Go back end, the tools and Black Friday at Luizalabs in %s',
+    (locale) => {
+      const luizalabs = CHAT_PROFILE_BY_LOCALE[locale].experiences[1]
+      const text = luizalabs.outcomes.join(' ')
+      for (const tool of ['Go', 'GCP', 'RabbitMQ', 'SonarQube', 'Grafana', 'Black Friday']) {
+        expect(text).toContain(tool)
+      }
+    },
+  )
 })
