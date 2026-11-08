@@ -168,11 +168,11 @@ export const CHAT_PROFILE_BY_LOCALE = {
       },
     ],
     siteFacts: [
-      'Klick: timer de speedcubing offline-first para os 13 eventos da WCA; 428 de 429 commits com coautoria de IA (case em /projects/klick)',
-      'Grimory: mesa de D&D 5e em português, do personagem à sessão; a IA propõe, as regras validam e o jogador decide; 2328 de 2495 commits com coautoria de IA (case em /projects/grimory)',
-      'agent-toolkit: instala as mesmas skills em cinco agentes (Claude Code, Codex, OpenCode, Gemini CLI e Antigravity)',
+      'Klick: timer de speedcubing offline-first para os 13 eventos da WCA; 428 de 429 commits com coautoria de IA',
+      'Grimory: mesa de D&D 5e em português, do personagem à sessão; a IA propõe, as regras validam e o jogador decide; 2328 de 2495 commits com coautoria de IA',
+      'agent-toolkit: instala as mesmas skills em 5 agentes (Claude Code, Codex, OpenCode, Gemini CLI e Antigravity)',
       'Seção de IA do site: usa Claude, Codex, Gemini, DeepSeek, OpenRouter e MCP no dia a dia, sem amarra a um modelo ou empresa; trabalha com spec-driven development (conversa, spec, plano, teste primeiro, agente codifica, revisão humana), TDD, AGENTS.md e evals; o site tem mais de 1.000 testes',
-      'A Vega, esta assistente, roda em DeepSeek, e o código aceita o OpenRouter como reserva',
+      'A Vega, esta assistente, roda em DeepSeek, e o código aceita o OpenRouter como reserva: 2 provedores',
       'Na Lemon usa React, TypeScript, Fastify, PostgreSQL, Pulumi e AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway e CloudFront)',
     ],
     technicalAreas: [
@@ -331,11 +331,11 @@ export const CHAT_PROFILE_BY_LOCALE = {
       },
     ],
     siteFacts: [
-      'Klick: offline-first speedcubing timer for the 13 WCA events; 428 of 429 commits co-authored with AI (case at /projects/klick)',
-      'Grimory: a D&D 5e table in Portuguese, from character to session; AI proposes, the rules validate and the player decides; 2328 of 2495 commits co-authored with AI (case at /projects/grimory)',
-      'agent-toolkit: installs the same skills in five agents (Claude Code, Codex, OpenCode, Gemini CLI and Antigravity)',
+      'Klick: offline-first speedcubing timer for the 13 WCA events; 428 of 429 commits co-authored with AI',
+      'Grimory: a D&D 5e table in Portuguese, from character to session; AI proposes, the rules validate and the player decides; 2328 of 2495 commits co-authored with AI',
+      'agent-toolkit: installs the same skills in 5 agents (Claude Code, Codex, OpenCode, Gemini CLI and Antigravity)',
       "The site's AI section: he uses Claude, Codex, Gemini, DeepSeek, OpenRouter and MCP daily, with no lock-in to one model or company; he works with spec-driven development (conversation, spec, plan, test first, agent codes, human review), TDD, AGENTS.md and evals; the site has more than 1,000 tests",
-      'Vega, this assistant, runs on DeepSeek, and the code accepts OpenRouter as a fallback',
+      'Vega, this assistant, runs on DeepSeek, and the code accepts OpenRouter as a fallback: 2 providers',
       'At Lemon he uses React, TypeScript, Fastify, PostgreSQL, Pulumi and AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway and CloudFront)',
     ],
     technicalAreas: [
@@ -492,11 +492,11 @@ export const CHAT_PROFILE_BY_LOCALE = {
       },
     ],
     siteFacts: [
-      'Klick: temporizador de speedcubing offline-first para los 13 eventos de la WCA; 428 de 429 commits con coautoría de IA (caso en /projects/klick)',
-      'Grimory: una mesa de D&D 5e en portugués, del personaje a la sesión; la IA propone, las reglas validan y el jugador decide; 2328 de 2495 commits con coautoría de IA (caso en /projects/grimory)',
-      'agent-toolkit: instala las mismas skills en cinco agentes (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)',
+      'Klick: temporizador de speedcubing offline-first para los 13 eventos de la WCA; 428 de 429 commits con coautoría de IA',
+      'Grimory: una mesa de D&D 5e en portugués, del personaje a la sesión; la IA propone, las reglas validan y el jugador decide; 2328 de 2495 commits con coautoría de IA',
+      'agent-toolkit: instala las mismas skills en 5 agentes (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)',
       'Sección de IA del sitio: usa Claude, Codex, Gemini, DeepSeek, OpenRouter y MCP en el día a día, sin ataduras a un modelo o empresa; trabaja con spec-driven development (conversación, spec, plan, prueba primero, el agente programa, revisión humana), TDD, AGENTS.md y evals; el sitio tiene más de 1.000 pruebas',
-      'Vega, esta asistente, funciona con DeepSeek, y el código acepta OpenRouter como respaldo',
+      'Vega, esta asistente, funciona con DeepSeek, y el código acepta OpenRouter como respaldo: 2 proveedores',
       'En Lemon usa React, TypeScript, Fastify, PostgreSQL, Pulumi y AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway y CloudFront)',
     ],
     technicalAreas: [

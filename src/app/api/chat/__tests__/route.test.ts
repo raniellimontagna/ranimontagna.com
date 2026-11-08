@@ -70,11 +70,12 @@ const createOpenAiPayloadResponse = (events: string[]) =>
 
 const openAiEvent = (value: unknown) => `data: ${JSON.stringify(value)}\n\n`
 
-// Cards are an optional extra event; the answer contract is one text event and one DONE.
+// Cards and the fallback flag are optional extra events; the answer contract is one
+// text event and one DONE.
 const withoutCardsEvent = (body: string) =>
   body
     .split('\n\n')
-    .filter((event) => !event.startsWith('data: {"cards":'))
+    .filter((event) => !event.startsWith('data: {"cards":') && event !== 'data: {"fallback":true}')
     .join('\n\n')
 
 const expectSingleAnswerStream = async (response: Response, answer: string) => {
@@ -160,6 +161,7 @@ describe('chat route provider order', () => {
     const body = await response.text()
     expect(body).toContain(JSON.stringify({ text: FALLBACK_MESSAGES.pt }))
     expect(body).not.toContain('"cards"')
+    expect(body).toContain('data: {"fallback":true}')
   })
 
   it('streams a successful DeepSeek response without calling fallback providers', async () => {

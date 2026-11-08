@@ -223,4 +223,86 @@ describe('VegaScreen', () => {
     await waitFor(() => expect(useChat.getState().messages).toHaveLength(0))
     expect(screen.getByText('Oi, eu sou a Vega.')).toBeInTheDocument()
   })
+
+  it('types a fresh answer word by word when motion is allowed', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    render(<VegaScreen />)
+    openScreen()
+    fireEvent.click(screen.getByRole('button', { name: 'Me mostra o Grimory' }))
+    const busy = await waitFor(() => {
+      const node = document.querySelector('[aria-busy="true"]')
+      expect(node).not.toBeNull()
+      return node as HTMLElement
+    })
+    expect(busy.textContent).not.toContain('O Grimory é o melhor exemplo.')
+    expect(await screen.findByText('O Grimory é o melhor exemplo.')).toBeInTheDocument()
+  })
+
+  it('keeps focus inside the dialog after the first question and after "Nova conversa"', async () => {
+    render(<VegaScreen />)
+    openScreen()
+    fireEvent.click(screen.getByRole('button', { name: 'Me mostra o Grimory' }))
+    await screen.findByText('O Grimory é o melhor exemplo.')
+    const dialog = screen.getByRole('dialog')
+    expect(dialog.contains(document.activeElement)).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Nova conversa' }))
+    expect(dialog.contains(document.activeElement)).toBe(true)
+  })
+
+  it('Escape closes it even when focus has left the dialog', () => {
+    render(<VegaScreen />)
+    openScreen()
+    ;(document.activeElement as HTMLElement | null)?.blur()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(useChat.getState().isOpen).toBe(false)
+  })
+
+  it('makes the page behind inert while open', () => {
+    const page = document.createElement('div')
+    page.setAttribute('data-testid', 'page')
+    document.body.appendChild(page)
+    render(<VegaScreen />)
+    openScreen()
+    expect(page).toHaveAttribute('inert')
+    act(() => useChat.setState({ isOpen: false }))
+    expect(page).not.toHaveAttribute('inert')
+    page.remove()
+  })
+
+  it('returns focus to the button that opened it', () => {
+    const hero = document.createElement('button')
+    hero.textContent = 'Pergunte à Vega'
+    document.body.appendChild(hero)
+    render(<VegaScreen />)
+    openScreen()
+    act(() => useChat.setState({ isOpen: false }))
+    hero.focus()
+    act(() => useChat.setState({ isOpen: true }))
+    act(() => useChat.setState({ isOpen: false }))
+    expect(hero).toHaveFocus()
+    hero.remove()
+  })
+
+  it('offers a retry under the static fallback', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(sse([{ text: 'Não consegui responder agora 😅' }, { fallback: true }]))
+      .mockResolvedValueOnce(sse([{ text: 'Agora foi.' }]))
+    vi.stubGlobal('fetch', fetchMock)
+    render(<VegaScreen />)
+    openScreen()
+    fireEvent.click(screen.getByRole('button', { name: 'Me mostra o Grimory' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Tentar de novo' }))
+    expect(await screen.findByText('Agora foi.')).toBeInTheDocument()
+    expect(screen.queryByText('Não consegui responder agora 😅')).toBeNull()
+    expect(screen.getAllByText('Me mostra o Grimory')).toHaveLength(1)
+  })
+
+  it('draws the focus state on the question box, not a ring inside it', () => {
+    render(<VegaScreen />)
+    openScreen()
+    const field = screen.getByRole('textbox')
+    expect(field.className).toContain('focus-visible:outline-none')
+    expect(field.closest('form')?.className).toContain('focus-within:border-accent')
+  })
 })

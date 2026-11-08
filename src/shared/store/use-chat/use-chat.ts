@@ -73,9 +73,20 @@ export const useChat = create<ChatState>((set, get) => ({
         try {
           const parsed = JSON.parse(jsonStr)
           if (parsed.text) {
+            // Text and the typing flag land together, so the answer mounts already typing.
             set((state) => ({
               messages: state.messages.map((m) =>
                 m.id === assistantMessage.id ? { ...m, content: m.content + parsed.text } : m,
+              ),
+              typingId: state.isOpen ? assistantMessage.id : state.typingId,
+            }))
+          }
+          if (parsed.fallback === true) {
+            set((state) => ({
+              failedQuestion: content,
+              typingId: state.typingId === assistantMessage.id ? null : state.typingId,
+              messages: state.messages.map((m) =>
+                m.id === assistantMessage.id ? { ...m, fallback: true } : m,
               ),
             }))
           }
@@ -111,7 +122,6 @@ export const useChat = create<ChatState>((set, get) => ({
       }
 
       reader.releaseLock()
-      set((state) => ({ typingId: state.isOpen ? assistantMessage.id : null }))
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
@@ -128,14 +138,14 @@ export const useChat = create<ChatState>((set, get) => ({
   retry: async (locale) => {
     const question = get().failedQuestion
     if (!question) return
-    // The failed question is still on screen; drop it so the resend shows it once.
+    // The failed question (and the fallback under it) are still on screen; drop
+    // them so the resend shows the question once.
     set((state) => {
-      const last = state.messages.at(-1)
-      const keep =
-        last?.role === 'user' && last.content === question
-          ? state.messages.slice(0, -1)
-          : state.messages
-      return { messages: keep }
+      const messages = [...state.messages]
+      if (messages.at(-1)?.fallback) messages.pop()
+      const last = messages.at(-1)
+      if (last?.role === 'user' && last.content === question) messages.pop()
+      return { messages, failedQuestion: null }
     })
     await get().sendMessage(question, locale)
   },

@@ -15,8 +15,7 @@ type VegaMessageProps = {
 }
 
 export function VegaMessage({ message, typing, cardCta, onTyped, onOpenCard }: VegaMessageProps) {
-  const shown = useTypewriter(message.content, typing)
-  const done = shown === message.content
+  const { text: shown, done } = useTypewriter(message.content, typing)
 
   useEffect(() => {
     if (typing && done) onTyped()
@@ -31,7 +30,10 @@ export function VegaMessage({ message, typing, cardCta, onTyped, onOpenCard }: V
   }
 
   return (
-    <div className="flex flex-col gap-3 text-[15px] leading-relaxed text-foreground">
+    <div
+      aria-busy={typing && !done ? true : undefined}
+      className="flex flex-col gap-3 text-[15px] leading-relaxed text-foreground"
+    >
       <p className="whitespace-pre-wrap">{renderVegaMarkdown(shown)}</p>
       {done && message.cards?.length ? (
         <div className="grid gap-2 sm:grid-cols-2">

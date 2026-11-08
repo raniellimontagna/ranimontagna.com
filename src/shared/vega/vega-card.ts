@@ -34,7 +34,7 @@ export function sanitizeCards(value: unknown): VegaCard[] {
       isAllowedCardHref(c.href) &&
       typeof c.title === 'string' &&
       typeof c.summary === 'string' &&
-      (c.image === null || (typeof c.image === 'string' && c.image.startsWith('/')))
+      (c.image === null || (typeof c.image === 'string' && /^\/(?!\/)/.test(c.image)))
     )
   })
 }

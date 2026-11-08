@@ -1,4 +1,5 @@
-import { isAllowedCardHref } from '@/shared/vega/vega-card'
+import { getAllPosts } from '@/features/blog/lib/blog'
+import { isAllowedCardHref, sanitizeCards } from '@/shared/vega/vega-card'
 import { buildCardCatalog, pickCards } from '../chat.cards'
 import { buildTextStream } from '../chat.response'
 
@@ -82,5 +83,43 @@ describe('chat cards', () => {
   it('buildTextStream without cards keeps the old two events', async () => {
     const body = await readStream(buildTextStream('Oi'))
     expect(body).toBe(`data: ${JSON.stringify({ text: 'Oi' })}\n\ndata: [DONE]\n\n`)
+  })
+})
+
+describe('card hardening', () => {
+  it('rejects protocol-relative card images', () => {
+    const card = {
+      id: 'case-klick',
+      kind: 'case',
+      href: '/projects/klick',
+      title: 'Klick',
+      summary: 's',
+      image: '//evil.com/x.png',
+    }
+    expect(sanitizeCards([card])).toEqual([])
+    expect(sanitizeCards([{ ...card, image: '/redesign/products/klick-timer.webp' }])).toHaveLength(
+      1,
+    )
+  })
+
+  it('never waits more than a second for blog posts', async () => {
+    vi.useFakeTimers()
+    vi.mocked(getAllPosts).mockImplementationOnce(() => new Promise(() => {}))
+    const pending = buildCardCatalog('pt')
+    await vi.advanceTimersByTimeAsync(1000)
+    const catalog = await pending
+    expect(catalog.some((card) => card.id === 'case-grimory')).toBe(true)
+    expect(catalog.some((card) => card.kind === 'post')).toBe(false)
+    vi.useRealTimers()
+  })
+
+  it('buildTextStream flags the static fallback so the client can offer a retry', async () => {
+    const body = await new Response(buildTextStream('Fallback', [], { fallback: true })).text()
+    const events = body.split('\n\n').filter(Boolean)
+    expect(events).toEqual([
+      `data: ${JSON.stringify({ text: 'Fallback' })}`,
+      'data: {"fallback":true}',
+      'data: [DONE]',
+    ])
   })
 })

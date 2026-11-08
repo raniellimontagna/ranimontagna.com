@@ -48,6 +48,7 @@ export function VegaScreen() {
   const isLoading = useChat((state) => state.isLoading)
   const error = useChat((state) => state.error)
   const typingId = useChat((state) => state.typingId)
+  const failedQuestion = useChat((state) => state.failedQuestion)
   const setOpen = useChat((state) => state.setOpen)
   const sendMessage = useChat((state) => state.sendMessage)
   const retry = useChat((state) => state.retry)
@@ -67,20 +68,50 @@ export function VegaScreen() {
 
   useLayoutEffect(() => {
     if (!isOpen) return
+    // Focus goes back to whatever opened Vega (launcher, hero button, 404 link);
+    // with nothing focused (⌘K on the page) it lands on the launcher.
+    const active = document.activeElement as HTMLElement | null
     returnFocus.current =
-      document.querySelector<HTMLElement>('[data-chat-launcher]') ??
-      (document.activeElement as HTMLElement | null)
+      active && active !== document.body
+        ? active
+        : document.querySelector<HTMLElement>('[data-chat-launcher]')
     document.documentElement.style.overflow = 'hidden'
     stopSmoothScroll()
+
+    // Everything behind the dialog leaves the tab order and the accessibility tree.
+    const dialog = dialogRef.current
+    const inerted: HTMLElement[] = []
+    for (const child of Array.from(document.body.children)) {
+      if (child === dialog || !(child instanceof HTMLElement) || child.hasAttribute('inert')) {
+        continue
+      }
+      child.setAttribute('inert', '')
+      inerted.push(child)
+    }
+
     inputRef.current?.focus()
     growFromLauncher(heroRef.current)
 
     return () => {
+      for (const element of inerted) element.removeAttribute('inert')
       document.documentElement.style.overflow = ''
       startSmoothScroll()
       returnFocus.current?.focus()
     }
   }, [isOpen])
+
+  // Esc closes from anywhere, before other overlays' listeners see it.
+  useEffect(() => {
+    if (!isOpen) return
+    const onEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      event.stopPropagation()
+      setOpen(false)
+    }
+    document.addEventListener('keydown', onEscape, true)
+    return () => document.removeEventListener('keydown', onEscape, true)
+  }, [isOpen, setOpen])
 
   // Follow the conversation as it grows.
   useEffect(() => {
@@ -94,11 +125,6 @@ export function VegaScreen() {
   }
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      close()
-      return
-    }
     if (event.key !== 'Tab' || !dialogRef.current) return
     const items = [...dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)]
     const first = items[0]
@@ -119,12 +145,16 @@ export function VegaScreen() {
   const thinking =
     isLoading && (!lastMessage || lastMessage.role === 'user' || !lastMessage.content)
 
-  const errorBlock = error ? (
+  const canRetry = Boolean(error || failedQuestion) && !isLoading
+  const errorBlock = canRetry ? (
     <div className="flex flex-wrap items-center gap-3 text-sm text-foreground" role="alert">
-      <span>{t('error')}</span>
+      {error ? <span>{t('error')}</span> : null}
       <button
         type="button"
-        onClick={() => void retry(locale)}
+        onClick={() => {
+          void retry(locale)
+          inputRef.current?.focus()
+        }}
         className="rounded-full border border-line px-3 py-1 text-xs font-semibold hover:border-accent hover:text-accent"
       >
         {t('retry')}
@@ -151,6 +181,7 @@ export function VegaScreen() {
       aria-label={t('label')}
       data-state={conversation ? 'conversation' : 'empty'}
       data-lenis-prevent
+      tabIndex={-1}
       onKeyDown={onKeyDown}
       className="fixed inset-0 z-[70] flex h-dvh flex-col bg-background text-foreground"
     >

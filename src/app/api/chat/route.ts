@@ -154,7 +154,9 @@ export async function POST(request: NextRequest): Promise<Response> {
           traceId,
           validationCode: state.validationCode,
         })
-        return new Response(buildTextStream(staticFallback), { headers: SSE_HEADERS })
+        return new Response(buildTextStream(staticFallback, [], { fallback: true }), {
+          headers: SSE_HEADERS,
+        })
       }
 
       if (state.kind === 'answer') {

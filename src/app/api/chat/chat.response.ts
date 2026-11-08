@@ -97,6 +97,7 @@ export function validateChatAnswer(input: ChatValidationInput): ChatValidationRe
 export function buildTextStream(
   text: string,
   cards: readonly VegaCard[] = [],
+  options: { fallback?: boolean } = {},
 ): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder()
   return new ReadableStream({
@@ -105,6 +106,8 @@ export function buildTextStream(
       if (cards.length) {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ cards })}\n\n`))
       }
+      // The static fallback is not an answer: the client offers "try again".
+      if (options.fallback) controller.enqueue(encoder.encode('data: {"fallback":true}\n\n'))
       controller.enqueue(encoder.encode('data: [DONE]\n\n'))
       controller.close()
     },

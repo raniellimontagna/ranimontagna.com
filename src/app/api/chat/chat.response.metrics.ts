@@ -621,8 +621,35 @@ const metricMatchesFact = (metric: MetricReference, fact: CanonicalMetricFact): 
   metricComparatorMatchesFact(metric, fact) &&
   (!fact.requiresOutcomePredicate || metric.outcomePredicate !== null)
 
+// Every number the site itself publishes (cases, AI section, Vega) is an
+// approved fact: read them from the profile's site facts with the same
+// extraction the answers go through, so the model may repeat them.
+const siteFactCache = new WeakMap<ChatProfile, readonly CanonicalMetricFact[]>()
+
+const siteMetricFacts = (profile: ChatProfile): readonly CanonicalMetricFact[] => {
+  const cached = siteFactCache.get(profile)
+  if (cached) return cached
+  const facts = profile.siteFacts
+    .flatMap((text) => splitAssociationClauses(maskNonMetricNumbers(text, profile)))
+    .flatMap(extractMetrics)
+    .filter((metric) => metric.comparator !== 'percent')
+    .map(
+      (metric): CanonicalMetricFact => ({
+        comparator: metric.comparator === 'at-least' ? 'at-least' : 'exact',
+        kind: metric.kind,
+        requiresOutcomePredicate: false,
+        scope: 'global',
+        unit: metric.unit,
+        value: metric.value,
+      }),
+    )
+  siteFactCache.set(profile, facts)
+  return facts
+}
+
 const metricAllowedUnscoped = (metric: MetricReference, profile: ChatProfile): boolean =>
-  canonicalMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact))
+  canonicalMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact)) ||
+  siteMetricFacts(profile).some((fact) => metricMatchesFact(metric, fact))
 
 const metricAllowedForExperience = (
   metric: MetricReference,

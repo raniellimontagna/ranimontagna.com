@@ -56,4 +56,15 @@ describe('VegaMark', () => {
     rerender(<VegaMark size={56} />)
     expect(container.querySelector('canvas')).toHaveAttribute('aria-hidden', 'true')
   })
+
+  it('redraws with the new theme colors even without motion', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    const ctx = mockContext()
+    render(<VegaMark size={56} />)
+    ctx.arc.mockClear()
+    document.documentElement.setAttribute('data-theme', 'light')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(ctx.arc).toHaveBeenCalled()
+    document.documentElement.removeAttribute('data-theme')
+  })
 })

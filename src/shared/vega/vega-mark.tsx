@@ -91,10 +91,17 @@ export function VegaMark({
     canvas.width = Math.round(size * dpr)
     canvas.height = Math.round(size * dpr)
     let colors = readColors()
+    const reduced = prefersReducedMotion()
+    // Theme or accent changes recolor the dust, with or without motion.
+    const themeObserver = new MutationObserver(() => {
+      colors = readColors()
+      if (reduced) draw(ctx, particles, 0, size, dpr, colors)
+    })
+    themeObserver.observe(document.documentElement, { attributes: true })
 
-    if (prefersReducedMotion()) {
+    if (reduced) {
       draw(ctx, particles, 0, size, dpr, colors)
-      return
+      return () => themeObserver.disconnect()
     }
 
     let frame = 0
@@ -122,10 +129,6 @@ export function VegaMark({
     })
     observer.observe(canvas)
     document.addEventListener('visibilitychange', sync)
-    const themeObserver = new MutationObserver(() => {
-      colors = readColors()
-    })
-    themeObserver.observe(document.documentElement, { attributes: true })
 
     return () => {
       observer.disconnect()

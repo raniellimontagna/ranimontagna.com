@@ -73,6 +73,18 @@ describe('LocaleLayout shell', () => {
     },
   )
 
+  it('lets the virtual keyboard resize the page so full-screen overlays stay usable', async () => {
+    const layout = await LocaleLayout({
+      children: <main />,
+      params: Promise.resolve({ locale: 'pt' }),
+    })
+    const markup = renderToStaticMarkup(layout)
+    const document = new DOMParser().parseFromString(markup, 'text/html')
+    expect(document.querySelector('meta[name="viewport"]')?.getAttribute('content')).toContain(
+      'interactive-widget=resizes-content',
+    )
+  })
+
   it('renders a localized first-focusable skip link to the page main target', async () => {
     const layout = await LocaleLayout({
       children: <main id="main-content">Content</main>,

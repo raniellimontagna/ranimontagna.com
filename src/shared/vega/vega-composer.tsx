@@ -1,6 +1,6 @@
 'use client'
 
-import { type FormEvent, type RefObject, useState } from 'react'
+import { type FormEvent, type RefObject, useEffect, useState } from 'react'
 
 type VegaComposerProps = {
   inputRef: RefObject<HTMLTextAreaElement | null>
@@ -21,6 +21,12 @@ export function VegaComposer({
 }: VegaComposerProps) {
   const [value, setValue] = useState('')
 
+  // The empty state and the conversation each mount their own box: whichever is
+  // on screen takes focus, so it never falls out of the dialog when the view switches.
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [inputRef])
+
   const submit = (event?: FormEvent) => {
     event?.preventDefault()
     const question = value.trim()
@@ -32,7 +38,7 @@ export function VegaComposer({
   return (
     <form
       onSubmit={submit}
-      className={`flex items-end gap-2 rounded-[22px] border border-line bg-surface py-2 pr-2 pl-4 ${className ?? ''}`}
+      className={`flex items-end gap-2 rounded-[22px] border border-line bg-surface py-2 pr-2 pl-4 transition-colors focus-within:border-accent ${className ?? ''}`}
     >
       <textarea
         ref={inputRef}
@@ -45,7 +51,7 @@ export function VegaComposer({
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) submit(event)
         }}
-        className="max-h-40 min-h-[36px] flex-1 resize-none bg-transparent py-2 text-[15px] text-foreground outline-none placeholder:text-muted"
+        className="max-h-40 min-h-[36px] flex-1 resize-none bg-transparent py-2 text-[15px] text-foreground outline-none placeholder:text-muted focus-visible:outline-none"
       />
       <button
         type="submit"

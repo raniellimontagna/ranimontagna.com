@@ -68,3 +68,32 @@ describe('third-person date claims', () => {
     },
   )
 })
+
+describe('numbers published in the site facts', () => {
+  const pt = CHAT_PROFILE_BY_LOCALE.pt
+
+  it.each([
+    'O Grimory é uma mesa de D&D 5e em português.',
+    'O site tem mais de 1.000 testes, escritos antes do código.',
+    'O Klick cobre os 13 eventos da WCA.',
+    'O agent-toolkit instala as mesmas skills em 5 agentes.',
+    'A Vega usa 2 provedores.',
+  ])('accepts: %s', (answer) => {
+    expect(answerHasUnsupportedMetric(answer, pt)).toBe(false)
+  })
+
+  it.each(['O site tem 5.000 testes.', 'O Klick cobre 40 eventos da WCA.'])(
+    'still rejects invented numbers: %s',
+    (answer) => {
+      expect(answerHasUnsupportedMetric(answer, pt)).toBe(true)
+    },
+  )
+
+  it('site facts carry no page paths that could become unapproved links', () => {
+    for (const locale of ['pt', 'en', 'es'] as const) {
+      for (const fact of CHAT_PROFILE_BY_LOCALE[locale].siteFacts) {
+        expect(fact).not.toMatch(/\/projects\/|https?:\/\//)
+      }
+    }
+  })
+})

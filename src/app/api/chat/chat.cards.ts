@@ -150,10 +150,21 @@ async function postCards(locale: ChatLocale): Promise<CardEntry[]> {
   }
 }
 
+const POSTS_BUDGET_MS = 1_000
+
+/** Blog posts as cards, but never at the cost of a slow answer. */
+function postCardsWithin(locale: ChatLocale, budgetMs: number): Promise<CardEntry[]> {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise<CardEntry[]>((resolve) => {
+    timer = setTimeout(() => resolve([]), budgetMs)
+  })
+  return Promise.race([postCards(locale), timeout]).finally(() => clearTimeout(timer))
+}
+
 export async function buildCardCatalog(locale: ChatLocale): Promise<CardEntry[]> {
   const copy = CARD_COPY[locale] ?? CARD_COPY.pt
   const fixed = FIXED_CARDS.map((card) => ({ ...card, ...copy[card.id] }))
-  return [...fixed, ...(await postCards(locale))]
+  return [...fixed, ...(await postCardsWithin(locale, POSTS_BUDGET_MS))]
 }
 
 function escapeRegExp(value: string): string {

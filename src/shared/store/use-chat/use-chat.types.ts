@@ -7,6 +7,8 @@ export type ChatMessage = {
   timestamp: number
   /** Site cards the server attached to this answer. */
   cards?: VegaCard[]
+  /** The server's static fallback, not a real answer: offer "try again". */
+  fallback?: boolean
 }
 
 export type ChatState = {
