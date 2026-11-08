@@ -592,42 +592,6 @@ button {
 }
 
 /* Motion tokens and animations */
-/* Cycle scenes below lg scroll normally (no pin). A view() timeline zooms each
-   background in from 1.12 and lifts the copy and artifact 32px as the scene
-   enters. Scroll-driven animations ignore animation-duration, so the global
-   reduced-motion rule cannot stop them: they live behind no-preference. */
-@keyframes scene-zoom {
-  from {
-    scale: 1.12;
-  }
-}
-
-@keyframes scene-in {
-  from {
-    opacity: 0;
-    translate: 0 32px;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (max-width: 1023px) {
-    .scroll-scene {
-      animation: scene-zoom linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 50%;
-    }
-
-    .scroll-scene-copy {
-      animation: scene-in linear both;
-      animation-timeline: view();
-      /* Fully in once fully on screen: cover 35% left the copy at the bottom
-         of a framed scene about 60% opaque. */
-      animation-range: entry 0% entry 100%;
-    }
-  }
-}
-/* end scroll scenes */
-
 /* press */
 /* Touch feedback for links and buttons. An animation, not a transition,
    so it never replaces the element's own transition list. */

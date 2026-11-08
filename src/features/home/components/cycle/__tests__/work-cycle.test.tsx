@@ -1,4 +1,5 @@
 import {
+  BELOW_LG_QUERY,
   DESKTOP_QUERY,
   LG_QUERY,
   loadScrollMotion,
@@ -9,6 +10,7 @@ import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, screen, waitFor } from '@/tests/test-utils'
 import type { CycleCopy } from '../cycle.data'
 import { TERMINAL_LINES } from '../cycle.data'
+import { buildCycleStack } from '../cycle-stack-motion'
 import { buildCycleTimeline } from '../cycle-timeline'
 import { WorkCycle } from '../work-cycle'
 
@@ -35,6 +37,7 @@ vi.mock('@/shared/components/motion', async (importOriginal) => ({
 }))
 
 vi.mock('../cycle-timeline', () => ({ buildCycleTimeline: vi.fn() }))
+vi.mock('../cycle-stack-motion', () => ({ buildCycleStack: vi.fn(() => () => {}) }))
 
 const { imageCalls } = vi.hoisted(() => ({
   imageCalls: [] as Array<{ src: unknown; quality?: unknown }>,
@@ -148,17 +151,56 @@ describe('WorkCycle', () => {
     }
   })
 
-  it('gives each scene a full screen and the CSS scroll reveal classes', () => {
+  it('ships every chapter sticky with svh and no scroll-scene class', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     const scenes = document.querySelectorAll('[data-scene]')
     expect(scenes).toHaveLength(4)
     for (const scene of scenes) {
-      expect(scene.className).toContain('min-h-[100svh]')
-      expect(scene.querySelector('[data-scene-bg]')?.className).toContain('scroll-scene')
-      expect(scene.querySelector('[data-scene-copy]')?.className).toContain('scroll-scene-copy')
-      expect(scene.querySelector('[data-scene-art]')?.className).toContain('scroll-scene-copy')
+      expect(scene.className).toContain('max-lg:sticky')
+      expect(scene.className).toContain('max-lg:top-0')
+      expect(scene.className).toContain('max-lg:h-svh')
+      expect(scene.className).toContain('lg:min-h-[100svh]')
+      expect(scene.querySelector('[data-scene-dim]')).not.toBeNull()
     }
+    expect(document.querySelector('.scroll-scene, .scroll-scene-copy')).toBeNull()
+  })
+
+  it('renders a reading spacer after the last chapter and progress bars that follow the header', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    const spacer = document.querySelector('[data-stack-spacer]')
+    expect(spacer?.className).toContain('h-[50svh]')
+    expect(spacer?.previousElementSibling).toHaveAttribute('data-scene', 'code')
+    const bars = document.querySelector('[data-stack-bars]')
+    expect(bars).toHaveAttribute('data-follow-header')
+    expect(bars?.querySelectorAll('[data-stack-bar]')).toHaveLength(4)
+  })
+
+  it('below lg it builds the stack, not the pinned timeline', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true, [LG_QUERY]: false })
+    render(<WorkCycle copy={copy} />)
+    await waitFor(() =>
+      expect(buildCycleStack).toHaveBeenCalledWith(expect.anything(), expect.any(HTMLElement)),
+    )
+    expect(buildCycleTimeline).not.toHaveBeenCalled()
+  })
+
+  it('from lg it pins as before and never stacks', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false, [LG_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
+    expect(buildCycleStack).not.toHaveBeenCalled()
+  })
+
+  it('reduced motion builds nothing and shows every terminal line', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true, [BELOW_LG_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(buildCycleStack).not.toHaveBeenCalled()
+    expect(document.querySelectorAll('[data-terminal-line]:not([hidden])')).toHaveLength(
+      TERMINAL_LINES.length,
+    )
   })
 
   it('hides terminal lines the scroll has not reached', async () => {

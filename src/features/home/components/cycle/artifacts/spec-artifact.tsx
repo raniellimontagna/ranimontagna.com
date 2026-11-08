@@ -10,7 +10,9 @@ export function SpecArtifact({ title, items }: CycleCopy['spec']) {
           <li key={item} data-reveal className="flex items-start gap-3 text-base leading-snug">
             <span
               aria-hidden="true"
-              className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-sm bg-accent"
+              data-spec-box
+              data-checked="true"
+              className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-sm bg-accent transition-colors duration-200 data-[checked=false]:bg-transparent data-[checked=false]:ring-1 data-[checked=false]:ring-muted data-[checked=false]:ring-inset"
             />
             {item}
           </li>
