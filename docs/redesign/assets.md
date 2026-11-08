@@ -4,17 +4,17 @@ Origem de cada imagem em `public/redesign/`. Regra do projeto: IA só gera ambie
 
 ## Cenas de ambiente (geradas)
 
-Geradas em 07/11/2026 pelo **Codex CLI 0.167.0**, com a ferramenta `image_generation` (OpenAI), uma imagem por cena, em 1536×1024. Convertidas para webp de 1600 px, qualidade 76, com `cwebp`. Substituíram as versões do FLUX local, que o Ranielli achou de baixa qualidade (rodada 2 do redesign).
+Geradas em 07/11/2026 pelo **Codex CLI 0.167.0**, com a ferramenta `image_generation` (OpenAI), uma imagem por cena, em 1536×1024. Convertidas para webp no tamanho original (1536×1024, sem ampliar), qualidade 88 com `-sharp_yuv`, para não criar faixas nas áreas escuras. Os nomes levam `-codex` para nenhum cache servir a versão antiga. Substituíram as versões do FLUX local, que o Ranielli achou de baixa qualidade (rodada 2 do redesign).
 
 Os prompts ficam em `docs/redesign/prompts-codex/`: cada cena usa `style.txt` seguido do arquivo da cena.
 
 | Arquivo | Prompt | Onde aparece |
 |---|---|---|
-| `scenes/discovery.webp` | `discovery.txt` (parede de fichas com fios) | ciclo, etapa "dor" |
-| `scenes/fog-window.webp` | `fog-window.txt` (cozinha na serra, neblina e araucárias) | ciclo, etapa "solução" |
-| `scenes/night-setup.webp` | `night-setup.txt` (escritório à noite) | ciclo, etapa "produto" |
-| `scenes/keyboard.webp` | `keyboard.txt` (mãos no teclado) | ciclo, etapa "código" |
-| `scenes/server.webp` | `server.txt` (traseira do rack) | capa do Argus no "No ar" |
+| `scenes/discovery-codex.webp` | `discovery.txt` (parede de fichas com fios) | ciclo, etapa "dor" |
+| `scenes/fog-window-codex.webp` | `fog-window.txt` (cozinha na serra, neblina e araucárias) | ciclo, etapa "solução" |
+| `scenes/night-setup-codex.webp` | `night-setup.txt` (escritório à noite) | ciclo, etapa "produto" |
+| `scenes/keyboard-codex.webp` | `keyboard.txt` (mãos no teclado) | ciclo, etapa "código" |
+| `scenes/server-codex.webp` | `server.txt` (traseira do rack) | capa do Argus no "No ar" |
 
 ## Capturas reais
 

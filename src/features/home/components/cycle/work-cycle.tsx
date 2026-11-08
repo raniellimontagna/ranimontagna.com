@@ -115,6 +115,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
               alt=""
               fill
               sizes="100vw"
+              quality={90}
               className="object-cover"
             />
             <div aria-hidden="true" className="absolute inset-0 bg-background/75" />

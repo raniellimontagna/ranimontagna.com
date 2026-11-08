@@ -36,6 +36,11 @@ export const LIVE_WORK: readonly LiveWorkItem[] = [
     href: 'https://www.npmjs.com/package/@ranimontagna/agent-toolkit',
     external: true,
   },
-  { slug: 'argus', image: { src: '/redesign/scenes/server.webp' }, href: null, external: false },
+  {
+    slug: 'argus',
+    image: { src: '/redesign/scenes/server-codex.webp' },
+    href: null,
+    external: false,
+  },
   { slug: 'atto-read', image: null, href: null, external: false },
 ]
