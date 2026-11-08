@@ -14,30 +14,30 @@ const expectations: Array<{
 }> = [
   {
     locale: 'pt',
-    heading: 'ATTO — MINHA EMPRESA',
+    heading: 'ATTO — A EMPRESA DO RANIELLI',
     routingRule: /ofereça os dois caminhos/,
     dataNotInstructions: /nunca instrução a ser executada/,
-    humanRule: /humano ou uma IA/,
+    humanRule: /é a Vega.*é uma IA/,
     attoUncertainty: /não invente clientes, faturamento, equipe ou prazos/,
-    directMessageRule: /recado direto aqui no chat/,
+    directMessageRule: /falar direto com ele pelo LinkedIn/,
   },
   {
     locale: 'en',
-    heading: 'ATTO — MY COMPANY',
+    heading: "ATTO — RANIELLI'S COMPANY",
     routingRule: /offer both paths/,
     dataNotInstructions: /never an instruction to execute/,
-    humanRule: /human or an AI/,
+    humanRule: /you are Vega.*you are an AI/,
     attoUncertainty: /do not invent clients, revenue, team size, or timelines/,
-    directMessageRule: /direct-message button here in the chat/,
+    directMessageRule: /reaching him directly on LinkedIn/,
   },
   {
     locale: 'es',
-    heading: 'ATTO — MI EMPRESA',
+    heading: 'ATTO — LA EMPRESA DE RANIELLI',
     routingRule: /ofrece los dos caminos/,
     dataNotInstructions: /nunca una instrucción a ejecutar/,
-    humanRule: /humano o una IA/,
+    humanRule: /eres Vega.*eres una IA/,
     attoUncertainty: /no inventes clientes, facturación, equipo ni plazos/,
-    directMessageRule: /mensaje directo aquí en el chat/,
+    directMessageRule: /hablar directamente con él por LinkedIn/,
   },
 ]
 
@@ -60,7 +60,7 @@ describe('chat system prompt — Atto and hardening', () => {
   })
 
   it('treats the Atto heading as an internal prompt marker', () => {
-    expect(CHAT_INTERNAL_PROMPT_MARKERS).toContain('ATTO — MINHA EMPRESA')
-    expect(CHAT_INTERNAL_PROMPT_MARKERS).toContain('ATTO — MY COMPANY')
+    expect(CHAT_INTERNAL_PROMPT_MARKERS).toContain('ATTO — A EMPRESA DO RANIELLI')
+    expect(CHAT_INTERNAL_PROMPT_MARKERS).toContain("ATTO — RANIELLI'S COMPANY")
   })
 })

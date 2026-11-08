@@ -1,11 +1,12 @@
 import { CHAT_PROFILE_BY_LOCALE, type ChatExperience, type ChatLocale } from '../chat.profile'
 
-type CurrentExperienceWithPastOutcomes = {
+// Since round 2 the current job may carry published, verified results.
+type CurrentExperienceWithOutcomes = {
   company: string
   current: true
   endDate: null
   location: string
-  outcomes: [string]
+  outcomes: string[]
   period: string
   role: string
   scope: string[]
@@ -63,9 +64,9 @@ const canonicalExperienceDates = [
 
 describe('chat professional profile', () => {
   it.each([
-    ['pt', /PJ/i, /posso avaliar/i],
-    ['en', /contractor/i, /can evaluate/i],
-    ['es', /contratista/i, /puedo evaluarlos/i],
+    ['pt', /PJ/i, /avalia conforme/i],
+    ['en', /contractor/i, /evaluates depending/i],
+    ['es', /contratista/i, /evalúa según/i],
   ] as const)(
     'states the non-exclusive Lemon engagement, Atto routing and project openness in %s',
     (locale, engagementPattern, availabilityPattern) => {
@@ -80,8 +81,8 @@ describe('chat professional profile', () => {
     },
   )
 
-  it('rejects details that do not belong to the experience state', () => {
-    expectTypeOf<CurrentExperienceWithPastOutcomes>().not.toMatchTypeOf<ChatExperience>()
+  it('allows published results on the current job but no scope on past jobs', () => {
+    expectTypeOf<CurrentExperienceWithOutcomes>().toMatchTypeOf<ChatExperience>()
     expectTypeOf<PreviousExperienceWithCurrentScope>().not.toMatchTypeOf<ChatExperience>()
   })
 
@@ -94,10 +95,11 @@ describe('chat professional profile', () => {
         company: 'Lemon Energia',
         current: true,
         endDate: null,
-        outcomes: [],
         period: currentPeriod,
         startDate: '2026-07',
       })
+      // The published Lemon results (trajectory, round 2) are verified outcomes now.
+      expect(lemon.outcomes).toHaveLength(4)
       expect(lemon.scope.length).toBeGreaterThan(0)
       expect(luizalabs).toMatchObject({
         company: 'Luizalabs',

@@ -56,11 +56,11 @@ const CARD_COPY: Record<ChatLocale, Record<string, { title: string; summary: str
   pt: {
     'case-klick': {
       title: 'Klick',
-      summary: 'Timer de treino que virou app, com o código feito junto com IA',
+      summary: 'Timer de speedcubing offline-first para os 13 eventos da WCA',
     },
     'case-grimory': {
       title: 'Grimory',
-      summary: 'Mesa de D&D 5e em português: a IA propõe, as regras validam',
+      summary: 'Mesa de D&D 5e em português, do personagem à sessão',
     },
     'section-trajetoria': {
       title: 'Trajetória',
@@ -81,11 +81,11 @@ const CARD_COPY: Record<ChatLocale, Record<string, { title: string; summary: str
   en: {
     'case-klick': {
       title: 'Klick',
-      summary: 'A workout timer that became an app, built together with AI',
+      summary: 'Offline-first speedcubing timer for the 13 WCA events',
     },
     'case-grimory': {
       title: 'Grimory',
-      summary: 'A D&D 5e table in Portuguese: AI proposes, the rules validate',
+      summary: 'A D&D 5e table in Portuguese, from character to session',
     },
     'section-trajetoria': {
       title: 'Career',
@@ -106,11 +106,11 @@ const CARD_COPY: Record<ChatLocale, Record<string, { title: string; summary: str
   es: {
     'case-klick': {
       title: 'Klick',
-      summary: 'Un temporizador de entrenamiento que se volvió app, hecho junto con IA',
+      summary: 'Temporizador de speedcubing offline-first para los 13 eventos de la WCA',
     },
     'case-grimory': {
       title: 'Grimory',
-      summary: 'Una mesa de D&D 5e en portugués: la IA propone, las reglas validan',
+      summary: 'Una mesa de D&D 5e en portugués, del personaje a la sesión',
     },
     'section-trajetoria': {
       title: 'Trayectoria',

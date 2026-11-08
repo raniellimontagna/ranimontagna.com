@@ -43,6 +43,7 @@ const metricUnitDefinitions: Array<[string, RegExp]> = [
   ['requests', /^(?:requisicoes?|requests?|solicitudes?)/],
   ['records', /^(?:registros?|records?)/],
   ['months', /^(?:meses?|months?)/],
+  ['commits', /^(?:commits?)/],
   ['days', /^(?:dias?|days?)/],
   ['hours', /^(?:horas?|hours?)/],
   ['percent', /^(?:percent|por\s+cento|por\s+ciento)/],
@@ -266,7 +267,7 @@ const parseMetricNumberPhrase = (phrase: string): ParsedMetricNumber | null => {
 }
 
 const metricUnitTokenSource =
-  'anos?|years?|lojas?|stores?|tiendas?|estoquistas?|stock\\s+clerks?|almacenistas?|clientes?|clients?|customers?|consumidores?|consumers?|usuarios?|users?|projetos?|projects?|proyectos?|equipes?|teams?|equipos?|pessoas?|people|personas?|developers?|desenvolvedores?|produtos?|products?|productos?|apps?|aplicacoes?|applications?|aplicaciones?|integracoes?|integrations?|integraciones?|apis?|empresas?|companies|companias?|downloads?|paises?|countries|entregas?|deliveries?|requisicoes?|requests?|solicitudes?|registros?|records?|meses?|months?|dias?|days?|horas?|hours?|percent|por\\s+cento|por\\s+ciento'
+  'anos?|years?|lojas?|stores?|tiendas?|estoquistas?|stock\\s+clerks?|almacenistas?|clientes?|clients?|customers?|consumidores?|consumers?|usuarios?|users?|projetos?|projects?|proyectos?|equipes?|teams?|equipos?|pessoas?|people|personas?|developers?|desenvolvedores?|produtos?|products?|productos?|apps?|aplicacoes?|applications?|aplicaciones?|integracoes?|integrations?|integraciones?|apis?|empresas?|companies|companias?|downloads?|paises?|countries|entregas?|deliveries?|requisicoes?|requests?|solicitudes?|registros?|records?|meses?|months?|dias?|days?|horas?|hours?|commits?|percent|por\\s+cento|por\\s+ciento'
 
 const maskOrderedListMarkers = (text: string): string => {
   let expectedMarker = 1
@@ -327,8 +328,21 @@ const maskCanonicalTechnologyVersions = (text: string, profile: ChatProfile): st
   })
 }
 
+// "2328 dos 2495 commits" names the unit once for two numbers. Give each number
+// its own unit, joined by a neutral "vs" ("dos" and "de" would otherwise be read
+// as part of a spelled-out number), so both are checked against the facts.
+const expandRatioUnits = (text: string): string =>
+  text.replace(
+    new RegExp(
+      `(\\d[\\d.,]*)\\s+(?:dos|das|de|of|out\\s+of|de\\s+los|de\\s+las)\\s+(\\d[\\d.,]*)\\s+(${metricUnitTokenSource})\\b`,
+      'gi',
+    ),
+    (_match, first: string, second: string, unit: string) =>
+      `${first} ${unit} vs ${second} ${unit}`,
+  )
+
 const maskNonMetricNumbers = (text: string, profile: ChatProfile): string =>
-  maskCanonicalTechnologyVersions(maskOrderedListMarkers(text), profile)
+  expandRatioUnits(maskCanonicalTechnologyVersions(maskOrderedListMarkers(text), profile))
 
 const metricNumberAtomSource = [
   ...Object.keys(metricNumberValues),
@@ -549,6 +563,36 @@ const canonicalMetricFacts = (profile: ChatProfile): readonly CanonicalMetricFac
     unit: 'stock-clerks',
     value: 1_000,
   },
+  // Publicado na trajetória (rodada 2): seis produtos de finanças em três meses na Lemon.
+  {
+    comparator: 'exact',
+    companyAlias: 'lemon',
+    kind: 'outcome',
+    requiresOutcomePredicate: false,
+    scope: 'employer',
+    unit: 'products',
+    value: 6,
+  },
+  {
+    comparator: 'exact',
+    companyAlias: 'lemon',
+    kind: 'outcome',
+    requiresOutcomePredicate: false,
+    scope: 'employer',
+    unit: 'months',
+    value: 3,
+  },
+  // Publicado nos cases: commits com coautoria de IA no Grimory e no Klick.
+  ...[2328, 2495, 428, 429].map(
+    (value): CanonicalMetricFact => ({
+      comparator: 'exact',
+      kind: 'outcome',
+      requiresOutcomePredicate: false,
+      scope: 'global',
+      unit: 'commits',
+      value,
+    }),
+  ),
   {
     // "Liderei uma equipe de desenvolvimento frontend" é fato canônico da Smarten.
     comparator: 'exact',

@@ -13,7 +13,7 @@ type ChatExperienceBase = {
 
 export type CurrentChatExperience = ChatExperienceBase & {
   current: true
-  outcomes: []
+  outcomes: string[]
   scope: string[]
 }
 
@@ -50,6 +50,8 @@ export type ChatProfile = {
   nationality: string
   professionalProfile: string
   projects: ChatProject[]
+  /** Facts published on the site (cases, AI section, Vega); safe to repeat. */
+  siteFacts: string[]
   technicalAreas: Array<{ label: string; items: string[] }>
   venture: ChatVenture
 }
@@ -57,7 +59,7 @@ export type ChatProfile = {
 export const CHAT_PROFILE_BY_LOCALE = {
   pt: {
     availability:
-      'Trabalho na Lemon Energia como PJ em um compromisso não exclusivo e sou sócio-fundador da Atto. Para projetos, orçamentos e parcerias há dois caminhos: a Atto, para trabalho com escopo, prazo e preço fechados, ou falar direto comigo pelo recado do chat ou LinkedIn; posso avaliar dependendo da proposta, do escopo, da compatibilidade e da minha disponibilidade. Conversas sobre engenharia, carreira e comunidade: aqui ou no LinkedIn.',
+      'Ele trabalha na Lemon Energia como PJ, num compromisso não exclusivo, e é sócio-fundador da Atto. Para projetos, orçamentos e parcerias há dois caminhos: a Atto, para trabalho com escopo, prazo e preço fechados (seção Atto deste site, com WhatsApp), ou falar direto com ele pelo LinkedIn; ele avalia conforme a proposta, o escopo, a compatibilidade e a disponibilidade. Conversas sobre engenharia, carreira e comunidade: pelo LinkedIn.',
     experienceSummary: '5+ anos em software e 10 anos de trajetória profissional',
     experiences: [
       {
@@ -65,7 +67,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         current: true,
         endDate: null,
         location: 'Remoto',
-        outcomes: [],
+        outcomes: [
+          'Seis produtos de finanças em três meses: conciliação bancária, lotes de pagamento, fornecedores, notas fiscais e notas de débito',
+          'Cada um de ponta a ponta: front em React, API em Fastify com PostgreSQL e a infraestrutura escrita em código com Pulumi',
+          'Na AWS: containers no ECS Fargate, banco no Aurora (RDS), eventos com EventBridge e SQS, segredos no Secrets Manager, entrega por API Gateway e CloudFront',
+          'Ritmo alto de entrega, com agentes de IA no fluxo e revisão crítica antes de ir ao ar',
+        ],
         period: 'Jul 2026 - Presente',
         role: 'Engenheiro de Software',
         scope: [
@@ -160,6 +167,14 @@ export const CHAT_PROFILE_BY_LOCALE = {
         technologies: ['React', 'Electron', 'TypeScript'],
       },
     ],
+    siteFacts: [
+      'Klick: timer de speedcubing offline-first para os 13 eventos da WCA; 428 de 429 commits com coautoria de IA (case em /projects/klick)',
+      'Grimory: mesa de D&D 5e em português, do personagem à sessão; a IA propõe, as regras validam e o jogador decide; 2328 de 2495 commits com coautoria de IA (case em /projects/grimory)',
+      'agent-toolkit: instala as mesmas skills em cinco agentes (Claude Code, Codex, OpenCode, Gemini CLI e Antigravity)',
+      'Seção de IA do site: usa Claude, Codex, Gemini, DeepSeek, OpenRouter e MCP no dia a dia, sem amarra a um modelo ou empresa; trabalha com spec-driven development (conversa, spec, plano, teste primeiro, agente codifica, revisão humana), TDD, AGENTS.md e evals; o site tem mais de 1.000 testes',
+      'A Vega, esta assistente, roda em DeepSeek, e o código aceita o OpenRouter como reserva',
+      'Na Lemon usa React, TypeScript, Fastify, PostgreSQL, Pulumi e AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway e CloudFront)',
+    ],
     technicalAreas: [
       {
         label: 'Frontend e mobile',
@@ -207,7 +222,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
   },
   en: {
     availability:
-      'I work at Lemon Energia as a contractor in a non-exclusive engagement and I am co-founder of Atto. For projects, quotes and partnerships there are two paths: Atto, for work with scope, timeline and price agreed upfront, or reaching me directly through the chat message or LinkedIn; I can evaluate them depending on the proposal, scope, fit, and my availability. Engineering, career and community conversations: here or on LinkedIn.',
+      'He works at Lemon Energia as a contractor in a non-exclusive engagement and is co-founder of Atto. For projects, quotes and partnerships there are two paths: Atto, for work with scope, timeline and price agreed upfront (the Atto section of this site, with WhatsApp), or reaching him directly on LinkedIn; he evaluates depending on the proposal, scope, fit and availability. Engineering, career and community conversations: on LinkedIn.',
     experienceSummary: '5+ years in software and 10 years of professional experience',
     experiences: [
       {
@@ -215,7 +230,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         current: true,
         endDate: null,
         location: 'Remote',
-        outcomes: [],
+        outcomes: [
+          'Six finance products in three months: bank reconciliation, payment batches, suppliers, invoices and debit notes',
+          'Each one end to end: React front end, Fastify API with PostgreSQL and the infrastructure written as code with Pulumi',
+          'On AWS: containers on ECS Fargate, database on Aurora (RDS), events with EventBridge and SQS, secrets in Secrets Manager, delivery through API Gateway and CloudFront',
+          'A fast delivery pace, with AI agents in the loop and critical review before anything goes live',
+        ],
         period: 'Jul 2026 - Present',
         role: 'Software Engineer',
         scope: [
@@ -310,6 +330,14 @@ export const CHAT_PROFILE_BY_LOCALE = {
         technologies: ['React', 'Electron', 'TypeScript'],
       },
     ],
+    siteFacts: [
+      'Klick: offline-first speedcubing timer for the 13 WCA events; 428 of 429 commits co-authored with AI (case at /projects/klick)',
+      'Grimory: a D&D 5e table in Portuguese, from character to session; AI proposes, the rules validate and the player decides; 2328 of 2495 commits co-authored with AI (case at /projects/grimory)',
+      'agent-toolkit: installs the same skills in five agents (Claude Code, Codex, OpenCode, Gemini CLI and Antigravity)',
+      "The site's AI section: he uses Claude, Codex, Gemini, DeepSeek, OpenRouter and MCP daily, with no lock-in to one model or company; he works with spec-driven development (conversation, spec, plan, test first, agent codes, human review), TDD, AGENTS.md and evals; the site has more than 1,000 tests",
+      'Vega, this assistant, runs on DeepSeek, and the code accepts OpenRouter as a fallback',
+      'At Lemon he uses React, TypeScript, Fastify, PostgreSQL, Pulumi and AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway and CloudFront)',
+    ],
     technicalAreas: [
       {
         label: 'Frontend and mobile',
@@ -357,7 +385,7 @@ export const CHAT_PROFILE_BY_LOCALE = {
   },
   es: {
     availability:
-      'Trabajo en Lemon Energia como contratista en un compromiso no exclusivo y soy cofundador de Atto. Para proyectos, presupuestos y colaboraciones hay dos caminos: Atto, para trabajo con alcance, plazo y precio cerrados, o hablar directamente conmigo por el mensaje del chat o LinkedIn; puedo evaluarlos según la propuesta, el alcance, la compatibilidad y mi disponibilidad. Conversaciones sobre ingeniería, carrera y comunidad: aquí o en LinkedIn.',
+      'Trabaja en Lemon Energia como contratista en un compromiso no exclusivo y es cofundador de Atto. Para proyectos, presupuestos y colaboraciones hay dos caminos: Atto, para trabajo con alcance, plazo y precio cerrados (la sección Atto de este sitio, con WhatsApp), o hablar directamente con él por LinkedIn; él evalúa según la propuesta, el alcance, la compatibilidad y la disponibilidad. Conversaciones sobre ingeniería, carrera y comunidad: por LinkedIn.',
     experienceSummary: '5+ años en software y 10 años de trayectoria profesional',
     experiences: [
       {
@@ -365,7 +393,12 @@ export const CHAT_PROFILE_BY_LOCALE = {
         current: true,
         endDate: null,
         location: 'Remoto',
-        outcomes: [],
+        outcomes: [
+          'Seis productos de finanzas en tres meses: conciliación bancaria, lotes de pago, proveedores, facturas y notas de débito',
+          'Cada uno de punta a punta: front en React, API en Fastify con PostgreSQL y la infraestructura escrita como código con Pulumi',
+          'En AWS: contenedores en ECS Fargate, base de datos en Aurora (RDS), eventos con EventBridge y SQS, secretos en Secrets Manager, entrega por API Gateway y CloudFront',
+          'Ritmo alto de entrega, con agentes de IA en el flujo y revisión crítica antes de salir al aire',
+        ],
         period: 'Jul 2026 - Presente',
         role: 'Ingeniero de Software',
         scope: [
@@ -457,6 +490,14 @@ export const CHAT_PROFILE_BY_LOCALE = {
         summary: 'Punto de venta para restaurantes con NFC-e y menú digital',
         technologies: ['React', 'Electron', 'TypeScript'],
       },
+    ],
+    siteFacts: [
+      'Klick: temporizador de speedcubing offline-first para los 13 eventos de la WCA; 428 de 429 commits con coautoría de IA (caso en /projects/klick)',
+      'Grimory: una mesa de D&D 5e en portugués, del personaje a la sesión; la IA propone, las reglas validan y el jugador decide; 2328 de 2495 commits con coautoría de IA (caso en /projects/grimory)',
+      'agent-toolkit: instala las mismas skills en cinco agentes (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)',
+      'Sección de IA del sitio: usa Claude, Codex, Gemini, DeepSeek, OpenRouter y MCP en el día a día, sin ataduras a un modelo o empresa; trabaja con spec-driven development (conversación, spec, plan, prueba primero, el agente programa, revisión humana), TDD, AGENTS.md y evals; el sitio tiene más de 1.000 pruebas',
+      'Vega, esta asistente, funciona con DeepSeek, y el código acepta OpenRouter como respaldo',
+      'En Lemon usa React, TypeScript, Fastify, PostgreSQL, Pulumi y AWS (ECS Fargate, Aurora/RDS, EventBridge, SQS, Secrets Manager, API Gateway y CloudFront)',
     ],
     technicalAreas: [
       {
