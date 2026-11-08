@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import { getAllPosts } from '@/features/blog/lib/blog'
 import { BELOW_LG_QUERY, loadScrollMotion, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
@@ -82,7 +83,7 @@ describe('Writing', () => {
 
   it('marks each title and phone cover for the focus effect', async () => {
     vi.mocked(getAllPosts).mockResolvedValue([2, 1].map(post))
-    render(await Writing({ locale: 'pt' }))
+    render((await Writing({ locale: 'pt' })) as ReactElement)
     expect(document.querySelectorAll('[data-post-title]')).toHaveLength(2)
     expect(document.querySelectorAll('img[data-post-thumb]')).toHaveLength(2)
   })
@@ -90,7 +91,7 @@ describe('Writing', () => {
   it('below lg builds the focus; from lg it does not', async () => {
     vi.mocked(getAllPosts).mockResolvedValue([2, 1].map(post))
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true })
-    const { unmount } = render(await Writing({ locale: 'pt' }))
+    const { unmount } = render((await Writing({ locale: 'pt' })) as ReactElement)
     await waitFor(() =>
       expect(buildWritingFocus).toHaveBeenCalledWith(
         expect.anything(),
@@ -101,7 +102,7 @@ describe('Writing', () => {
     vi.mocked(buildWritingFocus).mockClear()
     vi.mocked(loadScrollMotion).mockClear()
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false })
-    render(await Writing({ locale: 'pt' }))
+    render((await Writing({ locale: 'pt' })) as ReactElement)
     await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
     await new Promise((resolve) => setTimeout(resolve, 0))
     expect(buildWritingFocus).not.toHaveBeenCalled()
