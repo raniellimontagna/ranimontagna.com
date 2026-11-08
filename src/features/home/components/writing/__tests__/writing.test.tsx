@@ -1,11 +1,36 @@
 import { getAllPosts } from '@/features/blog/lib/blog'
-import { render, screen } from '@/tests/test-utils'
+import { BELOW_LG_QUERY, loadScrollMotion, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { mockMatchMedia } from '@/tests/mocks/match-media'
+import { render, screen, waitFor } from '@/tests/test-utils'
 import { Writing } from '../writing'
+import { buildWritingFocus } from '../writing-focus'
 
 vi.mock('next-intl/server', () => ({
   getTranslations: vi.fn().mockResolvedValue((key: string) => key),
 }))
 vi.mock('@/features/blog/lib/blog', () => ({ getAllPosts: vi.fn() }))
+vi.mock('../writing-focus', () => ({ buildWritingFocus: vi.fn(() => () => {}) }))
+vi.mock('@/shared/components/motion', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/components/motion')>()),
+  loadScrollMotion: vi.fn(() =>
+    Promise.resolve({
+      gsap: {
+        context: (fn: () => void) => {
+          fn()
+          return { revert: vi.fn() }
+        },
+        matchMedia: () => ({
+          add: (conditions: Record<string, string>, callback: () => void) => {
+            if (Object.values(conditions).some((query) => window.matchMedia(query).matches))
+              callback()
+          },
+          revert: vi.fn(),
+        }),
+      },
+      ScrollTrigger: { batch: vi.fn() },
+    }),
+  ),
+}))
 
 const post = (n: number) => ({
   slug: `post-${n}`,
@@ -53,5 +78,32 @@ describe('Writing', () => {
     render((await Writing({ locale: 'pt' })) as React.ReactElement)
     expect(document.querySelector('[data-cursor-image]')).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getByRole('link', { name: /Post 3/ })).toBeInTheDocument()
+  })
+
+  it('marks each title and phone cover for the focus effect', async () => {
+    vi.mocked(getAllPosts).mockResolvedValue([2, 1].map(post))
+    render(await Writing({ locale: 'pt' }))
+    expect(document.querySelectorAll('[data-post-title]')).toHaveLength(2)
+    expect(document.querySelectorAll('img[data-post-thumb]')).toHaveLength(2)
+  })
+
+  it('below lg builds the focus; from lg it does not', async () => {
+    vi.mocked(getAllPosts).mockResolvedValue([2, 1].map(post))
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true })
+    const { unmount } = render(await Writing({ locale: 'pt' }))
+    await waitFor(() =>
+      expect(buildWritingFocus).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.any(HTMLUListElement),
+      ),
+    )
+    unmount()
+    vi.mocked(buildWritingFocus).mockClear()
+    vi.mocked(loadScrollMotion).mockClear()
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false })
+    render(await Writing({ locale: 'pt' }))
+    await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(buildWritingFocus).not.toHaveBeenCalled()
   })
 })

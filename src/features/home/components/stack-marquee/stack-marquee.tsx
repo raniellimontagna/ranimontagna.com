@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { prefersReducedMotion, useScrollVelocity } from '@/shared/components/motion'
+import { BELOW_LG_QUERY, prefersReducedMotion, useScrollVelocity } from '@/shared/components/motion'
 import { BrandIcon, techIcon } from '@/shared/ui-2026'
 
 type StackMarqueeProps = {
@@ -13,6 +13,10 @@ const BASE_SPEED = 0.6
 const MAX_BOOST = 30
 const VELOCITY_GAIN = 0.8
 const BOOST_DECAY = 0.92
+// Below lg the band also leans with the scroll: px per frame to degrees, capped.
+const SKEW_GAIN = 0.15
+const MAX_SKEW = 6
+const SKEW_EASE = 0.15
 
 /** The fixed stack labels; the AI and product labels come translated as props. */
 const STACK_ITEMS = [
@@ -62,7 +66,7 @@ function StackList({ items, loopCopy }: { items: string[]; loopCopy?: boolean })
   )
 }
 
-/** The stack, sliding sideways; scrolling faster pushes it faster. */
+/** The stack, sliding sideways; scrolling faster pushes it faster (and, on phones, leans it). */
 export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -78,8 +82,11 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
 
     setAnimated(true)
 
+    const leans = window.matchMedia(BELOW_LG_QUERY).matches
     let x = 0
     let boost = 0
+    let skew = 0
+    let lastY = window.scrollY
     let frame = 0
     let visible = true
     let half = track.scrollWidth / 2
@@ -94,7 +101,16 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
       boost = Math.max(boost * BOOST_DECAY, Math.min(MAX_BOOST, velocity.current * VELOCITY_GAIN))
       x -= BASE_SPEED + boost
       if (half > 0 && -x >= half) x += half
-      track.style.transform = `translate3d(${x}px, 0, 0)`
+      let transform = `translate3d(${x}px, 0, 0)`
+      if (leans) {
+        const y = window.scrollY
+        const delta = y - lastY
+        lastY = y
+        const target = Math.max(-MAX_SKEW, Math.min(MAX_SKEW, delta * SKEW_GAIN))
+        skew += (target - skew) * SKEW_EASE
+        transform += ` skewX(${-skew}deg)`
+      }
+      track.style.transform = transform
       frame = requestAnimationFrame(tick)
     }
 

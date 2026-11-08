@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { prefersReducedMotion } from '@/shared/components/motion'
+import { BELOW_LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
 import { Link } from '@/shared/config/i18n/navigation'
+import { buildWritingFocus } from './writing-focus'
 
 export type WritingPost = { slug: string; title: string; date: string; image: string }
 
@@ -11,7 +12,8 @@ const LERP = 0.16
 
 /**
  * Big rows; on desktop the cover follows the cursor. The follower is pure
- * decoration: every title is a real link and phones get the cover inline.
+ * decoration: every title is a real link and phones get the cover inline,
+ * where the post nearest mid-screen comes into focus (writing-focus.ts).
  */
 export function WritingList({ posts }: { posts: WritingPost[] }) {
   const listRef = useRef<HTMLUListElement>(null)
@@ -58,6 +60,26 @@ export function WritingList({ posts }: { posts: WritingPost[] }) {
     }
   }, [])
 
+  useEffect(() => {
+    const list = listRef.current
+    if (!list || prefersReducedMotion()) return
+
+    let cancelled = false
+    let revert: (() => void) | undefined
+
+    loadScrollMotion().then((motion) => {
+      if (cancelled) return
+      const media = motion.gsap.matchMedia()
+      media.add({ mobile: BELOW_LG_QUERY }, () => buildWritingFocus(motion, list))
+      revert = () => media.revert()
+    })
+
+    return () => {
+      cancelled = true
+      revert?.()
+    }
+  }, [])
+
   const activePost = posts.find((post) => post.slug === active)
 
   return (
@@ -73,13 +95,17 @@ export function WritingList({ posts }: { posts: WritingPost[] }) {
             >
               {/* biome-ignore lint/performance/noImgElement: remote blog cover, decorative thumbnail. */}
               <img
+                data-post-thumb
                 src={post.image}
                 alt=""
                 loading="lazy"
                 className="h-16 w-24 shrink-0 rounded-[2px] object-cover lg:hidden"
               />
               <span className="flex flex-1 flex-col gap-2 lg:flex-row lg:items-baseline lg:justify-between lg:gap-10">
-                <span className="text-2xl leading-tight font-semibold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-2 sm:text-4xl">
+                <span
+                  data-post-title
+                  className="text-2xl leading-tight font-semibold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-2 sm:text-4xl"
+                >
                   {post.title}
                 </span>
                 <span className="shrink-0 font-mono text-xs text-muted">{post.date}</span>

@@ -1,4 +1,5 @@
-import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { BELOW_LG_QUERY, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { installFrameStub } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, screen } from '@/tests/test-utils'
 import { StackMarquee } from '../stack-marquee'
@@ -57,5 +58,49 @@ describe('StackMarquee', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     renderMarquee()
     expect(document.querySelector('[data-animated]')).toHaveAttribute('data-animated', 'false')
+  })
+
+  describe('lean with scroll speed', () => {
+    const track = () => document.querySelector('[data-animated] > div') as HTMLElement
+    const skew = () => {
+      const match = track().style.transform.match(/skewX\((-?[\d.]+)deg\)/)
+      return match ? Number.parseFloat(match[1]) : null
+    }
+    const scrollBy = (delta: number) => {
+      Object.defineProperty(window, 'scrollY', {
+        value: window.scrollY + delta,
+        configurable: true,
+        writable: true,
+      })
+    }
+    afterEach(() => {
+      Object.defineProperty(window, 'scrollY', { value: 0, configurable: true, writable: true })
+      vi.restoreAllMocks()
+    })
+
+    it('below lg skews with scroll speed, clamped to 6deg', () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: true })
+      const frames = installFrameStub()
+      renderMarquee()
+      for (let i = 0; i < 80; i++) {
+        scrollBy(1000)
+        frames.flush()
+      }
+      const value = skew()
+      expect(value).not.toBeNull()
+      expect(value as number).toBeLessThan(-5.9)
+      expect(value as number).toBeGreaterThanOrEqual(-6)
+    })
+
+    it('from lg never skews', () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false })
+      const frames = installFrameStub()
+      renderMarquee()
+      for (let i = 0; i < 10; i++) {
+        scrollBy(1000)
+        frames.flush()
+      }
+      expect(track().style.transform).not.toContain('skewX')
+    })
   })
 })
