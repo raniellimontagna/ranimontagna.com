@@ -38,11 +38,11 @@ describe('terminalLinesFor', () => {
 })
 
 describe('buildCycleTimeline', () => {
-  it('pins with a scrubbed timeline sized per breakpoint', () => {
+  it('pins with a scrubbed timeline', () => {
     const { motion, gsap } = makeFakeMotion()
     const root = makeRoot()
 
-    buildCycleTimeline(motion, root, { mobile: false, onTerminal: vi.fn() })
+    buildCycleTimeline(motion, root, { onTerminal: vi.fn() })
     expect(gsap.timeline).toHaveBeenCalledWith(
       expect.objectContaining({
         scrollTrigger: expect.objectContaining({
@@ -54,11 +54,6 @@ describe('buildCycleTimeline', () => {
         }),
       }),
     )
-
-    buildCycleTimeline(motion, root, { mobile: true, onTerminal: vi.fn() })
-    expect(gsap.timeline).toHaveBeenLastCalledWith(
-      expect.objectContaining({ scrollTrigger: expect.objectContaining({ end: '+=320%' }) }),
-    )
   })
 
   it('hides every scene after the first and empties the terminal before playing', () => {
@@ -66,7 +61,7 @@ describe('buildCycleTimeline', () => {
     const root = makeRoot()
     const onTerminal = vi.fn()
 
-    buildCycleTimeline(motion, root, { mobile: false, onTerminal })
+    buildCycleTimeline(motion, root, { onTerminal })
 
     const scenes = Array.from(root.querySelectorAll('[data-scene]'))
     expect(gsap.set).toHaveBeenCalledWith(scenes.slice(1), { autoAlpha: 0 })
@@ -77,7 +72,7 @@ describe('buildCycleTimeline', () => {
     const { motion, timelineStub } = makeFakeMotion()
     const root = makeRoot()
 
-    buildCycleTimeline(motion, root, { mobile: false, onTerminal: vi.fn() })
+    buildCycleTimeline(motion, root, { onTerminal: vi.fn() })
 
     const clipStarts = timelineStub.fromTo.mock.calls
       .map(([, from]) => (from as { clipPath?: string }).clipPath)
@@ -93,7 +88,7 @@ describe('buildCycleTimeline', () => {
     const { motion, timelineStub } = makeFakeMotion()
     const onTerminal = vi.fn()
 
-    buildCycleTimeline(motion, makeRoot(), { mobile: false, onTerminal })
+    buildCycleTimeline(motion, makeRoot(), { onTerminal })
 
     const typing = timelineStub.to.mock.calls.find(([, vars]) => 'onUpdate' in (vars as object))
     expect(typing).toBeDefined()

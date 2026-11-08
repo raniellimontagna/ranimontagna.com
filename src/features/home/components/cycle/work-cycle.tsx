@@ -1,12 +1,7 @@
 'use client'
 
 import { type ReactNode, useEffect, useRef } from 'react'
-import {
-  DESKTOP_QUERY,
-  loadScrollMotion,
-  MOBILE_QUERY,
-  prefersReducedMotion,
-} from '@/shared/components/motion'
+import { LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
 import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { ProductArtifact } from './artifacts/product-artifact'
 import { SpecArtifact } from './artifacts/spec-artifact'
@@ -28,10 +23,6 @@ function artifactFor(id: ChapterId, copy: CycleCopy): ReactNode {
   }
 }
 
-/**
- * How he works, in four chapters. Without motion the chapters are stacked
- * blocks; with motion the section pins and the chapters replace each other.
- */
 const shade = (percent: number) => `color-mix(in oklab, var(--background) ${percent}%, transparent)`
 
 // Film grain as a tiny SVG noise tile: it unifies the four scenes and hides
@@ -73,6 +64,12 @@ function SceneTreatment() {
   )
 }
 
+/**
+ * How he works, in four chapters. From lg up the section pins and the chapters
+ * replace each other on a scrubbed timeline. Below lg (and without motion) the
+ * chapters are full-screen blocks in the normal scroll; there a CSS view()
+ * timeline zooms each background and lifts its copy in (globals.css).
+ */
 export function WorkCycle({ copy }: { copy: CycleCopy }) {
   const rootRef = useRef<HTMLElement>(null)
 
@@ -94,12 +91,9 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
       if (cancelled) return
 
       const media = motion.gsap.matchMedia()
-      media.add({ desktop: DESKTOP_QUERY, mobile: MOBILE_QUERY }, (context) => {
+      media.add({ lg: LG_QUERY }, () => {
         root.dataset.pinned = 'true'
-        buildCycleTimeline(motion, root, {
-          mobile: Boolean(context.conditions?.mobile),
-          onTerminal,
-        })
+        buildCycleTimeline(motion, root, { onTerminal })
 
         return () => {
           root.dataset.pinned = 'false'
@@ -148,7 +142,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
           <article
             key={chapter.id}
             data-scene
-            className="relative flex min-h-[90svh] flex-col overflow-hidden group-data-[pinned=true]/cycle:absolute group-data-[pinned=true]/cycle:inset-0 group-data-[pinned=true]/cycle:min-h-0"
+            className="relative flex min-h-[100svh] flex-col overflow-hidden group-data-[pinned=true]/cycle:absolute group-data-[pinned=true]/cycle:inset-0 group-data-[pinned=true]/cycle:min-h-0"
           >
             <StaticImage
               data-scene-bg
@@ -157,19 +151,22 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
               fill
               sizes="100vw"
               quality={90}
-              className="object-cover object-[72%_50%] lg:object-center"
+              className="scroll-scene object-cover object-[72%_50%] lg:object-center"
             />
             <SceneTreatment />
 
             <div className="relative z-10 grid flex-1 grid-rows-[auto_1fr] gap-8 px-4 pt-32 pb-12 sm:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-16 lg:px-12 lg:pt-28 lg:pb-16">
               <div
                 data-scene-art
-                className="order-1 w-full max-w-[90vw] justify-self-center lg:order-2 lg:max-w-xl"
+                className="scroll-scene-copy order-1 w-full max-w-[90vw] justify-self-center lg:order-2 lg:max-w-xl"
               >
                 {artifactFor(chapter.id, copy)}
               </div>
 
-              <div data-scene-copy className="order-2 max-w-xl self-end lg:order-1 lg:self-center">
+              <div
+                data-scene-copy
+                className="scroll-scene-copy order-2 max-w-xl self-end lg:order-1 lg:self-center"
+              >
                 <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
                   {text.kicker}
                 </p>

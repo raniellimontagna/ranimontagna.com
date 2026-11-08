@@ -2,7 +2,6 @@ import type { ScrollMotion } from '@/shared/components/motion'
 import { CYCLE_CHAPTERS, TERMINAL_LINES, type Transition, terminalLinesFor } from './cycle.data'
 
 type CycleTimelineOptions = {
-  mobile: boolean
   onTerminal: (lines: number) => void
 }
 
@@ -17,14 +16,15 @@ const CLIPS: Record<Exclude<Transition, 'card'>, [string, string]> = {
 }
 
 /**
- * One pinned, scrubbed timeline: the first scene opens from a card, every
+ * One pinned, scrubbed timeline (from lg up; below it the scenes scroll and
+ * reveal with CSS scroll timelines): the first scene opens from a card, every
  * later scene enters with its own clip-path, the previous copy leaves first,
  * and the terminal types along with the scroll.
  */
 export function buildCycleTimeline(
   { gsap }: ScrollMotion,
   root: HTMLElement,
-  { mobile, onTerminal }: CycleTimelineOptions,
+  { onTerminal }: CycleTimelineOptions,
 ) {
   const scenes = Array.from(root.querySelectorAll<HTMLElement>('[data-scene]'))
   const bars = Array.from(root.querySelectorAll<HTMLElement>('[data-progress-bar]'))
@@ -43,7 +43,7 @@ export function buildCycleTimeline(
     scrollTrigger: {
       trigger: root,
       start: 'top top',
-      end: mobile ? '+=320%' : '+=420%',
+      end: '+=420%',
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,

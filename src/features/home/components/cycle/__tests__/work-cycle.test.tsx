@@ -1,5 +1,6 @@
 import {
   DESKTOP_QUERY,
+  LG_QUERY,
   loadScrollMotion,
   MOBILE_QUERY,
   REDUCED_MOTION_QUERY,
@@ -121,32 +122,47 @@ describe('WorkCycle', () => {
     expect(loadScrollMotion).not.toHaveBeenCalled()
   })
 
-  it('builds the timeline for the current breakpoint', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+  it('pins and builds the timeline from lg up', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true, [LG_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     await waitFor(() =>
       expect(buildCycleTimeline).toHaveBeenCalledWith(
         expect.anything(),
         expect.any(HTMLElement),
-        expect.objectContaining({ mobile: false }),
+        expect.objectContaining({ onTerminal: expect.any(Function) }),
       ),
     )
+    expect(document.getElementById('como-trabalho')).toHaveAttribute('data-pinned', 'true')
   })
 
-  it('builds the phone timeline on small screens', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [MOBILE_QUERY]: true })
+  it('does not pin below lg: phones and tablets scroll the scenes normally', async () => {
+    vi.mocked(buildCycleTimeline).mockClear()
+    for (const query of [MOBILE_QUERY, DESKTOP_QUERY]) {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [query]: true })
+      const { unmount } = render(<WorkCycle copy={copy} />)
+      await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(buildCycleTimeline).not.toHaveBeenCalled()
+      expect(document.getElementById('como-trabalho')).not.toHaveAttribute('data-pinned', 'true')
+      unmount()
+    }
+  })
+
+  it('gives each scene a full screen and the CSS scroll reveal classes', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)
-    await waitFor(() =>
-      expect(buildCycleTimeline).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.any(HTMLElement),
-        expect.objectContaining({ mobile: true }),
-      ),
-    )
+    const scenes = document.querySelectorAll('[data-scene]')
+    expect(scenes).toHaveLength(4)
+    for (const scene of scenes) {
+      expect(scene.className).toContain('min-h-[100svh]')
+      expect(scene.querySelector('[data-scene-bg]')?.className).toContain('scroll-scene')
+      expect(scene.querySelector('[data-scene-copy]')?.className).toContain('scroll-scene-copy')
+      expect(scene.querySelector('[data-scene-art]')?.className).toContain('scroll-scene-copy')
+    }
   })
 
   it('hides terminal lines the scroll has not reached', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
     const [, , options] = vi.mocked(buildCycleTimeline).mock.calls[0]
@@ -155,14 +171,14 @@ describe('WorkCycle', () => {
   })
 
   it('reverts the scroll animations on unmount', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: true })
     const { unmount } = render(<WorkCycle copy={copy} />)
     await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
     unmount()
     expect(revert).toHaveBeenCalled()
   })
   it('re-sorts and refreshes every ScrollTrigger once the pin exists, so later pins start below it', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     await waitFor(() => expect(scrollTrigger.refresh).toHaveBeenCalled())
     expect(scrollTrigger.sort).toHaveBeenCalled()
@@ -183,7 +199,7 @@ describe('WorkCycle', () => {
   })
 
   it('does not query the DOM on every terminal tick', async () => {
-    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [DESKTOP_QUERY]: true })
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: true })
     render(<WorkCycle copy={copy} />)
     await waitFor(() => expect(buildCycleTimeline).toHaveBeenCalled())
     const [, root, options] = vi.mocked(buildCycleTimeline).mock.calls[0]
