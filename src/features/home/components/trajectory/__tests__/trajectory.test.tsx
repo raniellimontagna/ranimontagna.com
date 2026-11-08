@@ -176,6 +176,18 @@ describe('company strip below lg', () => {
     expect(layer(last.id)).toHaveTextContent('04 / 04')
   })
 
+  it('sets the strip text in whichever ink reads on the brand color, at full strength', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const ink = (id: string) => (layer(id).lastElementChild as HTMLElement).style.color
+    // White on the dark blues, purple and green; dark ink on Luizalabs' light blue.
+    expect(ink('sbsistemas')).toBe('rgb(255, 255, 255)')
+    expect(ink('smarten')).toBe('rgb(255, 255, 255)')
+    expect(ink('lemon')).toBe('rgb(255, 255, 255)')
+    expect(ink('luizalabs')).toBe('rgb(7, 11, 12)')
+    expect(strip().innerHTML).not.toContain('text-white/70')
+  })
+
   it('says "now" in each language', () => {
     expect(pt.trajectory.now).toBe('hoje')
     expect(en.trajectory.now).toBe('now')

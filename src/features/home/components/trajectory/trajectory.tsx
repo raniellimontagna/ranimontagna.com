@@ -19,6 +19,20 @@ function maskStyle(src: string, extra: CSSProperties): CSSProperties {
   }
 }
 
+const LIGHT_INK = '#ffffff'
+const DARK_INK = '#070b0c'
+
+function luminance(hex: string): number {
+  const channels = [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16) / 255)
+  const [r, g, b] = channels.map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+/** White text where it reads on the brand color (4.5:1), dark ink where it does not. */
+function inkFor(color: string): string {
+  return 1.05 / (luminance(color) + 0.05) >= 4.5 ? LIGHT_INK : DARK_INK
+}
+
 /** The company logo in white, drawn through a mask so it never needs a photo. */
 function CompanyLogo({ company, style }: { company: Stage['company']; style: CSSProperties }) {
   return (
@@ -108,11 +122,14 @@ export async function Trajectory() {
                   <span className="translate-y-[60%] transition-transform duration-500 group-data-[active=true]/layer:translate-y-0 group-data-[before=true]/layer:-translate-y-[60%] motion-reduce:transition-none">
                     <CompanyLogo company={stage.company} style={{ height: 26 }} />
                   </span>
-                  <span className="text-right font-mono text-white">
+                  <span
+                    className="text-right font-mono"
+                    style={{ color: inkFor(stage.company.color) }}
+                  >
                     <span className="block text-[13px] font-semibold">
                       {stage.year} – {STAGES[index + 1]?.year ?? t('now')}
                     </span>
-                    <span className="block text-xs text-white/70">
+                    <span className="block text-xs">
                       {String(index + 1).padStart(2, '0')} / {total}
                     </span>
                   </span>
