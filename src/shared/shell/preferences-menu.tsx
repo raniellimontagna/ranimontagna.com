@@ -56,7 +56,7 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
         ref={triggerRef}
         type="button"
         aria-expanded={open}
-        aria-label={labels.open}
+        aria-label={`${labels.open} (${locale})`}
         onClick={() => setOpen((value) => !value)}
         className="flex h-11 items-center gap-2 rounded-full border border-line px-3 font-mono text-xs text-foreground uppercase transition-colors hover:border-foreground"
       >

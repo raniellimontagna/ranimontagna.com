@@ -12,7 +12,7 @@ describe('cycle scenes below lg: CSS scroll reveal', () => {
       '@media (prefers-reduced-motion: no-preference) and (max-width: 1023px)',
     )
     expect(block).toMatch(/\.scroll-scene\s*\{[^}]*animation-timeline:\s*view\(\)/)
-    expect(block).toMatch(/\.scroll-scene-copy\s*\{[^}]*animation-range:\s*entry 0% cover 35%/)
+    expect(block).toMatch(/\.scroll-scene-copy\s*\{[^}]*animation-range:\s*entry 0% entry 100%/)
     expect(css.slice(0, start)).not.toContain('.scroll-scene')
   })
 

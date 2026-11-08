@@ -20,6 +20,7 @@ import {
   type Origin,
   openMenuMotion,
   recedablePage,
+  recedeOrigin,
 } from './menu-motion'
 import { SITE_NAV, type SiteNavId } from './site-nav'
 
@@ -37,10 +38,29 @@ type ButtonBox = { top: number; right: number; height: number }
 
 type Motion = {
   page: HTMLElement | null
+  pageOrigin: string | undefined
+  /** Every animation of this mount, so the page ones can be released. */
   anims: Animation[]
-  close: Animation[]
+  /** The last transition (the opening or a close), to turn it around mid-way. */
+  live: Animation[]
+  liveKind: 'open' | 'close' | null
   generation: number
   pendingOpen: boolean
+}
+
+/** Plays each animation the other way from where it is now. */
+function flip(animations: Animation[]) {
+  for (const animation of animations) {
+    if (animation.playState === 'idle') continue
+    if (typeof animation.reverse === 'function') animation.reverse()
+    else animation.cancel()
+  }
+}
+
+function settled(animations: Animation[]): Promise<void> {
+  return Promise.all(animations.map((animation) => animation.finished.catch(() => undefined))).then(
+    () => undefined,
+  )
 }
 
 const SOCIALS = [
@@ -90,8 +110,10 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
   const originRef = useRef<Origin>({ x: 0, y: 0 })
   const motionRef = useRef<Motion>({
     page: null,
+    pageOrigin: undefined,
     anims: [],
-    close: [],
+    live: [],
+    liveKind: null,
     generation: 0,
     pendingOpen: false,
   })
@@ -109,6 +131,7 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
     const all = (selector: string) => [...dialog.querySelectorAll<HTMLElement>(selector)]
     return {
       page: motionRef.current.page,
+      pageOrigin: motionRef.current.pageOrigin,
       bg,
       links: all('[data-menu-rise]'),
       numbers: all('[data-menu-number]'),
@@ -130,8 +153,10 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
 
   const finishClose = (returnFocus: boolean) => {
     releasePage()
-    motionRef.current.anims = []
-    motionRef.current.close = []
+    const motion = motionRef.current
+    motion.anims = []
+    motion.live = []
+    motion.liveKind = null
     go('closed')
     if (returnFocus) triggerRef.current?.focus()
   }
@@ -139,25 +164,34 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
   const openMenu = () => {
     const motion = motionRef.current
     if (phaseRef.current === 'closing') {
-      // Reopened mid-close: play the close backwards and drop its ending.
-      motion.generation++
-      for (const animation of motion.close) {
-        if (typeof animation.reverse === 'function') animation.reverse()
-        else animation.cancel()
+      // Reopened mid-close: turn the close around.
+      const generation = ++motion.generation
+      const live = motion.live
+      flip(live)
+      if (motion.liveKind === 'close') {
+        // A reversed close ends holding its first frame (the circle measured at
+        // close time). Once back open, drop it: the persisted opening underneath
+        // is the open state, and it follows a resize or rotation.
+        void settled(live).then(() => {
+          if (motionRef.current.generation !== generation || phaseRef.current !== 'open') return
+          for (const animation of live) animation.cancel()
+        })
       }
-      motion.close = []
       go('open')
       return
     }
     if (phaseRef.current !== 'closed') return
     const rect = triggerRef.current?.getBoundingClientRect()
-    const measured = rect && rect.width > 0 ? rect : null
+    // A tucked-away header puts the button above the screen: use the fallback spot.
+    const measured = rect && rect.width > 0 && rect.bottom > 0 ? rect : null
+    // clientWidth leaves out a classic scrollbar; innerWidth does not.
+    const layoutWidth = document.documentElement.clientWidth || window.innerWidth
     originRef.current = measured
       ? { x: measured.left + measured.width / 2, y: measured.top + measured.height / 2 }
-      : { x: window.innerWidth - 48, y: 48 }
+      : { x: layoutWidth - 64, y: 32 }
     setBox(
       measured
-        ? { top: measured.top, right: window.innerWidth - measured.right, height: measured.height }
+        ? { top: measured.top, right: layoutWidth - measured.right, height: measured.height }
         : null,
     )
     motion.pendingOpen = true
@@ -176,11 +210,20 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
       return
     }
     const generation = ++motion.generation
-    const closing = closeMenuMotion(els, originRef.current, prefersReducedMotion())
-    motion.close = closing.animations
-    motion.anims.push(...closing.animations)
+    let closing: Animation[]
+    if (motion.live.some((animation) => animation.playState === 'running')) {
+      // Still moving (opening, or reopening mid-close): turn it around instead of
+      // starting the close from the fully open frame, which would flash.
+      flip(motion.live)
+      closing = motion.live
+    } else {
+      closing = closeMenuMotion(els, originRef.current, prefersReducedMotion()).animations
+      motion.live = closing
+      motion.liveKind = 'close'
+      motion.anims.push(...closing)
+    }
     go('closing')
-    void closing.finished.then(() => {
+    void settled(closing).then(() => {
       if (motionRef.current.generation === generation) finishClose(returnFocus)
     })
   }
@@ -194,8 +237,15 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
     motion.pendingOpen = false
     if (!canAnimate(bgRef.current)) return
     motion.page = recedablePage()
+    motion.pageOrigin = motion.page ? recedeOrigin(motion.page) : undefined
     const els = elements()
-    if (els) motion.anims.push(...openMenuMotion(els, originRef.current, prefersReducedMotion()))
+    if (!els) return
+    const opening = openMenuMotion(els, originRef.current, prefersReducedMotion())
+    // Kept alive under a later close, so a reopen can fall back to them.
+    for (const animation of opening) animation.persist?.()
+    motion.live = opening
+    motion.liveKind = 'open'
+    motion.anims.push(...opening)
   })
 
   const onEscape = useEffectEvent((event: globalThis.KeyboardEvent) => {
@@ -302,7 +352,7 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                         <Link
                           href={item.href}
                           onClick={() => requestClose({ returnFocus: false, viaLink: true })}
-                          className="press group flex items-baseline gap-4 overflow-hidden py-1 text-[clamp(40px,9vw,96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
+                          className="press group flex items-baseline gap-4 overflow-hidden py-1 text-[clamp(40px,min(9vw,8.5svh),96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
                         >
                           <span
                             aria-hidden="true"

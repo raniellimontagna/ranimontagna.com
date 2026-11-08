@@ -1,9 +1,10 @@
-import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { LG_QUERY, loadScrollMotion, REDUCED_MOTION_QUERY } from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
-import { render, screen } from '@/tests/test-utils'
+import { render, screen, waitFor } from '@/tests/test-utils'
 import pt from '../../../../../../messages/pt.json'
 import { AiMethod } from '../ai-method'
 import { AI_MODELS, AI_PROOF_IDS, AI_STEP_IDS, AI_TERM_IDS } from '../ai-method.data'
+import { AiMethodSteps } from '../ai-method-steps'
 
 type Tree = { [key: string]: string | string[] | Tree }
 
@@ -107,5 +108,48 @@ describe('AiMethod', () => {
     for (const step of document.querySelectorAll('[data-ai-step]')) {
       expect(step.className).not.toMatch(/opacity-/)
     }
+  })
+
+  describe('lighting the steps with the scroll', () => {
+    const steps = AI_STEP_IDS.map((id) => ({ id, title: id, lines: [id] }))
+    const fakeMotion = (create: ReturnType<typeof vi.fn>) =>
+      ({
+        gsap: {
+          matchMedia: () => ({
+            add: (conditions: Record<string, string>, callback: () => (() => void) | undefined) => {
+              if (Object.values(conditions).some((query) => window.matchMedia(query).matches))
+                callback()
+            },
+            revert: vi.fn(),
+          }),
+          context: (fn: () => void) => {
+            fn()
+            return { revert: vi.fn() }
+          },
+        },
+        ScrollTrigger: { create },
+      }) as never
+
+    it('keeps every step lit below lg, where the list swipes sideways', async () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: false })
+      const create = vi.fn()
+      vi.mocked(loadScrollMotion).mockResolvedValueOnce(fakeMotion(create))
+      render(<AiMethodSteps steps={steps} label="steps" />)
+      await waitFor(() => expect(loadScrollMotion).toHaveBeenCalled())
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(create).not.toHaveBeenCalled()
+      const lit = [...document.querySelectorAll('[data-ai-step]')].map((step) =>
+        step.getAttribute('data-lit'),
+      )
+      expect(lit.every((value) => value === 'true')).toBe(true)
+    })
+
+    it('lights them with the vertical scroll from lg up', async () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [LG_QUERY]: true })
+      const create = vi.fn()
+      vi.mocked(loadScrollMotion).mockResolvedValueOnce(fakeMotion(create))
+      render(<AiMethodSteps steps={steps} label="steps" />)
+      await waitFor(() => expect(create).toHaveBeenCalledTimes(1))
+    })
   })
 })

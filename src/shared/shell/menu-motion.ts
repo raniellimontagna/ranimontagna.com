@@ -6,6 +6,8 @@
  */
 export type MenuMotionEls = {
   page: HTMLElement | null
+  /** transform-origin for the page recede, measured once when the menu opens. */
+  pageOrigin?: string
   bg: HTMLElement
   links: HTMLElement[]
   numbers: HTMLElement[]
@@ -21,8 +23,27 @@ const EASE_OUT = 'cubic-bezier(.16,1,.3,1)'
 const EASE_IN_OUT = 'cubic-bezier(.83,0,.17,1)'
 const EASE_IN = 'cubic-bezier(.7,0,.84,0)'
 const CLOSE_SPEED = 0.6
-const RECEDED = { transform: 'scale(.94) translateY(-2%)', opacity: 0.35 }
-const IN_PLACE = { transform: 'none', opacity: 1 }
+const REDUCED_MS = 150
+// vh, not %: a percentage translate is measured on the page, which is
+// thousands of pixels tall, and would slide it by hundreds of pixels.
+const RECEDED_TRANSFORM = 'translateY(-2vh) scale(.94)'
+
+/**
+ * Where the page recedes from: the centre of the viewport, in the page's own
+ * coordinates. Measured before the recede starts (a transformed page reports a
+ * transformed rect).
+ */
+export function recedeOrigin(page: HTMLElement): string {
+  return `50% ${Math.round(window.innerHeight / 2 - page.getBoundingClientRect().top)}px`
+}
+
+function recedeFrames(els: MenuMotionEls): [Keyframe, Keyframe] {
+  const transformOrigin = els.pageOrigin ?? '50% 50%'
+  return [
+    { transform: 'none', opacity: 1, transformOrigin },
+    { transform: RECEDED_TRANSFORM, opacity: 0.35, transformOrigin },
+  ]
+}
 
 export function canAnimate(element: Element | null): element is HTMLElement {
   return Boolean(element) && typeof (element as HTMLElement).animate === 'function'
@@ -73,7 +94,7 @@ export function openMenuMotion(els: MenuMotionEls, origin: Origin, reduced: bool
   const fill = 'backwards' as const
   if (reduced) {
     for (const el of [els.bg, ...els.links, ...els.numbers, ...els.socials, ...els.chrome]) {
-      run.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, fill }))
+      run.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: REDUCED_MS, fill }))
     }
     return run
   }
@@ -86,7 +107,7 @@ export function openMenuMotion(els: MenuMotionEls, origin: Origin, reduced: bool
   )
   if (els.page) {
     run.push(
-      els.page.animate([IN_PLACE, RECEDED], { duration: 620, easing: EASE_IN_OUT, fill: 'both' }),
+      els.page.animate(recedeFrames(els), { duration: 620, easing: EASE_IN_OUT, fill: 'both' }),
     )
   }
   for (const el of els.chrome) {
@@ -109,12 +130,18 @@ export function openMenuMotion(els: MenuMotionEls, origin: Origin, reduced: bool
   })
   els.socials.forEach((social, index) => {
     run.push(
-      social.animate([{ transform: 'translateY(14px)', opacity: 0 }, IN_PLACE], {
-        duration: 320,
-        delay: 560 + index * 40,
-        easing: EASE_OUT,
-        fill,
-      }),
+      social.animate(
+        [
+          { transform: 'translateY(14px)', opacity: 0 },
+          { transform: 'none', opacity: 1 },
+        ],
+        {
+          duration: 320,
+          delay: 560 + index * 40,
+          easing: EASE_OUT,
+          fill,
+        },
+      ),
     )
   })
   return run
@@ -131,7 +158,7 @@ export function closeMenuMotion(els: MenuMotionEls, origin: Origin, reduced: boo
   const content = [...els.socials, ...els.links, ...els.numbers, ...els.chrome]
   if (reduced) {
     for (const el of [els.bg, ...content]) {
-      run.push(el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill }))
+      run.push(el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: REDUCED_MS, fill }))
     }
   } else {
     const speed = (ms: number) => ms * CLOSE_SPEED
@@ -152,7 +179,7 @@ export function closeMenuMotion(els: MenuMotionEls, origin: Origin, reduced: boo
         timing,
       ),
     )
-    if (els.page) run.push(els.page.animate([RECEDED, IN_PLACE], timing))
+    if (els.page) run.push(els.page.animate([...recedeFrames(els)].reverse(), timing))
   }
   const finished = Promise.all(
     run.map((animation) => animation.finished.catch(() => undefined)),

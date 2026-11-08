@@ -62,6 +62,9 @@ describe('SiteMenu motion (opening A)', () => {
   type FakeAnimation = {
     finished: Promise<void>
     cancel: ReturnType<typeof vi.fn>
+    reverse: ReturnType<typeof vi.fn>
+    persist: ReturnType<typeof vi.fn>
+    playState: AnimationPlayState
     resolve: () => void
     keyframes: Keyframe[]
   }
@@ -76,7 +79,15 @@ describe('SiteMenu motion (opening A)', () => {
       const finished = new Promise<void>((r) => {
         resolve = r
       })
-      const animation = { finished, cancel: vi.fn(), resolve, keyframes }
+      const animation = {
+        finished,
+        cancel: vi.fn(),
+        reverse: vi.fn(),
+        persist: vi.fn(),
+        playState: 'finished' as AnimationPlayState,
+        resolve,
+        keyframes,
+      }
       animations.push(animation)
       return animation as unknown as Animation
     }) as unknown as typeof Element.prototype.animate
@@ -149,5 +160,68 @@ describe('SiteMenu motion (opening A)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
     expect(document.documentElement.style.overflow).toBe('hidden')
+  })
+
+  it('closing while it still opens plays the opening backwards instead of snapping open', async () => {
+    render(<SiteMenu labels={labels} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    const opening = [...animations]
+    for (const animation of opening) animation.playState = 'running'
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar' }))
+    expect(animations).toHaveLength(opening.length)
+    for (const animation of opening) expect(animation.reverse).toHaveBeenCalled()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    await act(async () => {
+      for (const animation of opening) animation.resolve()
+    })
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+  })
+
+  it('reopening mid-close settles on the open state and drops the close frames', async () => {
+    render(<SiteMenu labels={labels} />)
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+    fireEvent.click(trigger)
+    const opened = animations.length
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar' }))
+    const closing = animations.slice(opened)
+    for (const animation of closing) animation.playState = 'running'
+    fireEvent.click(trigger)
+    for (const animation of closing) expect(animation.reverse).toHaveBeenCalled()
+    await act(async () => {
+      for (const animation of closing) animation.resolve()
+    })
+    for (const animation of closing) expect(animation.cancel).toHaveBeenCalled()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('places its button by the layout width, so a desktop scrollbar does not shift it', () => {
+    render(<SiteMenu labels={labels} />)
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+    trigger.getBoundingClientRect = () =>
+      ({ left: 1300, right: 1400, top: 10, bottom: 54, width: 100, height: 44 }) as DOMRect
+    Object.defineProperty(window, 'innerWidth', { value: 1440, configurable: true })
+    Object.defineProperty(document.documentElement, 'clientWidth', {
+      value: 1425,
+      configurable: true,
+    })
+    fireEvent.click(trigger)
+    expect(screen.getByRole('button', { name: 'Fechar' }).style.right).toBe('25px')
+  })
+
+  it('keeps its button on screen when the header is tucked away', () => {
+    render(<SiteMenu labels={labels} />)
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+    trigger.getBoundingClientRect = () =>
+      ({ left: 290, right: 380, top: -54, bottom: -10, width: 90, height: 44 }) as DOMRect
+    fireEvent.click(trigger)
+    const close = screen.getByRole('button', { name: 'Fechar' })
+    expect(close.style.top).toBe('')
+    expect(close.className).toContain('top-2.5')
+  })
+
+  it('sizes the links by the screen height too, so the socials fit on a laptop', () => {
+    render(<SiteMenu labels={labels} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    expect(screen.getByRole('link', { name: 'atto' }).className).toContain('svh')
   })
 })

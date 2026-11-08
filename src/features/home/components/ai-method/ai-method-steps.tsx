@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
+import { LG_QUERY, loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
 import { SnapCounter } from '@/shared/ui-2026/snap-counter'
 
 type Step = { id: string; title: string; lines: string[] }
@@ -30,8 +30,11 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
           item.dataset.lit = String(index < count)
         })
       }
-      light(0)
-      const context = gsap.context(() => {
+      // From lg up only: below it the list swipes sideways, and a light-up
+      // driven by the vertical scroll would leave the cards in view dimmed.
+      const media = gsap.matchMedia()
+      media.add({ lg: LG_QUERY }, () => {
+        light(0)
         ScrollTrigger.create({
           trigger: list,
           start: 'top 80%',
@@ -39,9 +42,10 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
           onUpdate: (self: { progress: number }) => light(Math.ceil(self.progress * items.length)),
           onLeave: () => light(items.length),
         })
-      }, list)
+        return () => light(items.length)
+      })
       revert = () => {
-        context.revert()
+        media.revert()
         light(items.length)
       }
     })

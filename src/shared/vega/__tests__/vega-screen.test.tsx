@@ -106,6 +106,14 @@ describe('VegaScreen', () => {
     for (const target of targets) expect(target.className).toContain('min-h-11')
   })
 
+  it('gives the send button a 44 px tap target', () => {
+    render(<VegaScreen />)
+    openScreen()
+    const send = screen.getByRole('textbox').closest('form')?.querySelector('button[type="submit"]')
+    expect(send?.className).toContain('h-11')
+    expect(send?.className).toContain('w-11')
+  })
+
   it('Escape closes it and returns focus to the launcher', () => {
     render(<VegaScreen />)
     const launcher = openScreen()

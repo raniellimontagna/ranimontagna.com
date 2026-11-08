@@ -101,8 +101,25 @@ describe('VegaLauncher keeps out of the way', () => {
   it('shows itself while it has keyboard focus', () => {
     render(<VegaLauncher label="Falar com a Vega" />)
     const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    vi.spyOn(button, 'matches').mockImplementation((selector) => selector === ':focus-visible')
     scrollTo(1000)
     act(() => button.focus())
     expect(button).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('keeps stepping aside when focus comes back to it from Vega (not keyboard focus)', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    vi.spyOn(button, 'matches').mockReturnValue(false)
+    act(() => button.focus())
+    scrollTo(1000)
+    expect(button).toHaveAttribute('data-hidden', 'true')
+  })
+
+  it('slides on the translate property with a transition the global button rule cannot override', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    expect(button.className).toContain('transition-[translate,scale,opacity]!')
+    expect(button.className).toContain('duration-[250ms]!')
   })
 })

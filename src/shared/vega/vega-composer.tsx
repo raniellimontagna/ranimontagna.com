@@ -57,7 +57,7 @@ export function VegaComposer({
         type="submit"
         aria-label={sendLabel}
         disabled={disabled || !value.trim()}
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent text-on-accent transition-transform duration-200 hover:scale-105 disabled:opacity-40"
+        className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-on-accent transition-transform duration-200 hover:scale-105 disabled:opacity-40"
       >
         <span aria-hidden="true">↑</span>
       </button>

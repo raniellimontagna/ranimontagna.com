@@ -18,6 +18,11 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('link', { name: 'Ranielli Montagna' })).toHaveAttribute('href', '/')
   })
 
+  it('transitions the translate property it slides on', async () => {
+    render(await SiteHeader())
+    expect(document.querySelector('header')?.className).toContain('transition-[translate,')
+  })
+
   it('gives the name link a 44 px tap target', async () => {
     render(await SiteHeader())
     expect(screen.getByRole('link', { name: 'Ranielli Montagna' }).className).toContain('min-h-11')
