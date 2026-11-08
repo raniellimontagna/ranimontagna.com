@@ -232,6 +232,7 @@
   },
   "trajectory": {
     "kicker": "trayectoria",
+    "now": "hoy",
     "title": "De escribir pantallas a conducir el producto entero.",
     "lead": "Cinco años, cuatro etapas y cada vez más cerca de la decisión.",
     "stackLabel": "Tecnologías",

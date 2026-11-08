@@ -1,6 +1,9 @@
 import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { act, render, screen, waitFor } from '@/tests/test-utils'
+import en from '../../../../../../messages/en.json'
+import es from '../../../../../../messages/es.json'
+import pt from '../../../../../../messages/pt.json'
 import { Trajectory } from '../trajectory'
 import { STAGES } from '../trajectory.data'
 
@@ -141,6 +144,73 @@ describe('Trajectory', () => {
       'data-active',
       'false',
     )
+  })
+})
+
+describe('company strip below lg', () => {
+  beforeEach(() => {
+    toggles.length = 0
+  })
+
+  const strip = () => document.querySelector('[data-stage-strip]') as HTMLElement
+  const layer = (id: string) => strip().querySelector(`[data-stage-panel="${id}"]`) as HTMLElement
+
+  it('ships a sticky company strip below lg that follows the header', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    expect(strip()).toHaveAttribute('data-follow-header')
+    expect(strip()).toHaveAttribute('aria-hidden', 'true')
+    expect(strip().className).toContain('sticky')
+    expect(strip().className).toContain('lg:hidden')
+    expect(strip().querySelectorAll('[data-stage-panel]')).toHaveLength(STAGES.length)
+    expect(layer(STAGES[0].id)).toHaveAttribute('data-active', 'true')
+  })
+
+  it('reads year ranges, the current stage open-ended, and NN / 04', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    expect(layer(STAGES[0].id)).toHaveTextContent(`${STAGES[0].year} – ${STAGES[1].year}`)
+    expect(layer(STAGES[0].id)).toHaveTextContent('01 / 04')
+    const last = STAGES[STAGES.length - 1]
+    expect(layer(last.id)).toHaveTextContent(`${last.year} – now`)
+    expect(layer(last.id)).toHaveTextContent('04 / 04')
+  })
+
+  it('says "now" in each language', () => {
+    expect(pt.trajectory.now).toBe('hoje')
+    expect(en.trajectory.now).toBe('now')
+    expect(es.trajectory.now).toBe('hoy')
+  })
+
+  it('turns the strip on and hides the per-stage bands once mounted', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const root = strip().closest('.group\\/traj') as HTMLElement
+    await waitFor(() => expect(root).toHaveAttribute('data-strip', 'on'))
+    for (const band of document.querySelectorAll('[data-stage-band]')) {
+      expect(band.className).toContain('group-data-[strip=on]/traj:hidden')
+    }
+  })
+
+  it('marks panels of earlier stages as before', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    render(await Trajectory())
+    await waitFor(() => expect(toggles).toHaveLength(STAGES.length))
+    act(() => toggles[2]({ isActive: true }))
+    expect(layer(STAGES[0].id)).toHaveAttribute('data-before', 'true')
+    expect(layer(STAGES[1].id)).toHaveAttribute('data-before', 'true')
+    expect(layer(STAGES[2].id)).toHaveAttribute('data-before', 'false')
+    expect(layer(STAGES[2].id)).toHaveAttribute('data-active', 'true')
+    expect(layer(STAGES[3].id)).toHaveAttribute('data-before', 'false')
+  })
+
+  it('activates stages even with reduced motion, without transitions', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    await waitFor(() => expect(toggles).toHaveLength(STAGES.length))
+    act(() => toggles[1]({ isActive: true }))
+    expect(layer(STAGES[1].id)).toHaveAttribute('data-active', 'true')
+    expect(layer(STAGES[1].id).className).toContain('motion-reduce:transition-none')
   })
 })
 

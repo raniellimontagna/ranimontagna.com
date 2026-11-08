@@ -232,6 +232,7 @@
   },
   "trajectory": {
     "kicker": "path",
+    "now": "now",
     "title": "From writing screens to leading the whole product.",
     "lead": "Five years, four stages, each one closer to the decision.",
     "stackLabel": "Technologies",
