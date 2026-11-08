@@ -71,6 +71,23 @@ describe('buildWritingFocus', () => {
     expect(thumb(list)?.style.transform).toBe('scale(1)')
   })
 
+  it('reads the screen height on setup and refresh, never per row per frame', () => {
+    const { list, created, motion } = setup()
+    let reads = 0
+    const spy = vi.spyOn(window, 'innerHeight', 'get').mockImplementation(() => {
+      reads++
+      return 768
+    })
+    buildWritingFocus(motion, list)
+    reads = 0
+    created[0].onUpdate?.({ progress: 0.3 })
+    created[1].onUpdate?.({ progress: 0.6 })
+    expect(reads).toBe(0)
+    created[0].onRefresh?.()
+    expect(reads).toBe(1)
+    spy.mockRestore()
+  })
+
   it('the date never dims', () => {
     const { list, created, motion } = setup()
     buildWritingFocus(motion, list)

@@ -28,6 +28,13 @@ describe('PreferencesMenu', () => {
     expect(screen.getByRole('button', { name: /Preferências/ })).toHaveAccessibleName(/\bpt\b/i)
   })
 
+  it('names its button starting with the visible code, from its own content', () => {
+    render(<PreferencesMenu labels={labels} />)
+    const button = screen.getByRole('button', { name: /Preferências/ })
+    expect(button).toHaveAccessibleName(/^pt\b/i)
+    expect(button).not.toHaveAttribute('aria-label')
+  })
+
   it('gives its button a 44 px tap target', () => {
     render(<PreferencesMenu labels={labels} />)
     expect(screen.getByRole('button', { name: /Preferências/ }).className).toContain('h-11')

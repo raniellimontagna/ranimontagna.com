@@ -92,6 +92,26 @@ describe('StackMarquee', () => {
       expect(value as number).toBeGreaterThanOrEqual(-6)
     })
 
+    it('follows the query live: crossing to lg drops the lean, crossing back brings it', () => {
+      mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false })
+      const frames = installFrameStub()
+      renderMarquee()
+      const lists = vi
+        .mocked(window.matchMedia)
+        .mock.results.map((result) => result.value as { media: string; matches: boolean })
+        .filter((list) => list.media === BELOW_LG_QUERY)
+      expect(lists.length).toBeGreaterThan(0)
+      for (const list of lists) list.matches = true
+      for (let i = 0; i < 20; i++) {
+        scrollBy(1000)
+        frames.flush()
+      }
+      expect(skew()).not.toBeNull()
+      for (const list of lists) list.matches = false
+      frames.flush()
+      expect(track().style.transform).not.toContain('skewX')
+    })
+
     it('from lg never skews', () => {
       mockMatchMedia({ [REDUCED_MOTION_QUERY]: false, [BELOW_LG_QUERY]: false })
       const frames = installFrameStub()

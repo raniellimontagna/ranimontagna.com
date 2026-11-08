@@ -75,11 +75,15 @@ export function attachCarouselDepth(track: HTMLElement): () => void {
 }
 
 const TOUCH_EVENTS = ['pointerdown', 'touchstart', 'wheel'] as const
+const RELEASE_EVENTS = ['pointerup', 'touchend'] as const
+// A release within this many px of where the touch began did not drag the track.
+const STILL = 4
 
 /**
  * The first time the carousel is mostly on screen, it slides a little and back
  * to show it can be swiped. Never after the person touched it or scrolled it;
- * a touch during the nudge cancels it and gives snapping back at once.
+ * a touch during the nudge cancels it and gives snapping back at once, and a
+ * still tap (no drag) sends the track back to the first card.
  */
 export function nudgeOnce(track: HTMLElement, distance = NUDGE_DISTANCE): () => void {
   let touched = false
@@ -92,9 +96,26 @@ export function nudgeOnce(track: HTMLElement, distance = NUDGE_DISTANCE): () => 
     timers.length = 0
     restore()
   }
+  let onRelease: (() => void) | null = null
+  const unlistenRelease = () => {
+    if (!onRelease) return
+    for (const type of RELEASE_EVENTS) track.removeEventListener(type, onRelease)
+    onRelease = null
+  }
   const onTouch = () => {
     touched = true
-    if (timers.length) stop()
+    if (!timers.length) return
+    stop()
+    const leftAtTouch = track.scrollLeft
+    unlistenRelease()
+    onRelease = () => {
+      unlistenRelease()
+      const left = track.scrollLeft
+      if (left > 0 && Math.abs(left - leftAtTouch) < STILL) {
+        track.scrollTo({ left: 0, behavior: 'smooth' })
+      }
+    }
+    for (const type of RELEASE_EVENTS) track.addEventListener(type, onRelease, { passive: true })
   }
 
   const observer = new IntersectionObserver(
@@ -127,6 +148,7 @@ export function nudgeOnce(track: HTMLElement, distance = NUDGE_DISTANCE): () => 
   return () => {
     observer.disconnect()
     stop()
+    unlistenRelease()
     for (const type of TOUCH_EVENTS) track.removeEventListener(type, onTouch)
   }
 }

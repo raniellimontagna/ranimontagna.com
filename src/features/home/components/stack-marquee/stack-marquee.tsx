@@ -82,7 +82,8 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
 
     setAnimated(true)
 
-    const leans = window.matchMedia(BELOW_LG_QUERY).matches
+    // Read live each frame: rotating a tablet across lg turns the lean on or off.
+    const lean = window.matchMedia(BELOW_LG_QUERY)
     let x = 0
     let boost = 0
     let skew = 0
@@ -102,13 +103,15 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
       x -= BASE_SPEED + boost
       if (half > 0 && -x >= half) x += half
       let transform = `translate3d(${x}px, 0, 0)`
-      if (leans) {
-        const y = window.scrollY
-        const delta = y - lastY
-        lastY = y
+      const y = window.scrollY
+      const delta = y - lastY
+      lastY = y
+      if (lean.matches) {
         const target = Math.max(-MAX_SKEW, Math.min(MAX_SKEW, delta * SKEW_GAIN))
         skew += (target - skew) * SKEW_EASE
         transform += ` skewX(${-skew}deg)`
+      } else {
+        skew = 0
       }
       track.style.transform = transform
       frame = requestAnimationFrame(tick)

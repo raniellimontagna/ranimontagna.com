@@ -178,6 +178,14 @@ describe('WorkCycle', () => {
     )
   })
 
+  it('clips the sticky bars at the section edge below lg (clip, so sticky still works)', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<WorkCycle copy={copy} />)
+    const section = document.getElementById('como-trabalho') as HTMLElement
+    expect(section.className).toContain('max-lg:overflow-clip')
+    expect(section.className).not.toMatch(/(^|\s)overflow-hidden(\s|$)/)
+  })
+
   it('renders a reading spacer after the last chapter and progress bars that follow the header', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<WorkCycle copy={copy} />)

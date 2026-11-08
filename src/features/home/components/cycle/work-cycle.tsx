@@ -127,7 +127,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
       ref={rootRef}
       id="como-trabalho"
       aria-labelledby="work-cycle-heading"
-      className="group/cycle relative bg-background data-[pinned=true]:h-svh data-[pinned=true]:overflow-hidden"
+      className="group/cycle relative bg-background max-lg:overflow-clip data-[pinned=true]:h-svh data-[pinned=true]:overflow-hidden"
     >
       <h2 id="work-cycle-heading" className="sr-only">
         {copy.heading}

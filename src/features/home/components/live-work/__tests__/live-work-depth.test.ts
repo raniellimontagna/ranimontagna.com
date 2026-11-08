@@ -141,6 +141,29 @@ describe('nudgeOnce', () => {
     expect(track.scrollTo).not.toHaveBeenCalled()
   })
 
+  it('a still tap during the nudge sends the track back to the first card', () => {
+    const io = captureIntersection()
+    const track = makeTrack()
+    nudgeOnce(track)
+    io.setVisible(true)
+    track.scrollLeft = 40
+    track.dispatchEvent(new Event('touchstart'))
+    track.dispatchEvent(new Event('touchend'))
+    expect(track.scrollTo).toHaveBeenLastCalledWith({ left: 0, behavior: 'smooth' })
+  })
+
+  it('a drag during the nudge is left alone', () => {
+    const io = captureIntersection()
+    const track = makeTrack()
+    nudgeOnce(track)
+    io.setVisible(true)
+    track.scrollLeft = 40
+    track.dispatchEvent(new Event('pointerdown'))
+    track.scrollLeft = 260
+    track.dispatchEvent(new Event('pointerup'))
+    expect(track.scrollTo).toHaveBeenCalledTimes(1)
+  })
+
   it('a touch during the nudge cancels it and restores snap at once', () => {
     const io = captureIntersection()
     const track = makeTrack()
