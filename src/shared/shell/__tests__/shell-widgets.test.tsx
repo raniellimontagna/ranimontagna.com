@@ -1,4 +1,5 @@
 import { useChat } from '@/shared/store/use-chat/use-chat'
+import { captureIntersection, installFrameStub } from '@/tests/mocks/canvas'
 import { act, fireEvent, render, screen, waitFor } from '@/tests/test-utils'
 import { ShellWidgets } from '../shell-widgets'
 import { VegaLauncher } from '../vega-launcher'
@@ -33,5 +34,75 @@ describe('Vega entry points', () => {
     const button = screen.getByRole('button', { name: 'Falar com a Vega' })
     expect(button).toHaveAttribute('data-chat-launcher')
     expect(button.querySelector('canvas')).not.toBeNull()
+  })
+})
+
+describe('VegaLauncher keeps out of the way', () => {
+  const originalObserver = window.IntersectionObserver
+  let frames: ReturnType<typeof installFrameStub>
+
+  const scrollTo = (y: number) => {
+    Object.defineProperty(window, 'scrollY', { value: y, configurable: true })
+    fireEvent.scroll(window)
+    act(() => frames.flush())
+  }
+
+  beforeEach(() => {
+    frames = installFrameStub()
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      value: 5000,
+      configurable: true,
+    })
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
+  })
+  afterEach(() => {
+    vi.restoreAllMocks()
+    window.IntersectionObserver = originalObserver
+  })
+
+  it('hides going down past 120 px and comes back going up', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    expect(button).toHaveAttribute('data-hidden', 'false')
+    scrollTo(100)
+    expect(button).toHaveAttribute('data-hidden', 'false')
+    scrollTo(400)
+    expect(button).toHaveAttribute('data-hidden', 'true')
+    scrollTo(300)
+    expect(button).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('comes back at the end of the page', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    scrollTo(1000)
+    expect(button).toHaveAttribute('data-hidden', 'true')
+    scrollTo(4300)
+    expect(button).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('stays hidden while the hero Vega button is on screen', () => {
+    const io = captureIntersection()
+    render(
+      <>
+        <button type="button" data-vega-cta>
+          Pergunte
+        </button>
+        <VegaLauncher label="Falar com a Vega" />
+      </>,
+    )
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    act(() => io.setVisible(true))
+    expect(button).toHaveAttribute('data-hidden', 'true')
+    act(() => io.setVisible(false))
+    expect(button).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('shows itself while it has keyboard focus', () => {
+    render(<VegaLauncher label="Falar com a Vega" />)
+    const button = screen.getByRole('button', { name: 'Falar com a Vega' })
+    scrollTo(1000)
+    act(() => button.focus())
+    expect(button).toHaveAttribute('data-hidden', 'false')
   })
 })

@@ -52,7 +52,10 @@ export async function Hero2026() {
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <VegaTrigger className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:translate-y-0">
+          <VegaTrigger
+            cta
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition-transform hover:-translate-y-0.5 active:translate-y-0"
+          >
             <span aria-hidden="true">✦</span>
             {t('ctaVega')}
           </VegaTrigger>
