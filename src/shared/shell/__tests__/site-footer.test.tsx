@@ -23,6 +23,13 @@ describe('SiteFooter', () => {
       '/projects',
     )
   })
+
+  it('gives the footer links 44 px tap targets', async () => {
+    render(await SiteFooter())
+    for (const name of ['footer.blog', 'footer.projects']) {
+      expect(screen.getByRole('link', { name }).className).toContain('min-h-11')
+    }
+  })
 })
 
 describe('root layout', () => {

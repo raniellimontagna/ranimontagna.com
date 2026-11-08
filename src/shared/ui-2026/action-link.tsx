@@ -15,7 +15,8 @@ const VARIANTS = {
   solid:
     'bg-accent text-on-accent hover:-translate-y-0.5 active:translate-y-0 rounded-full px-6 py-3',
   outline: 'border border-line text-foreground hover:border-foreground rounded-full px-6 py-3',
-  quiet: 'text-foreground underline decoration-line underline-offset-[6px] hover:decoration-accent',
+  quiet:
+    'min-h-11 text-foreground underline decoration-line underline-offset-[6px] hover:decoration-accent',
 } as const
 
 export function ActionLink({

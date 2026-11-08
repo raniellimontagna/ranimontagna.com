@@ -13,7 +13,7 @@ export function ArticleHeader({ post, locale, cover, backLabel }: ArticleHeaderP
         <Link
           href="/blog"
           data-reveal
-          className="self-start font-mono text-xs tracking-[0.2em] text-muted uppercase hover:text-foreground"
+          className="inline-flex min-h-11 items-center self-start font-mono text-xs tracking-[0.2em] text-muted uppercase hover:text-foreground"
         >
           ← {backLabel}
         </Link>

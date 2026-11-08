@@ -67,7 +67,7 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
       {open ? (
         <div className="absolute top-12 right-0 z-50 flex w-72 flex-col gap-5 rounded-2xl border border-line bg-background p-5">
           <fieldset className="flex flex-col gap-2">
-            <legend className="mb-2 font-mono text-[11px] tracking-[0.2em] text-muted uppercase">
+            <legend className="mb-2 font-mono text-xs tracking-[0.2em] text-muted uppercase">
               {labels.language}
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -89,7 +89,7 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
           </fieldset>
 
           <fieldset className="flex flex-col gap-2">
-            <legend className="mb-2 font-mono text-[11px] tracking-[0.2em] text-muted uppercase">
+            <legend className="mb-2 font-mono text-xs tracking-[0.2em] text-muted uppercase">
               {labels.theme}
             </legend>
             <div className="flex gap-2">
@@ -113,7 +113,7 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
           </fieldset>
 
           <fieldset className="flex flex-col gap-2">
-            <legend className="mb-2 font-mono text-[11px] tracking-[0.2em] text-muted uppercase">
+            <legend className="mb-2 font-mono text-xs tracking-[0.2em] text-muted uppercase">
               {labels.accent}
             </legend>
             <div className="grid grid-cols-9 gap-1.5">

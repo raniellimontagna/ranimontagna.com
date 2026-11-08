@@ -155,7 +155,7 @@ export function VegaScreen() {
           void retry(locale)
           inputRef.current?.focus()
         }}
-        className="rounded-full border border-line px-3 py-1 text-xs font-semibold hover:border-accent hover:text-accent"
+        className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-xs font-semibold hover:border-accent hover:text-accent"
       >
         {t('retry')}
       </button>
@@ -192,7 +192,7 @@ export function VegaScreen() {
             {t('label')}
           </span>
         ) : (
-          <span className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+          <span className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
             {t('label')}
           </span>
         )}
@@ -201,7 +201,7 @@ export function VegaScreen() {
             <button
               type="button"
               onClick={clearMessages}
-              className="rounded-full border border-line px-3.5 py-1.5 text-xs font-semibold hover:border-foreground"
+              className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-xs font-semibold hover:border-foreground"
             >
               {t('newChat')}
             </button>
@@ -209,7 +209,7 @@ export function VegaScreen() {
           <button
             type="button"
             onClick={close}
-            className="rounded-full border border-line px-3.5 py-1.5 text-xs font-semibold hover:border-foreground"
+            className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-xs font-semibold hover:border-foreground"
           >
             <span aria-hidden="true">← </span>
             {t('back')}
@@ -268,7 +268,7 @@ export function VegaScreen() {
                 <button
                   type="button"
                   onClick={() => ask(suggestion)}
-                  className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
+                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
                 >
                   {suggestion}
                 </button>

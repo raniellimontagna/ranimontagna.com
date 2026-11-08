@@ -81,4 +81,13 @@ describe('RepoList', () => {
     fireEvent.click(screen.getByRole('button', { name: 'all' }))
     expect(within(list).getAllByRole('listitem')).toHaveLength(3)
   })
+
+  it('gives the language filters 44 px tap targets on phones', () => {
+    render(
+      <RepoList repos={repos} languages={['Svelte', 'TypeScript']} labels={labels} locale="pt" />,
+    )
+    for (const name of ['all', 'Svelte']) {
+      expect(screen.getByRole('button', { name }).className).toContain('min-h-11')
+    }
+  })
 })

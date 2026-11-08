@@ -75,6 +75,15 @@ describe('ActionLink', () => {
     expect(link).toHaveAttribute('href', '/blog')
     expect(link).not.toHaveAttribute('target')
   })
+
+  it('gives the quiet variant a 44 px tap target without changing the text', () => {
+    render(
+      <ActionLink href="/cv.pdf" variant="quiet" download>
+        Currículo
+      </ActionLink>,
+    )
+    expect(screen.getByRole('link', { name: 'Currículo' }).className).toContain('min-h-11')
+  })
 })
 
 describe('PhotoReveal', () => {

@@ -22,7 +22,7 @@ export function CodeBlock({ children, ...props }: HTMLAttributes<HTMLPreElement>
           setCopied(true)
           setTimeout(() => setCopied(false), 2000)
         }}
-        className="absolute top-3 right-3 rounded-full border border-line bg-background px-3 py-1 font-mono text-[11px] text-muted opacity-100 transition-opacity hover:text-foreground sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100"
+        className="absolute top-2 right-2 inline-flex items-center justify-center rounded-full border border-line bg-background px-3 py-1 font-mono text-xs text-muted max-sm:min-h-11 max-sm:min-w-11 opacity-100 transition-opacity hover:text-foreground sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100"
       >
         {copied ? '✓ copied' : 'copy'}
       </button>

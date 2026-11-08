@@ -18,6 +18,11 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('link', { name: 'Ranielli Montagna' })).toHaveAttribute('href', '/')
   })
 
+  it('gives the name link a 44 px tap target', async () => {
+    render(await SiteHeader())
+    expect(screen.getByRole('link', { name: 'Ranielli Montagna' }).className).toContain('min-h-11')
+  })
+
   it('shows the RM mark next to the name', async () => {
     render(await SiteHeader())
     const link = screen.getByRole('link', { name: 'Ranielli Montagna' })

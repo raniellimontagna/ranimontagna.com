@@ -77,7 +77,7 @@ export async function Trajectory() {
                         <BrandIcon key={icon} name={icon} className="h-5 w-5" />
                       ))}
                     </span>
-                    <span className="font-mono text-[11px] tracking-[0.14em] text-white/70">
+                    <span className="font-mono text-xs tracking-[0.14em] text-white/70">
                       {String(index + 1).padStart(2, '0')} / {total}
                     </span>
                   </div>

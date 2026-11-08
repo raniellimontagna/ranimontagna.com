@@ -9,7 +9,7 @@ type LanguageFilterProps = {
 
 export function LanguageFilter({ languages, value, allLabel, onChange }: LanguageFilterProps) {
   const option =
-    'rounded-full border px-4 py-1.5 font-mono text-xs transition-colors border-line text-muted hover:text-foreground aria-pressed:border-foreground aria-pressed:text-foreground'
+    'inline-flex items-center rounded-full border px-4 py-1.5 font-mono text-xs max-lg:min-h-11 transition-colors border-line text-muted hover:text-foreground aria-pressed:border-foreground aria-pressed:text-foreground'
 
   return (
     <div className="flex flex-wrap gap-2">

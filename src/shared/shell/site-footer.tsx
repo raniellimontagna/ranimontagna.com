@@ -15,10 +15,13 @@ export async function SiteFooter() {
           © {year} Ranielli Montagna · {t('footer.madeWith')}
         </p>
         <div className="flex flex-wrap items-center gap-6">
-          <Link href="/blog" className="hover:text-foreground">
+          <Link href="/blog" className="inline-flex min-h-11 items-center hover:text-foreground">
             {t('footer.blog')}
           </Link>
-          <Link href="/projects" className="hover:text-foreground">
+          <Link
+            href="/projects"
+            className="inline-flex min-h-11 items-center hover:text-foreground"
+          >
             {t('footer.projects')}
           </Link>
           <span className="flex items-center gap-1 opacity-60" title={t('footer.retro')}>

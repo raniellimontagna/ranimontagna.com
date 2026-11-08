@@ -51,7 +51,7 @@ export function VegaComposer({
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) submit(event)
         }}
-        className="max-h-40 min-h-[36px] flex-1 resize-none bg-transparent py-2 text-[15px] text-foreground outline-none placeholder:text-muted focus-visible:outline-none"
+        className="interactive-field-input max-h-40 min-h-[36px] flex-1 resize-none bg-transparent py-2 text-base text-foreground placeholder:text-muted"
       />
       <button
         type="submit"

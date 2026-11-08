@@ -65,6 +65,15 @@ describe('CodeBlock', () => {
     })
     expect(writeText).toHaveBeenCalledWith('pnpm test')
   })
+
+  it('gives the copy button a 44 px tap target on phones', () => {
+    render(
+      <CodeBlock>
+        <code>pnpm test</code>
+      </CodeBlock>,
+    )
+    expect(screen.getByRole('button', { name: /copy/i }).className).toContain('min-h-11')
+  })
 })
 
 describe('ArticleImage', () => {

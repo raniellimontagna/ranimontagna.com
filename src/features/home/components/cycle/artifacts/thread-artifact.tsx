@@ -13,13 +13,13 @@ export function ThreadArtifact({ caption, messages }: CycleCopy['thread']) {
               : 'self-start border-line bg-surface-strong text-foreground'
           }`}
         >
-          <small className="mb-1 block font-mono text-[11px] tracking-wide opacity-70">
+          <small className="mb-1 block font-mono text-xs tracking-wide opacity-70">
             {message.from}
           </small>
           {message.text}
         </p>
       ))}
-      <figcaption className="font-mono text-[11px] text-muted">{caption}</figcaption>
+      <figcaption className="font-mono text-xs text-muted">{caption}</figcaption>
     </figure>
   )
 }

@@ -3,7 +3,7 @@ import type { CycleCopy } from '../cycle.data'
 export function SpecArtifact({ title, items }: CycleCopy['spec']) {
   return (
     <div className="rounded-2xl border border-line bg-surface-strong p-6 text-foreground">
-      <p className="font-mono text-[11px] tracking-[0.2em] text-muted uppercase">spec.md</p>
+      <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">spec.md</p>
       <h4 className="mt-2 text-xl font-semibold tracking-tight">{title}</h4>
       <ul className="mt-5 flex flex-col gap-3">
         {items.map((item) => (

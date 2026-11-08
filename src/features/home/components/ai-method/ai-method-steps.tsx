@@ -59,7 +59,7 @@ export function AiMethodSteps({ steps, label }: { steps: Step[]; label: string }
           data-lit="true"
           className="group/step flex min-h-[150px] flex-col gap-2 rounded-[2px] border border-line bg-surface p-4 transition-[border-color,transform] duration-500 data-[lit=true]:border-accent motion-safe:translate-y-2 motion-safe:data-[lit=true]:translate-y-0"
         >
-          <span className="font-mono text-[11px] text-muted transition-colors duration-500 group-data-[lit=true]/step:text-accent">
+          <span className="font-mono text-xs text-muted transition-colors duration-500 group-data-[lit=true]/step:text-accent">
             {String(index + 1).padStart(2, '0')}
           </span>
           <h4 className="text-base font-semibold text-foreground">{step.title}</h4>

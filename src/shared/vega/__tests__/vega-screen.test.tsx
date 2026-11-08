@@ -88,6 +88,24 @@ describe('VegaScreen', () => {
     expect(screen.getByRole('textbox')).toHaveFocus()
   })
 
+  it('keeps the question field at 16 px (no iOS zoom) without the inner focus ring', () => {
+    render(<VegaScreen />)
+    openScreen()
+    const field = screen.getByRole('textbox')
+    expect(field.className).toContain('text-base')
+    expect(field.className).toContain('interactive-field-input')
+  })
+
+  it('gives the suggestions and the back button 44 px tap targets', () => {
+    render(<VegaScreen />)
+    openScreen()
+    const targets = [
+      screen.getByRole('button', { name: 'Voltar ao site' }),
+      ...screen.getAllByRole('button', { name: /O que ele faz com IA\?|Me mostra o Grimory/ }),
+    ]
+    for (const target of targets) expect(target.className).toContain('min-h-11')
+  })
+
   it('Escape closes it and returns focus to the launcher', () => {
     render(<VegaScreen />)
     const launcher = openScreen()
@@ -302,7 +320,8 @@ describe('VegaScreen', () => {
     render(<VegaScreen />)
     openScreen()
     const field = screen.getByRole('textbox')
-    expect(field.className).toContain('focus-visible:outline-none')
+    // The global :focus-visible rule is unlayered and beats Tailwind's focus-visible:outline-none.
+    expect(field.className).toContain('interactive-field-input')
     expect(field.closest('form')?.className).toContain('focus-within:border-accent')
   })
 })
