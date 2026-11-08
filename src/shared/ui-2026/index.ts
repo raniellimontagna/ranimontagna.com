@@ -6,5 +6,8 @@ export { WordReveal } from './word-reveal'
 
 export const SECTION_X = 'px-4 sm:px-8 lg:px-12'
 export { AttoLogo } from './atto-logo'
+export { BrandIcon } from './brand-icon'
+export { BRAND_ICON_NAMES, type BrandIconName, techIcon } from './brand-icons'
 export { StatusDocument } from './status-document'
 export { StatusView } from './status-view'
+export { TechChip } from './tech-chip'
