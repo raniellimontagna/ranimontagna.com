@@ -4,31 +4,17 @@ Origem de cada imagem em `public/redesign/`. Regra do projeto: IA só gera ambie
 
 ## Cenas de ambiente (geradas)
 
-Modelo FLUX 3 Image Klein INT8 no ComfyUI local, semente `20261107`, 8 passos, euler/simple, cfg 1.0, 1536×1024. Geradas em 07/11/2026 e convertidas para webp (1600 px, qualidade 76).
+Geradas em 07/11/2026 pelo **Codex CLI 0.167.0**, com a ferramenta `image_generation` (OpenAI), uma imagem por cena, em 1536×1024. Convertidas para webp de 1600 px, qualidade 76, com `cwebp`. Substituíram as versões do FLUX local, que o Ranielli achou de baixa qualidade (rodada 2 do redesign).
 
-Estilo comum a todas:
+Os prompts ficam em `docs/redesign/prompts-codex/`: cada cena usa `style.txt` seguido do arquivo da cena.
 
-> Cinematic documentary photograph, shot on a 35mm full-frame camera with a fast prime lens, natural low light, deep blacks, subtle film grain, muted palette of charcoal, warm tungsten and a single acid lime-green accent light.
-
-### `scenes/discovery.webp`
-
-> A wall in a dim studio covered with white index cards and torn paper notes pinned in loose clusters, connected by taut red and lime threads, some cards marked with quick abstract pencil strokes and arrows. A single warm work light from frame-top rakes across the wall, casting long soft shadows from the pins. Seen slightly from the side, the wall recedes into darkness at frame-right.
-
-### `scenes/night-setup.webp`
-
-> A quiet home office at night in a small town in the mountains of southern Brazil. A dark wooden desk holds an ultrawide monitor filled with dense columns of code glowing white and lime green, a compact mechanical keyboard and a ceramic mug. A warm desk lamp at frame-left lights the edge of the desk. Through a large window at frame-right, low fog drifts over dark green hills under a deep blue night sky. The chair is empty, the room feels lived-in and calm.
-
-### `scenes/keyboard.webp`
-
-> Extreme close-up from a low side angle of a person's hands typing on a dark matte mechanical keyboard. The keys are lit softly from above by the cool glow of a screen out of frame, and a thin lime-green reflection of terminal text lines runs across the keycaps. Shallow depth of field, the far keys melt into black.
-
-### `scenes/fog-window.webp`
-
-> Early morning inside a farmhouse kitchen in the Serra Gaúcha. An open laptop sits on a worn wooden table near a tall window, its screen showing a dark interface with a single lime-green highlight. Outside the window, thick white fog fills a valley of green hills and araucaria trees, soft daylight spilling in and wrapping the edge of the table.
-
-### `scenes/server.webp`
-
-> Macro photograph of the back of a small home server rack in a dark room, rows of thin network cables in black and grey, tiny lime-green and amber status LEDs blinking in a long line, the closest LEDs blooming into soft round bokeh at frame-left.
+| Arquivo | Prompt | Onde aparece |
+|---|---|---|
+| `scenes/discovery.webp` | `discovery.txt` (parede de fichas com fios) | ciclo, etapa "dor" |
+| `scenes/fog-window.webp` | `fog-window.txt` (cozinha na serra, neblina e araucárias) | ciclo, etapa "solução" |
+| `scenes/night-setup.webp` | `night-setup.txt` (escritório à noite) | ciclo, etapa "produto" |
+| `scenes/keyboard.webp` | `keyboard.txt` (mãos no teclado) | ciclo, etapa "código" |
+| `scenes/server.webp` | `server.txt` (traseira do rack) | capa do Argus no "No ar" |
 
 ## Capturas reais
 
