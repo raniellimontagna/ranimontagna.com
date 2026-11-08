@@ -122,3 +122,13 @@ describe('numbers and links guidance', () => {
     expect(buildCorrectionSystemPrompt('base', 'unsafe-link')).toMatch(/pages of this site/i)
   })
 })
+
+describe('dimension notation is not a metric', () => {
+  const pt = CHAT_PROFILE_BY_LOCALE.pt
+  it.each([
+    'Funciona para 3x3, 4x4, 2x2 e os outros eventos oficiais.',
+    'Ele cobre todos os 13 eventos oficiais da WCA, do 2x2 ao 7x7.',
+  ])('accepts: %s', (answer) => {
+    expect(answerHasUnsupportedMetric(answer, pt)).toBe(false)
+  })
+})

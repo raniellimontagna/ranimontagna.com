@@ -269,6 +269,10 @@ const parseMetricNumberPhrase = (phrase: string): ParsedMetricNumber | null => {
 const metricUnitTokenSource =
   'anos?|years?|lojas?|stores?|tiendas?|estoquistas?|stock\\s+clerks?|almacenistas?|clientes?|clients?|customers?|consumidores?|consumers?|usuarios?|users?|projetos?|projects?|proyectos?|equipes?|teams?|equipos?|pessoas?|people|personas?|developers?|desenvolvedores?|produtos?|products?|productos?|apps?|aplicacoes?|applications?|aplicaciones?|integracoes?|integrations?|integraciones?|apis?|empresas?|companies|companias?|downloads?|paises?|countries|entregas?|deliveries?|requisicoes?|requests?|solicitudes?|registros?|records?|meses?|months?|dias?|days?|horas?|hours?|commits?|percent|por\\s+cento|por\\s+ciento'
 
+// "3x3", "do 2x2 ao 7x7", "1920x1080" name sizes, not quantities.
+const maskDimensionNotation = (text: string): string =>
+  text.replace(/\b\d+(?:\s?[x×]\s?\d+)+\b/gi, 'dimensao')
+
 const maskOrderedListMarkers = (text: string): string => {
   let expectedMarker = 1
   return text
@@ -342,7 +346,9 @@ const expandRatioUnits = (text: string): string =>
   )
 
 const maskNonMetricNumbers = (text: string, profile: ChatProfile): string =>
-  expandRatioUnits(maskCanonicalTechnologyVersions(maskOrderedListMarkers(text), profile))
+  expandRatioUnits(
+    maskCanonicalTechnologyVersions(maskOrderedListMarkers(maskDimensionNotation(text)), profile),
+  )
 
 const metricNumberAtomSource = [
   ...Object.keys(metricNumberValues),
