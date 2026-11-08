@@ -22,7 +22,9 @@ describe('mobile motion foundations', () => {
     const rules = css.slice(start, css.indexOf('/* end follow header */'))
     expect(rules).toContain('@media (max-width: 1023px)')
     expect(rules).toContain('translate: 0 4rem')
-    expect(rules).toContain(":root:has([data-site-header][data-hidden='true']) [data-follow-header]")
+    expect(rules).toContain(
+      ":root:has([data-site-header][data-hidden='true']) [data-follow-header]",
+    )
     expect(rules).toMatch(/prefers-reduced-motion: reduce\)[\s\S]*transition: none/)
   })
 })

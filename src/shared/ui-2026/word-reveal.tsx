@@ -20,7 +20,6 @@ export function WordReveal({ text, as: Tag = 'h2', id, className }: WordRevealPr
         // Below lg each word sits in its own mask and rises out of it (Reveal);
         // the padding keeps descenders inside the mask, the margin cancels it.
         <span
-          // biome-ignore lint/suspicious/noArrayIndexKey: words repeat; order is the identity.
           key={index}
           aria-hidden="true"
           className="inline-block max-lg:-mb-[0.1em] max-lg:overflow-hidden max-lg:pb-[0.1em] max-lg:align-bottom"

@@ -72,7 +72,12 @@ export function buildCycleStack({ gsap, ScrollTrigger }: ScrollMotion, root: HTM
           {
             scale: 1,
             ease: 'none',
-            scrollTrigger: { trigger: root, start: at(index, 'bottom'), end: at(index, 'top'), scrub: true },
+            scrollTrigger: {
+              trigger: root,
+              start: at(index, 'bottom'),
+              end: at(index, 'top'),
+              scrub: true,
+            },
           },
         ),
       )

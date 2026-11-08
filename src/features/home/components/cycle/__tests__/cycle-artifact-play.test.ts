@@ -47,7 +47,9 @@ describe('cycle artifacts on phones', () => {
     prepareArtifact('pain', thread, gsap)
     expect(gsap.set).toHaveBeenCalledWith(messages, { y: 10, opacity: 0 })
     playArtifact('pain', thread, gsap)
-    const delays = vi.mocked(gsap.to).mock.calls.map(([, vars]) => (vars as { delay: number }).delay)
+    const delays = vi
+      .mocked(gsap.to)
+      .mock.calls.map(([, vars]) => (vars as { delay: number }).delay)
     expect(delays).toEqual([0, 0.35, 0.9])
   })
 

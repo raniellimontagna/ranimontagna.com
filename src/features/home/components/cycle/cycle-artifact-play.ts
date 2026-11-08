@@ -70,7 +70,14 @@ export function playArtifact(kind: ChapterId, art: HTMLElement, gsap: Gsap): voi
       const [screen, phone] = frames(art)
       if (screen) gsap.to(screen, { scale: 1, opacity: 1, duration: 0.7, ease: 'expo.out' })
       if (phone)
-        gsap.to(phone, { y: 0, rotation: 0, opacity: 1, duration: 0.7, ease: 'expo.out', delay: 0.15 })
+        gsap.to(phone, {
+          y: 0,
+          rotation: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'expo.out',
+          delay: 0.15,
+        })
       break
     }
     case 'code':

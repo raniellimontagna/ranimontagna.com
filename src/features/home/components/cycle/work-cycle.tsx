@@ -153,7 +153,10 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
         <div className="absolute inset-x-4 top-2 flex gap-2 sm:inset-x-8">
           {CYCLE_CHAPTERS.map((chapter) => (
             <span key={chapter.id} className="h-0.5 flex-1 overflow-hidden rounded-full bg-line">
-              <span data-stack-bar className="block h-full w-full origin-left scale-x-0 bg-accent" />
+              <span
+                data-stack-bar
+                className="block h-full w-full origin-left scale-x-0 bg-accent"
+              />
             </span>
           ))}
         </div>
@@ -187,10 +190,7 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
                 {artifactFor(chapter.id, copy)}
               </div>
 
-              <div
-                data-scene-copy
-                className="order-2 max-w-xl self-end lg:order-1 lg:self-center"
-              >
+              <div data-scene-copy className="order-2 max-w-xl self-end lg:order-1 lg:self-center">
                 <p className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
                   {text.kicker}
                 </p>
