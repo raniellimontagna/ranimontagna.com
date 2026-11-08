@@ -17,6 +17,36 @@ describe('StackMarquee', () => {
     expect(screen.getAllByText('stackProduct')).toHaveLength(2)
   })
 
+  it('lists the round-2 stack in order with icons', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    renderMarquee()
+    const first = document.querySelector('ul:not([data-loop-copy])') as HTMLElement
+    const labels = [...first.querySelectorAll('li')].map((li) =>
+      li.textContent?.replace('✦', '').trim(),
+    )
+    expect(labels).toEqual([
+      'React',
+      'Next.js',
+      'React Native',
+      'Node.js',
+      'TypeScript',
+      'Fastify',
+      'PostgreSQL',
+      'AWS',
+      'Pulumi',
+      'Cloudflare',
+      'Svelte',
+      'Claude',
+      'Codex',
+      'Gemini',
+      'DeepSeek',
+      'MCP',
+      'stackAi',
+      'stackProduct',
+    ])
+    expect(first.querySelectorAll('[data-brand-icon]')).toHaveLength(16)
+  })
+
   it('animates when motion is allowed', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
     renderMarquee()

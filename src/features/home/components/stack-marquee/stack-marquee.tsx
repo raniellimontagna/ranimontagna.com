@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { prefersReducedMotion, useScrollVelocity } from '@/shared/components/motion'
+import { BrandIcon, techIcon } from '@/shared/ui-2026'
 
 type StackMarqueeProps = {
   aiLabel: string
@@ -13,6 +14,26 @@ const MAX_BOOST = 30
 const VELOCITY_GAIN = 0.8
 const BOOST_DECAY = 0.92
 
+/** The fixed stack labels; the AI and product labels come translated as props. */
+export const STACK_ITEMS = [
+  'React',
+  'Next.js',
+  'React Native',
+  'Node.js',
+  'TypeScript',
+  'Fastify',
+  'PostgreSQL',
+  'AWS',
+  'Pulumi',
+  'Cloudflare',
+  'Svelte',
+  'Claude',
+  'Codex',
+  'Gemini',
+  'DeepSeek',
+  'MCP',
+] as const
+
 function StackList({ items, loopCopy }: { items: string[]; loopCopy?: boolean }) {
   return (
     <ul
@@ -20,17 +41,23 @@ function StackList({ items, loopCopy }: { items: string[]; loopCopy?: boolean })
       aria-hidden={loopCopy ? 'true' : undefined}
       className="flex shrink-0 items-center"
     >
-      {items.map((item) => (
-        <li
-          key={item}
-          className="flex items-center gap-8 pr-8 font-display text-2xl font-semibold tracking-tight whitespace-nowrap sm:text-4xl"
-        >
-          {item}
-          <span aria-hidden="true" className="text-base opacity-60">
-            ✦
-          </span>
-        </li>
-      ))}
+      {items.map((item) => {
+        const icon = techIcon(item)
+        return (
+          <li
+            key={item}
+            className="flex items-center gap-8 pr-8 font-display text-2xl font-semibold tracking-tight whitespace-nowrap sm:text-4xl"
+          >
+            <span className="flex items-center gap-3">
+              {icon ? <BrandIcon name={icon} className="h-[0.8em] w-[0.8em]" /> : null}
+              {item}
+            </span>
+            <span aria-hidden="true" className="text-base opacity-60">
+              ✦
+            </span>
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -42,18 +69,7 @@ export function StackMarquee({ aiLabel, productLabel }: StackMarqueeProps) {
   const velocity = useScrollVelocity()
   const [animated, setAnimated] = useState(false)
 
-  const items = [
-    'React',
-    'Next.js',
-    'React Native',
-    'Node',
-    'TypeScript',
-    aiLabel,
-    'MCP',
-    'Cloudflare',
-    'Svelte',
-    productLabel,
-  ]
+  const items = [...STACK_ITEMS, aiLabel, productLabel]
 
   useEffect(() => {
     const root = rootRef.current
