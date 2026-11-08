@@ -1,4 +1,0 @@
-LEFT_SURFACE = a brushed black rack rail and blank panel falling into shadow and soft blur
-FOCUS = one row of switch ports and their status LEDs
-[SCENE] Close-up inside a small homelab rack in a dim closet: a network switch and two compact servers, neatly bundled gray ethernet patch cables with velcro ties, rows of tiny status LEDs glowing acid-lime, the farther ones melting into round bokeh. Matte black metal, dusty perforated vents, slightly scratched rack screws, blank label strips, no brand logos.
-[CAMERA] 100mm macro lens, f/2.8, oblique angle along the rack face.

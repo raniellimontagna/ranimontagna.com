@@ -4,7 +4,7 @@ Origem de cada imagem em `public/redesign/`. Regra do projeto: IA só gera ambie
 
 ## Cenas de ambiente (geradas)
 
-Versão 2, de 08/11/2026. As imagens foram geradas pelo **Codex CLI 0.167.0** (`image_generation`, OpenAI), uma por cena, em 1536×1024, seguindo uma pesquisa de direção de arte para foto atrás de texto:
+Versão 2, de 08/11/2026. As quatro imagens foram geradas pelo **Codex CLI 0.167.0** (`image_generation`, OpenAI), uma por cena, em 1536×1024, seguindo uma pesquisa de direção de arte para foto atrás de texto:
 - metade esquerda vazia e escura para o texto;
 - uma única luz vinda da direita;
 - profundidade de campo rasa;
@@ -23,7 +23,6 @@ No site, cada cena fica debaixo de um escurecimento em degradê (forte atrás do
 | `scenes/solution-codex.webp` | `solution.txt` (janela na serra, araucárias, chimarrão) | ciclo, etapa "solução" |
 | `scenes/product-codex.webp` | `product.txt` (monitor ultrawide à noite) | ciclo, etapa "produto" |
 | `scenes/code-codex.webp` | `code.txt` (mão no teclado, Enter lima) | ciclo, etapa "código" |
-| `scenes/homelab-codex.webp` | `homelab.txt` (rack com LEDs) | capa do Argus no "No ar" |
 
 ## Projetos em moldura (capturas reais, 08/11/2026)
 
@@ -36,8 +35,11 @@ Telas reais montadas em código: navegador e celular em leve perspectiva, sobre 
 | `atto/quadralize.webp` | quadralize.com.br, capturado em 08/11/2026 (desktop e celular, 2×) |
 | `atto/fronteira.webp` | fronteirasuldrones.com, capturado em 08/11/2026 |
 | `atto/nan.webp` | nansolutions.com.br, capturado em 08/11/2026 |
+| `atto/tala.webp` | telas de QA do app (`grupo-tala/tala-multiplicadores/docs/qa/tala-brand`: painel admin escuro e cadastro de multiplicador no celular). Os dados são fictícios dos fixtures de teste. O nome da equipe e o e-mail da conta, no card de usuário, foram cobertos com a cor da barra lateral |
+| `products/frame-argus.webp` | argus.raniellimontagna.com.br/docs (documentação pública da API), capturado em 08/11/2026 |
+| `products/frame-atto-read.webp` | capturas da loja do app (`atto-read/loja/capturas/brutas`: biblioteca, foco-noite, progresso), com o conteúdo de demonstração do próprio app |
 
-A TALA não tem site público, então fica sem imagem até chegar uma captura real. As antigas `public/projects/atto-*.webp` (aparelhos com tela vazia) saíram.
+As antigas `public/projects/atto-*.webp` (aparelhos com tela vazia) saíram.
 
 ## Capturas reais
 

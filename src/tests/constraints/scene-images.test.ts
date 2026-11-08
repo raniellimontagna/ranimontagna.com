@@ -26,7 +26,7 @@ const referenced = [
 
 describe('site images', () => {
   it('scene backgrounds reference the current Codex renders', () => {
-    expect(scenes.length).toBeGreaterThanOrEqual(5)
+    expect(scenes.length).toBeGreaterThanOrEqual(4)
     for (const src of scenes) expect(src).toMatch(/^\/redesign\/scenes\/[a-z-]+-codex\.webp$/)
     expect(scenes).toContain('/redesign/scenes/pain-codex.webp')
   })
@@ -40,5 +40,7 @@ describe('site images', () => {
     const cover = (slug: string) => LIVE_WORK.find((item) => item.slug === slug)?.image?.src
     expect(cover('klick')).toBe('/redesign/products/frame-klick.webp')
     expect(cover('grimory')).toBe('/redesign/products/frame-grimory.webp')
+    expect(cover('argus')).toBe('/redesign/products/frame-argus.webp')
+    expect(cover('atto-read')).toBe('/redesign/products/frame-atto-read.webp')
   })
 })

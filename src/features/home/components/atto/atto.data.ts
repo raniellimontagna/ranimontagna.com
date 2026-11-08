@@ -11,7 +11,7 @@ export function attoWhatsappHref(message: string): string {
 
 export type AttoCaseId = 'fronteira-sul-drones' | 'tala' | 'quadralize' | 'nan'
 
-/** `image` is a real capture of the live site, framed; null when there is no public site. */
+/** `image` is a real capture of the product, framed (TALA's comes from the app's QA screens). */
 export const ATTO_CASES: readonly {
   id: AttoCaseId
   name: string
@@ -24,7 +24,7 @@ export const ATTO_CASES: readonly {
     url: 'https://fronteirasuldrones.com',
     image: '/redesign/atto/fronteira.webp',
   },
-  { id: 'tala', name: 'TALA Drone Partners', url: null, image: null },
+  { id: 'tala', name: 'TALA Drone Partners', url: null, image: '/redesign/atto/tala.webp' },
   {
     id: 'quadralize',
     name: 'Quadralize',

@@ -220,13 +220,13 @@
         "name": "Argus",
         "line": "A personal data hub: news, quotes and lookups served through an API, MCP, Discord and a CLI.",
         "meta": "TypeScript · private repository",
-        "alt": "Ambient image: a server rack with lit LEDs (not a product capture)"
+        "alt": "The Argus API documentation on desktop and phone"
       },
       "atto-read": {
         "name": "Atto Read",
         "line": "Atto's personal reader, built with React Native and Expo.",
         "meta": "mobile app · private repository",
-        "alt": ""
+        "alt": "Atto Read on phones: library, night focus mode and progress"
       }
     }
   },

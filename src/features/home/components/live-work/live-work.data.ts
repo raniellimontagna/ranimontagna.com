@@ -38,9 +38,14 @@ export const LIVE_WORK: readonly LiveWorkItem[] = [
   },
   {
     slug: 'argus',
-    image: { src: '/redesign/scenes/homelab-codex.webp' },
+    image: { src: '/redesign/products/frame-argus.webp' },
     href: null,
     external: false,
   },
-  { slug: 'atto-read', image: null, href: null, external: false },
+  {
+    slug: 'atto-read',
+    image: { src: '/redesign/products/frame-atto-read.webp' },
+    href: null,
+    external: false,
+  },
 ]

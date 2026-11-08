@@ -54,13 +54,12 @@ describe('AttoSection', () => {
     ])
   })
 
-  it('shows the real site capture inside each case that has one', async () => {
+  it('shows a real capture inside every case', async () => {
     render(await AttoSection())
     for (const item of ATTO_CASES) {
       const panel = document.querySelector(`[data-atto-case="${item.id}"]`) as HTMLElement
       const img = panel.querySelector('img')
-      if (item.id === 'tala') expect(img).toBeNull()
-      else expect(img?.getAttribute('src')).toContain(encodeURIComponent(`/redesign/atto/`))
+      expect(img?.getAttribute('src')).toContain(encodeURIComponent(`/redesign/atto/`))
     }
   })
 })
