@@ -48,7 +48,7 @@ export function RepoList({ repos, languages, labels, locale }: RepoListProps) {
                 href={repo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="self-start text-xl font-semibold tracking-tight text-foreground hover:text-accent sm:text-2xl"
+                className="inline-flex min-h-11 items-center self-start text-xl font-semibold tracking-tight text-foreground hover:text-accent sm:text-2xl"
               >
                 {repo.name}
               </a>
@@ -60,7 +60,7 @@ export function RepoList({ repos, languages, labels, locale }: RepoListProps) {
                   href={repo.homepage}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="self-start font-mono text-xs text-muted underline decoration-line underline-offset-4 hover:text-foreground"
+                  className="inline-flex min-h-11 items-center self-start font-mono text-xs text-muted underline decoration-line underline-offset-4 hover:text-foreground"
                 >
                   {labels.site} · {repo.homepage.replace(/^https?:\/\//, '')}
                 </a>

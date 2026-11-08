@@ -82,6 +82,13 @@ describe('RepoList', () => {
     expect(within(list).getAllByRole('listitem')).toHaveLength(3)
   })
 
+  it('gives the repository and site links 44 px tap targets', () => {
+    const withSite = [{ ...repo(9, 'grimory', 'TypeScript'), homepage: 'https://grimory.com.br' }]
+    render(<RepoList repos={withSite} languages={['TypeScript']} labels={labels} locale="pt" />)
+    expect(screen.getByRole('link', { name: 'grimory' }).className).toContain('min-h-11')
+    expect(screen.getByRole('link', { name: /grimory\.com\.br/ }).className).toContain('min-h-11')
+  })
+
   it('gives the language filters 44 px tap targets on phones', () => {
     render(
       <RepoList repos={repos} languages={['Svelte', 'TypeScript']} labels={labels} locale="pt" />,
