@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { render, screen } from '@/tests/test-utils'
-import CasePage, { generateStaticParams } from '../page'
+import CasePage, { generateMetadata, generateStaticParams } from '../page'
 
 vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => {
@@ -28,7 +28,7 @@ describe('case page', () => {
     expect(notFound).toHaveBeenCalled()
   })
 
-  it('renders every chapter heading and the gallery alts server-side', async () => {
+  it('renders every chapter heading and each tour step with both of its screens, server-side', async () => {
     render(await CasePage({ params: Promise.resolve({ locale: 'pt', slug: 'klick' }) }))
     expect(screen.getByRole('heading', { level: 1, name: 'klick.name' })).toBeInTheDocument()
     for (const chapter of ['pain', 'decisions', 'product', 'build']) {
@@ -36,11 +36,44 @@ describe('case page', () => {
         screen.getByRole('heading', { level: 2, name: `klick.${chapter}.title` }),
       ).toBeInTheDocument()
     }
-    expect(screen.getAllByAltText(/klick\.gallery\./).length).toBeGreaterThanOrEqual(3)
+    const named = (text: string) => [
+      ...screen.queryAllByAltText(text),
+      ...screen.queryAllByLabelText(text),
+    ]
+    for (const step of ['evolucao', 'trilha', 'centro']) {
+      expect(
+        screen.getByRole('heading', { level: 3, name: `klick.tour.${step}.title` }),
+      ).toBeInTheDocument()
+      expect(named(`klick.tour.${step}.deskAlt`).length).toBeGreaterThan(0)
+      expect(named(`klick.tour.${step}.phoneAlt`).length).toBeGreaterThan(0)
+    }
+    expect(named('klick.heroAlt').length).toBeGreaterThan(0)
+    expect(named('klick.heroPhoneAlt').length).toBeGreaterThan(0)
     expect(screen.getByRole('link', { name: /common\.next/ })).toHaveAttribute(
       'href',
       '/projects/grimory',
     )
+  })
+
+  it('quotes the agent-assisted commits from the data as one sentence', async () => {
+    render(await CasePage({ params: Promise.resolve({ locale: 'pt', slug: 'klick' }) }))
+    expect(screen.getByText('428 / 429 klick.build.statLabel')).toBeInTheDocument()
+  })
+
+  it('shares the case with its own 1200×630 card', async () => {
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ locale: 'en', slug: 'grimory' }),
+    })
+    expect(metadata.openGraph?.images).toEqual([
+      {
+        url: 'https://ranimontagna.com/redesign/cases/v1/grimory-og.jpg',
+        width: 1200,
+        height: 630,
+      },
+    ])
+    expect(metadata.twitter?.images).toEqual([
+      'https://ranimontagna.com/redesign/cases/v1/grimory-og.jpg',
+    ])
   })
 
   it('links the live product and hides the repository link when it is private', async () => {

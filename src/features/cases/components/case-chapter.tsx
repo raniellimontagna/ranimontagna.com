@@ -1,12 +1,22 @@
 import type { ReactNode } from 'react'
 import { Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
 
-type CaseChapterProps = { index: number; kicker: string; title: string; children: ReactNode }
+type CaseChapterProps = {
+  index: number
+  kicker: string
+  title: string
+  children: ReactNode
+  /** Seconds between pieces as they rise in; a long sentence split into words wants less. */
+  stagger?: number
+}
 
-export function CaseChapter({ index, kicker, title, children }: CaseChapterProps) {
+export function CaseChapter({ index, kicker, title, children, stagger }: CaseChapterProps) {
   return (
     <section className={`${SECTION_X} border-t border-line py-20 sm:py-28`}>
-      <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+      <Reveal
+        stagger={stagger}
+        className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20"
+      >
         <div className="flex flex-col gap-4">
           <p
             data-reveal

@@ -346,12 +346,13 @@
       "product": "el producto",
       "build": "cómo se hizo",
       "stack": "Tecnologías",
-      "next": "siguiente caso"
+      "next": "siguiente caso",
+      "tour": "Pantallas del producto"
     },
     "klick": {
       "name": "Klick",
       "tagline": "Timer de speedcubing offline-first para los 13 eventos de la WCA.",
-      "heroAlt": "Timer de Klick en la computadora, con la mezcla y los promedios de la sesión",
+      "heroAlt": "Timer de Klick en la computadora, de un solve armado al tiempo final",
       "pain": {
         "title": "El historial que desaparecía.",
         "body": "En la investigación previa a Klick v2, el relato que más se repetía era el de quienes habían perdido entre meses y tres años de tiempos: datos del navegador borrados, un cambio de celular, una app que no los guardaba bien.",
@@ -370,21 +371,37 @@
         "title": "En línea, en la computadora y en el celular.",
         "body": "PWA instalable con estadísticas, metas, calendario de entrenamiento, una ruta de aprendizaje con cubo 3D y desafíos por enlace, sin necesidad de cuenta."
       },
-      "gallery": [
-        "Pestaña de estadísticas de Klick con récords, promedios, metas y el calendario de entrenamiento",
-        "Timer de Klick en el celular",
-        "Timer de Klick en la computadora marcando 0:10.81"
-      ],
+      "tour": {
+        "evolucao": {
+          "title": "Cada centésima se vuelve dato.",
+          "body": "Récords, promedios de 5 a 1000, la semana contra la anterior y metas que muestran cuánto falta.",
+          "deskAlt": "Pestaña Evolución de Klick en la computadora, con récords, promedios y semanas de entrenamiento",
+          "phoneAlt": "Pestaña Evolución de Klick en el celular"
+        },
+        "trilha": {
+          "title": "Aprender con el cubo en pantalla.",
+          "body": "Nueve etapas, de la cruz blanca al F2L con algoritmos. Un cubo 3D muestra cada movimiento, y el entrenamiento de casos queda fuera de las estadísticas.",
+          "deskAlt": "Clase de F2L intuitivo con el cubo 3D haciendo U R U’ R’",
+          "phoneAlt": "Clase de la ruta en el celular, con el cubo 3D"
+        },
+        "centro": {
+          "title": "Un cubo que acompaña el entrenamiento.",
+          "body": "El Centro reacciona a cada solve y enciende hitos por temporada. Cerrar una temporada desbloquea un acabado nuevo.",
+          "deskAlt": "Pantalla del Centro con 7 de 9 hitos de la temporada y el acabado Hielo",
+          "phoneAlt": "El Centro en el celular, con los hitos de la temporada"
+        }
+      },
       "build": {
         "title": "Construido con agentes, revisado por mí.",
         "body": "Svelte 5 en el front, un Worker de Cloudflare en el servidor (un Durable Object por cuenta, D1 y R2) y pruebas con Vitest, Playwright y axe.",
-        "stat": "428 de 429 commits con coautoría de un agente de IA (hasta el 06/11/2026)."
-      }
+        "statLabel": "commits con coautoría de un agente de IA, hasta el 06/11/2026"
+      },
+      "heroPhoneAlt": "Timer de Klick en el celular, con un área para cada pulgar"
     },
     "grimory": {
       "name": "Grimory",
       "tagline": "Una mesa de D&D 5e en portugués, del personaje a la sesión.",
-      "heroAlt": "Compendio de Grimory abierto en la Espada Larga",
+      "heroAlt": "La Araña Gigante en el Compendio de Grimory, con su arte y su bloque de estadísticas",
       "pain": {
         "title": "La ficha en medio de la sesión.",
         "body": "Los jugadores abren la ficha en el celular en medio del juego: una mano, vistazos rápidos, números para tirar y reglas para consultar sin salir de la ficha. El máster dirige el combate desde su portátil.",
@@ -403,16 +420,32 @@
         "title": "Lo usa la mesa del grupo.",
         "body": "Una ficha que conoce las reglas, un compendio traducido con el homebrew de la mesa, un diario de sesión y la Chama-guia, el familiar que le pone cara a la IA."
       },
-      "gallery": [
-        "Inicio de Grimory con la próxima sesión de la mesa de ejemplo",
-        "Inventario del personaje en el celular, con la Chama-guia en la esquina",
-        "Compendio de Grimory abierto en la Espada Larga"
-      ],
+      "tour": {
+        "mesa": {
+          "title": "La mesa de un vistazo.",
+          "body": "La próxima sesión, las notas del máster y la vida, la CA y las condiciones del grupo, en vivo desde las fichas.",
+          "deskAlt": "Panel de la mesa La Torre de Sal con la próxima sesión y el grupo",
+          "phoneAlt": "Panel de la mesa en el celular, con el tiempo de juego y el grupo"
+        },
+        "combate": {
+          "title": "El máster en la laptop, el grupo en el celular.",
+          "body": "El máster arma el encuentro y pide la iniciativa. Cada jugador tira en su propia ficha, y el orden se acomoda solo.",
+          "deskAlt": "El orden de iniciativa acomodándose a medida que llegan las tiradas",
+          "phoneAlt": "Ataque con Maza tirado desde la ficha: 20 natural y daño crítico"
+        },
+        "regras": {
+          "title": "Las reglas dentro de la ficha.",
+          "body": "Cada conjuro muestra la fuente y la versión de 2014, y la Chama-guia resuelve dudas citando el SRD.",
+          "deskAlt": "Bola de Fuego en el Compendio, con la versión de 2014 y la pregunta a la Chama-guia",
+          "phoneAlt": "Pestaña de conjuros de la ficha en el celular, con la CD y los trucos"
+        }
+      },
       "build": {
         "title": "Construido con agentes, revisado por mí.",
         "body": "React y Vite en la app, Astro en la página pública y Workers de Cloudflare para la API de la mesa y para la IA (Claude por la API de Anthropic). Hoy es un prototipo, con beta cerrada en la nube.",
-        "stat": "2328 de 2495 commits con coautoría de un agente de IA (hasta el 07/11/2026)."
-      }
+        "statLabel": "commits con coautoría de un agente de IA, hasta el 07/11/2026"
+      },
+      "heroPhoneAlt": "La ficha de Ilda en el celular tras 8 de daño, ofreciendo la Resiliencia Enana"
     }
   },
   "projectsIndex": {

@@ -346,12 +346,13 @@
       "product": "o produto",
       "build": "como foi feito",
       "stack": "Tecnologias",
-      "next": "próximo case"
+      "next": "próximo case",
+      "tour": "Telas do produto"
     },
     "klick": {
       "name": "Klick",
       "tagline": "Timer de speedcubing offline-first para os 13 eventos da WCA.",
-      "heroAlt": "Timer do Klick no computador, com o embaralhamento e as médias da sessão",
+      "heroAlt": "Timer do Klick no computador, de um solve armado até o tempo final",
       "pain": {
         "title": "O histórico que sumia.",
         "body": "Na pesquisa antes do Klick v2, o relato que mais se repetia era o de quem perdeu de meses a três anos de tempos: dados do navegador limpos, celular trocado, app que não guardava direito.",
@@ -370,21 +371,37 @@
         "title": "No ar, no computador e no celular.",
         "body": "PWA instalável com estatísticas, metas, calendário de treino, uma trilha de aprendizado com cubo 3D e desafios por link, sem precisar de conta."
       },
-      "gallery": [
-        "Aba de estatísticas do Klick com recordes, médias, metas e o calendário de treino",
-        "Timer do Klick no celular",
-        "Timer do Klick no computador marcando 0:10.81"
-      ],
+      "tour": {
+        "evolucao": {
+          "title": "Cada décimo vira dado.",
+          "body": "Recordes, médias de 5 a 1000, a semana contra a anterior e metas que mostram quanto falta.",
+          "deskAlt": "Aba Evolução do Klick no computador, com recordes, médias e semanas de treino",
+          "phoneAlt": "Aba Evolução do Klick no celular"
+        },
+        "trilha": {
+          "title": "Aprender com o cubo na tela.",
+          "body": "Nove etapas, da cruz branca ao F2L com algoritmos. Um cubo 3D mostra cada movimento, e o treino de casos fica fora das estatísticas.",
+          "deskAlt": "Aula de F2L intuitivo com o cubo 3D fazendo U R U’ R’",
+          "phoneAlt": "Aula da Trilha no celular, com o cubo 3D"
+        },
+        "centro": {
+          "title": "Um cubo que acompanha o treino.",
+          "body": "O Centro reage a cada solve e acende marcos por temporada. Fechar uma temporada libera um acabamento novo.",
+          "deskAlt": "Tela do Centro com 7 de 9 marcos da temporada e o acabamento Gelo",
+          "phoneAlt": "Centro no celular, com os marcos da temporada"
+        }
+      },
       "build": {
         "title": "Construído com agentes, revisado por mim.",
         "body": "Svelte 5 no front, um Worker da Cloudflare no servidor (um Durable Object por conta, D1 e R2) e testes com Vitest, Playwright e axe.",
-        "stat": "428 de 429 commits com coautoria de agente de IA (até 06/11/2026)."
-      }
+        "statLabel": "commits com coautoria de agente de IA, até 06/11/2026"
+      },
+      "heroPhoneAlt": "Timer do Klick no celular, com uma área para cada polegar"
     },
     "grimory": {
       "name": "Grimory",
       "tagline": "Mesa de D&D 5e em português, do personagem à sessão.",
-      "heroAlt": "Compêndio do Grimory aberto na Espada Longa",
+      "heroAlt": "Aranha Gigante no Compêndio do Grimory, com a arte e o bloco de estatísticas",
       "pain": {
         "title": "A ficha no meio da sessão.",
         "body": "Jogadores abrem a ficha no celular no meio do jogo: uma mão, olhadas rápidas, números para rolar e regras para conferir sem sair da ficha. O mestre conduz o combate pelo notebook.",
@@ -403,16 +420,32 @@
         "title": "Em uso pela mesa do grupo.",
         "body": "Ficha que conhece as regras, compêndio traduzido com o homebrew da mesa, diário de sessão e a Chama-guia, o familiar que dá rosto à IA."
       },
-      "gallery": [
-        "Início do Grimory com a próxima sessão da mesa de exemplo",
-        "Inventário do personagem no celular, com a Chama-guia no canto",
-        "Compêndio do Grimory aberto na Espada Longa"
-      ],
+      "tour": {
+        "mesa": {
+          "title": "A mesa num relance.",
+          "body": "Próxima sessão, notas do mestre e o grupo com vida, CA e condições, ao vivo das fichas.",
+          "deskAlt": "Painel da mesa A Torre de Sal com a próxima sessão e o grupo",
+          "phoneAlt": "Painel da mesa no celular, com o tempo de jogo e o grupo"
+        },
+        "combate": {
+          "title": "Mestre no notebook, grupo no celular.",
+          "body": "O mestre monta o encontro e pede a iniciativa. Cada jogador rola na própria ficha, e a ordem se arruma sozinha.",
+          "deskAlt": "Ordem de iniciativa se arrumando conforme as rolagens chegam",
+          "phoneAlt": "Ataque com Maça rolado na ficha: 20 natural e o dano crítico"
+        },
+        "regras": {
+          "title": "As regras dentro da ficha.",
+          "body": "Cada magia mostra a fonte e a versão de 2014, e a Chama-guia tira dúvidas citando o SRD.",
+          "deskAlt": "Bola de Fogo no Compêndio, com a versão de 2014 e a pergunta à Chama-guia",
+          "phoneAlt": "Aba Magias da ficha no celular, com a CD e os truques"
+        }
+      },
       "build": {
         "title": "Construído com agentes, revisado por mim.",
         "body": "React e Vite no app, Astro na página pública e Workers da Cloudflare para a API da mesa e para a IA (Claude pela API da Anthropic). Hoje é um protótipo, com beta fechada na nuvem.",
-        "stat": "2328 de 2495 commits com coautoria de agente de IA (até 07/11/2026)."
-      }
+        "statLabel": "commits com coautoria de agente de IA, até 07/11/2026"
+      },
+      "heroPhoneAlt": "Ficha da Ilda no celular depois de 8 de dano, oferecendo a Resiliência Anã"
     }
   },
   "projectsIndex": {

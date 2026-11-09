@@ -17,10 +17,12 @@ const scenes = [
 const referenced = [
   ...scenes,
   ...LIVE_WORK.flatMap((item) => (item.image ? [item.image.src] : [])),
-  ...Object.values(CASES).flatMap((study) => [
-    study.hero.src,
-    ...study.gallery.map((image) => image.src),
-  ]),
+  ...Object.values(CASES).flatMap((study) =>
+    [study.hero, ...study.tour.map((step) => step.screens)].flatMap(({ desk, phone }) => [
+      desk.src,
+      phone.src,
+    ]),
+  ),
   ...ATTO_CASES.flatMap((item) => (item.image ? [item.image] : [])),
 ]
 

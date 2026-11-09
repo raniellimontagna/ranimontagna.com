@@ -55,11 +55,35 @@ Conferidas antes de copiar: só dados de exemplo, nenhum dado pessoal.
 
 | Arquivo | Origem |
 |---|---|
-| `products/klick-stats.webp` | `klick/docs/screenshots/stats.png` (aba de estatísticas do Klick) |
 | `products/grimory-mesa.webp` | `grimory/.superpowers/reports/criar-mesa/home-desktop-1280-escuro.png` (início com a mesa de exemplo "A Torre de Sal") |
-| `products/grimory-inventory.webp` | `grimory/.superpowers/reports/arte-equipamento/2-inventario-desktop-dark.png` (inventário com a Chama-guia) |
 
-Todas com dados de exemplo, conferidas antes de copiar.
+Todas com dados de exemplo, conferidas antes de copiar. `klick-stats` e `grimory-inventory` saíram com a galeria antiga dos cases (09/11/2026).
+
+## Páginas de case (v1, 09/11/2026)
+
+`public/redesign/cases/v1/`: telas inteiras, sem recorte. A moldura de navegador tem o formato da captura (1440×900) e a de celular também (390×844). As molduras são feitas em HTML e CSS, e as imagens não trazem moldura.
+
+- **Klick:** o app no ar (klick.ranimontagna.com) num Chrome headless limpo, com um histórico de exemplo importado pelo próprio app. São 6 meses e 2.492 solves gerados, mais as temporadas e as metas. Nenhum dado pessoal.
+- **Grimory:** um clone local do repositório com o backend falso dos testes de ponta a ponta. Inclui a mesa de exemplo "A Torre de Sal", entrando como `mestre@grimory.test`.
+- **Telas:** webp q80. No desktop, 1440×900 em densidade 2× (2880×1800). No celular, 390×844 em 3× (1170×2532).
+- **Vídeos:** mp4 H.264 sem áudio, gravados quadro a quadro com o relógio da página parado. O screencast do Chrome ignora a densidade. Os do desktop têm 2400 px de largura, e os do celular, 900 px. O poster de cada vídeo é o primeiro quadro, com o mesmo nome em `.webp`.
+- **Imagens de compartilhamento:** `klick-og.jpg` e `grimory-og.jpg`, em 1200×630, recortadas do topo da tela do hero.
+
+| Arquivo | O que mostra |
+|---|---|
+| `klick-desk-timer.mp4` | Um solve inteiro: armar (verde), rodar com a tela apagada e parar em 0:09.82, com as médias atualizando |
+| `klick-phone-timer.mp4` | O mesmo no celular |
+| `klick-desk-trilha.mp4` | Aula de F2L intuitivo: o cubo 3D fazendo U R U' R' |
+| `klick-{desk,phone}-evolucao.webp` | Aba Evolução, com recordes, médias, semanas e metas |
+| `klick-phone-trilha.webp` | A mesma aula no celular |
+| `klick-{desk,phone}-centro.webp` | Centro na temporada 3, com 7 de 9 marcos e o acabamento Gelo |
+| `grimory-desk-monstro.webp` | Compêndio na Aranha Gigante |
+| `grimory-phone-ficha.webp` | Ficha da Ilda depois de 8 de dano, oferecendo a Resiliência Anã |
+| `grimory-{desk,phone}-mesa.webp` | Painel da mesa |
+| `grimory-desk-combate.mp4` | A iniciativa se ordenando conforme as rolagens chegam |
+| `grimory-phone-combate.mp4` | Ataque com Maça na ficha: 20 natural e o dano crítico |
+| `grimory-desk-regras.webp` | Bola de Fogo no Compêndio, com a versão de 2014 e a Chama-guia |
+| `grimory-phone-regras.webp` | Aba Magias da ficha |
 
 ## Logos das empresas em branco (rodada 2, 07/11/2026)
 

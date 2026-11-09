@@ -1,12 +1,14 @@
 import { notFound } from 'next/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { CASE_SLUGS, getCase } from '@/features/cases/cases.data'
+import { CASE_SLUGS, caseHost, getCase } from '@/features/cases/cases.data'
 import { CaseChapter } from '@/features/cases/components/case-chapter'
-import { CaseGallery } from '@/features/cases/components/case-gallery'
 import { CaseHero } from '@/features/cases/components/case-hero'
 import { CaseNext } from '@/features/cases/components/case-next'
+import { CaseTour, type TourCopy } from '@/features/cases/components/case-tour'
+import { CommitCount } from '@/features/cases/components/commit-count'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+import { ScrubText, WordReveal } from '@/shared/ui-2026'
 
 type Params = { params: Promise<{ locale: string; slug: string }> }
 
@@ -25,6 +27,7 @@ export async function generateMetadata({ params }: Params) {
   const t = await getTranslations({ locale, namespace: 'cases' })
   const title = `${t(`${slug}.name`)} · Ranielli Montagna`
   const description = t(`${slug}.tagline`)
+  const image = { url: `${BASE_URL}${study.shareImage}`, width: 1200, height: 630 }
 
   return {
     title,
@@ -33,10 +36,16 @@ export async function generateMetadata({ params }: Params) {
       title,
       description,
       url: caseUrl(locale, slug),
-      images: [`${BASE_URL}${study.hero.src}`],
+      images: [image],
       type: 'article',
     },
-    twitter: { card: 'summary_large_image', title, description, creator: '@rannimontagna' },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      creator: '@rannimontagna',
+      images: [image.url],
+    },
     alternates: {
       canonical: caseUrl(locale, slug),
       languages: Object.fromEntries(routing.locales.map((l) => [l, caseUrl(l, slug)])),
@@ -52,6 +61,12 @@ export default async function CasePage({ params }: Params) {
 
   const t = await getTranslations('cases')
   const caption = t(`${slug}.pain.caption`)
+  const tour = (id: string): TourCopy => ({
+    title: t(`${slug}.tour.${id}.title`),
+    body: t(`${slug}.tour.${id}.body`),
+    deskAlt: t(`${slug}.tour.${id}.deskAlt`),
+    phoneAlt: t(`${slug}.tour.${id}.phoneAlt`),
+  })
 
   return (
     <article>
@@ -62,13 +77,25 @@ export default async function CasePage({ params }: Params) {
           name: t(`${slug}.name`),
           tagline: t(`${slug}.tagline`),
           heroAlt: t(`${slug}.heroAlt`),
+          heroPhoneAlt: t(`${slug}.heroPhoneAlt`),
           live: t('common.live'),
           repo: t('common.repo'),
         }}
       />
 
-      <CaseChapter index={1} kicker={t('common.pain')} title={t(`${slug}.pain.title`)}>
-        <p data-reveal>{t(`${slug}.pain.body`)}</p>
+      <CaseChapter
+        index={1}
+        kicker={t('common.pain')}
+        title={t(`${slug}.pain.title`)}
+        stagger={0.02}
+      >
+        <ScrubText effect="fill">
+          <WordReveal
+            as="p"
+            text={t(`${slug}.pain.body`)}
+            className="text-2xl leading-snug tracking-[-0.01em] text-foreground sm:text-3xl"
+          />
+        </ScrubText>
         {caption ? (
           <p data-reveal className="font-mono text-xs text-muted">
             {caption}
@@ -77,26 +104,39 @@ export default async function CasePage({ params }: Params) {
       </CaseChapter>
 
       <CaseChapter index={2} kicker={t('common.decisions')} title={t(`${slug}.decisions.title`)}>
-        <ul className="flex flex-col gap-4">
-          {(t.raw(`${slug}.decisions.items`) as string[]).map((item) => (
-            <li key={item} data-reveal className="flex gap-4">
-              <span aria-hidden="true" className="mt-3 h-2 w-2 shrink-0 bg-accent" />
-              {item}
+        <ol className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+          {(t.raw(`${slug}.decisions.items`) as string[]).map((item, index) => (
+            <li key={item} data-reveal className="flex flex-col gap-3 border-t border-line pt-5">
+              <span className="font-mono text-xs tracking-[0.2em] text-accent">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <p className="text-lg leading-relaxed">{item}</p>
             </li>
           ))}
-        </ul>
+        </ol>
       </CaseChapter>
 
-      <CaseChapter index={3} kicker={t('common.product')} title={t(`${slug}.product.title`)}>
-        <p data-reveal>{t(`${slug}.product.body`)}</p>
-      </CaseChapter>
-      <CaseGallery images={study.gallery} alts={t.raw(`${slug}.gallery`) as string[]} />
+      <CaseTour
+        index={3}
+        kicker={t('common.product')}
+        title={t(`${slug}.product.title`)}
+        body={t(`${slug}.product.body`)}
+        listLabel={t('common.tour')}
+        host={caseHost(study)}
+        steps={study.tour}
+        copy={tour}
+      />
 
       <CaseChapter index={4} kicker={t('common.build')} title={t(`${slug}.build.title`)}>
+        <div data-reveal>
+          <CommitCount
+            agent={study.commits.agent}
+            total={study.commits.total}
+            locale={locale}
+            label={t(`${slug}.build.statLabel`)}
+          />
+        </div>
         <p data-reveal>{t(`${slug}.build.body`)}</p>
-        <p data-reveal className="font-mono text-sm text-accent">
-          {t(`${slug}.build.stat`)}
-        </p>
         <ul data-reveal className="flex flex-wrap gap-2" aria-label={t('common.stack')}>
           {study.stack.map((tech) => (
             <li

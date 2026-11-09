@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import { CASE_SLUGS, CASES } from '@/features/cases/cases.data'
+import { CaseCover } from '@/features/cases/components/case-cover'
 import { attoWhatsappHref } from '@/features/home/components/atto/atto.data'
 import type { GitHubProjectSnapshot } from '@/features/projects/types/github.types'
-import { StaticImage } from '@/shared/components/ui/static-image/static-image'
 import { Link } from '@/shared/config/i18n/navigation'
 import { ActionLink, Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
 import { RepoList } from './repo-list'
@@ -47,15 +47,13 @@ export async function ProjectsIndex({ snapshot, locale }: ProjectsIndexProps) {
           {CASE_SLUGS.map((slug, index) => (
             <li key={slug}>
               <Link href={`/projects/${slug}`} className="group block">
-                <div className="relative aspect-[16/10] overflow-hidden border border-line bg-surface">
-                  <StaticImage
-                    src={CASES[slug].hero.src}
+                <div className="transition-transform duration-700 group-hover:-translate-y-1.5 motion-reduce:transition-none">
+                  <CaseCover
+                    study={CASES[slug]}
                     alt={tCases(`${slug}.heroAlt`)}
-                    fill
-                    sizes="(max-width: 1023px) 100vw, 50vw"
+                    phoneAlt={tCases(`${slug}.heroPhoneAlt`)}
                     // The first case is the page's LCP on phones: no lazy loading there.
                     priority={index === 0}
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
                 <span className="mt-5 block text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
