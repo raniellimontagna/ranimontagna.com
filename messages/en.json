@@ -347,7 +347,8 @@
       "build": "how it was built",
       "stack": "Technologies",
       "next": "next case study",
-      "tour": "Product screens"
+      "tour": "Product screens",
+      "of": "of"
     },
     "klick": {
       "name": "Klick",
@@ -404,7 +405,7 @@
       "heroAlt": "The Giant Spider in the Grimory compendium, with its art and stat block",
       "pain": {
         "title": "The character sheet, mid-session.",
-        "body": "Players open their sheet on their phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The DM runs combat from a laptop.",
+        "body": "Players open their sheet on their phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The GM runs combat from a laptop.",
         "caption": ""
       },
       "decisions": {

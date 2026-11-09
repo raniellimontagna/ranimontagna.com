@@ -347,7 +347,8 @@
       "build": "como foi feito",
       "stack": "Tecnologias",
       "next": "próximo case",
-      "tour": "Telas do produto"
+      "tour": "Telas do produto",
+      "of": "de"
     },
     "klick": {
       "name": "Klick",
@@ -373,7 +374,7 @@
       },
       "tour": {
         "evolucao": {
-          "title": "Cada décimo vira dado.",
+          "title": "Cada centésimo vira dado.",
           "body": "Recordes, médias de 5 a 1000, a semana contra a anterior e metas que mostram quanto falta.",
           "deskAlt": "Aba Evolução do Klick no computador, com recordes, médias e semanas de treino",
           "phoneAlt": "Aba Evolução do Klick no celular"

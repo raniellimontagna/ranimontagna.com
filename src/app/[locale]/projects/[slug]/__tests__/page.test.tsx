@@ -57,7 +57,7 @@ describe('case page', () => {
 
   it('quotes the agent-assisted commits from the data as one sentence', async () => {
     render(await CasePage({ params: Promise.resolve({ locale: 'pt', slug: 'klick' }) }))
-    expect(screen.getByText('428 / 429 klick.build.statLabel')).toBeInTheDocument()
+    expect(screen.getByText('428 common.of 429 klick.build.statLabel')).toBeInTheDocument()
   })
 
   it('shares the case with its own 1200×630 card', async () => {

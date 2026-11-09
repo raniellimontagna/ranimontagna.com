@@ -89,7 +89,7 @@ export function CaseTour({
         <div
           data-tour-stage
           data-follow-header
-          className="sticky top-0 z-10 hidden [@media(scripting:enabled)]:block max-sm:-mx-4 max-sm:px-4 max-lg:bg-background max-lg:pt-4 max-lg:pb-3 sm:max-lg:-mx-8 sm:max-lg:px-8 lg:order-2 lg:self-start"
+          className="sticky top-0 z-10 hidden max-lg:-mt-16 max-lg:mb-16 [@media(scripting:enabled)]:block max-sm:-mx-4 max-sm:px-4 max-lg:bg-background max-lg:pt-4 max-lg:pb-3 sm:max-lg:-mx-8 sm:max-lg:px-8 lg:order-2 lg:self-start"
         >
           <div className="lg:flex lg:h-svh lg:items-center">
             <div className="relative w-full lg:pb-[12%]">
@@ -131,12 +131,15 @@ export function CaseTour({
                 data-tour-step
                 data-step={i}
                 data-active={i === 0}
-                className="flex min-h-[70svh] flex-col gap-4 pt-8 transition-opacity duration-500 last:min-h-[60svh] lg:min-h-[85svh] lg:last:min-h-svh lg:justify-center lg:pt-0 lg:data-[active=false]:opacity-(--dim-body) motion-reduce:transition-none"
+                className="flex min-h-[70svh] flex-col gap-4 pt-8 transition-opacity duration-500 last:min-h-[60svh] lg:min-h-[85svh] lg:last:min-h-svh lg:justify-center lg:pt-0 [@media(scripting:enabled)]:lg:data-[active=false]:opacity-(--dim-body) motion-reduce:transition-none"
               >
-                <span className="font-mono text-xs tracking-[0.2em] text-accent">
+                <span aria-hidden="true" className="font-mono text-xs tracking-[0.2em] text-accent">
                   {pad(i + 1)} / {pad(steps.length)}
                 </span>
-                <h3 className="text-[clamp(28px,3.2vw,48px)] leading-[1.02] font-semibold tracking-[-0.03em] text-foreground">
+                <h3
+                  data-tour-caption
+                  className="text-[clamp(28px,3.2vw,48px)] leading-[1.02] font-semibold tracking-[-0.03em] text-foreground"
+                >
                   {text.title}
                 </h3>
                 <p className="max-w-md text-lg leading-relaxed text-foreground">{text.body}</p>

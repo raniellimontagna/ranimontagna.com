@@ -347,7 +347,8 @@
       "build": "cómo se hizo",
       "stack": "Tecnologías",
       "next": "siguiente caso",
-      "tour": "Pantallas del producto"
+      "tour": "Pantallas del producto",
+      "of": "de"
     },
     "klick": {
       "name": "Klick",
@@ -428,7 +429,7 @@
           "phoneAlt": "Panel de la mesa en el celular, con el tiempo de juego y el grupo"
         },
         "combate": {
-          "title": "El máster en la laptop, el grupo en el celular.",
+          "title": "El máster en la portátil, el grupo en el celular.",
           "body": "El máster arma el encuentro y pide la iniciativa. Cada jugador tira en su propia ficha, y el orden se acomoda solo.",
           "deskAlt": "El orden de iniciativa acomodándose a medida que llegan las tiradas",
           "phoneAlt": "Ataque con Maza tirado desde la ficha: 20 natural y daño crítico"

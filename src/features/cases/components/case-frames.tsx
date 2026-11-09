@@ -15,7 +15,9 @@ export function BrowserFrame({ host, children }: { host: string; children: React
           {host}
         </span>
       </div>
-      <div className="relative aspect-[16/10] bg-background">{children}</div>
+      <div data-frame-screen className="relative isolate aspect-[16/10] bg-background">
+        {children}
+      </div>
     </div>
   )
 }
@@ -27,7 +29,10 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
       data-phone-frame
       className="rounded-[1.6rem] bg-canvas p-[4px] shadow-2xl shadow-black/35 ring-1 ring-line-strong sm:rounded-[2.2rem] sm:p-[6px]"
     >
-      <div className="relative aspect-[390/844] overflow-hidden rounded-[1.35rem] bg-background sm:rounded-[1.8rem]">
+      <div
+        data-frame-screen
+        className="relative isolate aspect-[390/844] overflow-hidden rounded-[1.35rem] bg-background sm:rounded-[1.8rem]"
+      >
         {children}
       </div>
     </div>

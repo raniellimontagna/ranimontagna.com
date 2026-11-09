@@ -25,15 +25,15 @@ export function CaseNext({ next, label, name }: { next: CaseSlug; label: string;
           {name} →
         </span>
       </span>
-      <span
+      <div
         aria-hidden="true"
-        className="block w-[min(100%,28rem)] transition-transform duration-500 group-hover:-translate-y-2 motion-reduce:transition-none"
+        className="w-[min(100%,28rem)] transition-transform duration-500 group-hover:-translate-y-2 motion-reduce:transition-none"
       >
         <BrowserFrame host={caseHost(study)}>
           {/* biome-ignore lint/performance/noImgElement: getImageProps already gives the optimized srcset. */}
           <img {...props} alt="" className="object-cover object-top" />
         </BrowserFrame>
-      </span>
+      </div>
     </Link>
   )
 }

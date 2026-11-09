@@ -47,9 +47,14 @@ export function CaseHero({ study, labels }: CaseHeroProps) {
       </Reveal>
 
       <div className={`${SECTION_X} mt-12 sm:mt-16 lg:mt-12`}>
-        {/* The phone hangs below the browser: the padding is its room. */}
+        {/* The phone hangs below the browser: the padding is its room. With
+            motion, both start in the from-state of case-motion.ts, so the
+            scrubbed tween takes over without a jump. */}
         <CaseStage className="relative mx-auto max-w-[1240px] pb-[58%] lg:pb-[12%]">
-          <div data-stage-browser className="w-[90%] lg:w-[86%]">
+          <div
+            data-stage-browser
+            className="w-[90%] lg:w-[86%] lg:origin-bottom [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:max-lg:[transform:translateY(6%)] [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:lg:[transform:perspective(1600px)_rotateX(14deg)_scale(0.94)]"
+          >
             <BrowserFrame host={host}>
               <Screen
                 media={study.hero.desk}
@@ -62,7 +67,7 @@ export function CaseHero({ study, labels }: CaseHeroProps) {
           </div>
           <div
             data-stage-phone
-            className="absolute right-[2%] bottom-0 w-[42%] lg:right-[1%] lg:w-[21%]"
+            className="absolute right-[2%] bottom-0 w-[42%] lg:right-[1%] lg:w-[21%] [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:max-lg:[transform:translateY(22%)_scale(0.94)] [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:lg:[transform:translateY(28%)]"
           >
             <PhoneFrame>
               <Screen media={study.hero.phone} alt={labels.heroPhoneAlt} sizes={PHONE_SIZES} />

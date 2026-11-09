@@ -107,7 +107,7 @@ export default async function CasePage({ params }: Params) {
         <ol className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
           {(t.raw(`${slug}.decisions.items`) as string[]).map((item, index) => (
             <li key={item} data-reveal className="flex flex-col gap-3 border-t border-line pt-5">
-              <span className="font-mono text-xs tracking-[0.2em] text-accent">
+              <span aria-hidden="true" className="font-mono text-xs tracking-[0.2em] text-accent">
                 {String(index + 1).padStart(2, '0')}
               </span>
               <p className="text-lg leading-relaxed">{item}</p>
@@ -133,6 +133,7 @@ export default async function CasePage({ params }: Params) {
             agent={study.commits.agent}
             total={study.commits.total}
             locale={locale}
+            of={t('common.of')}
             label={t(`${slug}.build.statLabel`)}
           />
         </div>

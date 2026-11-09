@@ -50,8 +50,6 @@ export async function ProjectsIndex({ snapshot, locale }: ProjectsIndexProps) {
                 <div className="transition-transform duration-700 group-hover:-translate-y-1.5 motion-reduce:transition-none">
                   <CaseCover
                     study={CASES[slug]}
-                    alt={tCases(`${slug}.heroAlt`)}
-                    phoneAlt={tCases(`${slug}.heroPhoneAlt`)}
                     // The first case is the page's LCP on phones: no lazy loading there.
                     priority={index === 0}
                   />

@@ -52,6 +52,7 @@ export function CaseVideo({ src, query, managed }: CaseVideoProps) {
       ref={ref}
       src={src}
       aria-hidden="true"
+      tabIndex={-1}
       muted
       loop
       playsInline

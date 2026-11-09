@@ -16,7 +16,9 @@ export function buildStageRise({ gsap }: ScrollMotion, stage: HTMLElement, layou
     trigger: stage,
     start: 'top bottom',
     end: layout === 'desktop' ? 'top 15%' : 'bottom 55%',
-    scrub: true,
+    // Eases to the scroll position when GSAP arrives instead of snapping; the
+    // hero paints the same from-state in CSS (case-hero.tsx), so nothing jumps.
+    scrub: 0.8,
   }
   const tweens: Array<{ revert(): void }> = []
 

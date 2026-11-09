@@ -12,11 +12,14 @@ export function CommitCount({
   agent,
   total,
   locale,
+  of,
   label,
 }: {
   agent: number
   total: number
   locale: string
+  /** "de" / "of": read aloud instead of the slash. */
+  of: string
   label: string
 }) {
   const numberRef = useRef<HTMLSpanElement>(null)
@@ -42,12 +45,18 @@ export function CommitCount({
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="sr-only">{`${format(agent)} / ${format(total)} ${label}`}</p>
+      <p className="sr-only">{`${format(agent)} ${of} ${format(total)} ${label}`}</p>
       <p
         aria-hidden="true"
         className="text-[clamp(64px,10vw,160px)] leading-[0.85] font-semibold tracking-[-0.05em] text-foreground tabular-nums"
       >
-        <span data-commit-count ref={numberRef}>
+        {/* Room for the final number, so the total stays put while it counts. */}
+        <span
+          data-commit-count
+          ref={numberRef}
+          className="inline-block text-right"
+          style={{ minWidth: `${format(agent).length}ch` }}
+        >
           {format(agent)}
         </span>
         <span className="text-muted">/{format(total)}</span>

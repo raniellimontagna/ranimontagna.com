@@ -59,7 +59,9 @@ describe('buildStageRise', () => {
     expect(phone?.[1]).toMatchObject({ yPercent: expect.any(Number) })
     expect(phone?.[2]).toMatchObject({ yPercent: 0 })
     for (const call of fromTo.mock.calls) {
-      expect(call[2].scrollTrigger).toMatchObject({ trigger: root, scrub: true })
+      expect(call[2].scrollTrigger).toMatchObject({ trigger: root })
+      // A number, not true: the stage eases to the scroll position when GSAP arrives instead of snapping.
+      expect(call[2].scrollTrigger?.scrub).toEqual(expect.any(Number))
     }
   })
 
