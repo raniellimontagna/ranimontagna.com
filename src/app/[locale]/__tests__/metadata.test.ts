@@ -6,7 +6,8 @@ vi.mock('next/navigation', () => ({ notFound: vi.fn() }))
 vi.mock('next-intl', () => ({ hasLocale: vi.fn().mockReturnValue(true) }))
 
 const imagesFor = async (locale: string) => {
-  const metadata = await generateMetadata({ params: Promise.resolve({ locale }) })
+  const props = { params: Promise.resolve({ locale }) } as Parameters<typeof generateMetadata>[0]
+  const metadata = await generateMetadata(props)
   const og = metadata.openGraph?.images
   const list = (Array.isArray(og) ? og : [og]) as Array<{
     url: string
