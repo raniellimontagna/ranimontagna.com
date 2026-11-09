@@ -7,7 +7,7 @@
     "nav": {
       "label": "Sections",
       "noAr": "Live",
-      "trajetoria": "Path",
+      "trajetoria": "Career",
       "atto": "Atto",
       "escrita": "Writing",
       "blog": "Blog",
@@ -35,12 +35,12 @@
     }
   },
   "hero2026": {
-    "lead": "Product engineer. I take someone's pain and ship the product, with AI writing the code and me deciding what matters.",
+    "lead": "Product engineer. I take someone's pain point and ship the product, with AI writing the code and me deciding what matters.",
     "ctaVega": "Ask Vega",
     "ctaWork": "See what's live",
     "portraitAlt": "Portrait of Ranielli Montagna",
-    "hint": "hover the portrait · scroll to reveal",
-    "hintTouch": "touch the portrait · scroll to reveal",
+    "hint": "hover over the portrait · scroll to reveal",
+    "hintTouch": "tap the portrait · scroll to reveal",
     "stackAi": "AI agents",
     "stackProduct": "Product"
   },
@@ -49,8 +49,8 @@
     "chapters": {
       "pain": {
         "kicker": "the pain",
-        "title": "It starts by listening.",
-        "body": "Before any code, someone losing three years of practice data. That is where the product comes from."
+        "title": "Start by listening.",
+        "body": "Before any code, someone losing three years of practice data. That's where the product comes from."
       },
       "solution": {
         "kicker": "the solution",
@@ -60,16 +60,16 @@
       "product": {
         "kicker": "the product",
         "title": "Ship it.",
-        "body": "Grimory at the group's table, Klick in the pocket of whoever practices. Products that are live and actually used."
+        "body": "Grimory at my group's table, Klick in the pockets of people who practice. Live products, actually in use."
       },
       "code": {
         "kicker": "the code",
-        "title": "With AI, under judgment.",
+        "title": "With AI, under my judgment.",
         "body": "Agents write most of the code. Every change goes through my review before it ships."
       }
     },
     "thread": {
-      "caption": "paraphrased from real reports on cubing forums, from the Klick v2 research",
+      "caption": "paraphrased from real accounts on cubing forums, gathered for the Klick v2 research",
       "messages": [
         {
           "from": "speedcubing community",
@@ -77,11 +77,11 @@
         },
         {
           "from": "someone else",
-          "text": "Same here. No timer keeps that properly."
+          "text": "Happened to me too. No timer saves it properly."
         },
         {
           "from": "me",
-          "text": "I'll fix it: the history never gets lost again.",
+          "text": "I'll fix this: your history never gets lost again.",
           "mine": true
         }
       ]
@@ -89,22 +89,22 @@
     "spec": {
       "title": "Grimory: the AI proposes, the rules decide",
       "items": [
-        "Each table picks the 2014 or the 2024 rules.",
+        "Each table picks the 2014 or 2024 rules.",
         "An SRD compendium in Portuguese, with the table's homebrew.",
         "The AI suggests; the rules engine validates.",
         "The player always has the final word."
       ]
     },
     "product": {
-      "desktopAlt": "Grimory's compendium open on the Longsword",
-      "phoneAlt": "Klick's timer on a phone"
+      "desktopAlt": "The Grimory compendium open to the Longsword entry",
+      "phoneAlt": "The Klick timer on a phone"
     },
     "casesLink": "See what's live"
   },
   "aiMethod": {
     "kicker": "ai",
-    "title": "No model lock-in. With a method.",
-    "lead": "I pick the model for the task, not the brand. And none of them writes code without a specification first and my review after.",
+    "title": "No model lock-in. One method.",
+    "lead": "I pick the model for the task, not the brand. And none of them writes code without a specification first and my review afterward.",
     "modelsLabel": "AI models and tools",
     "stepsLabel": "The method, step by step",
     "free": {
@@ -113,7 +113,7 @@
     },
     "method": {
       "title": "The right way",
-      "body": "Spec-driven development: the idea becomes a specification, the specification becomes a plan, the plan becomes tests and only then code."
+      "body": "Spec-driven development: the idea becomes a specification, the specification becomes a plan, the plan becomes tests, and only then code."
     },
     "steps": {
       "talk": {
@@ -126,14 +126,14 @@
       },
       "plan": {
         "title": "Plan",
-        "lines": ["- [ ] Task 1", "- [ ] Task 2", "each with its test"]
+        "lines": ["- [ ] Task 1", "- [ ] Task 2", "each with its own test"]
       },
       "test": {
         "title": "Test first",
         "lines": ["✗ fails", "✓ passes"]
       },
       "agent": {
-        "title": "Agent codes",
+        "title": "Agent writes code",
         "lines": ["+ code", "+ tests", "commit by commit"]
       },
       "review": {
@@ -170,7 +170,7 @@
     "proofs": {
       "products": {
         "value": "6 products",
-        "label": "in production in three months on Lemon's AI team, with agents in the loop and review before going live"
+        "label": "put into production in three months on Lemon's AI team, with agents in the loop and review before anything goes live"
       },
       "agents": {
         "value": "5 agents",
@@ -178,7 +178,7 @@
       },
       "providers": {
         "value": "2 providers",
-        "label": "Vega runs on DeepSeek, and the code already accepts OpenRouter as a fallback"
+        "label": "Vega runs on DeepSeek, and the code already supports OpenRouter as a fallback"
       },
       "tests": {
         "value": "1,000+ tests",
@@ -190,25 +190,25 @@
     "label": "Who he is",
     "kicker": "who he is",
     "statement": "Engineering, product and business in the same conversation.",
-    "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own products in production.",
-    "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city behind"
+    "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own live products.",
+    "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city in the background"
   },
   "liveWork": {
     "kicker": "live",
     "title": "Things that are live.",
-    "lead": "His own products, actually used. The details of each one live on the project page.",
+    "lead": "My own products, actually in use. The details for each one are on its project page.",
     "items": {
       "grimory": {
         "name": "Grimory",
         "line": "A D&D table in Portuguese. The AI proposes, the rules validate, the player decides.",
-        "meta": "own product · used by his group",
-        "alt": "Grimory's compendium open on the Longsword"
+        "meta": "my own product · used by my group",
+        "alt": "The Grimory compendium open to the Longsword entry"
       },
       "klick": {
         "name": "Klick",
-        "line": "An offline-first speedcubing timer, rebuilt after hearing what cubers lost the most.",
+        "line": "An offline-first speedcubing timer, rebuilt after hearing what cubers were losing most.",
         "meta": "klick.ranimontagna.com · open source",
-        "alt": "Klick's timer showing 0:10.81"
+        "alt": "The Klick timer showing 0:10.81"
       },
       "agent-toolkit": {
         "name": "agent-toolkit",
@@ -218,7 +218,7 @@
       },
       "argus": {
         "name": "Argus",
-        "line": "A personal data hub: news, quotes and lookups served through an API, MCP, Discord and a CLI.",
+        "line": "A personal data hub: news, market quotes and lookups served through an API, MCP, Discord and a CLI.",
         "meta": "TypeScript · private repository",
         "alt": "The Argus API documentation on desktop and phone"
       },
@@ -231,51 +231,51 @@
     }
   },
   "trajectory": {
-    "kicker": "path",
+    "kicker": "career",
     "now": "now",
     "title": "From writing screens to leading the whole product.",
-    "lead": "Five years, four stages, each one closer to the decision.",
+    "lead": "Five years, four stages, each one closer to where decisions are made.",
     "stackLabel": "Technologies",
     "stages": {
       "sbsistemas": {
         "role": "Front-end Developer · SBSistemas",
         "period": "May 2021 - May 2022",
-        "what": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
+        "what": "I solidified my professional foundation in front-end development, building applications focused on usability, maintainability, type safety, reusable components and sound engineering practices.",
         "impact": [
-          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
-          "Implemented reusable components and interface standards",
-          "Applied maintainability, testing, and code quality practices"
+          "Built front-end applications with React, Electron, TypeScript and JavaScript",
+          "Implemented reusable components and UI patterns",
+          "Applied good practices for maintainability, testing and code quality"
         ]
       },
       "smarten": {
         "role": "Front-end Tech Lead · Smarten",
         "period": "May 2022 - September 2023",
-        "what": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
+        "what": "As Front-end Tech Lead on SaaS products, I led developers, set quality standards, evolved the UI architecture and tied technical decisions to product delivery.",
         "impact": [
-          "Technically led a team of developers",
+          "Led a team of developers as technical lead",
           "Created and maintained a Design System adopted across multiple products",
-          "Implemented CI/CD, monitoring, and quality standards"
+          "Implemented CI/CD, monitoring and quality standards"
         ]
       },
       "luizalabs": {
         "role": "Mid-level Developer · Luizalabs",
         "period": "October 2023 - June 2026",
-        "what": "I worked at Luizalabs, Magalu's technology unit, on web and mobile applications for physical store operations and on the services behind them, with a Go back end on GCP, in a high-scale national retail environment.",
+        "what": "At Luizalabs, Magalu's technology unit, I worked on web and mobile apps for physical store operations and on the services behind them, with a Go back end on GCP, at a nationwide retailer operating at high scale.",
         "impact": [
           "Developed solutions used in inventory and logistics operations across 1,000+ stores",
-          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
-          "Services in Go and Node.js on GCP, talking through RabbitMQ queues, plus REST APIs and micro frontends in React and React Native",
+          "Contributed to corporate apps in the daily workflow of 1,000+ stock clerks",
+          "Services in Go and Node.js on GCP, communicating through RabbitMQ queues, plus REST APIs and micro frontends in React and React Native",
           "Code and operations tracked in SonarQube and Grafana",
-          "Went through Black Fridays from the inside, the week a retail system cannot fail"
+          "Lived through Black Fridays from the inside: the week a retail system can't fail"
         ]
       },
       "lemon": {
-        "role": "Software engineer · Lemon Energia",
+        "role": "Software Engineer · Lemon Energia",
         "period": "July 2026 - present · AI team, inside Finance",
-        "what": "On Lemon's AI team, I work from inside a business area: I live the Finance operation, find the manual work and decide what becomes product. Since August, I have shipped six internal products to production, from the screen to the database and the AWS infrastructure.",
+        "what": "On Lemon's AI team, I work from inside a business area: I'm part of the day-to-day Finance operation, I find the manual work and I decide what becomes a product. Since August, I've put six internal products into production, from the UI to the database and the AWS infrastructure.",
         "impact": [
           "Six finance products in three months: bank reconciliation, payment batches, suppliers, invoices and debit notes",
-          "Each one end to end: React front end, Fastify API with PostgreSQL and the infrastructure written as code with Pulumi",
+          "Each one end to end: React front end, Fastify API with PostgreSQL and infrastructure as code with Pulumi",
           "On AWS: containers on ECS Fargate, database on Aurora (RDS), events with EventBridge and SQS, secrets in Secrets Manager, delivery through API Gateway and CloudFront",
           "A fast delivery pace, with AI agents in the loop and critical review before anything goes live"
         ]
@@ -284,8 +284,8 @@
   },
   "atto": {
     "kicker": "atto",
-    "title": "The brand that takes it further.",
-    "lead": "Atto is the software house and marketing agency I co-founded. It builds digital products, integrations and campaigns that bring in customers, with precise engineering and no empty promises.",
+    "title": "The brand that carries this forward.",
+    "lead": "Atto is the software house and marketing agency I co-founded. It builds digital products, integrations and campaigns that bring in customers, with precision engineering and no empty promises.",
     "servicesLabel": "What Atto does",
     "services": {
       "web": "Web",
@@ -294,14 +294,14 @@
       "ai": "AI & Automation",
       "marketing": "Marketing"
     },
-    "casesLabel": "Cases published by Atto",
+    "casesLabel": "Case studies published by Atto",
     "cases": {
       "fronteira-sul-drones": {
         "tagline": "Agricultural e-commerce and consultative catalog",
-        "description": "A store for drones, parts and complementary lines for agriculture. The catalog filters the offer, the cart organizes purchase intent and WhatsApp closes the deal."
+        "description": "A store for drones, parts and complementary product lines for agriculture. The catalog filters the range, the cart organizes purchase intent and WhatsApp closes the deal."
       },
       "tala": {
-        "tagline": "Commercial partner platform",
+        "tagline": "Sales partner platform",
         "description": "A partner platform for the regional expansion of agricultural drones. Dashboard, CRM, tracking and commissions in one place."
       },
       "quadralize": {
@@ -309,13 +309,13 @@
         "description": "A complete platform to manage sports courts: booking, CRM, point of sale, payments and financial control for court owners and players."
       },
       "nan": {
-        "tagline": "Tech store — institutional site",
-        "description": "The site of a tech store in Papanduva/SC, built to bring customers to the physical store and the e-commerce. Featured brands, ways to buy and WhatsApp support."
+        "tagline": "Tech store — company website",
+        "description": "The website of a tech store in Papanduva, SC, built to bring customers to its physical and online stores. Featured brands, ways to buy and WhatsApp support."
       }
     },
     "visitSite": "Visit the site",
     "ctaWhatsapp": "Talk to Atto on WhatsApp",
-    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project.",
     "siteLink": "Meet Atto and Vega",
     "caseImageAlt": "The {name} site on desktop and phone"
   },
@@ -328,9 +328,9 @@
   "closing": {
     "kicker": "contact",
     "title": "Got a problem to solve?",
-    "lead": "Atto turns it into a product. Or reach me directly: I answer email and messages here.",
+    "lead": "Atto turns it into a product. Or reach out to me directly: I answer email and messages here.",
     "ctaAtto": "Talk to Atto on WhatsApp",
-    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project.",
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project.",
     "copyEmail": "Copy email",
     "copied": "copied",
     "resume": "Resume",
@@ -338,7 +338,7 @@
   },
   "cases": {
     "common": {
-      "kicker": "case",
+      "kicker": "case study",
       "live": "See it live",
       "repo": "Code on GitHub",
       "pain": "the pain",
@@ -346,81 +346,81 @@
       "product": "the product",
       "build": "how it was built",
       "stack": "Technologies",
-      "next": "next case"
+      "next": "next case study"
     },
     "klick": {
       "name": "Klick",
       "tagline": "An offline-first speedcubing timer for all 13 WCA events.",
-      "heroAlt": "Klick's timer on desktop, with the scramble and the session averages",
+      "heroAlt": "The Klick timer on desktop, with the scramble and session averages",
       "pain": {
         "title": "The history that vanished.",
-        "body": "In the research before Klick v2, the most repeated story was from people who lost months to three years of times: cleared browser data, a new phone, an app that didn't keep them properly.",
-        "caption": "paraphrased from real reports on cubing forums, from the Klick v2 research"
+        "body": "In the research before Klick v2, the story that came up most was from people who had lost anywhere from months to three years of times: cleared browser data, a new phone, an app that didn't save them properly.",
+        "caption": "paraphrased from real accounts on cubing forums, gathered for the Klick v2 research"
       },
       "decisions": {
         "title": "What came first.",
         "items": [
           "Times live on the device (IndexedDB) and the app works offline after the first visit.",
-          "Automatic local backups every 50 solves and once a day, with a 30-day trash.",
+          "Automatic local backups every 50 solves and once a day, with a 30-day trash bin.",
           "An optional, passwordless account (email code or passkey) to sync and keep cloud copies.",
-          "All 13 WCA events with official scrambles, and csTimer import for people coming from it."
+          "All 13 WCA events with official scrambles, and csTimer import for anyone switching from it."
         ]
       },
       "product": {
         "title": "Live, on desktop and phone.",
-        "body": "An installable PWA with stats, goals, a training calendar, a learning trail with a 3D cube and challenge links, no account needed."
+        "body": "An installable PWA with stats, goals, a training calendar, a learning path with a 3D cube and challenge links, no account needed."
       },
       "gallery": [
-        "Klick's stats tab with records, averages, goals and the training calendar",
-        "Klick's timer on a phone",
-        "Klick's timer on desktop showing 0:10.81"
+        "The Klick stats tab with records, averages, goals and the training calendar",
+        "The Klick timer on a phone",
+        "The Klick timer on desktop showing 0:10.81"
       ],
       "build": {
         "title": "Built with agents, reviewed by me.",
         "body": "Svelte 5 on the front end, a Cloudflare Worker on the server (a Durable Object per account, D1 and R2) and tests with Vitest, Playwright and axe.",
-        "stat": "428 of 429 commits co-authored by an AI agent (as of 06/11/2026)."
+        "stat": "428 of 429 commits co-authored by an AI agent (as of November 6, 2026)."
       }
     },
     "grimory": {
       "name": "Grimory",
       "tagline": "A D&D 5e table in Portuguese, from character to session.",
-      "heroAlt": "Grimory's compendium open on the Longsword",
+      "heroAlt": "The Grimory compendium open to the Longsword entry",
       "pain": {
-        "title": "The sheet in the middle of the session.",
-        "body": "Players open their sheet on the phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The DM runs combat from a laptop.",
+        "title": "The character sheet, mid-session.",
+        "body": "Players open their sheet on their phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The DM runs combat from a laptop.",
         "caption": ""
       },
       "decisions": {
         "title": "The AI proposes, the rules decide.",
         "items": [
-          "Describe a concept and the AI proposes a complete, justified sheet that opens in the builder for review.",
+          "Describe a concept and the AI proposes a complete sheet, with its choices explained, that opens in the builder for review.",
           "The rules engine validates everything: an invalid option never shows up.",
-          "Each table picks the 2014 or the 2024 rules, and every screen respects that choice.",
-          "Only distributable content: SRD 5.1 and 5.2 under CC-BY-4.0, with the source on every rule."
+          "Each table picks the 2014 or 2024 rules, and every screen respects that choice.",
+          "Only content that can be distributed: SRD 5.1 and 5.2 under CC-BY-4.0, with the source cited on every rule."
         ]
       },
       "product": {
-        "title": "Used by his group's table.",
-        "body": "A sheet that knows the rules, a translated compendium with the table's homebrew, a session diary and the Chama-guia, the familiar that gives the AI a face."
+        "title": "In use at my group's table.",
+        "body": "A sheet that knows the rules, a translated compendium with the table's homebrew, a session journal and the Chama-guia, the familiar that gives the AI a face."
       },
       "gallery": [
-        "Grimory's home with the sample table's next session",
+        "Grimory's home screen with the sample table's next session",
         "A character's inventory on a phone, with the Chama-guia in the corner",
-        "Grimory's compendium open on the Longsword"
+        "The Grimory compendium open to the Longsword entry"
       ],
       "build": {
         "title": "Built with agents, reviewed by me.",
-        "body": "React and Vite for the app, Astro for the public page and Cloudflare Workers for the table API and the AI (Claude through the Anthropic API). Today it is a prototype, with a closed beta in the cloud.",
-        "stat": "2328 of 2495 commits co-authored by an AI agent (as of 07/11/2026)."
+        "body": "React and Vite for the app, Astro for the public page and Cloudflare Workers for the table API and the AI (Claude through the Anthropic API). For now it's a prototype, with a closed beta in the cloud.",
+        "stat": "2,328 of 2,495 commits co-authored by an AI agent (as of November 7, 2026)."
       }
     }
   },
   "projectsIndex": {
     "metaTitle": "Projects · Ranielli Montagna",
     "kicker": "projects",
-    "title": "What I put in production.",
-    "lead": "The cases tell the path from pain to product. Below, everything public on GitHub.",
-    "casesTitle": "Cases",
+    "title": "What I've shipped.",
+    "lead": "The case studies trace the path from pain to product. Below is everything public on GitHub.",
+    "casesTitle": "Case studies",
     "githubTitle": "On GitHub",
     "stats": {
       "repos": "public repositories",
@@ -430,29 +430,29 @@
     "repos": {
       "label": "Repositories",
       "all": "all",
-      "empty": "The repositories didn't load right now. Try again in a few minutes.",
+      "empty": "Couldn't load the repositories right now. Try again in a few minutes.",
       "stars": "",
       "updated": "updated",
       "site": "site"
     },
     "atto": "Need something like this for your company? Atto builds it.",
     "attoCta": "Talk to Atto on WhatsApp",
-    "whatsappMessage": "Hi! I came from Ranielli's site and I'd like to talk about a project."
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project."
   },
   "blogIndex": {
     "kicker": "blog",
     "title": "Thinking out loud.",
     "lead": "What I learn building products with AI: decisions, mistakes and tools, written for people who build too.",
     "latest": "latest",
-    "empty": "The posts didn't load right now. Come back in a few minutes.",
+    "empty": "Couldn't load the posts right now. Come back in a few minutes.",
     "closeImage": "Close"
   },
   "blog": {
-    "title": "Thinking Aloud.",
-    "subtitle": "Insights, tutorials, and reflections on technology, development, and everything in between.",
+    "title": "Thinking Out Loud.",
+    "subtitle": "Insights, tutorials and reflections on technology, development and everything that comes with it.",
     "backToPortfolio": "Back to Portfolio",
     "backToBlog": "Back to Blog",
-    "readFeaturedStory": "Read Featured Story",
+    "readFeaturedStory": "Read Featured Article",
     "readArticle": "Read article",
     "noPosts": "No posts found. Check back soon!",
     "previous": "Previous",
@@ -462,7 +462,7 @@
     "zoomIn": "Zoom in",
     "viewerLoading": "Loading image viewer…",
     "viewerError": "The image viewer could not be loaded.",
-    "diagramPending": "Diagram loads near the viewport",
+    "diagramPending": "The diagram loads as it comes into view",
     "diagramLoading": "Rendering diagram…",
     "diagramError": "Error rendering diagram:",
     "scrollToTop": "Back to top"
@@ -471,14 +471,14 @@
     "title": "Page not found",
     "code": "404",
     "description": "Oops! The page you're looking for doesn't exist or has been moved.",
-    "backHome": "Back to home",
+    "backHome": "Back to the home page",
     "contact": "Get in touch",
     "suggestions": "Maybe you're looking for:",
     "visitSection": "Visit section",
     "links": {
       "about": {
         "title": "About me",
-        "description": "Know my journey and skills"
+        "description": "Get to know my journey and skills"
       },
       "projects": {
         "title": "Projects",
@@ -486,7 +486,7 @@
       },
       "blog": {
         "title": "Blog",
-        "description": "Articles and tech thoughts"
+        "description": "Articles and thoughts on tech"
       },
       "contact": {
         "title": "Contact",
@@ -509,7 +509,7 @@
     "back": "Back to the site",
     "newChat": "New chat",
     "thinking": "thinking…",
-    "error": "I couldn't answer right now.",
+    "error": "I couldn't answer that right now.",
     "errorRateLimit": "Too many questions in a row. Wait a minute and try again.",
     "retry": "Try again",
     "send": "Send",

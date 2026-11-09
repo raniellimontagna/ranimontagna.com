@@ -35,11 +35,11 @@
     }
   },
   "hero2026": {
-    "lead": "Ingeniero de producto. Tomo el dolor de alguien y pongo el producto en línea, con la IA escribiendo el código y yo decidiendo lo que importa.",
+    "lead": "Ingeniero de producto. Parto del dolor de alguien y entrego el producto ya en línea, con la IA escribiendo el código y yo decidiendo lo que importa.",
     "ctaVega": "Pregúntale a Vega",
     "ctaWork": "Ver lo que está en línea",
     "portraitAlt": "Retrato de Ranielli Montagna",
-    "hint": "pasa el mouse por el retrato · desplázate para revelar",
+    "hint": "pasa el cursor por el retrato · desplázate para revelar",
     "hintTouch": "toca el retrato · desplázate para revelar",
     "stackAi": "Agentes de IA",
     "stackProduct": "Producto"
@@ -64,8 +64,8 @@
       },
       "code": {
         "kicker": "el código",
-        "title": "Con IA, bajo criterio.",
-        "body": "Los agentes escriben la mayor parte del código. Cada cambio pasa por mi revisión antes de salir."
+        "title": "Con IA, con criterio.",
+        "body": "Los agentes escriben la mayor parte del código. Cada cambio pasa por mi revisión antes de publicarse."
       }
     },
     "thread": {
@@ -77,11 +77,11 @@
         },
         {
           "from": "otra persona",
-          "text": "Me pasó también. Ningún timer guarda eso bien."
+          "text": "A mí también me pasó. Ningún timer lo guarda bien."
         },
         {
           "from": "yo",
-          "text": "Lo voy a resolver: el historial nunca más se pierde.",
+          "text": "Voy a resolverlo: el historial no se pierde nunca más.",
           "mine": true
         }
       ]
@@ -103,17 +103,17 @@
   },
   "aiMethod": {
     "kicker": "ia",
-    "title": "Sin ataduras de modelo. Con método.",
+    "title": "Sin atarme a un modelo. Con método.",
     "lead": "Elijo el modelo por la tarea, no por la marca. Y ninguno escribe código sin una especificación antes y una revisión mía después.",
     "modelsLabel": "Modelos y herramientas de IA",
     "stepsLabel": "El método, paso a paso",
     "free": {
       "title": "Sin ataduras",
-      "body": "Modelos y herramientas de empresas distintas, todos en el día a día. Si uno cambia de precio o se cae, cambio sin reescribir nada."
+      "body": "Modelos y herramientas de distintas empresas, todos de uso diario. Si uno cambia de precio o se cae, lo reemplazo sin reescribir nada."
     },
     "method": {
       "title": "Como se debe",
-      "body": "Spec-driven development: la idea se vuelve especificación, la especificación se vuelve plan, el plan se vuelve pruebas y solo entonces código."
+      "body": "Spec-driven development: la idea se convierte en especificación, la especificación en plan, el plan en pruebas y solo entonces en código."
     },
     "steps": {
       "talk": {
@@ -138,7 +138,7 @@
       },
       "review": {
         "title": "Revisión",
-        "lines": ["revisor nuevo", "lee todo", "yo decido qué sale al aire"]
+        "lines": ["revisor nuevo", "lee todo", "yo decido qué se publica"]
       }
     },
     "terms": {
@@ -170,7 +170,7 @@
     "proofs": {
       "products": {
         "value": "6 productos",
-        "label": "en producción en tres meses en el equipo de IA de Lemon, con agentes en el flujo y revisión antes de salir al aire"
+        "label": "en producción en tres meses en el equipo de IA de Lemon, con agentes en el flujo y revisión antes de publicar"
       },
       "agents": {
         "value": "5 agentes",
@@ -190,23 +190,23 @@
     "label": "Quién es",
     "kicker": "quién es",
     "statement": "Ingeniería, producto y negocio en la misma conversación.",
-    "detail": "Más de 5 años construyendo productos web y mobile que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.",
-    "photoAlt": "Ranielli Montagna en su portátil, con la mano en el mentón, frente a una ventana con la ciudad al fondo"
+    "detail": "Más de 5 años construyendo productos web y móviles que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.",
+    "photoAlt": "Ranielli Montagna frente a su portátil, con la mano en el mentón, ante una ventana con la ciudad al fondo"
   },
   "liveWork": {
     "kicker": "en línea",
     "title": "Cosas que están en línea.",
-    "lead": "Productos propios, usados de verdad. El detalle de cada uno vive en la página del proyecto.",
+    "lead": "Productos propios, usados de verdad. Los detalles de cada uno están en la página del proyecto.",
     "items": {
       "grimory": {
         "name": "Grimory",
         "line": "Una mesa de D&D en portugués. La IA propone, las reglas validan, el jugador decide.",
-        "meta": "producto propio · en uso por su grupo",
+        "meta": "producto propio · lo usa el grupo",
         "alt": "Compendio de Grimory abierto en la Espada Larga"
       },
       "klick": {
         "name": "Klick",
-        "line": "Timer de speedcubing offline-first, rehecho después de escuchar lo que los cuberos más perdían.",
+        "line": "Timer de speedcubing offline-first, rehecho tras escuchar qué era lo que más perdían los cuberos.",
         "meta": "klick.ranimontagna.com · código abierto",
         "alt": "Timer de Klick marcando 0:10.81"
       },
@@ -218,7 +218,7 @@
       },
       "argus": {
         "name": "Argus",
-        "line": "Hub de datos personal: noticias, cotizaciones y consultas servidas por API, MCP, Discord y CLI.",
+        "line": "Hub de datos personal: noticias, cotizaciones y consultas servidas vía API, MCP, Discord y CLI.",
         "meta": "TypeScript · repositorio privado",
         "alt": "La documentación de la API de Argus en el navegador y el celular"
       },
@@ -233,58 +233,58 @@
   "trajectory": {
     "kicker": "trayectoria",
     "now": "hoy",
-    "title": "De escribir pantallas a conducir el producto entero.",
+    "title": "De escribir pantallas a llevar todo el producto.",
     "lead": "Cinco años, cuatro etapas y cada vez más cerca de la decisión.",
     "stackLabel": "Tecnologías",
     "stages": {
       "sbsistemas": {
         "role": "Desarrollador Front-end · SBSistemas",
         "period": "Mayo 2021 - Mayo 2022",
-        "what": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones con foco en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
+        "what": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones centradas en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
         "impact": [
           "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
-          "Implementé componentes reutilizables y estándares de interfaz",
+          "Implementé componentes reutilizables y patrones de interfaz",
           "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código"
         ]
       },
       "smarten": {
-        "role": "Líder Técnico Front-end · Smarten",
+        "role": "Tech Lead Front-end · Smarten",
         "period": "Mayo 2022 - Septiembre 2023",
-        "what": "Trabajé como Tech Lead Front-end en productos SaaS, liderando desarrolladores, definiendo estándares de calidad, evolucionando arquitectura de interfaz y conectando decisiones técnicas con entregas de producto.",
+        "what": "Trabajé como Tech Lead Front-end en productos SaaS, liderando a desarrolladores, definiendo estándares de calidad, haciendo evolucionar la arquitectura de interfaz y conectando las decisiones técnicas con las entregas de producto.",
         "impact": [
           "Lideré técnicamente un equipo de desarrolladores",
-          "Creé y mantuve un Design System adoptado en múltiples productos",
+          "Creé y mantuve un Design System adoptado por varios productos",
           "Implementé CI/CD, monitoreo y estándares de calidad"
         ]
       },
       "luizalabs": {
-        "role": "Desarrollador Pleno · Luizalabs",
+        "role": "Desarrollador Semi Senior · Luizalabs",
         "period": "Octubre 2023 - Junio 2026",
-        "what": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, en aplicaciones web y móviles para las operaciones de las tiendas físicas y en los servicios detrás de ellas, con back-end en Go sobre GCP, en un entorno minorista nacional de alta escala.",
+        "what": "Trabajé en Luizalabs, la unidad de tecnología de Magalu, en aplicaciones web y móviles para las operaciones de las tiendas físicas y en los servicios que hay detrás, con back-end en Go sobre GCP, en un minorista nacional de gran escala.",
         "impact": [
           "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
           "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
-          "Servicios en Go y Node.js sobre GCP, comunicados por colas en RabbitMQ, además de APIs REST y micro frontends en React y React Native",
-          "Código y operación seguidos en SonarQube y Grafana",
-          "Viví Black Fridays desde adentro, la semana en que un sistema minorista no puede fallar"
+          "Servicios en Go y Node.js sobre GCP, comunicados mediante colas de RabbitMQ, además de APIs REST y micro frontends en React y React Native",
+          "Código y operación monitoreados con SonarQube y Grafana",
+          "Viví Black Fridays desde dentro, la semana en que un sistema de retail no puede fallar"
         ]
       },
       "lemon": {
         "role": "Ingeniero de software · Lemon Energia",
         "period": "Julio 2026 - hoy · equipo de IA, dentro de Finanzas",
-        "what": "En el equipo de IA de Lemon, trabajo desde dentro de un área de negocio: vivo la operación de Finanzas, encuentro el trabajo manual y decido qué se convierte en producto. Desde agosto, puse seis productos internos en producción, de la pantalla a la base de datos y a la infraestructura en AWS.",
+        "what": "En el equipo de IA de Lemon trabajo desde dentro de un área de negocio: vivo la operación de Finanzas, encuentro el trabajo manual y decido qué se convierte en producto. Desde agosto he puesto seis productos internos en producción, de la pantalla a la base de datos y la infraestructura en AWS.",
         "impact": [
           "Seis productos de finanzas en tres meses: conciliación bancaria, lotes de pago, proveedores, facturas y notas de débito",
           "Cada uno de punta a punta: front en React, API en Fastify con PostgreSQL y la infraestructura escrita como código con Pulumi",
           "En AWS: contenedores en ECS Fargate, base de datos en Aurora (RDS), eventos con EventBridge y SQS, secretos en Secrets Manager, entrega por API Gateway y CloudFront",
-          "Ritmo alto de entrega, con agentes de IA en el flujo y revisión crítica antes de salir al aire"
+          "Ritmo alto de entrega, con agentes de IA en el flujo y revisión crítica antes de publicar"
         ]
       }
     }
   },
   "atto": {
     "kicker": "atto",
-    "title": "La marca que lo lleva más lejos.",
+    "title": "La marca que lo lleva adelante.",
     "lead": "Atto es la software house y agencia de marketing de la que soy socio fundador. Construye productos digitales, integraciones y campañas que traen clientes, con ingeniería de precisión y sin promesas vacías.",
     "servicesLabel": "Lo que hace Atto",
     "services": {
@@ -328,7 +328,7 @@
   "closing": {
     "kicker": "contacto",
     "title": "¿Tienes un problema que resolver?",
-    "lead": "Atto lo convierte en producto. O escríbeme directo: respondo correo y mensajes por aquí.",
+    "lead": "Atto lo convierte en producto. O escríbeme directamente: respondo correos y mensajes por aquí.",
     "ctaAtto": "Hablar con Atto por WhatsApp",
     "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto.",
     "copyEmail": "Copiar correo",
@@ -354,7 +354,7 @@
       "heroAlt": "Timer de Klick en la computadora, con la mezcla y los promedios de la sesión",
       "pain": {
         "title": "El historial que desaparecía.",
-        "body": "En la investigación antes de Klick v2, el relato que más se repetía era el de quien perdió de meses a tres años de tiempos: datos del navegador borrados, celular nuevo, una app que no los guardaba bien.",
+        "body": "En la investigación previa a Klick v2, el relato que más se repetía era el de quienes habían perdido entre meses y tres años de tiempos: datos del navegador borrados, un cambio de celular, una app que no los guardaba bien.",
         "caption": "paráfrasis de relatos reales en foros de cuberos, de la investigación de Klick v2"
       },
       "decisions": {
@@ -363,12 +363,12 @@
           "Los tiempos viven en el dispositivo (IndexedDB) y la app funciona offline después de la primera visita.",
           "Backup local automático cada 50 solves y una vez al día, con papelera de 30 días.",
           "Cuenta opcional y sin contraseña (código por correo o passkey) para sincronizar y guardar copias en la nube.",
-          "Los 13 eventos de la WCA con mezclas oficiales, e importación de csTimer para quien viene de ahí."
+          "Los 13 eventos de la WCA con mezclas oficiales, e importación desde csTimer para quienes vienen de ahí."
         ]
       },
       "product": {
         "title": "En línea, en la computadora y en el celular.",
-        "body": "PWA instalable con estadísticas, metas, calendario de entrenamiento, un camino de aprendizaje con cubo 3D y desafíos por link, sin cuenta."
+        "body": "PWA instalable con estadísticas, metas, calendario de entrenamiento, una ruta de aprendizaje con cubo 3D y desafíos por enlace, sin necesidad de cuenta."
       },
       "gallery": [
         "Pestaña de estadísticas de Klick con récords, promedios, metas y el calendario de entrenamiento",
@@ -387,21 +387,21 @@
       "heroAlt": "Compendio de Grimory abierto en la Espada Larga",
       "pain": {
         "title": "La ficha en medio de la sesión.",
-        "body": "Los jugadores abren la ficha en el celular en medio del juego: una mano, miradas rápidas, números para tirar y reglas para revisar sin salir de la ficha. El máster conduce el combate desde la notebook.",
+        "body": "Los jugadores abren la ficha en el celular en medio del juego: una mano, vistazos rápidos, números para tirar y reglas para consultar sin salir de la ficha. El máster dirige el combate desde su portátil.",
         "caption": ""
       },
       "decisions": {
         "title": "La IA propone, las reglas deciden.",
         "items": [
-          "Describe un concepto y la IA propone una ficha completa y justificada, que se abre en el constructor para revisión.",
+          "Describe un concepto y la IA propone una ficha completa y justificada, que se abre en el constructor para revisarla.",
           "El motor de reglas valida todo: una opción inválida nunca aparece.",
-          "Cada mesa elige las reglas de 2014 o de 2024, y cada pantalla respeta la elección.",
+          "Cada mesa elige las reglas de 2014 o de 2024, y todas las pantallas respetan esa elección.",
           "Solo contenido distribuible: SRD 5.1 y 5.2 bajo CC-BY-4.0, con la fuente en cada regla."
         ]
       },
       "product": {
-        "title": "En uso por la mesa de su grupo.",
-        "body": "Una ficha que conoce las reglas, un compendio traducido con el homebrew de la mesa, un diario de sesión y la Chama-guia, el familiar que le da cara a la IA."
+        "title": "Lo usa la mesa del grupo.",
+        "body": "Una ficha que conoce las reglas, un compendio traducido con el homebrew de la mesa, un diario de sesión y la Chama-guia, el familiar que le pone cara a la IA."
       },
       "gallery": [
         "Inicio de Grimory con la próxima sesión de la mesa de ejemplo",
@@ -429,8 +429,8 @@
     },
     "repos": {
       "label": "Repositorios",
-      "all": "todas",
-      "empty": "Los repositorios no cargaron ahora. Prueba de nuevo en unos minutos.",
+      "all": "todos",
+      "empty": "No se pudieron cargar los repositorios. Vuelve a intentarlo en unos minutos.",
       "stars": "",
       "updated": "actualizado en",
       "site": "sitio"
@@ -444,15 +444,15 @@
     "title": "Pensando en voz alta.",
     "lead": "Lo que aprendo construyendo producto con IA: decisiones, errores y herramientas, escrito para quien también construye.",
     "latest": "más reciente",
-    "empty": "Los posts no cargaron ahora. Vuelve en unos minutos.",
+    "empty": "No se pudieron cargar los posts. Vuelve en unos minutos.",
     "closeImage": "Cerrar"
   },
   "blog": {
-    "title": "Pensando en Voz Alta.",
-    "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que hay entre medio.",
-    "backToPortfolio": "Volver al Portafolio",
-    "backToBlog": "Volver al Blog",
-    "readFeaturedStory": "Leer Artículo Destacado",
+    "title": "Pensando en voz alta.",
+    "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que gira en torno a ese mundo.",
+    "backToPortfolio": "Volver al portafolio",
+    "backToBlog": "Volver al blog",
+    "readFeaturedStory": "Leer artículo destacado",
     "readArticle": "Leer artículo",
     "noPosts": "No se encontraron publicaciones. ¡Vuelve pronto!",
     "previous": "Anterior",
@@ -462,7 +462,7 @@
     "zoomIn": "Ampliar",
     "viewerLoading": "Cargando visor de imágenes…",
     "viewerError": "No se pudo cargar el visor de imágenes.",
-    "diagramPending": "El diagrama se carga cerca del área visible",
+    "diagramPending": "El diagrama se carga al acercarse al área visible",
     "diagramLoading": "Renderizando diagrama…",
     "diagramError": "Error al renderizar el diagrama:",
     "scrollToTop": "Volver arriba"
@@ -470,10 +470,10 @@
   "notFound": {
     "title": "Página no encontrada",
     "code": "404",
-    "description": "¡Ups! La página que buscas no existe o ha sido movida.",
+    "description": "¡Ups! La página que buscas no existe o cambió de dirección.",
     "backHome": "Volver al inicio",
     "contact": "Ponte en contacto",
-    "suggestions": "Tal vez estás buscando:",
+    "suggestions": "Quizá estés buscando:",
     "visitSection": "Visitar sección",
     "links": {
       "about": {
@@ -482,7 +482,7 @@
       },
       "projects": {
         "title": "Proyectos",
-        "description": "Mira lo que he construido"
+        "description": "Mira lo que he estado construyendo"
       },
       "blog": {
         "title": "Blog",
@@ -503,13 +503,13 @@
     "suggestions": [
       "¿Qué hace con IA?",
       "Muéstrame Grimory",
-      "¿Por dónde pasó?",
+      "¿Dónde ha trabajado?",
       "Quiero hablar con Atto"
     ],
     "back": "Volver al sitio",
     "newChat": "Nueva conversación",
     "thinking": "pensando…",
-    "error": "No pude responder ahora.",
+    "error": "No pude responder en este momento.",
     "errorRateLimit": "Demasiadas preguntas seguidas. Espera un minuto y vuelve a intentarlo.",
     "retry": "Intentar de nuevo",
     "send": "Enviar",
