@@ -3,13 +3,17 @@ import { BELOW_LG_QUERY, REDUCED_MOTION_QUERY } from '@/shared/components/motion
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { CaseTourScroller } from '../case-tour-scroller'
 
-type Observer = { callback: IntersectionObserverCallback; targets: Element[] }
+type Observer = {
+  callback: IntersectionObserverCallback
+  options?: IntersectionObserverInit
+  targets: Element[]
+}
 let observers: Observer[] = []
 
 class RecordingObserver {
   private record: Observer
-  constructor(callback: IntersectionObserverCallback) {
-    this.record = { callback, targets: [] }
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    this.record = { callback, options, targets: [] }
     observers.push(this.record)
   }
   observe = (target: Element) => this.record.targets.push(target)
@@ -48,6 +52,8 @@ function Tour() {
             data-active={step === 0}
             aria-hidden={step !== 0}
           >
+            {/* biome-ignore lint/performance/noImgElement: a plain still stands in for StaticImage's output. */}
+            <img alt="" loading="lazy" data-testid={`still-${step}`} />
             {step === 1 ? <video data-testid="loop" muted /> : null}
           </div>
         ))}
@@ -87,7 +93,13 @@ const activeSteps = (container: HTMLElement) =>
   )
 
 const stageObserver = () =>
-  observers.find((o) => o.targets.some((t) => t.matches('[data-tour-stage]')))
+  observers.find(
+    (o) => !o.options?.rootMargin && o.targets.some((t) => t.matches('[data-tour-stage]')),
+  )
+const nearObserver = () =>
+  observers.find(
+    (o) => o.options?.rootMargin && o.targets.some((t) => t.matches('[data-tour-stage]')),
+  )
 const stageVisible = (container: HTMLElement, isIntersecting: boolean) =>
   act(() =>
     stageObserver()?.callback(
@@ -183,5 +195,25 @@ describe('CaseTourScroller', () => {
     await scrollTo(container, [-600, 300, 1200])
     // jsdom renders nothing, like display: none: no client rects.
     expect(play).not.toHaveBeenCalled()
+  })
+
+  it('loads every screen in the shown frames once the tour is a screen away, so no wipe reveals an empty frame', () => {
+    mockMatchMedia({ [BELOW_LG_QUERY]: false })
+    const { container, getByTestId } = render(<Tour />)
+    // Clipped layers count as invisible to native lazy loading: they would load only once active.
+    expect(getByTestId('still-2')).toHaveAttribute('loading', 'lazy')
+    act(() =>
+      nearObserver()?.callback(
+        [
+          {
+            target: container.querySelector('[data-tour-stage]'),
+            isIntersecting: true,
+          } as unknown as IntersectionObserverEntry,
+        ],
+        {} as IntersectionObserver,
+      ),
+    )
+    for (const step of [0, 1, 2])
+      expect(getByTestId(`still-${step}`)).toHaveAttribute('loading', 'eager')
   })
 })

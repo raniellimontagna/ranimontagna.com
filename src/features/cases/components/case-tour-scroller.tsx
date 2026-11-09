@@ -105,11 +105,27 @@ export function CaseTourScroller({
     })
     if (stage) stageObserver.observe(stage)
 
+    // A clipped layer counts as invisible to native lazy loading, so each
+    // screen would start downloading only when its wipe began. A screen
+    // away, the stills in the frames that show load at once instead.
+    const nearObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return
+        for (const image of root.querySelectorAll<HTMLImageElement>('[data-tour-screen] img')) {
+          if (shown(image)) image.setAttribute('loading', 'eager')
+        }
+        nearObserver.disconnect()
+      },
+      { rootMargin: '100% 0px 100% 0px' },
+    )
+    if (stage) nearObserver.observe(stage)
+
     return () => {
       window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
       cancelAnimationFrame(frame)
       stageObserver.disconnect()
+      nearObserver.disconnect()
     }
   }, [total])
 
