@@ -23,7 +23,7 @@ CONTENT_PATH = ROOT / "scripts" / "cv-content.json"
 OUTPUT_DIRECTORY = ROOT / "public" / "cv"
 FONT_REGULAR = Path("/System/Library/Fonts/Supplemental/Arial Unicode.ttf")
 FONT_BOLD = Path("/System/Library/Fonts/Supplemental/Arial Bold.ttf")
-MARGIN = 14 * mm
+MARGIN = 15 * mm
 
 
 class DeterministicCanvas(canvas.Canvas):

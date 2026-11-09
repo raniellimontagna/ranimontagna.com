@@ -19,7 +19,7 @@
       "languages": "IDIOMAS",
       "projects": "PROJETOS"
     },
-    "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência em aplicações web e mobile, do front-end à infraestrutura em nuvem. No time de IA da Lemon Energia, coloquei seis produtos internos de Finanças em produção em três meses, de ponta a ponta, com React, Fastify, PostgreSQL e infraestrutura como código (Pulumi) na AWS. Na Luizalabs (Magalu), desenvolvi aplicações e serviços em Go e Node.js no GCP usados em mais de 1.000 lojas; antes, fui Tech Lead Front-end na Smarten, com Design System e CI/CD. Sócio-fundador da Atto, software house e agência de marketing. Uso IA no desenvolvimento com método: spec-driven development, TDD, revisão crítica e evals, com Claude Code, Codex e Model Context Protocol (MCP).",
+    "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência em aplicações web e mobile, do front-end à infraestrutura em nuvem. No time de IA da Lemon Energia, coloquei seis produtos internos de Finanças em produção em três meses, de ponta a ponta, com React, Fastify, PostgreSQL e infraestrutura como código (Pulumi) na AWS. Na Luizalabs (Magalu), desenvolvi aplicações e serviços em Go e Node.js no GCP usados em mais de 1.000 lojas; antes, fui Tech Lead Front-end na Smarten, com Design System e CI/CD. Uso IA no desenvolvimento com método: spec-driven development, TDD, revisão crítica e evals, com Claude Code, Codex e Model Context Protocol (MCP).",
     "skills": [
       "Linguagens: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
       "Front-end e Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, acessibilidade (WCAG), performance web (Core Web Vitals).",
@@ -27,8 +27,7 @@
       "Cloud e DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestrutura como código (IaC) com Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Qualidade e Observabilidade: testes automatizados (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoramento, Feature Flags, Clean Code, SOLID, Monorepo, Git.",
       "IA aplicada: desenvolvimento assistido por IA, agentes de IA, spec-driven development, Model Context Protocol (MCP), integração com LLMs (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, engenharia de prompt, Claude Code, Codex, Gemini CLI.",
-      "Produto e Liderança: product discovery, levantamento de requisitos com áreas de negócio, liderança técnica, mentoria, colaboração com Produto, UX e Operações.",
-      "Marketing e Aquisição (Atto): Meta Ads, WhatsApp Cloud API, SEO, funil e mensuração."
+      "Produto e Liderança: product discovery, levantamento de requisitos com áreas de negócio, liderança técnica, mentoria, colaboração com Produto, UX e Operações."
     ],
     "experience": [
       {
@@ -46,24 +45,11 @@
         ]
       },
       {
-        "company": "Atto",
-        "position": "Sócio-fundador e Engenheiro de Software",
-        "period": "Janeiro 2026 - Presente",
-        "location": "Remoto",
-        "description": "Software house e agência de marketing: produtos sob medida, integrações, automação com IA e campanhas de aquisição. Conduzo a engenharia, da proposta técnica à operação.",
-        "highlights": [
-          "Quadralize: plataforma de gestão de quadras esportivas com agendamento, CRM, PDV, pagamentos e financeiro (React, Node.js, PostgreSQL)",
-          "TALA Drone Partners: plataforma de parceiros para expansão regional de drones agrícolas, com dashboard, CRM, rastreamento e comissões",
-          "Fronteira Sul Drones: e-commerce agrícola com catálogo, carrinho consultivo e fechamento pelo WhatsApp (React, Cloudflare Workers, R2)",
-          "Assistente virtual com IA (Anthropic Claude) no atendimento do site e do WhatsApp, integrada ao CRM e com passagem para humano"
-        ]
-      },
-      {
         "company": "Luizalabs",
         "position": "Desenvolvedor Pleno",
         "period": "Outubro 2023 - Junho 2026",
         "location": "Remoto",
-        "description": "",
+        "description": "Na unidade de tecnologia do Magalu, desenvolvi aplicações web e mobile para as lojas físicas e os serviços por trás delas, em varejo de alta escala.",
         "highlights": [
           "Desenvolvi soluções usadas nas operações de estoque e logística de 1.000+ lojas físicas do Magalu",
           "Contribuí para o fluxo diário de 1.000+ estoquistas no superapp corporativo em React Native com micro frontends",
@@ -99,7 +85,8 @@
     "projects": [
       "Klick (klick.ranimontagna.com): timer de speedcubing offline-first, PWA para os 13 eventos da WCA. Svelte 5, IndexedDB, Cloudflare Workers, Durable Objects, D1 e R2; testes com Vitest, Playwright e axe.",
       "Grimory (grimory.com.br): mesa de D&D 5e em português com IA (Anthropic Claude API) e motor de regras. React, TanStack Query, Astro e Cloudflare Workers.",
-      "ranimontagna.com: site pessoal em Next.js com chat de IA próprio, três idiomas e 1.300+ testes automatizados."
+      "ranimontagna.com: site pessoal em Next.js com chat de IA próprio, três idiomas e 1.300+ testes automatizados.",
+      "agent-toolkit (open source): instala o mesmo conjunto de skills em cinco agentes de código (Claude Code, Codex, OpenCode, Gemini CLI e Antigravity)."
     ],
     "education": [
       "Universidade de Passo Fundo - Análise e Desenvolvimento de Sistemas - 2020 a 2022"
@@ -127,7 +114,7 @@
       "languages": "LANGUAGES",
       "projects": "PROJECTS"
     },
-    "profile": "Full Stack Software Engineer with 5+ years of experience building web and mobile applications, from the front end to cloud infrastructure. On Lemon Energia's AI team, I shipped six internal finance products to production in three months, end to end, with React, Fastify, PostgreSQL and infrastructure as code (Pulumi) on AWS. At Luizalabs (Magalu), I built applications and Go and Node.js services on GCP used across 1,000+ stores; before that, I was Front-end Tech Lead at Smarten, owning a design system and CI/CD. Co-founder of Atto, a software house and marketing agency. I use AI in development with a method: spec-driven development, TDD, critical review and evals, with Claude Code, Codex and the Model Context Protocol (MCP).",
+    "profile": "Full Stack Software Engineer with 5+ years of experience building web and mobile applications, from the front end to cloud infrastructure. On Lemon Energia's AI team, I shipped six internal finance products to production in three months, end to end, with React, Fastify, PostgreSQL and infrastructure as code (Pulumi) on AWS. At Luizalabs (Magalu), I built applications and Go and Node.js services on GCP used across 1,000+ stores; before that, I was Front-end Tech Lead at Smarten, owning a design system and CI/CD. I use AI in development with a method: spec-driven development, TDD, critical review and evals, with Claude Code, Codex and the Model Context Protocol (MCP).",
     "skills": [
       "Languages: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
       "Front-end & Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accessibility (WCAG), web performance (Core Web Vitals).",
@@ -135,8 +122,7 @@
       "Cloud & DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infrastructure as code (IaC) with Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Quality & Observability: automated testing (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoring, feature flags, Clean Code, SOLID, monorepos, Git.",
       "Applied AI: AI-assisted development, AI agents, spec-driven development, Model Context Protocol (MCP), LLM integration (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, prompt engineering, Claude Code, Codex, Gemini CLI.",
-      "Product & Leadership: product discovery, requirements gathering with business teams, technical leadership, mentoring, collaboration with Product, UX and Operations.",
-      "Marketing & Acquisition (Atto): Meta Ads, WhatsApp Cloud API, SEO, funnel and measurement."
+      "Product & Leadership: product discovery, requirements gathering with business teams, technical leadership, mentoring, collaboration with Product, UX and Operations."
     ],
     "experience": [
       {
@@ -154,24 +140,11 @@
         ]
       },
       {
-        "company": "Atto",
-        "position": "Co-founder & Software Engineer",
-        "period": "January 2026 - Present",
-        "location": "Remote",
-        "description": "Software house and marketing agency: custom products, integrations, AI automation and acquisition campaigns. I lead engineering, from the technical proposal to operation.",
-        "highlights": [
-          "Quadralize: sports court management platform with scheduling, CRM, point of sale, payments and finance (React, Node.js, PostgreSQL)",
-          "TALA Drone Partners: partner platform for the regional expansion of agricultural drones, with dashboard, CRM, tracking and commissions",
-          "Fronteira Sul Drones: agricultural e-commerce with catalog, consultative cart and WhatsApp checkout (React, Cloudflare Workers, R2)",
-          "AI virtual assistant (Anthropic Claude) for website and WhatsApp support, integrated with the CRM and with human handoff"
-        ]
-      },
-      {
         "company": "Luizalabs",
         "position": "Mid-level Software Developer",
         "period": "October 2023 - June 2026",
         "location": "Remote",
-        "description": "",
+        "description": "At Magalu's technology unit, I built web and mobile applications for physical stores and the services behind them, in high-scale retail.",
         "highlights": [
           "Built solutions used in inventory and logistics operations across 1,000+ Magalu physical stores",
           "Contributed to the daily workflow of 1,000+ stock associates in the corporate React Native super app with micro frontends",
@@ -207,7 +180,8 @@
     "projects": [
       "Klick (klick.ranimontagna.com): offline-first speedcubing timer, a PWA for all 13 WCA events. Svelte 5, IndexedDB, Cloudflare Workers, Durable Objects, D1 and R2; tested with Vitest, Playwright and axe.",
       "Grimory (grimory.com.br): D&D 5e table in Portuguese with AI (Anthropic Claude API) and a rules engine. React, TanStack Query, Astro and Cloudflare Workers.",
-      "ranimontagna.com: personal site in Next.js with its own AI chat, three languages and 1,300+ automated tests."
+      "ranimontagna.com: personal site in Next.js with its own AI chat, three languages and 1,300+ automated tests.",
+      "agent-toolkit (open source): installs the same set of skills in five coding agents (Claude Code, Codex, OpenCode, Gemini CLI and Antigravity)."
     ],
     "education": [
       "Universidade de Passo Fundo - Associate Degree in Systems Analysis and Development - 2020 to 2022"
@@ -235,7 +209,7 @@
       "languages": "IDIOMAS",
       "projects": "PROYECTOS"
     },
-    "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia en aplicaciones web y móviles, del front-end a la infraestructura en la nube. En el equipo de IA de Lemon Energia, puse en producción seis productos internos de Finanzas en tres meses, de punta a punta, con React, Fastify, PostgreSQL e infraestructura como código (Pulumi) en AWS. En Luizalabs (Magalu), desarrollé aplicaciones y servicios en Go y Node.js en GCP usados en más de 1.000 tiendas; antes fui Tech Lead Front-end en Smarten. Cofundador de Atto, software house y agencia de marketing. Uso IA con método: spec-driven development, TDD, revisión crítica y evals, con Claude Code, Codex y Model Context Protocol (MCP).",
+    "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia en aplicaciones web y móviles, del front-end a la infraestructura en la nube. En el equipo de IA de Lemon Energia, puse en producción seis productos internos de Finanzas en tres meses, de punta a punta, con React, Fastify, PostgreSQL e infraestructura como código (Pulumi) en AWS. En Luizalabs (Magalu), desarrollé aplicaciones y servicios en Go y Node.js en GCP usados en más de 1.000 tiendas; antes fui Tech Lead Front-end en Smarten. Uso IA con método: spec-driven development, TDD, revisión crítica y evals, con Claude Code, Codex y Model Context Protocol (MCP).",
     "skills": [
       "Lenguajes: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
       "Front-end y Móvil: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accesibilidad (WCAG), rendimiento web (Core Web Vitals).",
@@ -243,8 +217,7 @@
       "Cloud y DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestructura como código (IaC) con Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Calidad y Observabilidad: pruebas automatizadas (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoreo, feature flags, Clean Code, SOLID, monorepos, Git.",
       "IA aplicada: desarrollo asistido por IA, agentes de IA, spec-driven development, Model Context Protocol (MCP), integración con LLMs (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, ingeniería de prompts, Claude Code, Codex, Gemini CLI.",
-      "Producto y Liderazgo: product discovery, levantamiento de requisitos con las áreas de negocio, liderazgo técnico, mentoría, colaboración con Producto, UX y Operaciones.",
-      "Marketing y Adquisición (Atto): Meta Ads, WhatsApp Cloud API, SEO, embudo y medición."
+      "Producto y Liderazgo: product discovery, levantamiento de requisitos con las áreas de negocio, liderazgo técnico, mentoría, colaboración con Producto, UX y Operaciones."
     ],
     "experience": [
       {
@@ -262,24 +235,11 @@
         ]
       },
       {
-        "company": "Atto",
-        "position": "Cofundador e Ingeniero de Software",
-        "period": "Enero 2026 - Presente",
-        "location": "Remoto",
-        "description": "Software house y agencia de marketing: productos a medida, integraciones, automatización con IA y campañas. Dirijo la ingeniería, de la propuesta técnica a la operación.",
-        "highlights": [
-          "Quadralize: plataforma de gestión de canchas deportivas con agenda, CRM, punto de venta, pagos y finanzas (React, Node.js, PostgreSQL)",
-          "TALA Drone Partners: plataforma de socios para la expansión regional de drones agrícolas, con dashboard, CRM, seguimiento y comisiones",
-          "Fronteira Sul Drones: e-commerce agrícola con catálogo, carrito consultivo y cierre por WhatsApp (React, Cloudflare Workers, R2)",
-          "Asistente virtual con IA (Anthropic Claude) en la atención del sitio y de WhatsApp, integrada al CRM y con traspaso a humano"
-        ]
-      },
-      {
         "company": "Luizalabs",
         "position": "Desarrollador Semi Senior",
         "period": "Octubre 2023 - Junio 2026",
         "location": "Remoto",
-        "description": "",
+        "description": "En la unidad de tecnología de Magalu, desarrollé aplicaciones web y móviles para las tiendas físicas y los servicios detrás de ellas, en retail de alta escala.",
         "highlights": [
           "Desarrollé soluciones usadas en las operaciones de inventario y logística de más de 1.000 tiendas físicas de Magalu",
           "Contribuí al flujo diario de más de 1.000 reponedores en la superapp corporativa (React Native, micro frontends)",
@@ -315,7 +275,8 @@
     "projects": [
       "Klick (klick.ranimontagna.com): timer de speedcubing offline-first, PWA para los 13 eventos de la WCA. Svelte 5, Cloudflare Workers, Durable Objects, D1 y R2; pruebas con Vitest, Playwright y axe.",
       "Grimory (grimory.com.br): mesa de D&D 5e en portugués con IA (Anthropic Claude API) y motor de reglas. React, TanStack Query, Astro y Cloudflare Workers.",
-      "ranimontagna.com: sitio personal en Next.js con chat de IA propio, tres idiomas y más de 1.300 pruebas automatizadas."
+      "ranimontagna.com: sitio personal en Next.js con chat de IA propio, tres idiomas y más de 1.300 pruebas automatizadas.",
+      "agent-toolkit (open source): instala el mismo conjunto de skills en cinco agentes de código (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)."
     ],
     "education": ["Universidade de Passo Fundo - Análisis y Desarrollo de Sistemas - 2020 a 2022"],
     "certifications": ["Android, React Native, Node.js, ReactJS"],
