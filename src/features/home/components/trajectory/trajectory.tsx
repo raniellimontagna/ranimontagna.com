@@ -65,8 +65,8 @@ export async function Trajectory() {
                   key={stage.id}
                   data-stage-panel={stage.id}
                   data-active={index === 0 ? 'true' : 'false'}
-                  className="group/panel absolute inset-0 flex flex-col opacity-0 transition-opacity duration-700 data-[active=true]:opacity-100 motion-reduce:transition-none"
-                  style={{ backgroundColor: stage.company.color, zIndex: index + 1 }}
+                  className="group/panel absolute inset-0 z-0 flex flex-col opacity-0 transition-opacity duration-700 data-[active=true]:z-10 data-[active=true]:opacity-100 data-[active=false]:delay-700 motion-reduce:transition-none"
+                  style={{ backgroundColor: stage.company.color }}
                 >
                   <div className="flex flex-1 items-center justify-center p-[14%]">
                     <div className="w-full scale-90 transition-transform duration-[900ms] ease-[cubic-bezier(.2,.7,.2,1)] group-data-[active=true]/panel:scale-100 motion-reduce:transition-none">
@@ -114,7 +114,7 @@ export async function Trajectory() {
                   key={stage.id}
                   data-stage-panel={stage.id}
                   data-active={index === 0 ? 'true' : 'false'}
-                  className="group/layer absolute inset-0 flex items-center justify-between gap-4 px-4 opacity-0 transition-opacity duration-500 data-[active=true]:opacity-100 motion-reduce:transition-none"
+                  className="group/layer absolute inset-0 z-0 flex items-center justify-between gap-4 px-4 opacity-0 transition-opacity duration-500 data-[active=true]:z-10 data-[active=true]:opacity-100 data-[active=false]:delay-500 motion-reduce:transition-none"
                   style={{ backgroundColor: stage.company.color }}
                 >
                   <span className="translate-y-[60%] transition-transform duration-500 group-data-[active=true]/layer:translate-y-0 group-data-[before=true]/layer:-translate-y-[60%] motion-reduce:transition-none">

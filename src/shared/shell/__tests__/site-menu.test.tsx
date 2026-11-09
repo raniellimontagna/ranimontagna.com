@@ -142,6 +142,35 @@ describe('SiteMenu motion (opening A)', () => {
     expect(trigger).toHaveFocus()
   })
 
+  it('makes the links inert while it closes, but keeps its button live for a reopen', () => {
+    render(<SiteMenu labels={labels} />)
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+    fireEvent.click(trigger)
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar' }))
+    const nav = document.querySelector('[data-menu-links]') as HTMLElement
+    expect(nav.closest('[inert]')).not.toBeNull()
+    const overlayButton = screen.getAllByRole('button').find((b) => b !== trigger) as HTMLElement
+    expect(overlayButton.closest('[inert]')).toBeNull()
+    fireEvent.click(trigger)
+    expect(
+      (document.querySelector('[data-menu-links]') as HTMLElement).closest('[inert]'),
+    ).toBeNull()
+  })
+
+  it('closes when the browser goes back or forward', async () => {
+    render(<SiteMenu labels={labels} />)
+    const trigger = screen.getByRole('button', { name: 'Menu' })
+    fireEvent.click(trigger)
+    act(() => {
+      window.dispatchEvent(new PopStateEvent('popstate'))
+    })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await act(async () => {
+      for (const a of animations) a.resolve()
+    })
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+  })
+
   it('never animates the circle with reduced motion', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     render(<SiteMenu labels={labels} />)

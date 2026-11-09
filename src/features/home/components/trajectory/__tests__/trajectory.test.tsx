@@ -188,6 +188,18 @@ describe('company strip below lg', () => {
     expect(strip().innerHTML).not.toContain('text-white/70')
   })
 
+  it('crossfades panels over the outgoing one, so no page background flashes through', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(await Trajectory())
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-stage-panel]')]
+    expect(panels.length).toBe(STAGES.length * 2)
+    for (const panel of panels) {
+      expect(panel.className).toContain('data-[active=true]:z-10')
+      expect(panel.className).toMatch(/data-\[active=false\]:delay-(500|700)/)
+      expect(panel.style.zIndex).toBe('')
+    }
+  })
+
   it('says "now" in each language', () => {
     expect(pt.trajectory.now).toBe('hoje')
     expect(en.trajectory.now).toBe('now')

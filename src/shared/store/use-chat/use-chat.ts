@@ -4,6 +4,12 @@ import type { ChatMessage, ChatState } from './use-chat.types'
 
 const generateId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 
+/** The error code Vega shows in its own words: the server's rate limit (429). */
+export const RATE_LIMIT_ERROR = 'rate-limit'
+
+// The answer being streamed, so "Nova conversa" (or a newer question) can stop it.
+let inFlight: AbortController | null = null
+
 export const useChat = create<ChatState>((set, get) => ({
   isOpen: false,
   messages: [],
@@ -35,6 +41,10 @@ export const useChat = create<ChatState>((set, get) => ({
       timestamp: Date.now(),
     }
 
+    inFlight?.abort()
+    const controller = new AbortController()
+    inFlight = controller
+
     set((state) => ({
       messages: [...state.messages, userMessage, assistantMessage],
       isLoading: true,
@@ -47,8 +57,10 @@ export const useChat = create<ChatState>((set, get) => ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ locale, message: content, previousQuestions }),
+        signal: controller.signal,
       })
 
+      if (response.status === 429) throw new Error(RATE_LIMIT_ERROR)
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.error ?? `HTTP ${response.status}`)
@@ -64,6 +76,7 @@ export const useChat = create<ChatState>((set, get) => ({
       let buffer = ''
 
       const processLine = (rawLine: string): void => {
+        if (controller.signal.aborted) return
         const line = rawLine.trim()
         if (!line.startsWith('data:')) return
 
@@ -123,6 +136,8 @@ export const useChat = create<ChatState>((set, get) => ({
 
       reader.releaseLock()
     } catch (error) {
+      // Stopped on purpose (new conversation or a newer question): nothing to report.
+      if (controller.signal.aborted) return
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
       set((state) => ({
@@ -131,7 +146,10 @@ export const useChat = create<ChatState>((set, get) => ({
         messages: state.messages.filter((m) => m.id !== assistantMessage.id),
       }))
     } finally {
-      set({ isLoading: false })
+      if (inFlight === controller) {
+        inFlight = null
+        set({ isLoading: false })
+      }
     }
   },
 
@@ -152,5 +170,9 @@ export const useChat = create<ChatState>((set, get) => ({
 
   finishTyping: () => set({ typingId: null }),
 
-  clearMessages: () => set({ messages: [], error: null, failedQuestion: null, typingId: null }),
+  clearMessages: () => {
+    inFlight?.abort()
+    inFlight = null
+    set({ messages: [], error: null, failedQuestion: null, typingId: null, isLoading: false })
+  },
 }))

@@ -8,7 +8,7 @@ import {
   startSmoothScroll,
   stopSmoothScroll,
 } from '@/shared/components/motion'
-import { useChat } from '@/shared/store/use-chat/use-chat'
+import { RATE_LIMIT_ERROR, useChat } from '@/shared/store/use-chat/use-chat'
 import { VegaComposer } from './vega-composer'
 import { VegaMark } from './vega-mark'
 import { VegaMessage } from './vega-message'
@@ -148,7 +148,7 @@ export function VegaScreen() {
   const canRetry = Boolean(error || failedQuestion) && !isLoading
   const errorBlock = canRetry ? (
     <div className="flex flex-wrap items-center gap-3 text-sm text-foreground" role="alert">
-      {error ? <span>{t('error')}</span> : null}
+      {error ? <span>{t(error === RATE_LIMIT_ERROR ? 'errorRateLimit' : 'error')}</span> : null}
       <button
         type="button"
         onClick={() => {

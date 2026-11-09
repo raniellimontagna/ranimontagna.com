@@ -510,6 +510,7 @@
     "newChat": "New chat",
     "thinking": "thinking…",
     "error": "I couldn't answer right now.",
+    "errorRateLimit": "Too many questions in a row. Wait a minute and try again.",
     "retry": "Try again",
     "send": "Send",
     "cardCta": "See it on the site"

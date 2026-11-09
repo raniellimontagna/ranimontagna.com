@@ -10,8 +10,8 @@ const loadDefaultVega = (): Promise<VegaComponent> =>
   import('@/shared/vega/vega-screen').then(({ VegaScreen }) => VegaScreen)
 
 /**
- * Wires Vega on every page: ⌘K or Ctrl+K asks for her, and `vega:open` loads
- * the full-screen chat lazily and opens it.
+ * Wires Vega on every page: ⌘K or Ctrl+K asks for her (or closes her when she
+ * is open), and `vega:open` loads the full-screen chat lazily and opens it.
  */
 export function ShellWidgets({
   loadVega = loadDefaultVega,
@@ -31,7 +31,8 @@ export function ShellWidgets({
     const onShortcut = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== 'k' || (!event.metaKey && !event.ctrlKey)) return
       event.preventDefault()
-      openVega()
+      if (useChat.getState().isOpen) setChatOpen(false)
+      else openVega()
     }
     window.addEventListener(VEGA_OPEN_EVENT, open)
     document.addEventListener('keydown', onShortcut)
@@ -39,7 +40,7 @@ export function ShellWidgets({
       window.removeEventListener(VEGA_OPEN_EVENT, open)
       document.removeEventListener('keydown', onShortcut)
     }
-  }, [open])
+  }, [open, setChatOpen])
 
   return Vega ? <Vega /> : null
 }

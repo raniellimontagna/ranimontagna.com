@@ -218,6 +218,15 @@ describe('VegaScreen', () => {
     expect(screen.getAllByText('Me mostra o Grimory')).toHaveLength(1)
   })
 
+  it('says it is a rate limit, in its own words, when the server answers 429', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('{}', { status: 429 })))
+    render(<VegaScreen />)
+    openScreen()
+    fireEvent.click(screen.getByRole('button', { name: 'Me mostra o Grimory' }))
+    expect(await screen.findByText(pt.vega.errorRateLimit)).toBeInTheDocument()
+    expect(screen.queryByText(pt.vega.error)).toBeNull()
+  })
+
   it('closing and reopening shows each message once', async () => {
     render(<VegaScreen />)
     openScreen()

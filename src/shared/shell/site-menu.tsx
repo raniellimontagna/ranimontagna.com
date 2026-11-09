@@ -251,6 +251,8 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
   const onEscape = useEffectEvent((event: globalThis.KeyboardEvent) => {
     if (event.key === 'Escape') requestClose()
   })
+  // Back or forward while open: the page under it changes, so the menu goes too.
+  const onHistory = useEffectEvent(() => requestClose({ returnFocus: false, viaLink: true }))
 
   useEffect(() => {
     if (!isOpen) return
@@ -259,12 +261,14 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
     const previous = root.style.overflow
     root.style.overflow = 'hidden'
     document.addEventListener('keydown', onEscape)
+    window.addEventListener('popstate', onHistory)
     const raf =
       window.requestAnimationFrame ?? ((callback: FrameRequestCallback) => setTimeout(callback, 16))
     const frame = raf(() => setCrossed(true))
     return () => {
       root.style.overflow = previous
       document.removeEventListener('keydown', onEscape)
+      window.removeEventListener('popstate', onHistory)
       if (typeof frame === 'number') window.cancelAnimationFrame?.(frame)
       setCrossed(false)
     }
@@ -324,7 +328,12 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                 {isOpen ? labels.close : labels.open}
               </button>
 
-              <div className="relative flex min-h-full flex-col px-4 pb-8 sm:px-8 lg:px-12">
+              {/* Inert while closing: a tap on a fading link must not navigate. The
+                  overlay button above stays live, so a reopen still works. */}
+              <div
+                inert={phase === 'closing'}
+                className="relative flex min-h-full flex-col px-4 pb-8 sm:px-8 lg:px-12"
+              >
                 <div className="flex h-16 items-center">
                   <span
                     data-menu-chrome

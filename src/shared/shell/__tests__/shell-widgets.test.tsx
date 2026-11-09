@@ -12,10 +12,25 @@ describe('Vega entry points', () => {
     window.addEventListener('vega:open', spy)
     render(<VegaLauncher label="Falar com a Vega" />)
     render(<ShellWidgets loadVega={vi.fn().mockResolvedValue(() => null)} />)
+    // Each entry point asks for her while she is closed (⌘K toggles once open).
+    const closeVega = () => act(() => useChat.setState({ isOpen: false }))
     fireEvent.click(screen.getByRole('button', { name: 'Falar com a Vega' }))
+    closeVega()
     fireEvent.keyDown(document, { key: 'k', metaKey: true })
+    closeVega()
     fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
     expect(spy).toHaveBeenCalledTimes(3)
+    window.removeEventListener('vega:open', spy)
+  })
+
+  it('⌘K closes Vega when she is already open', () => {
+    const spy = vi.fn()
+    window.addEventListener('vega:open', spy)
+    render(<ShellWidgets loadVega={vi.fn().mockResolvedValue(() => null)} />)
+    act(() => useChat.setState({ isOpen: true }))
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
+    expect(useChat.getState().isOpen).toBe(false)
+    expect(spy).not.toHaveBeenCalled()
     window.removeEventListener('vega:open', spy)
   })
 

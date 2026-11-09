@@ -510,6 +510,7 @@
     "newChat": "Nueva conversación",
     "thinking": "pensando…",
     "error": "No pude responder ahora.",
+    "errorRateLimit": "Demasiadas preguntas seguidas. Espera un minuto y vuelve a intentarlo.",
     "retry": "Intentar de nuevo",
     "send": "Enviar",
     "cardCta": "Ver en el sitio"
