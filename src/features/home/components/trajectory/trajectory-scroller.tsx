@@ -35,6 +35,12 @@ export function TrajectoryScroller({ children }: { children: ReactNode }) {
           panel.dataset.active = String(panel.dataset.stagePanel === id)
           panel.dataset.before = String(order.indexOf(panel.dataset.stagePanel) < current)
         }
+        // The containers take the active colour too: a fast scroll through several
+        // stages can leave every layer mid-fade, and the page must not show through.
+        for (const container of root.querySelectorAll<HTMLElement>('[data-stage-panels]')) {
+          const active = container.querySelector<HTMLElement>(`[data-stage-panel="${id}"]`)
+          if (active) container.style.backgroundColor = active.style.backgroundColor
+        }
       }
 
       const context = gsap.context(() => {

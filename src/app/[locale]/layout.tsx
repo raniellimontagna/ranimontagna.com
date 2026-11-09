@@ -8,7 +8,7 @@ import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
-import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
+import { getAlternateLanguages, getCanonicalUrl, getSEOData, getShareImage } from '@/shared/lib/seo'
 import { isIndexingDisabled, robotsMetadata } from '@/shared/lib/seo/indexing'
 import { ScrollProgress, ShellWidgets, SiteFooter, SiteHeader, VegaLauncher } from '@/shared/shell'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalUrl = getCanonicalUrl(locale)
   // A real 1200x630 card per language (public/og). The old og-image.png stays for
   // links already shared, but it was a portrait photo declared as 1200x630.
-  const shareImage = `${BASE_URL}/og/og-${locale}.jpg`
+  const shareImage = getShareImage(locale)
 
   return {
     metadataBase: new URL(BASE_URL),
@@ -51,21 +51,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: seo.ogTitle,
       description: seo.ogDescription,
       siteName: 'Ranielli Montagna Portfolio',
-      images: [
-        {
-          url: shareImage,
-          width: 1200,
-          height: 630,
-          alt: seo.ogTitle,
-        },
-      ],
+      images: [{ ...shareImage, alt: seo.ogTitle }],
     },
     twitter: {
       card: 'summary_large_image',
       title: seo.twitterTitle,
       description: seo.twitterDescription,
       creator: '@rannimontagna',
-      images: [shareImage],
+      images: [shareImage.url],
     },
     robots: robotsMetadata(isIndexingDisabled(process.env)),
     manifest: '/manifest.json',

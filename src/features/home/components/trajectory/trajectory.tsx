@@ -59,7 +59,11 @@ export async function Trajectory() {
       <TrajectoryScroller>
         <div className="mt-16 grid gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
           <div aria-hidden="true" className="relative hidden lg:block">
-            <div className="sticky top-24 aspect-[4/5] w-full overflow-hidden rounded-[2px]">
+            <div
+              data-stage-panels
+              className="sticky top-24 aspect-[4/5] w-full overflow-hidden rounded-[2px]"
+              style={{ backgroundColor: STAGES[0].company.color }}
+            >
               {STAGES.map((stage, index) => (
                 <div
                   key={stage.id}
@@ -106,7 +110,9 @@ export async function Trajectory() {
             <div
               aria-hidden="true"
               data-stage-strip
+              data-stage-panels
               data-follow-header
+              style={{ backgroundColor: STAGES[0].company.color }}
               className="sticky top-0 z-10 -mt-16 mb-16 hidden h-16 overflow-hidden rounded-[2px] [@media(scripting:enabled)]:max-lg:block lg:hidden"
             >
               {STAGES.map((stage, index) => (

@@ -13,4 +13,13 @@ describe('docs describe the redesigned site', () => {
   it('.env.example drops the contact form settings', () => {
     expect(read('.env.example')).not.toMatch(/CONTACT_RATE_LIMIT/)
   })
+
+  it('README describes Vega on Cmd+K and no stack the site no longer ships', () => {
+    const readme = read('README.md')
+    expect(readme).not.toMatch(/Command menu/)
+    expect(readme).not.toMatch(/three\.js|React Three Fiber/)
+    expect(readme).not.toMatch(/Speed Insights/)
+    expect(readme).toMatch(/Cmd\+K/)
+  })
 })
+

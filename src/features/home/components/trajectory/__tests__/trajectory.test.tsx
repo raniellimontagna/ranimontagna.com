@@ -200,6 +200,21 @@ describe('company strip below lg', () => {
     }
   })
 
+  it('paints the panel containers in the active colour, so nothing lighter shows mid-crossfade', async () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: false })
+    render(await Trajectory())
+    await waitFor(() => expect(toggles).toHaveLength(STAGES.length))
+    act(() => toggles[2]({ isActive: true }))
+    const containers = document.querySelectorAll<HTMLElement>('[data-stage-panels]')
+    expect(containers).toHaveLength(2)
+    for (const container of containers) {
+      expect(container.style.backgroundColor).toBe(
+        (document.querySelector(`[data-stage-panel="${STAGES[2].id}"]`) as HTMLElement).style
+          .backgroundColor,
+      )
+    }
+  })
+
   it('says "now" in each language', () => {
     expect(pt.trajectory.now).toBe('hoje')
     expect(en.trajectory.now).toBe('now')

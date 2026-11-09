@@ -34,6 +34,27 @@ describe('Vega entry points', () => {
     window.removeEventListener('vega:open', spy)
   })
 
+  it('ignores a held ⌘K (auto-repeat), so Vega does not flicker', () => {
+    render(<ShellWidgets loadVega={vi.fn().mockResolvedValue(() => null)} />)
+    act(() => useChat.setState({ isOpen: true }))
+    fireEvent.keyDown(document, { key: 'k', metaKey: true, repeat: true })
+    expect(useChat.getState().isOpen).toBe(true)
+  })
+
+  it('leaves Ctrl+K to a text field with text in it (the macOS delete-to-end shortcut)', () => {
+    render(
+      <>
+        <ShellWidgets loadVega={vi.fn().mockResolvedValue(() => null)} />
+        <textarea aria-label="draft" defaultValue="meio escrito" />
+      </>,
+    )
+    act(() => useChat.setState({ isOpen: true }))
+    fireEvent.keyDown(screen.getByRole('textbox', { name: 'draft' }), { key: 'k', ctrlKey: true })
+    expect(useChat.getState().isOpen).toBe(true)
+    fireEvent.keyDown(screen.getByRole('textbox', { name: 'draft' }), { key: 'k', metaKey: true })
+    expect(useChat.getState().isOpen).toBe(false)
+  })
+
   it('opens Vega when vega:open fires', async () => {
     const loadVega = vi.fn().mockResolvedValue(() => null)
     render(<ShellWidgets loadVega={loadVega} />)

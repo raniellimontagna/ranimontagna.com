@@ -4,6 +4,7 @@ import { getAllPosts, type PostSummary } from '@/features/blog/lib/blog'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generateBlogJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
+import { getShareImage } from '@/shared/lib/seo'
 
 function getBlogUrl(locale: string): string {
   const isDefault = locale === routing.defaultLocale
@@ -31,9 +32,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: 'Ranielli Montagna',
       locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
+      images: [getShareImage(locale)],
     },
     twitter: {
       card: 'summary_large_image',
+      images: [getShareImage(locale).url],
       title: t('title'),
       description: t('subtitle'),
       creator: '@rannimontagna',

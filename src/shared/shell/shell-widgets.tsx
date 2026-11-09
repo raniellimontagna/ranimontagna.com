@@ -30,7 +30,15 @@ export function ShellWidgets({
   useEffect(() => {
     const onShortcut = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== 'k' || (!event.metaKey && !event.ctrlKey)) return
+      // Ctrl+K in a field with text is an editing shortcut (macOS: delete to end of line).
+      const field = event.target
+      const editing =
+        (field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement) &&
+        field.value !== ''
+      if (event.ctrlKey && !event.metaKey && editing) return
       event.preventDefault()
+      // A held shortcut repeats: toggling on each repeat would flicker Vega.
+      if (event.repeat) return
       if (useChat.getState().isOpen) setChatOpen(false)
       else openVega()
     }

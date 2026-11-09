@@ -3,6 +3,7 @@ import { ProjectsIndex } from '@/features/projects/components/projects-index'
 import { getGitHubProjectSnapshot } from '@/features/projects/lib/github.server'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
+import { getShareImage } from '@/shared/lib/seo'
 
 function getProjectsUrl(locale: string): string {
   const isDefault = locale === routing.defaultLocale
@@ -26,9 +27,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: 'Ranielli Montagna',
       locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
+      images: [getShareImage(locale)],
     },
     twitter: {
       card: 'summary_large_image',
+      images: [getShareImage(locale).url],
       title: t('metaTitle'),
       description: t('lead'),
       creator: '@rannimontagna',

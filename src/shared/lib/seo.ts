@@ -53,6 +53,16 @@ const seoData: Record<string, SEOData> = {
   },
 }
 
+/**
+ * The 1200x630 share card for a language (public/og). Pages that set their own
+ * openGraph must pass it again: Next replaces the layout's openGraph whole.
+ */
+export function getShareImage(locale: string) {
+  const known = (routing.locales as readonly string[]).includes(locale)
+  const language = known ? locale : routing.defaultLocale
+  return { url: `${BASE_URL}/og/og-${language}.jpg`, width: 1200, height: 630 }
+}
+
 export function getSEOData(locale: string): SEOData {
   return seoData[locale] || seoData.en
 }

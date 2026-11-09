@@ -74,11 +74,11 @@ Todas com dados de exemplo, conferidas antes de copiar.
 
 ## Retrato da abertura (LCP)
 
-`public/redesign/portrait/photo-{384,640,750,828,1080,1440}.webp` são cópias redimensionadas de `public/photo.webp` (WebP q72). A abertura usa esses arquivos estáticos, e não o `/_next/image`: arquivo com extensão fica no cache da borda da Cloudflare, enquanto o otimizador voltava à origem a cada visita.
+`public/redesign/portrait/v1/photo-{384,640,750,828,1080,1440}.webp` são cópias redimensionadas de `public/photo.webp` (WebP q72). A abertura usa esses arquivos estáticos, e não o `/_next/image`: arquivo com extensão fica no cache da borda da Cloudflare, enquanto o otimizador voltava à origem a cada visita.
 
 - **Cache:** um ano, `immutable`, só para essas larguras (`next.config.ts`).
-- **Ao trocar a foto:** gere arquivos com outro nome e atualize `src/features/home/components/portrait/portrait-image.ts`. Mantendo o nome, o cache serviria a foto antiga.
-- **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080,1440])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/photo-'+w+'.webp')"`.
+- **Ao trocar a foto:** gere as cópias numa pasta nova (`v2`) e troque `PORTRAIT_DIR` em `src/features/home/components/portrait/portrait-image.ts`. A regra de cache do `next.config.ts` é montada a partir dessa mesma constante. Mantendo o nome, o cache serviria a foto antiga.
+- **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080,1440])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/v1/photo-'+w+'.webp')"`.
 
 ## Imagem de compartilhamento
 
