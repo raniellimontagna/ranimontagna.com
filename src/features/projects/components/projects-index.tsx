@@ -44,7 +44,7 @@ export async function ProjectsIndex({ snapshot, locale }: ProjectsIndexProps) {
           {t('casesTitle')}
         </h2>
         <ul className="grid gap-10 lg:grid-cols-2">
-          {CASE_SLUGS.map((slug) => (
+          {CASE_SLUGS.map((slug, index) => (
             <li key={slug}>
               <Link href={`/projects/${slug}`} className="group block">
                 <div className="relative aspect-[16/10] overflow-hidden border border-line bg-surface">
@@ -53,6 +53,8 @@ export async function ProjectsIndex({ snapshot, locale }: ProjectsIndexProps) {
                     alt={tCases(`${slug}.heroAlt`)}
                     fill
                     sizes="(max-width: 1023px) 100vw, 50vw"
+                    // The first case is the page's LCP on phones: no lazy loading there.
+                    priority={index === 0}
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>

@@ -66,7 +66,15 @@ export function PhotoReveal({
     }
   }, [effect])
 
-  const { props } = getImageProps({ src, alt, fill: true, sizes, priority })
+  const { props } = getImageProps({
+    src,
+    alt,
+    fill: true,
+    sizes,
+    priority,
+    // getImageProps leaves fetchPriority unset: an LCP picture asks for it.
+    fetchPriority: priority ? 'high' : undefined,
+  })
 
   return (
     <div ref={frameRef} className={`relative overflow-hidden ${className}`}>

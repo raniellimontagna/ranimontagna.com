@@ -15,9 +15,16 @@ type StaticImageProps = Omit<
  * images that need no load/error callbacks or blur placeholder.
  */
 export function StaticImage({ alt, ...rest }: StaticImageProps) {
-  const { props } = getImageProps({ alt, ...rest })
+  const eager = Boolean(rest.priority || rest.preload)
+  // getImageProps no longer sets fetchPriority for priority images: an LCP image
+  // asks for it explicitly, or it waits behind scripts and styles.
+  const { props } = getImageProps({
+    alt,
+    ...rest,
+    fetchPriority: rest.fetchPriority ?? (eager ? 'high' : undefined),
+  })
 
-  if (rest.priority || rest.preload) {
+  if (eager) {
     preload(props.src, {
       as: 'image',
       imageSrcSet: props.srcSet,

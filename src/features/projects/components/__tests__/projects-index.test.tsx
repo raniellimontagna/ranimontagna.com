@@ -53,6 +53,17 @@ describe('ProjectsIndex', () => {
     expect(screen.getByText('30')).toBeInTheDocument()
   })
 
+  it('loads the first case picture eagerly at high priority: it is the page LCP on phones', async () => {
+    render(await ProjectsIndex({ snapshot, locale: 'pt' }))
+    const pictures = [
+      ...document.querySelectorAll<HTMLImageElement>('[aria-labelledby="cases-title"] img'),
+    ]
+    expect(pictures.length).toBeGreaterThan(1)
+    expect(pictures[0].getAttribute('loading')).not.toBe('lazy')
+    expect(pictures[0].getAttribute('fetchpriority')).toBe('high')
+    expect(pictures[1].getAttribute('loading')).toBe('lazy')
+  })
+
   it('shows an empty state when GitHub returns nothing', async () => {
     render(
       await ProjectsIndex({

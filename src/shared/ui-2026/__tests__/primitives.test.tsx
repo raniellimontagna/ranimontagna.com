@@ -112,6 +112,14 @@ describe('PhotoReveal', () => {
     expect(img.style.opacity).not.toBe('0')
     expect(img.style.clipPath).toBe('')
   })
+
+  it('fetches a priority picture at high priority (case heroes, the featured post)', () => {
+    mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
+    render(<PhotoReveal src="/photo.webp" alt="Ranielli" effect="scale" sizes="100vw" priority />)
+    const img = screen.getByAltText('Ranielli') as HTMLImageElement
+    expect(img.getAttribute('fetchpriority')).toBe('high')
+    expect(img.getAttribute('loading')).not.toBe('lazy')
+  })
 })
 
 describe('SectionHeading', () => {
