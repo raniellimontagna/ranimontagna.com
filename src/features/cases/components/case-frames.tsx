@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { StaticImage } from '@/shared/components/ui/static-image/static-image'
+import { preload } from 'react-dom'
+import { type StillKind, stillSources } from '../case-stills'
 import type { CaseMedia } from '../cases.data'
 import { CaseVideo } from './case-video'
 
@@ -39,8 +40,51 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
   )
 }
 
+type CaseStillProps = {
+  /** The capture in /redesign/cases/v1; the copies are named after it. */
+  master: string
+  kind: StillKind
+  alt: string
+  sizes: string
+  priority?: boolean
+}
+
+/**
+ * A capture filling its frame from its pre-sized static copies: AVIF where
+ * the browser takes it, WebP otherwise. Lazy, unless it is the page's LCP:
+ * then eager, at high priority, with the AVIF set preloaded.
+ */
+export function CaseStill({ master, kind, alt, sizes, priority }: CaseStillProps) {
+  const { avif, webp, src } = stillSources(master, kind)
+  if (priority) {
+    preload(src, {
+      as: 'image',
+      type: 'image/avif',
+      imageSrcSet: avif,
+      imageSizes: sizes,
+      fetchPriority: 'high',
+    })
+  }
+  return (
+    <picture>
+      <source type="image/avif" srcSet={avif} sizes={sizes} />
+      <img
+        src={src}
+        srcSet={webp}
+        sizes={sizes}
+        alt={alt}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : undefined}
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-top"
+      />
+    </picture>
+  )
+}
+
 type ScreenProps = {
   media: CaseMedia
+  kind: StillKind
   alt: string
   sizes: string
   priority?: boolean
@@ -51,21 +95,13 @@ type ScreenProps = {
 }
 
 /**
- * One capture filling its frame: the still (optimized, preloaded when it is
- * the LCP), and for a loop the video laid over it, which the still is the
- * first frame of.
+ * One capture filling its frame: the still, and for a loop the video laid
+ * over it, which the still is the first frame of.
  */
-export function Screen({ media, alt, sizes, priority, videoQuery, managed }: ScreenProps) {
+export function Screen({ media, kind, alt, sizes, priority, videoQuery, managed }: ScreenProps) {
   return (
     <>
-      <StaticImage
-        src={media.src}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        className="object-cover object-top"
-      />
+      <CaseStill master={media.src} kind={kind} alt={alt} sizes={sizes} priority={priority} />
       {media.video ? <CaseVideo src={media.video} query={videoQuery} managed={managed} /> : null}
     </>
   )

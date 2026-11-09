@@ -58,6 +58,7 @@ export function CaseHero({ study, labels }: CaseHeroProps) {
             <BrowserFrame host={host}>
               <Screen
                 media={study.hero.desk}
+                kind="desk"
                 alt={labels.heroAlt}
                 sizes={DESK_SIZES}
                 priority
@@ -70,7 +71,12 @@ export function CaseHero({ study, labels }: CaseHeroProps) {
             className="absolute right-[2%] bottom-0 w-[42%] lg:right-[1%] lg:w-[21%] [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:max-lg:[transform:translateY(22%)_scale(0.94)] [@media(scripting:enabled)_and_(prefers-reduced-motion:no-preference)]:lg:[transform:translateY(28%)]"
           >
             <PhoneFrame>
-              <Screen media={study.hero.phone} alt={labels.heroPhoneAlt} sizes={PHONE_SIZES} />
+              <Screen
+                media={study.hero.phone}
+                kind="phone"
+                alt={labels.heroPhoneAlt}
+                sizes={PHONE_SIZES}
+              />
             </PhoneFrame>
           </div>
         </CaseStage>

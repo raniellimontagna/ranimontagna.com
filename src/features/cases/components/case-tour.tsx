@@ -1,4 +1,5 @@
 import { Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
+import type { StillKind } from '../case-stills'
 import type { CaseMedia, CaseStep } from '../cases.data'
 import { BrowserFrame, DESK_SIZES, PHONE_SIZES, PhoneFrame, Screen } from './case-frames'
 import { CaseTourScroller } from './case-tour-scroller'
@@ -24,9 +25,11 @@ const LAYER =
 
 function Layers({
   items,
+  kind,
   sizes,
 }: {
   items: ReadonlyArray<{ media: CaseMedia; alt: string }>
+  kind: StillKind
   sizes: string
 }) {
   return items.map((item, step) => (
@@ -37,7 +40,7 @@ function Layers({
       data-active={step === 0}
       className={LAYER}
     >
-      <Screen media={item.media} alt={item.alt} sizes={sizes} managed />
+      <Screen media={item.media} kind={kind} alt={item.alt} sizes={sizes} managed />
     </div>
   ))
 }
@@ -95,7 +98,7 @@ export function CaseTour({
             <div className="relative w-full lg:pb-[12%]">
               <div data-stage-browser className="hidden lg:block lg:w-[88%]">
                 <BrowserFrame host={host}>
-                  <Layers items={desk} sizes={DESK_SIZES} />
+                  <Layers items={desk} kind="desk" sizes={DESK_SIZES} />
                 </BrowserFrame>
               </div>
               <div
@@ -103,7 +106,7 @@ export function CaseTour({
                 className="mx-auto w-[min(52svh*390/844,62vw)] lg:absolute lg:right-0 lg:bottom-0 lg:w-[23%]"
               >
                 <PhoneFrame>
-                  <Layers items={phone} sizes={PHONE_SIZES} />
+                  <Layers items={phone} kind="phone" sizes={PHONE_SIZES} />
                 </PhoneFrame>
               </div>
             </div>
@@ -146,12 +149,22 @@ export function CaseTour({
                 <div className="relative mt-6 pb-[40%] [@media(scripting:enabled)]:hidden">
                   <div className="w-[88%]">
                     <BrowserFrame host={host}>
-                      <Screen media={step.screens.desk} alt={text.deskAlt} sizes={DESK_SIZES} />
+                      <Screen
+                        media={step.screens.desk}
+                        kind="desk"
+                        alt={text.deskAlt}
+                        sizes={DESK_SIZES}
+                      />
                     </BrowserFrame>
                   </div>
                   <div className="absolute right-0 bottom-0 w-[30%]">
                     <PhoneFrame>
-                      <Screen media={step.screens.phone} alt={text.phoneAlt} sizes={PHONE_SIZES} />
+                      <Screen
+                        media={step.screens.phone}
+                        kind="phone"
+                        alt={text.phoneAlt}
+                        sizes={PHONE_SIZES}
+                      />
                     </PhoneFrame>
                   </div>
                 </div>

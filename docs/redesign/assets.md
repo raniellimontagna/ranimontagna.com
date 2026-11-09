@@ -67,6 +67,7 @@ Todas com dados de exemplo, conferidas antes de copiar. `klick-stats` e `grimory
 - **Grimory:** um clone local do repositório com o backend falso dos testes de ponta a ponta. Inclui a mesa de exemplo "A Torre de Sal", entrando como `mestre@grimory.test`.
 - **Telas:** webp q80. No desktop, 1440×900 em densidade 2× (2880×1800). No celular, 390×844 em 3× (1170×2532).
 - **Vídeos:** mp4 H.264 sem áudio, gravados quadro a quadro com o relógio da página parado. O screencast do Chrome ignora a densidade. Os do desktop têm 2400 px de largura, e os do celular, 900 px. O poster de cada vídeo é o primeiro quadro, com o mesmo nome em `.webp`.
+- **Cópias no tamanho certo:** as telas são os mestres. A página usa as cópias em `sized/`, em AVIF q55 e WebP q76, com 640, 1080, 1600 e 2400 px no desktop e 320, 480 e 720 px no celular. São arquivos estáticos com cache imutável de um ano, montado de `src/features/cases/case-stills.ts`. Ficam no cache da borda da Cloudflare e sobrevivem a deploys; o `/_next/image` voltava à origem a cada pedido e recomeçava frio depois de cada deploy. Gere com `pnpm cases:stills`. Um mestre que muda vai para uma pasta nova (`v2`).
 - **Imagens de compartilhamento:** `klick-og.jpg` e `grimory-og.jpg`, em 1200×630, recortadas do topo da tela do hero.
 
 | Arquivo | O que mostra |

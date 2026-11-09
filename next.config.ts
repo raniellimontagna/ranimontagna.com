@@ -4,6 +4,7 @@ import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 import { addCompileHints } from './scripts/compile-hints.mjs'
+import { STILLS_CACHE_SOURCE } from './src/features/cases/case-stills'
 import { PORTRAIT_CACHE_SOURCE } from './src/features/home/components/portrait/portrait-image'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
@@ -115,6 +116,12 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
+      },
+      {
+        // The case screens' pre-sized copies (src/features/cases/case-stills.ts): in a
+        // version folder, listed by width and format, so a year and no 404s.
+        source: STILLS_CACHE_SOURCE,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
         // The LCP portrait copies (src/features/home/components/portrait/portrait-image.ts):

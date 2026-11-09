@@ -13,6 +13,7 @@ export function CaseCover({ study, priority }: { study: CaseStudy; priority?: bo
         <BrowserFrame host={caseHost(study)}>
           <Screen
             media={{ src: study.hero.desk.src }}
+            kind="desk"
             alt=""
             sizes="(max-width: 1023px) 86vw, 42vw"
             priority={priority}
@@ -23,6 +24,7 @@ export function CaseCover({ study, priority }: { study: CaseStudy; priority?: bo
         <PhoneFrame>
           <Screen
             media={{ src: study.hero.phone.src }}
+            kind="phone"
             alt=""
             sizes="(max-width: 1023px) 24vw, 12vw"
           />

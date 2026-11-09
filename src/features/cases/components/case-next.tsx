@@ -1,18 +1,11 @@
-import { getImageProps } from 'next/image'
 import { Link } from '@/shared/config/i18n/navigation'
 import { SECTION_X } from '@/shared/ui-2026'
 import { CASES, type CaseSlug, caseHost } from '../cases.data'
-import { BrowserFrame } from './case-frames'
+import { BrowserFrame, CaseStill } from './case-frames'
 
 /** The next case: its name set huge and its first screen in a small browser that lifts on hover. */
 export function CaseNext({ next, label, name }: { next: CaseSlug; label: string; name: string }) {
   const study = CASES[next]
-  const { props } = getImageProps({
-    src: study.hero.desk.src,
-    alt: '',
-    fill: true,
-    sizes: '(max-width: 1023px) 80vw, 28rem',
-  })
 
   return (
     <Link
@@ -30,8 +23,12 @@ export function CaseNext({ next, label, name }: { next: CaseSlug; label: string;
         className="w-[min(100%,28rem)] transition-transform duration-500 group-hover:-translate-y-2 motion-reduce:transition-none"
       >
         <BrowserFrame host={caseHost(study)}>
-          {/* biome-ignore lint/performance/noImgElement: getImageProps already gives the optimized srcset. */}
-          <img {...props} alt="" className="object-cover object-top" />
+          <CaseStill
+            master={study.hero.desk.src}
+            kind="desk"
+            alt=""
+            sizes="(max-width: 1023px) 80vw, 28rem"
+          />
         </BrowserFrame>
       </div>
     </Link>
