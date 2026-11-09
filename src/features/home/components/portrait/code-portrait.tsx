@@ -1,6 +1,5 @@
 'use client'
 
-import { getImageProps } from 'next/image'
 import { useEffect, useRef } from 'react'
 import { preload } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
@@ -12,9 +11,10 @@ import {
   type GlyphCell,
   glyphFor,
 } from './glyph-grid'
+import type { PortraitImage } from './portrait-image'
 
 type CodePortraitProps = {
-  src: string
+  image: PortraitImage
   alt: string
   /** 0 shows only characters, 1 only the photo. */
   getReveal: () => number
@@ -40,7 +40,7 @@ function readColors(canvas: HTMLCanvasElement) {
  * The <img> is the content: the canvas is decoration on top of it, and the
  * photo stays visible whenever the canvas cannot run.
  */
-export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
+export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -218,18 +218,10 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
     }
   }, [])
 
-  const { props: imageProps } = getImageProps({
-    src,
-    alt,
-    fill: true,
-    priority: true,
-    sizes: '(max-width: 760px) 100vw, 50vw',
-  })
-
-  preload(imageProps.src, {
+  preload(image.src, {
     as: 'image',
-    imageSrcSet: imageProps.srcSet,
-    imageSizes: imageProps.sizes,
+    imageSrcSet: image.srcSet,
+    imageSizes: image.sizes,
     fetchPriority: 'high',
   })
 
@@ -240,7 +232,16 @@ export function CodePortrait({ src, alt, getReveal }: CodePortraitProps) {
       className="relative h-full w-full overflow-hidden"
     >
       {/* biome-ignore lint/performance/noImgElement: the canvas samples this exact element. */}
-      <img {...imageProps} ref={imgRef} alt={alt} className="object-cover object-[50%_20%]" />
+      <img
+        ref={imgRef}
+        src={image.src}
+        srcSet={image.srcSet}
+        sizes={image.sizes}
+        alt={alt}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-[50%_20%]"
+      />
       {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: decorative canvas with no tabindex; the img carries the content. */}
       <canvas
         ref={canvasRef}

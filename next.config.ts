@@ -115,6 +115,13 @@ const nextConfig: NextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
       },
+      {
+        // The LCP portrait copies (src/features/home/components/portrait/portrait-image.ts):
+        // replaced under new names, so they get a year. Listed by width, so a 404
+        // never picks up the long cache. Last, so it overrides the day rule above.
+        source: '/redesign/portrait/photo-:width(384|640|750|828|1080|1440).webp',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
     ]
   },
 }

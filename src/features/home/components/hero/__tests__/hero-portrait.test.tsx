@@ -6,6 +6,7 @@ import {
 } from '@/shared/components/motion'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, waitFor } from '@/tests/test-utils'
+import { PORTRAIT_IMAGE } from '../../portrait/portrait-image'
 import { HeroPortrait } from '../hero-portrait'
 
 const create = vi.fn()
@@ -41,7 +42,7 @@ function renderInSection() {
   return render(
     <section data-hero-2026>
       <h1 data-hero-title>Ranielli</h1>
-      <HeroPortrait src="/photo.webp" alt="portrait" />
+      <HeroPortrait image={PORTRAIT_IMAGE} alt="portrait" />
     </section>,
   )
 }

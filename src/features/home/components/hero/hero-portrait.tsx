@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { CodePortrait } from '@/features/home/components/portrait/code-portrait'
+import type { PortraitImage } from '@/features/home/components/portrait/portrait-image'
 import {
   DESKTOP_QUERY,
   loadScrollMotion,
@@ -10,12 +11,12 @@ import {
 } from '@/shared/components/motion'
 
 type HeroPortraitProps = {
-  src: string
+  image: PortraitImage
   alt: string
 }
 
 /** Owns the scroll-driven reveal: scrolling the hero resolves the code into the photo. */
-export function HeroPortrait({ src, alt }: HeroPortraitProps) {
+export function HeroPortrait({ image, alt }: HeroPortraitProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const reveal = useRef(0)
   const getReveal = useCallback(() => reveal.current, [])
@@ -65,7 +66,7 @@ export function HeroPortrait({ src, alt }: HeroPortraitProps) {
 
   return (
     <div ref={rootRef} className="h-full w-full">
-      <CodePortrait src={src} alt={alt} getReveal={getReveal} />
+      <CodePortrait image={image} alt={alt} getReveal={getReveal} />
     </div>
   )
 }

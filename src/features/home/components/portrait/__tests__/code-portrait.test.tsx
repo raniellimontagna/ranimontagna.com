@@ -5,6 +5,7 @@ import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { CodePortrait } from '../code-portrait'
 import { CODE_GLYPHS } from '../glyph-grid'
+import { PORTRAIT_IMAGE } from '../portrait-image'
 
 vi.mock('react-dom', async (importOriginal) => ({
   ...(await importOriginal<typeof import('react-dom')>()),
@@ -14,7 +15,7 @@ vi.mock('react-dom', async (importOriginal) => ({
 const ALT = 'Ranielli Montagna'
 
 function renderPortrait() {
-  render(<CodePortrait src="/photo.webp" alt={ALT} getReveal={() => 0} />)
+  render(<CodePortrait image={PORTRAIT_IMAGE} alt={ALT} getReveal={() => 0} />)
   return screen.getByAltText(ALT) as HTMLImageElement
 }
 
@@ -122,12 +123,24 @@ describe('CodePortrait', () => {
     expect(window.requestAnimationFrame).not.toHaveBeenCalled()
   })
 
-  it('preloads the photo it samples', () => {
+  it('preloads the photo it samples, at high priority, with the same sources', () => {
     renderPortrait()
     expect(preload).toHaveBeenCalledWith(
-      expect.stringContaining('photo.webp'),
-      expect.objectContaining({ as: 'image' }),
+      PORTRAIT_IMAGE.src,
+      expect.objectContaining({
+        as: 'image',
+        imageSrcSet: PORTRAIT_IMAGE.srcSet,
+        imageSizes: PORTRAIT_IMAGE.sizes,
+        fetchPriority: 'high',
+      }),
     )
+  })
+
+  it('serves the portrait as static pre-sized files the CDN can cache, not through /_next/image', () => {
+    const img = renderPortrait()
+    expect(img.getAttribute('srcset')).toBe(PORTRAIT_IMAGE.srcSet)
+    expect(img.getAttribute('srcset')).not.toContain('/_next/image')
+    expect(img.getAttribute('fetchpriority')).toBe('high')
   })
 
   it('re-reads theme colors when the theme changes, not when Lenis toggles classes', async () => {

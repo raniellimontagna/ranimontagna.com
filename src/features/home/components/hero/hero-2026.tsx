@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { CSSProperties } from 'react'
+import { PORTRAIT_IMAGE } from '../portrait/portrait-image'
 import { HeroPortrait } from './hero-portrait'
 import { VegaTrigger } from './vega-trigger'
 
@@ -74,7 +75,7 @@ export async function Hero2026() {
       </div>
 
       <div className="relative order-1 h-[58svh] lg:order-2 lg:h-auto lg:min-h-svh">
-        <HeroPortrait src="/photo.webp" alt={t('portraitAlt')} />
+        <HeroPortrait image={PORTRAIT_IMAGE} alt={t('portraitAlt')} />
       </div>
     </section>
   )
