@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { StaticImage } from '@/shared/components/ui/static-image/static-image'
+import { Picture } from '@/shared/components/ui/picture/picture'
 import { ActionLink, AttoLogo, Reveal, SECTION_X, WordReveal } from '@/shared/ui-2026'
 import { ATTO_CASES, ATTO_CONTACT, ATTO_SERVICES, attoWhatsappHref } from './atto.data'
 
@@ -84,8 +84,8 @@ export async function AttoSection() {
                   <div className="flex flex-col gap-4 pb-8 pl-10">
                     {item.image ? (
                       <div className="relative aspect-[8/5] w-full max-w-2xl overflow-hidden rounded-[2px] bg-surface">
-                        <StaticImage
-                          src={item.image}
+                        <Picture
+                          master={item.image}
                           alt={t('caseImageAlt', { name: item.name })}
                           fill
                           sizes="(min-width: 1024px) 40vw, 90vw"

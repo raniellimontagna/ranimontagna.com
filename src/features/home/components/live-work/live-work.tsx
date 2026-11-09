@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { StaticImage } from '@/shared/components/ui/static-image/static-image'
+import { Picture } from '@/shared/components/ui/picture/picture'
 import { Link } from '@/shared/config/i18n/navigation'
 import { Reveal, SECTION_X, SectionHeading } from '@/shared/ui-2026'
 import { LIVE_WORK, type LiveWorkItem } from './live-work.data'
@@ -10,9 +10,9 @@ type Translate = (key: string) => string
 function CardArt({ item, t }: { item: LiveWorkItem; t: Translate }) {
   if (item.image) {
     return (
-      <StaticImage
+      <Picture
         data-live-media
-        src={item.image.src}
+        master={item.image.src}
         alt={t(`items.${item.slug}.alt`)}
         fill
         sizes="(max-width: 1023px) 100vw, 60vw"

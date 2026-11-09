@@ -6,6 +6,7 @@ import {
   MOBILE_QUERY,
   REDUCED_MOTION_QUERY,
 } from '@/shared/components/motion'
+import copies from '@/shared/lib/image-copies/copies.json'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { render, screen, waitFor } from '@/tests/test-utils'
 import type { CycleCopy } from '../cycle.data'
@@ -39,20 +40,6 @@ vi.mock('@/shared/components/motion', async (importOriginal) => ({
 vi.mock('../cycle-timeline', () => ({ buildCycleTimeline: vi.fn() }))
 vi.mock('../cycle-stack-motion', () => ({ buildCycleStack: vi.fn(() => () => {}) }))
 
-const { imageCalls } = vi.hoisted(() => ({
-  imageCalls: [] as Array<{ src: unknown; quality?: unknown }>,
-}))
-vi.mock('next/image', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('next/image')>()
-  return {
-    ...actual,
-    getImageProps: (props: Parameters<typeof actual.getImageProps>[0]) => {
-      imageCalls.push({ src: props.src, quality: props.quality })
-      return actual.getImageProps(props)
-    },
-  }
-})
-
 const chapter = (id: string) => ({
   kicker: `${id}.kicker`,
   title: `${id}.title`,
@@ -85,15 +72,18 @@ describe('WorkCycle', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'heading' })).toBeInTheDocument()
   })
 
-  it('asks the optimizer for high quality on the full-screen scene backgrounds', async () => {
+  it('serves the full-screen scene backgrounds as high-quality static copies', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
-    imageCalls.length = 0
     render(<WorkCycle copy={copy} />)
-    const scenes = imageCalls.filter((call) => String(call.src).includes('/redesign/scenes/'))
-    expect(scenes).toHaveLength(4)
-    for (const call of scenes) expect(call.quality).toBe(90)
-    const config = (await import('../../../../../../next.config')).default
-    expect(config.images?.qualities).toContain(90)
+    const backgrounds = document.querySelectorAll<HTMLImageElement>('img[data-scene-bg]')
+    expect(backgrounds).toHaveLength(4)
+    for (const image of backgrounds) {
+      expect(image.getAttribute('srcset')).toContain('/redesign/copies/v1/redesign-scenes-')
+      expect(image.closest('picture')?.querySelector('source[type="image/avif"]')).not.toBeNull()
+    }
+    // Full screen: the scene preset keeps more detail than the other images.
+    expect(copies.presets.scene.webp).toBeGreaterThanOrEqual(84)
+    expect(copies.presets.scene.avif).toBeGreaterThan(copies.presets.wide.avif)
   })
 
   it('treats each scene with a directional scrim and film grain instead of a flat overlay', () => {

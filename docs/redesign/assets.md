@@ -59,6 +59,21 @@ Conferidas antes de copiar: só dados de exemplo, nenhum dado pessoal.
 
 Todas com dados de exemplo, conferidas antes de copiar. `klick-stats` e `grimory-inventory` saíram com a galeria antiga dos cases (09/11/2026).
 
+## Cópias no tamanho certo (v1, 09/11/2026)
+
+As imagens próprias do site não passam mais pelo `/_next/image`, que a Cloudflare não guarda: cada pedido voltava à origem e recomeçava frio depois de cada deploy. Cada mestre listado em `src/shared/lib/image-copies/copies.json` ganha cópias em AVIF e WebP em `public/redesign/copies/v1/`, servidas por `<Picture>` (ou `PhotoReveal` com `master`), com cache imutável de um ano montado da mesma lista.
+
+- **Larguras por tipo:**
+  - fundos do ciclo: 640, 1080 e 1536, com AVIF q62 e WebP q84 (tela cheia);
+  - frames do "No ar", cases da Atto e o compêndio: 640, 1080, 1600 e 2000;
+  - foto do interlúdio: 480, 720 e 960;
+  - celular do capítulo do produto: 320, 480 e 780.
+- **Nunca ampliam:** uma cópia não passa da largura do mestre.
+- **Como gerar:** `pnpm images:copies`. O script confere se o tamanho do mestre bate com a lista.
+- **Imagem nova:** entra na lista antes de ser usada (`copiesOf` recusa um mestre fora dela).
+- **Mestre que muda:** vai para `v2`.
+- **Blog:** as capas vêm de `media.ranimontagna.com`, mudam com os posts e continuam pelo otimizador.
+
 ## Páginas de case (v1, 09/11/2026)
 
 `public/redesign/cases/v1/`: telas inteiras, sem recorte. A moldura de navegador tem o formato da captura (1440×900) e a de celular também (390×844). As molduras são feitas em HTML e CSS, e as imagens não trazem moldura.

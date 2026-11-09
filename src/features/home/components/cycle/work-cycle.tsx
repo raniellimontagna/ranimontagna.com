@@ -7,7 +7,7 @@ import {
   loadScrollMotion,
   prefersReducedMotion,
 } from '@/shared/components/motion'
-import { StaticImage } from '@/shared/components/ui/static-image/static-image'
+import { Picture } from '@/shared/components/ui/picture/picture'
 import { ProductArtifact } from './artifacts/product-artifact'
 import { SpecArtifact } from './artifacts/spec-artifact'
 import { TerminalArtifact } from './artifacts/terminal-artifact'
@@ -171,13 +171,12 @@ export function WorkCycle({ copy }: { copy: CycleCopy }) {
             data-scene={chapter.id}
             className="relative flex flex-col overflow-hidden max-lg:sticky max-lg:top-0 max-lg:h-svh lg:min-h-[100svh] group-data-[pinned=true]/cycle:absolute group-data-[pinned=true]/cycle:inset-0 group-data-[pinned=true]/cycle:min-h-0"
           >
-            <StaticImage
+            <Picture
               data-scene-bg
-              src={chapter.background}
+              master={chapter.background}
               alt=""
               fill
               sizes="100vw"
-              quality={90}
               className="object-cover object-[72%_50%] lg:object-center"
             />
             <SceneTreatment />

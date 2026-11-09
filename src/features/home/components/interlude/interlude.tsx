@@ -11,7 +11,7 @@ export async function Interlude() {
       className={`${SECTION_X} grid gap-10 bg-background py-24 sm:py-32 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-20`}
     >
       <PhotoReveal
-        src="/images/hero-ranielli.webp"
+        master="/images/hero-ranielli.webp"
         alt={t('photoAlt')}
         effect="mask"
         sizes="(max-width: 1023px) 100vw, 45vw"

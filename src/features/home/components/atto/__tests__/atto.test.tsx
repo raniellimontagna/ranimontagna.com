@@ -67,7 +67,10 @@ describe('AttoSection', () => {
     for (const item of ATTO_CASES) {
       const panel = document.querySelector(`[data-atto-case="${item.id}"]`) as HTMLElement
       const img = panel.querySelector('img')
-      expect(img?.getAttribute('src')).toContain(encodeURIComponent(`/redesign/atto/`))
+      // Served from its static copies, named after the capture.
+      expect(img?.getAttribute('src')).toMatch(
+        /^\/redesign\/copies\/v1\/redesign-atto-[a-z-]+-\d+\.webp$/,
+      )
     }
   })
 })

@@ -2,16 +2,28 @@
 
 import { getImageProps } from 'next/image'
 import { useEffect, useRef } from 'react'
+import { preload } from 'react-dom'
 import { loadScrollMotion, prefersReducedMotion } from '@/shared/components/motion'
+import { copiesOf } from '@/shared/lib/image-copies/image-copies'
 
 type PhotoRevealProps = {
-  src: string
   alt: string
   effect: 'mask' | 'scale' | 'parallax'
   sizes: string
   priority?: boolean
   className?: string
-}
+} & (
+  | {
+      /** A site image listed in image-copies/copies.json: served from its static copies. */
+      master: string
+      src?: never
+    }
+  | {
+      /** Any other image (a blog cover from the media host): through the optimizer. */
+      src: string
+      master?: never
+    }
+)
 
 const FROM = {
   mask: { clipPath: 'inset(12% 18% 12% 18%)' },
@@ -31,6 +43,7 @@ const TO = {
  */
 export function PhotoReveal({
   src,
+  master,
   alt,
   effect,
   sizes,
@@ -66,8 +79,39 @@ export function PhotoReveal({
     }
   }, [effect])
 
+  if (master) {
+    const copies = copiesOf(master)
+    if (priority) {
+      preload(copies.src, {
+        as: 'image',
+        type: 'image/avif',
+        imageSrcSet: copies.avif,
+        imageSizes: sizes,
+        fetchPriority: 'high',
+      })
+    }
+    return (
+      <div ref={frameRef} className={`relative overflow-hidden ${className}`}>
+        <picture>
+          <source type="image/avif" srcSet={copies.avif} sizes={sizes} />
+          <img
+            ref={imgRef}
+            src={copies.src}
+            srcSet={copies.webp}
+            sizes={sizes}
+            alt={alt}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : undefined}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
+      </div>
+    )
+  }
+
   const { props } = getImageProps({
-    src,
+    src: src as string,
     alt,
     fill: true,
     sizes,

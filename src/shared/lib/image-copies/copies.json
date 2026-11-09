@@ -1,0 +1,30 @@
+{
+  "dir": "/redesign/copies/v1",
+  "presets": {
+    "scene": { "widths": [640, 1080, 1536], "fallback": 1080, "avif": 62, "webp": 84 },
+    "wide": { "widths": [640, 1080, 1600, 2000], "fallback": 1080, "avif": 55, "webp": 78 },
+    "tall": { "widths": [480, 720, 960], "fallback": 720, "avif": 58, "webp": 80 },
+    "phone": { "widths": [320, 480, 780], "fallback": 480, "avif": 55, "webp": 78 }
+  },
+  "masters": {
+    "/redesign/scenes/pain-codex.webp": { "preset": "scene", "width": 1536, "height": 1024 },
+    "/redesign/scenes/solution-codex.webp": { "preset": "scene", "width": 1536, "height": 1024 },
+    "/redesign/scenes/product-codex.webp": { "preset": "scene", "width": 1536, "height": 1024 },
+    "/redesign/scenes/code-codex.webp": { "preset": "scene", "width": 1536, "height": 1024 },
+    "/redesign/products/frame-klick.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/products/frame-grimory.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/products/frame-argus.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/products/frame-atto-read.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/atto/fronteira.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/atto/tala.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/atto/quadralize.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/atto/nan.webp": { "preset": "wide", "width": 2000, "height": 1250 },
+    "/redesign/products/grimory-compendium.webp": {
+      "preset": "wide",
+      "width": 1600,
+      "height": 1125
+    },
+    "/redesign/products/klick-mobile.webp": { "preset": "phone", "width": 780, "height": 1688 },
+    "/images/hero-ranielli.webp": { "preset": "tall", "width": 960, "height": 1280 }
+  }
+}

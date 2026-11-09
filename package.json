@@ -21,6 +21,7 @@
     "test:coverage": "vitest run --coverage",
     "chat:eval": "node scripts/chat-live-eval.mjs",
     "cases:stills": "node scripts/case-stills.mjs",
+    "images:copies": "node scripts/image-copies.mjs",
     "cv:generate": "python3 scripts/generate-cv.py"
   },
   "dependencies": {
