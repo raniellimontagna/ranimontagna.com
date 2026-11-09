@@ -7,6 +7,14 @@ vi.mock('next-intl/server', () => ({
 }))
 
 describe('Atto data', () => {
+  it('keeps the old site anchors for the Atto block (#services, #atto-front)', async () => {
+    render(await AttoSection())
+    const section = document.getElementById('atto') as HTMLElement
+    for (const id of ['services', 'atto-front']) {
+      expect(section.querySelector(`#${id}`)).not.toBeNull()
+    }
+  })
+
   it('builds the WhatsApp link like the Atto site', () => {
     expect(attoWhatsappHref('Oi, quero um app')).toBe(
       'https://wa.me/5554999906417?text=Oi%2C%20quero%20um%20app',

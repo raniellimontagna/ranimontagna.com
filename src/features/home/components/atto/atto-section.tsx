@@ -8,6 +8,9 @@ export async function AttoSection() {
 
   return (
     <section id="atto" className={`${SECTION_X} bg-background py-24 sm:py-32`}>
+      {/* Anchors from the previous site (#services, #atto-front) land here. */}
+      <span id="services" aria-hidden="true" />
+      <span id="atto-front" aria-hidden="true" />
       <Reveal className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
         <div className="flex flex-col gap-6">
           <AttoLogo className="h-10 w-auto self-start text-foreground sm:h-14" />

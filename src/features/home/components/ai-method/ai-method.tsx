@@ -15,6 +15,8 @@ export async function AiMethod() {
 
   return (
     <section id="ia" className={`${SECTION_X} bg-background py-24 sm:py-32`}>
+      {/* The previous site's #skills anchor lands here. */}
+      <span id="skills" aria-hidden="true" />
       <Reveal>
         <SectionHeading id="ia" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
       </Reveal>

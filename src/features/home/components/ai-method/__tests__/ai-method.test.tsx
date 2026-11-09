@@ -47,6 +47,11 @@ describe('AiMethod', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps the old site #skills anchor inside the AI section', async () => {
+    render(await AiMethod())
+    expect(document.getElementById('ia')?.querySelector('#skills')).not.toBeNull()
+  })
+
   it('lists the six tools with logo and name only', async () => {
     render(await AiMethod())
     const grid = document.querySelector('[data-ai-models]') as HTMLElement

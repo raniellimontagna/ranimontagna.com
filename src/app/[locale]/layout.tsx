@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = getSEOData(locale)
   const alternateLanguages = getAlternateLanguages()
   const canonicalUrl = getCanonicalUrl(locale)
+  // A real 1200x630 card per language (public/og). The old og-image.png stays for
+  // links already shared, but it was a portrait photo declared as 1200x630.
+  const shareImage = `${BASE_URL}/og/og-${locale}.jpg`
 
   return {
     metadataBase: new URL(BASE_URL),
@@ -50,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Ranielli Montagna Portfolio',
       images: [
         {
-          url: `${BASE_URL}/og-image.png`,
+          url: shareImage,
           width: 1200,
           height: 630,
           alt: seo.ogTitle,
@@ -62,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: seo.twitterTitle,
       description: seo.twitterDescription,
       creator: '@rannimontagna',
-      images: [`${BASE_URL}/og-image.png`],
+      images: [shareImage],
     },
     robots: robotsMetadata(isIndexingDisabled(process.env)),
     manifest: '/manifest.json',
