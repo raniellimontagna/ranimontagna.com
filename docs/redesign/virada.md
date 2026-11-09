@@ -13,10 +13,10 @@ Checklist para trocar o site no ar pela branch `redesign-2026`. Preparado em 09/
 
 ## Antes da virada (até 31/12/2026)
 - [ ] O Ranielli testa a prévia no celular dele (até agora só houve teste em Chrome headless).
-- [ ] Aprovação dos textos em português (`docs/redesign/textos-pt.md`), ponto 2 da spec.
-- [ ] Revisão do inglês e do espanhol depois dessa aprovação. Os dois passaram por uma revisão de redação em 09/11/2026, feita a partir do português daquele dia.
+- [x] Aprovação dos textos em português (`docs/redesign/textos-pt.md`), ponto 2 da spec: aprovados pelo Ranielli em 09/11/2026, junto com os textos do tour dos cases.
+- [x] Revisão do inglês e do espanhol depois dessa aprovação: os dois passaram por uma revisão de redação em 09/11/2026, feita a partir do português aprovado (que não mudou depois), e os textos novos do tour dos cases foram escritos nas três línguas juntos.
 - [ ] Aprovação da versão completa na prévia, ponto 3 da spec.
-- [ ] Pendências que dependem dele: `GITHUB_TOKEN` (também falta em produção), `pnpm chat:eval` com chave e as redes em blocos no menu do desktop.
+- [ ] Pendências que dependem dele: `pnpm chat:eval` com chave e as redes em blocos no menu do desktop. O `GITHUB_TOKEN` entrou na prévia e em produção em 09/11/2026 (fine-grained, só leitura de repositórios públicos, vence em novembro de 2027).
 - [ ] **Textos de SEO:** `src/shared/lib/seo.ts` ainda diz "Engenheiro de Software · Sócio-fundador da Atto", e a abertura diz "Engenheiro de produto". Decidir se o título e a descrição acompanham a abertura.
 
 ## Conferência local do CI (09/11/2026)
