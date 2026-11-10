@@ -91,7 +91,7 @@
     "education": [
       "Universidade de Passo Fundo - Análise e Desenvolvimento de Sistemas - 2020 a 2022"
     ],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Português: Nativo | Inglês: Intermediário"]
   },
   "en": {
@@ -186,7 +186,7 @@
     "education": [
       "Universidade de Passo Fundo - Associate Degree in Systems Analysis and Development - 2020 to 2022"
     ],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Portuguese: Native | English: Intermediate"]
   },
   "es": {
@@ -279,7 +279,7 @@
       "agent-toolkit (open source): instala el mismo conjunto de skills en cinco agentes de código (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)."
     ],
     "education": ["Universidade de Passo Fundo - Análisis y Desarrollo de Sistemas - 2020 a 2022"],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Portugués: Nativo | Inglés: Intermedio"]
   }
 }
