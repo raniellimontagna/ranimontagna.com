@@ -66,7 +66,8 @@ describe('buildWritingFocus', () => {
     const { list, created, motion } = setup()
     buildWritingFocus(motion, list)
     expect(thumb(list)?.style.transform).toBe('scale(0.82)')
-    expect(thumb(list)?.style.transformOrigin).toBe('0 50%')
+    // jsdom 31 serializa o 0 como 0px; no navegador os dois são a mesma origem.
+    expect(thumb(list)?.style.transformOrigin).toMatch(/^0(px)? 50%$/)
     created[0].onUpdate?.({ progress: 0.5 })
     expect(thumb(list)?.style.transform).toBe('scale(1)')
   })
