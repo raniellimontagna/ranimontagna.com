@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { RetroExperience } from '@/shared/components/retro-mode/retro-mode'
+import { getUmamiWebsiteId, UMAMI_DOMAINS, UMAMI_SCRIPT_SRC } from '@/shared/lib/analytics/umami'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
@@ -92,6 +94,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   ])
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)
+  const umamiWebsiteId = getUmamiWebsiteId(process.env, isIndexingDisabled(process.env))
 
   return (
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
@@ -128,6 +131,14 @@ export default async function LocaleLayout({ children, params }: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
         />
+        {umamiWebsiteId ? (
+          <Script
+            src={UMAMI_SCRIPT_SRC}
+            data-website-id={umamiWebsiteId}
+            data-domains={UMAMI_DOMAINS}
+            strategy="lazyOnload"
+          />
+        ) : null}
       </body>
     </html>
   )
