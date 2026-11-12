@@ -203,9 +203,13 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
     root.addEventListener('pointerleave', onPointerLeave)
     root.addEventListener('touchmove', onTouchMove, { passive: true })
 
-    if (img.complete && img.naturalWidth > 0) onLoad()
+    // A photo that is already in is built in a task of its own: building measures the
+    // page and reads the photo back, which would otherwise lengthen the hydration task.
+    const buildLoaded =
+      img.complete && img.naturalWidth > 0 ? window.setTimeout(onLoad, 0) : undefined
 
     return () => {
+      window.clearTimeout(buildLoaded)
       cancelAnimationFrame(frame)
       visibility.disconnect()
       theme.disconnect()

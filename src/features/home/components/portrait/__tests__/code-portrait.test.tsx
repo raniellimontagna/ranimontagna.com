@@ -160,4 +160,33 @@ describe('CodePortrait', () => {
     expect(spy).toHaveBeenCalledWith(document.documentElement)
     document.documentElement.classList.remove('lenis-scrolling', 'light')
   })
+
+  describe('with the photo already loaded at mount', () => {
+    beforeEach(() => {
+      vi.spyOn(HTMLImageElement.prototype, 'complete', 'get').mockReturnValue(true)
+      vi.spyOn(HTMLImageElement.prototype, 'naturalWidth', 'get').mockReturnValue(3054)
+      vi.spyOn(HTMLImageElement.prototype, 'naturalHeight', 'get').mockReturnValue(4096)
+    })
+
+    it('builds the grid in a later task, not during the mount', async () => {
+      renderPortrait()
+      expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
+
+      await act(() => new Promise((resolve) => setTimeout(resolve, 0)))
+      expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+      act(() => frames.flush(1))
+      expect(canvas.ctx.fillText).toHaveBeenCalled()
+    })
+
+    it('skips that build when it unmounts first', async () => {
+      const { unmount } = render(
+        <CodePortrait image={PORTRAIT_IMAGE} alt={ALT} getReveal={() => 0} />,
+      )
+      unmount()
+
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
+      expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+    })
+  })
 })
