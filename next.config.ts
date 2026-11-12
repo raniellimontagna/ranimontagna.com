@@ -22,11 +22,11 @@ const hasSentryAuthToken = Boolean(sentryAuthToken)
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://static.cloudflareinsights.com",
+  "script-src 'self' https://analytics.ranimontagna.com 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://openrouter.ai https://*.google-analytics.com https://*.googletagmanager.com https://*.upstash.io https://cloudflareinsights.com",
+  "connect-src 'self' https://analytics.ranimontagna.com https://*.sentry.io https://*.ingest.sentry.io https://openrouter.ai https://*.google-analytics.com https://*.googletagmanager.com https://*.upstash.io https://cloudflareinsights.com",
   "worker-src 'self' blob:",
   "frame-ancestors 'none'",
   "base-uri 'self'",
