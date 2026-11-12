@@ -131,8 +131,11 @@ resultado, categoria de falha, ativação de fallback, latência até o primeiro
 motivo de término, código de validação e tamanho da resposta. O fallback estático final é um evento
 separado e não inventa provedor ou modelo.
 
-O evento usa um scope limpo do Sentry. Prompt, pergunta, histórico, resposta, headers, credenciais,
-corpo/erro bruto do provedor e stack não fazem parte do tipo público nem do payload serializado.
+Os registros são logs do Sentry (`Sentry.logger`), não issues: a tentativa sai em `info` quando dá
+certo e em `warn` quando falha, e o fallback sai em `warn`. Os campos viram atributos planos, sem os
+vazios. O log usa um scope limpo do Sentry. Prompt, pergunta, histórico, resposta, headers,
+credenciais, corpo/erro bruto do provedor e stack não fazem parte do tipo público nem do payload
+serializado.
 
 ## Avaliação ao vivo
 

@@ -21,6 +21,8 @@ describe('instrumentation', () => {
     vi.stubEnv('NEXT_RUNTIME', 'nodejs')
     vi.stubEnv('NODE_ENV', 'production')
     vi.stubEnv('NEXT_PUBLIC_SENTRY_DSN', 'https://public@example.ingest.sentry.io/1')
+    vi.stubEnv('NEXT_PUBLIC_SENTRY_ENVIRONMENT', 'production')
+    vi.stubEnv('NEXT_PUBLIC_SENTRY_RELEASE', 'ranimontagna@1.28.0+202611121430')
 
     const module = await import('@/instrumentation')
 
@@ -29,6 +31,8 @@ describe('instrumentation', () => {
     expect(sentryMocks.init).toHaveBeenCalledWith({
       debug: false,
       dsn: 'https://public@example.ingest.sentry.io/1',
+      environment: 'production',
+      release: 'ranimontagna@1.28.0+202611121430',
       tracesSampleRate: 0.1,
     })
     expect(module.onRequestError).toBe(sentryMocks.captureRequestError)
@@ -39,6 +43,8 @@ describe('instrumentation', () => {
     vi.stubEnv('NODE_ENV', 'production')
     vi.stubEnv('SENTRY_TRACES_SAMPLE_RATE', '0.25')
     vi.stubEnv('NEXT_PUBLIC_SENTRY_DSN', 'https://public@example.ingest.sentry.io/1')
+    vi.stubEnv('NEXT_PUBLIC_SENTRY_ENVIRONMENT', 'preview')
+    vi.stubEnv('NEXT_PUBLIC_SENTRY_RELEASE', 'ranimontagna@1.28.0+202611121430')
 
     const module = await import('@/instrumentation')
 
@@ -47,9 +53,28 @@ describe('instrumentation', () => {
     expect(sentryMocks.init).toHaveBeenCalledWith({
       debug: false,
       dsn: 'https://public@example.ingest.sentry.io/1',
+      environment: 'preview',
+      release: 'ranimontagna@1.28.0+202611121430',
       tracesSampleRate: 0.25,
     })
   })
+
+  it.each(['nodejs', 'edge'])(
+    'leaves environment and release unset on %s when the build has none',
+    async (runtime) => {
+      vi.stubEnv('NEXT_RUNTIME', runtime)
+      vi.stubEnv('NEXT_PUBLIC_SENTRY_ENVIRONMENT', '')
+      vi.stubEnv('NEXT_PUBLIC_SENTRY_RELEASE', '')
+
+      const module = await import('@/instrumentation')
+      await module.register()
+
+      const options = sentryMocks.init.mock.calls[0]?.[0]
+      expect(options).toBeDefined()
+      expect(options.environment).toBeUndefined()
+      expect(options.release).toBeUndefined()
+    },
+  )
 
   it('does not initialize Sentry for unsupported runtimes', async () => {
     vi.stubEnv('NEXT_RUNTIME', 'browser')
