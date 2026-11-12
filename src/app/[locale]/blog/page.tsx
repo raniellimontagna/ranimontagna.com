@@ -1,11 +1,10 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { FeaturedPost, PostCard } from '@/features/blog/components'
-import { getAllPosts } from '@/features/blog/lib/blog'
-import { FadeIn, RevealText } from '@/shared/components/animations'
-import { Breadcrumbs } from '@/shared/components/ui'
+import { BlogIndex } from '@/features/blog/components/blog-index'
+import { getAllPosts, type PostSummary } from '@/features/blog/lib/blog'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generateBlogJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
+import { getShareImage } from '@/shared/lib/seo'
 
 function getBlogUrl(locale: string): string {
   const isDefault = locale === routing.defaultLocale
@@ -33,9 +32,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: 'Ranielli Montagna',
       locale: locale === 'pt' ? 'pt_BR' : locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
+      images: [getShareImage(locale)],
     },
     twitter: {
       card: 'summary_large_image',
+      images: [getShareImage(locale).url],
       title: t('title'),
       description: t('subtitle'),
       creator: '@rannimontagna',
@@ -57,9 +58,12 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   setRequestLocale(locale)
 
   const t = await getTranslations({ locale, namespace: 'blog' })
-  const posts = await getAllPosts(locale)
-  const featuredPost = posts[0]
-  const remainingPosts = posts.slice(1)
+  let posts: PostSummary[] = []
+  try {
+    posts = await getAllPosts(locale)
+  } catch {
+    // GitHub unreachable or rate limited: the index shows its empty state.
+  }
   const blogUrl = getBlogUrl(locale)
   const jsonLd = generateBlogJsonLd({
     url: blogUrl,
@@ -76,44 +80,12 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   })
 
   return (
-    <div
-      data-spectral-zone="quiet"
-      className="relative min-h-screen bg-background/80 pb-14 sm:pb-20 lg:pb-24"
-    >
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
-      <div className="container mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-12 lg:pt-16">
-        <div className="mb-8 sm:mb-12">
-          <Breadcrumbs items={[{ label: 'Blog' }]} />
-        </div>
-
-        <header className="mb-10 max-w-3xl sm:mb-14 lg:mb-16">
-          <h1 className="mb-4 font-heading text-3xl font-semibold tracking-[-0.05em] text-foreground sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-            <RevealText text={t('title')} />
-          </h1>
-          <FadeIn delay={0.3} blur>
-            <p className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl">
-              {t('subtitle')}
-            </p>
-          </FadeIn>
-        </header>
-
-        {featuredPost && <FeaturedPost post={featuredPost} />}
-
-        {remainingPosts.length > 0 && (
-          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
-            {remainingPosts.map((post, index) => (
-              <PostCard key={post.slug} post={post} index={index} />
-            ))}
-          </div>
-        )}
-
-        {posts.length === 0 && (
-          <div className="py-20 text-center text-slate-500">{t('noPosts')}</div>
-        )}
-      </div>
-    </div>
+      {await BlogIndex({ posts, locale })}
+    </>
   )
 }

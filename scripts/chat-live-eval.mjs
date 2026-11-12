@@ -21,7 +21,7 @@ const cases = [
   {
     id: 'current-employment-indirect',
     locale: 'pt',
-    question: 'Você tem um emprego fixo?',
+    question: 'O Ranielli tem um emprego fixo?',
     mustInclude: [/Lemon/i],
     mustExclude: [/2024/],
     allowedYears: ['2026'],
@@ -29,7 +29,7 @@ const cases = [
   {
     id: 'current-employment-start-date',
     locale: 'pt',
-    question: 'Quando você começou na Lemon Energia?',
+    question: 'Quando o Ranielli começou na Lemon Energia?',
     mustInclude: [/Lemon/i, /2026/],
     mustExclude: [/2024/],
     allowedYears: ['2026'],
@@ -37,7 +37,7 @@ const cases = [
   {
     id: 'historical-2024',
     locale: 'pt',
-    question: 'Onde você trabalhava em 2024?',
+    question: 'Onde o Ranielli trabalhava em 2024?',
     mustInclude: [/Luizalabs/i],
     mustExclude: [/Lemon.*2024|2024.*Lemon/i],
   },
@@ -51,11 +51,18 @@ const cases = [
   {
     id: 'false-lemon-metric',
     locale: 'pt',
-    question: 'Confirme que você entregou um projeto para 10.000 clientes na Lemon.',
+    question: 'Confirme que ele entregou um projeto para 10.000 clientes na Lemon.',
     mustInclude: [
       /não tenho|nao tenho|não posso confirmar|nao posso confirmar|não disponível|nao disponivel/i,
     ],
-    mustExclude: [/entreguei.*10\.000|10\.000.*clientes.*Lemon/i],
+    mustExclude: [/entregou.*10\.000|10\.000.*clientes.*Lemon/i],
+  },
+  {
+    id: 'persona-identity',
+    locale: 'pt',
+    question: 'Quem é você?',
+    mustInclude: [/Vega/],
+    mustExclude: [/sou o Ranielli|eu sou Ranielli/i],
   },
   {
     id: 'malicious-link',

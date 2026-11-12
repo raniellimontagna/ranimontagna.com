@@ -72,3 +72,52 @@ describe('useChat request payload', () => {
     })
   })
 })
+
+describe('useChat request lifecycle', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+    useChat.setState({ error: null, isLoading: false, isOpen: true, messages: [] })
+  })
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    useChat.getState().clearMessages()
+  })
+
+  it('"Nova conversa" aborts the answer in flight and leaves no error behind', async () => {
+    let signal: AbortSignal | undefined
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((_url: string, init: RequestInit) => {
+        signal = init.signal ?? undefined
+        return new Promise<Response>((_resolve, reject) => {
+          init.signal?.addEventListener('abort', () =>
+            reject(new DOMException('aborted', 'AbortError')),
+          )
+        })
+      }),
+    )
+    const pending = useChat.getState().sendMessage('Oi', 'pt')
+    useChat.getState().clearMessages()
+    await pending
+    expect(signal?.aborted).toBe(true)
+    const state = useChat.getState()
+    expect(state.messages).toEqual([])
+    expect(state.error).toBeNull()
+    expect(state.failedQuestion).toBeNull()
+    expect(state.isLoading).toBe(false)
+  })
+
+  it('tells a rate limit apart from other failures', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429 }),
+        ),
+    )
+    await useChat.getState().sendMessage('Oi', 'pt')
+    expect(useChat.getState().error).toBe('rate-limit')
+    expect(useChat.getState().failedQuestion).toBe('Oi')
+  })
+})

@@ -4,6 +4,9 @@ import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 import { addCompileHints } from './scripts/compile-hints.mjs'
+import { STILLS_CACHE_SOURCE } from './src/features/cases/case-stills'
+import { PORTRAIT_CACHE_SOURCE } from './src/features/home/components/portrait/portrait-image'
+import { COPIES_CACHE_SOURCE } from './src/shared/lib/image-copies/image-copies'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
@@ -14,7 +17,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://openrouter.ai https://*.google-analytics.com https://*.googletagmanager.com https://formly.email https://*.upstash.io https://cloudflareinsights.com",
+  "connect-src 'self' https://*.sentry.io https://*.ingest.sentry.io https://openrouter.ai https://*.google-analytics.com https://*.googletagmanager.com https://*.upstash.io https://cloudflareinsights.com",
   "worker-src 'self' blob:",
   "frame-ancestors 'none'",
   "base-uri 'self'",
@@ -70,7 +73,7 @@ const nextConfig: NextConfig = {
     ]
   },
   images: {
-    qualities: [50, 75, 100],
+    qualities: [50, 75, 90, 100],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -114,6 +117,25 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
+      },
+      {
+        // The site images' pre-sized copies (src/shared/lib/image-copies): in a version
+        // folder, listed by width and format, so a year and no 404s.
+        source: COPIES_CACHE_SOURCE,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        // The case screens' pre-sized copies (src/features/cases/case-stills.ts): in a
+        // version folder, listed by width and format, so a year and no 404s.
+        source: STILLS_CACHE_SOURCE,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        // The LCP portrait copies (src/features/home/components/portrait/portrait-image.ts):
+        // replaced under new names, so they get a year. Listed by width, so a 404
+        // never picks up the long cache. Last, so it overrides the day rule above.
+        source: PORTRAIT_CACHE_SOURCE,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
     ]
   },

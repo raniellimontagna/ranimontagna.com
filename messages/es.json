@@ -2,453 +2,491 @@
   "accessibility": {
     "skipToContent": "Saltar al contenido principal"
   },
-  "header": {
-    "logo": {
-      "initials": "RM",
-      "fullName": "Ranielli Montagna",
-      "jobTitle": "Ingeniero de software · Atto",
-      "ariaLabel": "Ir al inicio de la página"
-    },
-    "navigation": {
-      "start": "Inicio",
-      "about": "Sobre mí",
-      "services": "Servicios",
-      "experience": "Experiencia",
-      "projects": "Proyectos",
+  "shell": {
+    "vega": "Hablar con Vega",
+    "nav": {
+      "label": "Secciones",
+      "noAr": "En línea",
+      "trajetoria": "Trayectoria",
+      "atto": "Atto",
+      "escrita": "Escritura",
       "blog": "Blog",
-      "contact": "Contacto"
+      "projetos": "Proyectos"
     },
-    "socials": {
-      "githubAriaLabel": "GitHub",
-      "linkedinAriaLabel": "LinkedIn",
-      "emailAriaLabel": "Email"
+    "menu": {
+      "open": "Menú",
+      "close": "Cerrar",
+      "title": "Navegación",
+      "socials": "Redes"
     },
-    "mobileMenu": {
-      "toggleAriaLabel": "Alternar menú"
+    "prefs": {
+      "open": "Preferencias: idioma y tema",
+      "language": "Idioma",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "accent": "Color de acento"
     },
-    "controls": {
-      "command": "Abrir paleta de comandos",
-      "more": "Más opciones"
-    },
-    "themeToggle": {
-      "ariaLabel": "Cambiar a modo {mode}",
-      "tooltip": "Cambiar a modo {mode}"
+    "footer": {
+      "madeWith": "hecho con IA, revisado por mí",
+      "blog": "Blog",
+      "projects": "Proyectos",
+      "retro": "Otras épocas"
     }
   },
-  "hero": {
-    "greeting": "Hola, soy",
-    "name": "Ranielli Montagna",
-    "passion": {
-      "part1": "Ingeniero de",
-      "highlight": "Software",
-      "part2": "que construye productos, automatización e IA aplicada — y cofundador de Atto"
-    },
-    "description": "Voy más allá del código: conecto arquitectura, negocio y personas para convertir problemas complejos en productos que escalan. En Lemon Energia hago el puente entre las áreas de negocio y la tecnología. En Atto saco del papel software a medida y marketing para empresas.",
-    "seoDescription": "5+ años con React, Next.js, React Native, Node.js y TypeScript. Design systems, CI/CD, pruebas, accesibilidad, automatización e IA aplicada al desarrollo.",
-    "cta": {
-      "projects": "Ver mis proyectos",
-      "contact": "Ponte en contacto"
-    },
-    "terminal": "web, mobile, SEO técnico, accesibilidad y rendimiento."
+  "hero2026": {
+    "lead": "Ingeniero de producto. Parto del dolor de alguien y entrego el producto ya en línea, con la IA escribiendo el código y yo decidiendo lo que importa.",
+    "ctaVega": "Pregúntale a Vega",
+    "ctaWork": "Ver lo que está en línea",
+    "portraitAlt": "Retrato de Ranielli Montagna",
+    "hint": "pasa el cursor por el retrato · desplázate para revelar",
+    "hintTouch": "toca el retrato · desplázate para revelar",
+    "stackAi": "Agentes de IA",
+    "stackProduct": "Producto"
   },
-  "about": {
-    "badge": "Conoce más sobre mí",
-    "title": {
-      "part1": "Sobre",
-      "part2": "Mí"
-    },
-    "bio": {
-      "greeting": "¡Hola! Soy",
-      "name": "Ranielli Montagna",
-      "intro": "ingeniero de software con 5+ años construyendo productos web y móviles que necesitan escalar. Trabajé con React, React Native, TypeScript, Node.js y Next.js en productos que exigían rendimiento y buena experiencia. Hoy actúo más allá del código: ingeniería, producto y negocio en la misma conversación.",
-      "journey": "En Lemon Energia, energytech de generación distribuida, estoy en el puente entre negocio y tecnología: conduzco discovery, traduzco reglas complejas en soluciones full stack y evalúo trade-offs de producto. En paralelo soy cofundador de Atto, software house y marketing que construye productos a medida para empresas — del e-commerce a la automatización con IA. Antes, en Luizalabs (Magalu), desarrollé soluciones para operaciones de 1.000+ tiendas y el flujo diario de 1.000+ almacenistas, lideré iniciativas frontend, creé un Design System adoptado en múltiples productos y mentoricé desarrolladores.",
-      "hobbies": "Una de las frentes que más me mueven es la IA aplicada al desarrollo y a la operación: LLMs, automatización, agentes y Model Context Protocol (MCP). La uso como palanca de productividad y evolución de productos, siempre con revisión crítica."
-    },
-    "cta": {
-      "contact": "Hablemos"
-    },
-    "stats": {
-      "experience": "Años de experiencia",
-      "projects": "Proyectos completados"
-    },
-    "skills": {
-      "categories": {
-        "frontend": "Frontend",
-        "backend": "Backend",
-        "design": "Diseño",
-        "tools": "Herramientas"
+  "cycle": {
+    "heading": "Cómo trabajo",
+    "chapters": {
+      "pain": {
+        "kicker": "el dolor",
+        "title": "Empieza escuchando.",
+        "body": "Antes del código, alguien perdiendo tres años de datos de entrenamiento. De ahí sale el producto."
       },
-      "technologies": {
-        "react": "React",
-        "nextjs": "Next.js",
-        "typescript": "TypeScript",
-        "tailwind": "Tailwind CSS",
-        "reactNative": "React Native",
-        "nodejs": "Node.js",
-        "fastify": "Fastify",
-        "postgresql": "PostgreSQL",
-        "prisma": "Prisma",
-        "jwt": "JWT",
-        "figma": "Figma",
-        "uiux": "UI/UX",
-        "prototyping": "Prototipos",
-        "designSystem": "Sistema de Diseño",
-        "accessibility": "Accesibilidad",
-        "git": "Git",
-        "docker": "Docker",
-        "vscode": "VS Code",
-        "postman": "Postman",
-        "vercel": "Vercel"
+      "solution": {
+        "kicker": "la solución",
+        "title": "Decide lo que importa.",
+        "body": "Qué resolver primero, qué dejar fuera y quién decide. En Grimory: la IA propone, las reglas validan, el jugador decide."
       },
-      "title": "Mis principales competencias",
-      "subtitle": "Un stack preciso, preparado para demandas globales."
+      "product": {
+        "kicker": "el producto",
+        "title": "Lo pone en línea.",
+        "body": "Grimory en la mesa del grupo, Klick en el bolsillo de quien entrena. Productos en línea, usados de verdad."
+      },
+      "code": {
+        "kicker": "el código",
+        "title": "Con IA, con criterio.",
+        "body": "Los agentes escriben la mayor parte del código. Cada cambio pasa por mi revisión antes de publicarse."
+      }
+    },
+    "thread": {
+      "caption": "paráfrasis de relatos reales en foros de cuberos, de la investigación de Klick v2",
+      "messages": [
+        {
+          "from": "comunidad de speedcubing",
+          "text": "Cambié de celular y perdí tres años de tiempos. Todo mi historial."
+        },
+        {
+          "from": "otra persona",
+          "text": "A mí también me pasó. Ningún timer lo guarda bien."
+        },
+        {
+          "from": "yo",
+          "text": "Voy a resolverlo: el historial no se pierde nunca más.",
+          "mine": true
+        }
+      ]
+    },
+    "spec": {
+      "title": "Grimory: la IA propone, las reglas deciden",
+      "items": [
+        "Cada mesa elige las reglas de 2014 o de 2024.",
+        "Compendio SRD en portugués, con el homebrew de la mesa.",
+        "La IA sugiere; el motor de reglas valida.",
+        "La última palabra siempre es del jugador."
+      ]
+    },
+    "product": {
+      "desktopAlt": "Compendio de Grimory abierto en la Espada Larga",
+      "phoneAlt": "Timer de Klick en el celular"
+    },
+    "casesLink": "Ver lo que está en línea"
+  },
+  "aiMethod": {
+    "kicker": "ia",
+    "title": "Sin atarme a un modelo. Con método.",
+    "lead": "Elijo el modelo por la tarea, no por la marca. Y ninguno escribe código sin una especificación antes y una revisión mía después.",
+    "modelsLabel": "Modelos y herramientas de IA",
+    "stepsLabel": "El método, paso a paso",
+    "free": {
+      "title": "Sin ataduras",
+      "body": "Modelos y herramientas de distintas empresas, todos de uso diario. Si uno cambia de precio o se cae, lo reemplazo sin reescribir nada."
+    },
+    "method": {
+      "title": "Como se debe",
+      "body": "Spec-driven development: la idea se convierte en especificación, la especificación en plan, el plan en pruebas y solo entonces en código."
+    },
+    "steps": {
+      "talk": {
+        "title": "Conversación",
+        "lines": ["¿qué duele?", "¿para quién?", "¿qué sería un fracaso?"]
+      },
+      "spec": {
+        "title": "Spec",
+        "lines": ["## Metas", "## Anti-metas", "- cara de IA genérica"]
+      },
+      "plan": {
+        "title": "Plan",
+        "lines": ["- [ ] Task 1", "- [ ] Task 2", "cada una con su prueba"]
+      },
+      "test": {
+        "title": "Prueba primero",
+        "lines": ["✗ falla", "✓ pasa"]
+      },
+      "agent": {
+        "title": "El agente programa",
+        "lines": ["+ código", "+ pruebas", "commit a commit"]
+      },
+      "review": {
+        "title": "Revisión",
+        "lines": ["revisor nuevo", "lee todo", "yo decido qué se publica"]
+      }
+    },
+    "terms": {
+      "sdd": {
+        "term": "SDD",
+        "meaning": "spec antes del código"
+      },
+      "tdd": {
+        "term": "TDD",
+        "meaning": "la prueba falla primero"
+      },
+      "mcp": {
+        "term": "MCP",
+        "meaning": "agentes con herramientas"
+      },
+      "agentsmd": {
+        "term": "AGENTS.md",
+        "meaning": "contexto escrito, no recordado"
+      },
+      "evals": {
+        "term": "evals",
+        "meaning": "medir las respuestas del modelo"
+      },
+      "review": {
+        "term": "revisión humana",
+        "meaning": "la última palabra es mía"
+      }
+    },
+    "proofs": {
+      "products": {
+        "value": "6 productos",
+        "label": "en producción en tres meses en el equipo de IA de Lemon, con agentes en el flujo y revisión antes de publicar"
+      },
+      "agents": {
+        "value": "5 agentes",
+        "label": "el agent-toolkit instala las mismas skills en Claude Code, Codex, OpenCode, Gemini CLI y Antigravity"
+      },
+      "providers": {
+        "value": "2 proveedores",
+        "label": "Vega funciona con DeepSeek, y el código ya acepta OpenRouter como respaldo"
+      },
+      "tests": {
+        "value": "+1.000 pruebas",
+        "label": "en este sitio, escritas antes del código"
+      }
     }
   },
-  "experience": {
-    "badge": "Mi trayectoria profesional",
-    "title": {
-      "part1": "Experiencia",
-      "part2": "Profesional"
-    },
-    "subtitle": "5+ años construyendo aplicaciones web y móviles, APIs e interfaces de producto con foco en escala, rendimiento, accesibilidad, calidad técnica e impacto medible.",
-    "currentLabel": "Actual",
-    "highlightsTitle": "Logros principales:",
-    "technologiesTitle": "Tecnologías utilizadas:",
-    "logoAlt": "Logo de {company}",
-    "jobs": {
-      "lemon": {
-        "company": "Lemon Energia",
-        "position": "Ingeniero de Software",
-        "period": "Julio 2026 - Presente",
-        "location": "Remoto",
-        "description": "Actúo como puente entre negocio y tecnología, investigando problemas operativos y transformando reglas complejas del recorrido energético en soluciones full stack. Conduzco discovery continuo, documento decisiones y requisitos, y uso IA con revisión crítica para acelerar entregas confiables, escalables y de impacto medible.",
-        "highlights": [
-          "Descubrimiento con las áreas de negocio para aclarar necesidades y requisitos",
-          "Construcción de soluciones full stack orientadas por IA",
-          "Revisión crítica de las salidas de IA antes de su uso en el producto",
-          "Evaluación pragmática de trade-offs de producto y tecnología"
-        ]
+  "interlude": {
+    "label": "Quién es",
+    "kicker": "quién es",
+    "statement": "Ingeniería, producto y negocio en la misma conversación.",
+    "detail": "Más de 5 años construyendo productos web y móviles que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.",
+    "photoAlt": "Ranielli Montagna frente a su portátil, con la mano en el mentón, ante una ventana con la ciudad al fondo"
+  },
+  "liveWork": {
+    "kicker": "en línea",
+    "title": "Cosas que están en línea.",
+    "lead": "Productos propios, usados de verdad. Los detalles de cada uno están en la página del proyecto.",
+    "items": {
+      "grimory": {
+        "name": "Grimory",
+        "line": "Una mesa de D&D en portugués. La IA propone, las reglas validan, el jugador decide.",
+        "meta": "producto propio · lo usa el grupo",
+        "alt": "Compendio de Grimory abierto en la Espada Larga"
       },
-      "luizalabs": {
-        "company": "Luizalabs",
-        "position": "Desarrollador Pleno",
-        "period": "Octubre 2023 - Junio 2026",
-        "location": "Remoto",
-        "description": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, desarrollando aplicaciones web y móviles para operaciones de tiendas físicas, APIs REST y soluciones backend para un entorno minorista nacional de alta escala.",
-        "highlights": [
-          "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
-          "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
-          "Mantuve APIs REST, integraciones y micro frontends con React, React Native, Node.js y TypeScript",
-          "Colaboré con Producto, UX, Backend y Operaciones para conectar decisiones técnicas con impacto de negocio"
+      "klick": {
+        "name": "Klick",
+        "line": "Timer de speedcubing offline-first, rehecho tras escuchar qué era lo que más perdían los cuberos.",
+        "meta": "klick.ranimontagna.com · código abierto",
+        "alt": "Timer de Klick marcando 0:10.81"
+      },
+      "agent-toolkit": {
+        "name": "agent-toolkit",
+        "line": "Un comando instala las mismas herramientas y skills de IA en cinco agentes: Claude Code, Codex, OpenCode, Gemini CLI y Antigravity.",
+        "meta": "CLI en Node.js · publicado en npm",
+        "alt": ""
+      },
+      "argus": {
+        "name": "Argus",
+        "line": "Hub de datos personal: noticias, cotizaciones y consultas servidas vía API, MCP, Discord y CLI.",
+        "meta": "TypeScript · repositorio privado",
+        "alt": "La documentación de la API de Argus en el navegador y el celular"
+      },
+      "atto-read": {
+        "name": "Atto Read",
+        "line": "El lector personal de Atto, hecho con React Native y Expo.",
+        "meta": "app mobile · repositorio privado",
+        "alt": "Atto Read en el celular: biblioteca, modo foco de noche y progreso"
+      }
+    }
+  },
+  "trajectory": {
+    "kicker": "trayectoria",
+    "now": "hoy",
+    "title": "De escribir pantallas a llevar todo el producto.",
+    "lead": "Cinco años, cuatro etapas y cada vez más cerca de la decisión.",
+    "stackLabel": "Tecnologías",
+    "stages": {
+      "sbsistemas": {
+        "role": "Desarrollador Front-end · SBSistemas",
+        "period": "Mayo 2021 - Mayo 2022",
+        "what": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones centradas en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
+        "impact": [
+          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
+          "Implementé componentes reutilizables y patrones de interfaz",
+          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código"
         ]
       },
       "smarten": {
-        "company": "Smarten",
-        "position": "Líder Técnico Front-end",
+        "role": "Tech Lead Front-end · Smarten",
         "period": "Mayo 2022 - Septiembre 2023",
-        "location": "Remoto",
-        "description": "Trabajé como Tech Lead Front-end en productos SaaS, liderando desarrolladores, definiendo estándares de calidad, evolucionando arquitectura de interfaz y conectando decisiones técnicas con entregas de producto.",
-        "highlights": [
+        "what": "Trabajé como Tech Lead Front-end en productos SaaS, liderando a desarrolladores, definiendo estándares de calidad, haciendo evolucionar la arquitectura de interfaz y conectando las decisiones técnicas con las entregas de producto.",
+        "impact": [
           "Lideré técnicamente un equipo de desarrolladores",
-          "Creé y mantuve un Design System adoptado en múltiples productos",
-          "Implementé CI/CD, monitoreo y estándares de calidad",
-          "Mentoricé desarrolladores y optimicé rendimiento, mantenimiento y escalabilidad"
+          "Creé y mantuve un Design System adoptado por varios productos",
+          "Implementé CI/CD, monitoreo y estándares de calidad"
         ]
       },
-      "sbsistemas": {
-        "company": "SBSistemas",
-        "position": "Desarrollador Front-end",
-        "period": "Mayo 2021 - Mayo 2022",
-        "location": "Presencial",
-        "description": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones con foco en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
-        "highlights": [
-          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
-          "Implementé componentes reutilizables y estándares de interfaz",
-          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código",
-          "Consolidé una base técnica sólida para productos web"
+      "luizalabs": {
+        "role": "Desarrollador Semi Senior · Luizalabs",
+        "period": "Octubre 2023 - Junio 2026",
+        "what": "Trabajé en Luizalabs, la unidad de tecnología de Magalu, en aplicaciones web y móviles para las operaciones de las tiendas físicas y en los servicios que hay detrás, con back-end en Go sobre GCP, en un minorista nacional de gran escala.",
+        "impact": [
+          "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
+          "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
+          "Servicios en Go y Node.js sobre GCP, comunicados mediante colas de RabbitMQ, además de APIs REST y micro frontends en React y React Native",
+          "Código y operación monitoreados con SonarQube y Grafana",
+          "Viví Black Fridays desde dentro, la semana en que un sistema de retail no puede fallar"
+        ]
+      },
+      "lemon": {
+        "role": "Ingeniero de software · Lemon Energia",
+        "period": "Julio 2026 - hoy · equipo de IA, dentro de Finanzas",
+        "what": "En el equipo de IA de Lemon trabajo desde dentro de un área de negocio: vivo la operación de Finanzas, encuentro el trabajo manual y decido qué se convierte en producto. Desde agosto he puesto seis productos internos en producción, de la pantalla a la base de datos y la infraestructura en AWS.",
+        "impact": [
+          "Seis productos de finanzas en tres meses: conciliación bancaria, lotes de pago, proveedores, facturas y notas de débito",
+          "Cada uno de punta a punta: front en React, API en Fastify con PostgreSQL y la infraestructura escrita como código con Pulumi",
+          "En AWS: contenedores en ECS Fargate, base de datos en Aurora (RDS), eventos con EventBridge y SQS, secretos en Secrets Manager, entrega por API Gateway y CloudFront",
+          "Ritmo alto de entrega, con agentes de IA en el flujo y revisión crítica antes de publicar"
         ]
       }
     }
   },
-  "projects": {
-    "badge": "Portafolio de Proyectos",
-    "title": {
-      "part1": "Mis",
-      "part2": "Proyectos"
-    },
-    "subtitle": "Productos que salieron del papel — en Atto, en empresas y como freelancer. Cada uno con un problema real detrás.",
-    "viewAll": "Ver todos los proyectos",
-    "featuredTitle": "Proyectos Destacados",
-    "carousel": {
-      "region": "Carrusel de imágenes del proyecto destacado",
-      "pause": "Pausar carrusel",
-      "resume": "Reanudar carrusel",
-      "slide": "Ver imagen {index} de {total}"
-    },
-    "filters": {
-      "all": "Todos",
+  "atto": {
+    "kicker": "atto",
+    "title": "La marca que lo lleva adelante.",
+    "lead": "Atto es la software house y agencia de marketing de la que soy socio fundador. Construye productos digitales, integraciones y campañas que traen clientes, con ingeniería de precisión y sin promesas vacías.",
+    "servicesLabel": "Lo que hace Atto",
+    "services": {
       "web": "Web",
-      "mobile": "Móvil",
-      "api": "API"
+      "mobile": "Mobile",
+      "apis": "APIs",
+      "ai": "IA y Automatización",
+      "marketing": "Marketing"
     },
-    "card": {
-      "featuredBadge": "Destacado",
-      "moreCount": "+{count} más",
-      "role": {
-        "fullstack": "Full Stack",
-        "frontend": "Front-end",
-        "backend": "Back-end"
+    "casesLabel": "Casos publicados por Atto",
+    "cases": {
+      "fronteira-sul-drones": {
+        "tagline": "E-commerce agrícola y catálogo consultivo",
+        "description": "Tienda de drones, repuestos y líneas complementarias para el agro. El catálogo filtra la oferta, el carrito organiza la intención de compra y WhatsApp cierra la negociación."
       },
-      "category": {
-        "saas": "SaaS",
-        "enterprise": "Enterprise"
-      },
-      "highlights": {
-        "agenda": "Programación",
-        "clientManagement": "Gestión de Clientes",
-        "sales": "Ventas",
-        "financial": "Financiero",
-        "inventory": "Inventario",
-        "leads": "Leads",
-        "reports": "Informes",
-        "dashboard": "Dashboard",
-        "orderPicking": "Retiro de Pedidos",
-        "separation": "Separación",
-        "dispatch": "Expedición",
-        "goodsReceipt": "Recepción",
-        "inventoryControl": "Control de Inventario",
-        "barcodeScanning": "Lectura de Código",
-        "offlineSupport": "Modo Offline",
-        "posSystem": "Punto de Venta",
-        "nfceIssuance": "Emisión NFC-e",
-        "tableControl": "Control de Mesas",
-        "orderManagement": "Comandas",
-        "digitalMenu": "Menú Digital",
-        "delivery": "Delivery",
-        "scaleIntegration": "Integración Balanza",
-        "salesHistory": "Historial de Ventas",
-        "cashierControl": "Control de Caja",
-        "propertyManagement": "Gestión de Inmuebles",
-        "tokenizedSharing": "Enlaces Tokenizados",
-        "clientGate": "Captación de Leads",
-        "brokerDashboard": "Panel del Corredor",
-        "analytics": "Analytics",
-        "publicCatalog": "Catálogo Público",
-        "imageGallery": "Galería de Imágenes",
-        "lgpdCompliance": "Conformidad LGPD",
-        "whatsappCheckout": "Checkout por WhatsApp",
-        "partnerNetwork": "Red de socios",
-        "commissions": "Comisiones",
-        "booking": "Reservas",
-        "pos": "Punto de venta",
-        "payments": "Pagos",
-        "physicalStore": "Tienda física",
-        "seoAi": "SEO y búsqueda por IA"
-      },
-      "technologiesLabel": "Tecnologías",
-      "openProject": "Abrir {name}"
-    },
-    "cta": {
-      "text": "¿Quieres ver más proyectos? ¡Explora mi repositorio de GitHub con más de 100 proyectos open source!",
-      "button": "Explorar en GitHub",
-      "stats": {
-        "repositories": "Repositorios públicos",
-        "commits": "Commits este año"
-      }
-    },
-    "list": {
-      "northClinic": {
-        "title": "North Clinic - Sistema de Gestión",
-        "description": "Sistema completo para la gestión de clínicas y consultorios, con programación de citas en línea, historia clínica electrónica, control financiero y facturación."
-      },
-      "mobileEstoquista": {
-        "title": "Mobile Almacenista Magalu",
-        "description": "Superapp corporativa para almacenistas de las tiendas físicas de Magalu, optimizando el control de inventario, la recepción y el envío de mercancías."
-      },
-      "pratio": {
-        "title": "Pratio - TPV para Restaurantes",
-        "description": "Sistema de punto de venta (TPV) y gestión para bares y restaurantes, con control de mesas, comandas, emisión de NFC-e y menú digital."
-      },
-      "paludoImoveis": {
-        "title": "Paludo Inmuebles - Plataforma Inmobiliaria",
-        "description": "Plataforma para corredores de bienes raíces con catálogo público, compartición por enlaces tokenizados, captación de leads y dashboard analítico."
-      },
-      "fronteiraSul": {
-        "title": "Fronteira Sul Drones",
-        "description": "E-commerce agrícola de drones, piezas y líneas complementarias. El catálogo filtra la oferta, el carrito organiza la intención y WhatsApp cierra la negociación."
-      },
-      "talaPartners": {
-        "title": "TALA Drone Partners",
-        "description": "Plataforma de socios para la expansión regional de drones agrícolas: dashboard, CRM, seguimiento por enlaces y códigos QR y cálculo de comisiones."
+      "tala": {
+        "tagline": "Plataforma de socios comerciales",
+        "description": "Plataforma de socios para la expansión regional de drones agrícolas. Dashboard, CRM, seguimiento y comisiones en un solo lugar."
       },
       "quadralize": {
-        "title": "Quadralize",
-        "description": "Gestión de canchas deportivas: reservas, CRM, punto de venta, pagos y control financiero para dueños de canchas y jugadores."
+        "tagline": "Gestión de canchas deportivas",
+        "description": "Plataforma completa para gestionar canchas deportivas: reservas, CRM, punto de venta, pagos y control financiero para dueños de canchas y jugadores."
       },
-      "nanSolutions": {
-        "title": "NaN Solutions",
-        "description": "Sitio de una tienda de tecnología en Papanduva/SC enfocado en llevar al cliente a la tienda física y al e-commerce. Lighthouse 100 en las cuatro notas."
+      "nan": {
+        "tagline": "Tienda de tecnología — sitio institucional",
+        "description": "El sitio de una tienda de tecnología de Papanduva/SC, pensado para llevar al cliente a la tienda física y al e-commerce. Marcas destacadas, formas de comprar y atención por WhatsApp."
       }
+    },
+    "visitSite": "Ver el sitio",
+    "ctaWhatsapp": "Hablar con Atto por WhatsApp",
+    "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto.",
+    "siteLink": "Conocer Atto y Vega",
+    "caseImageAlt": "El sitio de {name} en el navegador y el celular"
+  },
+  "writing": {
+    "kicker": "escritura",
+    "title": "Pensando en voz alta.",
+    "lead": "Lo que aprendo construyendo producto con IA, escrito para quien también construye.",
+    "all": "Leer el blog"
+  },
+  "closing": {
+    "kicker": "contacto",
+    "title": "¿Tienes un problema que resolver?",
+    "lead": "Atto lo convierte en producto. O escríbeme directamente: respondo correos y mensajes por aquí.",
+    "ctaAtto": "Hablar con Atto por WhatsApp",
+    "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto.",
+    "copyEmail": "Copiar correo",
+    "copied": "copiado",
+    "resume": "Currículum",
+    "socialsLabel": "Redes"
+  },
+  "cases": {
+    "common": {
+      "kicker": "caso",
+      "live": "Ver en línea",
+      "repo": "Código en GitHub",
+      "pain": "el dolor",
+      "decisions": "las decisiones",
+      "product": "el producto",
+      "build": "cómo se hizo",
+      "stack": "Tecnologías",
+      "next": "siguiente caso",
+      "tour": "Pantallas del producto",
+      "of": "de"
+    },
+    "klick": {
+      "name": "Klick",
+      "tagline": "Timer de speedcubing offline-first para los 13 eventos de la WCA.",
+      "heroAlt": "Timer de Klick en la computadora, de un solve armado al tiempo final",
+      "pain": {
+        "title": "El historial que desaparecía.",
+        "body": "En la investigación previa a Klick v2, el relato que más se repetía era el de quienes habían perdido entre meses y tres años de tiempos: datos del navegador borrados, un cambio de celular, una app que no los guardaba bien.",
+        "caption": "paráfrasis de relatos reales en foros de cuberos, de la investigación de Klick v2"
+      },
+      "decisions": {
+        "title": "Lo que entró primero.",
+        "items": [
+          "Los tiempos viven en el dispositivo (IndexedDB) y la app funciona offline después de la primera visita.",
+          "Backup local automático cada 50 solves y una vez al día, con papelera de 30 días.",
+          "Cuenta opcional y sin contraseña (código por correo o passkey) para sincronizar y guardar copias en la nube.",
+          "Los 13 eventos de la WCA con mezclas oficiales, e importación desde csTimer para quienes vienen de ahí."
+        ]
+      },
+      "product": {
+        "title": "En línea, en la computadora y en el celular.",
+        "body": "PWA instalable con estadísticas, metas, calendario de entrenamiento, una ruta de aprendizaje con cubo 3D y desafíos por enlace, sin necesidad de cuenta."
+      },
+      "tour": {
+        "evolucao": {
+          "title": "Cada centésima se vuelve dato.",
+          "body": "Récords, promedios de 5 a 1000, la semana contra la anterior y metas que muestran cuánto falta.",
+          "deskAlt": "Pestaña Evolución de Klick en la computadora, con récords, promedios y semanas de entrenamiento",
+          "phoneAlt": "Pestaña Evolución de Klick en el celular"
+        },
+        "trilha": {
+          "title": "Aprender con el cubo en pantalla.",
+          "body": "Nueve etapas, de la cruz blanca al F2L con algoritmos. Un cubo 3D muestra cada movimiento, y el entrenamiento de casos queda fuera de las estadísticas.",
+          "deskAlt": "Clase de F2L intuitivo con el cubo 3D haciendo U R U’ R’",
+          "phoneAlt": "Clase de la ruta en el celular, con el cubo 3D"
+        },
+        "centro": {
+          "title": "Un cubo que acompaña el entrenamiento.",
+          "body": "El Centro reacciona a cada solve y enciende hitos por temporada. Cerrar una temporada desbloquea un acabado nuevo.",
+          "deskAlt": "Pantalla del Centro con 7 de 9 hitos de la temporada y el acabado Hielo",
+          "phoneAlt": "El Centro en el celular, con los hitos de la temporada"
+        }
+      },
+      "build": {
+        "title": "Construido con agentes, revisado por mí.",
+        "body": "Svelte 5 en el front, un Worker de Cloudflare en el servidor (un Durable Object por cuenta, D1 y R2) y pruebas con Vitest, Playwright y axe.",
+        "statLabel": "commits con coautoría de un agente de IA, hasta el 06/11/2026"
+      },
+      "heroPhoneAlt": "Timer de Klick en el celular, con un área para cada pulgar"
+    },
+    "grimory": {
+      "name": "Grimory",
+      "tagline": "Una mesa de D&D 5e en portugués, del personaje a la sesión.",
+      "heroAlt": "La Araña Gigante en el Compendio de Grimory, con su arte y su bloque de estadísticas",
+      "pain": {
+        "title": "La ficha en medio de la sesión.",
+        "body": "Los jugadores abren la ficha en el celular en medio del juego: una mano, vistazos rápidos, números para tirar y reglas para consultar sin salir de la ficha. El máster dirige el combate desde su portátil.",
+        "caption": ""
+      },
+      "decisions": {
+        "title": "La IA propone, las reglas deciden.",
+        "items": [
+          "Describe un concepto y la IA propone una ficha completa y justificada, que se abre en el constructor para revisarla.",
+          "El motor de reglas valida todo: una opción inválida nunca aparece.",
+          "Cada mesa elige las reglas de 2014 o de 2024, y todas las pantallas respetan esa elección.",
+          "Solo contenido distribuible: SRD 5.1 y 5.2 bajo CC-BY-4.0, con la fuente en cada regla."
+        ]
+      },
+      "product": {
+        "title": "Lo usa la mesa del grupo.",
+        "body": "Una ficha que conoce las reglas, un compendio traducido con el homebrew de la mesa, un diario de sesión y la Chama-guia, el familiar que le pone cara a la IA."
+      },
+      "tour": {
+        "mesa": {
+          "title": "La mesa de un vistazo.",
+          "body": "La próxima sesión, las notas del máster y la vida, la CA y las condiciones del grupo, en vivo desde las fichas.",
+          "deskAlt": "Panel de la mesa La Torre de Sal con la próxima sesión y el grupo",
+          "phoneAlt": "Panel de la mesa en el celular, con el tiempo de juego y el grupo"
+        },
+        "combate": {
+          "title": "El máster en la portátil, el grupo en el celular.",
+          "body": "El máster arma el encuentro y pide la iniciativa. Cada jugador tira en su propia ficha, y el orden se acomoda solo.",
+          "deskAlt": "El orden de iniciativa acomodándose a medida que llegan las tiradas",
+          "phoneAlt": "Ataque con Maza tirado desde la ficha: 20 natural y daño crítico"
+        },
+        "regras": {
+          "title": "Las reglas dentro de la ficha.",
+          "body": "Cada conjuro muestra la fuente y la versión de 2014, y la Chama-guia resuelve dudas citando el SRD.",
+          "deskAlt": "Bola de Fuego en el Compendio, con la versión de 2014 y la pregunta a la Chama-guia",
+          "phoneAlt": "Pestaña de conjuros de la ficha en el celular, con la CD y los trucos"
+        }
+      },
+      "build": {
+        "title": "Construido con agentes, revisado por mí.",
+        "body": "React y Vite en la app, Astro en la página pública y Workers de Cloudflare para la API de la mesa y para la IA (Claude por la API de Anthropic). Hoy es un prototipo, con beta cerrada en la nube.",
+        "statLabel": "commits con coautoría de un agente de IA, hasta el 07/11/2026"
+      },
+      "heroPhoneAlt": "La ficha de Ilda en el celular tras 8 de daño, ofreciendo la Resiliencia Enana"
     }
   },
-  "contact": {
-    "badge": "Hablemos",
-    "title": {
-      "part1": "Hablemos",
-      "part2": "un rato"
+  "projectsIndex": {
+    "metaTitle": "Proyectos · Ranielli Montagna",
+    "kicker": "proyectos",
+    "title": "Lo que puse en línea.",
+    "lead": "Los casos cuentan el camino del dolor al producto. Abajo, todo lo que es público en GitHub.",
+    "casesTitle": "Casos",
+    "githubTitle": "En GitHub",
+    "stats": {
+      "repos": "repositorios públicos",
+      "stars": "estrellas",
+      "followers": "seguidores"
     },
-    "subtitle": "¿Tienes un proyecto para construir? Eso es con Atto — allí hay alcance, plazo y precio cerrados. Este canal es para hablar de ingeniería, producto, carrera o comunidad.",
-    "methods": {
-      "title": "Métodos de contacto",
-      "subtitle": "¿Prefieres otro medio de contacto? Elige una de las opciones a continuación:",
-      "email": {
-        "title": "Email directo",
-        "description": "Para conversaciones detalladas",
-        "action": "Enviar email"
-      },
-      "linkedin": {
-        "title": "LinkedIn",
-        "description": "Conectemos profesionalmente",
-        "action": "Conectar"
-      },
-      "phone": {
-        "title": "WhatsApp",
-        "description": "Para conversaciones rápidas",
-        "action": "Enviar mensaje"
-      },
-      "atto": {
-        "title": "¿Un proyecto? Habla con Atto",
-        "description": "Software a medida y marketing, con propuesta cerrada",
-        "action": "Conocer Atto"
-      }
+    "repos": {
+      "label": "Repositorios",
+      "all": "todos",
+      "empty": "No se pudieron cargar los repositorios. Vuelve a intentarlo en unos minutos.",
+      "stars": "",
+      "updated": "actualizado en",
+      "site": "sitio"
     },
-    "status": {
-      "available": "Abierto a conversaciones",
-      "response": "Tiempo de respuesta: ~24h"
-    },
-    "form": {
-      "title": "Envía un mensaje",
-      "subtitle": "Completa el formulario a continuación y te contactaré lo antes posible.",
-      "name": {
-        "label": "Nombre completo",
-        "placeholder": "Tu nombre completo"
-      },
-      "email": {
-        "label": "Email",
-        "placeholder": "tu@email.com"
-      },
-      "subject": {
-        "label": "Asunto",
-        "placeholder": "¿De qué te gustaría hablar?"
-      },
-      "message": {
-        "label": "Mensaje",
-        "placeholder": "Describe tu proyecto o pregunta..."
-      },
-      "send": "Enviar mensaje",
-      "sending": "Enviando...",
-      "successTitle": "¡Mensaje enviado!",
-      "success": "Gracias por contactarme. Responderé lo antes posible.",
-      "errorTitle": "Error en el envío",
-      "error": "No se pudo enviar automáticamente. Se abrirá tu cliente de correo.",
-      "validation": {
-        "name": "El nombre debe tener al menos 2 caracteres",
-        "email": "Email inválido",
-        "subject": "El asunto debe tener al menos 5 caracteres",
-        "message": "El mensaje debe tener al menos 10 caracteres"
-      }
-    },
-    "paths": {
-      "label": "Dos caminos",
-      "project": {
-        "title": "Un proyecto para construir",
-        "description": "Alcance, plazo y precio cerrados con Atto.",
-        "action": "Ir a Atto"
-      },
-      "talk": {
-        "title": "Solo una charla",
-        "description": "Ingeniería, producto, carrera o comunidad — manda un e-mail."
-      }
-    },
-    "email": {
-      "copy": "Copiar e-mail",
-      "copied": "Copiado",
-      "open": "Abrir e-mail"
-    },
-    "localTime": {
-      "label": "Ahora en Paraí, Brasil",
-      "timezone": "GMT-3"
-    }
+    "atto": "¿Necesitas algo así para tu empresa? Atto lo construye.",
+    "attoCta": "Hablar con Atto por WhatsApp",
+    "whatsappMessage": "¡Hola! Vengo del sitio de Ranielli y quiero hablar sobre un proyecto."
   },
-  "footer": {
-    "logo": {
-      "fullName": "Ranielli Montagna"
-    },
-    "social": {
-      "title": "Redes Sociales",
-      "links": {
-        "github": "GitHub",
-        "linkedin": "LinkedIn",
-        "email": "Email"
-      }
-    },
-    "copyright": "© {year} Ranielli Montagna. Todos los derechos reservados.",
-    "restoreBackup": "Restaurar backup de 1998",
-    "madeWith": "Hecho con ❤️ usando Next.js, TypeScript y Tailwind CSS"
-  },
-  "services": {
-    "badge": "Atto",
-    "title": {
-      "part1": "¿Necesitas software o marketing?",
-      "part2": "Eso es Atto."
-    },
-    "subtitle": "Atto es la software house que fundé con Juliano Paludo: productos digitales, integraciones, automatización con IA y campañas que traen clientes — con alcance, plazo y precio cerrados antes de empezar.",
-    "list": {
-      "web": {
-        "title": "Sitios, sistemas y e-commerce",
-        "description": "Landing pages, paneles, SaaS y tiendas — React, Next.js y Astro con rendimiento y accesibilidad por defecto."
-      },
-      "mobile": {
-        "title": "Apps móviles",
-        "description": "iOS y Android con React Native, de la concepción a la publicación en las tiendas."
-      },
-      "ai": {
-        "title": "Integraciones e IA",
-        "description": "APIs, webhooks, ERPs, WhatsApp y automatización con IA que resuelve un proceso, no solo una demo."
-      },
-      "marketing": {
-        "title": "Marketing y adquisición",
-        "description": "Tráfico pago, presencia digital y embudo conectado a WhatsApp, medido de punta a punta."
-      }
-    },
-    "cta": {
-      "badge": "Software a medida y marketing",
-      "title": "Cuéntale a Atto qué necesitas construir.",
-      "subtitle": "Respuesta en hasta 24h hábiles con una lectura honesta de lo que se puede hacer.",
-      "button": "Conocer Atto",
-      "secondary": "Ver casos"
-    }
-  },
-  "commandMenu": {
-    "placeholder": "Escribe un comando o busca...",
-    "noResults": "No se encontraron resultados.",
-    "sections": "Secciones",
-    "theme": "Tema",
-    "social": "Social",
-    "about": "Ir a Sobre mí",
-    "projects": "Ir a Proyectos",
-    "experience": "Ir a Experiencia",
-    "contact": "Ir a Contacto",
-    "blog": "Ir a Blog",
-    "light": "Modo Claro",
-    "dark": "Modo Oscuro"
+  "blogIndex": {
+    "kicker": "blog",
+    "title": "Pensando en voz alta.",
+    "lead": "Lo que aprendo construyendo producto con IA: decisiones, errores y herramientas, escrito para quien también construye.",
+    "latest": "más reciente",
+    "empty": "No se pudieron cargar los posts. Vuelve en unos minutos.",
+    "closeImage": "Cerrar"
   },
   "blog": {
-    "title": "Pensando en Voz Alta.",
-    "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que hay entre medio.",
-    "backToPortfolio": "Volver al Portafolio",
-    "backToBlog": "Volver al Blog",
-    "readFeaturedStory": "Leer Artículo Destacado",
+    "title": "Pensando en voz alta.",
+    "subtitle": "Insights, tutoriales y reflexiones sobre tecnología, desarrollo y todo lo que gira en torno a ese mundo.",
+    "backToPortfolio": "Volver al portafolio",
+    "backToBlog": "Volver al blog",
+    "readFeaturedStory": "Leer artículo destacado",
     "readArticle": "Leer artículo",
     "noPosts": "No se encontraron publicaciones. ¡Vuelve pronto!",
     "previous": "Anterior",
@@ -458,7 +496,7 @@
     "zoomIn": "Ampliar",
     "viewerLoading": "Cargando visor de imágenes…",
     "viewerError": "No se pudo cargar el visor de imágenes.",
-    "diagramPending": "El diagrama se carga cerca del área visible",
+    "diagramPending": "El diagrama se carga al acercarse al área visible",
     "diagramLoading": "Renderizando diagrama…",
     "diagramError": "Error al renderizar el diagrama:",
     "scrollToTop": "Volver arriba"
@@ -466,10 +504,10 @@
   "notFound": {
     "title": "Página no encontrada",
     "code": "404",
-    "description": "¡Ups! La página que buscas no existe o ha sido movida.",
+    "description": "¡Ups! La página que buscas no existe o cambió de dirección.",
     "backHome": "Volver al inicio",
     "contact": "Ponte en contacto",
-    "suggestions": "Tal vez estás buscando:",
+    "suggestions": "Quizá estés buscando:",
     "visitSection": "Visitar sección",
     "links": {
       "about": {
@@ -478,7 +516,7 @@
       },
       "projects": {
         "title": "Proyectos",
-        "description": "Mira lo que he construido"
+        "description": "Mira lo que he estado construyendo"
       },
       "blog": {
         "title": "Blog",
@@ -488,84 +526,27 @@
         "title": "Contacto",
         "description": "Hablemos de ideas"
       }
-    }
+    },
+    "askVega": "Pregúntale a Vega"
   },
-  "projectsPage": {
-    "title": "Mis Proyectos",
-    "subtitle": "Una colección de mis repositorios open source en GitHub. Explora proyectos en diferentes lenguajes y áreas.",
-    "breadcrumb": "Proyectos",
-    "backToPortfolio": "Volver al Portafolio",
-    "featured": "Destacado",
-    "stars": "estrellas",
-    "forks": "forks",
-    "updated": "Actualizado",
-    "noDescription": "Sin descripción disponible",
-    "visitSite": "Visitar sitio",
-    "filterByLanguage": "Filtrar por lenguaje",
-    "featuredTitle": "Proyectos Destacados",
-    "allProjectsTitle": "Todos los Proyectos",
-    "noProjectsFound": "No se encontraron proyectos para este lenguaje.",
-    "filters": {
-      "all": "Todos"
-    },
-    "stats": {
-      "repos": "Repositorios",
-      "stars": "Estrellas totales",
-      "followers": "Seguidores"
-    },
-    "content": {
-      "title": "Cómo construyo proyectos web",
-      "paragraph1": "En esta página encontrarás proyectos reales que desarrollé con foco en experiencia de usuario, rendimiento y calidad de código. Cada proyecto parte de un problema concreto y se estructura para ser escalable y mantenible.",
-      "paragraph2": "Además de la implementación, también priorizo arquitectura, observabilidad y documentación. El objetivo es entregar productos digitales que funcionen bien en producción y puedan evolucionar con seguridad.",
-      "points": [
-        "Arquitectura modular con componentes reutilizables y tipado fuerte.",
-        "Rendimiento y Core Web Vitals integrados en el flujo de desarrollo.",
-        "Estándares de pruebas, lint y CI para mantener calidad continua."
-      ]
-    },
-    "cta": {
-      "title": "¿Quieres ver más proyectos?",
-      "subtitle": "Explora todos mis repositorios en GitHub, incluyendo proyectos privados y contribuciones open source.",
-      "button": "Ver en GitHub"
-    }
-  },
-  "chat": {
-    "title": "Rani",
-    "dialogDescription": "Chat con el asistente de IA de Rani",
-    "messagesLabel": "Mensajes de la conversación",
-    "status": "Versión IA · Online",
-    "betaNotice": "La IA puede equivocarse y usar proveedores de respaldo. No envíes datos personales, confidenciales ni sensibles.",
-    "fabTooltip": "Habla con mi yo digital",
-    "placeholder": "Pregunta algo a Rani...",
-    "send": "Enviar mensaje",
-    "close": "Cerrar chat",
-    "clear": "Limpiar conversación",
-    "welcome": "¡Hola! Soy Rani 👋",
-    "welcomeSubtitle": "Soy la versión IA de Ranielli — ¡pregunta lo que quieras sobre mi experiencia, proyectos o habilidades!",
-    "error": "Ocurrió un error. Inténtalo de nuevo.",
-    "suggestions": {
-      "skills": "¿Cuáles son tus principales habilidades?",
-      "experience": "Cuéntame sobre tu experiencia profesional",
-      "projects": "¿Qué proyectos has desarrollado?",
-      "atto": "¿Qué es Atto y cómo funciona un proyecto?"
-    },
-    "directMessage": {
-      "trigger": "📨 ¿Prefieres mandarme un mensaje directo?",
-      "title": "Mensaje directo para Ranielli",
-      "subtitle": "Llega a mi correo. Respondo en hasta 24h hábiles.",
-      "name": "Tu nombre",
-      "email": "Tu correo",
-      "message": "Tu mensaje",
-      "send": "Enviar mensaje",
-      "sending": "Enviando...",
-      "cancel": "Volver",
-      "successTitle": "¡Mensaje enviado!",
-      "success": "Gracias — respondo en hasta 24h hábiles al correo que dejaste.",
-      "backToChat": "Volver al chat",
-      "error": "No pude enviarlo ahora. Inténtalo de nuevo o escríbeme por LinkedIn.",
-      "invalid": "Revisa tu nombre, correo y un mensaje con al menos 10 caracteres.",
-      "subject": "Mensaje desde el chat del sitio — {name}",
-      "privacy": "Uso tus datos solo para responder este contacto."
-    }
+  "vega": {
+    "label": "Vega",
+    "greeting": "Hola, soy Vega.",
+    "greetingAsk": "¿Por dónde empezamos?",
+    "placeholder": "Pregunta sobre Ranielli, sus proyectos o Atto…",
+    "suggestions": [
+      "¿Qué hace con IA?",
+      "Muéstrame Grimory",
+      "¿Dónde ha trabajado?",
+      "Quiero hablar con Atto"
+    ],
+    "back": "Volver al sitio",
+    "newChat": "Nueva conversación",
+    "thinking": "pensando…",
+    "error": "No pude responder en este momento.",
+    "errorRateLimit": "Demasiadas preguntas seguidas. Espera un minuto y vuelve a intentarlo.",
+    "retry": "Intentar de nuevo",
+    "send": "Enviar",
+    "cardCta": "Ver en el sitio"
   }
 }

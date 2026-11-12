@@ -21,6 +21,9 @@ vi.mock('next/image', () => ({
     // biome-ignore lint/performance/noImgElement: test double for next/image
     return <img alt={String(alt ?? '')} {...imageProps} />
   },
+  getImageProps: (props: { src: string; alt: string }) => ({
+    props: { src: props.src, alt: props.alt },
+  }),
 }))
 
 vi.mock('@/features/blog/lib/blog', () => {
@@ -82,7 +85,7 @@ describe('Blog Page', () => {
     nextImageProps.length = 0
   })
 
-  it('renders blog page correctly', async () => {
+  it('renders the new blog index with the Blog JSON-LD, without loading article bodies', async () => {
     const page = await BlogPage({
       params: Promise.resolve({ locale: 'pt' }),
     })
@@ -90,37 +93,42 @@ describe('Blog Page', () => {
 
     const { container } = render(page)
 
-    expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'quiet')
-    expect(container.firstElementChild).toHaveClass('bg-background/80')
-    expect(container.firstElementChild).not.toHaveClass('bg-background')
-    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
+    expect(container.querySelector('[data-spectral-zone]')).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Featured Post/ })).toHaveAttribute(
+      'href',
+      '/blog/featured-post',
+    )
     const jsonLd = container.querySelector('script[type="application/ld+json"]')
     expect(jsonLd).toBeInTheDocument()
     expect(JSON.parse(jsonLd?.textContent ?? '')).toMatchObject({ '@type': 'Blog' })
   })
 
-  it('marks article pages as quiet spectral zones without the obsolete grid', async () => {
+  it('renders the new article page with its header, body and BlogPosting JSON-LD', async () => {
     const page = await PostPage({
       params: Promise.resolve({ locale: 'pt', slug: 'featured-post' }),
     })
 
     const { container } = render(page)
 
-    expect(container.firstElementChild).toHaveAttribute('data-spectral-zone', 'quiet')
-    expect(container.firstElementChild).toHaveClass('bg-background/80')
-    expect(container.firstElementChild).not.toHaveClass('bg-background')
-    expect(container.querySelector(`.${['atmospheric', 'grid'].join('-')}`)).not.toBeInTheDocument()
+    expect(container.querySelector('[data-spectral-zone]')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Featured Post' })).toBeInTheDocument()
+    expect(screen.getByText('ARTICLE_BODY_MARKER')).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: /backToBlog/ })[0]).toHaveAttribute('href', '/blog')
     const jsonLd = container.querySelector('script[type="application/ld+json"]')
-    expect(jsonLd).toBeInTheDocument()
     expect(JSON.parse(jsonLd?.textContent ?? '')).toMatchObject({
       '@type': 'BlogPosting',
       headline: 'Featured Post',
     })
     const coverProps = nextImageProps.find((props) => props.alt === 'Featured Post')
     expect(coverProps).toMatchObject({ preload: true })
-    expect(coverProps).not.toHaveProperty('priority')
-    expect(coverProps).not.toHaveProperty('loading')
-    expect(coverProps).not.toHaveProperty('fetchPriority')
+  })
+
+  it('unknown slug triggers notFound', async () => {
+    const { getPostBySlug } = await import('@/features/blog/lib/blog')
+    vi.mocked(getPostBySlug).mockResolvedValueOnce(null as never)
+    await expect(
+      PostPage({ params: Promise.resolve({ locale: 'pt', slug: 'missing' }) }),
+    ).rejects.toThrow()
   })
 })

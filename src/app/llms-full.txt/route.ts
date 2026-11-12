@@ -36,7 +36,7 @@ export async function GET() {
 
 ## About Ranielli Montagna
 
-Ranielli Montagna (also known as Rani Montagna) is a Brazilian software engineer currently working at Lemon Energia and co-founder of Atto (https://attodev.com.br), a software house and marketing studio. He has 5+ years of professional software experience and previously worked at Luizalabs, the technology arm of Magazine Luiza, developing web and mobile applications for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks. He specializes in React, React Native, Next.js, Node.js, TypeScript, APIs, micro frontends, Design Systems, CI/CD, testing, accessibility, automation and AI applied to software development.
+Ranielli Montagna (also known as Rani Montagna) is a Brazilian software engineer currently working at Lemon Energia and co-founder of Atto (https://attodev.com.br), a software house and marketing studio. He has 5+ years of professional software experience and previously worked at Luizalabs, the technology arm of Magazine Luiza, developing web and mobile applications for physical store operations that impacted inventory and logistics workflows across 1,000+ stores and 1,000+ stock clerks, with Go and Node.js back-end services on GCP, RabbitMQ queues, SonarQube and Grafana, through Black Friday peaks. He specializes in React, React Native, Next.js, Node.js, TypeScript, APIs, micro frontends, Design Systems, CI/CD, testing, accessibility, automation and AI applied to software development.
 
 - **Full name**: Ranielli Montagna
 - **Also known as**: Rani Montagna, Ranni Montagna, Ranielli

@@ -1,53 +1,37 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { LANGUAGE_COLORS } from '@/features/projects/lib/project-presentation'
-
-interface LanguageFilterProps {
-  languages: string[]
-  selected: string | null
-  onSelect: (language: string | null) => void
+type LanguageFilterProps = {
+  languages: readonly string[]
+  value: string | null
+  allLabel: string
+  onChange: (language: string | null) => void
 }
 
-export function LanguageFilter({ languages, selected, onSelect }: LanguageFilterProps) {
-  const t = useTranslations('projectsPage')
+export function LanguageFilter({ languages, value, allLabel, onChange }: LanguageFilterProps) {
+  const option =
+    'inline-flex items-center rounded-full border px-4 py-1.5 font-mono text-xs max-lg:min-h-11 transition-colors border-line text-muted hover:text-foreground aria-pressed:border-foreground aria-pressed:text-foreground'
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap gap-2">
       <button
         type="button"
-        aria-pressed={selected === null}
-        onClick={() => onSelect(null)}
-        className={`rounded-full px-4 py-2 text-sm font-medium transition-all motion-safe:hover:scale-105 motion-safe:active:scale-95 ${
-          selected === null
-            ? 'bg-foreground text-background shadow-lg'
-            : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
-        }`}
+        aria-pressed={value === null}
+        className={option}
+        onClick={() => onChange(null)}
       >
-        {t('filters.all')}
+        {allLabel}
       </button>
-      {languages.map((language) => {
-        const color = LANGUAGE_COLORS[language] || '#6b7280'
-        return (
-          <button
-            type="button"
-            aria-pressed={selected === language}
-            key={language}
-            onClick={() => onSelect(language)}
-            className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all motion-safe:hover:scale-105 motion-safe:active:scale-95 ${
-              selected === language
-                ? 'bg-foreground text-background shadow-lg'
-                : 'bg-surface text-muted hover:bg-surface-hover hover:text-foreground'
-            }`}
-          >
-            <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: selected === language ? 'white' : color }}
-            />
-            {language}
-          </button>
-        )
-      })}
+      {languages.map((language) => (
+        <button
+          key={language}
+          type="button"
+          aria-pressed={value === language}
+          className={option}
+          onClick={() => onChange(language)}
+        >
+          {language}
+        </button>
+      ))}
     </div>
   )
 }

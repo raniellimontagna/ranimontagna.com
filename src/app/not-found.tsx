@@ -1,24 +1,17 @@
-'use client'
-
-import { HomeIcon as Home } from '@solar-icons/react/linear'
-import { ErrorLayout } from '@/shared/components/ui/error-view'
+import { StatusDocument, StatusView } from '@/shared/ui-2026'
 
 export default function NotFound() {
   return (
-    <ErrorLayout
-      code="404"
-      lang="pt-BR"
-      title="Página não encontrada"
-      description="O endereço que você tentou acessar não existe ou foi removido. Que tal voltar para o início?"
-    >
-      <a
-        href="/"
-        className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-foreground px-10 py-4 font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
-      >
-        <Home className="h-5 w-5" />
-        <span>Voltar ao Início</span>
-        <div className="absolute inset-0 -z-10 bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-      </a>
-    </ErrorLayout>
+    <StatusDocument lang="pt-BR">
+      <StatusView
+        code="404"
+        title="Página não encontrada"
+        body="O endereço que você tentou acessar não existe ou foi removido."
+        actions={[
+          { label: 'Voltar ao início', href: '/' },
+          { label: 'Blog', href: '/blog' },
+        ]}
+      />
+    </StatusDocument>
   )
 }

@@ -1,12 +1,13 @@
 {
   "pt": {
     "name": "RANIELLI MONTAGNA",
-    "headline": "Engenheiro de Software Full Stack | React, React Native, Node.js e TypeScript",
+    "headline": "Engenheiro de Software Full Stack | React, TypeScript, Node.js, AWS e IA aplicada",
     "contact": [
-      "Paraí, RS, Brasil",
+      "Paraí, RS, Brasil (remoto)",
       "raniellimontagna@hotmail.com",
       "+55 54 99979-0871",
       "www.linkedin.com/in/rannimontagna",
+      "github.com/raniellimontagna",
       "ranimontagna.com"
     ],
     "labels": {
@@ -15,14 +16,18 @@
       "experience": "EXPERIÊNCIA PROFISSIONAL",
       "education": "FORMAÇÃO ACADÊMICA",
       "certifications": "CERTIFICAÇÕES",
-      "languages": "IDIOMAS"
+      "languages": "IDIOMAS",
+      "projects": "PROJETOS"
     },
-    "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência no desenvolvimento de aplicações web e mobile escaláveis para varejo, logística e produtos SaaS. Atua principalmente com React, React Native, TypeScript, Node.js, Next.js e Go, conectando decisões de frontend, backend e arquitetura a resultados de negócio. Experiência com micro frontends, APIs REST, Design Systems, CI/CD, monitoramento, acessibilidade, performance e colaboração cross-functional com Produto, UX, Backend e Operações. Interesse crescente em Inteligência Artificial aplicada à engenharia de software, incluindo integração com LLMs, automação, Model Context Protocol (MCP) e produtividade de desenvolvimento.",
+    "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência em aplicações web e mobile, do front-end à infraestrutura em nuvem. No time de IA da Lemon Energia, coloquei seis produtos internos de Finanças em produção em três meses, de ponta a ponta, com React, Fastify, PostgreSQL e infraestrutura como código (Pulumi) na AWS. Na Luizalabs (Magalu), desenvolvi aplicações e serviços em Go e Node.js no GCP usados em mais de 1.000 lojas; antes, fui Tech Lead Front-end na Smarten, com Design System e CI/CD. Uso IA no desenvolvimento com método: spec-driven development, TDD, revisão crítica e evals, com Claude Code, Codex e Model Context Protocol (MCP).",
     "skills": [
-      "Frontend e Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, mobile-first e acessibilidade (WCAG).",
-      "Backend e APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT e integrações com APIs terceiras.",
-      "Arquitetura e Engenharia: Micro Frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, testes unitários e de integração, Feature Flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoramento, observabilidade e troubleshooting.",
-      "IA e Produtividade: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, automação com LLMs, agentes de IA, prompting técnico e prototipação acelerada com IA."
+      "Linguagens: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
+      "Front-end e Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, acessibilidade (WCAG), performance web (Core Web Vitals).",
+      "Back-end e APIs: Node.js, Fastify, Express.js, Go, REST APIs, GraphQL, mensageria (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
+      "Cloud e DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestrutura como código (IaC) com Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
+      "Qualidade e Observabilidade: testes automatizados (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoramento, Feature Flags, Clean Code, SOLID, Monorepo, Git.",
+      "IA aplicada: desenvolvimento assistido por IA, agentes de IA, spec-driven development, Model Context Protocol (MCP), integração com LLMs (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, engenharia de prompt, Claude Code, Codex, Gemini CLI.",
+      "Produto e Liderança: product discovery, levantamento de requisitos com áreas de negócio, liderança técnica, mentoria, colaboração com Produto, UX e Operações."
     ],
     "experience": [
       {
@@ -30,68 +35,74 @@
         "position": "Engenheiro de Software",
         "period": "Julho 2026 - Presente",
         "location": "Remoto",
-        "description": "Atuo na ponte entre negócio e tecnologia, investigando problemas operacionais e transformando regras complexas da jornada de energia em soluções full stack. Conduzo discovery contínuo, documento decisões e requisitos, e uso IA com revisão crítica para acelerar entregas confiáveis, escaláveis e de impacto mensurável.",
+        "description": "No time de IA da Lemon, atuo de dentro da área de Finanças: identifico o trabalho manual e decido, com o negócio, o que vira produto, entregando de ponta a ponta.",
         "highlights": [
-          "Condução de descobertas com as áreas de negócio para esclarecer necessidades e requisitos",
-          "Construção de soluções full stack orientadas por IA",
-          "Revisão crítica de saídas de IA antes de seu uso no produto",
-          "Avaliação de trade-offs pragmáticos entre produto e tecnologia"
+          "Coloquei seis produtos internos de Finanças em produção em três meses, entre eles conciliação bancária, lotes de pagamento, fornecedores, notas fiscais e notas de débito",
+          "Desenvolvi cada produto de ponta a ponta: front-end em React com TypeScript, API em Fastify com PostgreSQL e infraestrutura como código (IaC) com Pulumi",
+          "Construí a infraestrutura na AWS com ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway e CloudFront",
+          "Conduzo discovery contínuo com a operação de Finanças e documento requisitos, decisões e trade-offs",
+          "Uso agentes de IA no fluxo de desenvolvimento, com revisão crítica antes de cada entrega ir para produção"
         ]
       },
       {
         "company": "Luizalabs",
-        "position": "Desenvolvedor Pleno",
+        "position": "Engenheiro de Software",
         "period": "Outubro 2023 - Junho 2026",
         "location": "Remoto",
-        "description": "Atuei na Luizalabs, unidade de tecnologia do Magalu, desenvolvendo aplicações web e mobile para operações de lojas físicas, APIs REST e soluções backend para um ambiente de varejo nacional de alta escala.",
+        "description": "Na unidade de tecnologia do Magalu, desenvolvi aplicações web e mobile para as lojas físicas e os serviços por trás delas, em varejo de alta escala.",
         "highlights": [
-          "Desenvolvi soluções usadas em operações de estoque e logística de 1.000+ lojas",
-          "Contribuí para o fluxo diário de 1.000+ estoquistas em aplicações corporativas",
-          "Mantive APIs REST, integrações e micro frontends com React, React Native, Node.js e TypeScript",
-          "Colaborei com Produto, UX, Backend e Operações para conectar decisões técnicas a impacto de negócio"
+          "Desenvolvi soluções usadas nas operações de estoque e logística de 1.000+ lojas físicas do Magalu",
+          "Contribuí para o fluxo diário de 1.000+ estoquistas no superapp corporativo em React Native com micro frontends",
+          "Desenvolvi serviços em Go e Node.js no Google Cloud Platform (GCP), com filas no RabbitMQ, APIs REST e micro frontends em React",
+          "Acompanhei a qualidade do código no SonarQube e a operação no Grafana",
+          "Atuei em Black Fridays, o período de maior carga e criticidade do varejo"
         ]
       },
       {
         "company": "Smarten",
-        "position": "Tech Lead Front-end",
+        "position": "Tech Lead",
         "period": "Maio 2022 - Setembro 2023",
-        "location": "Remoto",
-        "description": "Atuei como Tech Lead Front-end em produtos SaaS, liderando desenvolvedores, definindo padrões de qualidade, evoluindo arquitetura de interface e conectando decisões técnicas a entregas de produto.",
+        "location": "Presencial",
+        "description": "",
         "highlights": [
-          "Liderei tecnicamente uma equipe de desenvolvedores",
-          "Criei e mantive Design System adotado em múltiplos produtos",
-          "Implementei CI/CD, monitoramento e padrões de qualidade",
-          "Mentorei desenvolvedores e otimizei performance, manutenção e escalabilidade"
+          "Liderei tecnicamente e mentorei uma equipe de desenvolvedores front-end em produtos SaaS",
+          "Criei e mantive um Design System adotado em múltiplos produtos",
+          "Implementei CI/CD, monitoramento e padrões de qualidade, com ganhos de performance e manutenção"
         ]
       },
       {
         "company": "SBSistemas",
         "position": "Desenvolvedor Front-end",
-        "period": "Maio 2021 - Maio 2022",
+        "period": "Abril 2021 - Maio 2022",
         "location": "Presencial",
-        "description": "Consolidei minha base profissional em desenvolvimento front-end, criando aplicações com foco em usabilidade, manutenção, tipagem, componentes reutilizáveis e boas práticas de engenharia.",
+        "description": "",
         "highlights": [
-          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript",
-          "Implementei componentes reutilizáveis e padrões de interface",
-          "Apliquei boas práticas de manutenção, testes e qualidade de código",
-          "Consolidei uma base técnica sólida para produtos web"
+          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript, com componentes reutilizáveis e padrões de interface",
+          "Apliquei boas práticas de manutenção, testes e qualidade de código"
         ]
       }
+    ],
+    "projects": [
+      "Klick (klick.ranimontagna.com): timer de speedcubing offline-first, PWA para os 13 eventos da WCA. Svelte 5, IndexedDB, Cloudflare Workers, Durable Objects, D1 e R2; testes com Vitest, Playwright e axe.",
+      "Grimory (grimory.com.br): mesa de D&D 5e em português com IA (Anthropic Claude API) e motor de regras. React, TanStack Query, Astro e Cloudflare Workers.",
+      "ranimontagna.com: site pessoal em Next.js com chat de IA próprio, três idiomas e 1.300+ testes automatizados.",
+      "agent-toolkit (open source): instala o mesmo conjunto de skills em cinco agentes de código (Claude Code, Codex, OpenCode, Gemini CLI e Antigravity)."
     ],
     "education": [
       "Universidade de Passo Fundo - Análise e Desenvolvimento de Sistemas - 2020 a 2022"
     ],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Português: Nativo | Inglês: Intermediário"]
   },
   "en": {
     "name": "RANIELLI MONTAGNA",
-    "headline": "Full Stack Software Engineer | React, React Native, Node.js and TypeScript",
+    "headline": "Full Stack Software Engineer | React, TypeScript, Node.js, AWS & Applied AI",
     "contact": [
-      "Paraí, RS, Brazil",
+      "Paraí, RS, Brazil (remote)",
       "raniellimontagna@hotmail.com",
       "+55 54 99979-0871",
       "www.linkedin.com/in/rannimontagna",
+      "github.com/raniellimontagna",
       "ranimontagna.com"
     ],
     "labels": {
@@ -100,14 +111,18 @@
       "experience": "PROFESSIONAL EXPERIENCE",
       "education": "EDUCATION",
       "certifications": "CERTIFICATIONS",
-      "languages": "LANGUAGES"
+      "languages": "LANGUAGES",
+      "projects": "PROJECTS"
     },
-    "profile": "Full Stack Software Engineer with 5+ years of experience building scalable web and mobile applications for retail, logistics and SaaS products. Primarily works with React, React Native, TypeScript, Node.js, Next.js and Go, connecting frontend, backend and architectural decisions to business outcomes. Experienced in micro frontends, REST APIs, Design Systems, CI/CD, monitoring, accessibility, performance and cross-functional collaboration with Product, UX, Backend and Operations teams. Growing focus on Artificial Intelligence applied to software development, including LLM integration, automation, Model Context Protocol (MCP) and developer productivity.",
+    "profile": "Full Stack Software Engineer with 5+ years of experience building web and mobile applications, from the front end to cloud infrastructure. On Lemon Energia's AI team, I shipped six internal finance products to production in three months, end to end, with React, Fastify, PostgreSQL and infrastructure as code (Pulumi) on AWS. At Luizalabs (Magalu), I built applications and Go and Node.js services on GCP used across 1,000+ stores; before that, I was Front-end Tech Lead at Smarten, owning a design system and CI/CD. I use AI in development with a method: spec-driven development, TDD, critical review and evals, with Claude Code, Codex and the Model Context Protocol (MCP).",
     "skills": [
-      "Frontend and Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, mobile-first development and accessibility (WCAG).",
-      "Backend and APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT and third-party API integrations.",
-      "Architecture and Engineering: Micro frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, unit and integration testing, feature flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoring, observability and troubleshooting.",
-      "AI and Productivity: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, LLM automation, AI agents, technical prompting and accelerated AI prototyping."
+      "Languages: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
+      "Front-end & Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accessibility (WCAG), web performance (Core Web Vitals).",
+      "Back-end & APIs: Node.js, Fastify, Express.js, Go, REST APIs, GraphQL, messaging (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
+      "Cloud & DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infrastructure as code (IaC) with Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
+      "Quality & Observability: automated testing (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoring, feature flags, Clean Code, SOLID, monorepos, Git.",
+      "Applied AI: AI-assisted development, AI agents, spec-driven development, Model Context Protocol (MCP), LLM integration (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, prompt engineering, Claude Code, Codex, Gemini CLI.",
+      "Product & Leadership: product discovery, requirements gathering with business teams, technical leadership, mentoring, collaboration with Product, UX and Operations."
     ],
     "experience": [
       {
@@ -115,68 +130,74 @@
         "position": "Software Engineer",
         "period": "July 2026 - Present",
         "location": "Remote",
-        "description": "I bridge business and technology, investigating operational problems and turning complex energy-journey rules into full-stack solutions. I lead continuous discovery, document decisions and requirements, and use AI with critical review to accelerate reliable, scalable deliveries with measurable impact.",
+        "description": "On Lemon's AI team, I work from inside Finance: I find the manual work and decide, with the business, what becomes a product, delivering it end to end.",
         "highlights": [
-          "Business-team discovery to clarify needs and requirements",
-          "Building AI-first full-stack solutions",
-          "Critical review of AI output before product use",
-          "Pragmatic evaluation of product and technical trade-offs"
+          "Shipped six internal finance products to production in three months, including bank reconciliation, payment batches, suppliers, invoices and debit notes",
+          "Built each product end to end: React and TypeScript front end, Fastify API on PostgreSQL and infrastructure as code (IaC) with Pulumi",
+          "Built the AWS infrastructure with ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway and CloudFront",
+          "Run continuous discovery with the Finance operation and document requirements, decisions and trade-offs",
+          "Use AI agents in the development workflow, with critical review before each change reaches production"
         ]
       },
       {
         "company": "Luizalabs",
-        "position": "Mid-level Developer",
+        "position": "Software Engineer",
         "period": "October 2023 - June 2026",
         "location": "Remote",
-        "description": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
+        "description": "At Magalu's technology unit, I built web and mobile applications for physical stores and the services behind them, in high-scale retail.",
         "highlights": [
-          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
-          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
-          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript",
-          "Collaborated with Product, UX, Backend, and Operations to connect technical decisions to business impact"
+          "Built solutions used in inventory and logistics operations across 1,000+ Magalu physical stores",
+          "Contributed to the daily workflow of 1,000+ stock associates in the corporate React Native super app with micro frontends",
+          "Built Go and Node.js services on Google Cloud Platform (GCP), with RabbitMQ queues, REST APIs and React micro frontends",
+          "Tracked code quality in SonarQube and operations in Grafana",
+          "Worked through Black Fridays, retail's highest-load and most critical period"
         ]
       },
       {
         "company": "Smarten",
-        "position": "Front-end Tech Lead",
+        "position": "Tech Lead",
         "period": "May 2022 - September 2023",
-        "location": "Remote",
-        "description": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
+        "location": "On-site",
+        "description": "",
         "highlights": [
-          "Technically led a team of developers",
-          "Created and maintained a Design System adopted across multiple products",
-          "Implemented CI/CD, monitoring, and quality standards",
-          "Mentored developers and improved performance, maintainability, and scalability"
+          "Led and mentored a team of front-end developers on SaaS products",
+          "Created and maintained a design system adopted across multiple products",
+          "Implemented CI/CD, monitoring and quality standards, improving performance and maintainability"
         ]
       },
       {
         "company": "SBSistemas",
         "position": "Front-end Developer",
-        "period": "May 2021 - May 2022",
+        "period": "April 2021 - May 2022",
         "location": "On-site",
-        "description": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
+        "description": "",
         "highlights": [
-          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
-          "Implemented reusable components and interface standards",
-          "Applied maintainability, testing, and code quality practices",
-          "Built a solid technical foundation for web products"
+          "Built front-end applications with React, Electron, TypeScript and JavaScript, with reusable components and interface patterns",
+          "Applied maintainability, testing and code quality practices"
         ]
       }
+    ],
+    "projects": [
+      "Klick (klick.ranimontagna.com): offline-first speedcubing timer, a PWA for all 13 WCA events. Svelte 5, IndexedDB, Cloudflare Workers, Durable Objects, D1 and R2; tested with Vitest, Playwright and axe.",
+      "Grimory (grimory.com.br): D&D 5e table in Portuguese with AI (Anthropic Claude API) and a rules engine. React, TanStack Query, Astro and Cloudflare Workers.",
+      "ranimontagna.com: personal site in Next.js with its own AI chat, three languages and 1,300+ automated tests.",
+      "agent-toolkit (open source): installs the same set of skills in five coding agents (Claude Code, Codex, OpenCode, Gemini CLI and Antigravity)."
     ],
     "education": [
       "Universidade de Passo Fundo - Associate Degree in Systems Analysis and Development - 2020 to 2022"
     ],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Portuguese: Native | English: Intermediate"]
   },
   "es": {
     "name": "RANIELLI MONTAGNA",
-    "headline": "Ingeniero de Software Full Stack | React, React Native, Node.js y TypeScript",
+    "headline": "Ingeniero de Software Full Stack | React, TypeScript, Node.js, AWS e IA aplicada",
     "contact": [
-      "Paraí, RS, Brasil",
+      "Paraí, RS, Brasil (remoto)",
       "raniellimontagna@hotmail.com",
       "+55 54 99979-0871",
       "www.linkedin.com/in/rannimontagna",
+      "github.com/raniellimontagna",
       "ranimontagna.com"
     ],
     "labels": {
@@ -185,14 +206,18 @@
       "experience": "EXPERIENCIA PROFESIONAL",
       "education": "FORMACIÓN ACADÉMICA",
       "certifications": "CERTIFICACIONES",
-      "languages": "IDIOMAS"
+      "languages": "IDIOMAS",
+      "projects": "PROYECTOS"
     },
-    "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia desarrollando aplicaciones web y móviles escalables para retail, logística y productos SaaS. Trabaja principalmente con React, React Native, TypeScript, Node.js, Next.js y Go, conectando decisiones de frontend, backend y arquitectura con resultados de negocio. Experiencia con micro frontends, APIs REST, Design Systems, CI/CD, monitoreo, accesibilidad, performance y colaboración cross-functional con Producto, UX, Backend y Operaciones. Interés creciente en Inteligencia Artificial aplicada a la ingeniería de software, incluyendo integración con LLMs, automatización, Model Context Protocol (MCP) y productividad de desarrollo.",
+    "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia en aplicaciones web y móviles, del front-end a la infraestructura en la nube. En el equipo de IA de Lemon Energia, puse en producción seis productos internos de Finanzas en tres meses, de punta a punta, con React, Fastify, PostgreSQL e infraestructura como código (Pulumi) en AWS. En Luizalabs (Magalu), desarrollé aplicaciones y servicios en Go y Node.js en GCP usados en más de 1.000 tiendas; antes fui Tech Lead Front-end en Smarten. Uso IA con método: spec-driven development, TDD, revisión crítica y evals, con Claude Code, Codex y Model Context Protocol (MCP).",
     "skills": [
-      "Frontend y Mobile: React, React Native, Next.js, Expo, TypeScript, JavaScript, Tailwind CSS, Material UI, Styled Components, Stitches, Electron, Zustand, React Query, React Hook Form, Zod, Framer Motion, desarrollo mobile-first y accesibilidad (WCAG).",
-      "Backend y APIs: Node.js, Fastify, Express.js, REST APIs, GraphQL, Go, PostgreSQL, Prisma, Drizzle ORM, JWT e integraciones con APIs de terceros.",
-      "Arquitectura e Ingeniería: Micro frontends, Design Systems, Storybook, Monorepo, Clean Code, SOLID, pruebas unitarias e integración, feature flags, CI/CD, Docker, Git, GitFlow, GitHub Actions, Vercel, Cloudflare, Linux, Postman, monitoreo, observabilidad y troubleshooting.",
-      "IA y Productividad: AI-assisted development, OpenAI Codex, Model Context Protocol (MCP), Ollama, Continue.dev, Claude workflows, automatización con LLMs, agentes de IA, prompting técnico y prototipado acelerado con IA."
+      "Lenguajes: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
+      "Front-end y Móvil: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accesibilidad (WCAG), rendimiento web (Core Web Vitals).",
+      "Back-end y APIs: Node.js, Fastify, Express.js, Go, APIs REST, GraphQL, mensajería (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
+      "Cloud y DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestructura como código (IaC) con Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
+      "Calidad y Observabilidad: pruebas automatizadas (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoreo, feature flags, Clean Code, SOLID, monorepos, Git.",
+      "IA aplicada: desarrollo asistido por IA, agentes de IA, spec-driven development, Model Context Protocol (MCP), integración con LLMs (Anthropic Claude API, OpenAI, DeepSeek, OpenRouter), evals, ingeniería de prompts, Claude Code, Codex, Gemini CLI.",
+      "Producto y Liderazgo: product discovery, levantamiento de requisitos con las áreas de negocio, liderazgo técnico, mentoría, colaboración con Producto, UX y Operaciones."
     ],
     "experience": [
       {
@@ -200,56 +225,61 @@
         "position": "Ingeniero de Software",
         "period": "Julio 2026 - Presente",
         "location": "Remoto",
-        "description": "Actúo como puente entre negocio y tecnología, investigando problemas operativos y transformando reglas complejas del recorrido energético en soluciones full stack. Conduzco discovery continuo, documento decisiones y requisitos, y uso IA con revisión crítica para acelerar entregas confiables, escalables y de impacto medible.",
+        "description": "En el equipo de IA de Lemon, trabajo desde dentro de Finanzas: identifico el trabajo manual y decido, con el negocio, qué se convierte en producto, entregándolo de punta a punta.",
         "highlights": [
-          "Descubrimiento con las áreas de negocio para aclarar necesidades y requisitos",
-          "Construcción de soluciones full stack orientadas por IA",
-          "Revisión crítica de las salidas de IA antes de su uso en el producto",
-          "Evaluación pragmática de trade-offs de producto y tecnología"
+          "Puse en producción seis productos internos de Finanzas en tres meses, entre ellos conciliación bancaria, lotes de pago, proveedores, facturas y notas de débito",
+          "Desarrollé cada producto de punta a punta: front-end en React con TypeScript, API en Fastify con PostgreSQL e infraestructura como código (IaC) con Pulumi",
+          "Construí la infraestructura en AWS con ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway y CloudFront",
+          "Conduzco discovery continuo con la operación de Finanzas y documento requisitos, decisiones y trade-offs",
+          "Uso agentes de IA en el flujo de desarrollo, con revisión crítica antes de que cada entrega llegue a producción"
         ]
       },
       {
         "company": "Luizalabs",
-        "position": "Desarrollador Pleno",
+        "position": "Ingeniero de Software",
         "period": "Octubre 2023 - Junio 2026",
         "location": "Remoto",
-        "description": "Trabajé en Luizalabs, la unidad tecnológica de Magalu, desarrollando aplicaciones web y móviles para operaciones de tiendas físicas, APIs REST y soluciones backend para un entorno minorista nacional de alta escala.",
+        "description": "En la unidad de tecnología de Magalu, desarrollé aplicaciones web y móviles para las tiendas físicas y los servicios detrás de ellas, en retail de alta escala.",
         "highlights": [
-          "Desarrollé soluciones usadas en operaciones de inventario y logística en 1.000+ tiendas",
-          "Contribuí al flujo diario de 1.000+ almacenistas en aplicaciones corporativas",
-          "Mantuve APIs REST, integraciones y micro frontends con React, React Native, Node.js y TypeScript",
-          "Colaboré con Producto, UX, Backend y Operaciones para conectar decisiones técnicas con impacto de negocio"
+          "Desarrollé soluciones usadas en las operaciones de inventario y logística de más de 1.000 tiendas físicas de Magalu",
+          "Contribuí al flujo diario de más de 1.000 reponedores en la superapp corporativa (React Native, micro frontends)",
+          "Desarrollé servicios en Go y Node.js en Google Cloud Platform (GCP), con colas en RabbitMQ, APIs REST y micro frontends en React",
+          "Seguí la calidad del código en SonarQube y la operación en Grafana",
+          "Trabajé en Black Fridays, el período de mayor carga y criticidad del retail"
         ]
       },
       {
         "company": "Smarten",
-        "position": "Líder Técnico Front-end",
+        "position": "Tech Lead",
         "period": "Mayo 2022 - Septiembre 2023",
-        "location": "Remoto",
-        "description": "Trabajé como Tech Lead Front-end en productos SaaS, liderando desarrolladores, definiendo estándares de calidad, evolucionando arquitectura de interfaz y conectando decisiones técnicas con entregas de producto.",
+        "location": "Presencial",
+        "description": "",
         "highlights": [
-          "Lideré técnicamente un equipo de desarrolladores",
-          "Creé y mantuve un Design System adoptado en múltiples productos",
-          "Implementé CI/CD, monitoreo y estándares de calidad",
-          "Mentoricé desarrolladores y optimicé rendimiento, mantenimiento y escalabilidad"
+          "Lideré técnicamente y mentoricé a un equipo de desarrolladores front-end en productos SaaS",
+          "Creé y mantuve un Design System adoptado en varios productos",
+          "Implementé CI/CD, monitoreo y estándares de calidad, mejorando rendimiento y mantenimiento"
         ]
       },
       {
         "company": "SBSistemas",
         "position": "Desarrollador Front-end",
-        "period": "Mayo 2021 - Mayo 2022",
+        "period": "Abril 2021 - Mayo 2022",
         "location": "Presencial",
-        "description": "Consolidé mi base profesional en desarrollo front-end, creando aplicaciones con foco en usabilidad, mantenimiento, tipado, componentes reutilizables y buenas prácticas de ingeniería.",
+        "description": "",
         "highlights": [
-          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript",
-          "Implementé componentes reutilizables y estándares de interfaz",
-          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código",
-          "Consolidé una base técnica sólida para productos web"
+          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript, con componentes reutilizables y patrones de interfaz",
+          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código"
         ]
       }
     ],
+    "projects": [
+      "Klick (klick.ranimontagna.com): timer de speedcubing offline-first, PWA para los 13 eventos de la WCA. Svelte 5, Cloudflare Workers, Durable Objects, D1 y R2; pruebas con Vitest, Playwright y axe.",
+      "Grimory (grimory.com.br): mesa de D&D 5e en portugués con IA (Anthropic Claude API) y motor de reglas. React, TanStack Query, Astro y Cloudflare Workers.",
+      "ranimontagna.com: sitio personal en Next.js con chat de IA propio, tres idiomas y más de 1.300 pruebas automatizadas.",
+      "agent-toolkit (open source): instala el mismo conjunto de skills en cinco agentes de código (Claude Code, Codex, OpenCode, Gemini CLI y Antigravity)."
+    ],
     "education": ["Universidade de Passo Fundo - Análisis y Desarrollo de Sistemas - 2020 a 2022"],
-    "certifications": ["Android, React Native, Node.js, ReactJS"],
+    "certifications": ["Android - FIAP - 2025", "React Native - Rocketseat - 2024", "Node.js - Rocketseat - 2023", "ReactJS - Rocketseat - 2023"],
     "languages": ["Portugués: Nativo | Inglés: Intermedio"]
   }
 }

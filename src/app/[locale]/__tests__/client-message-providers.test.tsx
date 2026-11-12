@@ -33,37 +33,25 @@ vi.mock('next-intl/server', () => ({
 
 vi.mock('@/features/home', () => ({
   Home: ({
-    headerContent,
     heroContent,
+    bodyContent,
   }: {
-    headerContent: React.ReactNode
     heroContent: React.ReactNode
+    bodyContent: React.ReactNode
   }) => (
     <main>
-      {headerContent}
       {heroContent}
+      {bodyContent}
     </main>
   ),
 }))
 
-vi.mock('@/features/home/components/hero/hero', () => ({
-  Hero: vi.fn(async () => <div>Hero</div>),
+vi.mock('@/features/home/components/hero/hero-2026', () => ({
+  Hero2026: vi.fn(async () => <div>Hero</div>),
 }))
 
-vi.mock('@/features/home/components/home-header', () => ({
-  HomeHeader: () => <div>Home header</div>,
-}))
-
-vi.mock('@/features/projects/components', () => ({
-  ProjectsHeader: () => <div>Projects header</div>,
-}))
-
-vi.mock('@/features/blog/components', () => ({
-  BlogHeader: () => <div>Blog header</div>,
-}))
-
-vi.mock('@/shared/components/spectral-background/spectral-background', () => ({
-  SpectralBackground: () => <div data-testid="spectral-background" />,
+vi.mock('@/features/home/components/home-body', () => ({
+  HomeBody: vi.fn(async () => <div>Body</div>),
 }))
 
 function readProviderMessages(element: React.ReactNode): unknown[] {
@@ -75,12 +63,20 @@ function readProviderMessages(element: React.ReactNode): unknown[] {
   )
 }
 
+vi.mock('@/shared/shell', () => ({
+  SiteHeader: () => null,
+  SiteFooter: () => null,
+  VegaLauncher: () => null,
+  ScrollProgress: () => null,
+  ShellWidgets: () => null,
+}))
+
 describe('route-scoped client message providers', () => {
   beforeEach(() => {
     mocks.getMessages.mockResolvedValue(enMessages)
   })
 
-  it('serializes only the not-found namespace in the locale shell', async () => {
+  it('serializes the not-found and chat namespaces in the locale shell', async () => {
     const layout = await LocaleLayout({
       children: <main>Content</main>,
       params: Promise.resolve({ locale: 'en' }),

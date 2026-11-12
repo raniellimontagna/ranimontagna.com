@@ -4,12 +4,13 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { RetroExperience } from '@/shared/components/retro-mode/retro-mode'
-import { SpectralBackground } from '@/shared/components/spectral-background/spectral-background'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { BASE_URL } from '@/shared/lib/constants'
 import { generatePersonJsonLd, generateWebsiteJsonLd, serializeJsonLd } from '@/shared/lib/jsonld'
-import { getAlternateLanguages, getCanonicalUrl, getSEOData } from '@/shared/lib/seo'
+import { getAlternateLanguages, getCanonicalUrl, getSEOData, getShareImage } from '@/shared/lib/seo'
+import { isIndexingDisabled, robotsMetadata } from '@/shared/lib/seo/indexing'
+import { ScrollProgress, ShellWidgets, SiteFooter, SiteHeader, VegaLauncher } from '@/shared/shell'
 import { THEME_INIT_SCRIPT } from './theme-init-script'
 
 type Props = {
@@ -26,6 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const seo = getSEOData(locale)
   const alternateLanguages = getAlternateLanguages()
   const canonicalUrl = getCanonicalUrl(locale)
+  // A real 1200x630 card per language (public/og). The old og-image.png stays for
+  // links already shared, but it was a portrait photo declared as 1200x630.
+  const shareImage = getShareImage(locale)
 
   return {
     metadataBase: new URL(BASE_URL),
@@ -47,33 +51,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: seo.ogTitle,
       description: seo.ogDescription,
       siteName: 'Ranielli Montagna Portfolio',
-      images: [
-        {
-          url: `${BASE_URL}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: seo.ogTitle,
-        },
-      ],
+      images: [{ ...shareImage, alt: seo.ogTitle }],
     },
     twitter: {
       card: 'summary_large_image',
       title: seo.twitterTitle,
       description: seo.twitterDescription,
       creator: '@rannimontagna',
-      images: [`${BASE_URL}/og-image.png`],
+      images: [shareImage.url],
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    robots: robotsMetadata(isIndexingDisabled(process.env)),
     manifest: '/manifest.json',
     icons: {
       icon: [{ url: '/logo/white.svg', type: 'image/svg+xml' }],
@@ -98,9 +85,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
-  const [messages, t] = await Promise.all([
+  const [messages, t, tShell] = await Promise.all([
     getMessages({ locale }),
     getTranslations({ locale, namespace: 'accessibility' }),
+    getTranslations({ locale, namespace: 'shell' }),
   ])
   const personJsonLd = generatePersonJsonLd(locale)
   const websiteJsonLd = generateWebsiteJsonLd(locale)
@@ -109,7 +97,10 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+        />
       </head>
       <body className="antialiased">
         <a
@@ -118,10 +109,14 @@ export default async function LocaleLayout({ children, params }: Props) {
         >
           {t('skipToContent')}
         </a>
-        <SpectralBackground />
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
           <RetroExperience locale={locale} />
+          <ScrollProgress />
+          <SiteHeader />
           {children}
+          <SiteFooter />
+          <VegaLauncher label={tShell('vega')} />
+          <ShellWidgets />
         </NextIntlClientProvider>
         <script
           data-jsonld="person"

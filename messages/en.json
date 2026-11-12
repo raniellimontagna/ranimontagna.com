@@ -2,452 +2,491 @@
   "accessibility": {
     "skipToContent": "Skip to main content"
   },
-  "header": {
-    "logo": {
-      "initials": "RM",
-      "fullName": "Ranielli Montagna",
-      "jobTitle": "Software engineer · Atto",
-      "ariaLabel": "Go to top of page"
-    },
-    "navigation": {
-      "about": "About",
-      "services": "Services",
-      "experience": "Experience",
-      "projects": "Projects",
+  "shell": {
+    "vega": "Talk to Vega",
+    "nav": {
+      "label": "Sections",
+      "noAr": "Live",
+      "trajetoria": "Career",
+      "atto": "Atto",
+      "escrita": "Writing",
       "blog": "Blog",
-      "contact": "Contact"
+      "projetos": "Projects"
     },
-    "socials": {
-      "githubAriaLabel": "GitHub",
-      "linkedinAriaLabel": "LinkedIn",
-      "emailAriaLabel": "Email"
+    "menu": {
+      "open": "Menu",
+      "close": "Close",
+      "title": "Navigation",
+      "socials": "Elsewhere"
     },
-    "mobileMenu": {
-      "toggleAriaLabel": "Toggle menu"
+    "prefs": {
+      "open": "Preferences: language and theme",
+      "language": "Language",
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "accent": "Accent color"
     },
-    "controls": {
-      "command": "Open command palette",
-      "more": "More options"
-    },
-    "themeToggle": {
-      "ariaLabel": "Switch to {mode} mode",
-      "tooltip": "Switch to {mode} mode"
+    "footer": {
+      "madeWith": "built with AI, reviewed by me",
+      "blog": "Blog",
+      "projects": "Projects",
+      "retro": "Other eras"
     }
   },
-  "hero": {
-    "greeting": "Hello, I'm",
-    "name": "Ranielli Montagna",
-    "passion": {
-      "part1": "A",
-      "highlight": "Software Engineer",
-      "part2": "who builds products, automation and applied AI — and co-founder of Atto"
-    },
-    "description": "I work beyond the code: connecting architecture, business and people to turn complex problems into products that scale. At Lemon Energia I bridge business areas and technology. At Atto I ship custom software and marketing for companies.",
-    "seoDescription": "5+ years with React, Next.js, React Native, Node.js and TypeScript. Design systems, CI/CD, testing, accessibility, automation and AI applied to development.",
-    "cta": {
-      "projects": "See my projects",
-      "contact": "Get in touch"
-    },
-    "terminal": "web, mobile, technical SEO, accessibility and performance."
+  "hero2026": {
+    "lead": "Product engineer. I take someone's pain point and ship the product, with AI writing the code and me deciding what matters.",
+    "ctaVega": "Ask Vega",
+    "ctaWork": "See what's live",
+    "portraitAlt": "Portrait of Ranielli Montagna",
+    "hint": "hover over the portrait · scroll to reveal",
+    "hintTouch": "tap the portrait · scroll to reveal",
+    "stackAi": "AI agents",
+    "stackProduct": "Product"
   },
-  "about": {
-    "badge": "Learn more about me",
-    "title": {
-      "part1": "About",
-      "part2": "Me"
-    },
-    "bio": {
-      "greeting": "Hello! I'm",
-      "name": "Ranielli Montagna",
-      "intro": "a software engineer with 5+ years building web and mobile products that need to scale. I worked with React, React Native, TypeScript, Node.js and Next.js on products that demanded performance and a great experience. Today I work beyond the code: engineering, product and business in the same conversation.",
-      "journey": "At Lemon Energia, a distributed-generation energytech, I sit at the bridge between business and technology: I run discovery, translate complex rules into full stack solutions and weigh product trade-offs. In parallel I am co-founder of Atto, a software house and marketing studio that builds custom products for companies — from e-commerce to AI automation. Before that, at Luizalabs (Magalu), I developed solutions for 1,000+ store operations and the daily workflow of 1,000+ stock clerks, led frontend initiatives, created a Design System adopted across multiple products and mentored developers.",
-      "hobbies": "One of the areas that drives me most is AI applied to development and operations: LLMs, automation, agents, and the Model Context Protocol (MCP). I use it as a lever for productivity and product evolution, always with critical review."
-    },
-    "cta": {
-      "contact": "Let's talk"
-    },
-    "stats": {
-      "experience": "Years of experience",
-      "projects": "Projects completed"
-    },
-    "skills": {
-      "categories": {
-        "frontend": "Frontend",
-        "backend": "Backend",
-        "design": "Design",
-        "tools": "Tools"
+  "cycle": {
+    "heading": "How I work",
+    "chapters": {
+      "pain": {
+        "kicker": "the pain",
+        "title": "Start by listening.",
+        "body": "Before any code, someone losing three years of practice data. That's where the product comes from."
       },
-      "technologies": {
-        "react": "React",
-        "nextjs": "Next.js",
-        "typescript": "TypeScript",
-        "tailwind": "Tailwind CSS",
-        "reactNative": "React Native",
-        "nodejs": "Node.js",
-        "fastify": "Fastify",
-        "postgresql": "PostgreSQL",
-        "prisma": "Prisma",
-        "jwt": "JWT",
-        "figma": "Figma",
-        "uiux": "UI/UX",
-        "prototyping": "Prototyping",
-        "designSystem": "Design System",
-        "accessibility": "Accessibility",
-        "git": "Git",
-        "docker": "Docker",
-        "vscode": "VS Code",
-        "postman": "Postman",
-        "vercel": "Vercel"
+      "solution": {
+        "kicker": "the solution",
+        "title": "Decide what matters.",
+        "body": "What to solve first, what to leave out and who decides. In Grimory: the AI proposes, the rules validate, the player decides."
       },
-      "title": "My core competencies",
-      "subtitle": "A precise tech stack tailored for global demands."
+      "product": {
+        "kicker": "the product",
+        "title": "Ship it.",
+        "body": "Grimory at my group's table, Klick in the pockets of people who practice. Live products, actually in use."
+      },
+      "code": {
+        "kicker": "the code",
+        "title": "With AI, under my judgment.",
+        "body": "Agents write most of the code. Every change goes through my review before it ships."
+      }
+    },
+    "thread": {
+      "caption": "paraphrased from real accounts on cubing forums, gathered for the Klick v2 research",
+      "messages": [
+        {
+          "from": "speedcubing community",
+          "text": "I switched phones and lost three years of times. My whole history."
+        },
+        {
+          "from": "someone else",
+          "text": "Happened to me too. No timer saves it properly."
+        },
+        {
+          "from": "me",
+          "text": "I'll fix this: your history never gets lost again.",
+          "mine": true
+        }
+      ]
+    },
+    "spec": {
+      "title": "Grimory: the AI proposes, the rules decide",
+      "items": [
+        "Each table picks the 2014 or 2024 rules.",
+        "An SRD compendium in Portuguese, with the table's homebrew.",
+        "The AI suggests; the rules engine validates.",
+        "The player always has the final word."
+      ]
+    },
+    "product": {
+      "desktopAlt": "The Grimory compendium open to the Longsword entry",
+      "phoneAlt": "The Klick timer on a phone"
+    },
+    "casesLink": "See what's live"
+  },
+  "aiMethod": {
+    "kicker": "ai",
+    "title": "No model lock-in. One method.",
+    "lead": "I pick the model for the task, not the brand. And none of them writes code without a specification first and my review afterward.",
+    "modelsLabel": "AI models and tools",
+    "stepsLabel": "The method, step by step",
+    "free": {
+      "title": "No lock-in",
+      "body": "Models and tools from different companies, all in daily use. If one changes its price or goes down, I switch without rewriting anything."
+    },
+    "method": {
+      "title": "The right way",
+      "body": "Spec-driven development: the idea becomes a specification, the specification becomes a plan, the plan becomes tests, and only then code."
+    },
+    "steps": {
+      "talk": {
+        "title": "Conversation",
+        "lines": ["what hurts?", "for whom?", "what would failure look like?"]
+      },
+      "spec": {
+        "title": "Spec",
+        "lines": ["## Goals", "## Anti-goals", "- generic AI look"]
+      },
+      "plan": {
+        "title": "Plan",
+        "lines": ["- [ ] Task 1", "- [ ] Task 2", "each with its own test"]
+      },
+      "test": {
+        "title": "Test first",
+        "lines": ["✗ fails", "✓ passes"]
+      },
+      "agent": {
+        "title": "Agent writes code",
+        "lines": ["+ code", "+ tests", "commit by commit"]
+      },
+      "review": {
+        "title": "Review",
+        "lines": ["fresh reviewer", "reads it all", "I decide what ships"]
+      }
+    },
+    "terms": {
+      "sdd": {
+        "term": "SDD",
+        "meaning": "spec before code"
+      },
+      "tdd": {
+        "term": "TDD",
+        "meaning": "the test fails first"
+      },
+      "mcp": {
+        "term": "MCP",
+        "meaning": "agents with tools"
+      },
+      "agentsmd": {
+        "term": "AGENTS.md",
+        "meaning": "context written down, not remembered"
+      },
+      "evals": {
+        "term": "evals",
+        "meaning": "measuring the model's answers"
+      },
+      "review": {
+        "term": "human review",
+        "meaning": "the last word is mine"
+      }
+    },
+    "proofs": {
+      "products": {
+        "value": "6 products",
+        "label": "put into production in three months on Lemon's AI team, with agents in the loop and review before anything goes live"
+      },
+      "agents": {
+        "value": "5 agents",
+        "label": "agent-toolkit installs the same skills in Claude Code, Codex, OpenCode, Gemini CLI and Antigravity"
+      },
+      "providers": {
+        "value": "2 providers",
+        "label": "Vega runs on DeepSeek, and the code already supports OpenRouter as a fallback"
+      },
+      "tests": {
+        "value": "1,000+ tests",
+        "label": "on this site, written before the code"
+      }
     }
   },
-  "experience": {
-    "badge": "My professional journey",
-    "title": {
-      "part1": "Professional",
-      "part2": "Experience"
-    },
-    "subtitle": "5+ years building web and mobile applications, APIs, and product interfaces with a focus on scale, performance, accessibility, technical quality, and measurable impact.",
-    "currentLabel": "Current",
-    "highlightsTitle": "Key achievements:",
-    "technologiesTitle": "Technologies used:",
-    "logoAlt": "{company} logo",
-    "jobs": {
-      "lemon": {
-        "company": "Lemon Energia",
-        "position": "Software Engineer",
-        "period": "July 2026 - Present",
-        "location": "Remote",
-        "description": "I bridge business and technology, investigating operational problems and turning complex energy-journey rules into full-stack solutions. I lead continuous discovery, document decisions and requirements, and use AI with critical review to accelerate reliable, scalable deliveries with measurable impact.",
-        "highlights": [
-          "Business-team discovery to clarify needs and requirements",
-          "Building AI-first full-stack solutions",
-          "Critical review of AI output before product use",
-          "Pragmatic evaluation of product and technical trade-offs"
-        ]
+  "interlude": {
+    "label": "Who he is",
+    "kicker": "who he is",
+    "statement": "Engineering, product and business in the same conversation.",
+    "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own live products.",
+    "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city in the background"
+  },
+  "liveWork": {
+    "kicker": "live",
+    "title": "Things that are live.",
+    "lead": "My own products, actually in use. The details for each one are on its project page.",
+    "items": {
+      "grimory": {
+        "name": "Grimory",
+        "line": "A D&D table in Portuguese. The AI proposes, the rules validate, the player decides.",
+        "meta": "my own product · used by my group",
+        "alt": "The Grimory compendium open to the Longsword entry"
       },
-      "luizalabs": {
-        "company": "Luizalabs",
-        "position": "Mid-level Developer",
-        "period": "October 2023 - June 2026",
-        "location": "Remote",
-        "description": "I worked at Luizalabs, Magalu's technology unit, developing web and mobile applications for physical store operations, REST APIs, and backend solutions for a high-scale national retail environment.",
-        "highlights": [
-          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
-          "Contributed to the daily workflow of 1,000+ stock clerks in corporate applications",
-          "Maintained REST APIs, integrations, and micro frontends with React, React Native, Node.js, and TypeScript",
-          "Collaborated with Product, UX, Backend, and Operations to connect technical decisions to business impact"
+      "klick": {
+        "name": "Klick",
+        "line": "An offline-first speedcubing timer, rebuilt after hearing what cubers were losing most.",
+        "meta": "klick.ranimontagna.com · open source",
+        "alt": "The Klick timer showing 0:10.81"
+      },
+      "agent-toolkit": {
+        "name": "agent-toolkit",
+        "line": "One command installs the same AI tools and skills in five agents: Claude Code, Codex, OpenCode, Gemini CLI and Antigravity.",
+        "meta": "Node.js CLI · published on npm",
+        "alt": ""
+      },
+      "argus": {
+        "name": "Argus",
+        "line": "A personal data hub: news, market quotes and lookups served through an API, MCP, Discord and a CLI.",
+        "meta": "TypeScript · private repository",
+        "alt": "The Argus API documentation on desktop and phone"
+      },
+      "atto-read": {
+        "name": "Atto Read",
+        "line": "Atto's personal reader, built with React Native and Expo.",
+        "meta": "mobile app · private repository",
+        "alt": "Atto Read on phones: library, night focus mode and progress"
+      }
+    }
+  },
+  "trajectory": {
+    "kicker": "career",
+    "now": "now",
+    "title": "From writing screens to leading the whole product.",
+    "lead": "Five years, four stages, each one closer to where decisions are made.",
+    "stackLabel": "Technologies",
+    "stages": {
+      "sbsistemas": {
+        "role": "Front-end Developer · SBSistemas",
+        "period": "May 2021 - May 2022",
+        "what": "I solidified my professional foundation in front-end development, building applications focused on usability, maintainability, type safety, reusable components and sound engineering practices.",
+        "impact": [
+          "Built front-end applications with React, Electron, TypeScript and JavaScript",
+          "Implemented reusable components and UI patterns",
+          "Applied good practices for maintainability, testing and code quality"
         ]
       },
       "smarten": {
-        "company": "Smarten",
-        "position": "Front-end Tech Lead",
+        "role": "Front-end Tech Lead · Smarten",
         "period": "May 2022 - September 2023",
-        "location": "Remote",
-        "description": "I worked as a Front-end Tech Lead in SaaS products, leading developers, defining quality standards, evolving interface architecture, and connecting technical decisions to product delivery.",
-        "highlights": [
-          "Technically led a team of developers",
+        "what": "As Front-end Tech Lead on SaaS products, I led developers, set quality standards, evolved the UI architecture and tied technical decisions to product delivery.",
+        "impact": [
+          "Led a team of developers as technical lead",
           "Created and maintained a Design System adopted across multiple products",
-          "Implemented CI/CD, monitoring, and quality standards",
-          "Mentored developers and improved performance, maintainability, and scalability"
+          "Implemented CI/CD, monitoring and quality standards"
         ]
       },
-      "sbsistemas": {
-        "company": "SBSistemas",
-        "position": "Front-end Developer",
-        "period": "May 2021 - May 2022",
-        "location": "On-site",
-        "description": "I consolidated my professional foundation in front-end development, building applications with a focus on usability, maintainability, typing, reusable components, and engineering best practices.",
-        "highlights": [
-          "Developed front-end applications with React, Electron, TypeScript, and JavaScript",
-          "Implemented reusable components and interface standards",
-          "Applied maintainability, testing, and code quality practices",
-          "Built a solid technical foundation for web products"
+      "luizalabs": {
+        "role": "Mid-level Developer · Luizalabs",
+        "period": "October 2023 - June 2026",
+        "what": "At Luizalabs, Magalu's technology unit, I worked on web and mobile apps for physical store operations and on the services behind them, with a Go back end on GCP, at a nationwide retailer operating at high scale.",
+        "impact": [
+          "Developed solutions used in inventory and logistics operations across 1,000+ stores",
+          "Contributed to corporate apps in the daily workflow of 1,000+ stock clerks",
+          "Services in Go and Node.js on GCP, communicating through RabbitMQ queues, plus REST APIs and micro frontends in React and React Native",
+          "Code and operations tracked in SonarQube and Grafana",
+          "Lived through Black Fridays from the inside: the week a retail system can't fail"
+        ]
+      },
+      "lemon": {
+        "role": "Software Engineer · Lemon Energia",
+        "period": "July 2026 - present · AI team, inside Finance",
+        "what": "On Lemon's AI team, I work from inside a business area: I'm part of the day-to-day Finance operation, I find the manual work and I decide what becomes a product. Since August, I've put six internal products into production, from the UI to the database and the AWS infrastructure.",
+        "impact": [
+          "Six finance products in three months: bank reconciliation, payment batches, suppliers, invoices and debit notes",
+          "Each one end to end: React front end, Fastify API with PostgreSQL and infrastructure as code with Pulumi",
+          "On AWS: containers on ECS Fargate, database on Aurora (RDS), events with EventBridge and SQS, secrets in Secrets Manager, delivery through API Gateway and CloudFront",
+          "A fast delivery pace, with AI agents in the loop and critical review before anything goes live"
         ]
       }
     }
   },
-  "projects": {
-    "badge": "Project Portfolio",
-    "title": {
-      "part1": "My",
-      "part2": "Projects"
-    },
-    "subtitle": "Products that shipped — at Atto, at companies and as a freelancer. Each one with a real problem behind it.",
-    "viewAll": "View all projects",
-    "featuredTitle": "Featured Projects",
-    "carousel": {
-      "region": "Featured project image carousel",
-      "pause": "Pause carousel",
-      "resume": "Resume carousel",
-      "slide": "View image {index} of {total}"
-    },
-    "filters": {
-      "all": "All",
+  "atto": {
+    "kicker": "atto",
+    "title": "The brand that carries this forward.",
+    "lead": "Atto is the software house and marketing agency I co-founded. It builds digital products, integrations and campaigns that bring in customers, with precision engineering and no empty promises.",
+    "servicesLabel": "What Atto does",
+    "services": {
       "web": "Web",
       "mobile": "Mobile",
-      "api": "API"
+      "apis": "APIs",
+      "ai": "AI & Automation",
+      "marketing": "Marketing"
     },
-    "card": {
-      "featuredBadge": "Featured",
-      "moreCount": "+{count} more",
-      "role": {
-        "fullstack": "Full Stack",
-        "frontend": "Front-end",
-        "backend": "Back-end"
+    "casesLabel": "Case studies published by Atto",
+    "cases": {
+      "fronteira-sul-drones": {
+        "tagline": "Agricultural e-commerce and consultative catalog",
+        "description": "A store for drones, parts and complementary product lines for agriculture. The catalog filters the range, the cart organizes purchase intent and WhatsApp closes the deal."
       },
-      "category": {
-        "saas": "SaaS",
-        "enterprise": "Enterprise"
-      },
-      "highlights": {
-        "agenda": "Scheduling",
-        "clientManagement": "Client Management",
-        "sales": "Sales",
-        "financial": "Financial",
-        "inventory": "Inventory",
-        "leads": "Leads",
-        "reports": "Reports",
-        "dashboard": "Dashboard",
-        "orderPicking": "Order Picking",
-        "separation": "Separation",
-        "dispatch": "Dispatch",
-        "goodsReceipt": "Goods Receipt",
-        "inventoryControl": "Inventory Control",
-        "barcodeScanning": "Barcode Scanning",
-        "offlineSupport": "Offline Mode",
-        "posSystem": "Point of Sale",
-        "nfceIssuance": "NFC-e Issuing",
-        "tableControl": "Table Control",
-        "orderManagement": "Order Tickets",
-        "digitalMenu": "Digital Menu",
-        "delivery": "Delivery",
-        "scaleIntegration": "Scale Integration",
-        "salesHistory": "Sales History",
-        "cashierControl": "Cashier Control",
-        "propertyManagement": "Property Management",
-        "tokenizedSharing": "Tokenized Links",
-        "clientGate": "Lead Capture",
-        "brokerDashboard": "Broker Dashboard",
-        "analytics": "Analytics",
-        "publicCatalog": "Public Catalog",
-        "imageGallery": "Image Gallery",
-        "lgpdCompliance": "LGPD Compliance",
-        "whatsappCheckout": "WhatsApp checkout",
-        "partnerNetwork": "Partner network",
-        "commissions": "Commissions",
-        "booking": "Bookings",
-        "pos": "POS",
-        "payments": "Payments",
-        "physicalStore": "Physical store",
-        "seoAi": "SEO and AI search"
-      },
-      "technologiesLabel": "Technologies",
-      "openProject": "Open {name}"
-    },
-    "cta": {
-      "text": "Want to see more projects? Explore my GitHub repository with over 100 open source projects!",
-      "button": "Explore on GitHub",
-      "stats": {
-        "repositories": "Public repositories",
-        "commits": "Commits this year"
-      }
-    },
-    "list": {
-      "northClinic": {
-        "title": "North Clinic - Management System",
-        "description": "Complete management system for clinics and offices, with online scheduling, electronic health records, financial control, and billing."
-      },
-      "mobileEstoquista": {
-        "title": "Magalu Stockist Mobile",
-        "description": "Corporate superapp for stockists at Magalu's physical stores, optimizing inventory control, goods receipt, and dispatch."
-      },
-      "pratio": {
-        "title": "Pratio - POS for Restaurants",
-        "description": "Point of sale (POS) and management system for bars and restaurants, with table and order control, NFC-e issuing, and a digital menu."
-      },
-      "paludoImoveis": {
-        "title": "Paludo Imóveis - Real Estate Platform",
-        "description": "Platform for real estate brokers with public catalog, tokenized link sharing, lead capture, and analytics dashboard."
-      },
-      "fronteiraSul": {
-        "title": "Fronteira Sul Drones",
-        "description": "Agricultural e-commerce for drones, parts and complementary lines. The catalog filters the offer, the cart organizes intent and WhatsApp closes the deal."
-      },
-      "talaPartners": {
-        "title": "TALA Drone Partners",
-        "description": "Partner platform for regional expansion of agricultural drones: dashboard, CRM, link and QR code tracking and commission calculation."
+      "tala": {
+        "tagline": "Sales partner platform",
+        "description": "A partner platform for the regional expansion of agricultural drones. Dashboard, CRM, tracking and commissions in one place."
       },
       "quadralize": {
-        "title": "Quadralize",
-        "description": "Sports court management: bookings, CRM, POS, payments and financial control for court owners and players."
+        "tagline": "Sports court management",
+        "description": "A complete platform to manage sports courts: booking, CRM, point of sale, payments and financial control for court owners and players."
       },
-      "nanSolutions": {
-        "title": "NaN Solutions",
-        "description": "Website for a tech store in Papanduva/SC focused on bringing customers to the physical store and the e-commerce. Lighthouse 100 across the board."
+      "nan": {
+        "tagline": "Tech store — company website",
+        "description": "The website of a tech store in Papanduva, SC, built to bring customers to its physical and online stores. Featured brands, ways to buy and WhatsApp support."
       }
+    },
+    "visitSite": "Visit the site",
+    "ctaWhatsapp": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project.",
+    "siteLink": "Meet Atto and Vega",
+    "caseImageAlt": "The {name} site on desktop and phone"
+  },
+  "writing": {
+    "kicker": "writing",
+    "title": "Thinking out loud.",
+    "lead": "What I learn building products with AI, written for people who build too.",
+    "all": "Read the blog"
+  },
+  "closing": {
+    "kicker": "contact",
+    "title": "Got a problem to solve?",
+    "lead": "Atto turns it into a product. Or reach out to me directly: I answer email and messages here.",
+    "ctaAtto": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project.",
+    "copyEmail": "Copy email",
+    "copied": "copied",
+    "resume": "Resume",
+    "socialsLabel": "Elsewhere"
+  },
+  "cases": {
+    "common": {
+      "kicker": "case study",
+      "live": "See it live",
+      "repo": "Code on GitHub",
+      "pain": "the pain",
+      "decisions": "the decisions",
+      "product": "the product",
+      "build": "how it was built",
+      "stack": "Technologies",
+      "next": "next case study",
+      "tour": "Product screens",
+      "of": "of"
+    },
+    "klick": {
+      "name": "Klick",
+      "tagline": "An offline-first speedcubing timer for all 13 WCA events.",
+      "heroAlt": "The Klick timer on desktop, from an armed solve to the final time",
+      "pain": {
+        "title": "The history that vanished.",
+        "body": "In the research before Klick v2, the story that came up most was from people who had lost anywhere from months to three years of times: cleared browser data, a new phone, an app that didn't save them properly.",
+        "caption": "paraphrased from real accounts on cubing forums, gathered for the Klick v2 research"
+      },
+      "decisions": {
+        "title": "What came first.",
+        "items": [
+          "Times live on the device (IndexedDB) and the app works offline after the first visit.",
+          "Automatic local backups every 50 solves and once a day, with a 30-day trash bin.",
+          "An optional, passwordless account (email code or passkey) to sync and keep cloud copies.",
+          "All 13 WCA events with official scrambles, and csTimer import for anyone switching from it."
+        ]
+      },
+      "product": {
+        "title": "Live, on desktop and phone.",
+        "body": "An installable PWA with stats, goals, a training calendar, a learning path with a 3D cube and challenge links, no account needed."
+      },
+      "tour": {
+        "evolucao": {
+          "title": "Every hundredth becomes data.",
+          "body": "Records, averages from 5 to 1000, this week against the last and goals that show how far you have to go.",
+          "deskAlt": "The Klick progress tab on desktop, with records, averages and training weeks",
+          "phoneAlt": "The Klick progress tab on a phone"
+        },
+        "trilha": {
+          "title": "Learning with the cube on screen.",
+          "body": "Nine stages, from the white cross to algorithmic F2L. A 3D cube shows every move, and case drills stay out of your stats.",
+          "deskAlt": "An intuitive F2L lesson with the 3D cube turning U R U’ R’",
+          "phoneAlt": "A learning path lesson on a phone, with the 3D cube"
+        },
+        "centro": {
+          "title": "A cube that keeps you company.",
+          "body": "Centro reacts to every solve and lights up milestones each season. Closing a season unlocks a new finish.",
+          "deskAlt": "The Centro screen with 7 of 9 season milestones and the Ice finish",
+          "phoneAlt": "Centro on a phone, with the season milestones"
+        }
+      },
+      "build": {
+        "title": "Built with agents, reviewed by me.",
+        "body": "Svelte 5 on the front end, a Cloudflare Worker on the server (a Durable Object per account, D1 and R2) and tests with Vitest, Playwright and axe.",
+        "statLabel": "commits co-authored by an AI agent, as of November 6, 2026"
+      },
+      "heroPhoneAlt": "The Klick timer on a phone, with a pad for each thumb"
+    },
+    "grimory": {
+      "name": "Grimory",
+      "tagline": "A D&D 5e table in Portuguese, from character to session.",
+      "heroAlt": "The Giant Spider in the Grimory compendium, with its art and stat block",
+      "pain": {
+        "title": "The character sheet, mid-session.",
+        "body": "Players open their sheet on their phone mid-game: one hand, quick glances, numbers to roll and rules to check without leaving the sheet. The GM runs combat from a laptop.",
+        "caption": ""
+      },
+      "decisions": {
+        "title": "The AI proposes, the rules decide.",
+        "items": [
+          "Describe a concept and the AI proposes a complete sheet, with its choices explained, that opens in the builder for review.",
+          "The rules engine validates everything: an invalid option never shows up.",
+          "Each table picks the 2014 or 2024 rules, and every screen respects that choice.",
+          "Only content that can be distributed: SRD 5.1 and 5.2 under CC-BY-4.0, with the source cited on every rule."
+        ]
+      },
+      "product": {
+        "title": "In use at my group's table.",
+        "body": "A sheet that knows the rules, a translated compendium with the table's homebrew, a session journal and the Chama-guia, the familiar that gives the AI a face."
+      },
+      "tour": {
+        "mesa": {
+          "title": "The table at a glance.",
+          "body": "The next session, the GM’s notes and the party’s hit points, AC and conditions, live from their sheets.",
+          "deskAlt": "The dashboard of the Salt Tower table with the next session and the party",
+          "phoneAlt": "The table dashboard on a phone, with game time and the party"
+        },
+        "combate": {
+          "title": "GM on the laptop, players on their phones.",
+          "body": "The GM builds the encounter and calls for initiative. Each player rolls on their own sheet, and the order sorts itself out.",
+          "deskAlt": "The initiative order sorting itself as the rolls come in",
+          "phoneAlt": "A mace attack rolled from the sheet: a natural 20 and critical damage"
+        },
+        "regras": {
+          "title": "The rules inside the sheet.",
+          "body": "Every spell shows its source and the 2014 version, and the Chama-guia answers questions by quoting the SRD.",
+          "deskAlt": "Fireball in the compendium, with the 2014 version and a question for the Chama-guia",
+          "phoneAlt": "The spells tab of a sheet on a phone, with the save DC and cantrips"
+        }
+      },
+      "build": {
+        "title": "Built with agents, reviewed by me.",
+        "body": "React and Vite for the app, Astro for the public page and Cloudflare Workers for the table API and the AI (Claude through the Anthropic API). For now it's a prototype, with a closed beta in the cloud.",
+        "statLabel": "commits co-authored by an AI agent, as of November 7, 2026"
+      },
+      "heroPhoneAlt": "Ilda’s sheet on a phone after 8 damage, offering Dwarven Resilience"
     }
   },
-  "contact": {
-    "badge": "Let's talk",
-    "title": {
-      "part1": "Let's",
-      "part2": "talk"
+  "projectsIndex": {
+    "metaTitle": "Projects · Ranielli Montagna",
+    "kicker": "projects",
+    "title": "What I've shipped.",
+    "lead": "The case studies trace the path from pain to product. Below is everything public on GitHub.",
+    "casesTitle": "Case studies",
+    "githubTitle": "On GitHub",
+    "stats": {
+      "repos": "public repositories",
+      "stars": "stars",
+      "followers": "followers"
     },
-    "subtitle": "Have a project to build? That's Atto — scope, timeline and price agreed upfront. This channel is for engineering, product, career or community conversations.",
-    "methods": {
-      "title": "Contact methods",
-      "subtitle": "Prefer another way to get in touch? Choose one of the options below:",
-      "email": {
-        "title": "Direct email",
-        "description": "For detailed conversations",
-        "action": "Send email"
-      },
-      "linkedin": {
-        "title": "LinkedIn",
-        "description": "Let's connect professionally",
-        "action": "Connect"
-      },
-      "phone": {
-        "title": "WhatsApp",
-        "description": "For quick conversations",
-        "action": "Send message"
-      },
-      "atto": {
-        "title": "A project? Talk to Atto",
-        "description": "Custom software and marketing, with a closed proposal",
-        "action": "Meet Atto"
-      }
+    "repos": {
+      "label": "Repositories",
+      "all": "all",
+      "empty": "Couldn't load the repositories right now. Try again in a few minutes.",
+      "stars": "",
+      "updated": "updated",
+      "site": "site"
     },
-    "status": {
-      "available": "Open to conversations",
-      "response": "Response time: ~24h"
-    },
-    "form": {
-      "title": "Send a message",
-      "subtitle": "Fill out the form below and I'll get back to you as soon as possible.",
-      "name": {
-        "label": "Full name",
-        "placeholder": "Your full name"
-      },
-      "email": {
-        "label": "Email",
-        "placeholder": "your@email.com"
-      },
-      "subject": {
-        "label": "Subject",
-        "placeholder": "What would you like to talk about?"
-      },
-      "message": {
-        "label": "Message",
-        "placeholder": "Describe your project or question..."
-      },
-      "send": "Send message",
-      "sending": "Sending...",
-      "successTitle": "Message sent!",
-      "success": "Thank you for reaching out. I'll respond as soon as possible.",
-      "errorTitle": "Sending failed",
-      "error": "Could not send automatically. Your email client will be opened.",
-      "validation": {
-        "name": "Name must be at least 2 characters",
-        "email": "Invalid email",
-        "subject": "Subject must be at least 5 characters",
-        "message": "Message must be at least 10 characters"
-      }
-    },
-    "paths": {
-      "label": "Two paths",
-      "project": {
-        "title": "A project to build",
-        "description": "Scope, timeline and price agreed with Atto.",
-        "action": "Go to Atto"
-      },
-      "talk": {
-        "title": "Just a conversation",
-        "description": "Engineering, product, career or community — send an e-mail."
-      }
-    },
-    "email": {
-      "copy": "Copy e-mail",
-      "copied": "Copied",
-      "open": "Open e-mail"
-    },
-    "localTime": {
-      "label": "Now in Paraí, Brazil",
-      "timezone": "GMT-3"
-    }
+    "atto": "Need something like this for your company? Atto builds it.",
+    "attoCta": "Talk to Atto on WhatsApp",
+    "whatsappMessage": "Hi! I found you through Ranielli's site and I'd like to talk about a project."
   },
-  "footer": {
-    "logo": {
-      "fullName": "Ranielli Montagna"
-    },
-    "social": {
-      "title": "Social Media",
-      "links": {
-        "github": "GitHub",
-        "linkedin": "LinkedIn",
-        "email": "Email"
-      }
-    },
-    "copyright": "© {year} Ranielli Montagna. All rights reserved.",
-    "restoreBackup": "Restore the 1998 backup",
-    "madeWith": "Made with ❤️ using Next.js, TypeScript and Tailwind CSS"
-  },
-  "services": {
-    "badge": "Atto",
-    "title": {
-      "part1": "Need software or marketing?",
-      "part2": "That's Atto."
-    },
-    "subtitle": "Atto is the software house I founded with Juliano Paludo: digital products, integrations, AI automation and campaigns that bring customers — with scope, timeline and price agreed before we start.",
-    "list": {
-      "web": {
-        "title": "Websites, systems and e-commerce",
-        "description": "Landing pages, dashboards, SaaS and stores — React, Next.js and Astro with performance and accessibility by default."
-      },
-      "mobile": {
-        "title": "Mobile apps",
-        "description": "iOS and Android with React Native, from concept to the app stores."
-      },
-      "ai": {
-        "title": "Integrations and AI",
-        "description": "APIs, webhooks, ERPs, WhatsApp and AI automation that solves a process, not just a demo."
-      },
-      "marketing": {
-        "title": "Marketing and acquisition",
-        "description": "Paid traffic, digital presence and a funnel wired to WhatsApp, measured end to end."
-      }
-    },
-    "cta": {
-      "badge": "Custom software and marketing",
-      "title": "Tell Atto what you need to build.",
-      "subtitle": "Reply within 24 business hours with an honest read of what can be done.",
-      "button": "Meet Atto",
-      "secondary": "See case studies"
-    }
-  },
-  "commandMenu": {
-    "placeholder": "Type a command or search...",
-    "noResults": "No results found.",
-    "sections": "Sections",
-    "theme": "Theme",
-    "social": "Social",
-    "about": "Go to About",
-    "projects": "Go to Projects",
-    "experience": "Go to Experience",
-    "contact": "Go to Contact",
-    "blog": "Go to Blog",
-    "light": "Light Mode",
-    "dark": "Dark Mode"
+  "blogIndex": {
+    "kicker": "blog",
+    "title": "Thinking out loud.",
+    "lead": "What I learn building products with AI: decisions, mistakes and tools, written for people who build too.",
+    "latest": "latest",
+    "empty": "Couldn't load the posts right now. Come back in a few minutes.",
+    "closeImage": "Close"
   },
   "blog": {
-    "title": "Thinking Aloud.",
-    "subtitle": "Insights, tutorials, and reflections on technology, development, and everything in between.",
+    "title": "Thinking Out Loud.",
+    "subtitle": "Insights, tutorials and reflections on technology, development and everything that comes with it.",
     "backToPortfolio": "Back to Portfolio",
     "backToBlog": "Back to Blog",
-    "readFeaturedStory": "Read Featured Story",
+    "readFeaturedStory": "Read Featured Article",
     "readArticle": "Read article",
     "noPosts": "No posts found. Check back soon!",
     "previous": "Previous",
@@ -457,7 +496,7 @@
     "zoomIn": "Zoom in",
     "viewerLoading": "Loading image viewer…",
     "viewerError": "The image viewer could not be loaded.",
-    "diagramPending": "Diagram loads near the viewport",
+    "diagramPending": "The diagram loads as it comes into view",
     "diagramLoading": "Rendering diagram…",
     "diagramError": "Error rendering diagram:",
     "scrollToTop": "Back to top"
@@ -466,14 +505,14 @@
     "title": "Page not found",
     "code": "404",
     "description": "Oops! The page you're looking for doesn't exist or has been moved.",
-    "backHome": "Back to home",
+    "backHome": "Back to the home page",
     "contact": "Get in touch",
     "suggestions": "Maybe you're looking for:",
     "visitSection": "Visit section",
     "links": {
       "about": {
         "title": "About me",
-        "description": "Know my journey and skills"
+        "description": "Get to know my journey and skills"
       },
       "projects": {
         "title": "Projects",
@@ -481,90 +520,33 @@
       },
       "blog": {
         "title": "Blog",
-        "description": "Articles and tech thoughts"
+        "description": "Articles and thoughts on tech"
       },
       "contact": {
         "title": "Contact",
         "description": "Let's talk about ideas"
       }
-    }
+    },
+    "askVega": "Ask Vega"
   },
-  "projectsPage": {
-    "title": "My Projects",
-    "subtitle": "A collection of my open source repositories on GitHub. Explore projects in different languages and areas.",
-    "breadcrumb": "Projects",
-    "backToPortfolio": "Back to Portfolio",
-    "featured": "Featured",
-    "stars": "stars",
-    "forks": "forks",
-    "updated": "Updated",
-    "noDescription": "No description available",
-    "visitSite": "Visit site",
-    "filterByLanguage": "Filter by language",
-    "featuredTitle": "Featured Projects",
-    "allProjectsTitle": "All Projects",
-    "noProjectsFound": "No projects found for this language.",
-    "filters": {
-      "all": "All"
-    },
-    "stats": {
-      "repos": "Repositories",
-      "stars": "Total stars",
-      "followers": "Followers"
-    },
-    "content": {
-      "title": "How I build web projects",
-      "paragraph1": "On this page, you can explore real projects I built with a focus on user experience, performance, and code quality. Each project starts from a concrete problem and is structured to remain scalable and maintainable.",
-      "paragraph2": "Beyond implementation, I also prioritize architecture, observability, and documentation. The goal is to deliver digital products that run well in production and can evolve safely over time.",
-      "points": [
-        "Modular architecture with reusable components and strong typing.",
-        "Performance and Core Web Vitals integrated into the development workflow.",
-        "Testing, linting, and CI standards to keep quality consistent."
-      ]
-    },
-    "cta": {
-      "title": "Want to see more projects?",
-      "subtitle": "Explore all my repositories on GitHub, including private projects and open source contributions.",
-      "button": "View on GitHub"
-    }
-  },
-  "chat": {
-    "title": "Rani",
-    "dialogDescription": "Chat with Rani's AI assistant",
-    "messagesLabel": "Conversation messages",
-    "status": "AI Version · Online",
-    "betaNotice": "AI can make mistakes and use fallback providers. Do not send personal, confidential, or sensitive data.",
-    "fabTooltip": "Chat with my digital self",
-    "placeholder": "Ask Rani something...",
-    "send": "Send message",
-    "close": "Close chat",
-    "clear": "Clear conversation",
-    "welcome": "Hey! I'm Rani 👋",
-    "welcomeSubtitle": "I'm Ranielli's AI version — ask me anything about my experience, projects, or skills!",
-    "error": "An error occurred. Please try again.",
-    "suggestions": {
-      "skills": "What are your main skills?",
-      "experience": "Tell me about your professional experience",
-      "projects": "What projects have you developed?",
-      "atto": "What is Atto and how does a project work?"
-    },
-    "directMessage": {
-      "trigger": "📨 Rather send me a direct message?",
-      "title": "Direct message to Ranielli",
-      "subtitle": "It lands in my inbox. I reply within 24 business hours.",
-      "name": "Your name",
-      "email": "Your e-mail",
-      "message": "Your message",
-      "send": "Send message",
-      "sending": "Sending...",
-      "cancel": "Back",
-      "successTitle": "Message sent!",
-      "success": "Thanks — I reply within 24 business hours to the e-mail you left.",
-      "backToChat": "Back to chat",
-      "error": "I couldn't send it right now. Try again or reach me on LinkedIn.",
-      "invalid": "Check your name, e-mail and a message with at least 10 characters.",
-      "subject": "Message from the website chat — {name}",
-      "privacy": "I use your data only to answer this contact."
-    }
+  "vega": {
+    "label": "Vega",
+    "greeting": "Hi, I'm Vega.",
+    "greetingAsk": "Where should we start?",
+    "placeholder": "Ask about Ranielli, his projects or Atto…",
+    "suggestions": [
+      "What does he do with AI?",
+      "Show me Grimory",
+      "Where has he worked?",
+      "I want to talk to Atto"
+    ],
+    "back": "Back to the site",
+    "newChat": "New chat",
+    "thinking": "thinking…",
+    "error": "I couldn't answer that right now.",
+    "errorRateLimit": "Too many questions in a row. Wait a minute and try again.",
+    "retry": "Try again",
+    "send": "Send",
+    "cardCta": "See it on the site"
   }
 }

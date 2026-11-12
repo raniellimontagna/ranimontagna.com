@@ -1,13 +1,13 @@
 import type { AbstractIntlMessages } from 'next-intl'
 
 export const CLIENT_MESSAGE_NAMESPACES = {
-  shell: ['notFound'],
-  // About, experience, projects, services and footer render as server
-  // components; only the header controls, contact form, ⌘K menu and chat
-  // translate on the client. Every extra namespace is parsed during hydration.
-  home: ['header', 'contact', 'commandMenu', 'chat'],
-  projects: ['header', 'projectsPage'],
-  blog: ['header', 'blog'],
+  // Vega opens from the launcher on every page. Everything else renders
+  // on the server or gets its text as props: every extra namespace is parsed
+  // during hydration.
+  shell: ['notFound', 'vega'],
+  home: [],
+  projects: [],
+  blog: ['blog'],
 } as const satisfies Record<string, readonly string[]>
 
 export type ClientMessageScope = keyof typeof CLIENT_MESSAGE_NAMESPACES
