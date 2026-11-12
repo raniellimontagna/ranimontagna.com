@@ -8,7 +8,8 @@ COPY . .
 # Preview deployments pass SITE_NOINDEX=1 so the statically generated metadata says noindex.
 ARG SITE_NOINDEX
 ENV SITE_NOINDEX=${SITE_NOINDEX}
-RUN NODE_OPTIONS=--max-old-space-size=4096 pnpm build
+# Optional Dokploy build secret SENTRY_AUTH_TOKEN uploads source maps to Sentry; it is never stored in the image.
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0
 EXPOSE 3000
 CMD ["pnpm", "start"]

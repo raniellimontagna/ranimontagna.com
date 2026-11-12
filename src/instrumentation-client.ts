@@ -37,8 +37,12 @@ function getSentryClient() {
 
     Sentry.init({
       dsn: SENTRY_DSN,
+      environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT || undefined,
+      release: process.env.NEXT_PUBLIC_SENTRY_RELEASE || undefined,
       tracesSampleRate: parseSampleRate(process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE, 0.1),
       debug: false,
+      // Browser noise: Chrome reports a slow ResizeObserver callback as an error.
+      ignoreErrors: [/ResizeObserver loop/],
       ...(replayEnabled
         ? {
             integrations: [

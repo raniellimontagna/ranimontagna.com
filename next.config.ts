@@ -3,13 +3,22 @@ import { fileURLToPath } from 'node:url'
 import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
+import packageJson from './package.json'
 import { addCompileHints } from './scripts/compile-hints.mjs'
 import { STILLS_CACHE_SOURCE } from './src/features/cases/case-stills'
 import { PORTRAIT_CACHE_SOURCE } from './src/features/home/components/portrait/portrait-image'
 import { COPIES_CACHE_SOURCE } from './src/shared/lib/image-copies/image-copies'
+import { getSentryBuildInfo } from './src/shared/lib/sentry/build-info'
 
 const projectRoot = dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
+
+// Computed once per build and handed to every runtime through `env` below.
+const sentryBuild = getSentryBuildInfo(process.env, packageJson.version, new Date())
+// Optional build secret: with it, the build creates the release and uploads
+// source maps. Without it, nothing is uploaded, as before.
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN
+const hasSentryAuthToken = Boolean(sentryAuthToken)
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -27,6 +36,10 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   turbopack: { root: projectRoot },
+  env: {
+    NEXT_PUBLIC_SENTRY_ENVIRONMENT: sentryBuild.environment,
+    NEXT_PUBLIC_SENTRY_RELEASE: sentryBuild.release,
+  },
   // Vercel's adapter turns immutable assets on: chunks named by a content hash
   // and shared across deployments. The compile hints change their content, so
   // they need per-deployment chunks.
@@ -145,6 +158,8 @@ const withNextIntl = createNextIntlPlugin('./src/shared/config/i18n/request.ts')
 export default withSentryConfig(withNextIntl(nextConfig), {
   org: 'raniellimontagna',
   project: 'ranimontagnadotcom',
+  authToken: sentryAuthToken,
+  release: { name: sentryBuild.release, create: hasSentryAuthToken },
   silent: !process.env.CI,
   widenClientFileUpload: true,
   webpack: {
@@ -153,5 +168,7 @@ export default withSentryConfig(withNextIntl(nextConfig), {
       removeDebugLogging: true,
     },
   },
-  sourcemaps: { disable: true },
+  // Deletion follows the token: with `disable` on, a true flag would still make the
+  // Turbopack hook delete .next/static maps and strip their sourceMappingURL comments.
+  sourcemaps: { disable: !hasSentryAuthToken, deleteSourcemapsAfterUpload: hasSentryAuthToken },
 })
