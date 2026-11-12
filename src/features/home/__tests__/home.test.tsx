@@ -13,6 +13,12 @@ vi.mock('next-intl/server', () => ({
   getLocale: vi.fn().mockResolvedValue('pt'),
 }))
 vi.mock('@/features/blog/lib/blog', () => ({ getAllPosts: vi.fn() }))
+// The trajectory loads GSAP even with reduced motion. A real import would still be
+// in flight when the test environment tears down: keep it pending instead.
+vi.mock('@/shared/components/motion', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/components/motion')>()),
+  loadScrollMotion: vi.fn(() => new Promise(() => {})),
+}))
 
 describe('Home', () => {
   beforeEach(() => {
