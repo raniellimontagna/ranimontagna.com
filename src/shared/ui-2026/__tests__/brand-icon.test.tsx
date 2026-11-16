@@ -35,6 +35,16 @@ describe('brand icons', () => {
     expect(techIcon('Grafana')).toBe('grafana')
   })
 
+  it('has the SBSistemas and Smarten stack marks: Redux, MUI, TanStack Query, Sentry and Zod', () => {
+    expect(techIcon('Redux')).toBe('redux')
+    expect(techIcon('Redux Toolkit')).toBe('redux')
+    expect(techIcon('MUI')).toBe('mui')
+    expect(techIcon('TanStack Query')).toBe('reactquery')
+    expect(techIcon('Sentry')).toBe('sentry')
+    expect(techIcon('Zod')).toBe('zod')
+    expect(techIcon('React Final Form')).toBeNull()
+  })
+
   it('BrandIcon is decorative and masks the icon file', () => {
     const { container } = render(<BrandIcon name="claude" className="h-4 w-4" />)
     const icon = container.firstElementChild as HTMLElement

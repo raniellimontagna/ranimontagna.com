@@ -279,6 +279,81 @@ describe('Luizalabs stage', () => {
   )
 })
 
+describe('SBSistemas stage', () => {
+  it('lists Redux, Electron, TypeScript and React Final Form, with Redux in the panel', async () => {
+    const { STAGES } = await import('../trajectory.data')
+    const sb = STAGES.find((stage) => stage.id === 'sbsistemas')
+    for (const tool of ['React', 'Redux', 'TypeScript', 'Electron', 'React Final Form']) {
+      expect(sb?.stack).toContain(tool)
+    }
+    expect(sb?.panelIcons).toContain('redux')
+  })
+
+  it.each([
+    ['pt', 'Abril 2021'],
+    ['en', 'April 2021'],
+    ['es', 'Abril 2021'],
+  ])(
+    'tells the ERP, Redux and the in-house design system in %s, from %s',
+    async (locale, start) => {
+      const messages = (await import(`../../../../../../messages/${locale}.json`)).default
+      const stage = messages.trajectory.stages.sbsistemas as {
+        period: string
+        what: string
+        impact: string[]
+      }
+      const text = [stage.what, ...stage.impact].join(' ')
+      for (const word of ['ERP', 'Redux', 'Electron', 'React Final Form', 'Emotion']) {
+        expect(text).toContain(word)
+      }
+      expect(stage.period.startsWith(start)).toBe(true)
+    },
+  )
+})
+
+describe('Smarten stage', () => {
+  it('lists the design system stack and the product stack, with MUI in the panel', async () => {
+    const { STAGES } = await import('../trajectory.data')
+    const smarten = STAGES.find((stage) => stage.id === 'smarten')
+    for (const tool of [
+      'Design System',
+      'MUI',
+      'Electron',
+      'TanStack Query',
+      'Zustand',
+      'Redux Toolkit',
+      'Sentry',
+      'CI/CD',
+    ]) {
+      expect(smarten?.stack).toContain(tool)
+    }
+    expect(smarten?.panelIcons).toContain('mui')
+  })
+
+  it.each(['pt', 'en', 'es'])(
+    'tells the design system built from scratch, npm and Sentry in %s',
+    async (locale) => {
+      const messages = (await import(`../../../../../../messages/${locale}.json`)).default
+      const stage = messages.trajectory.stages.smarten as { what: string; impact: string[] }
+      const text = [stage.what, ...stage.impact].join(' ')
+      for (const word of ['Design System', 'MUI', 'npm', 'Electron', 'Sentry']) {
+        expect(text).toContain(word)
+      }
+    },
+  )
+})
+
+describe('stage roles', () => {
+  it.each([
+    ['pt', 'Engenheiro de Software · Luizalabs'],
+    ['en', 'Software Engineer · Luizalabs'],
+    ['es', 'Ingeniero de Software · Luizalabs'],
+  ])('names the Luizalabs role as on the CV and LinkedIn in %s', async (locale, role) => {
+    const messages = (await import(`../../../../../../messages/${locale}.json`)).default
+    expect(messages.trajectory.stages.luizalabs.role).toBe(role)
+  })
+})
+
 describe('trajectory messages', () => {
   it('carry the approved Lemon text in pt and drop Atto and photo alts', async () => {
     const pt = (await import('../../../../../../messages/pt.json')).default

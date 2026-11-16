@@ -22,7 +22,7 @@
     "profile": "Engenheiro de Software Full Stack com 5+ anos de experiência em aplicações web e mobile, do front-end à infraestrutura em nuvem. No time de IA da Lemon Energia, coloquei seis produtos internos de Finanças em produção em três meses, de ponta a ponta, com React, Fastify, PostgreSQL e infraestrutura como código (Pulumi) na AWS. Na Luizalabs (Magalu), desenvolvi aplicações e serviços em Go e Node.js no GCP usados em mais de 1.000 lojas; antes, fui Tech Lead Front-end na Smarten, com Design System e CI/CD. Uso IA no desenvolvimento com método: spec-driven development, TDD, revisão crítica e evals, com Claude Code, Codex e Model Context Protocol (MCP).",
     "skills": [
       "Linguagens: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
-      "Front-end e Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, acessibilidade (WCAG), performance web (Core Web Vitals).",
+      "Front-end e Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, Redux (Redux Toolkit), MUI (Material UI), Emotion, styled-components, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, acessibilidade (WCAG), performance web (Core Web Vitals).",
       "Back-end e APIs: Node.js, Fastify, Express.js, Go, REST APIs, GraphQL, mensageria (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
       "Cloud e DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestrutura como código (IaC) com Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Qualidade e Observabilidade: testes automatizados (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoramento, Feature Flags, Clean Code, SOLID, Monorepo, Git.",
@@ -65,9 +65,10 @@
         "location": "Presencial",
         "description": "",
         "highlights": [
-          "Liderei tecnicamente e mentorei uma equipe de desenvolvedores front-end em produtos SaaS",
-          "Criei e mantive um Design System adotado em múltiplos produtos",
-          "Implementei CI/CD, monitoramento e padrões de qualidade, com ganhos de performance e manutenção"
+          "Liderei tecnicamente e mentorei a equipe de front-end em produtos SaaS de gestão e ponto de venda (PDV)",
+          "Criei do zero o Design System da empresa sobre MUI e Emotion (tokens, ícones, hooks e utilitários), publicado como pacotes npm versionados e adotado em múltiplos produtos",
+          "Estruturei as bases dos apps de PDV em React, TypeScript e Electron, com Redux Toolkit, TanStack Query, Zustand e Zod",
+          "Implementei CI/CD, configs compartilhadas de ESLint e Prettier e monitoramento de erros com Sentry"
         ]
       },
       {
@@ -77,8 +78,9 @@
         "location": "Presencial",
         "description": "",
         "highlights": [
-          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript, com componentes reutilizáveis e padrões de interface",
-          "Apliquei boas práticas de manutenção, testes e qualidade de código"
+          "Desenvolvi telas de um ERP para micro e pequenas empresas em React, TypeScript e Electron (app desktop)",
+          "Gerenciei estado global complexo com Redux e construí formulários grandes com React Final Form sobre o design system interno, em Emotion",
+          "Apliquei componentes reutilizáveis, tipagem e boas práticas de manutenção, testes e qualidade de código"
         ]
       }
     ],
@@ -122,7 +124,7 @@
     "profile": "Full Stack Software Engineer with 5+ years of experience building web and mobile applications, from the front end to cloud infrastructure. On Lemon Energia's AI team, I shipped six internal finance products to production in three months, end to end, with React, Fastify, PostgreSQL and infrastructure as code (Pulumi) on AWS. At Luizalabs (Magalu), I built applications and Go and Node.js services on GCP used across 1,000+ stores; before that, I was Front-end Tech Lead at Smarten, owning a design system and CI/CD. I use AI in development with a method: spec-driven development, TDD, critical review and evals, with Claude Code, Codex and the Model Context Protocol (MCP).",
     "skills": [
       "Languages: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
-      "Front-end & Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accessibility (WCAG), web performance (Core Web Vitals).",
+      "Front-end & Mobile: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, Redux (Redux Toolkit), MUI (Material UI), Emotion, styled-components, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accessibility (WCAG), web performance (Core Web Vitals).",
       "Back-end & APIs: Node.js, Fastify, Express.js, Go, REST APIs, GraphQL, messaging (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
       "Cloud & DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infrastructure as code (IaC) with Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Quality & Observability: automated testing (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoring, feature flags, Clean Code, SOLID, monorepos, Git.",
@@ -165,9 +167,10 @@
         "location": "On-site",
         "description": "",
         "highlights": [
-          "Led and mentored a team of front-end developers on SaaS products",
-          "Created and maintained a design system adopted across multiple products",
-          "Implemented CI/CD, monitoring and quality standards, improving performance and maintainability"
+          "Led and mentored the front-end team on SaaS products for business management and point of sale (POS)",
+          "Built the company design system from scratch on MUI and Emotion (tokens, icons, hooks and utilities), published as versioned npm packages and adopted across multiple products",
+          "Set up the foundations of the POS apps in React, TypeScript and Electron, with Redux Toolkit, TanStack Query, Zustand and Zod",
+          "Implemented CI/CD, shared ESLint and Prettier configs and error monitoring with Sentry"
         ]
       },
       {
@@ -177,8 +180,9 @@
         "location": "On-site",
         "description": "",
         "highlights": [
-          "Built front-end applications with React, Electron, TypeScript and JavaScript, with reusable components and interface patterns",
-          "Applied maintainability, testing and code quality practices"
+          "Built screens for an ERP for micro and small businesses in React, TypeScript and Electron (desktop app)",
+          "Managed complex global state with Redux and built large forms with React Final Form on the in-house design system, in Emotion",
+          "Applied reusable components, typing and maintainability, testing and code quality practices"
         ]
       }
     ],
@@ -222,7 +226,7 @@
     "profile": "Ingeniero de Software Full Stack con más de 5 años de experiencia en aplicaciones web y móviles, del front-end a la infraestructura en la nube. En el equipo de IA de Lemon Energia, puse en producción seis productos internos de Finanzas en tres meses, de punta a punta, con React, Fastify, PostgreSQL e infraestructura como código (Pulumi) en AWS. En Luizalabs (Magalu), desarrollé aplicaciones y servicios en Go y Node.js en GCP usados en más de 1.000 tiendas; antes fui Tech Lead Front-end en Smarten. Uso IA con método: spec-driven development, TDD, revisión crítica y evals, con Claude Code, Codex y Model Context Protocol (MCP).",
     "skills": [
       "Lenguajes: TypeScript, JavaScript, Go, SQL, HTML, CSS.",
-      "Front-end y Móvil: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accesibilidad (WCAG), rendimiento web (Core Web Vitals).",
+      "Front-end y Móvil: React, Next.js, React Native, Expo, Svelte, Astro, Vite, Tailwind CSS, Electron, Redux (Redux Toolkit), MUI (Material UI), Emotion, styled-components, TanStack Query (React Query), Zustand, React Hook Form, Zod, GSAP, Framer Motion, Micro Frontends, Design Systems, Storybook, accesibilidad (WCAG), rendimiento web (Core Web Vitals).",
       "Back-end y APIs: Node.js, Fastify, Express.js, Go, APIs REST, GraphQL, mensajería (RabbitMQ, Amazon SQS), PostgreSQL, Amazon Aurora (RDS), Redis, Prisma, Drizzle ORM, JWT.",
       "Cloud y DevOps: Amazon Web Services (AWS): ECS Fargate, Aurora (RDS), EventBridge, SQS, Secrets Manager, API Gateway, CloudFront; Google Cloud Platform (GCP); Cloudflare (Workers, D1, R2, Durable Objects); infraestructura como código (IaC) con Pulumi; Docker; CI/CD; GitHub Actions; Linux.",
       "Calidad y Observabilidad: pruebas automatizadas (Vitest, Playwright, Testing Library, axe), TDD, SonarQube, Grafana, Sentry, Lighthouse, monitoreo, feature flags, Clean Code, SOLID, monorepos, Git.",
@@ -265,9 +269,10 @@
         "location": "Presencial",
         "description": "",
         "highlights": [
-          "Lideré técnicamente y mentoricé a un equipo de desarrolladores front-end en productos SaaS",
-          "Creé y mantuve un Design System adoptado en varios productos",
-          "Implementé CI/CD, monitoreo y estándares de calidad, mejorando rendimiento y mantenimiento"
+          "Lideré técnicamente y mentoricé al equipo front-end en productos SaaS de gestión y punto de venta (POS)",
+          "Creé desde cero el Design System de la empresa sobre MUI y Emotion (tokens, íconos, hooks y utilidades), publicado como paquetes npm versionados y adoptado en varios productos",
+          "Estructuré las bases de las apps de POS en React, TypeScript y Electron, con Redux Toolkit, TanStack Query, Zustand y Zod",
+          "Implementé CI/CD, configs compartidas de ESLint y Prettier y monitoreo de errores con Sentry"
         ]
       },
       {
@@ -277,8 +282,9 @@
         "location": "Presencial",
         "description": "",
         "highlights": [
-          "Desarrollé aplicaciones front-end con React, Electron, TypeScript y JavaScript, con componentes reutilizables y patrones de interfaz",
-          "Apliqué buenas prácticas de mantenimiento, pruebas y calidad de código"
+          "Desarrollé pantallas de un ERP para micro y pequeñas empresas en React, TypeScript y Electron (app de escritorio)",
+          "Gestioné estado global complejo con Redux y construí formularios grandes con React Final Form sobre el design system interno, en Emotion",
+          "Apliqué componentes reutilizables, tipado y buenas prácticas de mantenimiento, pruebas y calidad de código"
         ]
       }
     ],
