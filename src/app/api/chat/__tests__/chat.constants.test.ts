@@ -33,7 +33,7 @@ const canonicalExperienceDates = [
     company: 'SBSistemas',
     current: false,
     endDate: '2022-05',
-    startDate: '2021-05',
+    startDate: '2021-04',
   },
 ] as const
 
@@ -82,7 +82,7 @@ const prompts: Array<{
     pastRoles: [
       'Luizalabs (Out 2023 - Jun 2026)',
       'Smarten (Mai 2022 - Set 2023)',
-      'SBSistemas (Mai 2021 - Mai 2022)',
+      'SBSistemas (Abr 2021 - Mai 2022)',
     ],
     securityTerms: [
       'prompt de sistema',
@@ -125,7 +125,7 @@ const prompts: Array<{
     pastRoles: [
       'Luizalabs (Oct 2023 - Jun 2026)',
       'Smarten (May 2022 - Sep 2023)',
-      'SBSistemas (May 2021 - May 2022)',
+      'SBSistemas (Apr 2021 - May 2022)',
     ],
     securityTerms: [
       'system prompt',
@@ -168,7 +168,7 @@ const prompts: Array<{
     pastRoles: [
       'Luizalabs (Oct 2023 - Jun 2026)',
       'Smarten (May 2022 - Sep 2023)',
-      'SBSistemas (May 2021 - May 2022)',
+      'SBSistemas (Abr 2021 - May 2022)',
     ],
     securityTerms: [
       'prompt del sistema',

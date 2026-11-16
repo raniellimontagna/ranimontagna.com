@@ -239,26 +239,28 @@
     "stages": {
       "sbsistemas": {
         "role": "Front-end Developer · SBSistemas",
-        "period": "May 2021 - May 2022",
-        "what": "I solidified my professional foundation in front-end development, building applications focused on usability, maintainability, type safety, reusable components and sound engineering practices.",
+        "period": "April 2021 - May 2022",
+        "what": "I started at SBSistemas, which makes ERP software for micro and small businesses, building the system's screens in React and TypeScript, packaged as a desktop app with Electron. That is where I built my foundation: complex state, large forms and design system components.",
         "impact": [
-          "Built front-end applications with React, Electron, TypeScript and JavaScript",
-          "Implemented reusable components and UI patterns",
-          "Applied good practices for maintainability, testing and code quality"
+          "ERP screens in React, TypeScript and Electron, from master data to daily operational routines",
+          "Global state for complex screens with Redux, with data shared across many screens and async flows",
+          "Large forms with React Final Form, built on the company's in-house design system in Emotion",
+          "Reusable components, typing and sound maintenance and code quality practices"
         ]
       },
       "smarten": {
         "role": "Front-end Tech Lead · Smarten",
         "period": "May 2022 - September 2023",
-        "what": "As Front-end Tech Lead on SaaS products, I led developers, set quality standards, evolved the UI architecture and tied technical decisions to product delivery.",
+        "what": "I led the front end of Smarten's SaaS products for business management and point of sale (POS). I built the company's Design System from scratch and the foundations of new products, and set the team's quality standards.",
         "impact": [
-          "Led a team of developers as technical lead",
-          "Created and maintained a Design System adopted across multiple products",
-          "Implemented CI/CD, monitoring and quality standards"
+          "I led and mentored the front-end development team",
+          "A Design System built from scratch on MUI and Emotion: tokens, custom icons, hooks and utilities, published as versioned npm packages and adopted across several products",
+          "Foundations of the POS apps in React, TypeScript and Electron, with Redux Toolkit and later TanStack Query, Zustand and Zod",
+          "Shared ESLint and Prettier configs, CI/CD and error monitoring with Sentry"
         ]
       },
       "luizalabs": {
-        "role": "Mid-level Developer · Luizalabs",
+        "role": "Software Engineer · Luizalabs",
         "period": "October 2023 - June 2026",
         "what": "At Luizalabs, Magalu's technology unit, I worked on web and mobile apps for physical store operations and on the services behind them, with a Go back end on GCP, at a nationwide retailer operating at high scale.",
         "impact": [

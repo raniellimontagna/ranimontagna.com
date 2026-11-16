@@ -58,7 +58,7 @@ const canonicalExperienceDates = [
     company: 'SBSistemas',
     current: false,
     endDate: '2022-05',
-    startDate: '2021-05',
+    startDate: '2021-04',
   },
 ] as const
 
@@ -125,6 +125,35 @@ describe('chat professional profile', () => {
       ),
     ).toEqual(canonicalExperienceDates)
   })
+
+  it.each([
+    ['pt', 'Engenheiro de Software', 'Presencial', 'Abr 2021 - Mai 2022'],
+    ['en', 'Software Engineer', 'On-site', 'Apr 2021 - May 2022'],
+    ['es', 'Ingeniero de Software', 'Presencial', 'Abr 2021 - May 2022'],
+  ] as const)(
+    'matches roles, places and dates to the CV and LinkedIn in %s',
+    (locale, luizalabsRole, smartenLocation, sbPeriod) => {
+      const [, luizalabs, smarten, sb] = CHAT_PROFILE_BY_LOCALE[locale].experiences
+      expect(luizalabs.role).toBe(luizalabsRole)
+      expect(smarten.location).toBe(smartenLocation)
+      expect(sb.period).toBe(sbPeriod)
+    },
+  )
+
+  it.each(['pt', 'en', 'es'] as const)(
+    'tells Vega about Redux at SBSistemas and the design system at Smarten in %s',
+    (locale) => {
+      const [, , smarten, sb] = CHAT_PROFILE_BY_LOCALE[locale].experiences
+      const sbText = sb.outcomes.join(' ')
+      for (const word of ['ERP', 'Redux', 'Electron', 'React Final Form']) {
+        expect(sbText).toContain(word)
+      }
+      const smartenText = smarten.outcomes.join(' ')
+      for (const word of ['Design System', 'MUI', 'npm', 'TanStack Query', 'Zustand', 'Sentry']) {
+        expect(smartenText).toContain(word)
+      }
+    },
+  )
 
   it.each(['pt', 'en', 'es'] as const)(
     'tells Vega about the Go back end, the tools and Black Friday at Luizalabs in %s',

@@ -173,7 +173,7 @@ describe('deterministic response validation', () => {
     expect(
       validateChatAnswer(
         createValidationInput(
-          'SBSistemas: maio de 2021 a maio de 2022, Smarten: maio de 2022 a setembro de 2023, Luizalabs: outubro de 2023 a junho de 2026, Lemon: desde julho de 2026.',
+          'SBSistemas: abril de 2021 a maio de 2022, Smarten: maio de 2022 a setembro de 2023, Luizalabs: outubro de 2023 a junho de 2026, Lemon: desde julho de 2026.',
         ),
       ),
     ).toEqual({ ok: true })
@@ -390,7 +390,7 @@ describe('deterministic response validation', () => {
 
   it.each([
     [
-      'Comecei minha carreira em maio de 2021. Hoje trabalho na Lemon.',
+      'Comecei minha carreira em abril de 2021. Hoje trabalho na Lemon.',
       'Você tem um emprego fixo?',
       true,
     ],
@@ -451,11 +451,11 @@ describe('deterministic response validation', () => {
   it.each([
     [
       'pt',
-      'Comecei na Lemon. Foi uma mudança importante. A rotina mudou. O projeto evoluiu. Entrei na área de tecnologia em maio de 2021.',
+      'Comecei na Lemon. Foi uma mudança importante. A rotina mudou. O projeto evoluiu. Entrei na área de tecnologia em abril de 2021.',
     ],
     [
       'en',
-      'I started at Lemon. It was an important change. The routine changed. The project evolved. I entered the technology field in May 2021.',
+      'I started at Lemon. It was an important change. The routine changed. The project evolved. I entered the technology field in April 2021.',
     ],
   ] as const)(
     'resets employer carry for a global career topic after padding in %s',
@@ -483,9 +483,9 @@ describe('deterministic response validation', () => {
 
   it('does not carry Lemon into a global technology-career assertion', () => {
     for (const answer of [
-      'Atuo na Lemon atualmente. Entrei na área de tecnologia em maio de 2021.',
-      'I work at Lemon now. I entered the technology field in May 2021.',
-      'Trabajo en Lemon actualmente. Entré en el área de tecnología en mayo de 2021.',
+      'Atuo na Lemon atualmente. Entrei na área de tecnologia em abril de 2021.',
+      'I work at Lemon now. I entered the technology field in April 2021.',
+      'Trabajo en Lemon actualmente. Entré en el área de tecnología en abril de 2021.',
     ]) {
       expect(validateChatAnswer(createValidationInput(answer))).toEqual({ ok: true })
     }

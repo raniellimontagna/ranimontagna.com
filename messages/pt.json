@@ -239,26 +239,28 @@
     "stages": {
       "sbsistemas": {
         "role": "Desenvolvedor Front-end · SBSistemas",
-        "period": "Maio 2021 - Maio 2022",
-        "what": "Consolidei minha base profissional em desenvolvimento front-end, criando aplicações com foco em usabilidade, manutenção, tipagem, componentes reutilizáveis e boas práticas de engenharia.",
+        "period": "Abril 2021 - Maio 2022",
+        "what": "Comecei na SBSistemas, que faz ERP para micro e pequenas empresas, construindo as telas do sistema em React e TypeScript, empacotadas como app desktop com Electron. Ali formei minha base: estado complexo, formulários grandes e componentes de design system.",
         "impact": [
-          "Desenvolvi aplicações front-end com React, Electron, TypeScript e JavaScript",
-          "Implementei componentes reutilizáveis e padrões de interface",
-          "Apliquei boas práticas de manutenção, testes e qualidade de código"
+          "Telas do ERP em React, TypeScript e Electron, de cadastros a rotinas operacionais do dia a dia",
+          "Estado global de telas complexas com Redux, com dados compartilhados entre muitas telas e fluxos assíncronos",
+          "Formulários grandes com React Final Form, montados sobre o design system interno da empresa, em Emotion",
+          "Componentes reutilizáveis, tipagem e boas práticas de manutenção e qualidade de código"
         ]
       },
       "smarten": {
         "role": "Tech Lead Front-end · Smarten",
         "period": "Maio 2022 - Setembro 2023",
-        "what": "Atuei como Tech Lead Front-end em produtos SaaS, liderando desenvolvedores, definindo padrões de qualidade, evoluindo arquitetura de interface e conectando decisões técnicas a entregas de produto.",
+        "what": "Liderei o front-end dos produtos SaaS da Smarten, de gestão e ponto de venda (PDV). Criei do zero o Design System da empresa e as bases dos novos produtos, e defini os padrões de qualidade do time.",
         "impact": [
-          "Liderei tecnicamente uma equipe de desenvolvedores",
-          "Criei e mantive Design System adotado em múltiplos produtos",
-          "Implementei CI/CD, monitoramento e padrões de qualidade"
+          "Liderei tecnicamente e mentorei a equipe de desenvolvedores front-end",
+          "Design System criado do zero sobre MUI e Emotion: tokens, ícones próprios, hooks e utilitários, publicados como pacotes npm versionados e adotados em vários produtos",
+          "Bases dos apps de PDV em React, TypeScript e Electron, com Redux Toolkit e, depois, TanStack Query, Zustand e Zod",
+          "Configs compartilhadas de ESLint e Prettier, CI/CD e monitoramento de erros com Sentry"
         ]
       },
       "luizalabs": {
-        "role": "Desenvolvedor Pleno · Luizalabs",
+        "role": "Engenheiro de Software · Luizalabs",
         "period": "Outubro 2023 - Junho 2026",
         "what": "Atuei na Luizalabs, unidade de tecnologia do Magalu, em aplicações web e mobile para as operações das lojas físicas e nos serviços por trás delas, com back-end em Go no GCP, num varejo nacional de alta escala.",
         "impact": [
