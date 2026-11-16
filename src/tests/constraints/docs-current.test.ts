@@ -22,4 +22,3 @@ describe('docs describe the redesigned site', () => {
     expect(readme).toMatch(/Cmd\+K/)
   })
 })
-
