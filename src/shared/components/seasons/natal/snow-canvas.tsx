@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { prefersReducedMotion } from '@/shared/components/motion'
+import { makeFlakeSprite } from './flake-sprite'
 import { createFlakes, type Flake, flakeCount, stepFlakes } from './snowfall'
 
 const MAX_DPR = 2
@@ -9,7 +10,6 @@ const MAX_STEP_MS = 50
 /** With reduced motion a lighter, still layer is drawn once. */
 const STILL_SHARE = 0.4
 
-const SPRITE = 32
 /** A drawn flake is this many times its radius: a soft core with a faded rim. */
 const FLAKE_SCALE = 4.4
 
@@ -20,31 +20,6 @@ function readColor() {
     styles.getPropertyValue('--foreground').trim() ||
     '#ffffff'
   )
-}
-
-/** The same color fully transparent, so the rim fades without a dark fringe. */
-function clear(color: string) {
-  const hex = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color)
-  if (!hex) return 'rgba(255, 255, 255, 0)'
-  const [r, g, b] = hex.slice(1).map((part) => Number.parseInt(part, 16))
-  return `rgba(${r}, ${g}, ${b}, 0)`
-}
-
-/** One soft flake, drawn once and stamped for every flake: cheaper than blur per frame. */
-function makeSprite(color: string) {
-  const sprite = document.createElement('canvas')
-  sprite.width = SPRITE
-  sprite.height = SPRITE
-  const ctx = sprite.getContext('2d')
-  if (!ctx) return sprite
-  const half = SPRITE / 2
-  const gradient = ctx.createRadialGradient(half, half, 0, half, half, half)
-  gradient.addColorStop(0, color)
-  gradient.addColorStop(0.4, color)
-  gradient.addColorStop(1, clear(color))
-  ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, SPRITE, SPRITE)
-  return sprite
 }
 
 /**
@@ -66,7 +41,7 @@ export function SnowCanvas() {
     let flakes: Flake[] = []
     let frame = 0
     let last = 0
-    let sprite = makeSprite(readColor())
+    let sprite = makeFlakeSprite(readColor())
     let colorStale = false
     let pointer: { x: number; y: number } | null = null
 
@@ -84,7 +59,7 @@ export function SnowCanvas() {
 
     const draw = () => {
       if (colorStale) {
-        sprite = makeSprite(readColor())
+        sprite = makeFlakeSprite(readColor())
         colorStale = false
       }
       ctx.clearRect(0, 0, width, height)
