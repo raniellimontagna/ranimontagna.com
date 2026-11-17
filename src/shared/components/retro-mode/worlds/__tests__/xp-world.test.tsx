@@ -174,3 +174,90 @@ it.each([
   fireEvent.click(screen.getByRole('button', { name: startLabel }))
   expect(screen.getByRole('navigation', { name: menuLabel })).toBeInTheDocument()
 })
+
+describe('power options and windows up close', () => {
+  beforeEach(() => {
+    mockMatchMedia({})
+    sessionStorage.setItem('retro-booted-xp', '1')
+    sessionStorage.setItem('retro-xp-balloon', '1')
+    Element.prototype.setPointerCapture = vi.fn()
+  })
+
+  function power(choice: string) {
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar' }))
+    fireEvent.click(screen.getByRole('button', { name: /Desligar o computador/ }))
+    fireEvent.click(
+      within(screen.getByRole('alertdialog', { name: 'Desligar o computador' })).getByRole(
+        'button',
+        { name: choice },
+      ),
+    )
+  }
+
+  it('stands by until a key wakes the desktop', () => {
+    vi.useFakeTimers()
+    render(<XpWorld locale="pt" onExit={vi.fn()} />)
+    power('Em espera')
+    expect(document.querySelector('.xp-standby')).not.toBeNull()
+    act(() => vi.advanceTimersByTime(400))
+    fireEvent.keyDown(window, { key: 'Enter' })
+    expect(document.querySelector('.xp-standby')).toBeNull()
+    vi.useRealTimers()
+  })
+
+  it('restarts into the boot screen, and Cancel keeps the desktop', () => {
+    render(<XpWorld locale="pt" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar' }))
+    fireEvent.click(screen.getByRole('button', { name: /Desligar o computador/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
+    power('Reiniciar')
+    expect(document.querySelector('.xp-boot')).not.toBeNull()
+  })
+
+  it('logs off through the saving screen to the welcome screen', () => {
+    vi.useFakeTimers()
+    render(<XpWorld locale="pt" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Iniciar' }))
+    fireEvent.click(screen.getByRole('button', { name: /Fazer logoff/ }))
+    expect(screen.getByRole('status')).toHaveTextContent('Fazendo logoff')
+    act(() => vi.advanceTimersByTime(1900))
+    expect(document.querySelector('.xp-welcome')).not.toBeNull()
+    act(() => vi.advanceTimersByTime(2300))
+    expect(document.querySelector('.xp-welcome')).toBeNull()
+    vi.useRealTimers()
+  })
+
+  it('drags a window by its title bar', () => {
+    render(<XpWorld locale="pt" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Lixeira' }), { detail: 0 })
+    const bin = screen.getByRole('dialog', { name: 'Lixeira' })
+    const bar = bin.querySelector('.xp-window-titlebar') as HTMLElement
+    const left = Number.parseFloat(bin.style.left)
+    fireEvent.pointerDown(bar, { button: 0, clientX: 300, clientY: 150, pointerId: 1 })
+    fireEvent.pointerMove(bar, { clientX: 340, clientY: 190, pointerId: 1 })
+    fireEvent.pointerCancel(bar, { pointerId: 1 })
+    expect(Number.parseFloat(bin.style.left)).toBe(left + 40)
+  })
+
+  it('selects icons with a mouse click and draws a selection band', () => {
+    render(<XpWorld locale="pt" onExit={vi.fn()} />)
+    const bin = screen.getByRole('button', { name: 'Lixeira' })
+    fireEvent.click(bin, { detail: 1 })
+    expect(bin).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.doubleClick(bin)
+    expect(screen.getByRole('dialog', { name: 'Lixeira' })).toBeInTheDocument()
+
+    const desktop = document.querySelector('.xp-desktop') as HTMLElement
+    fireEvent.pointerDown(desktop, { pointerType: 'mouse', clientX: 0, clientY: 0, pointerId: 2 })
+    fireEvent.pointerMove(desktop, {
+      pointerType: 'mouse',
+      clientX: 900,
+      clientY: 700,
+      pointerId: 2,
+    })
+    expect(document.querySelector('.xp-band')).not.toBeNull()
+    fireEvent.pointerUp(desktop, { pointerType: 'mouse', pointerId: 2 })
+    expect(document.querySelector('.xp-band')).toBeNull()
+  })
+})

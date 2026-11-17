@@ -100,3 +100,112 @@ it('boots with the smiling computer once per session', () => {
   render(<MacWorld locale="en" onExit={vi.fn()} />)
   expect(document.querySelector('.mac-boot')).toBeNull()
 })
+
+describe('windows and menus up close', () => {
+  beforeEach(() => {
+    mockMatchMedia({})
+    sessionStorage.setItem('retro-booted-mac', '1')
+    Element.prototype.setPointerCapture = vi.fn()
+  })
+
+  it('drags a window by its title, zooms it and closes it with Escape', () => {
+    render(<MacWorld locale="en" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Trash' }))
+    const win = screen.getByRole('dialog', { name: 'Trash' })
+    const bar = win.querySelector('.mac-window-bar') as HTMLElement
+    const left = Number.parseFloat(win.style.left)
+    fireEvent.pointerDown(bar, { button: 0, clientX: 200, clientY: 120, pointerId: 1 })
+    fireEvent.pointerMove(bar, { clientX: 260, clientY: 180, pointerId: 1 })
+    fireEvent.pointerUp(bar, { pointerId: 1 })
+    fireEvent.pointerMove(bar, { clientX: 400, clientY: 400, pointerId: 1 })
+    expect(Number.parseFloat(win.style.left)).toBe(left + 60)
+
+    const zoom = within(win).getByRole('button', { name: 'Zoom' })
+    const width = Number.parseFloat(win.style.width)
+    fireEvent.click(zoom)
+    expect(zoom).toHaveAttribute('aria-pressed', 'true')
+    expect(Number.parseFloat(win.style.width)).toBeGreaterThan(width)
+
+    fireEvent.keyDown(zoom, { key: 'Escape' })
+    expect(screen.queryByRole('dialog', { name: 'Trash' })).not.toBeInTheDocument()
+  })
+
+  it('opens every document, brings windows forward and closes from the File menu', () => {
+    render(<MacWorld locale="en" onExit={vi.fn()} />)
+    for (const name of ['About me', 'Blog', 'Contact'])
+      fireEvent.click(screen.getByRole('button', { name }))
+    expect(screen.getByRole('dialog', { name: 'About me' })).toHaveTextContent('Product engineer')
+    expect(
+      within(screen.getByRole('dialog', { name: 'Blog' })).getByRole('link', {
+        name: /Read the blog/,
+      }),
+    ).toHaveAttribute('href', '/blog')
+    const contact = screen.getByRole('dialog', { name: 'Contact' })
+    expect(within(contact).getByRole('link', { name: 'contato@ranimontagna.com' })).toHaveAttribute(
+      'href',
+      'mailto:contato@ranimontagna.com',
+    )
+
+    const about = screen.getByRole('dialog', { name: 'About me' })
+    fireEvent.pointerDown(about)
+    expect(Number(about.style.zIndex)).toBeGreaterThan(Number(contact.style.zIndex))
+    fireEvent.click(within(menu('File')).getByRole('menuitem', { name: 'Close Window' }))
+    expect(screen.queryByRole('dialog', { name: 'About me' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Macintosh HD' }))
+    const disk = screen.getByRole('dialog', { name: 'Macintosh HD' })
+    fireEvent.click(within(disk).getByRole('button', { name: 'Projects' }))
+    expect(screen.getByRole('dialog', { name: 'Projects' })).toBeInTheDocument()
+  })
+
+  it('beeps when the clipboard refuses, and copies from the Contact window', async () => {
+    const writeText = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('denied'))
+      .mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
+    render(<MacWorld locale="en" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Contact' }))
+    const contact = screen.getByRole('dialog', { name: 'Contact' })
+    await act(async () => {
+      fireEvent.click(within(contact).getByRole('button', { name: 'Copy email' }))
+    })
+    expect(within(contact).getByRole('status')).toHaveTextContent('')
+    await act(async () => {
+      fireEvent.click(within(contact).getByRole('button', { name: 'Copy email' }))
+    })
+    expect(within(contact).getByRole('status')).toHaveTextContent('Email copied')
+  })
+
+  it('walks the menus with every key and closes them from outside', () => {
+    render(<MacWorld locale="en" onExit={vi.fn()} />)
+    const view = screen.getByRole('button', { name: 'View' })
+    fireEvent.keyDown(view, { key: 'ArrowDown' })
+    const items = within(screen.getByRole('menu', { name: 'View' })).getAllByRole('menuitemradio')
+    expect(items[0]).toHaveFocus()
+    expect(items[0]).toHaveAttribute('aria-checked', 'true')
+    fireEvent.keyDown(items[0], { key: 'ArrowUp' })
+    expect(items[1]).toHaveFocus()
+    fireEvent.keyDown(items[1], { key: 'ArrowLeft' })
+    expect(screen.getByRole('menu', { name: 'Edit' })).toBeInTheDocument()
+    fireEvent.pointerEnter(screen.getByRole('button', { name: 'Special' }))
+    expect(screen.getByRole('menu', { name: 'Special' })).toBeInTheDocument()
+    fireEvent.keyDown(document.activeElement as Element, { key: 'Tab' })
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'File' }))
+    fireEvent.pointerDown(document.body)
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'File' }))
+    fireEvent.click(screen.getByRole('button', { name: 'File' }))
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('restarts into the boot screen from the Special menu', () => {
+    render(<MacWorld locale="en" onExit={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Trash' }))
+    fireEvent.click(within(menu('Special')).getByRole('menuitem', { name: 'Restart' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(document.querySelector('.mac-boot')).not.toBeNull()
+  })
+})

@@ -232,3 +232,58 @@ it('shows the BIOS once per session and types the answers', () => {
   render(<DosWorld locale="en" onExit={vi.fn()} />)
   expect(document.querySelector('.dos-boot')).toBeNull()
 })
+
+it('rains the matrix over the screen until a key, then returns to the prompt', () => {
+  mockMatchMedia({})
+  sessionStorage.setItem('retro-booted-dos', '1')
+  vi.useFakeTimers()
+  const ctx = { fillRect: vi.fn(), fillText: vi.fn(), fillStyle: '', font: '' }
+  const getContext = vi
+    .spyOn(HTMLCanvasElement.prototype, 'getContext')
+    .mockReturnValue(ctx as unknown as CanvasRenderingContext2D)
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  submit('matrix')
+  expect(document.querySelector('.dos-matrix')).not.toBeNull()
+  act(() => vi.advanceTimersByTime(300))
+  expect(ctx.fillText).toHaveBeenCalled()
+  fireEvent.keyDown(window, { key: 'q' })
+  expect(document.querySelector('.dos-matrix')).toBeNull()
+  getContext.mockRestore()
+})
+
+it('answers the remaining classics and keeps Tab for focus when nothing matches', () => {
+  vi.spyOn(window, 'open').mockImplementation(() => null)
+  render(<DosWorld locale="en" onExit={vi.fn()} />)
+  const output = screen.getByRole('log')
+  for (const command of [
+    'date',
+    'time',
+    'whoami',
+    'beep',
+    'format c:',
+    'echo hello',
+    'cd ..',
+    'type contact.txt',
+    'type about.txt',
+    'xp',
+    'cv',
+  ]) {
+    submit(command)
+  }
+  expect(output).toHaveTextContent('Current date is')
+  expect(output).toHaveTextContent('Current time is')
+  expect(output).toHaveTextContent('product engineer')
+  expect(output).toHaveTextContent('BEEP!')
+  expect(output).toHaveTextContent('Format drive C:? Not a chance.')
+  expect(output).toHaveTextContent('hello')
+  expect(output).toHaveTextContent('contato@ranimontagna.com')
+  expect(output).toHaveTextContent('Loading Windows XP')
+  expect(window.open).toHaveBeenCalledWith('/cv/en.pdf', '_blank', 'noopener')
+
+  const input = screen.getByRole('textbox', { name: 'DOS command' })
+  fireEvent.change(input, { target: { value: 'zzz' } })
+  expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true)
+  fireEvent.change(input, { target: { value: 'ty' } })
+  fireEvent.keyDown(input, { key: 'Tab' })
+  expect(input).toHaveValue('type ')
+})

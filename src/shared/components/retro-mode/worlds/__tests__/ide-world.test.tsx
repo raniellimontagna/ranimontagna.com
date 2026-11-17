@@ -100,6 +100,80 @@ it('closes the palette with Escape and returns focus to its button', () => {
   expect(button).toHaveFocus()
 })
 
+it('runs the rest of the terminal and every palette command', () => {
+  const onExit = vi.fn()
+  render(<IdeWorld locale="en" onExit={onExit} />)
+  const log = screen.getByRole('log')
+  const run = (command: string) => {
+    const input = screen.getByRole('textbox', { name: 'Terminal command' })
+    fireEvent.change(input, { target: { value: command } })
+    fireEvent.submit(input.closest('form') as HTMLFormElement)
+  }
+  run('help')
+  run('whoami')
+  run('git log')
+  run('npm run dev')
+  run('open nowhere.md')
+  run('npm install')
+  expect(log).toHaveTextContent('Commands: ls')
+  expect(log).toHaveTextContent('product engineer')
+  expect(log).toHaveTextContent('feat(retro)')
+  expect(log).toHaveTextContent('Ready in 1998ms')
+  expect(log).toHaveTextContent('cat: nowhere.md: no such file')
+  expect(log).toHaveTextContent('zsh: command not found: npm install')
+  run('clear')
+  expect(log).toBeEmptyDOMElement()
+
+  fireEvent.keyDown(window, { key: 'F1' })
+  let search = screen.getByRole('combobox', { name: 'Search files and commands' })
+  fireEvent.change(search, { target: { value: 'zzzz' } })
+  expect(screen.getByText('No results')).toBeInTheDocument()
+  fireEvent.keyDown(search, { key: 'Enter' })
+  fireEvent.change(search, { target: { value: '' } })
+  fireEvent.keyDown(search, { key: 'ArrowDown' })
+  fireEvent.keyDown(search, { key: 'ArrowDown' })
+  fireEvent.keyDown(search, { key: 'ArrowUp' })
+  const second = screen.getAllByRole('option')[1]
+  expect(second).toHaveAttribute('aria-selected', 'true')
+  fireEvent.click(second)
+  expect(screen.getByRole('tab', { name: /about\.md/ })).toHaveAttribute('aria-selected', 'true')
+
+  for (const label of [
+    '> Terminal: npm run dev',
+    '> Terminal: clear',
+    '> Open: Projects',
+    '> Back to the future',
+  ]) {
+    fireEvent.keyDown(window, { key: 'k', metaKey: true })
+    search = screen.getByRole('combobox', { name: 'Search files and commands' })
+    fireEvent.click(screen.getByRole('option', { name: label }))
+  }
+  expect(push).toHaveBeenCalledWith('/projects')
+  expect(onExit).toHaveBeenCalledOnce()
+
+  fireEvent.keyDown(window, { key: 'p', ctrlKey: true })
+  fireEvent.click(document.querySelector('.ide-palette-backdrop') as HTMLElement)
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+  run('exit')
+  expect(onExit).toHaveBeenCalledTimes(2)
+})
+
+it('follows hash links to the about and contact files', () => {
+  render(<IdeWorld locale="pt" onExit={vi.fn()} />)
+  act(() => {
+    window.location.hash = '#contact'
+    window.dispatchEvent(new HashChangeEvent('hashchange'))
+  })
+  expect(screen.getByRole('tab', { name: /contato\.ts/ })).toHaveAttribute('aria-selected', 'true')
+  act(() => {
+    window.location.hash = '#about'
+    window.dispatchEvent(new HashChangeEvent('hashchange'))
+  })
+  expect(screen.getByRole('tab', { name: /sobre\.md/ })).toHaveAttribute('aria-selected', 'true')
+  window.location.hash = ''
+})
+
 // Turns reduced motion off, so it runs last.
 it('starts the dev server and types the README on arrival', () => {
   mockMatchMedia({})

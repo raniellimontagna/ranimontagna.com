@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { THEME_INIT_SCRIPT } from '@/app/[locale]/theme-init-script'
 import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { RetroExperience } from '../retro-mode'
@@ -124,4 +124,17 @@ it.each(['xp', 'dos', 'gameboy', 'newspaper', 'ide', 'mac'])(
     new Function(THEME_INIT_SCRIPT)()
     expect(document.documentElement).toHaveAttribute('data-retro-mode', mode)
   },
+)
+
+it.each(['1998', 'xp', 'dos', 'gameboy', 'newspaper', 'ide', 'mac'])(
+  'loads the %s world on demand',
+  async (mode) => {
+    sessionStorage.setItem('retro-mode', mode === '1998' ? 'true' : mode)
+    render(<RetroExperience locale="pt" />)
+    await waitFor(() => expect(document.querySelector('.world-loading')).toBeNull(), {
+      timeout: 8000,
+    })
+    expect(document.querySelector('[data-retro-exit]')).toHaveFocus()
+  },
+  10_000,
 )

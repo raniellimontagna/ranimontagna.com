@@ -116,3 +116,60 @@ it('cancels the connection back to the future', () => {
   fireEvent.click(within(dial).getByRole('button', { name: 'Cancelar' }))
   expect(onExit).toHaveBeenCalled()
 })
+
+it('skips the modem with a click and leaves a sparkle trail behind the mouse', () => {
+  mockMatchMedia({ '(pointer: fine)': true })
+  const animate = vi.fn()
+  Element.prototype.animate = animate as unknown as Element['animate']
+  render(<Web98World locale="en" onExit={vi.fn()} />)
+  expect(screen.getByRole('dialog', { name: 'Connect to Ranielli Internet' })).toBeInTheDocument()
+  fireEvent.pointerDown(document.body)
+  expect(screen.queryByRole('dialog', { name: /Connect/ })).not.toBeInTheDocument()
+
+  const move = new PointerEvent('pointermove', { clientX: 40, clientY: 50, pointerType: 'mouse' })
+  window.dispatchEvent(move)
+  window.dispatchEvent(
+    new PointerEvent('pointermove', { clientX: 1, clientY: 1, pointerType: 'touch' }),
+  )
+  expect(animate).toHaveBeenCalledTimes(1)
+  expect(document.querySelectorAll('.w98-sparkles > span')).toHaveLength(16)
+})
+
+it('loops the MIDI, stops it with Stop and replays the dial-up with Refresh', () => {
+  mockMatchMedia({})
+  sessionStorage.setItem('retro-booted-1998', '1')
+  vi.useFakeTimers()
+  render(<Web98World locale="en" onExit={vi.fn()} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Turn sound off' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Play background MIDI' }))
+  expect(screen.getByRole('button', { name: 'Stop background MIDI' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  expect(sessionStorage.getItem('retro-sound')).toBe('on')
+  act(() => vi.advanceTimersByTime(10_000))
+  fireEvent.click(screen.getByRole('button', { name: 'Stop' }))
+  expect(screen.getByRole('button', { name: 'Play background MIDI' })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  )
+  expect(document.querySelector('.w98-marquee')).toHaveAttribute('data-stopped', 'true')
+
+  fireEvent.click(screen.getByRole('button', { name: 'Refresh' }))
+  expect(screen.getByRole('dialog', { name: 'Connect to Ranielli Internet' })).toBeInTheDocument()
+  act(() => vi.advanceTimersByTime(3700))
+  expect(screen.queryByRole('dialog', { name: /Connect/ })).not.toBeInTheDocument()
+})
+
+it('goes home, back and forward, and to a random world', () => {
+  const back = vi.spyOn(window.history, 'back').mockImplementation(() => {})
+  const forward = vi.spyOn(window.history, 'forward').mockImplementation(() => {})
+  render(<Web98World locale="pt" onExit={vi.fn()} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Voltar' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Avançar' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Página inicial' }))
+  expect(back).toHaveBeenCalled()
+  expect(forward).toHaveBeenCalled()
+  fireEvent.click(screen.getByRole('button', { name: 'Aleatório' }))
+  expect(document.documentElement.getAttribute('data-retro-mode')).not.toBe('1998')
+})
