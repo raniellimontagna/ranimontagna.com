@@ -1,0 +1,89 @@
+/* Christmas layer styles: shipped with the lazy chunk, never out of season. */
+
+/* String lights on the hero name */
+.natal-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.natal-wire {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.natal-wire path {
+  fill: none;
+  stroke: color-mix(in oklab, var(--foreground) 45%, transparent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.natal-bulb {
+  --bulb: var(--season-red);
+  --size: clamp(7px, 0.085em, 13px);
+  position: absolute;
+  width: var(--size);
+  height: calc(var(--size) * 1.45);
+  margin-left: calc(var(--size) / -2);
+  border-radius: 45% 45% 50% 50% / 35% 35% 65% 65%;
+  background: radial-gradient(
+    circle at 35% 65%,
+    color-mix(in oklab, var(--bulb) 40%, white) 0 18%,
+    var(--bulb) 55%
+  );
+  box-shadow:
+    0 0 calc(var(--size) * 0.9) color-mix(in oklab, var(--bulb) 70%, transparent),
+    0 0 calc(var(--size) * 2.2) color-mix(in oklab, var(--bulb) 30%, transparent);
+  transform: translateY(calc(var(--size) * 0.3)) rotate(var(--tilt));
+  transform-origin: 50% 0;
+}
+.natal-bulb::before {
+  content: "";
+  position: absolute;
+  left: 22%;
+  top: calc(var(--size) * -0.3);
+  width: 56%;
+  height: calc(var(--size) * 0.38);
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 60%, var(--background));
+}
+.natal-bulb[data-color="green"] {
+  --bulb: var(--season-green);
+}
+.natal-bulb[data-color="gold"] {
+  --bulb: var(--season-gold);
+}
+
+[data-pattern="chase"] .natal-bulb {
+  animation: natal-blink 1.2s steps(1, end) infinite;
+  animation-delay: calc(var(--i) * -0.2s);
+}
+[data-pattern="twinkle"] .natal-bulb {
+  animation: natal-glow var(--twinkle) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.37s);
+}
+
+@keyframes natal-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.22;
+    box-shadow: none;
+  }
+}
+@keyframes natal-glow {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.35;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .natal-bulb {
+    animation: none !important;
+  }
+}

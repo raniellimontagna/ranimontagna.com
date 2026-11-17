@@ -43,9 +43,15 @@ export async function Hero2026() {
         <h1
           aria-label={NAME_LINES.join(' ')}
           data-hero-title
-          className="text-[clamp(60px,8.4vw,150px)] leading-[0.88] font-semibold tracking-[-0.06em] text-foreground"
+          className="relative text-[clamp(60px,8.4vw,150px)] leading-[0.88] font-semibold tracking-[-0.06em] text-foreground"
         >
           <NameLetters />
+          {/* Empty outside a season; Christmas hangs string lights here. */}
+          <span
+            data-season-slot="hero-lights"
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+          />
         </h1>
 
         <p className="max-w-[34ch] text-lg leading-snug text-foreground sm:text-xl lg:text-2xl">
