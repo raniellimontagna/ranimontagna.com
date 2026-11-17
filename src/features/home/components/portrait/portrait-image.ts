@@ -1,8 +1,9 @@
 export type PortraitImage = { src: string; srcSet: string; sizes: string }
 
-export const PORTRAIT_WIDTHS = [384, 640, 750, 828, 1080, 1440] as const
+/** The master (public/photo.webp) is 1083 px wide, and the copies never upscale. */
+export const PORTRAIT_WIDTHS = [384, 640, 750, 828, 1080] as const
 /** Bump the version folder when the photo changes: the copies are cached for a year. */
-const PORTRAIT_DIR = '/redesign/portrait/v1'
+const PORTRAIT_DIR = '/redesign/portrait/v2'
 const fileFor = (width: number) => `${PORTRAIT_DIR}/photo-${width}.webp`
 
 /**

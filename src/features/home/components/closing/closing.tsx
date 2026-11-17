@@ -1,6 +1,14 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { getResumeByLocale, socialLinks } from '@/shared/lib/social-links'
-import { ActionLink, Reveal, RmLogo3D, ScrubText, SECTION_X, WordReveal } from '@/shared/ui-2026'
+import {
+  ActionLink,
+  PhotoReveal,
+  Reveal,
+  RmLogo3D,
+  ScrubText,
+  SECTION_X,
+  WordReveal,
+} from '@/shared/ui-2026'
 import { attoWhatsappHref } from '../atto/atto.data'
 import { CopyEmailButton } from './copy-email-button'
 
@@ -20,50 +28,62 @@ export async function Closing() {
     <section id="contato" className="overflow-hidden bg-background pt-24 sm:pt-32">
       {/* The old #contact anchor lands here. */}
       <span id="contact" aria-hidden="true" />
-      <Reveal className={`${SECTION_X} flex flex-col gap-8`}>
-        <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
-          {t('kicker')}
-        </p>
-        <WordReveal
-          text={t('title')}
-          className="max-w-4xl text-[clamp(40px,6vw,104px)] leading-[0.95] font-semibold tracking-[-0.04em] text-foreground"
-        />
-        <p data-reveal className="max-w-2xl text-lg leading-snug text-foreground sm:text-xl">
-          {t('lead')}
-        </p>
-        <div data-reveal className="flex flex-col flex-wrap gap-4 sm:flex-row sm:items-center">
-          <ActionLink href={attoWhatsappHref(t('whatsappMessage'))} external>
-            {t('ctaAtto')}
-          </ActionLink>
-          <CopyEmailButton
-            email="contato@ranimontagna.com"
-            label={t('copyEmail')}
-            copied={t('copied')}
+      <div
+        className={`${SECTION_X} grid gap-14 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)] lg:items-center lg:gap-16`}
+      >
+        <Reveal className="flex flex-col gap-8">
+          <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+            {t('kicker')}
+          </p>
+          <WordReveal
+            text={t('title')}
+            className="max-w-4xl text-[clamp(40px,6vw,104px)] leading-[0.95] font-semibold tracking-[-0.04em] text-foreground"
           />
-          <ActionLink href={resume.href} variant="quiet" download>
-            {t('resume')} ({resume.language})
-          </ActionLink>
-        </div>
-        <ul data-reveal className="mt-6 flex flex-wrap gap-3" aria-label={t('socialsLabel')}>
-          {SOCIALS.map((social) => {
-            const Icon = social.icon
-            return (
-              <li key={social.name}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.ariaLabel}
-                  className="flex h-12 items-center gap-3 rounded-full border border-line px-5 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
-                >
-                  <Icon aria-hidden="true" className="h-4 w-4" />
-                  {social.name}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </Reveal>
+          <p data-reveal className="max-w-2xl text-lg leading-snug text-foreground sm:text-xl">
+            {t('lead')}
+          </p>
+          <div data-reveal className="flex flex-col flex-wrap gap-4 sm:flex-row sm:items-center">
+            <ActionLink href={attoWhatsappHref(t('whatsappMessage'))} external>
+              {t('ctaAtto')}
+            </ActionLink>
+            <CopyEmailButton
+              email="contato@ranimontagna.com"
+              label={t('copyEmail')}
+              copied={t('copied')}
+            />
+            <ActionLink href={resume.href} variant="quiet" download>
+              {t('resume')} ({resume.language})
+            </ActionLink>
+          </div>
+          <ul data-reveal className="mt-6 flex flex-wrap gap-3" aria-label={t('socialsLabel')}>
+            {SOCIALS.map((social) => {
+              const Icon = social.icon
+              return (
+                <li key={social.name}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.ariaLabel}
+                    className="flex h-12 items-center gap-3 rounded-full border border-line px-5 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Icon aria-hidden="true" className="h-4 w-4" />
+                    {social.name}
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </Reveal>
+        {/* A coffee and a conversation: the photo that goes with "call me". */}
+        <PhotoReveal
+          master="/images/ranielli-cafe.webp"
+          alt={t('photoAlt')}
+          effect="scale"
+          sizes="(max-width: 1023px) 100vw, 30vw"
+          className="aspect-[4/5] w-full max-w-xl rounded-[2px] lg:max-w-none"
+        />
+      </div>
 
       <div className="mt-20 flex justify-center sm:mt-28">
         <RmLogo3D size={180} label="Ranielli Montagna" />

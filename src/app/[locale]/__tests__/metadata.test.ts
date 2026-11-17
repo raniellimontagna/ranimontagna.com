@@ -33,9 +33,9 @@ describe('share image', () => {
     async (locale) => {
       const { og, twitter } = imagesOf((await layoutMetadata(params(locale))) as Meta)
       expect(og[0]).toMatchObject({ width: 1200, height: 630 })
-      expect(og[0].url).toMatch(new RegExp(`/og/og-${locale}\\.jpg$`))
+      expect(og[0].url).toMatch(new RegExp(`/og/og-${locale}-v2\\.jpg$`))
       expect(twitter?.[0]).toBe(og[0].url)
-      expect(existsSync(join(process.cwd(), 'public', 'og', `og-${locale}.jpg`))).toBe(true)
+      expect(existsSync(join(process.cwd(), 'public', 'og', `og-${locale}-v2.jpg`))).toBe(true)
     },
   )
 
@@ -48,13 +48,13 @@ describe('share image', () => {
       const { og, twitter } = imagesOf(
         (await generate({ params: Promise.resolve({ locale: 'en' }) })) as Meta,
       )
-      expect(og[0]?.url).toMatch(/\/og\/og-en\.jpg$/)
+      expect(og[0]?.url).toMatch(/\/og\/og-en-v2\.jpg$/)
       expect(twitter?.[0]).toBe(og[0].url)
     },
   )
 
   it('falls back to the default language card for an unknown locale', async () => {
     const { og } = imagesOf((await layoutMetadata(params('foo.bar'))) as Meta)
-    expect(og[0].url).toMatch(/\/og\/og-pt\.jpg$/)
+    expect(og[0].url).toMatch(/\/og\/og-pt-v2\.jpg$/)
   })
 })

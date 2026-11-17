@@ -60,7 +60,7 @@ const seoData: Record<string, SEOData> = {
 export function getShareImage(locale: string) {
   const known = (routing.locales as readonly string[]).includes(locale)
   const language = known ? locale : routing.defaultLocale
-  return { url: `${BASE_URL}/og/og-${language}.jpg`, width: 1200, height: 630 }
+  return { url: `${BASE_URL}/og/og-${language}-v2.jpg`, width: 1200, height: 630 }
 }
 
 export function getSEOData(locale: string): SEOData {

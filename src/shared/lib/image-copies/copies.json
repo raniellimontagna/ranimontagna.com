@@ -25,6 +25,7 @@
       "height": 1125
     },
     "/redesign/products/klick-mobile.webp": { "preset": "phone", "width": 780, "height": 1688 },
-    "/images/hero-ranielli.webp": { "preset": "tall", "width": 960, "height": 1280 }
+    "/images/ranielli-sofa.webp": { "preset": "tall", "width": 960, "height": 1280 },
+    "/images/ranielli-cafe.webp": { "preset": "tall", "width": 960, "height": 1200 }
   }
 }

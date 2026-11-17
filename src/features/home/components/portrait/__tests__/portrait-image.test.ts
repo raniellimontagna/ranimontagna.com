@@ -7,7 +7,7 @@ describe('PORTRAIT_IMAGE', () => {
   it('lists pre-sized copies from phone to retina laptop, each one present in public', () => {
     const entries = PORTRAIT_IMAGE.srcSet.split(', ').map((entry) => entry.split(' '))
     expect(entries.map(([, width]) => width)).toEqual(PORTRAIT_WIDTHS.map((w) => `${w}w`))
-    expect(PORTRAIT_WIDTHS).toEqual([384, 640, 750, 828, 1080, 1440])
+    expect(PORTRAIT_WIDTHS).toEqual([384, 640, 750, 828, 1080])
     for (const [url] of entries) {
       expect(url).toMatch(/^\/redesign\/portrait\/v\d+\//)
       expect(existsSync(join(process.cwd(), 'public', url))).toBe(true)

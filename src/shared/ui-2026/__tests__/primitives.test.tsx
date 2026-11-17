@@ -124,12 +124,12 @@ describe('PhotoReveal', () => {
   it('serves a listed site image from its static copies, AVIF first', () => {
     mockMatchMedia({ [REDUCED_MOTION_QUERY]: true })
     const { container } = render(
-      <PhotoReveal master="/images/hero-ranielli.webp" alt="Ranielli" effect="mask" sizes="45vw" />,
+      <PhotoReveal master="/images/ranielli-sofa.webp" alt="Ranielli" effect="mask" sizes="45vw" />,
     )
     expect(container.querySelector('picture > source')).toHaveAttribute('type', 'image/avif')
     const img = screen.getByAltText('Ranielli')
     expect(img.getAttribute('srcset')).toContain(
-      '/redesign/copies/v1/images-hero-ranielli-960.webp 960w',
+      '/redesign/copies/v1/images-ranielli-sofa-960.webp 960w',
     )
     expect(container.innerHTML).not.toContain('/_next/image')
   })
