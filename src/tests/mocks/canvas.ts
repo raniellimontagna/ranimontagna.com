@@ -21,6 +21,7 @@ export function mockCanvas2d(size = { width: 400, height: 500 }) {
     strokeStyle: '',
     lineWidth: 1,
     createRadialGradient: vi.fn(() => ({ addColorStop: vi.fn() })),
+    createLinearGradient: vi.fn(() => ({ addColorStop: vi.fn() })),
     getImageData: vi.fn((_x: number, _y: number, w: number, h: number) => ({
       data: new Uint8ClampedArray(w * h * 4).fill(200),
     })),

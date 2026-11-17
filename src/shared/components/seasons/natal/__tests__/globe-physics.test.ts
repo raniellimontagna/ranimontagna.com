@@ -1,4 +1,4 @@
-import { shakeEnergy, stepGlobeFlakes } from '../globe-physics'
+import { shakeEnergy, stepGlobeFlakes, throwFlakes } from '../globe-physics'
 import type { Flake } from '../snowfall'
 
 const flake = (x: number, y: number): Flake => ({
@@ -40,5 +40,18 @@ describe('stepGlobeFlakes', () => {
     const flakes = [flake(0, 80)]
     stepGlobeFlakes(flakes, 1, 100, 100)
     expect(flakes[0].x).not.toBe(0)
+  })
+})
+
+describe('throwFlakes', () => {
+  it('throws settled snow up through the whole glass', () => {
+    const flakes = Array.from({ length: 40 }, () => flake(0, 95))
+    let seed = 0
+    throwFlakes(flakes, 100, () => {
+      seed = (seed * 9301 + 49297) % 233280
+      return seed / 233280
+    })
+    expect(flakes.some((f) => f.y < -40)).toBe(true)
+    for (const f of flakes) expect(Math.hypot(f.x, f.y)).toBeLessThanOrEqual(100)
   })
 })

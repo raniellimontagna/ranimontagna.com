@@ -228,8 +228,8 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: rgb(4 7 8 / 72%);
-  backdrop-filter: blur(6px);
+  /* No backdrop blur in this repo (crbug.com/414525204): a denser veil instead. */
+  background: rgb(4 7 8 / 84%);
   animation: natal-fade 0.3s ease both;
 }
 .natal-globe {
@@ -371,4 +371,9 @@
   border-radius: 9999px;
   background: #fffef8;
   pointer-events: none;
+}
+
+/* Room at the end of the page, so the hunt's corner never covers the footer */
+footer {
+  padding-bottom: calc(5.5rem + var(--safe-bottom));
 }

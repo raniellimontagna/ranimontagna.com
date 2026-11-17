@@ -34,6 +34,8 @@ export async function Closing() {
         <Reveal className="flex flex-col gap-8">
           <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
             {t('kicker')}
+            {/* Empty outside a season; Christmas hides a gift here (no extra flex gap). */}
+            <span data-season-gift="contato" className="relative block h-0" />
           </p>
           <WordReveal
             text={t('title')}

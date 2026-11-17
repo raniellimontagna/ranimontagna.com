@@ -1,5 +1,9 @@
-/** The five gifts hidden on the home page, one per section, in page order. */
-export const GIFT_IDS = ['ia', 'no-ar', 'trajetoria', 'atto', 'escrita'] as const
+/**
+ * The five gifts hidden on the home page, one per section, in page order. Only in
+ * sections that always render: the blog section steps aside when the blog is down,
+ * and a missing slot would make the hunt impossible.
+ */
+export const GIFT_IDS = ['ia', 'no-ar', 'trajetoria', 'atto', 'contato'] as const
 export type GiftId = (typeof GIFT_IDS)[number]
 
 export function giftsKey(year: number): string {

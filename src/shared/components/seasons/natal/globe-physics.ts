@@ -36,3 +36,17 @@ export function stepGlobeFlakes(
     }
   }
 }
+
+/** A hard shake: every flake is thrown somewhere inside the glass, then falls again. */
+export function throwFlakes(
+  flakes: Flake[],
+  radius: number,
+  random: () => number = Math.random,
+): void {
+  for (const f of flakes) {
+    const angle = random() * Math.PI * 2
+    const distance = Math.sqrt(random()) * (radius - f.r)
+    f.x = Math.cos(angle) * distance
+    f.y = Math.sin(angle) * distance
+  }
+}

@@ -28,11 +28,8 @@ export async function Writing({ locale }: { locale: string }) {
   return (
     <section id="escrita" className={`${SECTION_X} bg-background py-24 sm:py-32`}>
       <Reveal className="flex flex-col gap-12">
-        <div className="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading id="escrita" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
-          {/* Empty outside a season; Christmas hides a gift here. */}
-          {/* Out of flow, so the row keeps its gap and alignment. */}
-          <span data-season-gift="escrita" className="absolute top-0 right-0 h-0 w-0" />
           <ActionLink href="/blog" variant="outline" className="self-start lg:self-auto">
             {t('all')}
           </ActionLink>

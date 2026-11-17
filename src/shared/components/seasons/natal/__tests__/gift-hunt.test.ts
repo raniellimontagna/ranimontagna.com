@@ -1,8 +1,12 @@
-import { addFound, giftsKey, isComplete, loadFound, saveFound } from '../gift-hunt'
+import { addFound, GIFT_IDS, giftsKey, isComplete, loadFound, saveFound } from '../gift-hunt'
 
 afterEach(() => {
   localStorage.clear()
   vi.restoreAllMocks()
+})
+
+it('hides the gifts only in sections that always render (the blog section can step aside)', () => {
+  expect(GIFT_IDS).toEqual(['ia', 'no-ar', 'trajetoria', 'atto', 'contato'])
 })
 
 it('keeps one entry per gift, in page order', () => {
@@ -12,7 +16,7 @@ it('keeps one entry per gift, in page order', () => {
 
 it('is complete only with all five', () => {
   expect(isComplete(['ia', 'no-ar', 'trajetoria', 'atto'])).toBe(false)
-  expect(isComplete(['ia', 'no-ar', 'trajetoria', 'atto', 'escrita'])).toBe(true)
+  expect(isComplete(['ia', 'no-ar', 'trajetoria', 'atto', 'contato'])).toBe(true)
 })
 
 it('remembers the gifts found this year', () => {

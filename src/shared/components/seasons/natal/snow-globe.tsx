@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import { NATAL_PORTRAIT_IMAGE } from '@/features/home/components/portrait/portrait-image'
 import { prefersReducedMotion } from '@/shared/components/motion'
 import { makeFlakeSprite } from './flake-sprite'
-import { shakeEnergy, stepGlobeFlakes } from './globe-physics'
+import { shakeEnergy, stepGlobeFlakes, throwFlakes } from './globe-physics'
 import { getNatalCopy } from './natal-copy'
 import { createFlakes } from './snowfall'
 
@@ -113,18 +113,25 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
 
-      // Base under the glass
-      const baseTop = cy + radius * 0.78
+      // Base under the glass: a red pedestal with a gold band, shaded so it reads as solid
+      const baseTop = cy + radius * 0.84
+      const baseBottom = height - 4
       ctx.fillStyle = red
       ctx.beginPath()
-      ctx.moveTo(cx - radius * 0.78, baseTop)
-      ctx.lineTo(cx + radius * 0.78, baseTop)
-      ctx.lineTo(cx + radius * 0.92, height - 4)
-      ctx.lineTo(cx - radius * 0.92, height - 4)
+      ctx.moveTo(cx - radius * 0.72, baseTop)
+      ctx.lineTo(cx + radius * 0.72, baseTop)
+      ctx.lineTo(cx + radius * 0.9, baseBottom)
+      ctx.lineTo(cx - radius * 0.9, baseBottom)
       ctx.closePath()
       ctx.fill()
+      const shade = ctx.createLinearGradient(cx - radius, 0, cx + radius, 0)
+      shade.addColorStop(0, 'rgb(0 0 0 / 30%)')
+      shade.addColorStop(0.35, 'rgb(255 255 255 / 12%)')
+      shade.addColorStop(1, 'rgb(0 0 0 / 40%)')
+      ctx.fillStyle = shade
+      ctx.fill()
       ctx.fillStyle = gold
-      ctx.fillRect(cx - radius * 0.84, baseTop + (height - baseTop) * 0.42, radius * 1.68, 4)
+      ctx.fillRect(cx - radius * 0.81, baseTop + (baseBottom - baseTop) * 0.5, radius * 1.62, 4)
 
       // Inside the glass: the portrait and the snow
       ctx.save()
@@ -182,6 +189,8 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
         draw()
         return
       }
+      // A real shake throws the snow through the glass; a drag only stirs it.
+      if (impulse >= 0.5) throwFlakes(flakes, radius)
       energy = shakeEnergy(energy, impulse, 0)
       quietSince = performance.now()
       if (!frame) {
