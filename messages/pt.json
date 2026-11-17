@@ -558,7 +558,7 @@
     "season": {
       "natal": {
         "greeting": "Oi, eu sou a Vega. Boas festas!",
-        "suggestion": "O que o Ranielli entregou em 2026?"
+        "suggestion": "O que o Ranielli entregou em {year}?"
       }
     }
   }

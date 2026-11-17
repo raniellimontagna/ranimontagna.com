@@ -26,3 +26,26 @@ it('finds a slot that appears after mount and forgets it once removed', async ()
   })
   expect(screen.getByTestId('count')).toHaveTextContent('0')
 })
+
+function Many() {
+  useSlots('[data-a]')
+  useSlots('[data-b]')
+  useSlots('[data-c]')
+  return null
+}
+
+it('shares one page observer between every slot lookup', async () => {
+  const Observer = window.MutationObserver
+  const created = vi.fn()
+  window.MutationObserver = class extends Observer {
+    constructor(callback: MutationCallback) {
+      super(callback)
+      created()
+    }
+  }
+  const { unmount } = render(<Many />)
+  await act(async () => {})
+  expect(created).toHaveBeenCalledTimes(1)
+  unmount()
+  window.MutationObserver = Observer
+})

@@ -13,7 +13,10 @@ vi.mock('next-intl', () => ({
       key
         .split('.')
         .reduce<unknown>((node, part) => (node as Record<string, unknown>)[part], pt.vega)
-    const t = (key: string) => lookup(key) as string
+    const t = (key: string, values?: Record<string, string | number>) =>
+      (lookup(key) as string).replace(/\{(\w+)\}/g, (_, name) =>
+        String(values?.[name] ?? `{${name}}`),
+      )
     t.raw = (key: string) => lookup(key)
     return t
   },
@@ -85,6 +88,8 @@ describe('VegaScreen', () => {
   })
 
   it('greets for Christmas and suggests a question of the season', () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 11, 10, 12))
     useSeason.setState({ active: 'natal', current: 'natal' })
     render(<VegaScreen />)
     openScreen()
@@ -94,6 +99,18 @@ describe('VegaScreen', () => {
     expect(suggestions).toHaveLength(4)
     expect(suggestions[0]).toHaveTextContent('O que o Ranielli entregou em 2026?')
     useSeason.setState({ active: null, current: null })
+    vi.useRealTimers()
+  })
+
+  it('asks about the year it is, not a fixed one', () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2027, 11, 10, 12))
+    useSeason.setState({ active: 'natal', current: 'natal' })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('O que o Ranielli entregou em 2027?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null })
+    vi.useRealTimers()
   })
 
   it('keeps the usual greeting inside a retro world', () => {
