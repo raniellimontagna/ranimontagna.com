@@ -15,6 +15,11 @@ export type NatalCopy = {
   linkCopied: string
   close: string
   globeLabel: string
+  oneDay: string
+  /** `{n}` is replaced by the number of days. */
+  manyDays: string
+  christmas: string
+  after: string
 }
 
 const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
@@ -35,6 +40,10 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     linkCopied: 'Link copiado',
     close: 'Fechar',
     globeLabel: 'Globo de neve com o retrato do Ranielli de gorro de Papai Noel',
+    oneDay: 'Falta 1 dia para o Natal',
+    manyDays: 'Faltam {n} dias para o Natal',
+    christmas: 'Feliz Natal',
+    after: 'Boas festas',
   },
   en: {
     giftClosed: 'Open hidden gift',
@@ -53,6 +62,10 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     linkCopied: 'Link copied',
     close: 'Close',
     globeLabel: 'Snow globe with a portrait of Ranielli in a Santa hat',
+    oneDay: '1 day to Christmas',
+    manyDays: '{n} days to Christmas',
+    christmas: 'Merry Christmas',
+    after: 'Happy holidays',
   },
   es: {
     giftClosed: 'Abrir regalo escondido',
@@ -71,6 +84,10 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     linkCopied: 'Enlace copiado',
     close: 'Cerrar',
     globeLabel: 'Bola de nieve con un retrato de Ranielli con gorro de Papá Noel',
+    oneDay: 'Falta 1 día para Navidad',
+    manyDays: 'Faltan {n} días para Navidad',
+    christmas: 'Feliz Navidad',
+    after: 'Felices fiestas',
   },
 }
 

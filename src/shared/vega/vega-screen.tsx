@@ -9,6 +9,7 @@ import {
   stopSmoothScroll,
 } from '@/shared/components/motion'
 import { RATE_LIMIT_ERROR, useChat } from '@/shared/store/use-chat/use-chat'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import { VegaComposer } from './vega-composer'
 import { VegaMark } from './vega-mark'
 import { VegaMessage } from './vega-message'
@@ -61,8 +62,15 @@ export function VegaScreen() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
 
+  const season = useSeason((state) => state.active)
+
   const conversation = messages.length > 0
-  const suggestions = t.raw('suggestions') as string[]
+  const baseSuggestions = t.raw('suggestions') as string[]
+  // At Christmas Vega greets for the season and offers its question first, still four in all.
+  const suggestions =
+    season === 'natal'
+      ? [t('season.natal.suggestion'), ...baseSuggestions].slice(0, baseSuggestions.length)
+      : baseSuggestions
 
   const close = useCallback(() => setOpen(false), [setOpen])
 
@@ -253,7 +261,8 @@ export function VegaScreen() {
             <VegaMark size={170} thinking={thinking} className="hidden sm:block" />
           </div>
           <h2 className="text-center text-2xl font-medium tracking-tight sm:text-3xl">
-            {t('greeting')} <span className="text-muted">{t('greetingAsk')}</span>
+            {season === 'natal' ? t('season.natal.greeting') : t('greeting')}{' '}
+            <span className="text-muted">{t('greetingAsk')}</span>
           </h2>
           {thinking ? (
             <p className="flex items-center gap-1.5 font-mono text-xs text-accent">

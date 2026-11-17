@@ -13,6 +13,8 @@ export async function SiteFooter() {
       <div className="flex flex-col gap-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {year} Ranielli Montagna · {t('footer.madeWith')}
+          {/* Empty outside a season; Christmas counts down here. */}
+          <span data-season-slot="footer" />
         </p>
         <div className="flex flex-wrap items-center gap-6">
           <Link href="/blog" className="inline-flex min-h-11 items-center hover:text-foreground">

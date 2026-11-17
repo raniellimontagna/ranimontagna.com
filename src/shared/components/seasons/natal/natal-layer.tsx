@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { track } from '@/shared/lib/analytics/track'
+import { FooterCountdown } from './footer-countdown'
 import { Hunt } from './hunt'
 import { NameLights } from './name-lights'
 import { SnowCanvas } from './snow-canvas'
@@ -36,6 +37,7 @@ export function NatalLayer({ locale }: { locale: string }) {
     <>
       <SnowCanvas />
       <NameLights />
+      <FooterCountdown locale={locale} />
       <Hunt locale={locale} onComplete={complete} onReopen={reopen} />
       <SnowGlobe open={globeOpen} onClose={close} locale={locale} />
     </>
