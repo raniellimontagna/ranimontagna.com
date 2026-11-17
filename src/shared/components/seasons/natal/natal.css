@@ -90,3 +90,132 @@
     animation: none !important;
   }
 }
+
+/* Hidden gifts (one slot per home section; the slot has no height) */
+.natal-gift {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  z-index: 31;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.natal-gift:hover {
+  transform: scale(1.1);
+}
+.natal-gift:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.natal-gift-icon {
+  width: 32px;
+  height: 32px;
+  overflow: visible;
+}
+.natal-gift:not([data-opened]) .natal-gift-icon {
+  transform-origin: 50% 90%;
+  animation: natal-wiggle 5.5s ease-in-out infinite;
+}
+.natal-gift-lid {
+  transform-box: fill-box;
+  transform-origin: 15% 100%;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.natal-gift[data-opened] .natal-gift-lid {
+  transform: translate(-1px, -7px) rotate(-24deg);
+}
+.natal-gift-sparkles {
+  opacity: 0;
+  transition: opacity 0.3s ease 0.15s;
+}
+.natal-gift[data-opened] .natal-gift-sparkles {
+  opacity: 1;
+}
+
+@keyframes natal-wiggle {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0);
+  }
+  89% {
+    transform: rotate(-10deg);
+  }
+  92% {
+    transform: rotate(8deg);
+  }
+  95% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* The hunt's corner, bottom left (Vega sits bottom right) */
+.natal-hunt-bar {
+  position: fixed;
+  left: max(1.25rem, var(--safe-left));
+  bottom: max(1.25rem, var(--safe-bottom));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font: 600 13px / 1 var(--font-mono);
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 45%);
+}
+.natal-hunt-count {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-right: 0.25rem;
+}
+.natal-hunt-count svg {
+  width: 20px;
+  height: 20px;
+}
+.natal-hunt-count .natal-gift-sparkles {
+  display: none;
+}
+.natal-hunt-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.natal-hunt-button:hover {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+.natal-hunt-button[aria-pressed="true"] {
+  color: var(--season-gold);
+}
+.natal-hunt-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .natal-gift,
+  .natal-gift-icon,
+  .natal-gift-lid,
+  .natal-gift-sparkles {
+    animation: none !important;
+    transition: none !important;
+  }
+}

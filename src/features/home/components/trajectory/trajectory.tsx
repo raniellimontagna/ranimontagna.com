@@ -54,6 +54,8 @@ export async function Trajectory() {
       <span id="experience" aria-hidden="true" />
       <Reveal>
         <SectionHeading id="trajetoria" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
+        {/* Empty outside a season; Christmas hides a gift here. */}
+        <span data-season-gift="trajetoria" className="relative block h-0" />
       </Reveal>
 
       <TrajectoryScroller>

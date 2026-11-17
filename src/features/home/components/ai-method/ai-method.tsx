@@ -19,6 +19,8 @@ export async function AiMethod() {
       <span id="skills" aria-hidden="true" />
       <Reveal>
         <SectionHeading id="ia" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
+        {/* Empty outside a season; Christmas hides a gift here. */}
+        <span data-season-gift="ia" className="relative block h-0" />
       </Reveal>
 
       <div className="mt-16 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-12">

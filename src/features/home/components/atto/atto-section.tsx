@@ -16,6 +16,8 @@ export async function AttoSection() {
           <AttoLogo className="h-10 w-auto self-start text-foreground sm:h-14" />
           <p data-reveal className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
             {t('kicker')}
+            {/* Empty outside a season; Christmas hides a gift here (no extra flex gap). */}
+            <span data-season-gift="atto" className="relative block h-0" />
           </p>
           <WordReveal
             text={t('title')}
