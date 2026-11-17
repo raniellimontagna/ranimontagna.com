@@ -3,7 +3,7 @@
  * in the locale <head> embeds this same data, so the page paints in season.
  */
 export const SEASONS = [
-  { id: 'natal', from: { month: 12, day: 1 }, to: { month: 12, day: 26 } },
+  { id: 'natal', from: { month: 11, day: 25 }, to: { month: 12, day: 26 } },
 ] as const
 
 export type SeasonId = (typeof SEASONS)[number]['id']

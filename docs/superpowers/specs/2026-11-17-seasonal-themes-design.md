@@ -17,13 +17,13 @@ numa rodada própria.
 
 ## Metas
 
-- Quem visita de 1º a 26/12 (data local do navegador) vê o site de Natal sem
+- Quem visita de 25/11 a 26/12 (data local do navegador) vê o site de Natal sem
   clicar em nada, em todas as páginas e nos 3 idiomas.
 - Conteúdo, links, navegação e leitura iguais ao site normal.
 - Interação: neve que reage ao ponteiro, caça aos presentes com surpresa no
   fim, contagem regressiva, retrato de Natal, nome com pisca-pisca e Vega no
   clima.
-- Prévia em produção antes de 1º/12 por link (`?epoca=natal`), para o dono
+- Prévia em produção antes de 25/11 por link (`?epoca=natal`), para o dono
   conferir e mostrar.
 - Visitante desliga o Natal quando quiser.
 
@@ -99,7 +99,7 @@ numa rodada própria.
 
 ### Calendário e controle
 
-- Natal vai de 1º/12 00:00 a 26/12 23:59, pela data local do visitante.
+- Natal vai de 25/11 00:00 a 26/12 23:59, pela data local do visitante.
 - Um arquivo só de calendário (id, início e fim por mês e dia), usado pelo
   script inicial e pelo código, como `RETRO_MODES` já é hoje.
 - Prévia: `?epoca=natal` liga para a sessão da aba; `?epoca=off` desliga.
@@ -163,7 +163,11 @@ seguem caça, globo, contagem, Vega e som.
 
 ## Prazo
 
-Prévia por link antes de 30/11/2026. Natal no ar em 1º/12 sem nenhuma ação
+Em 17/11/2026 o dono pediu para ligar uns dias antes: o Natal começa em 25/11,
+um mês antes do dia 25/12.
+
+
+Prévia por link antes de 25/11/2026. Natal no ar em 25/11 sem nenhuma ação
 manual.
 
 ## Fica para quem construir

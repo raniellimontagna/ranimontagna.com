@@ -5,8 +5,9 @@ const at = (month: number, day: number, hour = 12, minute = 0) =>
 
 describe('seasonOn', () => {
   it.each([
-    [at(11, 30, 23, 59), null],
-    [at(12, 1, 0, 0), 'natal'],
+    [at(11, 24, 23, 59), null],
+    [at(11, 25, 0, 0), 'natal'],
+    [at(11, 30, 23, 59), 'natal'],
     [at(12, 26, 23, 59), 'natal'],
     [at(12, 27, 0, 0), null],
     [at(7, 15), null],

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** de 1º a 26/12 o ranimontagna.com vira a versão de Natal sozinho, com neve interativa, retrato com gorro, nome com pisca-pisca, caça aos presentes que termina num globo de neve, contagem regressiva e Vega no clima.
+**Goal:** de 25/11 a 26/12 o ranimontagna.com vira a versão de Natal sozinho, com neve interativa, retrato com gorro, nome com pisca-pisca, caça aos presentes que termina num globo de neve, contagem regressiva e Vega no clima.
 
 **Architecture:** o script inicial (`theme-init-script.ts`) decide a época pela data local e grava `data-season` no `<html>` antes da pintura. O CSS global ganha só os tokens da paleta e as regras de mostrar e esconder. Todo o resto mora em `src/shared/components/seasons/natal/`, num pacote carregado sob demanda pelo `SeasonLayer`, como os mundos retrô. As partes da página recebem o Natal por pontos de encaixe vazios (`data-season-slot`, `data-season-gift`), onde a camada desenha por portal.
 
@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Natal vai de 1º/12 00:00 a 26/12 23:59, pela data local do visitante.
+- Natal vai de 25/11 00:00 a 26/12 23:59, pela data local do visitante.
 - Prévia: `?epoca=natal` liga para a sessão da aba e `?epoca=off` desliga (sessionStorage `season-preview`).
 - Desligar pelo menu grava `season-off:natal-<ano>` = `'1'` no localStorage, então em 2027 volta a ligar.
 - Cor de destaque: o Natal só troca o destaque quando o visitante está na cor padrão (sem `data-color-theme`). A decoração usa sempre `--season-red`, `--season-green` e `--season-gold`.
@@ -46,7 +46,7 @@
 
 **Interfaces:**
 - Produces:
-  - `SEASONS = [{ id: 'natal', from: { month: 12, day: 1 }, to: { month: 12, day: 26 } }] as const`
+  - `SEASONS = [{ id: 'natal', from: { month: 11, day: 25 }, to: { month: 12, day: 26 } }] as const`
   - `type SeasonId = (typeof SEASONS)[number]['id']`
   - `SEASON_PARAM = 'epoca'` e `SEASON_PREVIEW_KEY = 'season-preview'`
   - `seasonOn(date: Date): SeasonId | null`
@@ -56,7 +56,7 @@
   - o atributo `data-season="<id>"` no `<html>`
 
 - [ ] **Step 1: Testes do calendário** em `seasons.test.ts`
-  - `seasonOn`, com `new Date(ano, mês, dia, hora)` local: 30/11 23:59 → `null`; 01/12 00:00 → `'natal'`; 26/12 23:59 → `'natal'`; 27/12 00:00 → `null`; 15/07 → `null`.
+  - `seasonOn`, com `new Date(ano, mês, dia, hora)` local: 24/11 23:59 → `null`; 25/11 00:00 → `'natal'`; 30/11 23:59 → `'natal'`; 26/12 23:59 → `'natal'`; 27/12 00:00 → `null`; 15/07 → `null`.
   - `parseSeason('natal')` → `'natal'`; `parseSeason('off')` → `null`; `parseSeason(null)` → `null`.
   - `seasonOffKey('natal', 2026)` → `'season-off:natal-2026'`.
 - [ ] **Step 2: Rodar e ver falhar.** `pnpm vitest run src/shared/lib/seasons` dá FAIL (módulo não existe).
@@ -437,7 +437,7 @@
 **Interfaces:**
 - Produces:
   - `christmasCountdown(date: Date): { kind: 'days'; days: number } | { kind: 'christmas' } | { kind: 'after' }`
-    - de 1º a 24/12 conta os dias até 25, pelo calendário;
+    - do início da época (25/11) a 24/12 conta os dias até 25, pelo calendário;
     - no dia 25 devolve `christmas`;
     - no dia 26 devolve `after`.
   - Textos em `natal-copy.ts`, para pt, en e es:
