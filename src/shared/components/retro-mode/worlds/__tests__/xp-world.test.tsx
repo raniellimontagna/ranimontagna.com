@@ -1,7 +1,13 @@
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { XpWorld } from '../xp-world'
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  sessionStorage.clear()
+  document.documentElement.removeAttribute('data-retro-mode')
+  document.documentElement.removeAttribute('data-retro')
+})
 
 it('opens Start with accessible navigation and closes on Escape, restoring focus', () => {
   render(<XpWorld locale="pt" onExit={vi.fn()} />)
@@ -68,24 +74,94 @@ it('does not steal focus when Escape is pressed in an external text field', () =
   expect(screen.queryByRole('navigation', { name: 'Menu Iniciar' })).not.toBeInTheDocument()
 })
 
-it('keeps desktop destinations as real links and provides an exit from the window', () => {
-  const onExit = vi.fn()
-  render(<XpWorld locale="pt" onExit={onExit} />)
+it('opens desktop programs as windows: keyboard opens at once, a mouse click only selects', () => {
+  // A fine pointer: the global mock answers true to every query, coarse included.
+  mockMatchMedia({})
+  render(<XpWorld locale="pt" onExit={vi.fn()} />)
   const desktop = screen.getByRole('navigation', { name: 'Área de trabalho' })
-  expect(within(desktop).getByRole('link', { name: 'Sobre mim' })).toHaveAttribute(
+  const about = within(desktop).getByRole('button', { name: 'Sobre mim' })
+
+  fireEvent.click(about, { detail: 1 })
+  expect(about).toHaveAttribute('aria-pressed', 'true')
+  expect(screen.queryByRole('dialog', { name: 'sobre.txt — Bloco de notas' })).toBeNull()
+
+  fireEvent.doubleClick(about)
+  const notepad = screen.getByRole('dialog', { name: 'sobre.txt — Bloco de notas' })
+  expect(within(notepad).getByRole('link', { name: /Ver a trajetória completa/ })).toHaveAttribute(
     'href',
     '/#about',
   )
-  expect(within(desktop).getByRole('link', { name: 'Projetos' })).toHaveAttribute(
+
+  fireEvent.click(within(desktop).getByRole('button', { name: 'Projetos' }), { detail: 0 })
+  const projects = screen.getByRole('dialog', { name: 'Projetos' })
+  expect(within(projects).getByRole('link', { name: /Grimory/ })).toHaveAttribute(
     'href',
-    '/projects',
-  )
-  expect(within(desktop).getByRole('link', { name: 'Blog' })).toHaveAttribute('href', '/blog')
-  expect(within(desktop).getByRole('link', { name: 'Contato' })).toHaveAttribute(
-    'href',
-    '/#contact',
+    '/projects/grimory',
   )
 
+  fireEvent.keyDown(projects, { key: 'Escape' })
+  expect(screen.queryByRole('dialog', { name: 'Projetos' })).toBeNull()
+  fireEvent.click(within(notepad).getByRole('button', { name: 'Fechar' }))
+  expect(screen.queryByRole('dialog', { name: 'sobre.txt — Bloco de notas' })).toBeNull()
+})
+
+it('minimizes a window to the taskbar and brings it back', () => {
+  render(<XpWorld locale="pt" onExit={vi.fn()} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Lixeira' }), { detail: 0 })
+  const bin = screen.getByRole('dialog', { name: 'Lixeira' })
+  fireEvent.click(within(bin).getByRole('button', { name: 'Minimizar' }))
+  expect(bin).not.toBeVisible()
+  const task = screen
+    .getAllByRole('button', { name: 'Lixeira' })
+    .find((button) => button.classList.contains('xp-task')) as HTMLElement
+  fireEvent.click(task)
+  expect(screen.getByRole('dialog', { name: 'Lixeira' })).toBeVisible()
+})
+
+it('minimizes and maximizes the Explorer that frames the real site', () => {
+  render(<XpWorld locale="pt" onExit={vi.fn()} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Maximizar — Explorer' }))
+  expect(document.documentElement).toHaveAttribute('data-xp-explorer', 'max')
+  fireEvent.click(screen.getByRole('button', { name: 'Minimizar — Explorer' }))
+  expect(document.documentElement).toHaveAttribute('data-xp-explorer', 'min')
+  fireEvent.click(screen.getByRole('button', { name: 'Portfólio — Explorer' }))
+  expect(document.documentElement).not.toHaveAttribute('data-xp-explorer')
+})
+
+it('runs commands from Start, explains unknown ones and can jump to another universe', () => {
+  render(<XpWorld locale="pt" onExit={vi.fn()} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Iniciar' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Executar...' }))
+  const dialog = screen.getByRole('dialog', { name: 'Executar' })
+  const field = within(dialog).getByRole('textbox', { name: 'Abrir:' })
+
+  fireEvent.change(field, { target: { value: 'paciência' } })
+  fireEvent.click(within(dialog).getByRole('button', { name: 'OK' }))
+  expect(within(dialog).getByRole('alert')).toHaveTextContent('Não foi possível encontrar')
+
+  fireEvent.change(field, { target: { value: 'CMD' } })
+  fireEvent.click(within(dialog).getByRole('button', { name: 'OK' }))
+  expect(document.documentElement).toHaveAttribute('data-retro-mode', 'dos')
+})
+
+it('turns off through the shutdown dialog and leaves the universe', () => {
+  vi.useFakeTimers()
+  const onExit = vi.fn()
+  render(<XpWorld locale="pt" onExit={onExit} />)
+  fireEvent.click(screen.getByRole('button', { name: 'Iniciar' }))
+  fireEvent.click(screen.getByRole('button', { name: /Desligar o computador/ }))
+  const dialog = screen.getByRole('alertdialog', { name: 'Desligar o computador' })
+  expect(document.documentElement).toHaveAttribute('data-xp-dim', 'true')
+  fireEvent.click(within(dialog).getByRole('button', { name: 'Desativar' }))
+  expect(screen.getByRole('status')).toHaveTextContent('Salvando suas configurações')
+  act(() => vi.advanceTimersByTime(2000))
+  expect(onExit).toHaveBeenCalledOnce()
+  vi.useRealTimers()
+})
+
+it('keeps a real exit on the Explorer window', () => {
+  const onExit = vi.fn()
+  render(<XpWorld locale="pt" onExit={onExit} />)
   fireEvent.click(screen.getByRole('button', { name: 'Voltar ao futuro — Explorer' }))
   expect(onExit).toHaveBeenCalledOnce()
 })

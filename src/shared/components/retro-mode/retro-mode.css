@@ -200,7 +200,9 @@ html[data-retro="true"] [data-orbit-counter-rotation] > div > span {
   font: bold 12px/1.4 Arial, sans-serif;
   letter-spacing: normal;
 }
-html[data-retro="true"] :where(*) { animation: none !important; transition: none !important; }
+/* Freeze the modern site's own motion, but not the worlds' chrome (boot screens, windows, loaders). */
+html[data-retro="true"] :is(body > header, main, body > footer) :where(*) { animation: none !important; transition: none !important; }
+html[data-retro="true"] :is(body > header, main, body > footer) { animation: none !important; }
 
 html[data-retro="true"] .retro-chrome { display: block; }
 .retro-welcome { border: 2px outset #e5e5e5; background: #c0c0c0; }
