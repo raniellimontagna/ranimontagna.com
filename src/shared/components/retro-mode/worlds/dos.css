@@ -48,7 +48,7 @@ html[data-retro="true"][data-retro-mode="dos"] :where(button, a, input, textarea
   outline: 2px solid #dcf2ce !important;
   outline-offset: 3px;
 }
-html[data-retro="true"][data-retro-mode="dos"] :where(button, a[class*="rounded"]):not(.retro-trigger),
+html[data-retro="true"][data-retro-mode="dos"] :where(button, a[class*="rounded"]),
 html[data-retro="true"][data-retro-mode="dos"] :where(input, textarea, select) {
   min-height: 44px;
   border: 1px solid #5f8054;
@@ -94,14 +94,10 @@ html[data-retro="true"][data-retro-mode="dos"] [data-footer-logo] {
 }
 html[data-retro="true"][data-retro-mode="dos"] :where(body > header, [data-footer-logo]) img[src$="logo/white.svg"] { display: block; }
 html[data-retro="true"][data-retro-mode="dos"] :where(body > header, [data-footer-logo]) img[src$="logo/black.svg"] { display: none; }
-html[data-retro="true"][data-retro-mode="dos"] :where(.retro-trigger, .retro-secret) { color: #b7dca1; }
-html[data-retro="true"][data-retro-mode="dos"] .retro-trigger-tooltip {
-  border-color: #5f8054;
-  background: #172019;
-  color: #c7e5b4;
-}
+html[data-retro="true"][data-retro-mode="dos"] .retro-secret { color: #b7dca1; }
 
 html[data-retro="true"][data-retro-mode="dos"] .dos-terminal {
+  position: relative;
   width: 100%;
   margin-inline: auto;
   border: 1px solid #8baf75;
@@ -166,10 +162,73 @@ html[data-retro="true"][data-retro-mode="dos"] .dos-statusbar {
 
 @media (max-width: 640px) {
   .dos-screen { padding: 16px 12px; }
+  .dos-output { font-size: 14px; }
   .dos-command-row { flex-wrap: wrap; gap: 8px; }
   html[data-retro="true"][data-retro-mode="dos"] .dos-command-row input { flex-basis: calc(100% - 90px); }
+  .dos-sound { padding-inline: 8px; font-size: 11px; }
   .dos-run { margin-left: auto; }
   .dos-titlebar-memory { display: none; }
   .dos-ready { font-size: 10px; }
   .dos-statusbar .world-exit { max-width: 70%; }
+}
+
+/* CRT: scanlines over the whole screen, a glow on the text, a vignette on the terminal. */
+html[data-retro="true"][data-retro-mode="dos"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.14) 2px 3px);
+}
+html[data-retro="true"][data-retro-mode="dos"] .dos-terminal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%);
+}
+.dos-screen { text-shadow: 0 0 5px rgb(183 220 161 / 0.45); }
+html[data-retro="true"][data-retro-mode="dos"] .dos-command-row input { caret-shape: block; }
+.dos-type-cursor { animation: dos-blink 0.8s steps(1) infinite; }
+@keyframes dos-blink { 50% { opacity: 0; } }
+.dos-sound { padding: 8px 12px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+
+/* color 0e / 07 / 1f: the same green screen, retinted. Fixed bars carry their own filter. */
+html[data-retro-mode="dos"][data-dos-color="amber"] :is(body > header, main, body > footer, .dos-terminal, .dos-statusbar) {
+  filter: hue-rotate(-62deg) saturate(1.7);
+}
+html[data-retro-mode="dos"][data-dos-color="white"] :is(body > header, main, body > footer, .dos-terminal, .dos-statusbar) {
+  filter: grayscale(1) brightness(1.25);
+}
+html[data-retro-mode="dos"][data-dos-color="blue"] :is(body > header, main, body > footer, .dos-terminal, .dos-statusbar) {
+  filter: hue-rotate(115deg) saturate(1.4);
+}
+
+/* BIOS power-on screen. */
+.dos-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  padding: max(28px, var(--safe-top)) 28px 28px;
+  background: #000;
+  color: #c0c0c0;
+  font: 16px/1.5 "Courier New", Courier, monospace;
+  white-space: pre-wrap;
+  cursor: progress;
+}
+.dos-boot p { margin: 0; }
+.dos-boot-logo { position: absolute; top: 24px; right: 28px; margin: 0; color: #5f8054; font: bold 14px/1.1 "Courier New", monospace; }
+.dos-boot-cursor { animation: dos-blink 0.6s steps(1) infinite; }
+.dos-boot-skip { position: absolute; left: 28px; bottom: calc(24px + var(--safe-bottom)); color: #777; font-size: 12px; }
+
+.dos-matrix { position: fixed; inset: 0; z-index: 200; background: #000; cursor: pointer; }
+.dos-matrix canvas { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 640px) {
+  .dos-boot { padding: 20px 14px; font-size: 13px; }
+  .dos-boot-logo { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dos-type-cursor, .dos-boot-cursor { animation: none; }
 }

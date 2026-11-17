@@ -1,3 +1,5 @@
+import { getWorldBio } from '../world-bio'
+
 const copy = {
   pt: {
     start: 'Iniciar',
@@ -18,10 +20,8 @@ const copy = {
     turnOff: 'Desligar o computador',
     aboutTitle: 'sobre.txt — Bloco de notas',
     aboutMenu: ['Arquivo', 'Editar', 'Formatar', 'Exibir', 'Ajuda'],
-    aboutLead:
-      'Engenheiro de produto. Pego a dor de alguém e entrego o produto no ar, com IA escrevendo o código e eu decidindo o que importa.',
-    aboutDetail:
-      'Mais de 5 anos construindo produtos web e mobile que precisam escalar, de apps para mais de mil lojas do Magalu a produtos próprios no ar.',
+    aboutLead: getWorldBio('pt').lead,
+    aboutDetail: getWorldBio('pt').detail,
     aboutMore: 'Ver a trajetória completa',
     projectsTitle: 'Projetos',
     address: 'Endereço',
@@ -90,10 +90,8 @@ const copy = {
     turnOff: 'Turn Off Computer',
     aboutTitle: 'about.txt — Notepad',
     aboutMenu: ['File', 'Edit', 'Format', 'View', 'Help'],
-    aboutLead:
-      "Product engineer. I take someone's pain point and ship the product, with AI writing the code and me deciding what matters.",
-    aboutDetail:
-      'Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to my own live products.',
+    aboutLead: getWorldBio('en').lead,
+    aboutDetail: getWorldBio('en').detail,
     aboutMore: 'See the full career',
     projectsTitle: 'Projects',
     address: 'Address',
@@ -161,10 +159,8 @@ const copy = {
     turnOff: 'Apagar equipo',
     aboutTitle: 'sobre.txt — Bloc de notas',
     aboutMenu: ['Archivo', 'Edición', 'Formato', 'Ver', 'Ayuda'],
-    aboutLead:
-      'Ingeniero de producto. Parto del dolor de alguien y entrego el producto ya en línea, con la IA escribiendo el código y yo decidiendo lo que importa.',
-    aboutDetail:
-      'Más de 5 años construyendo productos web y móviles que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.',
+    aboutLead: getWorldBio('es').lead,
+    aboutDetail: getWorldBio('es').detail,
     aboutMore: 'Ver la trayectoria completa',
     projectsTitle: 'Proyectos',
     address: 'Dirección',

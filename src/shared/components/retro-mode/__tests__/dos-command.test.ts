@@ -43,4 +43,49 @@ describe('parseDosCommand', () => {
       expect(parseDosCommand(command)).toEqual({ type: 'unknown', command })
     },
   )
+
+  it.each([
+    ['ver', 'version'],
+    ['DATE', 'date'],
+    ['time', 'time'],
+    ['tree', 'tree'],
+    ['whoami', 'whoami'],
+    ['mem', 'memory'],
+    ['cv', 'resume'],
+    ['matrix', 'matrix'],
+    ['cd ..', 'up'],
+  ])('knows the classic %s', (command, type) => {
+    expect(parseDosCommand(command)).toEqual({ type })
+  })
+
+  it('reads only the files that exist', () => {
+    expect(parseDosCommand('type LEIAME.TXT')).toEqual({ type: 'type', file: 'readme' })
+    expect(parseDosCommand('type ../../etc/passwd')).toEqual({
+      type: 'missing',
+      file: '../../etc/passwd',
+    })
+  })
+
+  it('enters folders and other worlds from fixed tables', () => {
+    expect(parseDosCommand('cd projetos')).toEqual({
+      type: 'navigate',
+      href: '/projects',
+      label: 'projects',
+    })
+    expect(parseDosCommand('win')).toEqual({ type: 'world', mode: '1998' })
+    expect(parseDosCommand('cd constructor')).toEqual({
+      type: 'unknown',
+      command: 'cd constructor',
+    })
+  })
+
+  it('accepts the four colors and nothing else', () => {
+    expect(parseDosCommand('color 0e')).toEqual({ type: 'color', color: 'amber' })
+    expect(parseDosCommand('color')).toEqual({ type: 'color', color: null })
+    expect(parseDosCommand('color zz')).toEqual({ type: 'unknown', command: 'color zz' })
+  })
+
+  it('echoes text back as text', () => {
+    expect(parseDosCommand('echo <b>oi</b>')).toEqual({ type: 'echo', text: '<b>oi</b>' })
+  })
 })
