@@ -3,8 +3,7 @@ export type NatalCopy = {
   giftClosed: string
   giftOpened: string
   found: string
-  soundOn: string
-  soundOff: string
+  sound: string
   openGlobe: string
   cardTitle: string
   cardBody: string
@@ -27,8 +26,7 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     giftClosed: 'Abrir presente escondido',
     giftOpened: 'Presente aberto',
     found: 'presentes encontrados',
-    soundOn: 'Desligar o som de Natal',
-    soundOff: 'Ligar o som de Natal',
+    sound: 'Som de Natal',
     openGlobe: 'Abrir o globo de neve',
     cardTitle: 'Boas festas!',
     cardBody:
@@ -49,8 +47,7 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     giftClosed: 'Open hidden gift',
     giftOpened: 'Gift opened',
     found: 'gifts found',
-    soundOn: 'Turn the Christmas sound off',
-    soundOff: 'Turn the Christmas sound on',
+    sound: 'Christmas sound',
     openGlobe: 'Open the snow globe',
     cardTitle: 'Happy holidays!',
     cardBody:
@@ -71,8 +68,7 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
     giftClosed: 'Abrir regalo escondido',
     giftOpened: 'Regalo abierto',
     found: 'regalos encontrados',
-    soundOn: 'Apagar el sonido de Navidad',
-    soundOff: 'Encender el sonido de Navidad',
+    sound: 'Sonido de Navidad',
     openGlobe: 'Abrir la bola de nieve',
     cardTitle: '¡Felices fiestas!',
     cardBody:

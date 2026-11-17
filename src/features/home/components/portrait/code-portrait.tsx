@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { preload } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
 import { parseSeason, type SeasonId } from '@/shared/lib/seasons/seasons'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { useSeason } from '@/shared/store/use-season/use-season'
 import {
   buildGlyphGrid,
@@ -55,16 +56,19 @@ export function CodePortrait({ image, seasonImages, alt, getReveal }: CodePortra
   const getRevealRef = useRef(getReveal)
   // Re-runs the effect when the visitor turns a season on or off.
   const season = useSeason((state) => state.active)
+  const retro = useRetroMode((state) => state.active)
   const seasons = Object.entries(seasonImages ?? {}) as [SeasonId, PortraitImage][]
 
   useEffect(() => {
     getRevealRef.current = getReveal
   }, [getReveal])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: season re-runs the effect, which reads the live attribute.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: season and retro re-run the effect, which reads the live attributes.
   useEffect(() => {
-    // The attribute, set before paint, is the truth: the store catches up after hydration.
-    const active = parseSeason(document.documentElement.dataset.season ?? null)
+    // The attributes, set before paint, are the truth: the stores catch up after hydration.
+    // A retro world hides the seasonal photo (CSS), so the plain one is sampled then.
+    const html = document.documentElement
+    const active = html.dataset.retro ? null : parseSeason(html.dataset.season ?? null)
     const root = rootRef.current
     const canvas = canvasRef.current
     const img = (active && seasonRefs.current[active]) || imgRef.current
@@ -239,7 +243,7 @@ export function CodePortrait({ image, seasonImages, alt, getReveal }: CodePortra
       root.removeEventListener('touchmove', onTouchMove)
       img.style.opacity = ''
     }
-  }, [season])
+  }, [season, retro])
 
   preload(image.src, {
     as: 'image',

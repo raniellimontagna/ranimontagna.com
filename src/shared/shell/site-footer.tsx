@@ -9,7 +9,7 @@ export async function SiteFooter() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-line px-4 py-8 sm:px-8 lg:px-12">
+    <footer data-site-footer className="border-t border-line px-4 py-8 sm:px-8 lg:px-12">
       <div className="flex flex-col gap-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {year} Ranielli Montagna · {t('footer.madeWith')}

@@ -7,7 +7,9 @@ import { prefersReducedMotion } from '@/shared/components/motion'
 import { makeFlakeSprite } from './flake-sprite'
 import { shakeEnergy, stepGlobeFlakes, throwFlakes } from './globe-physics'
 import { getNatalCopy } from './natal-copy'
+import { isSeasonSoundOn, playJingle } from './season-sound'
 import { createFlakes } from './snowfall'
+import { SoundToggle } from './sound-toggle'
 
 const GLOBE_FLAKES = 70
 const SETTLE_STEPS = 400
@@ -40,9 +42,14 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const shakeRef = useRef<(impulse: number) => void>(() => {})
   const motionRef = useRef<((event: DeviceMotionEvent) => void) | null>(null)
+  const stopJingleRef = useRef<() => void>(() => {})
   const [copied, setCopied] = useState(false)
+  // Desktop browsers expose DeviceMotionEvent too, but only a phone can be shaken.
   const [canShakePhone] = useState(
-    () => typeof window !== 'undefined' && 'DeviceMotionEvent' in window,
+    () =>
+      typeof window !== 'undefined' &&
+      'DeviceMotionEvent' in window &&
+      window.matchMedia('(pointer: coarse)').matches,
   )
 
   // Focus moves in, Tab stays in, Escape closes, focus goes back where it was.
@@ -230,9 +237,23 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
       window.removeEventListener('pointerup', onPointerUp)
       if (motionRef.current) window.removeEventListener('devicemotion', motionRef.current)
       motionRef.current = null
+      stopJingleRef.current()
+      stopJingleRef.current = () => {}
       shakeRef.current = () => {}
     }
   }, [open])
+
+  /** A hard shake rings the jingle, when the Christmas sound is on. */
+  const ring = () => {
+    if (!isSeasonSoundOn()) return
+    stopJingleRef.current()
+    stopJingleRef.current = playJingle()
+  }
+
+  const shakeHard = () => {
+    shakeRef.current(1)
+    ring()
+  }
 
   const shakePhone = async () => {
     const Motion = window.DeviceMotionEvent as DeviceMotionWithPermission
@@ -252,6 +273,7 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     motionRef.current = onMotion
     window.addEventListener('devicemotion', onMotion)
     shakeRef.current(0.6)
+    ring()
   }
 
   const share = async () => {
@@ -294,7 +316,7 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
         </h2>
         <p className="natal-globe-body">{copy.cardBody}</p>
         <div className="natal-globe-actions">
-          <button type="button" onClick={() => shakeRef.current(1)} className="natal-globe-primary">
+          <button type="button" onClick={shakeHard} className="natal-globe-primary">
             {copy.shake}
           </button>
           {canShakePhone ? (
@@ -305,6 +327,7 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
           <button type="button" onClick={share} className="natal-globe-button">
             {copy.share}
           </button>
+          <SoundToggle label={copy.sound} className="natal-globe-button natal-globe-sound" />
           <button type="button" onClick={onClose} className="natal-globe-button">
             {copy.close}
           </button>

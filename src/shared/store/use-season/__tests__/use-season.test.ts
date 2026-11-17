@@ -61,6 +61,8 @@ it('ends a preview for the tab when the visitor turns it off', () => {
   useSeason.getState().setEnabled(false)
   expect(sessionStorage.getItem('season-preview')).toBe('off')
   expect(root).not.toHaveAttribute('data-season')
+  // A preview never leaves a lasting turn-off behind for the real season.
+  expect(localStorage.getItem('season-off:natal-2026')).toBeNull()
 
   useSeason.getState().setEnabled(true)
   expect(sessionStorage.getItem('season-preview')).toBe('natal')

@@ -1,7 +1,14 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
+import { playJingle, setSeasonSound } from '../season-sound'
 import { SnowGlobe } from '../snow-globe'
+
+const stopJingle = vi.fn()
+vi.mock('../season-sound', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../season-sound')>()),
+  playJingle: vi.fn(() => stopJingle),
+}))
 
 const originalMatchMedia = window.matchMedia
 
@@ -19,6 +26,9 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  setSeasonSound(false)
+  vi.mocked(playJingle).mockClear()
+  stopJingle.mockClear()
   window.matchMedia = originalMatchMedia
   vi.restoreAllMocks()
   Reflect.deleteProperty(navigator, 'share')
@@ -95,4 +105,34 @@ it('uses the share sheet when there is one', async () => {
     fireEvent.click(screen.getByRole('button', { name: /compartilhar/i }))
   })
   expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: expect.any(String) }))
+})
+
+it('has its own Christmas sound switch and jingles when shaken with sound on', () => {
+  installFrameStub()
+  const { unmount } = render(<Harness />)
+  const sound = screen.getByRole('button', { name: /som de natal/i })
+  expect(sound).toHaveAttribute('aria-pressed', 'false')
+  fireEvent.click(screen.getByRole('button', { name: /^sacudir$/i }))
+  expect(playJingle).not.toHaveBeenCalled()
+
+  fireEvent.click(sound)
+  expect(sound).toHaveAttribute('aria-pressed', 'true')
+  fireEvent.click(screen.getByRole('button', { name: /^sacudir$/i }))
+  expect(playJingle).toHaveBeenCalled()
+  unmount()
+  expect(stopJingle).toHaveBeenCalled()
+})
+
+it('offers to shake the phone only on touch screens', () => {
+  installFrameStub()
+  Object.defineProperty(window, 'DeviceMotionEvent', { configurable: true, value: class {} })
+  mockMatchMedia({ '(pointer: coarse)': false })
+  const { unmount } = render(<Harness />)
+  expect(screen.queryByRole('button', { name: /sacudir o celular/i })).toBeNull()
+  unmount()
+
+  mockMatchMedia({ '(pointer: coarse)': true })
+  render(<Harness />)
+  expect(screen.getByRole('button', { name: /sacudir o celular/i })).toBeInTheDocument()
+  Reflect.deleteProperty(window, 'DeviceMotionEvent')
 })

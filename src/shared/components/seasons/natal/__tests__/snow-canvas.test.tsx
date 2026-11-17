@@ -80,3 +80,37 @@ it('stops and cleans up when removed', () => {
   expect(window.cancelAnimationFrame).toHaveBeenCalled()
   expect(removeListener).toHaveBeenCalledWith('pointermove', expect.any(Function))
 })
+
+it('keeps its flakes when a phone URL bar only changes the height', async () => {
+  mockMatchMedia({})
+  const { setSize } = setup()
+  const snowfall = await import('../snowfall')
+  const create = vi.spyOn(snowfall, 'createFlakes')
+  render(<SnowCanvas />)
+  const calls = create.mock.calls.length
+  setSize(1280, 700)
+  act(() => window.dispatchEvent(new Event('resize')))
+  expect(create.mock.calls.length).toBe(calls)
+})
+
+it('ignores class changes that are not a theme change (smooth scroll toggles classes)', async () => {
+  mockMatchMedia({})
+  const { frames } = setup()
+  render(<SnowCanvas />)
+  frames.flush()
+  const styles = vi.spyOn(window, 'getComputedStyle')
+  await act(async () => {
+    document.documentElement.classList.add('lenis-scrolling')
+  })
+  frames.flush()
+  expect(styles).not.toHaveBeenCalledWith(document.documentElement)
+  document.documentElement.classList.remove('lenis-scrolling')
+})
+
+it('moves the snow away from a finger too', () => {
+  mockMatchMedia({})
+  setup()
+  const add = vi.spyOn(window, 'addEventListener')
+  render(<SnowCanvas />)
+  expect(add).toHaveBeenCalledWith('touchmove', expect.any(Function), { passive: true })
+})

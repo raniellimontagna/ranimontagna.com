@@ -347,8 +347,12 @@
   white-space: nowrap;
 }
 
-/* A Santa hat on Vega's launcher (the launcher is fixed, so it anchors these) */
-[data-chat-launcher]::before {
+/*
+ * A Santa hat on Vega's launcher (the launcher is fixed, so it anchors these).
+ * This stylesheet stays loaded after Christmas is turned off or a retro world
+ * opens, so rules on elements outside the layer are gated by the season.
+ */
+:root[data-season="natal"]:not([data-retro]) [data-chat-launcher]::before {
   content: "";
   position: absolute;
   top: -9px;
@@ -361,7 +365,7 @@
   transform: rotate(20deg);
   pointer-events: none;
 }
-[data-chat-launcher]::after {
+:root[data-season="natal"]:not([data-retro]) [data-chat-launcher]::after {
   content: "";
   position: absolute;
   top: -12px;
@@ -373,7 +377,17 @@
   pointer-events: none;
 }
 
-/* Room at the end of the page, so the hunt's corner never covers the footer */
-footer {
+/* Room at the end of the page while the hunt's corner is shown (home only) */
+:root[data-season="natal"]:not([data-retro]):has(.natal-hunt-bar) [data-site-footer] {
   padding-bottom: calc(5.5rem + var(--safe-bottom));
+}
+.natal-globe-sound {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  padding: 0;
+}
+.natal-globe-sound[aria-pressed="true"] {
+  color: var(--season-gold);
+  border-color: var(--season-gold);
 }

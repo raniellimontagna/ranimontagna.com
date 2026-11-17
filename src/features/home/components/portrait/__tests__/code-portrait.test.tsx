@@ -1,5 +1,6 @@
 import { preload } from 'react-dom'
 import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
 import { useSeason } from '@/shared/store/use-season/use-season'
 import { captureIntersection, installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
@@ -229,6 +230,18 @@ describe('CodePortrait', () => {
       expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
       loadPhoto(natal)
       expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+    })
+
+    it('samples the plain photo while a retro world is open, even in season', () => {
+      root.setAttribute('data-season', 'natal')
+      root.setAttribute('data-retro', 'true')
+      useSeason.setState({ active: 'natal', current: 'natal' })
+      useRetroMode.setState({ active: true, mode: 'xp' })
+      const { plain } = renderSeasonal()
+      loadPhoto(plain)
+      expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+      root.removeAttribute('data-retro')
+      useRetroMode.setState({ active: false, mode: null })
     })
 
     it('switches photos when the season is turned on after mount', () => {

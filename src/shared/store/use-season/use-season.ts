@@ -55,18 +55,23 @@ export const useSeason = create<SeasonStore>((set, get) => ({
     const { current } = get()
     if (!current) return
     const key = seasonOffKey(current, new Date().getFullYear())
+    let previewing = false
     try {
       const preview = sessionStorage.getItem(SEASON_PREVIEW_KEY)
+      previewing = preview === current || preview === 'off'
       if (!enabled && preview === current) sessionStorage.setItem(SEASON_PREVIEW_KEY, 'off')
       if (enabled && preview === 'off') sessionStorage.setItem(SEASON_PREVIEW_KEY, current)
     } catch {
       // Without storage the choice lasts until the page reloads.
     }
-    try {
-      if (enabled) localStorage.removeItem(key)
-      else localStorage.setItem(key, '1')
-    } catch {
-      // Same: the page still changes now.
+    // A preview's switch stays in the tab: it never turns the real season off for the year.
+    if (!previewing) {
+      try {
+        if (enabled) localStorage.removeItem(key)
+        else localStorage.setItem(key, '1')
+      } catch {
+        // Same: the page still changes now.
+      }
     }
     applySeason(enabled ? current : null)
     set({ active: enabled ? current : null })

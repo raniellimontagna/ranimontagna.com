@@ -47,14 +47,24 @@ export function SnowCanvas() {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
+      canvas.width = rect.width * dpr
+      canvas.height = rect.height * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      if (!flakes.length || rect.width !== width) {
+        const count = flakeCount(rect.width, rect.height, coarse)
+        flakes = createFlakes(
+          still ? Math.round(count * STILL_SHARE) : count,
+          rect.width,
+          rect.height,
+        )
+      } else if (height) {
+        // Phones resize when the URL bar slides mid-scroll: keep the snow where it is.
+        const ratio = rect.height / height
+        for (const f of flakes) f.y *= ratio
+      }
       width = rect.width
       height = rect.height
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
-      canvas.width = width * dpr
-      canvas.height = height * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      const count = flakeCount(width, height, coarse)
-      flakes = createFlakes(still ? Math.round(count * STILL_SHARE) : count, width, height)
     }
 
     const draw = () => {
@@ -99,10 +109,27 @@ export function SnowCanvas() {
     const onPointerMove = (event: PointerEvent) => {
       pointer = { x: event.clientX, y: event.clientY }
     }
+    // Touch panning cancels pointer events, so a finger is followed through touchmove.
+    const onTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (touch) pointer = { x: touch.clientX, y: touch.clientY }
+    }
+    const onTouchEnd = () => {
+      pointer = null
+    }
     const onPointerOut = (event: PointerEvent) => {
       if (!event.relatedTarget) pointer = null
     }
-    const theme = new MutationObserver(() => {
+    // Only a real theme change re-reads the color: smooth scroll toggles classes on
+    // <html> at every scroll start and stop.
+    const themeOf = (classes: string | null) => /\b(light|dark)\b/.exec(classes ?? '')?.[1]
+    const theme = new MutationObserver((records) => {
+      const changed = records.some(
+        (record) =>
+          record.attributeName !== 'class' ||
+          themeOf(record.oldValue) !== themeOf(document.documentElement.className),
+      )
+      if (!changed) return
       colorStale = true
       if (still) draw()
     })
@@ -114,10 +141,13 @@ export function SnowCanvas() {
     theme.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'data-color-theme', 'data-season'],
+      attributeOldValue: true,
     })
     window.addEventListener('resize', onResize)
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     window.addEventListener('pointerout', onPointerOut)
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    window.addEventListener('touchend', onTouchEnd)
     document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
@@ -126,6 +156,8 @@ export function SnowCanvas() {
       window.removeEventListener('resize', onResize)
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerout', onPointerOut)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
