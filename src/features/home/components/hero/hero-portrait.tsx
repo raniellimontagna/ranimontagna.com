@@ -9,14 +9,16 @@ import {
   MOBILE_QUERY,
   prefersReducedMotion,
 } from '@/shared/components/motion'
+import type { SeasonId } from '@/shared/lib/seasons/seasons'
 
 type HeroPortraitProps = {
   image: PortraitImage
+  seasonImages?: Partial<Record<SeasonId, PortraitImage>>
   alt: string
 }
 
 /** Owns the scroll-driven reveal: scrolling the hero resolves the code into the photo. */
-export function HeroPortrait({ image, alt }: HeroPortraitProps) {
+export function HeroPortrait({ image, seasonImages, alt }: HeroPortraitProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const reveal = useRef(0)
   const getReveal = useCallback(() => reveal.current, [])
@@ -66,7 +68,7 @@ export function HeroPortrait({ image, alt }: HeroPortraitProps) {
 
   return (
     <div ref={rootRef} className="h-full w-full">
-      <CodePortrait image={image} alt={alt} getReveal={getReveal} />
+      <CodePortrait image={image} seasonImages={seasonImages} alt={alt} getReveal={getReveal} />
     </div>
   )
 }

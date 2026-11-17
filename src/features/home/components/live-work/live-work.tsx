@@ -56,6 +56,8 @@ export async function LiveWork() {
       <span id="projects" aria-hidden="true" />
       <Reveal className={SECTION_X}>
         <SectionHeading id="no-ar" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
+        {/* Empty outside a season; Christmas hides a gift here. */}
+        <span data-season-gift="no-ar" className="relative block h-0" />
       </Reveal>
 
       <LiveWorkTrack total={LIVE_WORK.length}>

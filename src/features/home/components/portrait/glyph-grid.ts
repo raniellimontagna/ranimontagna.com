@@ -1,7 +1,16 @@
+import type { SeasonId } from '@/shared/lib/seasons/seasons'
+
 /** Luminance ramp, darkest to brightest. */
 const GLYPH_RAMP = ' .:-=+*#%@'
 /** Characters a cell turns into near the pointer: the photo becomes code. */
 export const CODE_GLYPHS = '{}[]()<>/=;:+*#$&|_?!'
+/** U+2745, not U+2744: the common snowflake can render as a color emoji on canvas. */
+const SEASON_GLYPHS: Record<SeasonId, string> = { natal: '*+·✦✧❅' }
+
+/** What the pointer turns cells into: code, or snow at Christmas. */
+export function glyphSetFor(season: SeasonId | null): string {
+  return season ? SEASON_GLYPHS[season] : CODE_GLYPHS
+}
 /** Monospace cells are taller than wide. */
 const CELL_ASPECT = 1.55
 

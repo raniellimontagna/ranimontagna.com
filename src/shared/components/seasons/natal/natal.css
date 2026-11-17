@@ -1,0 +1,393 @@
+/* Christmas layer styles: shipped with the lazy chunk, never out of season. */
+
+/* String lights on the hero name */
+.natal-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.natal-wire {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.natal-wire path {
+  fill: none;
+  stroke: color-mix(in oklab, var(--foreground) 45%, transparent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.natal-bulb {
+  --bulb: var(--season-red);
+  --size: clamp(7px, 0.085em, 13px);
+  position: absolute;
+  width: var(--size);
+  height: calc(var(--size) * 1.45);
+  margin-left: calc(var(--size) / -2);
+  border-radius: 45% 45% 50% 50% / 35% 35% 65% 65%;
+  background: radial-gradient(
+    circle at 35% 65%,
+    color-mix(in oklab, var(--bulb) 40%, white) 0 18%,
+    var(--bulb) 55%
+  );
+  box-shadow:
+    0 0 calc(var(--size) * 0.9) color-mix(in oklab, var(--bulb) 70%, transparent),
+    0 0 calc(var(--size) * 2.2) color-mix(in oklab, var(--bulb) 30%, transparent);
+  transform: translateY(calc(var(--size) * 0.3)) rotate(var(--tilt));
+  transform-origin: 50% 0;
+}
+.natal-bulb[data-up] {
+  transform: translateY(calc(var(--size) * -0.3)) rotate(calc(180deg + var(--tilt)));
+}
+.natal-bulb::before {
+  content: "";
+  position: absolute;
+  left: 22%;
+  top: calc(var(--size) * -0.3);
+  width: 56%;
+  height: calc(var(--size) * 0.38);
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 60%, var(--background));
+}
+.natal-bulb[data-color="green"] {
+  --bulb: var(--season-green);
+}
+.natal-bulb[data-color="gold"] {
+  --bulb: var(--season-gold);
+}
+
+[data-pattern="chase"] .natal-bulb {
+  animation: natal-blink 1.2s steps(1, end) infinite;
+  animation-delay: calc(var(--i) * -0.2s);
+}
+[data-pattern="twinkle"] .natal-bulb {
+  animation: natal-glow var(--twinkle) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.37s);
+}
+
+@keyframes natal-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.22;
+    box-shadow: none;
+  }
+}
+@keyframes natal-glow {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.35;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .natal-bulb {
+    animation: none !important;
+  }
+}
+
+/* Hidden gifts (one slot per home section; the slot has no height) */
+.natal-gift {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  z-index: 31;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.natal-gift:hover {
+  transform: scale(1.1);
+}
+.natal-gift:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.natal-gift-icon {
+  width: 32px;
+  height: 32px;
+  overflow: visible;
+}
+.natal-gift:not([data-opened]) .natal-gift-icon {
+  transform-origin: 50% 90%;
+  animation: natal-wiggle 5.5s ease-in-out infinite;
+}
+.natal-gift-lid {
+  transform-box: fill-box;
+  transform-origin: 15% 100%;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.natal-gift[data-opened] .natal-gift-lid {
+  transform: translate(-1px, -7px) rotate(-24deg);
+}
+.natal-gift-sparkles {
+  opacity: 0;
+  transition: opacity 0.3s ease 0.15s;
+}
+.natal-gift[data-opened] .natal-gift-sparkles {
+  opacity: 1;
+}
+
+@keyframes natal-wiggle {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0);
+  }
+  89% {
+    transform: rotate(-10deg);
+  }
+  92% {
+    transform: rotate(8deg);
+  }
+  95% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* The hunt's corner, bottom left (Vega sits bottom right) */
+.natal-hunt-bar {
+  position: fixed;
+  left: max(1.25rem, var(--safe-left));
+  bottom: max(1.25rem, var(--safe-bottom));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font: 600 13px / 1 var(--font-mono);
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 45%);
+}
+.natal-hunt-count {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-right: 0.25rem;
+}
+.natal-hunt-count svg {
+  width: 20px;
+  height: 20px;
+}
+.natal-hunt-count .natal-gift-sparkles {
+  display: none;
+}
+.natal-hunt-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.natal-hunt-button:hover {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+.natal-hunt-button[aria-pressed="true"] {
+  color: var(--season-gold);
+}
+.natal-hunt-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .natal-gift,
+  .natal-gift-icon,
+  .natal-gift-lid,
+  .natal-gift-sparkles {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* The snow globe reward */
+.natal-globe-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  /* No backdrop blur in this repo (crbug.com/414525204): a denser veil instead. */
+  background: rgb(4 7 8 / 84%);
+  animation: natal-fade 0.3s ease both;
+}
+.natal-globe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(420px, 100%);
+  max-height: calc(100svh - 32px);
+  overflow-y: auto;
+  padding: 1.5rem 1.25rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--background);
+  color: var(--foreground);
+  text-align: center;
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 70%);
+  animation: natal-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.natal-globe-canvas {
+  width: min(300px, 100%);
+  aspect-ratio: 320 / 380;
+  touch-action: none;
+  cursor: grab;
+}
+.natal-globe-canvas:active {
+  cursor: grabbing;
+}
+.natal-globe-title {
+  margin: 0.25rem 0 0;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.natal-globe-body {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.natal-globe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.natal-globe-primary,
+.natal-globe-button {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.natal-globe-primary {
+  border: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.natal-globe-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--foreground);
+}
+.natal-globe-button:hover {
+  border-color: var(--foreground);
+}
+.natal-globe-primary:active,
+.natal-globe-button:active {
+  transform: translateY(1px);
+}
+.natal-globe-primary:focus-visible,
+.natal-globe-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.natal-globe-status {
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--muted);
+  font: 500 12px / 1.2 var(--font-mono);
+}
+
+@keyframes natal-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes natal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .natal-globe-backdrop,
+  .natal-globe {
+    animation: none;
+  }
+}
+
+/* Footer countdown */
+.natal-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+
+/*
+ * A Santa hat on Vega's launcher (the launcher is fixed, so it anchors these).
+ * This stylesheet stays loaded after Christmas is turned off or a retro world
+ * opens, so rules on elements outside the layer are gated by the season.
+ */
+:root[data-season="natal"]:not([data-retro]) [data-chat-launcher]::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  right: -1px;
+  width: 26px;
+  height: 17px;
+  border-radius: 70% 70% 3px 3px / 100% 100% 3px 3px;
+  background: var(--season-red);
+  box-shadow: inset 0 -5px 0 #fffef8;
+  transform: rotate(20deg);
+  pointer-events: none;
+}
+:root[data-season="natal"]:not([data-retro]) [data-chat-launcher]::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  right: -7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: #fffef8;
+  pointer-events: none;
+}
+
+/* Room at the end of the page while the hunt's corner is shown (home only) */
+:root[data-season="natal"]:not([data-retro]):has(.natal-hunt-bar) [data-site-footer] {
+  padding-bottom: calc(5.5rem + var(--safe-bottom));
+}
+.natal-globe-sound {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  padding: 0;
+}
+.natal-globe-sound[aria-pressed="true"] {
+  color: var(--season-gold);
+  border-color: var(--season-gold);
+}

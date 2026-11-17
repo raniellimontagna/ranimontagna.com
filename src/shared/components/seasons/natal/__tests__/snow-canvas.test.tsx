@@ -1,0 +1,116 @@
+import { act, render } from '@testing-library/react'
+import { installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
+import { mockMatchMedia } from '@/tests/mocks/match-media'
+import { SnowCanvas } from '../snow-canvas'
+
+const originalMatchMedia = window.matchMedia
+
+function setup() {
+  const canvas = mockCanvas2d({ width: 1280, height: 800 })
+  const frames = installFrameStub()
+  return { ...canvas, frames }
+}
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia
+  vi.restoreAllMocks()
+})
+
+it('draws still snow once when motion is reduced', () => {
+  const { ctx } = setup()
+  render(<SnowCanvas />)
+  expect(ctx.drawImage).toHaveBeenCalled()
+  expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+})
+
+it('is decoration only', () => {
+  setup()
+  const { container } = render(<SnowCanvas />)
+  const canvas = container.querySelector('canvas')
+  expect(canvas).toHaveAttribute('aria-hidden', 'true')
+  expect(canvas?.className).toContain('pointer-events-none')
+})
+
+it('animates, pauses with a hidden tab and resumes', () => {
+  mockMatchMedia({})
+  const { ctx, frames } = setup()
+  render(<SnowCanvas />)
+  expect(window.requestAnimationFrame).toHaveBeenCalled()
+
+  frames.flush()
+  const drawn = ctx.drawImage.mock.calls.length
+  expect(drawn).toBeGreaterThan(0)
+
+  Object.defineProperty(document, 'hidden', { configurable: true, value: true })
+  act(() => document.dispatchEvent(new Event('visibilitychange')))
+  frames.flush(3)
+  expect(ctx.drawImage.mock.calls.length).toBe(drawn)
+
+  Object.defineProperty(document, 'hidden', { configurable: true, value: false })
+  act(() => document.dispatchEvent(new Event('visibilitychange')))
+  frames.flush()
+  expect(ctx.drawImage.mock.calls.length).toBeGreaterThan(drawn)
+})
+
+it('re-reads the snow color when the theme changes', async () => {
+  mockMatchMedia({})
+  const { ctx, frames } = setup()
+  const gradient = { addColorStop: vi.fn() }
+  Object.assign(ctx, { createRadialGradient: vi.fn(() => gradient), fillRect: vi.fn() })
+  document.documentElement.style.setProperty('--season-snow', '#c3d0dc')
+  render(<SnowCanvas />)
+  frames.flush()
+  expect(gradient.addColorStop).toHaveBeenCalledWith(0, '#c3d0dc')
+
+  document.documentElement.style.setProperty('--season-snow', '#eef5f1')
+  await act(async () => {
+    document.documentElement.classList.toggle('dark')
+  })
+  frames.flush()
+  expect(gradient.addColorStop).toHaveBeenCalledWith(0, '#eef5f1')
+  document.documentElement.style.removeProperty('--season-snow')
+})
+
+it('stops and cleans up when removed', () => {
+  mockMatchMedia({})
+  setup()
+  const removeListener = vi.spyOn(window, 'removeEventListener')
+  const { unmount } = render(<SnowCanvas />)
+  unmount()
+  expect(window.cancelAnimationFrame).toHaveBeenCalled()
+  expect(removeListener).toHaveBeenCalledWith('pointermove', expect.any(Function))
+})
+
+it('keeps its flakes when a phone URL bar only changes the height', async () => {
+  mockMatchMedia({})
+  const { setSize } = setup()
+  const snowfall = await import('../snowfall')
+  const create = vi.spyOn(snowfall, 'createFlakes')
+  render(<SnowCanvas />)
+  const calls = create.mock.calls.length
+  setSize(1280, 700)
+  act(() => window.dispatchEvent(new Event('resize')))
+  expect(create.mock.calls.length).toBe(calls)
+})
+
+it('ignores class changes that are not a theme change (smooth scroll toggles classes)', async () => {
+  mockMatchMedia({})
+  const { frames } = setup()
+  render(<SnowCanvas />)
+  frames.flush()
+  const styles = vi.spyOn(window, 'getComputedStyle')
+  await act(async () => {
+    document.documentElement.classList.add('lenis-scrolling')
+  })
+  frames.flush()
+  expect(styles).not.toHaveBeenCalledWith(document.documentElement)
+  document.documentElement.classList.remove('lenis-scrolling')
+})
+
+it('moves the snow away from a finger too', () => {
+  mockMatchMedia({})
+  setup()
+  const add = vi.spyOn(window, 'addEventListener')
+  render(<SnowCanvas />)
+  expect(add).toHaveBeenCalledWith('touchmove', expect.any(Function), { passive: true })
+})

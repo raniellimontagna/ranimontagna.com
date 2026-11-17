@@ -1,5 +1,7 @@
 import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
 import { useChat } from '@/shared/store/use-chat/use-chat'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { act, fireEvent, render, screen, waitFor, within } from '@/tests/test-utils'
 import pt from '../../../../messages/pt.json'
@@ -80,6 +82,28 @@ describe('VegaScreen', () => {
         name: /O que ele faz com IA\?|Me mostra o Grimory|Por onde ele passou\?|Quero falar com a Atto/,
       }),
     ).toHaveLength(4)
+  })
+
+  it('greets for Christmas and suggests a question of the season', () => {
+    useSeason.setState({ active: 'natal', current: 'natal' })
+    render(<VegaScreen />)
+    openScreen()
+    const dialog = screen.getByRole('dialog', { name: 'Vega' })
+    expect(within(dialog).getByText('Oi, eu sou a Vega. Boas festas!')).toBeInTheDocument()
+    const suggestions = within(dialog).getAllByRole('listitem')
+    expect(suggestions).toHaveLength(4)
+    expect(suggestions[0]).toHaveTextContent('O que o Ranielli entregou em 2026?')
+    useSeason.setState({ active: null, current: null })
+  })
+
+  it('keeps the usual greeting inside a retro world', () => {
+    useSeason.setState({ active: 'natal', current: 'natal' })
+    useRetroMode.setState({ active: true, mode: 'dos' })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Oi, eu sou a Vega.')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null })
+    useRetroMode.setState({ active: false, mode: null })
   })
 
   it('puts focus in the question field', () => {

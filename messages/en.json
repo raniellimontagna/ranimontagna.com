@@ -25,7 +25,11 @@
       "theme": "Theme",
       "light": "Light",
       "dark": "Dark",
-      "accent": "Accent color"
+      "accent": "Accent color",
+      "season": "Season",
+      "seasons": {
+        "natal": "Christmas"
+      }
     },
     "footer": {
       "madeWith": "built with AI, reviewed by me",
@@ -550,6 +554,12 @@
     "errorRateLimit": "Too many questions in a row. Wait a minute and try again.",
     "retry": "Try again",
     "send": "Send",
-    "cardCta": "See it on the site"
+    "cardCta": "See it on the site",
+    "season": {
+      "natal": {
+        "greeting": "Hi, I'm Vega. Happy holidays!",
+        "suggestion": "What did Ranielli ship in 2026?"
+      }
+    }
   }
 }

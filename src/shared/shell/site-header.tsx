@@ -47,6 +47,8 @@ export async function SiteHeader() {
               light: t('prefs.light'),
               dark: t('prefs.dark'),
               accent: t('prefs.accent'),
+              season: t('prefs.season'),
+              seasonNames: { natal: t('prefs.seasons.natal') },
             }}
           />
           <SiteMenu

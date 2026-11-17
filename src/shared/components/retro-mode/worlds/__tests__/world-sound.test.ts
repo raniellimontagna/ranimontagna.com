@@ -1,4 +1,11 @@
-import { isSoundOn, NOTE, onSoundChange, playTones, setSoundOn } from '../world-sound'
+import {
+  isSoundOn,
+  NOTE,
+  onSoundChange,
+  playToneSequence,
+  playTones,
+  setSoundOn,
+} from '../world-sound'
 
 class FakeParam {
   setValueAtTime = vi.fn()
@@ -91,4 +98,14 @@ it('keeps working when storage is blocked', () => {
   expect(isSoundOn()).toBe(true)
   setSoundOn(false)
   expect(listener).toHaveBeenCalledWith(false)
+})
+
+it('plays a raw sequence for callers with their own switch, even with retro sound off', () => {
+  Object.defineProperty(window, 'AudioContext', { configurable: true, value: FakeAudioContext })
+  setSoundOn(false)
+  const before = created.length
+  playToneSequence([{ f: NOTE.E6, at: 0, d: 0.1 }])
+  expect(created).toHaveLength(before + 1)
+  playTones([{ f: NOTE.E6, at: 0, d: 0.1 }])
+  expect(created).toHaveLength(before + 1)
 })

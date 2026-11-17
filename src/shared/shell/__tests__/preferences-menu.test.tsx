@@ -1,8 +1,11 @@
+import { track } from '@/shared/lib/analytics/track'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 import { fireEvent, render, screen } from '@/tests/test-utils'
 import { PreferencesMenu } from '../preferences-menu'
 
 const replace = vi.fn()
+vi.mock('@/shared/lib/analytics/track', () => ({ track: vi.fn() }))
 vi.mock('@/shared/config/i18n/navigation', () => ({
   useRouter: () => ({ replace }),
   usePathname: () => '/blog/x',
@@ -15,6 +18,8 @@ const labels = {
   light: 'Claro',
   dark: 'Escuro',
   accent: 'Cor de destaque',
+  season: 'Época',
+  seasonNames: { natal: 'Natal' },
 }
 
 describe('PreferencesMenu', () => {
@@ -63,5 +68,44 @@ describe('PreferencesMenu', () => {
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(screen.queryByRole('button', { name: 'English' })).not.toBeInTheDocument()
     expect(trigger).toHaveFocus()
+  })
+
+  describe('season switch', () => {
+    const setEnabled = vi.fn()
+
+    afterEach(() => {
+      setEnabled.mockClear()
+      vi.mocked(track).mockClear()
+      useSeason.setState({ active: null, current: null })
+    })
+
+    it('stays hidden out of season', () => {
+      useSeason.setState({ active: null, current: null, setEnabled })
+      render(<PreferencesMenu labels={labels} />)
+      fireEvent.click(screen.getByRole('button', { name: /Preferências/ }))
+      expect(screen.queryByRole('button', { name: 'Natal' })).not.toBeInTheDocument()
+    })
+
+    it('turns Christmas off and records it', () => {
+      useSeason.setState({ active: 'natal', current: 'natal', setEnabled })
+      render(<PreferencesMenu labels={labels} />)
+      fireEvent.click(screen.getByRole('button', { name: /Preferências/ }))
+      const toggle = screen.getByRole('button', { name: 'Natal' })
+      expect(toggle).toHaveAttribute('aria-pressed', 'true')
+      fireEvent.click(toggle)
+      expect(setEnabled).toHaveBeenCalledWith(false)
+      expect(track).toHaveBeenCalledWith('season-off', { season: 'natal' })
+    })
+
+    it('turns it back on without recording a turn-off', () => {
+      useSeason.setState({ active: null, current: 'natal', setEnabled })
+      render(<PreferencesMenu labels={labels} />)
+      fireEvent.click(screen.getByRole('button', { name: /Preferências/ }))
+      const toggle = screen.getByRole('button', { name: 'Natal' })
+      expect(toggle).toHaveAttribute('aria-pressed', 'false')
+      fireEvent.click(toggle)
+      expect(setEnabled).toHaveBeenCalledWith(true)
+      expect(track).not.toHaveBeenCalled()
+    })
   })
 })

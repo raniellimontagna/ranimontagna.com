@@ -1,0 +1,54 @@
+/*
+ * Seasons, global part: only tokens and show/hide rules, so the page paints in
+ * season before any script. The effects bring their own styles with their lazy
+ * chunk. A retro world always wins.
+ */
+
+:root[data-season="natal"]:not([data-retro]) {
+  --season-red: #b3261e;
+  --season-green: #1f6b45;
+  --season-gold: #a8781a;
+  --season-snow: #a9bccd;
+}
+:root[data-season="natal"]:not([data-retro]).dark {
+  --season-red: #ef5350;
+  --season-green: #4ade80;
+  --season-gold: #f5c84c;
+  --season-snow: #eef5f1;
+}
+
+/* The accent follows Christmas only for visitors on the default color. */
+:root[data-season="natal"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #b3261e;
+  --accent-strong: #8f1d17;
+  --accent-ice: #a8781a;
+  --on-accent: #ffffff;
+  --focus-ring: #8f1d17;
+  --ring: rgb(179 38 30 / 50%);
+  --ambient-lime: rgb(179 38 30 / 9%);
+  --ambient-ice: rgb(168 120 26 / 12%);
+}
+:root[data-season="natal"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #ef5350;
+  --accent-strong: #ff8a80;
+  --accent-ice: #f5c84c;
+  --on-accent: #091113;
+  --focus-ring: #ff8a80;
+  --ring: rgb(239 83 80 / 48%);
+  --ambient-lime: rgb(239 83 80 / 10%);
+  --ambient-ice: rgb(245 200 76 / 11%);
+}
+
+:root:not([data-season="natal"]) [data-season-only="natal"],
+:root[data-retro] [data-season-only] {
+  display: none;
+}
+:root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"] {
+  display: none;
+}
+
+/* Room for the string lights under the hero name (set before paint: no shift). */
+:root[data-season="natal"]:not([data-retro]) [data-hero-title] {
+  margin-top: 0.12em;
+  margin-bottom: 0.2em;
+}

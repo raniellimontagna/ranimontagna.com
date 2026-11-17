@@ -1,4 +1,12 @@
-import { buildGlyphGrid, cellSizeFor, coverCrop, coverDestination, glyphFor } from '../glyph-grid'
+import {
+  buildGlyphGrid,
+  CODE_GLYPHS,
+  cellSizeFor,
+  coverCrop,
+  coverDestination,
+  glyphFor,
+  glyphSetFor,
+} from '../glyph-grid'
 
 describe('glyph grid', () => {
   it('maps luminance to the ramp', () => {
@@ -62,5 +70,12 @@ describe('glyph grid', () => {
     expect(corrected.dy).toBeCloseTo(raw.dy, 1)
     expect(corrected.dw).toBeCloseTo(raw.dw, 1)
     expect(corrected.dh).toBeCloseTo(raw.dh, 1)
+  })
+})
+
+describe('glyphSetFor', () => {
+  it('keeps code glyphs out of season and snow glyphs at Christmas', () => {
+    expect(glyphSetFor(null)).toBe(CODE_GLYPHS)
+    expect(glyphSetFor('natal')).toBe('*+·✦✧❅')
   })
 })

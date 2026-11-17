@@ -25,7 +25,11 @@
       "theme": "Tema",
       "light": "Claro",
       "dark": "Escuro",
-      "accent": "Cor de destaque"
+      "accent": "Cor de destaque",
+      "season": "Época",
+      "seasons": {
+        "natal": "Natal"
+      }
     },
     "footer": {
       "madeWith": "feito com IA, revisado por mim",
@@ -550,6 +554,12 @@
     "errorRateLimit": "Muitas perguntas seguidas. Espere um minuto e tente de novo.",
     "retry": "Tentar de novo",
     "send": "Enviar",
-    "cardCta": "Ver no site"
+    "cardCta": "Ver no site",
+    "season": {
+      "natal": {
+        "greeting": "Oi, eu sou a Vega. Boas festas!",
+        "suggestion": "O que o Ranielli entregou em 2026?"
+      }
+    }
   }
 }

@@ -8,6 +8,7 @@ import '@/shared/components/retro-mode/worlds/gameboy.css'
 import '@/shared/components/retro-mode/worlds/newspaper.css'
 import '@/shared/components/retro-mode/worlds/ide.css'
 import '@/shared/components/retro-mode/worlds/mac.css'
+import '@/shared/components/seasons/seasons.css'
 
 // Since we have a root `not-found.tsx` page, a layout file
 // is required, even if it's just passing children through.

@@ -5,6 +5,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { RetroExperience } from '@/shared/components/retro-mode/retro-mode'
+import { SeasonLayer } from '@/shared/components/seasons/season-layer'
 import { getClientMessages } from '@/shared/config/i18n/client-messages'
 import { routing } from '@/shared/config/i18n/routing'
 import { getUmamiWebsiteId, UMAMI_DOMAINS, UMAMI_SCRIPT_SRC } from '@/shared/lib/analytics/umami'
@@ -114,6 +115,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </a>
         <NextIntlClientProvider locale={locale} messages={getClientMessages(messages, 'shell')}>
           <RetroExperience locale={locale} />
+          <SeasonLayer locale={locale} />
           <ScrollProgress />
           <SiteHeader />
           {children}

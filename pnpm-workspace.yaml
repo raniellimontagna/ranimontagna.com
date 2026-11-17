@@ -18,3 +18,11 @@ overrides:
   source-map-js@<1.2.2: 1.2.2
   tmp@<0.2.6: 0.2.7
   uuid@^8: 11.1.1
+
+auditConfig:
+  ignoreGhsas:
+    # picomatch ReDoS (17/11/2026), no patched version yet. It only reaches the
+    # build and dev tooling (@sentry/nextjs > @rollup/plugin-commonjs at build,
+    # next-intl > @parcel/watcher in dev), never visitor input. Remove once a
+    # patched picomatch ships (Dependabot will open the update).
+    - GHSA-fc5q-39xc-vjpf

@@ -25,7 +25,11 @@
       "theme": "Tema",
       "light": "Claro",
       "dark": "Oscuro",
-      "accent": "Color de acento"
+      "accent": "Color de acento",
+      "season": "Temporada",
+      "seasons": {
+        "natal": "Navidad"
+      }
     },
     "footer": {
       "madeWith": "hecho con IA, revisado por mí",
@@ -550,6 +554,12 @@
     "errorRateLimit": "Demasiadas preguntas seguidas. Espera un minuto y vuelve a intentarlo.",
     "retry": "Intentar de nuevo",
     "send": "Enviar",
-    "cardCta": "Ver en el sitio"
+    "cardCta": "Ver en el sitio",
+    "season": {
+      "natal": {
+        "greeting": "Hola, soy Vega. ¡Felices fiestas!",
+        "suggestion": "¿Qué entregó Ranielli en 2026?"
+      }
+    }
   }
 }

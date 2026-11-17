@@ -6,7 +6,10 @@ import createNextIntlPlugin from 'next-intl/plugin'
 import packageJson from './package.json'
 import { addCompileHints } from './scripts/compile-hints.mjs'
 import { STILLS_CACHE_SOURCE } from './src/features/cases/case-stills'
-import { PORTRAIT_CACHE_SOURCE } from './src/features/home/components/portrait/portrait-image'
+import {
+  NATAL_PORTRAIT_CACHE_SOURCE,
+  PORTRAIT_CACHE_SOURCE,
+} from './src/features/home/components/portrait/portrait-image'
 import { COPIES_CACHE_SOURCE } from './src/shared/lib/image-copies/image-copies'
 import { getSentryBuildInfo } from './src/shared/lib/sentry/build-info'
 
@@ -148,6 +151,11 @@ const nextConfig: NextConfig = {
         // replaced under new names, so they get a year. Listed by width, so a 404
         // never picks up the long cache. Last, so it overrides the day rule above.
         source: PORTRAIT_CACHE_SOURCE,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        // The same portrait for December, under its own version folder.
+        source: NATAL_PORTRAIT_CACHE_SOURCE,
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
     ]

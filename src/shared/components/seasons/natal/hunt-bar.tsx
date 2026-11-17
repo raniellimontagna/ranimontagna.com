@@ -1,0 +1,37 @@
+'use client'
+
+import { GIFT_IDS } from './gift-hunt'
+import type { NatalCopy } from './natal-copy'
+import { GiftIcon, GlobeIcon } from './natal-icons'
+import { SoundToggle } from './sound-toggle'
+
+type HuntBarProps = {
+  found: number
+  complete: boolean
+  copy: NatalCopy
+  onReopen: () => void
+}
+
+/** The hunt's corner: how many gifts so far, the sound switch and, at the end, the globe. */
+export function HuntBar({ found, complete, copy, onReopen }: HuntBarProps) {
+  return (
+    <div className="natal-hunt-bar">
+      <span className="natal-hunt-count">
+        <GiftIcon />
+        <span>{`${found}/${GIFT_IDS.length}`}</span>
+        <span className="sr-only">{copy.found}</span>
+      </span>
+      <SoundToggle label={copy.sound} className="natal-hunt-button" />
+      {complete ? (
+        <button
+          type="button"
+          aria-label={copy.openGlobe}
+          onClick={onReopen}
+          className="natal-hunt-button"
+        >
+          <GlobeIcon />
+        </button>
+      ) : null}
+    </div>
+  )
+}
