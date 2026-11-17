@@ -121,6 +121,8 @@ As imagens próprias do site não passam mais pelo `/_next/image`, que a Cloudfl
 - **Ao trocar a foto:** gere as cópias numa pasta nova (`v3`) e troque `PORTRAIT_DIR` em `src/features/home/components/portrait/portrait-image.ts`. A regra de cache do `next.config.ts` é montada a partir dessa mesma constante. Mantendo o nome, o cache serviria a foto antiga.
 - **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/v2/photo-'+w+'.webp')"`.
 
+- **Natal:** `public/redesign/portrait/natal-v1/` tem as mesmas larguras do retrato, com gorro de Papai Noel. A foto é a de hoje com só o gorro colado por cima (o gorro veio de uma geração do Codex; rosto e mãos são os originais), aprovada pelo dono em 17/11/2026. Mestre e script da colagem: `~/Projetos/pessoal/fotos/2026-11-perfil/geradas/natal/natal-topo-composto-v1.png` e `scripts/compor-gorro.py`. Ela só aparece com `data-season="natal"` (`NATAL_PORTRAIT_IMAGE`, regra de cache própria no `next.config.ts`).
+
 ## Imagem de compartilhamento
 
 `public/og/og-{pt,en,es}-v2.jpg` (1200×630) mostram nome, papel, uma frase e a foto, no estilo novo. A v1 (`og-{pt,en,es}.jpg`) foi gerada com o sharp a partir da foto antiga, com texto em Helvetica Neue e Menlo. A v2 (17/11/2026) é a v1 com a metade direita trocada pela foto nova, que entra com um degradê de 170 px sobre o fundo `#070b0c`. A v1 e o `og-image.png` antigo continuam no ar para os links já compartilhados. Ao mudar o texto ou a foto, gere arquivos com outro nome, porque as redes guardam a imagem pelo endereço.

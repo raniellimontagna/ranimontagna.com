@@ -114,6 +114,40 @@ describe('locale head season', () => {
     expect(root).toHaveAttribute('data-season', 'natal')
   })
 
+  describe('Christmas portrait preload', () => {
+    const preloads = () =>
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/natal-v"]')
+
+    beforeEach(() => {
+      for (const link of preloads()) link.remove()
+    })
+
+    it.each(['/', '/en', '/es/'])(
+      'starts the Christmas photo early on the home page %s',
+      (path) => {
+        today(12, 10)
+        visit(path)
+        runThemeInitScript()
+        const [link] = preloads()
+        expect(link).toHaveAttribute('as', 'image')
+        expect(link).toHaveAttribute('fetchpriority', 'high')
+        expect(link.getAttribute('imagesizes')).toBe('(max-width: 1023px) 100vw, 50vw')
+      },
+    )
+
+    it('skips other pages and other dates', () => {
+      today(12, 10)
+      visit('/blog')
+      runThemeInitScript()
+      expect(preloads()).toHaveLength(0)
+
+      today(7, 15)
+      visit('/')
+      runThemeInitScript()
+      expect(preloads()).toHaveLength(0)
+    })
+  })
+
   it.each([
     [11, 30, 23, 59],
     [12, 1, 0, 0],

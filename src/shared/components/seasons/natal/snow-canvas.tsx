@@ -126,6 +126,7 @@ export function SnowCanvas() {
   }, [])
 
   return (
+    // biome-ignore lint/a11y/noAriaHiddenOnFocusable: decorative canvas with no tabindex.
     <canvas
       ref={ref}
       aria-hidden="true"

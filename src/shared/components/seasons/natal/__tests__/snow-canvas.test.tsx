@@ -7,7 +7,6 @@ const originalMatchMedia = window.matchMedia
 
 function setup() {
   const canvas = mockCanvas2d({ width: 1280, height: 800 })
-  Object.assign(canvas.ctx, { beginPath: vi.fn(), arc: vi.fn(), fill: vi.fn() })
   const frames = installFrameStub()
   return { ...canvas, frames }
 }

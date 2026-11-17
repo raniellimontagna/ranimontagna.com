@@ -1,4 +1,6 @@
+import { SEASON_PORTRAITS } from '@/features/home/components/portrait/portrait-image'
 import {
+  SEASON_HOME_PATHS,
   SEASON_OFF_PREFIX,
   SEASON_PARAM,
   SEASON_PREVIEW_KEY,
@@ -51,6 +53,20 @@ export const THEME_INIT_SCRIPT = `
     }
     if (season && !off && !retroActive) {
       document.documentElement.setAttribute('data-season', season);
+      // The seasonal portrait is the home page's LCP image: start it now.
+      const portraits = ${JSON.stringify(SEASON_PORTRAITS)};
+      const raw = location.pathname;
+      const path = raw.length > 1 && raw.endsWith('/') ? raw.slice(0, -1) : raw;
+      const portrait = portraits[season];
+      if (portrait && ${JSON.stringify(SEASON_HOME_PATHS)}.includes(path)) {
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'preload');
+        link.setAttribute('as', 'image');
+        link.setAttribute('imagesrcset', portrait.srcSet);
+        link.setAttribute('imagesizes', portrait.sizes);
+        link.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(link);
+      }
     }
   })();
 

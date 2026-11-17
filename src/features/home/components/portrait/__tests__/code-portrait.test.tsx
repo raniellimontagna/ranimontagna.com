@@ -1,11 +1,12 @@
 import { preload } from 'react-dom'
 import { REDUCED_MOTION_QUERY } from '@/shared/components/motion'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import { captureIntersection, installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { act, fireEvent, render, screen } from '@/tests/test-utils'
 import { CodePortrait } from '../code-portrait'
-import { CODE_GLYPHS } from '../glyph-grid'
-import { PORTRAIT_IMAGE } from '../portrait-image'
+import { CODE_GLYPHS, glyphSetFor } from '../glyph-grid'
+import { NATAL_PORTRAIT_IMAGE, PORTRAIT_IMAGE, SEASON_PORTRAITS } from '../portrait-image'
 
 vi.mock('react-dom', async (importOriginal) => ({
   ...(await importOriginal<typeof import('react-dom')>()),
@@ -187,6 +188,83 @@ describe('CodePortrait', () => {
       await new Promise((resolve) => setTimeout(resolve, 0))
       expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
       expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('in season', () => {
+    const root = document.documentElement
+
+    function renderSeasonal() {
+      render(
+        <CodePortrait
+          image={PORTRAIT_IMAGE}
+          seasonImages={SEASON_PORTRAITS}
+          alt={ALT}
+          getReveal={() => 0}
+        />,
+      )
+      const [plain, natal] = screen.getAllByAltText(ALT) as HTMLImageElement[]
+      return { plain, natal }
+    }
+
+    afterEach(() => {
+      root.removeAttribute('data-season')
+      useSeason.setState({ active: null, current: null })
+    })
+
+    it('adds the Christmas photo, lazy, shown only in season', () => {
+      const { plain, natal } = renderSeasonal()
+      expect(natal).toHaveAttribute('loading', 'lazy')
+      expect(natal).toHaveAttribute('data-season-only', 'natal')
+      expect(natal.getAttribute('srcset')).toBe(NATAL_PORTRAIT_IMAGE.srcSet)
+      expect(plain).toHaveAttribute('data-season-hide', 'natal')
+      expect(plain).not.toHaveAttribute('loading')
+    })
+
+    it('samples the Christmas photo when the page is in season', () => {
+      root.setAttribute('data-season', 'natal')
+      useSeason.setState({ active: 'natal', current: 'natal' })
+      const { plain, natal } = renderSeasonal()
+      loadPhoto(plain)
+      expect(canvas.ctx.getImageData).not.toHaveBeenCalled()
+      loadPhoto(natal)
+      expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+    })
+
+    it('switches photos when the season is turned on after mount', () => {
+      const { natal } = renderSeasonal()
+      act(() => {
+        root.setAttribute('data-season', 'natal')
+        useSeason.setState({ active: 'natal', current: 'natal' })
+      })
+      loadPhoto(natal)
+      expect(canvas.ctx.getImageData).toHaveBeenCalledTimes(1)
+    })
+
+    it('turns cells near the pointer into snow in festive colors', () => {
+      root.setAttribute('data-season', 'natal')
+      root.style.setProperty('--season-red', '#b3261e')
+      root.style.setProperty('--season-green', '#1f6b45')
+      root.style.setProperty('--season-gold', '#a8781a')
+      useSeason.setState({ active: 'natal', current: 'natal' })
+      const styles: string[] = []
+      Object.defineProperty(canvas.ctx, 'fillStyle', {
+        configurable: true,
+        get: () => styles.at(-1) ?? '',
+        set: (value: string) => styles.push(value),
+      })
+      const { natal } = renderSeasonal()
+      loadPhoto(natal)
+      fireEvent.touchMove(screen.getByTestId('code-portrait'), {
+        touches: [{ clientX: 0, clientY: 0 }],
+      })
+      act(() => frames.flush(1))
+      const [ch] = charsDrawnAt(canvas.ctx, 0, 0)
+      expect(glyphSetFor('natal')).toContain(ch)
+      expect(styles).toContain('#b3261e')
+      root.style.removeProperty('--season-red')
+      root.style.removeProperty('--season-green')
+      root.style.removeProperty('--season-gold')
     })
   })
 })

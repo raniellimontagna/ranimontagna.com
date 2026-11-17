@@ -1,3 +1,5 @@
+import type { SeasonId } from '@/shared/lib/seasons/seasons'
+
 export type PortraitImage = { src: string; srcSet: string; sizes: string }
 
 /** The master (public/photo.webp) is 1083 px wide, and the copies never upscale. */
@@ -21,3 +23,19 @@ export const PORTRAIT_IMAGE: PortraitImage = {
 
 /** The next.config header rule for exactly these files: a year, immutable, no 404s. */
 export const PORTRAIT_CACHE_SOURCE = `${PORTRAIT_DIR}/photo-:width(${PORTRAIT_WIDTHS.join('|')}).webp`
+
+/** The same portrait with a Santa hat, for December (see docs/redesign/assets.md). */
+const NATAL_PORTRAIT_DIR = '/redesign/portrait/natal-v1'
+const natalFileFor = (width: number) => `${NATAL_PORTRAIT_DIR}/photo-${width}.webp`
+
+export const NATAL_PORTRAIT_IMAGE: PortraitImage = {
+  src: natalFileFor(750),
+  srcSet: PORTRAIT_WIDTHS.map((width) => `${natalFileFor(width)} ${width}w`).join(', '),
+  sizes: PORTRAIT_IMAGE.sizes,
+}
+
+export const SEASON_PORTRAITS: Partial<Record<SeasonId, PortraitImage>> = {
+  natal: NATAL_PORTRAIT_IMAGE,
+}
+
+export const NATAL_PORTRAIT_CACHE_SOURCE = `${NATAL_PORTRAIT_DIR}/photo-:width(${PORTRAIT_WIDTHS.join('|')}).webp`

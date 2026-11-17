@@ -3,18 +3,22 @@
 import { useEffect, useRef } from 'react'
 import { preload } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
+import { parseSeason, type SeasonId } from '@/shared/lib/seasons/seasons'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import {
   buildGlyphGrid,
-  CODE_GLYPHS,
   cellSizeFor,
   coverDestination,
   type GlyphCell,
   glyphFor,
+  glyphSetFor,
 } from './glyph-grid'
 import type { PortraitImage } from './portrait-image'
 
 type CodePortraitProps = {
   image: PortraitImage
+  /** The same portrait dressed for a season, shown only while that season is on. */
+  seasonImages?: Partial<Record<SeasonId, PortraitImage>>
   alt: string
   /** 0 shows only characters, 1 only the photo. */
   getReveal: () => number
@@ -32,7 +36,10 @@ function readColors(canvas: HTMLCanvasElement) {
   const foreground =
     root.getPropertyValue('--foreground').trim() || getComputedStyle(canvas).color || 'white'
   const accent = root.getPropertyValue('--accent').trim() || foreground
-  return { accent, foreground }
+  const festive = ['--season-red', '--season-green', '--season-gold'].map((name) =>
+    root.getPropertyValue(name).trim(),
+  )
+  return { accent, foreground, festive: festive.every(Boolean) ? festive : null }
 }
 
 /**
@@ -40,21 +47,29 @@ function readColors(canvas: HTMLCanvasElement) {
  * The <img> is the content: the canvas is decoration on top of it, and the
  * photo stays visible whenever the canvas cannot run.
  */
-export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
+export function CodePortrait({ image, seasonImages, alt, getReveal }: CodePortraitProps) {
   const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
+  const seasonRefs = useRef<Partial<Record<SeasonId, HTMLImageElement | null>>>({})
   const getRevealRef = useRef(getReveal)
+  // Re-runs the effect when the visitor turns a season on or off.
+  const season = useSeason((state) => state.active)
+  const seasons = Object.entries(seasonImages ?? {}) as [SeasonId, PortraitImage][]
 
   useEffect(() => {
     getRevealRef.current = getReveal
   }, [getReveal])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: season re-runs the effect, which reads the live attribute.
   useEffect(() => {
+    // The attribute, set before paint, is the truth: the store catches up after hydration.
+    const active = parseSeason(document.documentElement.dataset.season ?? null)
     const root = rootRef.current
     const canvas = canvasRef.current
-    const img = imgRef.current
+    const img = (active && seasonRefs.current[active]) || imgRef.current
     if (!root || !canvas || !img || prefersReducedMotion()) return
+    const glyphs = glyphSetFor(active)
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
@@ -127,13 +142,16 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
         const dy = py - pointer.y
         const near = dx * dx + dy * dy < POINTER_RADIUS_SQ
         const swap = near || Math.random() < RANDOM_SWAP
-        const ch = swap
-          ? CODE_GLYPHS[Math.floor(Math.random() * CODE_GLYPHS.length)]
-          : glyphFor(c.l)
+        const ch = swap ? glyphs[Math.floor(Math.random() * glyphs.length)] : glyphFor(c.l)
         if (ch === ' ') continue
 
         ctx.globalAlpha = (0.35 + c.l * 0.65) * fadeIn
-        ctx.fillStyle = near || c.l > BRIGHT_CELL ? colors.accent : colors.foreground
+        ctx.fillStyle =
+          near && active && colors.festive
+            ? colors.festive[(c.x + c.y) % colors.festive.length]
+            : near || c.l > BRIGHT_CELL
+              ? colors.accent
+              : colors.foreground
         ctx.fillText(ch, px, py)
       }
       ctx.globalAlpha = 1
@@ -185,6 +203,7 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
       for (const record of records) {
         if (
           record.attributeName === 'data-color-theme' ||
+          record.attributeName === 'data-season' ||
           themeOf(record.oldValue) !== themeOf(document.documentElement.className)
         ) {
           colorsStale = true
@@ -193,7 +212,7 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
     })
     theme.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class', 'data-color-theme'],
+      attributeFilter: ['class', 'data-color-theme', 'data-season'],
       attributeOldValue: true,
     })
 
@@ -220,7 +239,7 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
       root.removeEventListener('touchmove', onTouchMove)
       img.style.opacity = ''
     }
-  }, [])
+  }, [season])
 
   preload(image.src, {
     as: 'image',
@@ -244,8 +263,26 @@ export function CodePortrait({ image, alt, getReveal }: CodePortraitProps) {
         alt={alt}
         fetchPriority="high"
         decoding="async"
+        data-season-hide={seasons.map(([id]) => id).join(' ') || undefined}
         className="absolute inset-0 h-full w-full object-cover object-[50%_20%]"
       />
+      {seasons.map(([id, seasonal]) => (
+        // biome-ignore lint/performance/noImgElement: the canvas samples this exact element.
+        <img
+          key={id}
+          ref={(element) => {
+            seasonRefs.current[id] = element
+          }}
+          src={seasonal.src}
+          srcSet={seasonal.srcSet}
+          sizes={seasonal.sizes}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          data-season-only={id}
+          className="absolute inset-0 h-full w-full object-cover object-[50%_20%]"
+        />
+      ))}
       {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: decorative canvas with no tabindex; the img carries the content. */}
       <canvas
         ref={canvasRef}
