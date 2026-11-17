@@ -3,6 +3,9 @@
 import { useLocale } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname, useRouter } from '@/shared/config/i18n/navigation'
+import { track } from '@/shared/lib/analytics/track'
+import type { SeasonId } from '@/shared/lib/seasons/seasons'
+import { useSeason } from '@/shared/store/use-season/use-season'
 import { COLOR_THEMES } from '@/shared/store/use-theme/color-themes'
 import { useTheme } from '@/shared/store/use-theme/use-theme'
 import { LOCALES } from './site-nav'
@@ -14,6 +17,8 @@ type PreferencesLabels = {
   light: string
   dark: string
   accent: string
+  season?: string
+  seasonNames?: Partial<Record<SeasonId, string>>
 }
 
 export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
@@ -24,6 +29,9 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
   const pathname = usePathname()
   const router = useRouter()
   const { theme, colorTheme, setTheme, setColorTheme } = useTheme()
+  const season = useSeason((state) => state.current)
+  const seasonOn = useSeason((state) => state.active !== null && state.active === state.current)
+  const setSeasonEnabled = useSeason((state) => state.setEnabled)
 
   useEffect(() => {
     useTheme.getState().initTheme()
@@ -132,6 +140,27 @@ export function PreferencesMenu({ labels }: { labels: PreferencesLabels }) {
               ))}
             </div>
           </fieldset>
+
+          {season ? (
+            <fieldset className="flex flex-col gap-2">
+              <legend className="mb-2 font-mono text-xs tracking-[0.2em] text-muted uppercase">
+                {labels.season}
+              </legend>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-pressed={seasonOn}
+                  onClick={() => {
+                    setSeasonEnabled(!seasonOn)
+                    if (seasonOn) track('season-off', { season })
+                  }}
+                  className={option}
+                >
+                  {labels.seasonNames?.[season] ?? season}
+                </button>
+              </div>
+            </fieldset>
+          ) : null}
         </div>
       ) : null}
     </div>

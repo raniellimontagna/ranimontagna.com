@@ -56,9 +56,13 @@ function audio(): AudioContext | null {
   return context
 }
 
-/** Plays the tones and returns a function that silences whatever is still ringing. */
+/** Plays the tones when the retro sound is on; returns a function that silences them. */
 export function playTones(tones: readonly Tone[]): () => void {
-  if (!isSoundOn()) return () => {}
+  return isSoundOn() ? playToneSequence(tones) : () => {}
+}
+
+/** Plays the tones without checking any switch: for callers with a switch of their own. */
+export function playToneSequence(tones: readonly Tone[]): () => void {
   const ctx = audio()
   if (!ctx) return () => {}
   const start = ctx.currentTime + 0.02

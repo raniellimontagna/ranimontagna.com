@@ -25,7 +25,11 @@
       "theme": "Tema",
       "light": "Claro",
       "dark": "Escuro",
-      "accent": "Cor de destaque"
+      "accent": "Cor de destaque",
+      "season": "Época",
+      "seasons": {
+        "natal": "Natal"
+      }
     },
     "footer": {
       "madeWith": "feito com IA, revisado por mim",

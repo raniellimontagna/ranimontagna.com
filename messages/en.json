@@ -25,7 +25,11 @@
       "theme": "Theme",
       "light": "Light",
       "dark": "Dark",
-      "accent": "Accent color"
+      "accent": "Accent color",
+      "season": "Season",
+      "seasons": {
+        "natal": "Christmas"
+      }
     },
     "footer": {
       "madeWith": "built with AI, reviewed by me",
