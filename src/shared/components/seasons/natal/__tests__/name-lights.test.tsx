@@ -38,6 +38,16 @@ it('hangs the lights inside the hero slot', async () => {
   expect(lights()?.querySelectorAll('[data-bulb]').length).toBeGreaterThan(0)
 })
 
+it('frames the name: bulbs stand up over the first line and hang under the last', async () => {
+  await renderHero()
+  const bulbs = Array.from(document.querySelectorAll('[data-bulb]'))
+  const up = bulbs.filter((bulb) => bulb.hasAttribute('data-up'))
+  expect(up.length).toBeGreaterThan(0)
+  expect(up.length).toBeLessThan(bulbs.length)
+  expect(bulbs[0]).toHaveAttribute('data-up')
+  expect(bulbs.at(-1)).not.toHaveAttribute('data-up')
+})
+
 it('keeps the lights steady with reduced motion, even after a click', async () => {
   await renderHero()
   expect(lights()).toHaveAttribute('data-pattern', 'steady')

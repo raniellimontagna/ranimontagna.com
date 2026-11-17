@@ -8,11 +8,13 @@
   --season-red: #b3261e;
   --season-green: #1f6b45;
   --season-gold: #a8781a;
+  --season-snow: #a9bccd;
 }
 :root[data-season="natal"]:not([data-retro]).dark {
-  --season-red: #ff6b6b;
+  --season-red: #ef5350;
   --season-green: #4ade80;
   --season-gold: #f5c84c;
+  --season-snow: #eef5f1;
 }
 
 /* The accent follows Christmas only for visitors on the default color. */
@@ -27,13 +29,13 @@
   --ambient-ice: rgb(168 120 26 / 12%);
 }
 :root[data-season="natal"]:not([data-retro]):not([data-color-theme]).dark {
-  --accent: #ff6b6b;
-  --accent-strong: #ffa3a3;
+  --accent: #ef5350;
+  --accent-strong: #ff8a80;
   --accent-ice: #f5c84c;
   --on-accent: #091113;
-  --focus-ring: #ffa3a3;
-  --ring: rgb(255 107 107 / 48%);
-  --ambient-lime: rgb(255 107 107 / 10%);
+  --focus-ring: #ff8a80;
+  --ring: rgb(239 83 80 / 48%);
+  --ambient-lime: rgb(239 83 80 / 10%);
   --ambient-ice: rgb(245 200 76 / 11%);
 }
 
@@ -43,4 +45,10 @@
 }
 :root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"] {
   display: none;
+}
+
+/* Room for the string lights under the hero name (set before paint: no shift). */
+:root[data-season="natal"]:not([data-retro]) [data-hero-title] {
+  margin-top: 0.12em;
+  margin-bottom: 0.2em;
 }

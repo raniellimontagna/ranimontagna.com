@@ -36,6 +36,9 @@
   transform: translateY(calc(var(--size) * 0.3)) rotate(var(--tilt));
   transform-origin: 50% 0;
 }
+.natal-bulb[data-up] {
+  transform: translateY(calc(var(--size) * -0.3)) rotate(calc(180deg + var(--tilt)));
+}
 .natal-bulb::before {
   content: "";
   position: absolute;
