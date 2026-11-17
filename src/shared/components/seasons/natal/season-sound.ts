@@ -1,7 +1,7 @@
 import { playToneSequence, type Tone } from '@/shared/components/retro-mode/worlds/world-sound'
 
 /** localStorage: 'on' plays the season's sounds. Off by default, apart from the retro switch. */
-export const SEASON_SOUND_KEY = 'season-sound'
+const SEASON_SOUND_KEY = 'season-sound'
 
 const listeners = new Set<(on: boolean) => void>()
 
