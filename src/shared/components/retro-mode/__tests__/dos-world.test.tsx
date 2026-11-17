@@ -1,4 +1,6 @@
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
+import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { DosWorld } from '../worlds/dos-world'
 
 const { push } = vi.hoisted(() => ({ push: vi.fn() }))
@@ -11,13 +13,19 @@ beforeEach(() => {
   push.mockClear()
 })
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  vi.useRealTimers()
+  sessionStorage.clear()
+  useRetroMode.getState().setMode(null)
+  document.documentElement.removeAttribute('data-dos-color')
+})
 
 function submit(command: string) {
-  fireEvent.change(screen.getByRole('textbox', { name: 'Comando DOS' }), {
+  fireEvent.change(screen.getByRole('textbox', { name: /Comando DOS|DOS command/ }), {
     target: { value: command },
   })
-  fireEvent.click(screen.getByRole('button', { name: 'Executar' }))
+  fireEvent.click(screen.getByRole('button', { name: /Executar|Run/ }))
 }
 
 it('prints help and an understandable message for unknown commands', () => {
@@ -27,7 +35,7 @@ it('prints help and an understandable message for unknown commands', () => {
   expect(output).toHaveTextContent('projetos / projects')
   expect(output).toHaveTextContent('cls / clear')
   submit('<script>alert(1)</script>')
-  expect(output).toHaveTextContent('Comando não reconhecido')
+  expect(output).toHaveTextContent('Comando ou nome de arquivo inválido')
   expect(output).toHaveTextContent('<script>alert(1)</script>')
   expect(output.querySelector('script')).toBeNull()
   expect(push).not.toHaveBeenCalled()
@@ -153,4 +161,129 @@ it.each([
   expect(screen.getByRole('textbox', { name: inputLabel })).toBeInTheDocument()
   expect(screen.getByRole('button', { name: execute })).toBeInTheDocument()
   expect(screen.getByRole('group', { name: groupLabel })).toBeInTheDocument()
+})
+
+it('completes commands with Tab and lists the options when several match', () => {
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  const input = screen.getByRole('textbox', { name: 'Comando DOS' })
+  fireEvent.change(input, { target: { value: 'whoa' } })
+  expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(false)
+  expect(input).toHaveValue('whoami')
+
+  fireEvent.change(input, { target: { value: 'c' } })
+  fireEvent.keyDown(input, { key: 'Tab' })
+  expect(screen.getByRole('log')).toHaveTextContent('cls')
+  expect(screen.getByRole('log')).toHaveTextContent('color')
+
+  fireEvent.change(input, { target: { value: '' } })
+  expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true)
+})
+
+it('reads the README, the tree and the memory', () => {
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  submit('type leiame.txt')
+  const output = screen.getByRole('log')
+  expect(output).toHaveTextContent('Engenheiro de produto')
+  submit('type senhas.txt')
+  expect(output).toHaveTextContent('Arquivo não encontrado: senhas.txt')
+  submit('tree')
+  expect(output).toHaveTextContent('AGENT-TOOLKIT')
+  submit('mem')
+  expect(output).toHaveTextContent('640K')
+  submit('ver')
+  expect(output).toHaveTextContent('RANI-DOS versão 6.22')
+})
+
+it('changes the screen color and remembers it for the visit', () => {
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  expect(document.documentElement).toHaveAttribute('data-dos-color', 'green')
+  submit('color 0e')
+  expect(document.documentElement).toHaveAttribute('data-dos-color', 'amber')
+  submit('color')
+  expect(document.documentElement).toHaveAttribute('data-dos-color', 'white')
+  expect(sessionStorage.getItem('retro-dos-color')).toBe('white')
+})
+
+it('starts Windows 98 with win', () => {
+  vi.useFakeTimers()
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  submit('win')
+  expect(screen.getByRole('log')).toHaveTextContent('Carregando Windows 98')
+  act(() => vi.advanceTimersByTime(800))
+  expect(document.documentElement).toHaveAttribute('data-retro-mode', '1998')
+})
+
+// Turns reduced motion off, so it runs last.
+it('shows the BIOS once per session and types the answers', () => {
+  mockMatchMedia({})
+  vi.useFakeTimers()
+  const first = render(<DosWorld locale="en" onExit={vi.fn()} />)
+  expect(document.querySelector('.dos-boot')).toHaveTextContent('RANI BIOS')
+  fireEvent.keyDown(window, { key: 'Enter' })
+  expect(document.querySelector('.dos-boot')).toBeNull()
+  submit('ver')
+  const output = screen.getByRole('log')
+  expect(output.querySelector('.dos-type-cursor')).not.toBeNull()
+  act(() => vi.advanceTimersByTime(1000))
+  expect(output.querySelector('.dos-type-cursor')).toBeNull()
+  expect(output).toHaveTextContent('RANI-DOS version 6.22')
+  first.unmount()
+  render(<DosWorld locale="en" onExit={vi.fn()} />)
+  expect(document.querySelector('.dos-boot')).toBeNull()
+})
+
+it('rains the matrix over the screen until a key, then returns to the prompt', () => {
+  mockMatchMedia({})
+  sessionStorage.setItem('retro-booted-dos', '1')
+  vi.useFakeTimers()
+  const ctx = { fillRect: vi.fn(), fillText: vi.fn(), fillStyle: '', font: '' }
+  const getContext = vi
+    .spyOn(HTMLCanvasElement.prototype, 'getContext')
+    .mockReturnValue(ctx as unknown as CanvasRenderingContext2D)
+  render(<DosWorld locale="pt" onExit={vi.fn()} />)
+  submit('matrix')
+  expect(document.querySelector('.dos-matrix')).not.toBeNull()
+  act(() => vi.advanceTimersByTime(300))
+  expect(ctx.fillText).toHaveBeenCalled()
+  fireEvent.keyDown(window, { key: 'q' })
+  expect(document.querySelector('.dos-matrix')).toBeNull()
+  getContext.mockRestore()
+})
+
+it('answers the remaining classics and keeps Tab for focus when nothing matches', () => {
+  vi.spyOn(window, 'open').mockImplementation(() => null)
+  render(<DosWorld locale="en" onExit={vi.fn()} />)
+  const output = screen.getByRole('log')
+  for (const command of [
+    'date',
+    'time',
+    'whoami',
+    'beep',
+    'format c:',
+    'echo hello',
+    'cd ..',
+    'type contact.txt',
+    'type about.txt',
+    'xp',
+    'cv',
+  ]) {
+    submit(command)
+  }
+  expect(output).toHaveTextContent('Current date is')
+  expect(output).toHaveTextContent('Current time is')
+  expect(output).toHaveTextContent('product engineer')
+  expect(output).toHaveTextContent('BEEP!')
+  expect(output).toHaveTextContent('Format drive C:? Not a chance.')
+  expect(output).toHaveTextContent('hello')
+  expect(output).toHaveTextContent('contato@ranimontagna.com')
+  expect(output).toHaveTextContent('Loading Windows XP')
+  expect(window.open).toHaveBeenCalledWith('/cv/en.pdf', '_blank', 'noopener')
+
+  const input = screen.getByRole('textbox', { name: 'DOS command' })
+  fireEvent.change(input, { target: { value: 'zzz' } })
+  expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true)
+  fireEvent.change(input, { target: { value: 'ty' } })
+  fireEvent.keyDown(input, { key: 'Tab' })
+  expect(input).toHaveValue('type ')
 })

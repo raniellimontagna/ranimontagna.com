@@ -4,7 +4,7 @@
 html[data-retro="true"][data-retro-mode="newspaper"] body { background: #d9d0bb; padding: 24px 16px 80px; font-family: Georgia, 'Times New Roman', serif; }
 .newspaper-masthead { max-width: 980px; margin: auto; padding: 24px 32px 0; background: #f4efdf; color: #27231d; text-align: center; }
 .newspaper-edition { display: flex; justify-content: space-between; gap: 12px; border-block: 1px solid #27231d; padding: 8px 0; font: 12px/1.4 Georgia, serif; }
-.newspaper-name { margin: 20px 0 0; font: bold clamp(2rem, 7vw, 4.5rem)/1.15 Georgia, serif; letter-spacing: -.04em; }
+.newspaper-name { margin: 0; font: bold clamp(2rem, 5.4vw, 3.7rem)/1.1 Georgia, serif; letter-spacing: -.04em; }
 .newspaper-motto { margin: 8px 0 20px; font: italic 15px/1.5 Georgia, serif; }
 .newspaper-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; border-top: 4px double #27231d; border-bottom: 1px solid #27231d; }
 html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-nav a { padding: 12px 0; color: #27231d; font: bold 14px/1.4 Georgia, serif; }
@@ -38,7 +38,7 @@ html[data-retro="true"][data-retro-mode="newspaper"] body {
 html[data-retro="true"][data-retro-mode="newspaper"] :where(button, input, textarea, select) {
   font-family: Georgia, "Times New Roman", serif;
 }
-html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a[class*="rounded"]):not(.retro-trigger):not(.retro-secret) {
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a[class*="rounded"]):not(.retro-secret) {
   min-height: 44px;
   border: 1px solid #857961;
   border-radius: 0;
@@ -46,7 +46,7 @@ html[data-retro="true"][data-retro-mode="newspaper"] :where(button, a[class*="ro
   background: #ede6d5;
   color: #27231d;
 }
-html[data-retro="true"][data-retro-mode="newspaper"] :where(button):not(.retro-trigger):not(.retro-secret):active {
+html[data-retro="true"][data-retro-mode="newspaper"] :where(button):not(.retro-secret):active {
   border-style: solid;
   background: #e3dac3;
   box-shadow: none;
@@ -68,3 +68,148 @@ html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-nav a:visited { 
 html[data-retro="true"][data-retro-mode="newspaper"] main footer { border-top: 3px double #27231d; }
 html[data-retro="true"][data-retro-mode="newspaper"] [data-orbit-counter-rotation] > div > span { font-family: Georgia, "Times New Roman", serif; }
 html[data-retro="true"][data-retro-mode="newspaper"] [data-experience-panel] .text-emerald-700 { color: #514739; background: #e9e2cf; border-color: #857961; }
+
+/* Paper grain, the ears beside the nameplate, the ticker, the typed headline. */
+.newspaper-masthead {
+  background-color: #f4efdf;
+  background-image:
+    radial-gradient(rgb(39 35 29 / 0.035) 1px, transparent 1px),
+    radial-gradient(rgb(39 35 29 / 0.025) 1px, transparent 1px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 3px 5px;
+}
+.newspaper-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr) minmax(0, 150px);
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+.newspaper-ear {
+  margin: 0;
+  padding: 8px;
+  border: 1px solid #27231d;
+  font: 11px/1.35 Georgia, serif;
+  text-align: center;
+}
+.newspaper-ear strong { display: block; margin-bottom: 2px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+.newspaper-ticker {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #27231d;
+  font: 13px/1.4 Georgia, serif;
+}
+.newspaper-ticker > strong {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  background: #762c24;
+  color: #f4efdf;
+  font: bold 11px/1.9 Georgia, serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.newspaper-ticker-track { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; }
+.newspaper-ticker-track p {
+  display: inline-block;
+  margin: 0;
+  padding: 6px 0;
+  animation: newspaper-ticker 48s linear infinite;
+}
+.newspaper-ticker-track span::after { content: "◆"; margin: 0 18px; color: #762c24; font-size: 9px; }
+.newspaper-ticker:hover .newspaper-ticker-track p { animation-play-state: paused; }
+@keyframes newspaper-ticker { to { transform: translateX(-50%); } }
+.newspaper-headline {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-height: 7.2em;
+  align-content: center;
+}
+.newspaper-headline > p { margin: 0; font-weight: bold; text-wrap: balance; }
+.newspaper-caret { margin-left: 2px; font-style: normal; animation: newspaper-blink 0.7s steps(1) infinite; }
+@keyframes newspaper-blink { 50% { opacity: 0; } }
+html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-next {
+  min-height: 32px;
+  padding: 2px 10px;
+  border: 0;
+  background: transparent;
+  color: #762c24;
+  font: italic 13px/1.4 Georgia, serif;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* EXTRA! The front page spins in, lands, and the edition opens. */
+.newspaper-spin {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: radial-gradient(circle, #3a3226, #0d0b08 75%);
+  animation: newspaper-out 0.35s ease-in 2.25s forwards;
+  cursor: progress;
+}
+.newspaper-spin-page {
+  width: min(520px, 88vw);
+  padding: 22px 24px 28px;
+  background: #f4efdf;
+  color: #27231d;
+  text-align: center;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
+  animation: newspaper-spin 1.25s cubic-bezier(0.15, 0.7, 0.3, 1) both;
+}
+.newspaper-spin-extra { margin: 0; color: #762c24; font: bold clamp(1.4rem, 5vw, 2.2rem)/1 Georgia, serif; letter-spacing: 0.06em; }
+.newspaper-spin-name { margin: 10px 0; padding-block: 8px; border-block: 3px double #27231d; font: bold clamp(1.8rem, 7vw, 3rem)/1 Georgia, serif; letter-spacing: -0.03em; }
+.newspaper-spin-headline { margin: 0 0 16px; font: bold italic clamp(1rem, 3.4vw, 1.4rem)/1.25 Georgia, serif; text-wrap: balance; }
+.newspaper-spin-columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.newspaper-spin-columns span {
+  height: 90px;
+  background: repeating-linear-gradient(to bottom, #8d826c 0 2px, transparent 2px 9px);
+  opacity: 0.6;
+}
+@keyframes newspaper-spin {
+  from { transform: rotate(-1080deg) scale(0.04); }
+  to { transform: rotate(-3deg) scale(1); }
+}
+@keyframes newspaper-out { to { opacity: 0; visibility: hidden; } }
+
+/* Classifieds on the back page, after the site footer. */
+.newspaper-classifieds {
+  max-width: 980px;
+  margin: 24px auto 0;
+  padding: 20px 32px 28px;
+  background: #f4efdf;
+  color: #27231d;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.newspaper-classifieds h2 {
+  margin: 0 0 16px;
+  padding-block: 6px;
+  border-block: 4px double #27231d;
+  text-align: center;
+  font: bold 1.6rem/1.2 Georgia, serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.newspaper-classifieds > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.newspaper-classifieds article { padding: 4px 14px 10px; border-left: 1px solid #857961; }
+.newspaper-classifieds article:first-child { border-left: 0; padding-left: 0; }
+.newspaper-classifieds h3 { margin: 0 0 6px; font: bold 13px/1.3 Georgia, serif; letter-spacing: 0.08em; }
+.newspaper-classifieds p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+html[data-retro="true"][data-retro-mode="newspaper"] .newspaper-classifieds a { display: inline-block; min-height: 32px; padding-top: 4px; font: italic bold 13px/1.4 Georgia, serif; }
+
+@media (max-width: 640px) {
+  .newspaper-title-row { grid-template-columns: 1fr; margin-top: 14px; }
+  .newspaper-ear { display: none; }
+  .newspaper-classifieds { padding: 16px 16px 20px; margin-inline: 0; }
+  .newspaper-classifieds > div { grid-template-columns: 1fr 1fr; row-gap: 14px; }
+  .newspaper-classifieds article:nth-child(3) { border-left: 0; padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .newspaper-ticker-track { white-space: normal; }
+  .newspaper-ticker-track p { animation: none; }
+  .newspaper-ticker-track span[aria-hidden] { display: none; }
+  .newspaper-caret { animation: none; }
+}

@@ -1,7 +1,7 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { THEME_INIT_SCRIPT } from '@/app/[locale]/theme-init-script'
 import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
-import { RetroExperience, RetroTrigger } from '../retro-mode'
+import { RetroExperience } from '../retro-mode'
 import { RetroSecret } from '../retro-secret'
 
 beforeEach(() => {
@@ -17,18 +17,19 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-it('activates the whole-site mode and returns without changing modern theme preferences', () => {
+it('activates the whole-site mode and returns without changing modern theme preferences', async () => {
   render(
     <>
-      <RetroTrigger label="Restaurar backup de 1998" />
+      <RetroSecret mode="1998" />
       <RetroExperience locale="pt" />
     </>,
   )
-  const trigger = screen.getByRole('button', { name: 'Restaurar backup de 1998' })
+  const trigger = screen.getByRole('button', { name: 'Entrar no Windows 98' })
   trigger.focus()
   fireEvent.click(trigger)
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
   expect(sessionStorage.getItem('retro-mode')).toBe('true')
+  await screen.findByRole('link', { name: 'Projetos' })
   const exit = screen.getByRole('button', { name: 'Voltar ao futuro' })
   expect(exit).toHaveFocus()
   fireEvent.click(exit)
@@ -39,15 +40,15 @@ it('activates the whole-site mode and returns without changing modern theme pref
   expect(sessionStorage.getItem('retro-mode')).toBeNull()
 })
 
-it('restores the mode when the shared shell mounts after navigation', () => {
+it('restores the mode when the shared shell mounts after navigation', async () => {
   sessionStorage.setItem('retro-mode', 'true')
   render(<RetroExperience locale="en" />)
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
+  expect(await screen.findByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects')
   expect(screen.getByRole('button', { name: 'Back to the future' })).toBeInTheDocument()
-  expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects')
 })
 
-it('still activates and exits when browser storage is unavailable', () => {
+it('still activates and exits when browser storage is unavailable', async () => {
   vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
     throw new Error('blocked')
   })
@@ -59,12 +60,13 @@ it('still activates and exits when browser storage is unavailable', () => {
   })
   render(
     <>
-      <RetroTrigger label="Restore" />
+      <RetroSecret mode="1998" />
       <RetroExperience locale="es" />
     </>,
   )
-  fireEvent.click(screen.getByRole('button', { name: 'Restore' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Entrar no Windows 98' }))
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
+  await screen.findByRole('link', { name: 'Proyectos' })
   fireEvent.click(screen.getByRole('button', { name: 'Volver al futuro' }))
   expect(document.documentElement).not.toHaveAttribute('data-retro')
 })
@@ -79,12 +81,13 @@ it('restores the session attribute before hydration, independently of theme stor
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
 })
 
-it('retains active mode across client shell remounts', () => {
+it('retains active mode across client shell remounts', async () => {
   const shell = render(<RetroExperience locale="pt" />)
   act(() => useRetroMode.getState().setActive(true))
   shell.unmount()
   render(<RetroExperience locale="es" />)
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
+  await screen.findByRole('link', { name: 'Proyectos' })
   expect(screen.getByRole('button', { name: 'Volver al futuro' })).toBeInTheDocument()
 })
 
@@ -92,7 +95,7 @@ it('switches universes and returns focus to the original secret icon', async () 
   render(
     <>
       <RetroSecret mode="xp" />
-      <RetroTrigger label="1998" />
+      <RetroSecret mode="1998" />
       <RetroExperience locale="pt" />
     </>,
   )
@@ -102,8 +105,9 @@ it('switches universes and returns focus to the original secret icon', async () 
   await screen.findByRole('button', { name: 'Iniciar' })
   expect(document.documentElement).toHaveAttribute('data-retro-mode', 'xp')
   expect(screen.getByRole('button', { name: 'Voltar ao futuro' })).toHaveFocus()
-  fireEvent.click(screen.getByRole('button', { name: '1998' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Entrar no Windows 98' }))
   expect(document.documentElement).toHaveAttribute('data-retro-mode', '1998')
+  await screen.findByRole('link', { name: 'Projetos' })
   fireEvent.click(screen.getByRole('button', { name: 'Voltar ao futuro' }))
   expect(trigger).toHaveFocus()
   expect(document.documentElement).not.toHaveAttribute('data-retro-mode')
@@ -120,4 +124,17 @@ it.each(['xp', 'dos', 'gameboy', 'newspaper', 'ide', 'mac'])(
     new Function(THEME_INIT_SCRIPT)()
     expect(document.documentElement).toHaveAttribute('data-retro-mode', mode)
   },
+)
+
+it.each(['1998', 'xp', 'dos', 'gameboy', 'newspaper', 'ide', 'mac'])(
+  'loads the %s world on demand',
+  async (mode) => {
+    sessionStorage.setItem('retro-mode', mode === '1998' ? 'true' : mode)
+    render(<RetroExperience locale="pt" />)
+    await waitFor(() => expect(document.querySelector('.world-loading')).toBeNull(), {
+      timeout: 8000,
+    })
+    expect(document.querySelector('[data-retro-exit]')).toHaveFocus()
+  },
+  10_000,
 )
