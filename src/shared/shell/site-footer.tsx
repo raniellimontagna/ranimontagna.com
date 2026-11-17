@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { RetroSecret } from '@/shared/components/retro-mode/retro-secret'
 import { Link } from '@/shared/config/i18n/navigation'
 
-const RETRO_MODES = ['dos', 'mac', 'gameboy', 'xp', 'newspaper', 'ide'] as const
+const RETRO_MODES = ['1998', 'dos', 'mac', 'gameboy', 'xp', 'newspaper', 'ide'] as const
 
 export async function SiteFooter() {
   const t = await getTranslations('shell')

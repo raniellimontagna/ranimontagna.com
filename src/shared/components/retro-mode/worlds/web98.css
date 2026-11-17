@@ -1,0 +1,251 @@
+/* Windows 98 / 1998 homepage: the extras on top of the restyled site (retro-mode.css). */
+.w98-titlebutton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 24px;
+  padding: 0;
+  border: 2px outset #f2f2f2;
+  background: #c0c0c0;
+  color: #000;
+  font: bold 14px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.w98-titlebutton:active { border-style: inset; }
+.retro-titlebar .w98-titlebutton + .w98-titlebutton { margin-left: -4px; }
+.retro-titlebar .w98-titlebutton:last-child { margin-left: 2px; }
+.w98-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 4px 3px 8px;
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  font: bold 12px/1.4 Arial, sans-serif;
+}
+.w98-titlebar > span { flex: 1; min-width: 0; }
+.retro-titlebar { background: linear-gradient(90deg, #000080, #1084d0); padding: 3px 4px 3px 8px; }
+
+.w98-button {
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 2px outset #f2f2f2;
+  background: #c0c0c0;
+  color: #000;
+  font: 12px/1.3 Arial, sans-serif;
+  cursor: pointer;
+}
+.w98-button:active { border-style: inset; }
+
+.w98-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px 4px;
+  border-bottom: 1px solid #808080;
+}
+.w98-toolbar > button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 56px;
+  min-height: 44px;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #000;
+  font: 11px/1.2 Arial, sans-serif;
+  cursor: pointer;
+}
+html[data-retro="true"] .w98-toolbar > button { border: 1px solid transparent; background: transparent; }
+html[data-retro="true"] .w98-toolbar > button:hover { border: 1px outset #f2f2f2; }
+html[data-retro="true"] .w98-toolbar > button:active,
+html[data-retro="true"] .w98-toolbar > button[aria-pressed="true"] { border: 1px inset #f2f2f2; background: #d4d4d4; }
+.w98-toolbar > button > span:first-child { font-size: 18px; line-height: 1; }
+
+.w98-marquee {
+  overflow: hidden;
+  margin: -8px -8px 14px;
+  padding: 4px 0;
+  border: 2px inset #eee;
+  background: #000;
+  color: #ffff00;
+  font: bold 14px/1.4 "Courier New", monospace;
+  white-space: nowrap;
+}
+.w98-marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: w98-marquee 22s linear infinite;
+}
+.w98-marquee[data-stopped] p { animation-play-state: paused; }
+@keyframes w98-marquee { to { transform: translateX(-100%); } }
+
+.w98-rainbow {
+  height: 6px;
+  margin: 18px auto;
+  border: 0;
+  background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00cc00, #0099ff, #6633cc, #ff00ff);
+}
+.w98-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #0000aa;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+html[data-retro="true"] .w98-link { border: 0; background: none; color: #0000aa; font: inherit; }
+.w98-new {
+  display: inline-block;
+  padding: 0 4px;
+  background: #ff0000;
+  color: #ffff00;
+  font: bold 10px/1.5 Arial, sans-serif;
+  vertical-align: 2px;
+  animation: w98-blink 1s steps(1) infinite;
+}
+.w98-new[data-stopped] { animation: none; }
+@keyframes w98-blink { 50% { visibility: hidden; } }
+
+.w98-counter { margin: 12px 0; font: 14px/1.5 "Times New Roman", serif; }
+.w98-counter-digits { display: inline-flex; gap: 2px; padding: 3px; background: #000; border: 2px inset #ddd; vertical-align: middle; }
+.w98-counter-digits > span {
+  display: inline-block;
+  width: 18px;
+  background: linear-gradient(#222, #000 50%, #222);
+  color: #00ff00;
+  font: bold 17px/1.5 "Courier New", monospace;
+  text-align: center;
+}
+
+.w98-webring {
+  max-width: 560px;
+  margin: 16px auto;
+  padding: 10px;
+  border: 3px ridge #c0c0c0;
+  background: #ffffcc;
+}
+.w98-webring > p { margin-bottom: 8px; font: bold 15px/1.3 "Times New Roman", serif; color: #800000; }
+.w98-webring > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+
+.w98-statusbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 4px 4px;
+  font: 11px/1.4 Arial, sans-serif;
+}
+.w98-statusbar > span { padding: 2px 6px; border: 1px inset #eee; }
+.w98-statusbar > span:first-child { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+.w98-tray { display: flex; align-items: center; gap: 2px; padding: 2px 6px; border: 2px inset #ddd; margin-left: auto; }
+.w98-tray-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font: bold 16px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+html[data-retro="true"] .w98-tray-button { border: 1px solid transparent; background: transparent; color: #000; }
+html[data-retro="true"] .w98-tray-button[aria-pressed="true"] { border: 1px inset #eee; background: #d4d4d4; color: #000080; }
+.w98-clock { padding: 0 4px; font: 12px/1 Arial, sans-serif; white-space: nowrap; }
+
+/* Dial-up: a teal desktop with the connection dialog. */
+.w98-desktop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 16px;
+  background: #008080;
+  cursor: progress;
+  animation: w98-fade 0.2s ease-out;
+}
+@keyframes w98-fade { from { opacity: 0; } }
+.w98-dial {
+  width: min(420px, 100%);
+  border: 2px outset #f2f2f2;
+  background: #c0c0c0;
+  color: #000;
+  box-shadow: 1px 1px 0 #000;
+  font: 12px/1.4 Arial, sans-serif;
+}
+.w98-dial-body { display: flex; align-items: center; gap: 16px; padding: 18px 14px 10px; }
+.w98-dial-body svg { flex-shrink: 0; }
+.w98-dial-status { min-height: 2.8em; margin-top: 4px; font-weight: bold; }
+.w98-dial-packet { animation: w98-packet 0.9s linear infinite; }
+@keyframes w98-packet { to { transform: translateX(40px); } }
+.w98-progress { height: 14px; margin-top: 6px; padding: 1px; border: 2px inset #eee; background: #fff; }
+.w98-progress > span {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, #000080 0 8px, transparent 8px 10px);
+  transition: width 0.4s steps(4);
+}
+.w98-dial-actions { display: flex; justify-content: flex-end; padding: 0 14px 14px; }
+.w98-dial-skip { color: #fff; font: 12px/1.4 Arial, sans-serif; text-shadow: 1px 1px 0 #004040; }
+
+/* Guestbook window. */
+.w98-window {
+  position: fixed;
+  z-index: 70;
+  top: 72px;
+  left: 50%;
+  width: min(460px, calc(100% - 24px));
+  max-height: calc(100dvh - 160px - var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-50%);
+  border: 2px outset #f2f2f2;
+  background: #c0c0c0;
+  color: #000;
+  box-shadow: 2px 2px 0 #000;
+  animation: w98-open 0.18s steps(3);
+}
+@keyframes w98-open { from { transform: translateX(-50%) scale(0.6); opacity: 0.4; } }
+.w98-guestbook-body { overflow: auto; margin: 4px; padding: 12px; border: 2px inset #eee; background: #fff; font: 14px/1.5 "Times New Roman", serif; }
+.w98-guestbook-lead { margin-bottom: 10px; color: #800000; font-weight: bold; }
+.w98-guestbook-form { display: grid; gap: 8px; padding: 10px; border: 1px dashed #808080; background: #ffffe6; }
+.w98-guestbook-form label { display: grid; gap: 2px; font: 12px/1.3 Arial, sans-serif; }
+.w98-guestbook-form :is(input, textarea) { padding: 4px 6px; border: 2px inset #eee; background: #fff; color: #000; font: 14px/1.4 Arial, sans-serif; resize: vertical; }
+.w98-guestbook-form button { justify-self: start; }
+.w98-guestbook-thanks { margin-top: 8px; color: #006600; font-weight: bold; }
+.w98-guestbook-entries { margin-top: 12px; list-style: none; padding: 0; }
+.w98-guestbook-entries li { padding: 8px 0; border-top: 1px dotted #808080; }
+.w98-guestbook-entries li strong { color: #000080; }
+.w98-guestbook-entries li span { color: #666; font-size: 12px; }
+
+.w98-sparkles { position: fixed; inset: 0; z-index: 95; pointer-events: none; overflow: hidden; }
+.w98-sparkles > span {
+  position: absolute;
+  opacity: 0;
+  font-size: 14px;
+  line-height: 1;
+  text-shadow: 0 0 4px currentColor;
+}
+
+@media (max-width: 640px) {
+  .w98-toolbar > button { min-width: 44px; }
+  .w98-toolbar > button > span:last-child { display: none; }
+  .w98-dial-body { flex-direction: column; text-align: center; }
+  .w98-webring > div { flex-direction: column; }
+  .w98-window { top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w98-marquee p { animation: none; padding-left: 8px; white-space: normal; }
+  .w98-marquee { white-space: normal; }
+  .w98-new, .w98-dial-packet, .w98-desktop, .w98-window { animation: none; }
+}

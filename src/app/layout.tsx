@@ -1,6 +1,7 @@
 import './[locale]/globals.css'
 import '@/shared/components/retro-mode/retro-mode.css'
 import '@/shared/components/retro-mode/worlds/worlds-common.css'
+import '@/shared/components/retro-mode/worlds/web98.css'
 import '@/shared/components/retro-mode/worlds/xp.css'
 import '@/shared/components/retro-mode/worlds/dos.css'
 import '@/shared/components/retro-mode/worlds/gameboy.css'

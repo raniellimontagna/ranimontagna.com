@@ -56,11 +56,13 @@ function audio(): AudioContext | null {
   return context
 }
 
-export function playTones(tones: readonly Tone[]) {
-  if (!isSoundOn()) return
+/** Plays the tones and returns a function that silences whatever is still ringing. */
+export function playTones(tones: readonly Tone[]): () => void {
+  if (!isSoundOn()) return () => {}
   const ctx = audio()
-  if (!ctx) return
+  if (!ctx) return () => {}
   const start = ctx.currentTime + 0.02
+  const playing: OscillatorNode[] = []
   for (const tone of tones) {
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
@@ -74,6 +76,16 @@ export function playTones(tones: readonly Tone[]) {
     osc.connect(gain).connect(ctx.destination)
     osc.start(t0)
     osc.stop(t0 + tone.d + 0.05)
+    playing.push(osc)
+  }
+  return () => {
+    for (const osc of playing) {
+      try {
+        osc.stop()
+      } catch {
+        // Already stopped.
+      }
+    }
   }
 }
 

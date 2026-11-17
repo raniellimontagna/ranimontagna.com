@@ -1,32 +1,5 @@
 /* Everything nostalgic is opt-in. Modern theme preferences stay untouched. */
 .retro-chrome { display: none; }
-.retro-trigger {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  color: var(--muted);
-  cursor: pointer;
-}
-.retro-trigger:hover { color: var(--foreground); }
-.retro-trigger:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
-.retro-trigger-tooltip {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 6px);
-  width: max-content;
-  max-width: 230px;
-  padding: 7px 10px;
-  border: 1px solid var(--line);
-  background: var(--surface-strong);
-  color: var(--foreground);
-  font: 12px/1.4 var(--font-sans);
-  visibility: hidden;
-  pointer-events: none;
-}
-.retro-trigger:is(:hover, :focus-visible) .retro-trigger-tooltip { visibility: visible; }
 
 :root[data-retro="true"],
 :root[data-retro="true"][data-color-theme] {
@@ -86,7 +59,7 @@ html[data-retro="true"] :where(button, a[class*="rounded"], .surface-panel, .sur
   box-shadow: none;
   backdrop-filter: none;
 }
-html[data-retro="true"] :where(button, a[class*="rounded"]):not(.retro-trigger) {
+html[data-retro="true"] :where(button, a[class*="rounded"]) {
   border: 2px outset #e5e5e5;
   background: #c0c0c0;
   color: #111;
@@ -216,7 +189,6 @@ html[data-retro="true"] .retro-chrome { display: block; }
   font: bold 12px/1.4 Arial, sans-serif;
 }
 .retro-titlebar > span:nth-child(2) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.retro-window-glyphs { white-space: nowrap; letter-spacing: 4px; }
 .retro-address {
   display: flex;
   align-items: center;
@@ -258,16 +230,12 @@ html[data-retro="true"] .retro-taskbar {
 }
 .retro-exit { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 12px; font-weight: bold; flex-shrink: 0; cursor: pointer; }
 .retro-taskbar-page { padding: 9px 14px; border: 2px inset #ddd; flex: 1; }
-.retro-online { padding: 9px 10px; border: 2px inset #ddd; white-space: nowrap; }
-.retro-online > span { color: #005200; }
 @media (max-width: 640px) {
   html[data-retro="true"] body { padding: 8px 8px calc(72px + var(--safe-bottom)); }
   .retro-welcome-content { padding: 20px 10px 16px; }
   .retro-welcome-heading { flex-direction: column; gap: 10px; }
-  .retro-window-glyphs, .retro-taskbar-page { display: none; }
-  .retro-online { margin-left: auto; font-size: 9px; padding-inline: 5px; }
+  .retro-taskbar-page { display: none; }
   .retro-address { font-size: 10px; gap: 6px; padding-inline: 5px; }
-  .retro-trigger-tooltip { right: -10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .retro-construction-moving { display: none; }

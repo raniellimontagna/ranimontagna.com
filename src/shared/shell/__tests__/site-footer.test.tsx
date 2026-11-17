@@ -7,12 +7,12 @@ vi.mock('next-intl/server', () => ({
 }))
 
 describe('SiteFooter', () => {
-  it('keeps all six retro secrets', async () => {
+  it('keeps all seven retro secrets', async () => {
     render(await SiteFooter())
     const modes = Array.from(document.querySelectorAll('[data-retro-secret]')).map((el) =>
       el.getAttribute('data-retro-secret'),
     )
-    expect(modes.sort()).toEqual(['dos', 'gameboy', 'ide', 'mac', 'newspaper', 'xp'])
+    expect(modes.sort()).toEqual(['1998', 'dos', 'gameboy', 'ide', 'mac', 'newspaper', 'xp'])
   })
 
   it('links the blog and the projects', async () => {
