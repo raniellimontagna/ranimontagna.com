@@ -191,7 +191,7 @@
     "kicker": "who he is",
     "statement": "Engineering, product and business in the same conversation.",
     "detail": "Over 5 years building web and mobile products that need to scale, from apps for more than a thousand Magalu stores to his own live products.",
-    "photoAlt": "Ranielli Montagna at his laptop, hand on his chin, in front of a window with the city in the background"
+    "photoAlt": "Ranielli Montagna sitting on a sofa, in a black t-shirt and round glasses, in a room with a wooden slat wall"
   },
   "liveWork": {
     "kicker": "live",
@@ -336,7 +336,8 @@
     "copyEmail": "Copy email",
     "copied": "copied",
     "resume": "Resume",
-    "socialsLabel": "Elsewhere"
+    "socialsLabel": "Elsewhere",
+    "photoAlt": "Ranielli Montagna at a coffee shop, a coffee on the table and his chin resting on his hand"
   },
   "cases": {
     "common": {

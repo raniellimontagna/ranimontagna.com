@@ -1,6 +1,6 @@
 # Imagens do redesign 2026
 
-Origem de cada imagem em `public/redesign/`. Regra do projeto: IA só gera ambientes, nunca o rosto do Ranielli nem telas de produto; telas são capturas reais.
+Origem de cada imagem em `public/redesign/`. Regra do projeto: telas de produto são sempre capturas reais, nunca geradas por IA. As fotos do Ranielli são geradas por IA desde 17/11/2026, a pedido dele, a partir de fotos reais dele como referência (ver "Fotos do Ranielli").
 
 ## Cenas de ambiente (geradas)
 
@@ -66,7 +66,7 @@ As imagens próprias do site não passam mais pelo `/_next/image`, que a Cloudfl
 - **Larguras por tipo:**
   - fundos do ciclo: 640, 1080 e 1536, com AVIF q62 e WebP q84 (tela cheia);
   - frames do "No ar", cases da Atto e o compêndio: 640, 1080, 1600 e 2000;
-  - foto do interlúdio: 480, 720 e 960;
+  - fotos do interlúdio e do contato: 480, 720 e 960;
   - celular do capítulo do produto: 320, 480 e 780.
 - **Nunca ampliam:** uma cópia não passa da largura do mestre.
 - **Como gerar:** `pnpm images:copies`. O script confere se o tamanho do mestre bate com a lista.
@@ -114,12 +114,26 @@ As imagens próprias do site não passam mais pelo `/_next/image`, que a Cloudfl
 
 ## Retrato da abertura (LCP)
 
-`public/redesign/portrait/v1/photo-{384,640,750,828,1080,1440}.webp` são cópias redimensionadas de `public/photo.webp` (WebP q72). A abertura usa esses arquivos estáticos, e não o `/_next/image`: arquivo com extensão fica no cache da borda da Cloudflare, enquanto o otimizador voltava à origem a cada visita.
+`public/redesign/portrait/v2/photo-{384,640,750,828,1080}.webp` são cópias redimensionadas de `public/photo.webp` (WebP q72). A abertura usa esses arquivos estáticos, e não o `/_next/image`: arquivo com extensão fica no cache da borda da Cloudflare, enquanto o otimizador voltava à origem a cada visita. O mestre atual tem 1083 px de largura, então não há cópia de 1440: as cópias nunca ampliam.
 
 - **Cache:** um ano, `immutable`, só para essas larguras (`next.config.ts`).
-- **Ao trocar a foto:** gere as cópias numa pasta nova (`v2`) e troque `PORTRAIT_DIR` em `src/features/home/components/portrait/portrait-image.ts`. A regra de cache do `next.config.ts` é montada a partir dessa mesma constante. Mantendo o nome, o cache serviria a foto antiga.
-- **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080,1440])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/v1/photo-'+w+'.webp')"`.
+- **Fundo escuro obrigatório:** o retrato em código pinta cada célula pela luminância. Fundo claro vira uma parede de caracteres e some o rosto.
+- **Ao trocar a foto:** gere as cópias numa pasta nova (`v3`) e troque `PORTRAIT_DIR` em `src/features/home/components/portrait/portrait-image.ts`. A regra de cache do `next.config.ts` é montada a partir dessa mesma constante. Mantendo o nome, o cache serviria a foto antiga.
+- **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/v2/photo-'+w+'.webp')"`.
 
 ## Imagem de compartilhamento
 
-`public/og/og-{pt,en,es}.jpg` (1200×630) mostram nome, papel, uma frase e a foto, no estilo novo. Foram gerados com o sharp a partir de `public/photo.webp`, com texto em Helvetica Neue e Menlo. O `og-image.png` antigo continua no ar para os links já compartilhados, mas era uma foto em pé declarada como 1200×630. Ao mudar o texto, gere arquivos com outro nome, porque as redes guardam a imagem pelo endereço.
+`public/og/og-{pt,en,es}-v2.jpg` (1200×630) mostram nome, papel, uma frase e a foto, no estilo novo. A v1 (`og-{pt,en,es}.jpg`) foi gerada com o sharp a partir da foto antiga, com texto em Helvetica Neue e Menlo. A v2 (17/11/2026) é a v1 com a metade direita trocada pela foto nova, que entra com um degradê de 170 px sobre o fundo `#070b0c`. A v1 e o `og-image.png` antigo continuam no ar para os links já compartilhados. Ao mudar o texto ou a foto, gere arquivos com outro nome, porque as redes guardam a imagem pelo endereço.
+
+## Fotos do Ranielli (17/11/2026)
+
+São geradas por IA (Codex CLI, `image_generation`), sempre a partir de fotos reais dele como referência de rosto. Ele aprovou cada uma. Os prompts, as referências e todas as versões ficam fora do repo, em `~/Projetos/pessoal/fotos/2026-11-perfil/` (`prompts/v3/`, `geradas/v3/`, `finais/`).
+
+| Arquivo | Origem | Onde aparece |
+|---|---|---|
+| `public/photo.webp` (1083×1452) | `19-topo-escuro-v2`: a foto antiga da abertura com a cabeça trocada pela dele de hoje, de óculos. Mantém o fundo escuro e a pose | abertura (retrato em código), JSON-LD, cartão de compartilhamento |
+| `public/images/ranielli-sofa.webp` (960×1280) | `14-sobre-v3`, recortada em 3:4 | interlúdio "quem é" |
+| `public/images/ranielli-cafe.webp` (960×1200) | `16-cafe-v1` | contato |
+| `public/images/avatar-112.webp` | `13-avatar-v1` | modo retrô |
+
+Manchas vermelhas que o gerador copia das referências saem por um retoque que só mexe na baixa frequência (`scripts/tirar-manchas.py` da pasta de fotos): os poros e a textura ficam. A `hero-ranielli.webp` (2026, notebook prata) e o retrato v1 saíram.

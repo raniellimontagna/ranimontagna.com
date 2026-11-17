@@ -191,7 +191,7 @@
     "kicker": "quién es",
     "statement": "Ingeniería, producto y negocio en la misma conversación.",
     "detail": "Más de 5 años construyendo productos web y móviles que necesitan escalar, desde apps para más de mil tiendas de Magalu hasta productos propios en línea.",
-    "photoAlt": "Ranielli Montagna frente a su portátil, con la mano en el mentón, ante una ventana con la ciudad al fondo"
+    "photoAlt": "Ranielli Montagna sentado en un sofá, con camiseta negra y gafas redondas, en una sala con pared de listones de madera"
   },
   "liveWork": {
     "kicker": "en línea",
@@ -336,7 +336,8 @@
     "copyEmail": "Copiar correo",
     "copied": "copiado",
     "resume": "Currículum",
-    "socialsLabel": "Redes"
+    "socialsLabel": "Redes",
+    "photoAlt": "Ranielli Montagna en una cafetería, con un café en la mesa y la cara apoyada en la mano"
   },
   "cases": {
     "common": {
