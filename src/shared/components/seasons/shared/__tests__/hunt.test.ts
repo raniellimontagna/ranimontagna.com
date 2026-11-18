@@ -1,3 +1,4 @@
+import { blockStorage } from '@/tests/mocks/storage'
 import { addFound, HUNT_SPOTS, huntKey, isComplete, loadFound, saveFound } from '../hunt'
 
 afterEach(() => {
@@ -34,14 +35,10 @@ it('starts over on broken or foreign data', () => {
 })
 
 it('starts over when storage is blocked', () => {
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
-  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
+  saveFound('natal', 2026, ['ia'])
+  blockStorage()
   expect(loadFound('natal', 2026)).toEqual([])
-  expect(() => saveFound('natal', 2026, ['ia'])).not.toThrow()
+  expect(() => saveFound('natal', 2026, ['atto'])).not.toThrow()
 })
 
 it('keeps each season apart', () => {
