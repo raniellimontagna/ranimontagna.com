@@ -3,3 +3,76 @@
  * after the season is turned off or a retro world opens, so any rule on an element
  * outside the layer starts with :root[data-season="junina"]:not([data-retro]).
  */
+
+/* Bunting over the hero name: paper flags hung from a measured wire. */
+.junina-bunting {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.junina-wire {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.junina-wire path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--foreground) 55%, transparent);
+  stroke-width: 1.5;
+}
+.junina-flag {
+  position: absolute;
+  width: 0.15em;
+  height: 0.19em;
+  translate: -50% 0;
+  transform-origin: 50% 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+  background: var(--flag);
+}
+.junina-flag[data-color="red"] {
+  --flag: var(--season-red);
+}
+.junina-flag[data-color="yellow"] {
+  --flag: var(--season-yellow);
+}
+.junina-flag[data-color="blue"] {
+  --flag: var(--season-blue);
+}
+.junina-flag[data-color="green"] {
+  --flag: var(--season-green);
+}
+.junina-flag[data-color="fire"] {
+  --flag: var(--season-fire);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .junina-flag {
+    animation: junina-sway 2.6s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.37s);
+  }
+  .junina-bunting[data-gust] .junina-flag {
+    animation: junina-gust 0.42s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * -0.07s);
+  }
+  :root[data-season="junina"]:not([data-retro]) [data-hero-title][data-no-season-click] {
+    cursor: pointer;
+  }
+}
+:root[data-season="junina"]:not([data-retro]) [data-hero-title][data-season-idle] .junina-flag {
+  animation-play-state: paused;
+}
+@keyframes junina-sway {
+  from {
+    rotate: -7deg;
+  }
+  to {
+    rotate: 7deg;
+  }
+}
+@keyframes junina-gust {
+  from {
+    rotate: -24deg;
+  }
+  to {
+    rotate: 20deg;
+  }
+}
