@@ -1,13 +1,11 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { usePathname } from '@/shared/config/i18n/navigation'
-import { track } from '@/shared/lib/analytics/track'
 import { fill } from '../shared/fill'
-import { useSlots } from '../shared/use-slots'
+import { HUNT_SPOTS } from '../shared/hunt'
+import { HuntSpots } from '../shared/hunt-spots'
+import { useHunt } from '../shared/use-hunt'
 import { GiftButton } from './gift-button'
-import { addFound, GIFT_IDS, type GiftId, isComplete, loadFound, saveFound } from './gift-hunt'
 import { HuntBar } from './hunt-bar'
 import { getNatalCopy } from './natal-copy'
 import { playBell } from './natal-sound'
@@ -20,64 +18,42 @@ type HuntProps = {
   onReopen: () => void
 }
 
-const asGift = (value: string | null): GiftId | null =>
-  GIFT_IDS.includes(value as GiftId) ? (value as GiftId) : null
+const ring = () => {
+  playBell()
+}
 
-/**
- * Five gifts hidden in the home sections. The state lives here, above the pages,
- * so opened gifts stay opened when the visitor navigates away and back.
- */
+/** Five gifts hidden in the home sections; opened gifts stay opened across pages. */
 export function Hunt({ locale, onComplete, onReopen }: HuntProps) {
   const copy = getNatalCopy(locale)
-  const year = new Date().getFullYear()
-  const [found, setFound] = useState<GiftId[]>(() => loadFound(year))
-  const foundRef = useRef(found)
-  const slots = useSlots('[data-season-gift]')
+  const { found, find, complete } = useHunt({
+    season: 'natal',
+    edition: new Date().getFullYear(),
+    onFind: ring,
+    onComplete,
+  })
   const pathname = usePathname()
-
-  const open = useCallback(
-    (id: GiftId) => {
-      const previous = foundRef.current
-      if (previous.includes(id)) return
-      const next = addFound(previous, id)
-      foundRef.current = next
-      setFound(next)
-      saveFound(year, next)
-      playBell()
-      track('season-gift', { season: 'natal', gift: id, found: next.length })
-      if (isComplete(next)) onComplete()
-    },
-    [year, onComplete],
-  )
 
   return (
     <>
-      {slots.map((slot) => {
-        const id = asGift(slot.getAttribute('data-season-gift'))
-        if (!id) return null
-        const opened = found.includes(id)
-        return createPortal(
-          <GiftButton
-            id={id}
-            index={GIFT_IDS.indexOf(id)}
-            opened={opened}
-            label={fill(opened ? copy.giftOpened : copy.giftClosed, {
-              n: GIFT_IDS.indexOf(id) + 1,
-              total: GIFT_IDS.length,
-            })}
-            onOpen={open}
-          />,
-          slot,
-          id,
-        )
-      })}
+      <HuntSpots
+        render={(id, index) => {
+          const opened = found.includes(id)
+          return (
+            <GiftButton
+              id={id}
+              index={index}
+              opened={opened}
+              label={fill(opened ? copy.giftOpened : copy.giftClosed, {
+                n: index + 1,
+                total: HUNT_SPOTS.length,
+              })}
+              onOpen={find}
+            />
+          )
+        }}
+      />
       {pathname === '/' ? (
-        <HuntBar
-          found={found.length}
-          complete={isComplete(found)}
-          copy={copy}
-          onReopen={onReopen}
-        />
+        <HuntBar found={found.length} complete={complete} copy={copy} onReopen={onReopen} />
       ) : null}
     </>
   )

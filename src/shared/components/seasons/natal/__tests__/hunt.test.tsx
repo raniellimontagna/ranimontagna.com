@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { track } from '@/shared/lib/analytics/track'
+import { HUNT_SPOTS as GIFT_IDS } from '../../shared/hunt'
 import { setSeasonSound } from '../../shared/season-sound'
-import { GIFT_IDS } from '../gift-hunt'
 import { Hunt } from '../hunt'
 import { playBell } from '../natal-sound'
 

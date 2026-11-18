@@ -1,7 +1,7 @@
 'use client'
 
+import { HUNT_SPOTS } from '../shared/hunt'
 import { SoundToggle } from '../shared/sound-toggle'
-import { GIFT_IDS } from './gift-hunt'
 import type { NatalCopy } from './natal-copy'
 import { BellIcon, GiftIcon, GlobeIcon } from './natal-icons'
 
@@ -18,7 +18,7 @@ export function HuntBar({ found, complete, copy, onReopen }: HuntBarProps) {
     <div className="natal-hunt-bar">
       <span className="natal-hunt-count">
         <GiftIcon />
-        <span>{`${found}/${GIFT_IDS.length}`}</span>
+        <span>{`${found}/${HUNT_SPOTS.length}`}</span>
         <span className="sr-only">{copy.found}</span>
       </span>
       <SoundToggle
