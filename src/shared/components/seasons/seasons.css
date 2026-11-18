@@ -148,5 +148,10 @@
 }
 :root[data-season="carnaval"]:not([data-retro]) [data-season-slot="play"] {
   display: block;
-  min-height: 24rem;
+  min-height: 42rem;
+}
+@media (min-width: 768px) {
+  :root[data-season="carnaval"]:not([data-retro]) [data-season-slot="play"] {
+    min-height: 26rem;
+  }
 }

@@ -1,4 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react'
+import { captureIntersection } from '@/tests/mocks/canvas'
 import { playWhistle } from '../carnaval-sound'
 import { NameRhythm } from '../name-rhythm'
 
@@ -34,4 +35,15 @@ it('dances to samba, then frevo and marchinha on each click, and cleans up', asy
   unmount()
   expect(title).not.toHaveAttribute('data-ritmo')
   expect(title).not.toHaveAttribute('data-no-fireworks')
+})
+
+it('rests the dance while the name is off screen', async () => {
+  const view = captureIntersection()
+  render(<Hero />)
+  await act(async () => {})
+  const title = document.querySelector('[data-hero-title]') as HTMLElement
+  act(() => view.setVisible(false))
+  expect(title).toHaveAttribute('data-season-idle')
+  act(() => view.setVisible(true))
+  expect(title).not.toHaveAttribute('data-season-idle')
 })

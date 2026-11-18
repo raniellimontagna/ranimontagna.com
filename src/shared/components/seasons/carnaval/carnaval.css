@@ -30,6 +30,9 @@
 :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo] {
   cursor: pointer;
 }
+:root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-season-idle] [data-letter] {
+  animation-play-state: paused;
+}
 @keyframes carnaval-samba {
   0%,
   55%,
@@ -103,7 +106,8 @@
   display: grid;
   gap: 2rem;
   align-items: center;
-  min-height: 24rem;
+  /* The same heights seasons.css holds for the slot before the layer loads. */
+  min-height: 42rem;
   padding: 3.5rem 1rem 3rem;
   border-top: 1px solid var(--line);
 }
@@ -115,6 +119,7 @@
 @media (min-width: 768px) {
   .carnaval-bloco {
     grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    min-height: 26rem;
   }
 }
 @media (min-width: 1024px) {
