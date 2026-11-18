@@ -16,7 +16,7 @@ import { tokensBus } from './tokens-bus'
 
 const MAX_DPR = 2
 const MAX_STEP_MS = 50
-const AMBIENT_ALPHA = 0.35
+const AMBIENT_ALPHA = 0.25
 const BURST_ALPHA = 0.85
 
 function readStyle(): { palette: string[]; font: string } {

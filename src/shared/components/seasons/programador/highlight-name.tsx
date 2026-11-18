@@ -9,7 +9,7 @@ import { tokensBus } from './tokens-bus'
 
 const SETTLE_MS = 1400
 /** Keyword/function, string/number, all string (phosphor). The colours live in programador.css. */
-export const NAME_SCHEMES = 3
+const NAME_SCHEMES = 3
 
 /**
  * The hero name highlighted like code (programador.css), with a text caret after its last

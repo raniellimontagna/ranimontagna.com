@@ -16,8 +16,10 @@ it('reviews the same code in every language, one bug line per PR', () => {
   })
 })
 
-it('keeps every line short enough for a phone', () => {
+// The stage is held at the height of a five-line PR before the layer loads (seasons.css).
+it('keeps every PR within five lines short enough for a phone', () => {
   for (const pr of getProgramadorCopy('pt').prs) {
+    expect(pr.lines.length).toBeLessThanOrEqual(5)
     for (const line of pr.lines) expect(line.length).toBeLessThanOrEqual(36)
   }
 })

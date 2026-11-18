@@ -22,9 +22,7 @@ afterEach(() => {
 
 it('opens as a modal card with the five fixes and the build arpeggio', () => {
   render(<LgtmCard open onClose={() => {}} locale="pt" />)
-  expect(screen.getByRole('dialog', { name: 'LGTM: aprovado no code review' }).tagName).toBe(
-    'DIALOG',
-  )
+  expect(screen.getByRole('dialog', { name: 'Aprovado no code review' }).tagName).toBe('DIALOG')
   expect(screen.getAllByRole('listitem')).toHaveLength(5)
   expect(screen.getByText('sort((a, b) => a - b)')).toBeInTheDocument()
   expect(playBuild).toHaveBeenCalledTimes(1)

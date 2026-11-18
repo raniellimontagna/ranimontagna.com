@@ -59,8 +59,8 @@ terminal e editor; a época veste o site de sempre, com as cores de destaque de 
   de cada vez, cada um com um título e um trecho de 3 a 5 linhas. Cada linha é um botão. A
   linha certa marca "bug achado", mostra a explicação e o botão "Próximo PR"; uma linha certa
   de verdade (sem bug) responde "Essa linha está ok" e deixa tentar de novo. O progresso
-  fica guardado por edição. Nos 5, abre o cartão "LGTM: aprovado no code review" com os 5
-  bugs e o botão de compartilhar. Os trechos:
+  fica guardado por edição. Nos 5, abre o cartão "Aprovado no code review", com o selo "✓ LGTM", as 5 correções
+  e o botão de compartilhar. Os trechos:
   1. Último item: `return items[items.length]` (deveria ser `length - 1`).
   2. Admin: `if (user.role = 'admin')` (atribuição em vez de `===`).
   3. Busca: `const res = fetch(url)` sem `await`.

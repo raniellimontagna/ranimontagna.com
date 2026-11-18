@@ -16,7 +16,7 @@
 :root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="1"] > span:nth-child(2) [data-letter] {
   color: var(--season-number);
 }
-:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="2"] [data-letter] {
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="2"] > span:not([data-season-slot]) [data-letter] {
   color: var(--season-string);
 }
 :root[data-season="programador"]:not([data-retro]) [data-hero-title][data-no-season-click] {

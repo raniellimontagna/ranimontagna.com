@@ -6,6 +6,23 @@ const css = readFileSync(
   'utf8',
 ).replace(/\/\*[\s\S]*?\*\//g, '')
 
+const globalCss = readFileSync(
+  join(process.cwd(), 'src/shared/components/seasons/seasons.css'),
+  'utf8',
+).replace(/\/\*[\s\S]*?\*\//g, '')
+
+/** [classes, attributes and pseudo-classes; elements]: enough for these selectors. */
+function specificity(selector: string): [number, number] {
+  const middle =
+    (selector.match(/\[/g) ?? []).length +
+    (selector.match(/\.[a-z]/g) ?? []).length +
+    (selector.match(/:(root|first-child|nth-child\([^)]*\))/g) ?? []).length
+  const elements = (selector.match(/(^|[\s>])(span|div|p|h1)\b/g) ?? []).length
+  return [middle, elements]
+}
+const beats = (a: [number, number], b: [number, number]) =>
+  a[0] > b[0] || (a[0] === b[0] && a[1] > b[1])
+
 const selectors = Array.from(css.matchAll(/([^{}]+)\{/g), ([, selector]) => selector.trim())
   .filter((selector) => !selector.startsWith('@'))
   .filter((selector) => !/^(from|to|[\d.,%\s]+)$/.test(selector))
@@ -52,4 +69,19 @@ it('keeps the code as typed and lets a long listing scroll inside itself', () =>
   expect(/\.programador-line-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/white-space:\s*pre/)
   expect(/\.programador-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/overflow-x:\s*auto/)
   expect(/\.programador-line\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/min-height:\s*44px/)
+})
+
+// seasons.css paints scheme 0 before the layer loads; a later scheme has to win over it
+// whatever order the two sheets end up in.
+it('lets every colour scheme win over the pre-paint colours', () => {
+  const base = Array.from(
+    globalCss.matchAll(/([^{}]+\[data-hero-title\][^{}]*\[data-letter\])\s*\{/g),
+    ([, selector]) => specificity(selector.trim()),
+  )
+  expect(base.length).toBeGreaterThan(0)
+  const schemes = selectors.filter((selector) => /\[data-scheme="[12]"\]/.test(selector))
+  expect(schemes.length).toBe(3)
+  for (const scheme of schemes) {
+    for (const rule of base) expect(beats(specificity(scheme), rule), scheme).toBe(true)
+  }
 })
