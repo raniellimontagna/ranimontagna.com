@@ -44,7 +44,12 @@ export function EasterCard({ open, onClose, locale }: EasterCardProps) {
   }, [open])
 
   const share = async () => {
-    const result = await shareSite({ locale, title: copy.cardTitle, text: copy.shareText })
+    const result = await shareSite({
+      locale,
+      title: copy.cardTitle,
+      text: copy.shareText,
+      copyText: true,
+    })
     if (result === 'copied') setCopied(true)
   }
 

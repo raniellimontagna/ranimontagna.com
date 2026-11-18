@@ -17,7 +17,7 @@ it('paints the name in stripes, then dots and zigzags on each click, and cleans 
   await act(async () => {})
   const title = document.querySelector('[data-hero-title]') as HTMLElement
   expect(title).toHaveAttribute('data-pintura', 'listras')
-  expect(title).toHaveAttribute('data-no-fireworks')
+  expect(title).toHaveAttribute('data-no-season-click')
   fireEvent.click(title)
   expect(title).toHaveAttribute('data-pintura', 'bolinhas')
   fireEvent.click(title)
@@ -27,5 +27,5 @@ it('paints the name in stripes, then dots and zigzags on each click, and cleans 
   expect(playPloc).toHaveBeenCalledTimes(3)
   unmount()
   expect(title).not.toHaveAttribute('data-pintura')
-  expect(title).not.toHaveAttribute('data-no-fireworks')
+  expect(title).not.toHaveAttribute('data-no-season-click')
 })

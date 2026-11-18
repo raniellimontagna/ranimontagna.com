@@ -18,7 +18,7 @@ export function EggPaint() {
     if (!title) return
     let index = 0
     title.setAttribute('data-pintura', PAINTS[index])
-    title.setAttribute('data-no-fireworks', '')
+    title.setAttribute('data-no-season-click', '')
     const onClick = () => {
       index = (index + 1) % PAINTS.length
       title.setAttribute('data-pintura', PAINTS[index])
@@ -28,7 +28,7 @@ export function EggPaint() {
     return () => {
       title.removeEventListener('click', onClick)
       title.removeAttribute('data-pintura')
-      title.removeAttribute('data-no-fireworks')
+      title.removeAttribute('data-no-season-click')
     }
   }, [slot])
 
