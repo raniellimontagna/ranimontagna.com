@@ -3,3 +3,60 @@
  * after the season is turned off or a retro world opens, so any rule on an element
  * outside the layer starts with :root[data-season="pascoa"]:not([data-retro]).
  */
+
+/*
+ * The name painted like Easter eggs, letter by letter: each letter clips its own
+ * background to its glyph, so the letters' rise (a transform on the same element) is
+ * untouched. Paint tones come from seasons.css, at least 3:1 on the page in both themes.
+ */
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura] [data-letter] {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  cursor: pointer;
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura="listras"] [data-letter] {
+  background-image: repeating-linear-gradient(
+    -28deg,
+    var(--season-paint-1) 0 0.11em,
+    var(--season-paint-2) 0.11em 0.22em,
+    var(--season-paint-3) 0.22em 0.33em,
+    var(--season-paint-4) 0.33em 0.44em
+  );
+}
+:root[data-season="pascoa"]:not([data-retro])
+  [data-hero-title][data-pintura="listras"]
+  [data-letter]:nth-child(even) {
+  background-image: repeating-linear-gradient(
+    28deg,
+    var(--season-paint-3) 0 0.11em,
+    var(--season-paint-1) 0.11em 0.22em,
+    var(--season-paint-4) 0.22em 0.33em,
+    var(--season-paint-2) 0.33em 0.44em
+  );
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura="bolinhas"] [data-letter] {
+  /* Longhands only: the background shorthand would reset background-clip. */
+  background-color: var(--season-paint-1);
+  background-image: radial-gradient(circle, var(--season-paint-4) 0 0.045em, transparent 0.055em);
+  background-size: 0.2em 0.2em;
+}
+:root[data-season="pascoa"]:not([data-retro])
+  [data-hero-title][data-pintura="bolinhas"]
+  [data-letter]:nth-child(even) {
+  background-color: var(--season-paint-3);
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura="zigue"] [data-letter] {
+  background-color: var(--season-paint-4);
+  background-image:
+    linear-gradient(135deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(225deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(315deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(45deg, var(--season-paint-2) 25%, transparent 25%);
+  background-position:
+    -0.1em 0,
+    -0.1em 0,
+    0 0,
+    0 0;
+  background-size: 0.2em 0.2em;
+}
