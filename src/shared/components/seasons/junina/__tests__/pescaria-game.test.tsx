@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { track } from '@/shared/lib/analytics/track'
+import { captureIntersection } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { playAccordion } from '../junina-sound'
 import { PescariaGame } from '../pescaria-game'
@@ -118,4 +119,16 @@ it('lets each hooked fish leap out before it lands, even two at once', async () 
   act(() => vi.advanceTimersByTime(300))
   expect(document.querySelector('[data-fish="3"]')).toBeNull()
   expect(screen.getByText('2 de 5 fisgados')).toBeInTheDocument()
+})
+
+it('rests the fish while the pond is off screen', async () => {
+  const original = window.IntersectionObserver
+  const view = captureIntersection()
+  await renderGame()
+  const pond = document.querySelector('[data-pescaria]')
+  act(() => view.setVisible(false))
+  expect(pond).toHaveAttribute('data-season-idle')
+  act(() => view.setVisible(true))
+  expect(pond).not.toHaveAttribute('data-season-idle')
+  window.IntersectionObserver = original
 })

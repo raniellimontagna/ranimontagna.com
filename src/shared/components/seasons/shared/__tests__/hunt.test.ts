@@ -1,5 +1,16 @@
+import { track } from '@/shared/lib/analytics/track'
 import { blockStorage } from '@/tests/mocks/storage'
-import { addFound, HUNT_SPOTS, huntKey, isComplete, loadFound, saveFound } from '../hunt'
+import {
+  addFound,
+  HUNT_SPOTS,
+  huntKey,
+  isComplete,
+  loadFound,
+  recordCompleteOnce,
+  saveFound,
+} from '../hunt'
+
+vi.mock('@/shared/lib/analytics/track', () => ({ track: vi.fn() }))
 
 afterEach(() => {
   localStorage.clear()
@@ -44,4 +55,12 @@ it('starts over when storage is blocked', () => {
 it('keeps each season apart', () => {
   saveFound('natal', 2026, ['ia'])
   expect(loadFound('reveillon', 2026)).toEqual([])
+})
+
+it('counts a finished hunt once per session when storage is blocked', () => {
+  blockStorage()
+  recordCompleteOnce('junina', 2099)
+  recordCompleteOnce('junina', 2099)
+  expect(track).toHaveBeenCalledTimes(1)
+  expect(track).toHaveBeenCalledWith('season-hunt-complete', { season: 'junina' })
 })
