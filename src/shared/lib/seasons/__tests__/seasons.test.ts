@@ -30,6 +30,11 @@ describe('seasonOn', () => {
     [at(2, 10, 23, 59, 2027), 'carnaval'],
     [at(2, 11, 0, 0, 2027), null],
     [at(2, 14, 12, 0, 2026), 'carnaval'],
+    [at(3, 20, 23, 59, 2027), null],
+    [at(3, 21, 0, 0, 2027), 'pascoa'],
+    [at(3, 29, 23, 59, 2027), 'pascoa'],
+    [at(3, 30, 0, 0, 2027), null],
+    [at(4, 5, 12, 0, 2026), 'pascoa'],
   ])('%s → %s', (date, expected) => {
     expect(seasonOn(date)).toBe(expected)
   })

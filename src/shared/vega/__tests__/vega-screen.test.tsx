@@ -136,6 +136,15 @@ describe('VegaScreen', () => {
     useSeason.setState({ active: null, current: null, edition: null })
   })
 
+  it('greets for Easter with its own question', () => {
+    useSeason.setState({ active: 'pascoa', current: 'pascoa', edition: 2027 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Oi, eu sou a Vega. Feliz Páscoa!')).toBeInTheDocument()
+    expect(screen.getByText('Qual foi a novidade mais recente do Ranielli?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+  })
+
   it('keeps the usual greeting inside a retro world', () => {
     useSeason.setState({ active: 'natal', current: 'natal' })
     useRetroMode.setState({ active: true, mode: 'dos' })

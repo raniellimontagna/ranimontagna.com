@@ -46,12 +46,14 @@
 :root:not([data-season="natal"]) [data-season-only="natal"],
 :root:not([data-season="reveillon"]) [data-season-only="reveillon"],
 :root:not([data-season="carnaval"]) [data-season-only="carnaval"],
+:root:not([data-season="pascoa"]) [data-season-only="pascoa"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
 :root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"],
 :root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"],
-:root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"] {
+:root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"],
+:root[data-season="pascoa"]:not([data-retro]) [data-season-hide~="pascoa"] {
   display: none;
 }
 
@@ -154,4 +156,48 @@
   :root[data-season="carnaval"]:not([data-retro]) [data-season-slot="play"] {
     min-height: 26rem;
   }
+}
+
+/* Páscoa: chocolate and pastel eggs. Pastels decorate; text uses the deep tones. */
+:root[data-season="pascoa"]:not([data-retro]) {
+  --season-chocolate: #6b3e26;
+  --season-lilac: #c9b6f2;
+  --season-mint: #a8e6cf;
+  --season-pink: #f6b8d0;
+  --season-butter: #ffe8a3;
+  /* Paint for the name on the light background, each at least 3:1 (large text). */
+  --season-paint-1: #6d4fa0;
+  --season-paint-2: #22735f;
+  --season-paint-3: #a3386a;
+  --season-paint-4: #6b3e26;
+  --season-1: var(--season-lilac);
+  --season-2: var(--season-mint);
+  --season-3: var(--season-pink);
+}
+:root[data-season="pascoa"]:not([data-retro]).dark {
+  --season-chocolate: #c99063;
+  --season-paint-1: #c9b6f2;
+  --season-paint-2: #a8e6cf;
+  --season-paint-3: #f6b8d0;
+  --season-paint-4: #ffe8a3;
+}
+:root[data-season="pascoa"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #6b3e26;
+  --accent-strong: #52301d;
+  --accent-ice: #6d4fa0;
+  --on-accent: #ffffff;
+  --focus-ring: #52301d;
+  --ring: rgb(107 62 38 / 50%);
+  --ambient-lime: rgb(201 182 242 / 18%);
+  --ambient-ice: rgb(168 230 207 / 16%);
+}
+:root[data-season="pascoa"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #c9b6f2;
+  --accent-strong: #e2d6ff;
+  --accent-ice: #a8e6cf;
+  --on-accent: #091113;
+  --focus-ring: #e2d6ff;
+  --ring: rgb(201 182 242 / 48%);
+  --ambient-lime: rgb(201 182 242 / 10%);
+  --ambient-ice: rgb(168 230 207 / 8%);
 }
