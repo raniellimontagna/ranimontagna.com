@@ -38,7 +38,17 @@ it('blows nearby pieces away from the pointer', () => {
 
 it('never piles up past the cap: the oldest burst pieces go first', () => {
   let pieces = createConfetti(60, 800, 600, Math.random)
-  for (let i = 0; i < 10; i++) pieces = burstConfetti(pieces, 400, 300, Math.random)
-  expect(pieces.length).toBeLessThanOrEqual(MAX_PIECES)
+  // Each burst thrown from its own x, to tell them apart.
+  for (let i = 0; i < 10; i++) pieces = burstConfetti(pieces, i * 10, 300, Math.random)
+  expect(pieces).toHaveLength(MAX_PIECES)
   expect(pieces.filter((p) => !p.burst)).toHaveLength(60)
+  const kept = new Set(pieces.filter((p) => p.burst).map((p) => p.x))
+  expect(kept.has(90)).toBe(true)
+  expect(kept.has(0)).toBe(false)
+})
+
+it('lets thrown confetti flutter down, not drop like a stone', () => {
+  let pieces = burstConfetti([], 400, 300, () => 0.5)
+  for (let i = 0; i < 200; i++) pieces = stepConfetti(pieces, 16, 800, 6000, null, () => 0.5)
+  for (const p of pieces) expect(p.vy).toBeLessThanOrEqual(p.fall * 4 + 1e-9)
 })

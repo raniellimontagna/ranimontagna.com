@@ -29,7 +29,7 @@ afterEach(() => {
 it('invites the visitor with an empty banner', async () => {
   await renderGame()
   const game = document.querySelector('[data-season-slot="play"] [data-bloco-game]')
-  expect(game).toHaveAttribute('data-no-fireworks')
+  expect(game).toHaveAttribute('data-no-season-click')
   expect(screen.getByRole('heading', { name: 'Batize seu bloco' })).toBeInTheDocument()
   expect(screen.getByText('?')).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Compartilhar' })).toBeNull()
@@ -43,7 +43,7 @@ it('draws a name, sews it on the banner, announces and keeps it', async () => {
   expect(screen.getByRole('status')).toHaveTextContent('Seu bloco: Unidos do Merge Conflict')
   expect(localStorage.getItem('season-bloco:carnaval-2027')).toBe('0')
   expect(playBatucada).toHaveBeenCalledTimes(1)
-  expect(track).toHaveBeenCalledWith('season-bloco', { season: 'carnaval', found: 0 })
+  expect(track).toHaveBeenCalledWith('season-bloco', { season: 'carnaval', index: 0 })
 
   // Another draw never repeats the banner.
   fireEvent.click(screen.getByRole('button', { name: 'Sortear outro' }))
@@ -64,6 +64,6 @@ it('copies the link to share the bloco', async () => {
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: 'Compartilhar' }))
   })
-  expect(writeText).toHaveBeenCalled()
-  expect(screen.getByText('Link copiado')).toBeInTheDocument()
+  expect(writeText).toHaveBeenCalledWith(expect.stringContaining('Bloco Deploy na Sexta'))
+  expect(screen.getByRole('status')).toHaveTextContent('Link copiado')
 })

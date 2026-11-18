@@ -102,7 +102,8 @@ export function stepConfetti(
       }
     }
     if (p.burst) {
-      p.vy += GRAVITY * dt
+      // Paper flutters: past the top of the throw it falls a few times its gentle speed.
+      p.vy = Math.min(p.vy + GRAVITY * dt, p.fall * 4)
     } else {
       // Back to a gentle fall after a gust.
       p.vy += (p.fall - p.vy) * Math.min(1, 0.002 * dt)

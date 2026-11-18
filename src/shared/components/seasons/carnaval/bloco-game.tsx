@@ -64,7 +64,7 @@ export function BlocoGame({ locale, edition }: { locale: string; edition: number
     saveBloco(edition, next)
     setMessage(fill(copy.drawn, { name: copy.names[next] }))
     playBatucada()
-    track('season-bloco', { season: 'carnaval', found: next })
+    track('season-bloco', { season: 'carnaval', index: next })
   }
 
   const share = async () => {
@@ -73,6 +73,7 @@ export function BlocoGame({ locale, edition }: { locale: string; edition: number
       locale,
       title: copy.title,
       text: fill(copy.shareText, { name: copy.names[index] }),
+      copyText: true,
     })
     if (result === 'copied') setCopied(true)
   }
@@ -84,7 +85,7 @@ export function BlocoGame({ locale, edition }: { locale: string; edition: number
     <section
       aria-labelledby="carnaval-bloco-title"
       className="carnaval-bloco"
-      data-no-fireworks
+      data-no-season-click
       data-bloco-game
     >
       <div className="carnaval-bloco-text">
@@ -108,9 +109,11 @@ export function BlocoGame({ locale, edition }: { locale: string; edition: number
             icon={(on) => <SoundIcon on={on} />}
           />
         </div>
-        <p className="carnaval-bloco-copied">{copied ? copy.linkCopied : ''}</p>
+        <p className="carnaval-bloco-copied" aria-hidden="true">
+          {copied ? copy.linkCopied : ''}
+        </p>
         <p role="status" className="sr-only">
-          {message}
+          {copied ? copy.linkCopied : message}
         </p>
       </div>
       <Estandarte

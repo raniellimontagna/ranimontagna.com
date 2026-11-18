@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { prefersReducedMotion } from '@/shared/components/motion'
 import { useSlots } from '../shared/use-slots'
 import { playWhistle } from './carnaval-sound'
 
@@ -15,7 +16,8 @@ export function NameRhythm() {
 
   useEffect(() => {
     const title = slot?.closest('[data-hero-title]')
-    if (!title) return
+    // With reduced motion the name stays still: no rhythm to change, nothing to click.
+    if (!title || prefersReducedMotion()) return
     let index = 0
     // The dance rests while the name is off screen (carnaval.css).
     const seen =
@@ -26,7 +28,7 @@ export function NameRhythm() {
         : null
     seen?.observe(title)
     title.setAttribute('data-ritmo', RHYTHMS[index])
-    title.setAttribute('data-no-fireworks', '')
+    title.setAttribute('data-no-season-click', '')
     const onClick = () => {
       index = (index + 1) % RHYTHMS.length
       title.setAttribute('data-ritmo', RHYTHMS[index])
@@ -38,7 +40,7 @@ export function NameRhythm() {
       seen?.disconnect()
       title.removeAttribute('data-season-idle')
       title.removeAttribute('data-ritmo')
-      title.removeAttribute('data-no-fireworks')
+      title.removeAttribute('data-no-season-click')
     }
   }, [slot])
 

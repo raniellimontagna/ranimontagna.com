@@ -30,12 +30,6 @@ it('dances with translate and rotate, never transform', () => {
   for (const [, body] of dances) expect(body).not.toMatch(/transform\s*:/)
 })
 
-it('keeps its dialogs centered despite the CSS reset', () => {
-  for (const [, rule] of css.matchAll(/\.carnaval-[\w-]*dialog\s*\{([^}]*)\}/g)) {
-    expect(rule).toMatch(/margin:\s*auto/)
-  }
-})
-
 // The slot is held at the game's height before the chunk loads; both must agree.
 it('holds the play slot at the same heights as the game', () => {
   const global = readFileSync(

@@ -308,7 +308,7 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
     <section
       aria-labelledby="reveillon-waves-title"
       className="reveillon-sea"
-      data-no-fireworks
+      data-no-season-click
       data-waves-game
       onKeyDown={onKeyDown}
     >

@@ -69,7 +69,8 @@ it('throws a handful from a click on empty space, never from a link', () => {
   ctx.arc.mockClear()
   ctx.fillRect.mockClear()
   act(() => frames.flush())
-  expect(ctx.arc.mock.calls.length + ctx.fillRect.mock.calls.length).toBeGreaterThan(before / 2)
+  // The ambient pieces plus the 36 just thrown.
+  expect(ctx.arc.mock.calls.length + ctx.fillRect.mock.calls.length).toBe(before + 36)
 })
 
 it('draws a still sprinkle once with reduced motion', () => {

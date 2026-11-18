@@ -27,8 +27,15 @@
       carnaval-marchinha 2.4s ease-in-out infinite;
   }
 }
-:root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo] {
-  cursor: pointer;
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo] {
+    cursor: pointer;
+  }
+  /* Each line clips its letters (overflow hidden for the rise): room above for the dance. */
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title] > span:not([data-season-slot]) {
+    margin-top: -0.12em;
+    padding-top: 0.12em;
+  }
 }
 :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-season-idle] [data-letter] {
   animation-play-state: paused;

@@ -32,17 +32,17 @@ it('counts down in the footer', async () => {
   )
 })
 
-it('says one day, the days themselves and Ash Wednesday', async () => {
+it('says one day on the Friday before', async () => {
   await renderAt(new Date(2027, 1, 5, 12))
   expect(screen.getByText('Falta 1 dia para o Carnaval')).toBeInTheDocument()
 })
 
-it('celebrates during Carnival, in each language', async () => {
+it('celebrates during Carnival, in English too', async () => {
   await renderAt(new Date(2027, 1, 8, 12), 'en')
   expect(screen.getByText("It's Carnival!")).toBeInTheDocument()
 })
 
 it('goes back to work on Ash Wednesday', async () => {
   await renderAt(new Date(2027, 1, 10, 12))
-  expect(screen.getByText('Quarta-feira de Cinzas: de volta ao código')).toBeInTheDocument()
+  expect(screen.getByText('Quarta de Cinzas: volta ao código')).toBeInTheDocument()
 })
