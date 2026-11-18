@@ -125,6 +125,17 @@ describe('VegaScreen', () => {
     vi.useRealTimers()
   })
 
+  it('greets for Carnival with its own question', () => {
+    useSeason.setState({ active: 'carnaval', current: 'carnaval', edition: 2027 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Oi, eu sou a Vega. Bom Carnaval!')).toBeInTheDocument()
+    expect(
+      screen.getByText('Se o Ranielli tivesse um bloco, que projeto iria no abre-alas?'),
+    ).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+  })
+
   it('keeps the usual greeting inside a retro world', () => {
     useSeason.setState({ active: 'natal', current: 'natal' })
     useRetroMode.setState({ active: true, mode: 'dos' })

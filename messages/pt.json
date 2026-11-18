@@ -29,7 +29,8 @@
       "season": "Época",
       "seasons": {
         "natal": "Natal",
-        "reveillon": "Réveillon"
+        "reveillon": "Réveillon",
+        "carnaval": "Carnaval"
       }
     },
     "footer": {
@@ -564,6 +565,10 @@
       "reveillon": {
         "greeting": "Oi, eu sou a Vega. Feliz Ano Novo!",
         "suggestion": "Qual foi a maior entrega do Ranielli em {year}?"
+      },
+      "carnaval": {
+        "greeting": "Oi, eu sou a Vega. Bom Carnaval!",
+        "suggestion": "Se o Ranielli tivesse um bloco, que projeto iria no abre-alas?"
       }
     }
   }

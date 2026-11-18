@@ -62,14 +62,14 @@ export function YearCounter({ edition, turned }: { edition: number; turned: bool
         : null
     seen?.observe(title)
     // The name sends its own firework; the page-wide click should not add a second one.
-    title.setAttribute('data-no-fireworks', '')
+    title.setAttribute('data-no-season-click', '')
     title.addEventListener('click', onClick)
     return () => {
       window.clearTimeout(settle)
       resize?.disconnect()
       seen?.disconnect()
       title.removeAttribute('data-season-idle')
-      title.removeAttribute('data-no-fireworks')
+      title.removeAttribute('data-no-season-click')
       title.removeEventListener('click', onClick)
     }
   }, [slot])

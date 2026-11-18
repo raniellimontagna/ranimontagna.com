@@ -8,6 +8,7 @@ export const CODE_GLYPHS = '{}[]()<>/=;:+*#$&|_?!'
 const SEASON_GLYPHS: Record<SeasonId, string> = {
   natal: '*+·✦✧❅',
   reveillon: '·*✦✧+°',
+  carnaval: '•◦*+✦·',
 }
 
 /** What the pointer turns cells into: code, or the season's sparkles. */

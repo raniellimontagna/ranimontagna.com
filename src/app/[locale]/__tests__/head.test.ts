@@ -208,6 +208,17 @@ describe('locale head season', () => {
     expect(misses).toEqual([])
   })
 
+  it('starts the carnival photo early on the home page in February', () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2027, 1, 1, 12))
+    visit('/')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'carnaval')
+    expect(
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/carnaval-v"]'),
+    ).toHaveLength(1)
+  })
+
   it('reads a New Year turn-off by the edition the season started in', () => {
     vi.setSystemTime(new Date(2027, 0, 2, 12))
     window.localStorage.setItem('season-off:reveillon-2026', '1')

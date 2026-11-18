@@ -5,10 +5,11 @@ import { createPortal } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
 import { track } from '@/shared/lib/analytics/track'
 import { fill } from '../shared/fill'
+import { SoundIcon } from '../shared/sound-icon'
 import { SoundToggle } from '../shared/sound-toggle'
 import { useSlots } from '../shared/use-slots'
 import { getReveillonCopy } from './reveillon-copy'
-import { SoundIcon, SparkIcon } from './reveillon-icons'
+import { SparkIcon } from './reveillon-icons'
 import { playSplash } from './reveillon-sound'
 import {
   createWaves,
@@ -307,7 +308,7 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
     <section
       aria-labelledby="reveillon-waves-title"
       className="reveillon-sea"
-      data-no-fireworks
+      data-no-season-click
       data-waves-game
       onKeyDown={onKeyDown}
     >

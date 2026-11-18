@@ -36,3 +36,10 @@ it('fails quietly without a clipboard', async () => {
   })
   await expect(shareSite({ locale: 'es', ...card })).resolves.toBe('failed')
 })
+
+it('can copy the text with the link, when the text is the point', async () => {
+  const writeText = vi.fn(() => Promise.resolve())
+  Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
+  await shareSite({ locale: 'pt', ...card, copyText: true })
+  expect(writeText).toHaveBeenCalledWith(`Pulei as 7 ondas. ${window.location.origin}/`)
+})

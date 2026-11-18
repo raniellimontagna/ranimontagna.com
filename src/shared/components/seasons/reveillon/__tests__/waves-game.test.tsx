@@ -49,7 +49,7 @@ afterEach(() => {
 it('stages the game at the end of the home page, with a real Jump button', async () => {
   await renderGame()
   const game = document.querySelector('[data-season-slot="play"] [data-waves-game]')
-  expect(game).toHaveAttribute('data-no-fireworks')
+  expect(game).toHaveAttribute('data-no-season-click')
   expect(screen.getByRole('heading', { name: 'Pule as 7 ondas' })).toBeInTheDocument()
   expect(jumpButton()).toBeInTheDocument()
   expect(screen.getByText('0 de 7 ondas')).toBeInTheDocument()

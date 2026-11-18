@@ -1,0 +1,286 @@
+/*
+ * Carnaval, lazy part: styles for the layer's own elements. This sheet stays loaded
+ * after the season is turned off or a retro world opens, so any rule on an element
+ * outside the layer starts with :root[data-season="carnaval"]:not([data-retro]).
+ */
+
+/*
+ * The name dances in a wave (the letters' own rise stagger). Only translate, rotate and
+ * color move: the rise animates transform, so the two never fight.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title] [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-samba 3.2s ease-in-out infinite;
+  }
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo="frevo"] [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-frevo 1.6s ease-in-out infinite;
+  }
+  :root[data-season="carnaval"]:not([data-retro])
+    [data-hero-title][data-ritmo="marchinha"]
+    [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-marchinha 2.4s ease-in-out infinite;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo] {
+    cursor: pointer;
+  }
+  /* Each line clips its letters (overflow hidden for the rise): room above for the dance. */
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title] > span:not([data-season-slot]) {
+    margin-top: -0.12em;
+    padding-top: 0.12em;
+  }
+}
+:root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-season-idle] [data-letter] {
+  animation-play-state: paused;
+}
+@keyframes carnaval-samba {
+  0%,
+  55%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    color: var(--foreground);
+  }
+  65% {
+    translate: 0 -0.07em;
+    rotate: -4deg;
+    color: var(--season-magenta);
+  }
+  75% {
+    translate: 0 0.02em;
+    rotate: 3deg;
+    color: var(--season-yellow);
+  }
+  85% {
+    translate: 0 -0.03em;
+    rotate: 0deg;
+    color: var(--season-cyan);
+  }
+}
+@keyframes carnaval-frevo {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    color: var(--foreground);
+  }
+  25% {
+    translate: -0.03em -0.04em;
+    rotate: -7deg;
+    color: var(--season-yellow);
+  }
+  75% {
+    translate: 0.03em -0.04em;
+    rotate: 7deg;
+    color: var(--season-magenta);
+  }
+}
+@keyframes carnaval-marchinha {
+  0%,
+  50%,
+  100% {
+    translate: 0 0;
+    color: var(--foreground);
+  }
+  25% {
+    translate: 0 -0.05em;
+    color: var(--season-cyan);
+  }
+  75% {
+    translate: 0 -0.05em;
+    color: var(--season-green);
+  }
+}
+
+.carnaval-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+
+/* "Name your bloco": a strip at the end of the home page (slot held in seasons.css). */
+.carnaval-bloco {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  /* The same heights seasons.css holds for the slot before the layer loads. */
+  min-height: 42rem;
+  padding: 3.5rem 1rem 3rem;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 640px) {
+  .carnaval-bloco {
+    padding-inline: 2rem;
+  }
+}
+@media (min-width: 768px) {
+  .carnaval-bloco {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    min-height: 26rem;
+  }
+}
+@media (min-width: 1024px) {
+  .carnaval-bloco {
+    padding-inline: 3rem;
+  }
+}
+.carnaval-bloco-text {
+  display: grid;
+  gap: 0.75rem;
+  align-content: center;
+}
+.carnaval-bloco-title {
+  color: var(--foreground);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.carnaval-bloco-intro {
+  max-width: 40ch;
+  color: var(--foreground);
+  font-size: 1.15rem;
+}
+.carnaval-bloco-waiting,
+.carnaval-bloco-copied {
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.carnaval-bloco-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.carnaval-bloco-button {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.carnaval-bloco-button[data-primary] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: none;
+}
+.carnaval-bloco-sound {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.carnaval-bloco-sound[aria-pressed="true"] {
+  color: var(--season-magenta);
+}
+.carnaval-bloco-button:focus-visible,
+.carnaval-bloco-sound:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The banner: cloth in one of the bloco colours, gold trim and fringe. */
+.carnaval-estandarte {
+  position: relative;
+  justify-self: center;
+  width: min(15rem, 70vw);
+  aspect-ratio: 240 / 300;
+  transform-origin: 50% 0;
+  animation: carnaval-swing 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.carnaval-estandarte[data-color="magenta"] {
+  --cloth: var(--season-magenta);
+}
+.carnaval-estandarte[data-color="cyan"] {
+  --cloth: var(--season-cyan);
+}
+.carnaval-estandarte[data-color="green"] {
+  --cloth: var(--season-green);
+}
+.carnaval-estandarte[data-color="yellow"] {
+  --cloth: var(--season-yellow);
+}
+.carnaval-estandarte-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.carnaval-estandarte-cloth {
+  fill: var(--cloth);
+}
+.carnaval-estandarte-pole,
+.carnaval-estandarte-fringe {
+  fill: var(--season-yellow);
+}
+.carnaval-estandarte[data-color="yellow"] .carnaval-estandarte-fringe {
+  fill: var(--season-magenta);
+}
+.carnaval-estandarte-trim {
+  stroke: var(--season-on-color);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  opacity: 0.7;
+}
+.carnaval-estandarte-text {
+  position: absolute;
+  inset: 16% 16% 26%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.4rem;
+  color: var(--season-on-color);
+  text-align: center;
+}
+.carnaval-estandarte-founded {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.carnaval-estandarte-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+@keyframes carnaval-swing {
+  0% {
+    rotate: -5deg;
+  }
+  45% {
+    rotate: 3deg;
+  }
+  75% {
+    rotate: -1.5deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carnaval-estandarte {
+    animation: none;
+  }
+}

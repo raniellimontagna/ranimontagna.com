@@ -78,5 +78,6 @@ describe('glyphSetFor', () => {
     expect(glyphSetFor(null)).toBe(CODE_GLYPHS)
     expect(glyphSetFor('natal')).toBe('*+·✦✧❅')
     expect(glyphSetFor('reveillon')).toBe('·*✦✧+°')
+    expect(glyphSetFor('carnaval')).toBe('•◦*+✦·')
   })
 })

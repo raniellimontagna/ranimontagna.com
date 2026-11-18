@@ -38,12 +38,12 @@ it('sends a firework up from the name when it is clicked, and only that one', as
   const { unmount } = render(<Hero edition={2026} turned={false} />)
   await act(async () => {})
   const title = document.querySelector('[data-hero-title]') as HTMLElement
-  expect(title).toHaveAttribute('data-no-fireworks')
+  expect(title).toHaveAttribute('data-no-season-click')
   fireEvent.click(title, { clientX: 120, clientY: 300 })
   expect(launch).toHaveBeenCalledWith(expect.any(Number), expect.any(Number), { x: 120, y: 300 })
 
   unmount()
-  expect(title).not.toHaveAttribute('data-no-fireworks')
+  expect(title).not.toHaveAttribute('data-no-season-click')
 })
 
 it.each([
