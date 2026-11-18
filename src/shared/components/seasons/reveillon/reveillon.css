@@ -59,3 +59,67 @@
     text-shadow: 0 0 0.3em color-mix(in srgb, var(--season-gold) 45%, transparent);
   }
 }
+
+.reveillon-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+
+/* The last ten seconds of the year, in a corner, and the greeting after. */
+.reveillon-virada-count {
+  position: fixed;
+  right: 1rem;
+  bottom: 5.5rem;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1px solid color-mix(in srgb, var(--season-gold) 60%, transparent);
+  border-radius: 999px;
+  background: var(--background);
+  color: var(--season-gold);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 2rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+.reveillon-virada-greeting {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  color: var(--season-gold);
+  font-size: clamp(3rem, 12vw, 9rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-align: center;
+  text-shadow: 0 0.04em 0.4em color-mix(in srgb, var(--background) 80%, transparent);
+  pointer-events: none;
+  animation: reveillon-greeting 6s ease both;
+}
+@keyframes reveillon-greeting {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  12%,
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveillon-virada-greeting {
+    animation: none;
+  }
+}

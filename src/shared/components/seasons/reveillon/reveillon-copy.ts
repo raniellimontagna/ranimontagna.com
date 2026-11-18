@@ -1,7 +1,6 @@
 /** New Year texts in the site's three languages. `{name}` marks a value to fill in. */
 export type ReveillonCopy = {
-  /** `{year}` is the year that is coming. */
-  oneDay: string
+  /** `{n}` days and `{year}`, the year that is coming. */
   manyDays: string
   /** `{h}` hours and `{m}` minutes left on the 31st. */
   hours: string
@@ -30,7 +29,6 @@ export type ReveillonCopy = {
 
 const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
   pt: {
-    oneDay: 'Falta 1 dia para {year}',
     manyDays: 'Faltam {n} dias para {year}',
     hours: 'Faltam {h} h {m} min para {year}',
     minutes: 'Faltam {m} min para {year}',
@@ -63,7 +61,6 @@ const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
     ],
   },
   en: {
-    oneDay: '1 day to {year}',
     manyDays: '{n} days to {year}',
     hours: '{h} h {m} min to {year}',
     minutes: '{m} min to {year}',
@@ -96,7 +93,6 @@ const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
     ],
   },
   es: {
-    oneDay: 'Falta 1 día para {year}',
     manyDays: 'Faltan {n} días para {year}',
     hours: 'Faltan {h} h {m} min para {year}',
     minutes: 'Faltan {m} min para {year}',
