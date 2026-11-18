@@ -32,7 +32,8 @@
         "reveillon": "Réveillon",
         "carnaval": "Carnaval",
         "pascoa": "Páscoa",
-        "junina": "Festa Junina"
+        "junina": "Festa Junina",
+        "halloween": "Halloween"
       }
     },
     "footer": {
@@ -579,6 +580,10 @@
       "junina": {
         "greeting": "Arraiá! Eu sou a Vega.",
         "suggestion": "Quais tecnologias o Ranielli mais usa?"
+      },
+      "halloween": {
+        "greeting": "Buu! Eu sou a Vega.",
+        "suggestion": "Como o Ranielli evita bugs em produção?"
       }
     }
   }

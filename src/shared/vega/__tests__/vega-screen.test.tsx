@@ -154,6 +154,15 @@ describe('VegaScreen', () => {
     useSeason.setState({ active: null, current: null, edition: null })
   })
 
+  it('greets for Halloween with its own question', () => {
+    useSeason.setState({ active: 'halloween', current: 'halloween', edition: 2027 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Buu! Eu sou a Vega.')).toBeInTheDocument()
+    expect(screen.getByText('Como o Ranielli evita bugs em produção?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+  })
+
   it('keeps the usual greeting inside a retro world', () => {
     useSeason.setState({ active: 'natal', current: 'natal' })
     useRetroMode.setState({ active: true, mode: 'dos' })

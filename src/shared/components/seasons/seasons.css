@@ -48,6 +48,7 @@
 :root:not([data-season="carnaval"]) [data-season-only="carnaval"],
 :root:not([data-season="pascoa"]) [data-season-only="pascoa"],
 :root:not([data-season="junina"]) [data-season-only="junina"],
+:root:not([data-season="halloween"]) [data-season-only="halloween"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
@@ -55,7 +56,8 @@
 :root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"],
 :root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"],
 :root[data-season="pascoa"]:not([data-retro]) [data-season-hide~="pascoa"],
-:root[data-season="junina"]:not([data-retro]) [data-season-hide~="junina"] {
+:root[data-season="junina"]:not([data-retro]) [data-season-hide~="junina"],
+:root[data-season="halloween"]:not([data-retro]) [data-season-hide~="halloween"] {
   display: none;
 }
 
@@ -285,4 +287,39 @@
   :root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
     min-height: 32rem;
   }
+}
+
+/* Halloween: pumpkin, purple and slime. */
+:root[data-season="halloween"]:not([data-retro]) {
+  --season-pumpkin: #b45309;
+  --season-purple: #6b21a8;
+  --season-slime: #3f6212;
+  --season-1: var(--season-pumpkin);
+  --season-2: var(--season-purple);
+  --season-3: var(--season-slime);
+}
+:root[data-season="halloween"]:not([data-retro]).dark {
+  --season-pumpkin: #ff8a3d;
+  --season-purple: #c084fc;
+  --season-slime: #a3e635;
+}
+:root[data-season="halloween"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #b45309;
+  --accent-strong: #92400e;
+  --accent-ice: #6b21a8;
+  --on-accent: #ffffff;
+  --focus-ring: #92400e;
+  --ring: rgb(180 83 9 / 50%);
+  --ambient-lime: rgb(107 33 168 / 8%);
+  --ambient-ice: rgb(180 83 9 / 8%);
+}
+:root[data-season="halloween"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #ff8a3d;
+  --accent-strong: #ffb27a;
+  --accent-ice: #c084fc;
+  --on-accent: #091113;
+  --focus-ring: #ffb27a;
+  --ring: rgb(255 138 61 / 48%);
+  --ambient-lime: rgb(192 132 252 / 10%);
+  --ambient-ice: rgb(255 138 61 / 8%);
 }
