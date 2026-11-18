@@ -35,20 +35,39 @@ export const THEME_INIT_SCRIPT = `
       else preview = sessionStorage.getItem(${JSON.stringify(SEASON_PREVIEW_KEY)});
     } catch {}
 
+    // Windows by edition (the year a season starts): an end before the start is next
+    // year's; { easter: n } is n days from Easter Sunday (Meeus/Jones/Butcher).
+    const easter = (y) => {
+      const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
+      const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const n = h + l - 7 * m + 114;
+      return new Date(y, Math.floor(n / 31) - 1, (n % 31) + 1);
+    };
+    const key = (date) => date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+    const edge = (rule, y) => {
+      if (rule.easter === undefined) return key(new Date(y, rule.month - 1, rule.day));
+      const sunday = easter(y);
+      return key(new Date(y, sunday.getMonth(), sunday.getDate() + rule.easter));
+    };
     const now = new Date();
-    const today = (now.getMonth() + 1) * 100 + now.getDate();
-    const dated = seasons.find(
-      (season) =>
-        today >= season.from.month * 100 + season.from.day &&
-        today <= season.to.month * 100 + season.to.day,
-    );
+    const today = key(now);
+    let dated = null;
+    for (const edition of [now.getFullYear() - 1, now.getFullYear()]) {
+      for (const season of seasons) {
+        const start = edge(season.from, edition);
+        let end = edge(season.to, edition);
+        if (end < start) end = edge(season.to, edition + 1);
+        if (today >= start && today <= end) dated = { id: season.id, edition };
+      }
+    }
     const forced = valid(preview);
     const season = preview === 'off' ? null : forced || (dated ? dated.id : null);
     let off = false;
     if (season && !forced) {
       try {
-        off =
-          localStorage.getItem(${JSON.stringify(SEASON_OFF_PREFIX)} + season + '-' + now.getFullYear()) === '1';
+        off = localStorage.getItem(${JSON.stringify(SEASON_OFF_PREFIX)} + season + '-' + dated.edition) === '1';
       } catch {}
     }
     if (season && !off && !retroActive) {
