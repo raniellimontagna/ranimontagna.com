@@ -1,0 +1,5 @@
+/*
+ * Programmer's Day, lazy part: styles for the layer's own elements. This sheet stays loaded
+ * after the season is turned off or a retro world opens, so any rule on an element outside
+ * the layer starts with :root[data-season="programador"]:not([data-retro]).
+ */

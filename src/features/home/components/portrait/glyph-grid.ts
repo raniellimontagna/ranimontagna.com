@@ -11,6 +11,7 @@ const SEASON_GLYPHS: Record<SeasonId, string> = {
   carnaval: '•◦*+✦·',
   pascoa: 'o°·*✿+',
   junina: '▲▼*·✦+',
+  programador: '01{};/',
   halloween: '^v~*·+',
 }
 

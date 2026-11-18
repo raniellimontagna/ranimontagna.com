@@ -4,8 +4,11 @@
  * a test checks both agree for every day of 2026 to 2040.
  */
 
-/** A window edge: a fixed day, or a number of days from Easter Sunday. */
-export type SeasonEdge = { month: number; day: number } | { easter: number }
+/**
+ * A window edge: a fixed day, a number of days from Easter Sunday, or the nth day of the
+ * year (day 256 is 13 September, 12 September in a leap year).
+ */
+export type SeasonEdge = { month: number; day: number } | { easter: number } | { yearDay: number }
 
 export const SEASONS = [
   { id: 'reveillon', from: { month: 12, day: 27 }, to: { month: 1, day: 6 } },
@@ -16,6 +19,8 @@ export const SEASONS = [
   // The month of the arraiás, with São João (24) and São Pedro (29).
   { id: 'junina', from: { month: 6, day: 1 }, to: { month: 6, day: 30 } },
   // The week of Halloween and Saci Day (31/10), to All Saints' Day.
+  // Programmer's Day is the 256th day of the year (0x100): the five days before it to the day after.
+  { id: 'programador', from: { yearDay: 251 }, to: { yearDay: 257 } },
   { id: 'halloween', from: { month: 10, day: 24 }, to: { month: 11, day: 1 } },
   { id: 'natal', from: { month: 11, day: 25 }, to: { month: 12, day: 26 } },
 ] as const satisfies readonly { id: string; from: SeasonEdge; to: SeasonEdge }[]
@@ -59,6 +64,7 @@ const dayKey = (date: Date) =>
   date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
 
 function edgeDate(edge: SeasonEdge, year: number): Date {
+  if ('yearDay' in edge) return new Date(year, 0, edge.yearDay)
   if ('easter' in edge) {
     const easter = easterSunday(year)
     return new Date(year, easter.getMonth(), easter.getDate() + edge.easter)

@@ -154,6 +154,15 @@ describe('VegaScreen', () => {
     useSeason.setState({ active: null, current: null, edition: null })
   })
 
+  it("greets for Programmer's Day with its own question", () => {
+    useSeason.setState({ active: 'programador', current: 'programador', edition: 2027 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Oi, eu sou a Vega. Feliz Dia do Programador!')).toBeInTheDocument()
+    expect(screen.getByText('Como o Ranielli começou a programar?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+  })
+
   it('greets for Halloween with its own question', () => {
     useSeason.setState({ active: 'halloween', current: 'halloween', edition: 2027 })
     render(<VegaScreen />)

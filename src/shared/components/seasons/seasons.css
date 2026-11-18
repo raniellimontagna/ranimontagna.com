@@ -49,6 +49,7 @@
 :root:not([data-season="pascoa"]) [data-season-only="pascoa"],
 :root:not([data-season="junina"]) [data-season-only="junina"],
 :root:not([data-season="halloween"]) [data-season-only="halloween"],
+:root:not([data-season="programador"]) [data-season-only="programador"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
@@ -57,7 +58,8 @@
 :root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"],
 :root[data-season="pascoa"]:not([data-retro]) [data-season-hide~="pascoa"],
 :root[data-season="junina"]:not([data-retro]) [data-season-hide~="junina"],
-:root[data-season="halloween"]:not([data-retro]) [data-season-hide~="halloween"] {
+:root[data-season="halloween"]:not([data-retro]) [data-season-hide~="halloween"],
+:root[data-season="programador"]:not([data-retro]) [data-season-hide~="programador"] {
   display: none;
 }
 
@@ -324,4 +326,52 @@
   --ring: rgb(255 138 61 / 48%);
   --ambient-lime: rgb(192 132 252 / 10%);
   --ambient-ice: rgb(255 138 61 / 8%);
+}
+
+/* Programmer's Day: syntax-highlight colours on the site as it always is. */
+:root[data-season="programador"]:not([data-retro]) {
+  --season-keyword: #6d28d9;
+  --season-string: #15803d;
+  --season-number: #a16207;
+  --season-function: #0e7490;
+  --season-1: var(--season-keyword);
+  --season-2: var(--season-string);
+  --season-3: var(--season-function);
+}
+:root[data-season="programador"]:not([data-retro]).dark {
+  --season-keyword: #c4b5fd;
+  --season-string: #4ade80;
+  --season-number: #fbbf24;
+  --season-function: #22d3ee;
+}
+:root[data-season="programador"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #15803d;
+  --accent-strong: #166534;
+  --accent-ice: #0e7490;
+  --on-accent: #ffffff;
+  --focus-ring: #166534;
+  --ring: rgb(21 128 61 / 50%);
+  --ambient-lime: rgb(21 128 61 / 9%);
+  --ambient-ice: rgb(109 40 217 / 8%);
+}
+:root[data-season="programador"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #4ade80;
+  --accent-strong: #86efac;
+  --accent-ice: #c4b5fd;
+  --on-accent: #091113;
+  --focus-ring: #86efac;
+  --ring: rgb(74 222 128 / 48%);
+  --ambient-lime: rgb(74 222 128 / 10%);
+  --ambient-ice: rgb(196 181 253 / 8%);
+}
+/* The name's colours are set before paint, so the letters never flash the plain colour. */
+:root[data-season="programador"]:not([data-retro]) [data-hero-title] > span:first-child [data-letter] {
+  color: var(--season-keyword);
+}
+:root[data-season="programador"]:not([data-retro]) [data-hero-title] > span:nth-child(2) [data-letter] {
+  color: var(--season-function);
+}
+:root[data-season="programador"]:not([data-retro]) [data-season-slot="play"] {
+  display: block;
+  min-height: 34rem;
 }
