@@ -90,3 +90,201 @@
     translate: 0 3px;
   }
 }
+
+/* The bugs, in the five hunt spots; they crawl a little until squashed. */
+.halloween-bug {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  z-index: 31;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+}
+.halloween-bug:focus-visible,
+.halloween-hunt-button:focus-visible,
+.halloween-card-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.halloween-bug-icon {
+  width: 26px;
+  height: 26px;
+  overflow: visible;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .halloween-bug:not([data-fixed]) {
+    animation: halloween-crawl 7s ease-in-out infinite;
+  }
+  .halloween-bug[data-fixed] .halloween-bug-icon {
+    animation: halloween-squash 0.35s ease-out both;
+  }
+}
+@keyframes halloween-crawl {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  30% {
+    translate: -14px 2px;
+    rotate: -12deg;
+  }
+  55% {
+    translate: -8px -3px;
+    rotate: 8deg;
+  }
+  80% {
+    translate: 4px 1px;
+    rotate: -4deg;
+  }
+}
+@keyframes halloween-squash {
+  from {
+    scale: 1.4 0.4;
+  }
+}
+
+/* The hunt's corner on the home page. */
+.halloween-hunt-bar {
+  position: fixed;
+  left: max(1.25rem, var(--safe-left));
+  bottom: max(1.25rem, var(--safe-bottom));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font: 600 13px / 1 var(--font-mono);
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 45%);
+}
+.halloween-hunt-count {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-right: 0.25rem;
+}
+.halloween-hunt-count .halloween-bug-icon,
+.halloween-hunt-button .halloween-bug-icon {
+  width: 18px;
+  height: 18px;
+}
+.halloween-hunt-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.halloween-hunt-button[aria-pressed="true"] {
+  color: var(--accent);
+}
+
+/* The report card: a native modal dialog. */
+.halloween-card-dialog {
+  /* Tailwind's preflight zeroes every margin; a modal <dialog> centers with auto */
+  margin: auto;
+  width: min(420px, calc(100% - 32px));
+  max-height: calc(100svh - 32px);
+  overflow-y: auto;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--season-pumpkin) 40%, var(--line));
+  border-radius: 28px;
+  background: var(--background);
+  color: var(--foreground);
+  text-align: center;
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 70%);
+}
+.halloween-card-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.halloween-card-dialog:modal {
+  overscroll-behavior: contain;
+}
+.halloween-card-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /* No backdrop blur in this repo (crbug.com/414525204): a denser veil instead. */
+  background: rgb(4 7 8 / 84%);
+}
+.halloween-pumpkin {
+  width: 4.5rem;
+  height: auto;
+}
+.halloween-card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.halloween-card-report {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--foreground) 6%, transparent);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.halloween-card-report span {
+  color: var(--season-slime);
+  font-weight: 700;
+}
+.halloween-card-body {
+  color: var(--muted);
+}
+.halloween-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.halloween-card-button {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.halloween-card-button[data-primary] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: none;
+}
+.halloween-card-copied {
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.halloween-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+.halloween-countdown .halloween-pumpkin {
+  width: 14px;
+}
