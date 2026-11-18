@@ -29,7 +29,8 @@
       "season": "Temporada",
       "seasons": {
         "natal": "Navidad",
-        "reveillon": "Año Nuevo"
+        "reveillon": "Año Nuevo",
+        "carnaval": "Carnaval"
       }
     },
     "footer": {
@@ -564,6 +565,10 @@
       "reveillon": {
         "greeting": "Hola, soy Vega. ¡Feliz Año Nuevo!",
         "suggestion": "¿Cuál fue la mayor entrega de Ranielli en {year}?"
+      },
+      "carnaval": {
+        "greeting": "Hola, soy Vega. ¡Feliz Carnaval!",
+        "suggestion": "Si Ranielli tuviera una comparsa, ¿qué proyecto abriría el desfile?"
       }
     }
   }

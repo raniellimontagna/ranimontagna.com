@@ -45,11 +45,13 @@
 
 :root:not([data-season="natal"]) [data-season-only="natal"],
 :root:not([data-season="reveillon"]) [data-season-only="reveillon"],
+:root:not([data-season="carnaval"]) [data-season-only="carnaval"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
 :root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"],
-:root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"] {
+:root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"],
+:root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"] {
   display: none;
 }
 
@@ -103,4 +105,45 @@
   :root[data-season="reveillon"]:not([data-retro]) [data-season-slot="play"] {
     min-height: 26rem;
   }
+}
+
+/* Carnaval: the colours of the street blocos. */
+:root[data-season="carnaval"]:not([data-retro]) {
+  --season-magenta: #b0125a;
+  --season-yellow: #8a5a00;
+  --season-cyan: #0b6e80;
+  --season-green: #15803d;
+  --season-1: var(--season-magenta);
+  --season-2: var(--season-yellow);
+  --season-3: var(--season-cyan);
+}
+:root[data-season="carnaval"]:not([data-retro]).dark {
+  --season-magenta: #ff5fa2;
+  --season-yellow: #ffd23f;
+  --season-cyan: #22d3ee;
+  --season-green: #4ade80;
+}
+:root[data-season="carnaval"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #b0125a;
+  --accent-strong: #8c0e48;
+  --accent-ice: #0b6e80;
+  --on-accent: #ffffff;
+  --focus-ring: #8c0e48;
+  --ring: rgb(176 18 90 / 50%);
+  --ambient-lime: rgb(176 18 90 / 8%);
+  --ambient-ice: rgb(11 110 128 / 10%);
+}
+:root[data-season="carnaval"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #ff5fa2;
+  --accent-strong: #ff8cc0;
+  --accent-ice: #22d3ee;
+  --on-accent: #091113;
+  --focus-ring: #ff8cc0;
+  --ring: rgb(255 95 162 / 48%);
+  --ambient-lime: rgb(255 95 162 / 10%);
+  --ambient-ice: rgb(34 211 238 / 9%);
+}
+:root[data-season="carnaval"]:not([data-retro]) [data-season-slot="play"] {
+  display: block;
+  min-height: 24rem;
 }
