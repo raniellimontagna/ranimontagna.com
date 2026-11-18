@@ -294,6 +294,7 @@
   --season-pumpkin: #b45309;
   --season-purple: #6b21a8;
   --season-slime: #3f6212;
+  --season-bat: #1c1326;
   --season-1: var(--season-pumpkin);
   --season-2: var(--season-purple);
   --season-3: var(--season-slime);
@@ -302,6 +303,7 @@
   --season-pumpkin: #ff8a3d;
   --season-purple: #c084fc;
   --season-slime: #a3e635;
+  --season-bat: #c084fc;
 }
 :root[data-season="halloween"]:not([data-retro]):not([data-color-theme]) {
   --accent: #b45309;
