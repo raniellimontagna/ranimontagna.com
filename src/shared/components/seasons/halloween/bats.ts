@@ -46,7 +46,8 @@ export function stepBats(
         bat.vy += (dy / d) * push
       }
     }
-    bat.vy *= 0.985
+    // The same slow-down at any frame rate.
+    bat.vy *= 0.985 ** (dt / 16)
     bat.phase += dt * 0.022
     bat.x += bat.vx * dt
     bat.y += (bat.vy + Math.sin(bat.phase / 3) * 0.02) * dt

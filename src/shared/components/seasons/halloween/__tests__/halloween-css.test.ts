@@ -22,10 +22,21 @@ it('gates every rule on page elements outside the layer by the season attribute'
 })
 
 // The letters rise in with `transform`; a flicker on `transform` would cancel the rise.
-it('flickers with color and text-shadow only', () => {
+it('flickers with color and text-shadow only, eased, after the rise', () => {
   const body = /@keyframes halloween-flicker\s*\{([\s\S]*?)\n\}/.exec(css)?.[1] ?? ''
   expect(body).toMatch(/color:/)
   expect(body).not.toMatch(/transform\s*:/)
+  const letters = /\[data-hero-title\] \[data-letter\] \{([^}]*)\}/.exec(css)?.[1] ?? ''
+  expect(letters).toMatch(/animation:\s*letter-rise /)
+  expect(letters).toMatch(/halloween-flicker [\d.]+s ease-in-out infinite/)
+  // Stepped timing turned the flicker into a strobe.
+  expect(css).not.toMatch(/steps\(/)
+})
+
+it('makes room under the footer while the hunt corner is shown', () => {
+  expect(css).toMatch(
+    /:root\[data-season="halloween"\]:not\(\[data-retro\]\):has\(\.halloween-hunt-bar\) \[data-site-footer\]\s*\{[^}]*padding-bottom/,
+  )
 })
 
 // Only inside the no-preference queries does anything crawl, dangle or flicker.

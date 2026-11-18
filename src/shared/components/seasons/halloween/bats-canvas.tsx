@@ -120,6 +120,14 @@ export function BatsCanvas() {
     const onPointerOut = (event: PointerEvent) => {
       if (!event.relatedTarget) pointer = null
     }
+    // Touch panning cancels pointer events, so a finger is followed through touchmove.
+    const onTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (touch) pointer = { x: touch.clientX, y: touch.clientY }
+    }
+    const onTouchEnd = () => {
+      pointer = null
+    }
     // Only a real theme change re-reads the colour (smooth scroll toggles classes).
     const themeOf = (classes: string | null) => /\b(light|dark)\b/.exec(classes ?? '')?.[1]
     const theme = new MutationObserver((records) => {
@@ -145,6 +153,8 @@ export function BatsCanvas() {
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     window.addEventListener('pointerout', onPointerOut)
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    window.addEventListener('touchend', onTouchEnd)
     document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
@@ -155,6 +165,8 @@ export function BatsCanvas() {
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerout', onPointerOut)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])

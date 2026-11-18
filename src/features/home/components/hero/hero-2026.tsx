@@ -13,7 +13,11 @@ function NameLetters() {
   return NAME_LINES.map((line) => (
     <span key={line} className="block overflow-hidden pb-[0.08em]">
       {Array.from(line, (letter) => {
-        const delay = { animationDelay: `${index++ * LETTER_STAGGER_MS}ms` } as CSSProperties
+        // --letter lets a season time its own animation per letter without the rise's delay.
+        const delay = {
+          animationDelay: `${index * LETTER_STAGGER_MS}ms`,
+          '--letter': index++,
+        } as CSSProperties
 
         return (
           <span

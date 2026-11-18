@@ -35,3 +35,11 @@ it('leaves the name up and away, and flaps', () => {
   }
   expect(lifts.size).toBeGreaterThan(1)
 })
+
+it('slows its climb the same at 60 and 120 frames a second', () => {
+  const at60 = batFrom(200, 300, () => 0.2)
+  const at120 = batFrom(200, 300, () => 0.2)
+  for (let i = 0; i < 60; i++) stepBats([at60], 16, 1280, 800, null)
+  for (let i = 0; i < 120; i++) stepBats([at120], 8, 1280, 800, null)
+  expect(Math.abs(at60.y - at120.y)).toBeLessThan(6)
+})

@@ -165,8 +165,9 @@ Novas:
 ## Halloween
 
 - **Visual:** laranja-abóbora, roxo e verde-limo. O destaque padrão vira laranja.
-- **Efeito:** morcegos cruzam a tela de tempos em tempos e fogem do ponteiro; teias finas
-  nos cantos.
+- **Efeito:** morcegos cruzam a tela de tempos em tempos e fogem do ponteiro. Em vez de
+  teias nos cantos da tela (onde ficam o cabeçalho, a Vega e o contador da caça), uma teia
+  pequena com uma aranha fica na ponta da primeira linha do nome.
 - **Nome:** as letras tremulam como vela, com um brilho de abóbora; clicar solta um
   morcego do nome.
 - **Foto:** capa de vampiro de gola alta (nada no rosto).

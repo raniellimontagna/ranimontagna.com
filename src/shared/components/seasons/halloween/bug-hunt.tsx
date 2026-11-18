@@ -1,8 +1,9 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { usePathname } from '@/shared/config/i18n/navigation'
 import { fill } from '../shared/fill'
-import { HUNT_SPOTS } from '../shared/hunt'
+import { HUNT_SPOTS, type HuntSpot } from '../shared/hunt'
 import { HuntSpots } from '../shared/hunt-spots'
 import { SoundIcon } from '../shared/sound-icon'
 import { SoundToggle } from '../shared/sound-toggle'
@@ -23,6 +24,8 @@ type BugHuntProps = {
 const crunch = () => {
   playSquash()
 }
+/** How long a just-squashed bug plays its squash; found bugs stay still after that. */
+const SQUASH_MS = 400
 
 /** Five little bugs crawling in the home sections, in the spots the other hunts use. */
 export function BugHunt({ locale, edition, onComplete, onReopen }: BugHuntProps) {
@@ -34,6 +37,19 @@ export function BugHunt({ locale, edition, onComplete, onReopen }: BugHuntProps)
     onComplete,
   })
   const pathname = usePathname()
+  const [justFixed, setJustFixed] = useState<HuntSpot | null>(null)
+  const settle = useRef(0)
+
+  useEffect(() => () => window.clearTimeout(settle.current), [])
+
+  const squash = (id: HuntSpot) => {
+    if (!found.includes(id)) {
+      setJustFixed(id)
+      window.clearTimeout(settle.current)
+      settle.current = window.setTimeout(() => setJustFixed(null), SQUASH_MS)
+    }
+    find(id)
+  }
 
   return (
     <>
@@ -45,11 +61,12 @@ export function BugHunt({ locale, edition, onComplete, onReopen }: BugHuntProps)
               type="button"
               data-bug={id}
               data-fixed={fixed || undefined}
+              data-just-fixed={justFixed === id || undefined}
               aria-label={fill(fixed ? copy.bugFixed : copy.bugHidden, {
                 n: index + 1,
                 total: HUNT_SPOTS.length,
               })}
-              onClick={() => find(id)}
+              onClick={() => squash(id)}
               className="halloween-bug"
               style={{ animationDelay: `${index * -1.3}s` }}
             >

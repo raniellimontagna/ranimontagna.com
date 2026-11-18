@@ -73,3 +73,24 @@ it('keeps squashed bugs squashed after a reload', async () => {
   expect(bug('ia')).toHaveAttribute('data-fixed')
   expect(screen.getByText('2/5')).toBeInTheDocument()
 })
+
+it('does not record the finished hunt again in the same edition', async () => {
+  localStorage.setItem('season-gifts-done:halloween-2027', '1')
+  localStorage.setItem('season-gifts:halloween-2027', '["ia","no-ar","trajetoria","atto"]')
+  render(<Page />)
+  await act(async () => {})
+  fireEvent.click(bug('contato'))
+  expect(
+    vi.mocked(track).mock.calls.filter(([event]) => event === 'season-hunt-complete'),
+  ).toHaveLength(0)
+})
+
+it('plays the squash only on the bug just squashed, not on bugs fixed before', async () => {
+  localStorage.setItem('season-gifts:halloween-2027', '["ia"]')
+  render(<Page />)
+  await act(async () => {})
+  expect(bug('ia')).not.toHaveAttribute('data-just-fixed')
+  fireEvent.click(bug('atto'))
+  expect(bug('atto')).toHaveAttribute('data-just-fixed')
+  expect(bug('ia')).not.toHaveAttribute('data-just-fixed')
+})

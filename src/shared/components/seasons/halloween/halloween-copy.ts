@@ -49,7 +49,7 @@ const COPY: Record<'pt' | 'en' | 'es', HalloweenCopy> = {
     cardTitle: 'Zero bugs in production',
     cardBody:
       'You squashed all 5 hidden bugs. The deploy went through, the tests are green and the night can be all treats. Happy Halloween!',
-    report: ['5 bugs fixed', 'tests green', 'a deploy with no scares'],
+    report: ['5 bugs fixed', 'all tests green', 'a deploy with no scares'],
     shareText: "I squashed the 5 bugs hidden on Ranielli's site. Zero bugs in production!",
     share: 'Share',
     linkCopied: 'Link copied',

@@ -41,3 +41,8 @@ it('says goodbye on All Saints Day', async () => {
   await renderAt(new Date(2027, 10, 1, 12))
   expect(screen.getByText('Até o ano que vem. Buu!')).toBeInTheDocument()
 })
+
+it('says one day on the eve, in Spanish too', async () => {
+  await renderAt(new Date(2027, 9, 30, 12), 'es')
+  expect(screen.getByText('Falta 1 día para Halloween')).toBeInTheDocument()
+})
