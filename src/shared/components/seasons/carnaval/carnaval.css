@@ -3,3 +3,88 @@
  * after the season is turned off or a retro world opens, so any rule on an element
  * outside the layer starts with :root[data-season="carnaval"]:not([data-retro]).
  */
+
+/*
+ * The name dances in a wave (the letters' own rise stagger). Only translate, rotate and
+ * color move: the rise animates transform, so the two never fight.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title] [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-samba 3.2s ease-in-out infinite;
+  }
+  :root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo="frevo"] [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-frevo 1.6s ease-in-out infinite;
+  }
+  :root[data-season="carnaval"]:not([data-retro])
+    [data-hero-title][data-ritmo="marchinha"]
+    [data-letter] {
+    animation:
+      letter-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      carnaval-marchinha 2.4s ease-in-out infinite;
+  }
+}
+:root[data-season="carnaval"]:not([data-retro]) [data-hero-title][data-ritmo] {
+  cursor: pointer;
+}
+@keyframes carnaval-samba {
+  0%,
+  55%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    color: var(--foreground);
+  }
+  65% {
+    translate: 0 -0.07em;
+    rotate: -4deg;
+    color: var(--season-magenta);
+  }
+  75% {
+    translate: 0 0.02em;
+    rotate: 3deg;
+    color: var(--season-yellow);
+  }
+  85% {
+    translate: 0 -0.03em;
+    rotate: 0deg;
+    color: var(--season-cyan);
+  }
+}
+@keyframes carnaval-frevo {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+    color: var(--foreground);
+  }
+  25% {
+    translate: -0.03em -0.04em;
+    rotate: -7deg;
+    color: var(--season-yellow);
+  }
+  75% {
+    translate: 0.03em -0.04em;
+    rotate: 7deg;
+    color: var(--season-magenta);
+  }
+}
+@keyframes carnaval-marchinha {
+  0%,
+  50%,
+  100% {
+    translate: 0 0;
+    color: var(--foreground);
+  }
+  25% {
+    translate: 0 -0.05em;
+    color: var(--season-cyan);
+  }
+  75% {
+    translate: 0 -0.05em;
+    color: var(--season-green);
+  }
+}
