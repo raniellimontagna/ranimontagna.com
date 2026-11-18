@@ -19,7 +19,7 @@ export type Piece = {
 }
 
 export const MAX_PIECES = 240
-export const COLORS = 4
+const COLORS = 4
 const PUSH_RADIUS = 110
 const GRAVITY = 0.0009 // px/ms², for burst pieces
 const DRAG = 0.985 // per 16 ms

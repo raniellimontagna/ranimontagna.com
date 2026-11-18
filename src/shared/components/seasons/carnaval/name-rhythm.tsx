@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useSlots } from '../shared/use-slots'
 import { playWhistle } from './carnaval-sound'
 
-export const RHYTHMS = ['samba', 'frevo', 'marchinha'] as const
+const RHYTHMS = ['samba', 'frevo', 'marchinha'] as const
 
 /**
  * The hero name dances (carnaval.css); a click on it changes the rhythm. The name's
