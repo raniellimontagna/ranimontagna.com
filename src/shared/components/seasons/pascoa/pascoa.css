@@ -10,6 +10,10 @@
  * untouched. Paint tones come from seasons.css, at least 3:1 on the page in both themes.
  */
 :root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura] [data-letter] {
+  /* The paint only covers the letter's box: grow it over ascenders and descenders
+     (the g of Montagna) without moving anything. */
+  margin-block: -0.2em;
+  padding-block: 0.2em;
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
@@ -84,6 +88,10 @@
 .pascoa-bunny-hop {
   display: block;
   animation: pascoa-hop 0.5s ease-in-out infinite;
+}
+/* The drawing faces left: mirror it to face the way it goes (the strip flips for rtl). */
+.pascoa-bunny-hop svg {
+  scale: -1 1;
 }
 .pascoa-bunny-body,
 .pascoa-bunny-ear {
@@ -275,6 +283,8 @@
   background: rgb(4 7 8 / 84%);
 }
 .pascoa-choco {
+  /* Room above for the top half as it flies off. */
+  margin-top: 2.25rem;
   width: min(11rem, 50vw);
   height: auto;
   overflow: visible;
