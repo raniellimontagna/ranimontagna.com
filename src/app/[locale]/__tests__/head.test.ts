@@ -1,4 +1,5 @@
 import { seasonOn, seasonWindowOn } from '@/shared/lib/seasons/seasons'
+import { blockStorage } from '@/tests/mocks/storage'
 import { buildThemeInitScript, THEME_INIT_SCRIPT } from '../theme-init-script'
 
 const runThemeInitScript = () => {
@@ -104,12 +105,8 @@ describe('locale head season', () => {
 
   it('still follows the date when storage is blocked', () => {
     today(12, 10)
-    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-      throw new Error('blocked')
-    })
-    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-      throw new Error('blocked')
-    })
+    blockStorage()
+    blockStorage(sessionStorage)
     expect(runThemeInitScript).not.toThrow()
     expect(root).toHaveAttribute('data-season', 'natal')
   })

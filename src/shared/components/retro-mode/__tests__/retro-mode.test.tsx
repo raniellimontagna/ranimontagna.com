@@ -1,6 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { THEME_INIT_SCRIPT } from '@/app/[locale]/theme-init-script'
 import { useRetroMode } from '@/shared/store/use-retro-mode/use-retro-mode'
+import { blockStorage } from '@/tests/mocks/storage'
 import { RetroExperience } from '../retro-mode'
 import { RetroSecret } from '../retro-secret'
 
@@ -73,10 +74,8 @@ it('still activates and exits when browser storage is unavailable', async () => 
 
 it('restores the session attribute before hydration, independently of theme storage errors', () => {
   sessionStorage.setItem('retro-mode', 'true')
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, key) {
-    if (this === localStorage) throw new Error('blocked')
-    return key === 'retro-mode' ? 'true' : null
-  })
+  blockStorage()
+  expect(() => localStorage.getItem('theme')).toThrow('blocked')
   new Function(THEME_INIT_SCRIPT)()
   expect(document.documentElement).toHaveAttribute('data-retro', 'true')
 })

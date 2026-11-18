@@ -1,5 +1,6 @@
 import { setSoundOn } from '@/shared/components/retro-mode/worlds/world-sound'
 import { installFakeAudio } from '@/tests/mocks/audio'
+import { blockStorage } from '@/tests/mocks/storage'
 import {
   isSeasonSoundOn,
   onSeasonSoundChange,
@@ -49,12 +50,8 @@ it('plays once turned on, and tells who listens', () => {
 })
 
 it('keeps quiet when storage is blocked', () => {
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
-  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
+  localStorage.setItem('season-sound', 'on')
+  blockStorage()
   expect(isSeasonSoundOn()).toBe(false)
   expect(() => setSeasonSound(true)).not.toThrow()
 })
