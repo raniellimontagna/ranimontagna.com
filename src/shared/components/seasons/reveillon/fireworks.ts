@@ -110,8 +110,9 @@ export function ambientTarget(width: number, height: number, rand: () => number)
   return { x, y: height * (0.1 + rand() * 0.5) }
 }
 
+/** `tabindex="-1"` only marks a focus target (the skip link's <main>), not a control. */
 const INTERACTIVE =
-  'a, button, input, select, textarea, label, summary, [role="button"], [role="link"], [tabindex], [contenteditable], dialog, [data-no-fireworks]'
+  'a, button, input, select, textarea, label, summary, [role="button"], [role="link"], [tabindex]:not([tabindex="-1"]), [contenteditable], dialog, [data-no-fireworks]'
 
 /** A click there may launch a firework: plain page space, no text being selected. */
 export function isEmptySpot(target: Element | null, selection: string): boolean {

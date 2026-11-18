@@ -44,6 +44,14 @@ function palette() {
   }
 }
 
+/** A token colour with alpha, for canvas (which may not parse color-mix everywhere). */
+export function withAlpha(color: string, alpha: number): string {
+  if (!/^#[0-9a-f]{6}$/i.test(color)) return color
+  return `${color}${Math.round(alpha * 255)
+    .toString(16)
+    .padStart(2, '0')}`
+}
+
 function drawSea(ctx: CanvasRenderingContext2D, state: WavesState, w: number, h: number) {
   const { gold, silver, ink } = palette()
   const sea = h * 0.7
@@ -61,25 +69,40 @@ function drawSea(ctx: CanvasRenderingContext2D, state: WavesState, w: number, h:
   }
   ctx.stroke()
 
-  // Each wave: a crest with a line of foam.
+  // The sea under the water line, fading into the page.
+  const body = ctx.createLinearGradient(0, sea, 0, h)
+  body.addColorStop(0, withAlpha(silver, 0.18))
+  body.addColorStop(1, withAlpha(silver, 0))
+  ctx.globalAlpha = 1
+  ctx.fillStyle = body
+  ctx.fillRect(0, sea, w, h - sea)
+
+  // Each wave: a long swell whose crest curls forward (left, where it is going), foam on top.
   for (const wave of state.waves) {
     const cx = wave.x * w
-    const half = Math.max(34, w * 0.06)
-    const top = sea - h * 0.3
-    ctx.globalAlpha = wave.done ? 0.35 : 0.8
-    ctx.fillStyle = silver
+    const back = Math.max(60, w * 0.11)
+    const front = Math.max(26, w * 0.045)
+    const crest = sea - h * 0.32
+    const swell = ctx.createLinearGradient(0, crest, 0, sea)
+    swell.addColorStop(0, silver)
+    swell.addColorStop(1, withAlpha(silver, 0.25))
+    ctx.globalAlpha = wave.done ? 0.45 : 0.9
+    ctx.fillStyle = swell
     ctx.beginPath()
-    ctx.moveTo(cx - half, sea)
-    ctx.quadraticCurveTo(cx - half * 0.2, top, cx + half * 0.35, top + h * 0.04)
-    ctx.quadraticCurveTo(cx + half * 0.1, sea - h * 0.12, cx + half, sea)
+    ctx.moveTo(cx + back, sea)
+    ctx.bezierCurveTo(cx + back * 0.45, sea, cx + front * 0.6, crest, cx - front * 0.15, crest)
+    ctx.quadraticCurveTo(cx - front * 0.9, crest + h * 0.01, cx - front * 0.7, crest + h * 0.1)
+    ctx.quadraticCurveTo(cx - front * 0.35, crest + h * 0.06, cx - front * 0.2, crest + h * 0.14)
+    ctx.quadraticCurveTo(cx - front * 0.5, sea - h * 0.05, cx - front * 1.3, sea)
     ctx.closePath()
     ctx.fill()
-    ctx.globalAlpha = 1
+    ctx.globalAlpha = wave.done ? 0.5 : 1
     ctx.strokeStyle = gold
     ctx.lineWidth = 2
     ctx.beginPath()
-    ctx.moveTo(cx - half * 0.55, sea - h * 0.16)
-    ctx.quadraticCurveTo(cx - half * 0.1, top + 2, cx + half * 0.35, top + h * 0.04)
+    ctx.moveTo(cx + front * 0.9, crest + h * 0.07)
+    ctx.quadraticCurveTo(cx + front * 0.2, crest - 1, cx - front * 0.15, crest)
+    ctx.quadraticCurveTo(cx - front * 0.9, crest + h * 0.01, cx - front * 0.7, crest + h * 0.1)
     ctx.stroke()
   }
 
@@ -104,6 +127,13 @@ function drawSea(ctx: CanvasRenderingContext2D, state: WavesState, w: number, h:
   ctx.lineTo(px - 5, feet)
   ctx.moveTo(px + 4, feet - 6)
   ctx.lineTo(px + 5, feet)
+  if (lift > 0) {
+    // Arms up while over the wave.
+    ctx.moveTo(px - 6, feet - 26)
+    ctx.lineTo(px - 12, feet - 40)
+    ctx.moveTo(px + 6, feet - 26)
+    ctx.lineTo(px + 12, feet - 40)
+  }
   ctx.stroke()
 }
 
@@ -170,15 +200,18 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
       frame = 0
       const dt = last ? Math.min(now - last, MAX_STEP_MS) : 16
       last = now
-      const outcome = stepWaves(state, dt)
+      const outcome = stepWaves(state, dt, started)
       if (outcome) score(outcome)
       drawSea(ctx, state, width, height)
       if (state.cleared < WISH_COUNT && onScreen && !document.hidden) {
         frame = requestAnimationFrame(loop)
       }
     }
+    // The sea rolls while on screen; it counts only once the visitor has jumped.
     const run = () => {
-      if (!started || frame || !onScreen || document.hidden || state.cleared >= WISH_COUNT) return
+      if (still.current || frame || !onScreen || document.hidden || state.cleared >= WISH_COUNT) {
+        return
+      }
       last = 0
       frame = requestAnimationFrame(loop)
     }
@@ -202,6 +235,7 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
     const sized = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null
 
     resize()
+    run()
     visibility?.observe(canvas)
     sized?.observe(canvas)
     document.addEventListener('visibilitychange', onVisibility)

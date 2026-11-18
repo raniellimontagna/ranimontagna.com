@@ -74,6 +74,7 @@ describe('isEmptySpot', () => {
     ['<label><input id="t" /></label>'],
     ['<textarea id="t"></textarea>'],
     ['<div role="button" id="t"></div>'],
+    ['<div tabindex="0"><span id="t">widget</span></div>'],
     ['<dialog open><p id="t">card</p></dialog>'],
     ['<div data-no-fireworks><p id="t">game</p></div>'],
   ])('is not empty inside %s', (html) => {
@@ -82,7 +83,7 @@ describe('isEmptySpot', () => {
   })
 
   it('is empty on plain page space, but not while text is selected', () => {
-    make('<section><p id="t">Texto</p></section>')
+    make('<main tabindex="-1"><section><p id="t">Texto</p></section></main>')
     const target = document.getElementById('t')
     expect(isEmptySpot(target, '')).toBe(true)
     expect(isEmptySpot(target, 'Texto')).toBe(false)

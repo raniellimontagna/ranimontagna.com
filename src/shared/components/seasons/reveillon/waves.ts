@@ -48,8 +48,15 @@ export function jump(state: WavesState): boolean {
   return true
 }
 
-/** Moves the sea by `dt` ms. A wave reaching the jumper is cleared in the air, missed on the sand. */
-export function stepWaves(state: WavesState, dt: number): 'cleared' | 'missed' | null {
+/**
+ * Moves the sea by `dt` ms. A wave reaching the jumper is cleared in the air, missed on the
+ * sand. Before the visitor plays (`scoring` false) the waves just roll by.
+ */
+export function stepWaves(
+  state: WavesState,
+  dt: number,
+  scoring = true,
+): 'cleared' | 'missed' | null {
   state.t += dt
   let outcome: 'cleared' | 'missed' | null = null
   for (const wave of state.waves) {
@@ -57,7 +64,7 @@ export function stepWaves(state: WavesState, dt: number): 'cleared' | 'missed' |
     wave.x -= (state.speed * dt) / 1000
     if (wave.done || before <= PLAYER_X || wave.x > PLAYER_X) continue
     wave.done = true
-    outcome = jumpHeight(state) > CLEAR_HEIGHT ? 'cleared' : 'missed'
+    if (scoring) outcome = jumpHeight(state) > CLEAR_HEIGHT ? 'cleared' : 'missed'
   }
   if (outcome === 'cleared') {
     state.cleared = Math.min(WISH_COUNT, state.cleared + 1)

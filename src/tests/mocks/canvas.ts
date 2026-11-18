@@ -15,6 +15,7 @@ export function mockCanvas2d(size = { width: 400, height: 500 }) {
     lineTo: vi.fn(),
     closePath: vi.fn(),
     quadraticCurveTo: vi.fn(),
+    bezierCurveTo: vi.fn(),
     roundRect: vi.fn(),
     stroke: vi.fn(),
     save: vi.fn(),

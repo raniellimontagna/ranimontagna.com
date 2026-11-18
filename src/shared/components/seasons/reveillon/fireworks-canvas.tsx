@@ -89,13 +89,19 @@ export function FireworksCanvas() {
         ctx.stroke()
       }
       for (const spark of sky.sparks) {
+        const color = palette[spark.color % palette.length]
         ctx.globalAlpha = Math.max(0, spark.life / spark.max)
-        ctx.strokeStyle = palette[spark.color % palette.length]
-        ctx.lineWidth = 1.8
+        ctx.strokeStyle = color
+        ctx.lineWidth = 2
         ctx.beginPath()
-        ctx.moveTo(spark.x - spark.vx * 40, spark.y - spark.vy * 40)
+        ctx.moveTo(spark.x - spark.vx * 45, spark.y - spark.vy * 45)
         ctx.lineTo(spark.x, spark.y)
         ctx.stroke()
+        // A bright head on each streak.
+        ctx.fillStyle = color
+        ctx.beginPath()
+        ctx.arc(spark.x, spark.y, 1.6, 0, Math.PI * 2)
+        ctx.fill()
       }
       ctx.globalAlpha = 1
     }

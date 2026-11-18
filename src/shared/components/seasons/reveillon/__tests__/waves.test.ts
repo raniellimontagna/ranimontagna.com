@@ -64,6 +64,13 @@ it('stops at seven: no jump and no new wave after the last', () => {
   expect(state.waves.filter((wave) => !wave.done)).toHaveLength(0)
 })
 
+it('lets the waves roll by without a score before the visitor plays', () => {
+  const state = createWaves(0)
+  for (let i = 0; i < 1000; i++) expect(stepWaves(state, 10, false)).toBeNull()
+  expect(state.waves.some((wave) => wave.done)).toBe(true)
+  expect(state.speed).toBe(createWaves(0).speed)
+})
+
 it('no double jump while in the air', () => {
   const state = createWaves(0)
   expect(jump(state)).toBe(true)
