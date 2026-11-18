@@ -86,7 +86,7 @@ export function stepWaves(
 }
 
 /** The saved count for an edition, 0 to 7. */
-export function wavesKey(edition: number): string {
+function wavesKey(edition: number): string {
   return `season-waves:reveillon-${edition}`
 }
 
