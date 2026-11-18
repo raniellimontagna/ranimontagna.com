@@ -122,20 +122,4 @@ As imagens próprias do site não passam mais pelo `/_next/image`, que a Cloudfl
 - **Para gerar:** use o sharp que vem com o Next, por exemplo `node -e "const s=require('./node_modules/.pnpm/sharp@<versão>/node_modules/sharp');for(const w of [384,640,750,828,1080])s('public/photo.webp').resize({width:w}).webp({quality:72,effort:6}).toFile('public/redesign/portrait/v2/photo-'+w+'.webp')"`.
 
 - **Natal:** `public/redesign/portrait/natal-v1/` tem as mesmas larguras do retrato, com gorro de Papai Noel. A foto é a de hoje com só o gorro colado por cima (o gorro veio de uma geração do Codex; rosto e mãos são os originais), aprovada pelo dono em 17/11/2026. Mestre e script da colagem: `~/Projetos/pessoal/fotos/2026-11-perfil/geradas/natal/natal-topo-composto-v1.png` e `scripts/compor-gorro.py`. Ela só aparece com `data-season="natal"` (`NATAL_PORTRAIT_IMAGE`, regra de cache própria no `next.config.ts`).
-
-## Imagem de compartilhamento
-
-`public/og/og-{pt,en,es}-v2.jpg` (1200×630) mostram nome, papel, uma frase e a foto, no estilo novo. A v1 (`og-{pt,en,es}.jpg`) foi gerada com o sharp a partir da foto antiga, com texto em Helvetica Neue e Menlo. A v2 (17/11/2026) é a v1 com a metade direita trocada pela foto nova, que entra com um degradê de 170 px sobre o fundo `#070b0c`. A v1 e o `og-image.png` antigo continuam no ar para os links já compartilhados. Ao mudar o texto ou a foto, gere arquivos com outro nome, porque as redes guardam a imagem pelo endereço.
-
-## Fotos do Ranielli (17/11/2026)
-
-São geradas por IA (Codex CLI, `image_generation`), sempre a partir de fotos reais dele como referência de rosto. Ele aprovou cada uma. Os prompts, as referências e todas as versões ficam fora do repo, em `~/Projetos/pessoal/fotos/2026-11-perfil/` (`prompts/v3/`, `geradas/v3/`, `finais/`).
-
-| Arquivo | Origem | Onde aparece |
-|---|---|---|
-| `public/photo.webp` (1083×1452) | `19-topo-escuro-v2`: a foto antiga da abertura com a cabeça trocada pela dele de hoje, de óculos. Mantém o fundo escuro e a pose | abertura (retrato em código), JSON-LD, cartão de compartilhamento |
-| `public/images/ranielli-sofa.webp` (960×1280) | `14-sobre-v3`, recortada em 3:4 | interlúdio "quem é" |
-| `public/images/ranielli-cafe.webp` (960×1200) | `16-cafe-v1` | contato |
-| `public/images/avatar-112.webp` | `13-avatar-v1` | modo retrô |
-
-Manchas vermelhas que o gerador copia das referências saem por um retoque que só mexe na baixa frequência (`scripts/tirar-manchas.py` da pasta de fotos): os poros e a textura ficam. A `hero-ranielli.webp` (2026, notebook prata) e o retrato v1 saíram.
+- **Épocas de 2027 (rodada de 17–18/11/2026):** cada época tem a sua pasta `public/redesign/portrait/<id>-v1/`, nas mesmas larguras, com a foto de hoje e só a peça da época colada por cima (camiseta branca no Réveillon, serpentinas e confete no Carnaval, orelhas de coelho na Páscoa, chapéu de palha e camisa xadrez na Festa Junina, capa de vampiro no Halloween). Cada peça veio de uma geração do Codex que recebeu só a foto-base (`scripts/codex-editar-base.sh`); a colagem é `scripts/compor-epoca.py <modo>` (rosto e mãos sempre da base; a gerada é alinhada à base por ECC quando o Codex muda o enquadramento). Mestres em `~/Projetos/pessoal/fotos/2026-11-perfil/geradas/epocas/compostas/`. As pastas saem de `SEASON_PORTRAIT_DIRS` em `portrait-image.ts`, que também monta as regras de cache.
