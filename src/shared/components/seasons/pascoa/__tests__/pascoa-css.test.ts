@@ -76,3 +76,10 @@ it('never lets the bunny take a click', () => {
   const strip = /\.pascoa-bunny-strip\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
   expect(strip).toMatch(/pointer-events:\s*none/)
 })
+
+// The fixed corner would cover the footer's last line and links at the end of the page.
+it('makes room under the footer while the hunt corner is shown', () => {
+  expect(css).toMatch(
+    /:root\[data-season="pascoa"\]:not\(\[data-retro\]\):has\(\.pascoa-hunt-bar\) \[data-site-footer\]\s*\{[^}]*padding-bottom/,
+  )
+})

@@ -359,3 +359,8 @@
   width: 11px;
   height: 14px;
 }
+
+/* Room at the end of the page while the hunt's corner is shown (home only) */
+:root[data-season="pascoa"]:not([data-retro]):has(.pascoa-hunt-bar) [data-site-footer] {
+  padding-bottom: calc(5.5rem + var(--safe-bottom));
+}
