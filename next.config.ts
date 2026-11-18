@@ -7,8 +7,8 @@ import packageJson from './package.json'
 import { addCompileHints } from './scripts/compile-hints.mjs'
 import { STILLS_CACHE_SOURCE } from './src/features/cases/case-stills'
 import {
-  NATAL_PORTRAIT_CACHE_SOURCE,
   PORTRAIT_CACHE_SOURCE,
+  SEASON_PORTRAIT_CACHE_SOURCES,
 } from './src/features/home/components/portrait/portrait-image'
 import { COPIES_CACHE_SOURCE } from './src/shared/lib/image-copies/image-copies'
 import { getSentryBuildInfo } from './src/shared/lib/sentry/build-info'
@@ -153,11 +153,11 @@ const nextConfig: NextConfig = {
         source: PORTRAIT_CACHE_SOURCE,
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
-      {
-        // The same portrait for December, under its own version folder.
-        source: NATAL_PORTRAIT_CACHE_SOURCE,
+      // The same portrait dressed for each season, each under its own version folder.
+      ...SEASON_PORTRAIT_CACHE_SOURCES.map((source) => ({
+        source,
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
-      },
+      })),
     ]
   },
 }

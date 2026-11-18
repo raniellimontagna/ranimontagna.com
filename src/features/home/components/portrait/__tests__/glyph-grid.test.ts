@@ -77,5 +77,6 @@ describe('glyphSetFor', () => {
   it('keeps code glyphs out of season and snow glyphs at Christmas', () => {
     expect(glyphSetFor(null)).toBe(CODE_GLYPHS)
     expect(glyphSetFor('natal')).toBe('*+·✦✧❅')
+    expect(glyphSetFor('reveillon')).toBe('·*✦✧+°')
   })
 })

@@ -24,18 +24,32 @@ export const PORTRAIT_IMAGE: PortraitImage = {
 /** The next.config header rule for exactly these files: a year, immutable, no 404s. */
 export const PORTRAIT_CACHE_SOURCE = `${PORTRAIT_DIR}/photo-:width(${PORTRAIT_WIDTHS.join('|')}).webp`
 
-/** The same portrait with a Santa hat, for December (see docs/redesign/assets.md). */
-const NATAL_PORTRAIT_DIR = '/redesign/portrait/natal-v1'
-const natalFileFor = (width: number) => `${NATAL_PORTRAIT_DIR}/photo-${width}.webp`
-
-export const NATAL_PORTRAIT_IMAGE: PortraitImage = {
-  src: natalFileFor(750),
-  srcSet: PORTRAIT_WIDTHS.map((width) => `${natalFileFor(width)} ${width}w`).join(', '),
-  sizes: PORTRAIT_IMAGE.sizes,
+/**
+ * The same portrait dressed for each season (see docs/redesign/assets.md): the photo of
+ * today with only the season's piece pasted on. Each folder carries its own version.
+ */
+const SEASON_PORTRAIT_DIRS: Record<SeasonId, string> = {
+  natal: '/redesign/portrait/natal-v1',
+  reveillon: '/redesign/portrait/reveillon-v1',
 }
 
-export const SEASON_PORTRAITS: Partial<Record<SeasonId, PortraitImage>> = {
-  natal: NATAL_PORTRAIT_IMAGE,
+function portraitIn(dir: string): PortraitImage {
+  const file = (width: number) => `${dir}/photo-${width}.webp`
+  return {
+    src: file(750),
+    srcSet: PORTRAIT_WIDTHS.map((width) => `${file(width)} ${width}w`).join(', '),
+    sizes: PORTRAIT_IMAGE.sizes,
+  }
 }
 
-export const NATAL_PORTRAIT_CACHE_SOURCE = `${NATAL_PORTRAIT_DIR}/photo-:width(${PORTRAIT_WIDTHS.join('|')}).webp`
+export const SEASON_PORTRAITS = Object.fromEntries(
+  Object.entries(SEASON_PORTRAIT_DIRS).map(([id, dir]) => [id, portraitIn(dir)]),
+) as Record<SeasonId, PortraitImage>
+
+/** The Santa-hat photo, also drawn inside the snow globe. */
+export const NATAL_PORTRAIT_IMAGE = SEASON_PORTRAITS.natal
+
+/** One cache rule per season folder, like the plain portrait's. */
+export const SEASON_PORTRAIT_CACHE_SOURCES = Object.values(SEASON_PORTRAIT_DIRS).map(
+  (dir) => `${dir}/photo-:width(${PORTRAIT_WIDTHS.join('|')}).webp`,
+)

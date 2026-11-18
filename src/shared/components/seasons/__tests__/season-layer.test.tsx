@@ -9,6 +9,11 @@ vi.mock('../natal/natal-layer', () => {
   loaded()
   return { NatalLayer: () => <div data-testid="natal-layer" /> }
 })
+vi.mock('../reveillon/reveillon-layer', () => ({
+  ReveillonLayer: ({ locale }: { locale: string }) => (
+    <div data-testid="reveillon-layer" data-locale={locale} />
+  ),
+}))
 
 beforeEach(() => {
   useRetroMode.setState({ active: false, mode: null })
@@ -37,4 +42,11 @@ it('steps aside while a retro world is open and comes back after', async () => {
 
   act(() => useRetroMode.setState({ active: false, mode: null }))
   expect(await screen.findByTestId('natal-layer')).toBeInTheDocument()
+})
+
+it('loads only the season that is on', async () => {
+  useSeason.setState({ active: 'reveillon', current: 'reveillon', init: () => {} })
+  render(<SeasonLayer locale="es" />)
+  expect(await screen.findByTestId('reveillon-layer')).toHaveAttribute('data-locale', 'es')
+  expect(screen.queryByTestId('natal-layer')).toBeNull()
 })

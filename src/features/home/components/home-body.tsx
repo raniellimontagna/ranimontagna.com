@@ -35,6 +35,8 @@ export async function HomeBody({ locale }: { locale: string }) {
       {atto}
       {writing}
       {closing}
+      {/* Empty outside a season; a season can stage its game here (seasons.css holds the room). */}
+      <div data-season-slot="play" />
     </>
   )
 }

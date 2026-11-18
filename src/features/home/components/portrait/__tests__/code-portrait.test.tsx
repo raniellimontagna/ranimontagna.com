@@ -218,7 +218,7 @@ describe('CodePortrait', () => {
       expect(natal).toHaveAttribute('loading', 'lazy')
       expect(natal).toHaveAttribute('data-season-only', 'natal')
       expect(natal.getAttribute('srcset')).toBe(NATAL_PORTRAIT_IMAGE.srcSet)
-      expect(plain).toHaveAttribute('data-season-hide', 'natal')
+      expect(plain.getAttribute('data-season-hide')?.split(' ')).toContain('natal')
       expect(plain).not.toHaveAttribute('loading')
     })
 
@@ -256,9 +256,9 @@ describe('CodePortrait', () => {
 
     it('turns cells near the pointer into snow in festive colors', () => {
       root.setAttribute('data-season', 'natal')
-      root.style.setProperty('--season-red', '#b3261e')
-      root.style.setProperty('--season-green', '#1f6b45')
-      root.style.setProperty('--season-gold', '#a8781a')
+      root.style.setProperty('--season-1', '#b3261e')
+      root.style.setProperty('--season-2', '#1f6b45')
+      root.style.setProperty('--season-3', '#a8781a')
       useSeason.setState({ active: 'natal', current: 'natal' })
       const styles: string[] = []
       Object.defineProperty(canvas.ctx, 'fillStyle', {
@@ -275,9 +275,9 @@ describe('CodePortrait', () => {
       const [ch] = charsDrawnAt(canvas.ctx, 0, 0)
       expect(glyphSetFor('natal')).toContain(ch)
       expect(styles).toContain('#b3261e')
-      root.style.removeProperty('--season-red')
-      root.style.removeProperty('--season-green')
-      root.style.removeProperty('--season-gold')
+      root.style.removeProperty('--season-1')
+      root.style.removeProperty('--season-2')
+      root.style.removeProperty('--season-3')
     })
   })
 })

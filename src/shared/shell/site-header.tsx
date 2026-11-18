@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/shared/config/i18n/navigation'
+import { SEASONS } from '@/shared/lib/seasons/seasons'
 import { RmLogo } from '@/shared/ui-2026'
 import { HeaderBehavior } from './header-behavior'
 import { PreferencesMenu } from './preferences-menu'
@@ -48,7 +49,9 @@ export async function SiteHeader() {
               dark: t('prefs.dark'),
               accent: t('prefs.accent'),
               season: t('prefs.season'),
-              seasonNames: { natal: t('prefs.seasons.natal') },
+              seasonNames: Object.fromEntries(
+                SEASONS.map(({ id }) => [id, t(`prefs.seasons.${id}`)]),
+              ),
             }}
           />
           <SiteMenu

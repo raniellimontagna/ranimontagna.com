@@ -1,12 +1,13 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { SEASONS } from '@/shared/lib/seasons/seasons'
 import nextConfig from '../../../../../../next.config'
 import {
-  NATAL_PORTRAIT_CACHE_SOURCE,
   NATAL_PORTRAIT_IMAGE,
   PORTRAIT_CACHE_SOURCE,
   PORTRAIT_IMAGE,
   PORTRAIT_WIDTHS,
+  SEASON_PORTRAIT_CACHE_SOURCES,
   SEASON_PORTRAITS,
 } from '../portrait-image'
 
@@ -29,8 +30,8 @@ describe('PORTRAIT_IMAGE', () => {
   it('caches the copies for a year with a rule built from the same folder and widths', async () => {
     const rules = (await nextConfig.headers?.()) ?? []
     const index = rules.findIndex((item) => item.source === PORTRAIT_CACHE_SOURCE)
-    // Last two (with the Christmas copies), so they override the day rule above.
-    expect(index).toBeGreaterThanOrEqual(rules.length - 2)
+    // Last, with the season copies, so they override the day rule above.
+    expect(index).toBe(rules.length - 1 - SEASON_PORTRAIT_CACHE_SOURCES.length)
     expect(rules[index].headers).toContainEqual({
       key: 'Cache-Control',
       value: 'public, max-age=31536000, immutable',
@@ -46,25 +47,35 @@ describe('PORTRAIT_IMAGE', () => {
   })
 })
 
-describe('NATAL_PORTRAIT_IMAGE', () => {
-  it('has the same widths and sizes as the portrait, each copy present in public', () => {
-    const entries = NATAL_PORTRAIT_IMAGE.srcSet.split(', ').map((entry) => entry.split(' '))
-    expect(entries.map(([, width]) => width)).toEqual(PORTRAIT_WIDTHS.map((w) => `${w}w`))
-    for (const [url] of entries) {
-      expect(url).toMatch(/^\/redesign\/portrait\/natal-v\d+\//)
-      expect(existsSync(join(process.cwd(), 'public', url))).toBe(true)
-    }
-    expect(NATAL_PORTRAIT_IMAGE.sizes).toBe(PORTRAIT_IMAGE.sizes)
-    expect(SEASON_PORTRAITS.natal).toBe(NATAL_PORTRAIT_IMAGE)
+describe('SEASON_PORTRAITS', () => {
+  it.each(SEASONS.map(({ id }) => id))(
+    'has the %s photo in the same widths and sizes, each copy present in public',
+    (id) => {
+      const image = SEASON_PORTRAITS[id]
+      const entries = image.srcSet.split(', ').map((entry) => entry.split(' '))
+      expect(entries.map(([, width]) => width)).toEqual(PORTRAIT_WIDTHS.map((w) => `${w}w`))
+      for (const [url] of entries) {
+        expect(url).toMatch(new RegExp(`^/redesign/portrait/${id}-v\\d+/`))
+        expect(existsSync(join(process.cwd(), 'public', url))).toBe(true)
+      }
+      expect(image.sizes).toBe(PORTRAIT_IMAGE.sizes)
+    },
+  )
+
+  it('keeps the Santa-hat photo at hand for the snow globe', () => {
+    expect(NATAL_PORTRAIT_IMAGE).toBe(SEASON_PORTRAITS.natal)
   })
 
-  it('caches the Christmas copies for a year too', async () => {
+  it('caches every season folder for a year, after the day rule', async () => {
     const rules = (await nextConfig.headers?.()) ?? []
-    const index = rules.findIndex((item) => item.source === NATAL_PORTRAIT_CACHE_SOURCE)
-    expect(index).toBeGreaterThanOrEqual(rules.length - 2)
-    expect(rules[index].headers).toContainEqual({
-      key: 'Cache-Control',
-      value: 'public, max-age=31536000, immutable',
-    })
+    expect(SEASON_PORTRAIT_CACHE_SOURCES).toHaveLength(SEASONS.length)
+    for (const source of SEASON_PORTRAIT_CACHE_SOURCES) {
+      const index = rules.findIndex((item) => item.source === source)
+      expect(index).toBeGreaterThanOrEqual(rules.length - SEASON_PORTRAIT_CACHE_SOURCES.length)
+      expect(rules[index].headers).toContainEqual({
+        key: 'Cache-Control',
+        value: 'public, max-age=31536000, immutable',
+      })
+    }
   })
 })
