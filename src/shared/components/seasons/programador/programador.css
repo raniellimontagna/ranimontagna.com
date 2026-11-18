@@ -3,3 +3,70 @@
  * after the season is turned off or a retro world opens, so any rule on an element outside
  * the layer starts with :root[data-season="programador"]:not([data-retro]).
  */
+
+/*
+ * The name as code: before paint, seasons.css colours the first line as a keyword and the
+ * second as a function name (scheme 0). A click moves on to scheme 1 (string and number)
+ * and scheme 2 (all string, like a phosphor screen), letter by letter. Only `color`
+ * moves: the rise animates `transform`.
+ */
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="1"] > span:first-child [data-letter] {
+  color: var(--season-string);
+}
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="1"] > span:nth-child(2) [data-letter] {
+  color: var(--season-number);
+}
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme="2"] [data-letter] {
+  color: var(--season-string);
+}
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-no-season-click] {
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-season="programador"]:not([data-retro]) [data-hero-title][data-scheme] [data-letter] {
+    transition: color 0.25s ease-out;
+    transition-delay: calc(var(--letter, 0) * 30ms);
+  }
+  .programador-caret {
+    animation: programador-blink 1.1s ease-in-out infinite;
+  }
+}
+:root[data-season="programador"]:not([data-retro]) [data-hero-title][data-season-idle] .programador-caret {
+  animation-play-state: paused;
+}
+
+/* The text caret after the last letter: a soft blink under a second, never stepped. */
+.programador-caret {
+  position: absolute;
+  width: 0.07em;
+  margin-left: 0.07em;
+  scale: 1 0.82;
+  border-radius: 0.02em;
+  background: var(--accent);
+  pointer-events: none;
+}
+@keyframes programador-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  60%,
+  90% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.programador-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+.programador-countdown[data-after] span {
+  font-family: var(--font-mono), monospace;
+}
