@@ -1,0 +1,366 @@
+/*
+ * Páscoa, lazy part: styles for the layer's own elements. This sheet stays loaded
+ * after the season is turned off or a retro world opens, so any rule on an element
+ * outside the layer starts with :root[data-season="pascoa"]:not([data-retro]).
+ */
+
+/* Other paints on a click (the stripes come from seasons.css, before paint). */
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura] [data-letter] {
+  cursor: pointer;
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura="bolinhas"] [data-letter] {
+  /* Longhands only: the background shorthand would reset background-clip. */
+  background-color: var(--season-paint-1);
+  background-image: radial-gradient(circle, var(--season-paint-4) 0 0.045em, transparent 0.055em);
+  background-size: 0.2em 0.2em;
+}
+:root[data-season="pascoa"]:not([data-retro])
+  [data-hero-title][data-pintura="bolinhas"]
+  [data-letter]:nth-child(even) {
+  background-color: var(--season-paint-3);
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title][data-pintura="zigue"] [data-letter] {
+  background-color: var(--season-paint-4);
+  background-image:
+    linear-gradient(135deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(225deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(315deg, var(--season-paint-2) 25%, transparent 25%),
+    linear-gradient(45deg, var(--season-paint-2) 25%, transparent 25%);
+  background-position:
+    -0.1em 0,
+    -0.1em 0,
+    0 0,
+    0 0;
+  background-size: 0.2em 0.2em;
+}
+
+/* The bunny: a strip along the bottom edge, never in the way of a click. */
+.pascoa-bunny-strip {
+  position: fixed;
+  right: 0;
+  bottom: 0.4rem;
+  left: 0;
+  z-index: 30;
+  height: 3.5rem;
+  pointer-events: none;
+  animation: pascoa-strip 11.5s linear both;
+}
+.pascoa-bunny-strip[data-direction="rtl"] {
+  scale: -1 1;
+}
+.pascoa-bunny {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: pascoa-cross 9s linear both;
+}
+.pascoa-bunny-hop {
+  display: block;
+  animation: pascoa-hop 0.5s ease-in-out infinite;
+}
+/* The drawing faces left: mirror it to face the way it goes (the strip flips for rtl). */
+.pascoa-bunny-hop svg {
+  scale: -1 1;
+}
+.pascoa-bunny-body,
+.pascoa-bunny-ear {
+  fill: var(--season-lilac);
+}
+.pascoa-bunny-tail {
+  fill: var(--season-butter);
+}
+.pascoa-bunny-eye {
+  fill: var(--season-chocolate);
+}
+.pascoa-footprint {
+  position: absolute;
+  bottom: 0.2rem;
+  width: 0.45rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--season-lilac) 60%, transparent);
+  opacity: 0;
+  animation: pascoa-footprint 3s ease-out both;
+}
+@keyframes pascoa-strip {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pascoa-cross {
+  from {
+    translate: -4rem 0;
+  }
+  to {
+    translate: calc(100vw + 4rem) 0;
+  }
+}
+@keyframes pascoa-hop {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -1rem;
+  }
+}
+@keyframes pascoa-footprint {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pascoa-bunny-strip {
+    display: none;
+  }
+}
+
+/* The eggs, in the five hunt spots (the Christmas gifts' places). */
+.pascoa-egg {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  z-index: 31;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: scale 0.2s ease;
+}
+.pascoa-egg:hover {
+  scale: 1.12;
+}
+.pascoa-egg:focus-visible,
+.pascoa-hunt-button:focus-visible,
+.pascoa-card-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.pascoa-egg-icon {
+  width: 24px;
+  height: 30px;
+  overflow: visible;
+}
+.pascoa-egg:not([data-found]) .pascoa-egg-icon {
+  transform-origin: 50% 90%;
+  animation: pascoa-wobble 6s ease-in-out infinite;
+}
+@keyframes pascoa-wobble {
+  0%,
+  84%,
+  100% {
+    rotate: 0deg;
+  }
+  88% {
+    rotate: -9deg;
+  }
+  92% {
+    rotate: 7deg;
+  }
+  96% {
+    rotate: -3deg;
+  }
+}
+
+/* The hunt's corner on the home page. */
+.pascoa-hunt-bar {
+  position: fixed;
+  left: max(1.25rem, var(--safe-left));
+  bottom: max(1.25rem, var(--safe-bottom));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font: 600 13px / 1 var(--font-mono);
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 45%);
+}
+.pascoa-hunt-count {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-right: 0.25rem;
+}
+.pascoa-hunt-count .pascoa-egg-icon {
+  width: 16px;
+  height: 20px;
+}
+.pascoa-hunt-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.pascoa-hunt-button[aria-pressed="true"] {
+  color: var(--accent);
+}
+.pascoa-hunt-button .pascoa-egg-icon {
+  width: 18px;
+  height: 22px;
+}
+
+/* The chocolate egg card: a native modal dialog. */
+.pascoa-card-dialog {
+  /* Tailwind's preflight zeroes every margin; a modal <dialog> centers with auto */
+  margin: auto;
+  width: min(420px, calc(100% - 32px));
+  max-height: calc(100svh - 32px);
+  overflow-y: auto;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--background);
+  color: var(--foreground);
+  text-align: center;
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 70%);
+}
+.pascoa-card-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.pascoa-card-dialog:modal {
+  overscroll-behavior: contain;
+}
+.pascoa-card-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /* No backdrop blur in this repo (crbug.com/414525204): a denser veil instead. */
+  background: rgb(4 7 8 / 84%);
+}
+.pascoa-choco {
+  /* Room above for the top half as it flies off. */
+  margin-top: 2.25rem;
+  width: min(11rem, 50vw);
+  height: auto;
+  overflow: visible;
+}
+.pascoa-choco-top,
+.pascoa-choco-bottom {
+  fill: #5a3220;
+  /* An edge in the season's chocolate keeps the egg visible on the dark theme too. */
+  stroke: var(--season-chocolate);
+  stroke-width: 3;
+}
+.pascoa-choco-shine {
+  fill: none;
+  stroke: rgb(255 255 255 / 30%);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.pascoa-choco-ribbon {
+  fill: none;
+  stroke: var(--season-pink);
+  stroke-width: 6;
+}
+.pascoa-choco-top {
+  transform-box: fill-box;
+  transform-origin: 85% 100%;
+  animation: pascoa-crack 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+.pascoa-choco-star {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pascoa-star 0.8s ease-out 0.7s both;
+}
+@keyframes pascoa-crack {
+  to {
+    translate: 18px -34px;
+    rotate: 24deg;
+  }
+}
+@keyframes pascoa-star {
+  from {
+    scale: 0.2;
+    opacity: 0;
+  }
+}
+.pascoa-card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.pascoa-card-body {
+  color: var(--muted);
+}
+.pascoa-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.pascoa-card-button {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.pascoa-card-button[data-primary] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: none;
+}
+.pascoa-card-copied {
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pascoa-egg:not([data-found]) .pascoa-egg-icon {
+    animation: none;
+  }
+  /* Already open: no crack animation. */
+  .pascoa-choco-top {
+    animation: none;
+    translate: 18px -34px;
+    rotate: 24deg;
+  }
+  .pascoa-choco-star {
+    animation: none;
+  }
+}
+
+.pascoa-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
+.pascoa-countdown .pascoa-egg-icon {
+  width: 11px;
+  height: 14px;
+}
+
+/* Room at the end of the page while the hunt's corner is shown (home only) */
+:root[data-season="pascoa"]:not([data-retro]):has(.pascoa-hunt-bar) [data-site-footer] {
+  padding-bottom: calc(5.5rem + var(--safe-bottom));
+}

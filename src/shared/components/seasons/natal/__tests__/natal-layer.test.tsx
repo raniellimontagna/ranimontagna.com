@@ -1,8 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { track } from '@/shared/lib/analytics/track'
 import { NatalLayer } from '../natal-layer'
 
-vi.mock('@/shared/lib/analytics/track', () => ({ track: vi.fn() }))
 vi.mock('../snow-canvas', () => ({ SnowCanvas: () => null }))
 vi.mock('../name-lights', () => ({ NameLights: () => null }))
 vi.mock('../footer-countdown', () => ({ FooterCountdown: () => null }))
@@ -37,21 +35,17 @@ beforeEach(() => {
 afterEach(() => {
   vi.useRealTimers()
   localStorage.clear()
-  vi.mocked(track).mockClear()
 })
 
-it('opens the globe when the hunt ends and records it once a year', async () => {
+it('opens the globe when the hunt ends, and again on request', async () => {
   render(<NatalLayer locale="pt" />)
   await act(async () => {})
   fireEvent.click(screen.getByText('complete'))
   expect(screen.getByRole('dialog')).toBeInTheDocument()
-  expect(track).toHaveBeenCalledWith('season-hunt-complete', { season: 'natal' })
 
   fireEvent.click(screen.getByText('close'))
   expect(screen.queryByRole('dialog')).toBeNull()
 
   fireEvent.click(screen.getByText('reopen'))
-  fireEvent.click(screen.getByText('complete'))
   expect(screen.getByRole('dialog')).toBeInTheDocument()
-  expect(track).toHaveBeenCalledTimes(1)
 })

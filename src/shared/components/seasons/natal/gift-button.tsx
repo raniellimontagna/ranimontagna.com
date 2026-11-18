@@ -1,14 +1,14 @@
 'use client'
 
-import type { GiftId } from './gift-hunt'
+import type { HuntSpot } from '../shared/hunt'
 import { GiftIcon } from './natal-icons'
 
 type GiftButtonProps = {
-  id: GiftId
+  id: HuntSpot
   index: number
   opened: boolean
   label: string
-  onOpen: (id: GiftId) => void
+  onOpen: (id: HuntSpot) => void
 }
 
 /** One hidden gift: small, quiet, and a real button for keyboard and screen readers. */

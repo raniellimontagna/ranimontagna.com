@@ -219,6 +219,17 @@ describe('locale head season', () => {
     ).toHaveLength(1)
   })
 
+  it('starts the bunny-ears photo early on the home page at Easter', () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2027, 2, 28, 12))
+    visit('/')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'pascoa')
+    expect(
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/pascoa-v"]'),
+    ).toHaveLength(1)
+  })
+
   it('reads a New Year turn-off by the edition the season started in', () => {
     vi.setSystemTime(new Date(2027, 0, 2, 12))
     window.localStorage.setItem('season-off:reveillon-2026', '1')

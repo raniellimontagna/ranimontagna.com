@@ -9,6 +9,7 @@ const SEASON_GLYPHS: Record<SeasonId, string> = {
   natal: '*+·✦✧❅',
   reveillon: '·*✦✧+°',
   carnaval: '•◦*+✦·',
+  pascoa: 'o°·*✿+',
 }
 
 /** What the pointer turns cells into: code, or the season's sparkles. */

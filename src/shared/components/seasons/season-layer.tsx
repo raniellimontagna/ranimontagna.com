@@ -16,6 +16,7 @@ const SEASON_LAYERS: Record<SeasonId, LazyExoticComponent<ComponentType<LayerPro
   carnaval: lazy(() =>
     import('./carnaval/carnaval-layer').then((m) => ({ default: m.CarnavalLayer })),
   ),
+  pascoa: lazy(() => import('./pascoa/pascoa-layer').then((m) => ({ default: m.PascoaLayer }))),
 }
 
 /** Loads a season's effects only while it is on, like the retro worlds load. */

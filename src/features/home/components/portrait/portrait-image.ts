@@ -32,6 +32,7 @@ const SEASON_PORTRAIT_DIRS: Record<SeasonId, string> = {
   natal: '/redesign/portrait/natal-v1',
   reveillon: '/redesign/portrait/reveillon-v1',
   carnaval: '/redesign/portrait/carnaval-v1',
+  pascoa: '/redesign/portrait/pascoa-v1',
 }
 
 function portraitIn(dir: string): PortraitImage {

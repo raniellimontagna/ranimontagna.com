@@ -30,7 +30,8 @@
       "seasons": {
         "natal": "Natal",
         "reveillon": "Réveillon",
-        "carnaval": "Carnaval"
+        "carnaval": "Carnaval",
+        "pascoa": "Páscoa"
       }
     },
     "footer": {
@@ -569,6 +570,10 @@
       "carnaval": {
         "greeting": "Oi, eu sou a Vega. Bom Carnaval!",
         "suggestion": "Se o Ranielli tivesse um bloco, que projeto iria no abre-alas?"
+      },
+      "pascoa": {
+        "greeting": "Oi, eu sou a Vega. Feliz Páscoa!",
+        "suggestion": "Qual foi a novidade mais recente do Ranielli?"
       }
     }
   }
