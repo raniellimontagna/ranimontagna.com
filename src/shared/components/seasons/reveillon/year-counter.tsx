@@ -53,12 +53,22 @@ export function YearCounter({ edition, turned }: { edition: number; turned: bool
     const resize = typeof ResizeObserver === 'function' ? new ResizeObserver(update) : null
     resize?.observe(title)
     document.fonts?.ready.then(update).catch(() => {})
+    // The glint rests while the name is off screen (reveillon.css).
+    const seen =
+      typeof IntersectionObserver === 'function'
+        ? new IntersectionObserver(([entry]) => {
+            title.toggleAttribute('data-season-idle', entry ? !entry.isIntersecting : false)
+          })
+        : null
+    seen?.observe(title)
     // The name sends its own firework; the page-wide click should not add a second one.
     title.setAttribute('data-no-fireworks', '')
     title.addEventListener('click', onClick)
     return () => {
       window.clearTimeout(settle)
       resize?.disconnect()
+      seen?.disconnect()
+      title.removeAttribute('data-season-idle')
       title.removeAttribute('data-no-fireworks')
       title.removeEventListener('click', onClick)
     }

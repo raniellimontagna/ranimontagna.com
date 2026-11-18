@@ -41,20 +41,24 @@ export function Virada({ locale, edition, onTurn }: ViradaProps) {
     let greetingTimer = 0
     let turned = false
     let partyOwed = false
+    let stopSong = () => {}
 
+    // Only close to midnight: a laptop that slept, or a tab back hours later, just rolls.
+    const inTime = () => Date.now() - target < LATE_PARTY_MS
     const party = () => {
       partyOwed = false
       setPhase('greeting')
       fireworksBus.finale(FINALE_MS)
-      playAuldLangSyne()
+      stopSong = playAuldLangSyne()
       greetingTimer = window.setTimeout(() => setPhase('done'), GREETING_MS)
     }
     const turn = () => {
       if (turned) return
       turned = true
       onTurnRef.current()
-      // Throttled timers in a hidden tab: keep the party for when the visitor is back.
-      if (document.hidden) {
+      if (!inTime()) setPhase('done')
+      else if (document.hidden) {
+        // Throttled timers in a hidden tab: keep the party for when the visitor is back.
         partyOwed = true
         setPhase('done')
       } else party()
@@ -73,7 +77,7 @@ export function Virada({ locale, edition, onTurn }: ViradaProps) {
     }
     const onVisibility = () => {
       if (document.hidden) return
-      if (partyOwed && Date.now() - target < LATE_PARTY_MS) party()
+      if (partyOwed && inTime()) party()
       partyOwed = false
       if (!turned) {
         window.clearTimeout(timer)
@@ -86,6 +90,7 @@ export function Virada({ locale, edition, onTurn }: ViradaProps) {
     return () => {
       window.clearTimeout(timer)
       window.clearTimeout(greetingTimer)
+      stopSong()
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [target])

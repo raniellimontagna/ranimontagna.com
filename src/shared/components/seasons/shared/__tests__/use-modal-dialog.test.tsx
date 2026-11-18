@@ -51,3 +51,40 @@ it('does nothing while closed', () => {
   expect(showModal).not.toHaveBeenCalled()
   expect(stopSmoothScroll).not.toHaveBeenCalled()
 })
+
+// Like the season cards: the <dialog> leaves the DOM when closed, before the effect
+// cleanup runs, so the browser no longer returns focus on its own.
+function RemovedWhenClosed({ open }: { open: boolean }) {
+  const ref = useRef<HTMLDialogElement>(null)
+  useModalDialog(ref, open)
+  return open ? (
+    <dialog ref={ref} aria-label="card">
+      <button type="button">inside</button>
+    </dialog>
+  ) : null
+}
+
+it('gives focus back to what opened it, even when the dialog leaves the DOM', () => {
+  const { rerender } = render(
+    <>
+      <button type="button">opener</button>
+      <RemovedWhenClosed open={false} />
+    </>,
+  )
+  const opener = document.querySelector('button') as HTMLButtonElement
+  opener.focus()
+  rerender(
+    <>
+      <button type="button">opener</button>
+      <RemovedWhenClosed open />
+    </>,
+  )
+  ;(document.querySelector('dialog button') as HTMLButtonElement).focus()
+  rerender(
+    <>
+      <button type="button">opener</button>
+      <RemovedWhenClosed open={false} />
+    </>,
+  )
+  expect(opener).toHaveFocus()
+})

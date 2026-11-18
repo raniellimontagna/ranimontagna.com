@@ -77,6 +77,8 @@ describe('isEmptySpot', () => {
     ['<div tabindex="0"><span id="t">widget</span></div>'],
     ['<dialog open><p id="t">card</p></dialog>'],
     ['<div data-no-fireworks><p id="t">game</p></div>'],
+    ['<div role="dialog"><p id="t">Vega</p></div>'],
+    ['<div aria-modal="true"><p id="t">menu</p></div>'],
   ])('is not empty inside %s', (html) => {
     make(html)
     expect(isEmptySpot(document.getElementById('t'), '')).toBe(false)

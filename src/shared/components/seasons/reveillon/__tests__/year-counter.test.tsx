@@ -1,4 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react'
+import { captureIntersection } from '@/tests/mocks/canvas'
 import { fireworksBus } from '../fireworks-bus'
 import { splitYears, YearCounter } from '../year-counter'
 
@@ -51,4 +52,18 @@ it.each([
   [2099, 2100, { shared: '2', before: '099', after: '100' }],
 ])('rolls only the digits that change: %i → %i', (from, to, expected) => {
   expect(splitYears(from, to)).toEqual(expected)
+})
+
+it('rests the glint while the name is off screen', async () => {
+  const view = captureIntersection()
+  const { unmount } = render(<Hero edition={2026} turned={false} />)
+  await act(async () => {})
+  const title = document.querySelector('[data-hero-title]') as HTMLElement
+  act(() => view.setVisible(false))
+  expect(title).toHaveAttribute('data-season-idle')
+  act(() => view.setVisible(true))
+  expect(title).not.toHaveAttribute('data-season-idle')
+  act(() => view.setVisible(false))
+  unmount()
+  expect(title).not.toHaveAttribute('data-season-idle')
 })

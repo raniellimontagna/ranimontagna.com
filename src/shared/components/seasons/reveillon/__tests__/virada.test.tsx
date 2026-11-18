@@ -76,6 +76,30 @@ it('skips the party for a visitor back long after midnight', () => {
   expect(finale).not.toHaveBeenCalled()
 })
 
+it('rolls the year but skips the party when a sleeping laptop wakes hours later', () => {
+  vi.setSystemTime(new Date(2026, 11, 31, 23, 50, 0))
+  const onTurn = vi.fn()
+  render(<Virada locale="pt" edition={2026} onTurn={onTurn} />)
+  // The laptop slept with the tab visible; it wakes at nine and the page hears it first.
+  vi.setSystemTime(new Date(2027, 0, 1, 9, 0))
+  setHidden(false)
+  act(() => vi.advanceTimersByTime(60_000))
+  expect(onTurn).toHaveBeenCalledTimes(1)
+  expect(finale).not.toHaveBeenCalled()
+  expect(playAuldLangSyne).not.toHaveBeenCalled()
+})
+
+it('stops the song when the season goes away mid-party', () => {
+  const stop = vi.fn()
+  vi.mocked(playAuldLangSyne).mockReturnValueOnce(stop)
+  vi.setSystemTime(new Date(2026, 11, 31, 23, 59, 55))
+  const { unmount } = render(<Virada locale="pt" edition={2026} onTurn={() => {}} />)
+  act(() => vi.advanceTimersByTime(5000))
+  expect(playAuldLangSyne).toHaveBeenCalledTimes(1)
+  unmount()
+  expect(stop).toHaveBeenCalled()
+})
+
 it('does nothing for a visit after midnight', () => {
   vi.setSystemTime(new Date(2027, 0, 2, 12))
   const onTurn = vi.fn()

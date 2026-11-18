@@ -85,11 +85,12 @@ export function stepWaves(
   return outcome
 }
 
-/** The saved count for an edition, 0 to 7. */
+/** Where an edition's count of waves jumped is kept. */
 function wavesKey(edition: number): string {
   return `season-waves:reveillon-${edition}`
 }
 
+/** The saved count for an edition, 0 to 7. */
 export function loadCleared(edition: number): number {
   try {
     const value = Number(localStorage.getItem(wavesKey(edition)))

@@ -130,7 +130,8 @@ export function FireworksCanvas() {
     ) => {
       colorTurn = (colorTurn + 1) % palette.length
       if (still) {
-        // No flight and no fall: the burst appears open, then goes.
+        // No flight and no fall: one burst appears open, then goes. Never several at once.
+        sky.sparks = []
         burst(sky, to.x, to.y, colorTurn, 48, Math.random)
         for (let i = 0; i < STILL_SPREAD_STEPS; i++) {
           for (const spark of sky.sparks) {
@@ -167,6 +168,11 @@ export function FireworksCanvas() {
     }
 
     const finale = (ms: number) => {
+      // Reduced motion: a single still burst, not a sky flashing several times a second.
+      if (still) {
+        fire({ x: width / 2, y: height * 0.3 })
+        return
+      }
       finaleUntil = performance.now() + ms
       window.clearInterval(finaleTimer)
       finaleTimer = window.setInterval(() => {

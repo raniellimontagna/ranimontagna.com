@@ -107,7 +107,7 @@
 ### Task 5: Layer registry, tokens, slots, labels and Vega per season
 
 **Files:**
-- Modify: `season-layer.tsx`, `seasons.css`, `code-portrait.tsx` (`readColors` reads `--season-1..3`), `glyph-grid.ts`, `portrait-image.ts` (`SEASON_PORTRAITS`, `SEASON_PORTRAIT_CACHE_SOURCES`), `next.config.ts`, `home-body.tsx` (`<div data-season-slot="play" />` after closing), `site-header.tsx` (names for every `SEASONS` id from `prefs.seasons.<id>`), `vega-screen.tsx` (`season.<id>.greeting/suggestion` for the active season), `messages/{pt,en,es}.json`.
+- Modify: `season-layer.tsx`, `seasons.css`, `code-portrait.tsx` (`readColors` reads `--season-1..3`), `glyph-grid.ts`, `portrait-image.ts` (`SEASON_PORTRAITS`, `SEASON_PORTRAIT_CACHE_SOURCES`), `next.config.ts`, `home-body.tsx` (`<div data-season-slot="play" />` before the closing section, which stays the page's finale), `site-header.tsx` (names for every `SEASONS` id from `prefs.seasons.<id>`), `vega-screen.tsx` (`season.<id>.greeting/suggestion` for the active season), `messages/{pt,en,es}.json`.
 - Test: `season-layer.test.tsx`, `glyph-grid` tests, `vega` season test, `next.config` cache test if present.
 
 **Interfaces:**

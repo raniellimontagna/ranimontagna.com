@@ -17,6 +17,7 @@ export type ReveillonCopy = {
   jumped: string
   missed: string
   done: string
+  wishesLabel: string
   openCard: string
   cardTitle: string
   cardBody: string
@@ -42,6 +43,7 @@ const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
     jumped: 'Onda {n} de 7: {wish}',
     missed: 'Essa passou. Vem outra!',
     done: 'Você pulou as 7 ondas!',
+    wishesLabel: 'Seus pedidos',
     openCard: 'Ver seus pedidos',
     cardTitle: 'Feliz {year}!',
     cardBody:
@@ -74,6 +76,7 @@ const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
     jumped: 'Wave {n} of 7: {wish}',
     missed: 'That one got away. Here comes another!',
     done: 'You jumped all 7 waves!',
+    wishesLabel: 'Your wishes',
     openCard: 'See your wishes',
     cardTitle: 'Happy {year}!',
     cardBody:
@@ -107,6 +110,7 @@ const COPY: Record<'pt' | 'en' | 'es', ReveillonCopy> = {
     jumped: 'Ola {n} de 7: {wish}',
     missed: 'Esa se fue. ¡Viene otra!',
     done: '¡Saltaste las 7 olas!',
+    wishesLabel: 'Tus deseos',
     openCard: 'Ver tus deseos',
     cardTitle: '¡Feliz {year}!',
     cardBody:

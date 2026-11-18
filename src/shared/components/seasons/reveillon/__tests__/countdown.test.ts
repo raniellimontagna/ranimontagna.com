@@ -14,6 +14,12 @@ it('turns to hours and minutes on the 31st', () => {
     hours: 4,
     minutes: 12,
   })
+  // Just after midnight on the 31st: not "24 h 0 min".
+  expect(newYearCountdown(at(2026, 12, 31, 0, 0), 2026)).toEqual({
+    kind: 'hours',
+    hours: 23,
+    minutes: 59,
+  })
   expect(newYearCountdown(at(2026, 12, 31, 23, 59), 2026)).toEqual({
     kind: 'hours',
     hours: 0,

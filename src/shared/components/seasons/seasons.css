@@ -94,8 +94,13 @@
   --ambient-ice: rgb(217 226 236 / 10%);
 }
 
-/* The stage at the end of the home page, held before paint so nothing jumps. */
+/* The game's stage, held before paint at the game's own height (reveillon.css) so nothing jumps. */
 :root[data-season="reveillon"]:not([data-retro]) [data-season-slot="play"] {
   display: block;
-  min-height: 19rem;
+  min-height: 30rem;
+}
+@media (min-width: 640px) {
+  :root[data-season="reveillon"]:not([data-retro]) [data-season-slot="play"] {
+    min-height: 26rem;
+  }
 }

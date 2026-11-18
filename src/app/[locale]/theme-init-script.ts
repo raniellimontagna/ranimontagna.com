@@ -5,10 +5,13 @@ import {
   SEASON_PARAM,
   SEASON_PREVIEW_KEY,
   SEASONS,
+  type SeasonRule,
 } from '@/shared/lib/seasons/seasons'
 import { RETRO_MODES } from '@/shared/store/use-retro-mode/retro-modes'
 
-export const THEME_INIT_SCRIPT = `
+/** The pre-paint script for a calendar; tests build it with Easter-based rules too. */
+export function buildThemeInitScript(seasons: readonly SeasonRule[] = SEASONS): string {
+  return `
 (() => {
   let retroActive = false;
   try {
@@ -23,7 +26,7 @@ export const THEME_INIT_SCRIPT = `
 
   // Season: the same calendar as src/shared/lib/seasons/seasons.ts, by local date.
   (() => {
-    const seasons = ${JSON.stringify(SEASONS)};
+    const seasons = ${JSON.stringify(seasons)};
     const valid = (value) => (seasons.some((season) => season.id === value) ? value : null);
     let preview = null;
     try {
@@ -54,8 +57,10 @@ export const THEME_INIT_SCRIPT = `
     const now = new Date();
     const today = key(now);
     let dated = null;
+    // The first window that holds today, like seasonWindowOn's find().
     for (const edition of [now.getFullYear() - 1, now.getFullYear()]) {
       for (const season of seasons) {
+        if (dated) break;
         const start = edge(season.from, edition);
         let end = edge(season.to, edition);
         if (end < start) end = edge(season.to, edition + 1);
@@ -121,3 +126,6 @@ export const THEME_INIT_SCRIPT = `
   }
 })();
 `
+}
+
+export const THEME_INIT_SCRIPT = buildThemeInitScript()

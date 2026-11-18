@@ -72,10 +72,13 @@ export function seasonWindows(
 }
 
 /** The season on this local date, with its edition. */
-export function seasonWindowOn(date: Date): { id: SeasonId; edition: number } | null {
+export function seasonWindowOn(
+  date: Date,
+  rules: readonly SeasonRule[] = SEASONS,
+): { id: SeasonId; edition: number } | null {
   const today = dayKey(date)
   const year = date.getFullYear()
-  const window = [...seasonWindows(year - 1), ...seasonWindows(year)].find(
+  const window = [...seasonWindows(year - 1, rules), ...seasonWindows(year, rules)].find(
     ({ from, to }) => today >= from && today <= to,
   )
   return window ? { id: window.id, edition: window.edition } : null

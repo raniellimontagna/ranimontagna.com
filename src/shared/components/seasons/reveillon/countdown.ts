@@ -18,7 +18,8 @@ export function newYearCountdown(now: Date, edition: number): NewYearCountdown {
   const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
   const days = Math.round((Date.UTC(edition + 1, 0, 1) - today) / DAY_MS)
   if (days > 1) return { kind: 'days', days }
-  const minutes = Math.ceil((midnight.getTime() - now.getTime()) / MINUTE_MS)
+  // Rounded up, so the last seconds still read "1 min"; capped below a full day.
+  const minutes = Math.min(1439, Math.ceil((midnight.getTime() - now.getTime()) / MINUTE_MS))
   return { kind: 'hours', hours: Math.floor(minutes / 60), minutes: minutes % 60 }
 }
 

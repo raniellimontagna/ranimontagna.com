@@ -34,7 +34,9 @@ type WavesGameProps = {
   onReopen: () => void
 }
 
-function palette() {
+type SeaPalette = { gold: string; silver: string; ink: string }
+
+function readPalette(): SeaPalette {
   const styles = getComputedStyle(document.documentElement)
   const read = (name: string, fallback: string) => styles.getPropertyValue(name).trim() || fallback
   return {
@@ -52,8 +54,13 @@ export function withAlpha(color: string, alpha: number): string {
     .padStart(2, '0')}`
 }
 
-function drawSea(ctx: CanvasRenderingContext2D, state: WavesState, w: number, h: number) {
-  const { gold, silver, ink } = palette()
+function drawSea(
+  ctx: CanvasRenderingContext2D,
+  state: WavesState,
+  w: number,
+  h: number,
+  { gold, silver, ink }: SeaPalette,
+) {
   const sea = h * 0.7
   ctx.clearRect(0, 0, w, h)
 
@@ -147,7 +154,9 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
   const copy = getReveillonCopy(locale)
   const [slot] = useSlots('[data-season-slot="play"]')
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const stateRef = useRef<WavesState>(createWaves(loadCleared(edition)))
+  const [initial] = useState(() => createWaves(loadCleared(edition)))
+  const stateRef = useRef<WavesState>(initial)
+  const paletteRef = useRef<SeaPalette | null>(null)
   const [cleared, setCleared] = useState(() => stateRef.current.cleared)
   const [message, setMessage] = useState('')
   const startRef = useRef<() => void>(() => {})
@@ -185,6 +194,19 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
     let last = 0
     let started = false
     let onScreen = true
+    // Read once, and again only on a real theme change (smooth scroll toggles classes).
+    paletteRef.current = readPalette()
+    const themeOf = (classes: string | null) => /\b(light|dark)\b/.exec(classes ?? '')?.[1]
+    const theme = new MutationObserver((records) => {
+      const changed = records.some(
+        (record) =>
+          record.attributeName !== 'class' ||
+          themeOf(record.oldValue) !== themeOf(document.documentElement.className),
+      )
+      if (!changed) return
+      paletteRef.current = readPalette()
+      drawSea(ctx, state, width, height, paletteRef.current)
+    })
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
@@ -194,7 +216,7 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
       canvas.width = width * dpr
       canvas.height = height * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      drawSea(ctx, state, width, height)
+      drawSea(ctx, state, width, height, paletteRef.current ?? readPalette())
     }
     const loop = (now: number) => {
       frame = 0
@@ -202,7 +224,7 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
       last = now
       const outcome = stepWaves(state, dt, started)
       if (outcome) score(outcome)
-      drawSea(ctx, state, width, height)
+      drawSea(ctx, state, width, height, paletteRef.current ?? readPalette())
       if (state.cleared < WISH_COUNT && onScreen && !document.hidden) {
         frame = requestAnimationFrame(loop)
       }
@@ -236,11 +258,17 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
 
     resize()
     run()
+    theme.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-color-theme'],
+      attributeOldValue: true,
+    })
     visibility?.observe(canvas)
     sized?.observe(canvas)
     document.addEventListener('visibilitychange', onVisibility)
     return () => {
       cancelAnimationFrame(frame)
+      theme.disconnect()
       visibility?.disconnect()
       sized?.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
@@ -257,7 +285,9 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
       score('cleared')
       const ctx = canvasRef.current?.getContext('2d')
       const rect = canvasRef.current?.getBoundingClientRect()
-      if (ctx && rect) drawSea(ctx, state, rect.width, rect.height)
+      if (ctx && rect) {
+        drawSea(ctx, state, rect.width, rect.height, paletteRef.current ?? readPalette())
+      }
       return
     }
     if (jump(state)) startRef.current()
@@ -266,7 +296,8 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== 'ArrowUp') return
     event.preventDefault()
-    onJump()
+    // A held key repeats: one press, one jump.
+    if (!event.repeat) onJump()
   }
 
   if (!slot) return null
@@ -286,8 +317,11 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
         </h2>
         <p className="reveillon-sea-intro">{copy.wavesIntro}</p>
       </div>
-      {/* A tap on the sea is a shortcut; the Jump button below is the real control. */}
-      <div className="reveillon-sea-stage" onPointerDown={done ? undefined : onJump}>
+      {/* A tap on the sea is a shortcut; the Jump button below is the keyboard path. A click,
+          not a pointerdown: a scroll gesture starting on the sea is not a jump. */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: shortcut for the Jump button below. */}
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: the Jump button below is the keyboard path. */}
+      <div className="reveillon-sea-stage" onClick={done ? undefined : onJump}>
         {/* biome-ignore lint/a11y/noAriaHiddenOnFocusable: decorative canvas with no tabindex. */}
         <canvas ref={canvasRef} aria-hidden="true" className="reveillon-sea-canvas" />
       </div>
@@ -302,13 +336,17 @@ export function WavesGame({ locale, edition, onComplete, onReopen }: WavesGamePr
           </button>
         )}
         <span className="reveillon-sea-progress">{fill(copy.progress, { n: cleared })}</span>
-        <ol className="reveillon-sea-wishes" aria-label={copy.wavesTitle}>
-          {copy.wishes.map((wish, index) => (
-            <li key={wish} data-lit={index < cleared || undefined}>
-              <SparkIcon />
-              <span className={index < cleared ? undefined : 'sr-only'}>{wish}</span>
-            </li>
-          ))}
+        <ol className="reveillon-sea-wishes" aria-label={copy.wishesLabel}>
+          {copy.wishes.map((wish, index) => {
+            const lit = index < cleared
+            // Screen readers hear only the wishes already made; the rest are decoration.
+            return (
+              <li key={wish} data-lit={lit || undefined} aria-hidden={lit ? undefined : true}>
+                <SparkIcon />
+                <span className={lit ? undefined : 'sr-only'}>{wish}</span>
+              </li>
+            )
+          })}
         </ol>
         <SoundToggle
           label={copy.sound}

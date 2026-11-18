@@ -110,9 +110,12 @@ export function ambientTarget(width: number, height: number, rand: () => number)
   return { x, y: height * (0.1 + rand() * 0.5) }
 }
 
-/** `tabindex="-1"` only marks a focus target (the skip link's <main>), not a control. */
+/**
+ * Controls and panels a click belongs to. Vega and the site menu are role="dialog" divs
+ * above the page; `tabindex="-1"` only marks a focus target (the skip link's <main>).
+ */
 const INTERACTIVE =
-  'a, button, input, select, textarea, label, summary, [role="button"], [role="link"], [tabindex]:not([tabindex="-1"]), [contenteditable], dialog, [data-no-fireworks]'
+  'a, button, input, select, textarea, label, summary, [role="button"], [role="link"], [tabindex]:not([tabindex="-1"]), [contenteditable], dialog, [role="dialog"], [aria-modal="true"], [data-no-fireworks]'
 
 /** A click there may launch a firework: plain page space, no text being selected. */
 export function isEmptySpot(target: Element | null, selection: string): boolean {

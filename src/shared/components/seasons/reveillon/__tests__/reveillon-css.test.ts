@@ -29,3 +29,23 @@ it('keeps its dialogs centered despite the CSS reset', () => {
     expect(rule).toMatch(/margin:\s*auto/)
   }
 })
+
+// The slot is held at the game's height before the chunk loads; both must agree.
+it('holds the play slot at the same heights as the game', () => {
+  const global = readFileSync(
+    join(process.cwd(), 'src/shared/components/seasons/seasons.css'),
+    'utf8',
+  )
+  const heights = (text: string, selector: RegExp) =>
+    Array.from(
+      text.matchAll(new RegExp(`${selector.source}\\s*\\{[^}]*?min-height:\\s*([\\d.]+rem)`, 'g')),
+      (m) => m[1],
+    )
+  const slot = heights(
+    global,
+    /\[data-season="reveillon"\]:not\(\[data-retro\]\) \[data-season-slot="play"\]/,
+  )
+  const game = heights(css, /\.reveillon-sea/)
+  expect(slot).toEqual(['30rem', '26rem'])
+  expect(game).toEqual(slot)
+})

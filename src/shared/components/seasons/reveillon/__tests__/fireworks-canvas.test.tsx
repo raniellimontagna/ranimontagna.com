@@ -110,3 +110,22 @@ it('answers the rest of the layer: one rocket, or a finale', () => {
   const strokes = ctx.stroke.mock.calls.length
   expect(strokes).toBeGreaterThanOrEqual(3)
 })
+
+it('with reduced motion the finale is one still burst, never a flashing sky', () => {
+  const { ctx } = setup({ reduced: true })
+  act(() => fireworksBus.finale(8000))
+  const strokes = ctx.stroke.mock.calls.length
+  expect(strokes).toBeGreaterThan(0)
+  act(() => vi.advanceTimersByTime(8000))
+  expect(ctx.stroke.mock.calls.length).toBe(strokes)
+})
+
+it('with reduced motion a new burst replaces the last one', () => {
+  const { ctx } = setup({ reduced: true })
+  const text = document.querySelector('[data-testid="text"]') as Element
+  fireEvent.click(text, { clientX: 400, clientY: 300 })
+  const one = ctx.stroke.mock.calls.length
+  ctx.stroke.mockClear()
+  fireEvent.click(text, { clientX: 600, clientY: 200 })
+  expect(ctx.stroke.mock.calls.length).toBe(one)
+})

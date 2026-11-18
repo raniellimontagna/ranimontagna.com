@@ -56,6 +56,7 @@ it('stages the game at the end of the home page, with a real Jump button', async
 })
 
 it('with reduced motion, every jump clears a wave and names its wish', async () => {
+  mockMatchMedia({ '(prefers-reduced-motion: reduce)': true })
   const onComplete = vi.fn()
   await renderGame({ onComplete })
   fireEvent.click(jumpButton())
@@ -72,7 +73,8 @@ it('with reduced motion, every jump clears a wave and names its wish', async () 
   expect(screen.queryByRole('button', { name: 'Pular' })).toBeNull()
 })
 
-it('jumps on ArrowUp without scrolling the page', async () => {
+it('jumps on ArrowUp without scrolling the page, once per press', async () => {
+  mockMatchMedia({ '(prefers-reduced-motion: reduce)': true })
   await renderGame()
   const event = new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true, cancelable: true })
   act(() => {
@@ -80,6 +82,39 @@ it('jumps on ArrowUp without scrolling the page', async () => {
   })
   expect(event.defaultPrevented).toBe(true)
   expect(screen.getByText('1 de 7 ondas')).toBeInTheDocument()
+  // Holding the key repeats it: that is not seven jumps.
+  const held = new KeyboardEvent('keydown', {
+    key: 'ArrowUp',
+    repeat: true,
+    bubbles: true,
+    cancelable: true,
+  })
+  act(() => {
+    jumpButton().dispatchEvent(held)
+  })
+  expect(held.defaultPrevented).toBe(true)
+  expect(screen.getByText('1 de 7 ondas')).toBeInTheDocument()
+})
+
+it('jumps on a tap on the sea, but a scroll that starts there is not a jump', async () => {
+  mockMatchMedia({ '(prefers-reduced-motion: reduce)': true })
+  await renderGame()
+  const sea = document.querySelector('.reveillon-sea-stage') as HTMLElement
+  fireEvent.pointerDown(sea)
+  expect(screen.getByText('0 de 7 ondas')).toBeInTheDocument()
+  fireEvent.click(sea)
+  expect(screen.getByText('1 de 7 ondas')).toBeInTheDocument()
+})
+
+it('tells screen readers only the wishes already lit', async () => {
+  mockMatchMedia({ '(prefers-reduced-motion: reduce)': true })
+  localStorage.setItem('season-waves:reveillon-2026', '2')
+  await renderGame()
+  const list = screen.getByRole('list', { name: 'Seus pedidos' })
+  const items = Array.from(list.querySelectorAll('li'))
+  expect(items.filter((li) => li.getAttribute('aria-hidden') !== 'true')).toHaveLength(2)
+  expect(items[0]).toHaveTextContent('saúde')
+  expect(items[2]).toHaveAttribute('aria-hidden', 'true')
 })
 
 it('picks up where the visitor left off, and offers the card again once done', async () => {
@@ -112,4 +147,13 @@ it('adds alpha to token colours for the canvas, and leaves other colours alone',
   expect(withAlpha('#d9e2ec', 0.25)).toBe('#d9e2ec40')
   expect(withAlpha('#d9e2ec', 0)).toBe('#d9e2ec00')
   expect(withAlpha('rgb(1 2 3)', 0.5)).toBe('rgb(1 2 3)')
+})
+
+it('reads the sea colours once, not on every frame', async () => {
+  mockMatchMedia({})
+  const frames = installFrameStub()
+  await renderGame()
+  const styles = vi.spyOn(window, 'getComputedStyle')
+  act(() => frames.flush(10))
+  expect(styles).not.toHaveBeenCalled()
 })
