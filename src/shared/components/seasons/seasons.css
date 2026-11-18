@@ -170,9 +170,10 @@
   --season-paint-2: #22735f;
   --season-paint-3: #a3386a;
   --season-paint-4: #6b3e26;
-  --season-1: var(--season-lilac);
-  --season-2: var(--season-mint);
-  --season-3: var(--season-pink);
+  /* The portrait's glyphs use the paint: deep tones on light, pastels on dark. */
+  --season-1: var(--season-paint-1);
+  --season-2: var(--season-paint-2);
+  --season-3: var(--season-paint-3);
 }
 :root[data-season="pascoa"]:not([data-retro]).dark {
   --season-chocolate: #c99063;
@@ -200,4 +201,34 @@
   --ring: rgb(201 182 242 / 48%);
   --ambient-lime: rgb(201 182 242 / 10%);
   --ambient-ice: rgb(168 230 207 / 8%);
+}
+/*
+ * The hero letters painted like Easter eggs from the first paint (the layer only switches
+ * the pattern on a click). Each letter clips its own paint to the glyph, so the letters'
+ * rise (a transform on the same element) is untouched; its box grows over ascenders,
+ * descenders and the tight tracking without moving anything. Longhands only: the
+ * background shorthand would reset background-clip.
+ */
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title] [data-letter] {
+  margin: -0.2em -0.1em;
+  padding: 0.2em 0.1em;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: repeating-linear-gradient(
+    -28deg,
+    var(--season-paint-1) 0 0.11em,
+    var(--season-paint-2) 0.11em 0.22em,
+    var(--season-paint-3) 0.22em 0.33em,
+    var(--season-paint-4) 0.33em 0.44em
+  );
+}
+:root[data-season="pascoa"]:not([data-retro]) [data-hero-title] [data-letter]:nth-child(even) {
+  background-image: repeating-linear-gradient(
+    28deg,
+    var(--season-paint-3) 0 0.11em,
+    var(--season-paint-1) 0.11em 0.22em,
+    var(--season-paint-4) 0.22em 0.33em,
+    var(--season-paint-2) 0.33em 0.44em
+  );
 }

@@ -55,7 +55,24 @@ it('paints the name readable on both themes', () => {
 
 // The background shorthand resets background-clip, which would paint the whole box.
 it('paints with longhands, so the clip to the glyphs holds', () => {
-  for (const [, body] of css.matchAll(/data-pintura[^{]*\{([^}]*)\}/g)) {
-    expect(body).not.toMatch(/(^|[;\s])background\s*:/)
-  }
+  const rules = [
+    ...css.matchAll(/data-pintura[^{]*\{([^}]*)\}/g),
+    ...global.matchAll(/data-season="pascoa"[^{]*data-letter[^{]*\{([^}]*)\}/g),
+  ]
+  expect(rules.length).toBeGreaterThan(3)
+  for (const [, body] of rules) expect(body).not.toMatch(/(^|[;\s])background\s*:/)
+})
+
+it('paints the name before the layer loads, so it never flashes plain', () => {
+  const base =
+    /data-season="pascoa"\]:not\(\[data-retro\]\) \[data-hero-title\] \[data-letter\] \{([^}]*)\}/.exec(
+      global,
+    )?.[1] ?? ''
+  expect(base).toMatch(/background-clip:\s*text/)
+  expect(base).toMatch(/padding:\s*0\.2em 0\.1em/)
+})
+
+it('never lets the bunny take a click', () => {
+  const strip = /\.pascoa-bunny-strip\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
+  expect(strip).toMatch(/pointer-events:\s*none/)
 })

@@ -57,6 +57,21 @@ it('opens the chocolate egg at the fifth, and again from the corner', async () =
   await act(async () => {})
   for (const id of HUNT_SPOTS) fireEvent.click(egg(id))
   expect(onComplete).toHaveBeenCalledTimes(1)
+  expect(track).toHaveBeenCalledWith('season-hunt-complete', { season: 'pascoa' })
+  expect(
+    vi.mocked(track).mock.calls.filter(([event]) => event === 'season-hunt-complete'),
+  ).toHaveLength(1)
   fireEvent.click(screen.getByRole('button', { name: 'Abrir o ovo de chocolate' }))
   expect(onReopen).toHaveBeenCalled()
+})
+
+it('keeps found eggs found across page changes', async () => {
+  const { rerender } = render(<Page />)
+  await act(async () => {})
+  fireEvent.click(egg('atto'))
+  rerender(<EggHunt locale="pt" edition={2027} onComplete={() => {}} onReopen={() => {}} />)
+  await act(async () => {})
+  rerender(<Page />)
+  await act(async () => {})
+  expect(egg('atto')).toHaveAttribute('data-found')
 })

@@ -32,7 +32,7 @@ it('counts down to Easter in the footer', async () => {
   )
 })
 
-it('says one day, then wishes a happy Easter, in each language', async () => {
+it('says one day on Holy Saturday', async () => {
   await renderAt(new Date(2027, 2, 27, 12))
   expect(screen.getByText('Falta 1 dia para a Páscoa')).toBeInTheDocument()
 })
@@ -40,4 +40,9 @@ it('says one day, then wishes a happy Easter, in each language', async () => {
 it('wishes a happy Easter on the day, in English', async () => {
   await renderAt(new Date(2027, 2, 28, 12), 'en')
   expect(screen.getByText('Happy Easter')).toBeInTheDocument()
+})
+
+it('still wishes a happy Easter on Monday, in Spanish', async () => {
+  await renderAt(new Date(2027, 2, 29, 12), 'es')
+  expect(screen.getByText('Feliz Pascua')).toBeInTheDocument()
 })

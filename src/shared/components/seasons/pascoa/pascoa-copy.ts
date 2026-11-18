@@ -63,7 +63,7 @@ const COPY: Record<'pt' | 'en' | 'es', PascoaCopy> = {
     sound: 'Sonido de Pascua',
     openEgg: 'Abrir el huevo de chocolate',
     eggLabel: 'Un huevo de chocolate abierto, con una estrella dorada dentro',
-    cardTitle: '¡Felices Pascuas!',
+    cardTitle: '¡Feliz Pascua!',
     cardBody:
       'Encontraste los 5 huevos. Que la Pascua traiga un nuevo comienzo, chocolate y tiempo para lo que importa.',
     shareText: 'Encontré los 5 huevos escondidos en el sitio de Ranielli.',
@@ -72,7 +72,7 @@ const COPY: Record<'pt' | 'en' | 'es', PascoaCopy> = {
     close: 'Cerrar',
     oneDay: 'Falta 1 día para Pascua',
     manyDays: 'Faltan {n} días para Pascua',
-    easter: 'Felices Pascuas',
+    easter: 'Feliz Pascua',
   },
 }
 

@@ -130,7 +130,9 @@ Novas:
 - **Visual:** chocolate e tons pastel (lilás, menta, amarelo-claro). O destaque padrão vira
   chocolate no claro e lilás no escuro.
 - **Efeito:** de vez em quando um coelhinho atravessa a borda de baixo da tela aos pulos,
-  deixando pegadas que somem. Nunca passa por cima do texto e some com movimento reduzido.
+  deixando pegadas que somem. Passa por alguns segundos, pequeno e sem pegar clique (pode
+  cruzar o texto da borda de baixo nesse tempo); não aparece com movimento reduzido nem com
+  a aba escondida.
 - **Nome:** as letras ganham pintura de ovo (listras, bolinhas, zigue-zague) em pastel,
   num degradê que mantém o contraste. Clicar troca a pintura.
 - **Foto:** tiara de orelhas de coelho.

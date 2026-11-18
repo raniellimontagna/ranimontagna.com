@@ -74,10 +74,12 @@ it('does not count a gift twice', async () => {
   expect(track).toHaveBeenCalledTimes(1)
 })
 
-it('calls the reward when the fifth gift opens', async () => {
+it('calls the reward when the fifth gift opens, and records it once a year', async () => {
   const { onComplete } = await renderHunt()
   for (const id of GIFT_IDS) fireEvent.click(gift(id))
   expect(onComplete).toHaveBeenCalledTimes(1)
+  expect(track).toHaveBeenCalledWith('season-hunt-complete', { season: 'natal' })
+  expect(localStorage.getItem('season-gifts-done:natal-2026')).toBe('1')
   expect(screen.getByRole('button', { name: /globo/i })).toBeInTheDocument()
 })
 

@@ -5,6 +5,24 @@ import { track } from '@/shared/lib/analytics/track'
 import type { SeasonId } from '@/shared/lib/seasons/seasons'
 import { addFound, type HuntSpot, isComplete, loadFound, saveFound } from './hunt'
 
+const recorded = new Set<string>()
+
+/**
+ * A finished hunt is counted once per edition and visitor, not on every reopening. The
+ * key is Christmas's own since 2026 (season-gifts-done:natal-<year>).
+ */
+function recordCompleteOnce(season: SeasonId, edition: number) {
+  const key = `season-gifts-done:${season}-${edition}`
+  try {
+    if (localStorage.getItem(key) === '1') return
+    localStorage.setItem(key, '1')
+  } catch {
+    if (recorded.has(key)) return
+  }
+  recorded.add(key)
+  track('season-hunt-complete', { season })
+}
+
 type UseHunt = {
   season: SeasonId
   edition: number
@@ -32,7 +50,10 @@ export function useHunt({ season, edition, onFind, onComplete }: UseHunt) {
       saveFound(season, edition, next)
       onFind?.(next)
       track('season-gift', { season, gift: id, found: next.length })
-      if (isComplete(next)) onComplete()
+      if (isComplete(next)) {
+        recordCompleteOnce(season, edition)
+        onComplete()
+      }
     },
     [season, edition, onFind, onComplete],
   )
