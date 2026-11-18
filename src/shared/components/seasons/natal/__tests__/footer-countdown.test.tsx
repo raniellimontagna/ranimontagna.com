@@ -24,7 +24,7 @@ async function renderOn(month: number, day: number, locale = 'pt') {
 }
 
 beforeEach(() => {
-  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.useFakeTimers({ toFake: ['Date', 'setTimeout', 'clearTimeout'] })
 })
 
 afterEach(() => {
@@ -45,4 +45,20 @@ it('says one day, then the day itself', async () => {
 it('wishes a merry Christmas on the 25th, in each language', async () => {
   await renderOn(12, 25, 'en')
   expect(screen.getByText('Merry Christmas')).toBeInTheDocument()
+})
+
+it('turns the page at midnight while the page stays open', async () => {
+  vi.setSystemTime(new Date(2026, 11, 24, 23, 59, 30))
+  render(
+    <>
+      <Footer />
+      <FooterCountdown locale="pt" />
+    </>,
+  )
+  await act(async () => {})
+  expect(screen.getByText('Falta 1 dia para o Natal')).toBeInTheDocument()
+  await act(async () => {
+    vi.advanceTimersByTime(31_000)
+  })
+  expect(screen.getByText('Feliz Natal')).toBeInTheDocument()
 })

@@ -7,7 +7,7 @@ import { track } from '@/shared/lib/analytics/track'
 import { GiftButton } from './gift-button'
 import { addFound, GIFT_IDS, type GiftId, isComplete, loadFound, saveFound } from './gift-hunt'
 import { HuntBar } from './hunt-bar'
-import { getNatalCopy } from './natal-copy'
+import { fill, getNatalCopy } from './natal-copy'
 import { playBell } from './season-sound'
 import { useSlots } from './use-slots'
 
@@ -60,7 +60,10 @@ export function Hunt({ locale, onComplete, onReopen }: HuntProps) {
             id={id}
             index={GIFT_IDS.indexOf(id)}
             opened={opened}
-            label={opened ? copy.giftOpened : copy.giftClosed}
+            label={fill(opened ? copy.giftOpened : copy.giftClosed, {
+              n: GIFT_IDS.indexOf(id) + 1,
+              total: GIFT_IDS.length,
+            })}
             onOpen={open}
           />,
           slot,

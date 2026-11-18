@@ -4,6 +4,16 @@ import { mockMatchMedia } from '@/tests/mocks/match-media'
 import { playJingle, setSeasonSound } from '../season-sound'
 import { SnowGlobe } from '../snow-globe'
 
+const { stopSmoothScroll, startSmoothScroll } = vi.hoisted(() => ({
+  stopSmoothScroll: vi.fn(),
+  startSmoothScroll: vi.fn(),
+}))
+vi.mock('@/shared/components/motion', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/shared/components/motion')>()),
+  stopSmoothScroll,
+  startSmoothScroll,
+}))
+
 const stopJingle = vi.fn()
 vi.mock('../season-sound', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../season-sound')>()),
@@ -21,11 +31,29 @@ function Harness({ onClose = vi.fn() }: { onClose?: () => void }) {
   )
 }
 
+// Like the browser's dialog focusing steps: open, then focus the first focusable control.
+const showModal = vi.fn(function (this: HTMLDialogElement) {
+  this.setAttribute('open', '')
+  this.querySelector<HTMLElement>('button')?.focus()
+})
+const closeDialog = vi.fn(function (this: HTMLDialogElement) {
+  this.removeAttribute('open')
+})
+let canvas: ReturnType<typeof mockCanvas2d>
+
 beforeEach(() => {
-  mockCanvas2d({ width: 320, height: 380 })
+  canvas = mockCanvas2d({ width: 320, height: 380 })
+  // jsdom has no showModal/close; the browser gives inert, focus and Esc for free.
+  Object.assign(HTMLDialogElement.prototype, { showModal, close: closeDialog })
+  HTMLElement.prototype.setPointerCapture = vi.fn()
 })
 
 afterEach(() => {
+  showModal.mockClear()
+  closeDialog.mockClear()
+  stopSmoothScroll.mockClear()
+  startSmoothScroll.mockClear()
+  vi.useRealTimers()
   setSeasonSound(false)
   vi.mocked(playJingle).mockClear()
   stopJingle.mockClear()
@@ -34,36 +62,81 @@ afterEach(() => {
   Reflect.deleteProperty(navigator, 'share')
 })
 
-it('opens as a dialog with the holiday card and focus inside', () => {
+it('opens as a native modal dialog with the holiday card and focus on Shake', () => {
   installFrameStub()
   render(<Harness />)
   const dialog = screen.getByRole('dialog', { name: /boas festas/i })
-  expect(dialog).toContainElement(document.activeElement as HTMLElement)
+  expect(dialog.tagName).toBe('DIALOG')
+  expect(showModal).toHaveBeenCalledTimes(1)
+  expect(screen.getByRole('button', { name: /^sacudir$/i })).toHaveFocus()
   expect(screen.getByRole('img', { name: /globo de neve/i })).toBeInTheDocument()
 })
 
-it('closes on Escape and gives focus back', () => {
+it('pauses the smooth scroll behind it and resumes it on close', () => {
   installFrameStub()
-  const trigger = document.createElement('button')
-  document.body.appendChild(trigger)
-  trigger.focus()
-  const onClose = vi.fn()
-  const { rerender } = render(<SnowGlobe open locale="pt" onClose={onClose} />)
-  fireEvent.keyDown(document, { key: 'Escape' })
-  expect(onClose).toHaveBeenCalled()
-  rerender(<SnowGlobe open={false} locale="pt" onClose={onClose} />)
-  expect(trigger).toHaveFocus()
-  trigger.remove()
+  const { unmount } = render(<Harness />)
+  expect(stopSmoothScroll).toHaveBeenCalled()
+  unmount()
+  expect(closeDialog).toHaveBeenCalled()
+  expect(startSmoothScroll).toHaveBeenCalled()
 })
 
-it('keeps Tab inside the dialog', () => {
+it('closes on the browser close request (Esc or back gesture)', () => {
+  installFrameStub()
+  const onClose = vi.fn()
+  render(<Harness onClose={onClose} />)
+  const cancel = new Event('cancel', { cancelable: true })
+  fireEvent(screen.getByRole('dialog'), cancel)
+  expect(onClose).toHaveBeenCalled()
+  expect(cancel.defaultPrevented).toBe(true)
+})
+
+it('lets go of a drag that ends outside the window', () => {
+  mockMatchMedia({})
   installFrameStub()
   render(<Harness />)
-  const buttons = screen.getByRole('dialog').querySelectorAll('button')
-  const last = buttons[buttons.length - 1]
-  last.focus()
-  fireEvent.keyDown(document, { key: 'Tab' })
-  expect(buttons[0]).toHaveFocus()
+  const globe = screen.getByRole('img', { name: /globo de neve/i })
+  fireEvent.pointerDown(globe, { pointerId: 1, clientX: 10, clientY: 10 })
+  expect(globe.setPointerCapture).toHaveBeenCalledWith(1)
+  fireEvent.pointerCancel(globe, { pointerId: 1 })
+  vi.mocked(window.requestAnimationFrame).mockClear()
+  fireEvent.pointerMove(globe, { pointerId: 1, clientX: 200, clientY: 200 })
+  expect(window.requestAnimationFrame).not.toHaveBeenCalled()
+})
+
+it('never starts listening to the phone after the globe has closed', async () => {
+  installFrameStub()
+  mockMatchMedia({ '(pointer: coarse)': true })
+  let grant: (value: 'granted') => void = () => {}
+  const requestPermission = vi.fn(() => new Promise<'granted'>((resolve) => (grant = resolve)))
+  Object.defineProperty(window, 'DeviceMotionEvent', {
+    configurable: true,
+    value: Object.assign(class {}, { requestPermission }),
+  })
+  const add = vi.spyOn(window, 'addEventListener')
+  const { unmount } = render(<Harness />)
+  fireEvent.click(screen.getByRole('button', { name: /sacudir o celular/i }))
+  unmount()
+  await act(async () => grant('granted'))
+  expect(add).not.toHaveBeenCalledWith('devicemotion', expect.any(Function))
+  Reflect.deleteProperty(window, 'DeviceMotionEvent')
+})
+
+it('redraws at the new size when the window resizes', () => {
+  installFrameStub()
+  render(<Harness />)
+  const globe = screen.getByRole('img', { name: /globo de neve/i }) as HTMLCanvasElement
+  canvas.setSize(260, 300)
+  act(() => window.dispatchEvent(new Event('resize')))
+  expect(globe.width).toBe(260 * Math.min(window.devicePixelRatio || 1, 2))
+})
+
+it('wishes for the year that is coming', () => {
+  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.setSystemTime(new Date(2027, 11, 10, 12))
+  installFrameStub()
+  render(<Harness />)
+  expect(screen.getByText(/2028/)).toBeInTheDocument()
 })
 
 it('shakes the globe into motion', () => {

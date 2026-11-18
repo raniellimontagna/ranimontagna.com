@@ -23,3 +23,10 @@ it('gates every rule on page elements outside the layer by the season attribute'
 it('never styles a bare footer element', () => {
   expect(selectors.some((s) => /(^|[\s,>])footer\b/.test(s))).toBe(false)
 })
+
+// Tailwind's preflight sets margin: 0 on every element, which pins a modal
+// <dialog> to the top-left corner; the browser centers it only with margin: auto.
+it('keeps the snow globe dialog centered despite the CSS reset', () => {
+  const rule = /\.natal-globe\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
+  expect(rule).toMatch(/margin:\s*auto/)
+})

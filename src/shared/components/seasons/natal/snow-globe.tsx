@@ -1,12 +1,15 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { NATAL_PORTRAIT_IMAGE } from '@/features/home/components/portrait/portrait-image'
-import { prefersReducedMotion } from '@/shared/components/motion'
+import {
+  prefersReducedMotion,
+  startSmoothScroll,
+  stopSmoothScroll,
+} from '@/shared/components/motion'
 import { makeFlakeSprite } from './flake-sprite'
 import { shakeEnergy, stepGlobeFlakes, throwFlakes } from './globe-physics'
-import { getNatalCopy } from './natal-copy'
+import { fill, getNatalCopy } from './natal-copy'
 import { isSeasonSoundOn, playJingle } from './season-sound'
 import { createFlakes } from './snowfall'
 import { SoundToggle } from './sound-toggle'
@@ -35,10 +38,15 @@ function token(name: string, fallback: string) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback
 }
 
-/** The hunt's reward: a snow globe with the portrait inside, and a holiday card. */
+/**
+ * The hunt's reward: a snow globe with the portrait inside, and a holiday card.
+ * A native modal <dialog>: the browser makes the page inert, keeps focus inside,
+ * closes on Esc or the back gesture and gives focus back to where it was.
+ */
 export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
   const copy = getNatalCopy(locale)
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const openRef = useRef(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const shakeRef = useRef<(impulse: number) => void>(() => {})
   const motionRef = useRef<((event: DeviceMotionEvent) => void) | null>(null)
@@ -52,37 +60,20 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
       window.matchMedia('(pointer: coarse)').matches,
   )
 
-  // Focus moves in, Tab stays in, Escape closes, focus goes back where it was.
-  useEffect(() => {
-    if (!open) return
-    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null
+  // Before paint and before the node leaves: closing first lets the browser return focus.
+  useLayoutEffect(() => {
     const dialog = dialogRef.current
-    dialog?.querySelector<HTMLElement>('button')?.focus()
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        onClose()
-        return
-      }
-      if (event.key !== 'Tab' || !dialog) return
-      const items = Array.from(dialog.querySelectorAll<HTMLElement>('button'))
-      const first = items[0]
-      const last = items.at(-1)
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault()
-        last?.focus()
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault()
-        first?.focus()
-      }
-    }
-    document.addEventListener('keydown', onKey)
+    if (!open || !dialog) return
+    openRef.current = true
+    if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal()
+    // Lenis scrolls the page from wheel events, which an inert page still receives.
+    stopSmoothScroll()
     return () => {
-      document.removeEventListener('keydown', onKey)
-      previous?.focus()
+      openRef.current = false
+      if (typeof dialog.close === 'function' && dialog.open) dialog.close()
+      startSmoothScroll()
     }
-  }, [open, onClose])
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -91,17 +82,26 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     if (!canvas || !ctx) return
 
     const still = prefersReducedMotion()
-    const rect = canvas.getBoundingClientRect()
-    const width = rect.width || 320
-    const height = rect.height || 380
-    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
-    canvas.width = width * dpr
-    canvas.height = height * dpr
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-
-    const radius = Math.min(width, height * 0.82) / 2 - 6
-    const cx = width / 2
-    const cy = radius + 6
+    let width = 0
+    let height = 0
+    let radius = 0
+    let cx = 0
+    let cy = 0
+    const measure = () => {
+      const rect = canvas.getBoundingClientRect()
+      const previous = radius
+      width = rect.width || 320
+      height = rect.height || 380
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR)
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      radius = Math.min(width, height * 0.82) / 2 - 6
+      cx = width / 2
+      cy = radius + 6
+      return previous ? radius / previous : 1
+    }
+    measure()
     const red = token('--season-red', '#b3261e')
     const gold = token('--season-gold', '#a8781a')
     const sprite = makeFlakeSprite('#ffffff')
@@ -207,8 +207,10 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     }
     shakeRef.current = shake
 
+    // The pointer is captured, so a drag released outside the window still ends.
     let drag: { x: number; y: number; t: number } | null = null
     const onPointerDown = (event: PointerEvent) => {
+      canvas.setPointerCapture?.(event.pointerId)
       drag = { x: event.clientX, y: event.clientY, t: performance.now() }
     }
     const onPointerMove = (event: PointerEvent) => {
@@ -222,19 +224,34 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     const onPointerUp = () => {
       drag = null
     }
+    // A phone that rotates, or a window resized, redraws the globe at its new size.
+    const onResize = () => {
+      const scale = measure()
+      for (const f of flakes) {
+        f.x *= scale
+        f.y *= scale
+      }
+      draw()
+    }
 
     portrait.addEventListener('load', draw)
     canvas.addEventListener('pointerdown', onPointerDown)
-    window.addEventListener('pointermove', onPointerMove)
-    window.addEventListener('pointerup', onPointerUp)
+    canvas.addEventListener('pointermove', onPointerMove)
+    canvas.addEventListener('pointerup', onPointerUp)
+    canvas.addEventListener('pointercancel', onPointerUp)
+    canvas.addEventListener('lostpointercapture', onPointerUp)
+    window.addEventListener('resize', onResize)
     draw()
 
     return () => {
       cancelAnimationFrame(frame)
       portrait.removeEventListener('load', draw)
       canvas.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('pointermove', onPointerMove)
-      window.removeEventListener('pointerup', onPointerUp)
+      canvas.removeEventListener('pointermove', onPointerMove)
+      canvas.removeEventListener('pointerup', onPointerUp)
+      canvas.removeEventListener('pointercancel', onPointerUp)
+      canvas.removeEventListener('lostpointercapture', onPointerUp)
+      window.removeEventListener('resize', onResize)
       if (motionRef.current) window.removeEventListener('devicemotion', motionRef.current)
       motionRef.current = null
       stopJingleRef.current()
@@ -264,7 +281,8 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
     } catch {
       return
     }
-    if (motionRef.current) return
+    // The permission prompt can outlive the globe: never listen after it closed.
+    if (motionRef.current || !openRef.current) return
     const onMotion = (event: DeviceMotionEvent) => {
       const a = event.acceleration
       const magnitude = Math.hypot(a?.x ?? 0, a?.y ?? 0, a?.z ?? 0)
@@ -296,47 +314,50 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
 
   if (!open) return null
 
-  return createPortal(
-    <div className="natal-globe-backdrop">
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="natal-globe-title"
-        className="natal-globe"
-      >
-        <canvas
-          ref={canvasRef}
-          role="img"
-          aria-label={copy.globeLabel}
-          className="natal-globe-canvas"
-        />
-        <h2 id="natal-globe-title" className="natal-globe-title">
-          {copy.cardTitle}
-        </h2>
-        <p className="natal-globe-body">{copy.cardBody}</p>
-        <div className="natal-globe-actions">
-          <button type="button" onClick={shakeHard} className="natal-globe-primary">
-            {copy.shake}
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-labelledby="natal-globe-title"
+      className="natal-globe"
+      onCancel={(event) => {
+        // Esc or the back gesture: the parent owns the open state.
+        event.preventDefault()
+        onClose()
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        role="img"
+        aria-label={copy.globeLabel}
+        className="natal-globe-canvas"
+      />
+      <h2 id="natal-globe-title" className="natal-globe-title">
+        {copy.cardTitle}
+      </h2>
+      <p className="natal-globe-body">
+        {fill(copy.cardBody, { next: new Date().getFullYear() + 1 })}
+      </p>
+      <div className="natal-globe-actions">
+        {/* First focusable control: showModal() focuses it, the dialog's primary action. */}
+        <button type="button" onClick={shakeHard} className="natal-globe-primary">
+          {copy.shake}
+        </button>
+        {canShakePhone ? (
+          <button type="button" onClick={shakePhone} className="natal-globe-button">
+            {copy.shakePhone}
           </button>
-          {canShakePhone ? (
-            <button type="button" onClick={shakePhone} className="natal-globe-button">
-              {copy.shakePhone}
-            </button>
-          ) : null}
-          <button type="button" onClick={share} className="natal-globe-button">
-            {copy.share}
-          </button>
-          <SoundToggle label={copy.sound} className="natal-globe-button natal-globe-sound" />
-          <button type="button" onClick={onClose} className="natal-globe-button">
-            {copy.close}
-          </button>
-        </div>
-        <p role="status" className="natal-globe-status">
-          {copied ? copy.linkCopied : ''}
-        </p>
+        ) : null}
+        <button type="button" onClick={share} className="natal-globe-button">
+          {copy.share}
+        </button>
+        <SoundToggle label={copy.sound} className="natal-globe-button natal-globe-sound" />
+        <button type="button" onClick={onClose} className="natal-globe-button">
+          {copy.close}
+        </button>
       </div>
-    </div>,
-    document.body,
+      <p role="status" className="natal-globe-status">
+        {copied ? copy.linkCopied : ''}
+      </p>
+    </dialog>
   )
 }

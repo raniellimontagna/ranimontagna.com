@@ -72,7 +72,10 @@ export function VegaScreen() {
   const baseSuggestions = t.raw('suggestions') as string[]
   // At Christmas Vega greets for the season and offers its question first, still four in all.
   const suggestions = festive
-    ? [t('season.natal.suggestion'), ...baseSuggestions].slice(0, baseSuggestions.length)
+    ? [t('season.natal.suggestion', { year: new Date().getFullYear() }), ...baseSuggestions].slice(
+        0,
+        baseSuggestions.length,
+      )
     : baseSuggestions
 
   const close = useCallback(() => setOpen(false), [setOpen])

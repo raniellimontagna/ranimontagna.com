@@ -48,9 +48,12 @@ async function renderHunt(onComplete = vi.fn()) {
   return { ...view, onComplete }
 }
 
-it('hides a gift in every slot, each a real button', async () => {
+it('hides a gift in every slot, each a real button with its own name', async () => {
   await renderHunt()
-  for (const id of GIFT_IDS) expect(gift(id)).toHaveAccessibleName(/presente/i)
+  const names = GIFT_IDS.map((id) => gift(id).getAttribute('aria-label'))
+  for (const name of names) expect(name).toMatch(/presente/i)
+  expect(new Set(names).size).toBe(GIFT_IDS.length)
+  expect(gift('atto')).toHaveAccessibleName('Abrir presente escondido (4 de 5)')
 })
 
 it('opens a gift, saves it and records it', async () => {
