@@ -14,6 +14,11 @@ vi.mock('../reveillon/reveillon-layer', () => ({
     <div data-testid="reveillon-layer" data-locale={locale} />
   ),
 }))
+vi.mock('../carnaval/carnaval-layer', () => ({
+  CarnavalLayer: ({ locale }: { locale: string }) => (
+    <div data-testid="carnaval-layer" data-locale={locale} />
+  ),
+}))
 
 beforeEach(() => {
   useRetroMode.setState({ active: false, mode: null })
@@ -49,4 +54,11 @@ it('loads only the season that is on', async () => {
   render(<SeasonLayer locale="es" />)
   expect(await screen.findByTestId('reveillon-layer')).toHaveAttribute('data-locale', 'es')
   expect(screen.queryByTestId('natal-layer')).toBeNull()
+})
+
+it('loads the Carnival layer in its season', async () => {
+  useSeason.setState({ active: 'carnaval', current: 'carnaval', init: () => {} })
+  render(<SeasonLayer locale="en" />)
+  expect(await screen.findByTestId('carnaval-layer')).toHaveAttribute('data-locale', 'en')
+  expect(screen.queryByTestId('reveillon-layer')).toBeNull()
 })

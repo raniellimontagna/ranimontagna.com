@@ -21,3 +21,11 @@ it('keeps the name for the edition, and starts fresh in the next', () => {
   localStorage.setItem('season-bloco:carnaval-2027', '99')
   expect(loadBloco(2027, 24)).toBeNull()
 })
+
+it('starts with no name when storage is blocked', () => {
+  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+    throw new Error('blocked')
+  })
+  expect(loadBloco(2027, 24)).toBeNull()
+  vi.restoreAllMocks()
+})
