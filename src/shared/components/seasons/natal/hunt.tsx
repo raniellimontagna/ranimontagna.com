@@ -4,12 +4,13 @@ import { useCallback, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { usePathname } from '@/shared/config/i18n/navigation'
 import { track } from '@/shared/lib/analytics/track'
+import { fill } from '../shared/fill'
+import { useSlots } from '../shared/use-slots'
 import { GiftButton } from './gift-button'
 import { addFound, GIFT_IDS, type GiftId, isComplete, loadFound, saveFound } from './gift-hunt'
 import { HuntBar } from './hunt-bar'
-import { fill, getNatalCopy } from './natal-copy'
-import { playBell } from './season-sound'
-import { useSlots } from './use-slots'
+import { getNatalCopy } from './natal-copy'
+import { playBell } from './natal-sound'
 
 type HuntProps = {
   locale: string

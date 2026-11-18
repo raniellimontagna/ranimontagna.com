@@ -163,7 +163,11 @@ describe('locale head season', () => {
 
   it('agrees with the calendar on every day from 2026 to 2040', () => {
     const misses: string[] = []
-    for (let day = new Date(2026, 0, 1, 12); day.getFullYear() <= 2040; day.setDate(day.getDate() + 1)) {
+    for (
+      let day = new Date(2026, 0, 1, 12);
+      day.getFullYear() <= 2040;
+      day.setDate(day.getDate() + 1)
+    ) {
       vi.setSystemTime(day)
       root.removeAttribute('data-season')
       runThemeInitScript()

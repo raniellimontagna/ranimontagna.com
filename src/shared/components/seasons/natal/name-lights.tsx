@@ -3,7 +3,7 @@
 import { type CSSProperties, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
-import { useSlots } from './use-slots'
+import { useSlots } from '../shared/use-slots'
 import './natal.css'
 
 const PATTERNS = ['chase', 'twinkle', 'steady'] as const

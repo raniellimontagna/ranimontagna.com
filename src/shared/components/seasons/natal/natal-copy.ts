@@ -92,10 +92,3 @@ const COPY: Record<'pt' | 'en' | 'es', NatalCopy> = {
 export function getNatalCopy(locale: string): NatalCopy {
   return COPY[locale as keyof typeof COPY] ?? COPY.pt
 }
-
-/** Fills the `{name}` marks of a text. */
-export function fill(text: string, values: Record<string, string | number>): string {
-  return text.replace(/\{(\w+)\}/g, (mark, name: string) =>
-    name in values ? String(values[name]) : mark,
-  )
-}

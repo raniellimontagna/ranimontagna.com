@@ -1,9 +1,9 @@
 'use client'
 
+import { SoundToggle } from '../shared/sound-toggle'
 import { GIFT_IDS } from './gift-hunt'
 import type { NatalCopy } from './natal-copy'
-import { GiftIcon, GlobeIcon } from './natal-icons'
-import { SoundToggle } from './sound-toggle'
+import { BellIcon, GiftIcon, GlobeIcon } from './natal-icons'
 
 type HuntBarProps = {
   found: number
@@ -21,7 +21,11 @@ export function HuntBar({ found, complete, copy, onReopen }: HuntBarProps) {
         <span>{`${found}/${GIFT_IDS.length}`}</span>
         <span className="sr-only">{copy.found}</span>
       </span>
-      <SoundToggle label={copy.sound} className="natal-hunt-button" />
+      <SoundToggle
+        label={copy.sound}
+        className="natal-hunt-button"
+        icon={(on) => <BellIcon on={on} />}
+      />
       {complete ? (
         <button
           type="button"

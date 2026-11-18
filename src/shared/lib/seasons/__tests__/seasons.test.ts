@@ -60,7 +60,11 @@ describe('seasonWindows', () => {
   })
 
   it('never overlaps two seasons, 2026 to 2040', () => {
-    for (let day = new Date(2026, 0, 1); day.getFullYear() <= 2040; day.setDate(day.getDate() + 1)) {
+    for (
+      let day = new Date(2026, 0, 1);
+      day.getFullYear() <= 2040;
+      day.setDate(day.getDate() + 1)
+    ) {
       const key = day.getFullYear() * 10000 + (day.getMonth() + 1) * 100 + day.getDate()
       const year = day.getFullYear()
       const hits = [...seasonWindows(year - 1), ...seasonWindows(year)].filter(

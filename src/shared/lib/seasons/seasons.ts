@@ -47,7 +47,8 @@ export function easterSunday(year: number): Date {
   return new Date(year, Math.floor(n / 31) - 1, (n % 31) + 1)
 }
 
-const dayKey = (date: Date) => date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
+const dayKey = (date: Date) =>
+  date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
 
 function edgeDate(edge: SeasonEdge, year: number): Date {
   if ('easter' in edge) {
@@ -58,7 +59,10 @@ function edgeDate(edge: SeasonEdge, year: number): Date {
 }
 
 /** Every season's window for the edition `year`; an end before the start lands next year. */
-export function seasonWindows(year: number, rules: readonly SeasonRule[] = SEASONS): SeasonWindow[] {
+export function seasonWindows(
+  year: number,
+  rules: readonly SeasonRule[] = SEASONS,
+): SeasonWindow[] {
   return rules.map(({ id, from, to }) => {
     const start = dayKey(edgeDate(from, year))
     let end = dayKey(edgeDate(to, year))
