@@ -1,3 +1,4 @@
+import { blockStorage } from '@/tests/mocks/storage'
 import { loadBloco, pickBloco, saveBloco } from '../bloco'
 
 afterEach(() => {
@@ -22,10 +23,10 @@ it('keeps the name for the edition, and starts fresh in the next', () => {
   expect(loadBloco(2027, 24)).toBeNull()
 })
 
-it('starts with no name when storage is blocked', () => {
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
+it('starts with no name when storage is blocked, and drawing still works', () => {
+  saveBloco(2027, 5)
+  blockStorage()
+  expect(() => localStorage.getItem('any')).toThrow('blocked')
   expect(loadBloco(2027, 24)).toBeNull()
-  vi.restoreAllMocks()
+  expect(() => saveBloco(2027, 6)).not.toThrow()
 })
