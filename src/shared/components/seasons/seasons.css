@@ -1,7 +1,8 @@
 /*
  * Seasons, global part: only tokens and show/hide rules, so the page paints in
  * season before any script. The effects bring their own styles with their lazy
- * chunk. A retro world always wins.
+ * chunk. A retro world always wins. Every season names a trio, --season-1 to -3, that
+ * the code portrait lights up near the pointer.
  */
 
 :root[data-season="natal"]:not([data-retro]) {
@@ -9,6 +10,9 @@
   --season-green: #1f6b45;
   --season-gold: #a8781a;
   --season-snow: #a9bccd;
+  --season-1: var(--season-red);
+  --season-2: var(--season-green);
+  --season-3: var(--season-gold);
 }
 :root[data-season="natal"]:not([data-retro]).dark {
   --season-red: #ef5350;
@@ -40,10 +44,12 @@
 }
 
 :root:not([data-season="natal"]) [data-season-only="natal"],
+:root:not([data-season="reveillon"]) [data-season-only="reveillon"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
-:root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"] {
+:root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"],
+:root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"] {
   display: none;
 }
 
@@ -51,4 +57,50 @@
 :root[data-season="natal"]:not([data-retro]) [data-hero-title] {
   margin-top: 0.12em;
   margin-bottom: 0.2em;
+}
+
+/* Réveillon: gold, champagne and silver on the night of the turn. */
+:root[data-season="reveillon"]:not([data-retro]) {
+  --season-gold: #8a6a12;
+  --season-champagne: #a3824a;
+  --season-silver: #5d6b78;
+  --season-1: var(--season-gold);
+  --season-2: var(--season-champagne);
+  --season-3: var(--season-silver);
+}
+:root[data-season="reveillon"]:not([data-retro]).dark {
+  --season-gold: #f2c14e;
+  --season-champagne: #f7e7c4;
+  --season-silver: #d9e2ec;
+}
+:root[data-season="reveillon"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #8a6a12;
+  --accent-strong: #6e540d;
+  --accent-ice: #5d6b78;
+  --on-accent: #ffffff;
+  --focus-ring: #6e540d;
+  --ring: rgb(138 106 18 / 50%);
+  --ambient-lime: rgb(138 106 18 / 9%);
+  --ambient-ice: rgb(93 107 120 / 12%);
+}
+:root[data-season="reveillon"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #f2c14e;
+  --accent-strong: #ffd97a;
+  --accent-ice: #d9e2ec;
+  --on-accent: #091113;
+  --focus-ring: #ffd97a;
+  --ring: rgb(242 193 78 / 48%);
+  --ambient-lime: rgb(242 193 78 / 10%);
+  --ambient-ice: rgb(217 226 236 / 10%);
+}
+
+/* The game's stage, held before paint at the game's own height (reveillon.css) so nothing jumps. */
+:root[data-season="reveillon"]:not([data-retro]) [data-season-slot="play"] {
+  display: block;
+  min-height: 30rem;
+}
+@media (min-width: 640px) {
+  :root[data-season="reveillon"]:not([data-retro]) [data-season-slot="play"] {
+    min-height: 26rem;
+  }
 }

@@ -1,12 +1,13 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { track } from '@/shared/lib/analytics/track'
+import { setSeasonSound } from '../../shared/season-sound'
 import { GIFT_IDS } from '../gift-hunt'
 import { Hunt } from '../hunt'
-import { playBell, setSeasonSound } from '../season-sound'
+import { playBell } from '../natal-sound'
 
 vi.mock('@/shared/lib/analytics/track', () => ({ track: vi.fn() }))
-vi.mock('../season-sound', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../season-sound')>()),
+vi.mock('../natal-sound', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../natal-sound')>()),
   playBell: vi.fn(() => () => {}),
 }))
 

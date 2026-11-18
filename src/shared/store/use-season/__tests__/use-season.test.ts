@@ -9,7 +9,7 @@ beforeEach(() => {
   localStorage.clear()
   sessionStorage.clear()
   root.removeAttribute('data-season')
-  useSeason.setState({ active: null, current: null })
+  useSeason.setState({ active: null, current: null, edition: null })
 })
 
 afterEach(() => {
@@ -89,4 +89,37 @@ it('follows the date when storage is blocked at start', () => {
   })
   useSeason.getState().init()
   expect(useSeason.getState().active).toBe('natal')
+})
+
+describe('editions', () => {
+  const at = (year: number, month: number, day: number) =>
+    vi.setSystemTime(new Date(year, month - 1, day, 12, 0))
+
+  it('turns the New Year season off for the edition that started in December', () => {
+    at(2027, 1, 2)
+    useSeason.getState().init()
+    expect(useSeason.getState()).toMatchObject({ active: 'reveillon', edition: 2026 })
+    useSeason.getState().setEnabled(false)
+    expect(localStorage.getItem('season-off:reveillon-2026')).toBe('1')
+  })
+
+  it('comes back for the next edition', () => {
+    localStorage.setItem('season-off:reveillon-2026', '1')
+    at(2027, 12, 27)
+    useSeason.getState().init()
+    expect(useSeason.getState()).toMatchObject({ active: 'reveillon', edition: 2027 })
+  })
+
+  it('previews the coming edition before the season starts', () => {
+    at(2026, 11, 18)
+    sessionStorage.setItem('season-preview', 'reveillon')
+    useSeason.getState().init()
+    expect(useSeason.getState()).toMatchObject({ active: 'reveillon', edition: 2026 })
+  })
+
+  it('has no edition without a season', () => {
+    at(2026, 7, 15)
+    useSeason.getState().init()
+    expect(useSeason.getState().edition).toBeNull()
+  })
 })

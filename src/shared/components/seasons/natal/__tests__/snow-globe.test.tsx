@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { installFrameStub, mockCanvas2d } from '@/tests/mocks/canvas'
 import { mockMatchMedia } from '@/tests/mocks/match-media'
-import { playJingle, setSeasonSound } from '../season-sound'
+import { setSeasonSound } from '../../shared/season-sound'
+import { playJingle } from '../natal-sound'
 import { SnowGlobe } from '../snow-globe'
 
 const { stopSmoothScroll, startSmoothScroll } = vi.hoisted(() => ({
@@ -15,8 +16,8 @@ vi.mock('@/shared/components/motion', async (importOriginal) => ({
 }))
 
 const stopJingle = vi.fn()
-vi.mock('../season-sound', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../season-sound')>()),
+vi.mock('../natal-sound', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../natal-sound')>()),
   playJingle: vi.fn(() => stopJingle),
 }))
 

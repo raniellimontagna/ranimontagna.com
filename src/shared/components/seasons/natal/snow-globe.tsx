@@ -1,18 +1,19 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NATAL_PORTRAIT_IMAGE } from '@/features/home/components/portrait/portrait-image'
-import {
-  prefersReducedMotion,
-  startSmoothScroll,
-  stopSmoothScroll,
-} from '@/shared/components/motion'
+import { prefersReducedMotion } from '@/shared/components/motion'
+import { fill } from '../shared/fill'
+import { isSeasonSoundOn } from '../shared/season-sound'
+import { shareSite } from '../shared/share-site'
+import { SoundToggle } from '../shared/sound-toggle'
+import { useModalDialog } from '../shared/use-modal-dialog'
 import { makeFlakeSprite } from './flake-sprite'
 import { shakeEnergy, stepGlobeFlakes, throwFlakes } from './globe-physics'
-import { fill, getNatalCopy } from './natal-copy'
-import { isSeasonSoundOn, playJingle } from './season-sound'
+import { getNatalCopy } from './natal-copy'
+import { BellIcon } from './natal-icons'
+import { playJingle } from './natal-sound'
 import { createFlakes } from './snowfall'
-import { SoundToggle } from './sound-toggle'
 
 const GLOBE_FLAKES = 70
 const SETTLE_STEPS = 400
@@ -46,7 +47,6 @@ function token(name: string, fallback: string) {
 export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
   const copy = getNatalCopy(locale)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const openRef = useRef(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const shakeRef = useRef<(impulse: number) => void>(() => {})
   const motionRef = useRef<((event: DeviceMotionEvent) => void) | null>(null)
@@ -60,20 +60,7 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
       window.matchMedia('(pointer: coarse)').matches,
   )
 
-  // Before paint and before the node leaves: closing first lets the browser return focus.
-  useLayoutEffect(() => {
-    const dialog = dialogRef.current
-    if (!open || !dialog) return
-    openRef.current = true
-    if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal()
-    // Lenis scrolls the page from wheel events, which an inert page still receives.
-    stopSmoothScroll()
-    return () => {
-      openRef.current = false
-      if (typeof dialog.close === 'function' && dialog.open) dialog.close()
-      startSmoothScroll()
-    }
-  }, [open])
+  const openRef = useModalDialog(dialogRef, open)
 
   useEffect(() => {
     if (!open) return
@@ -295,21 +282,8 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
   }
 
   const share = async () => {
-    const url = `${window.location.origin}${locale === 'pt' ? '/' : `/${locale}`}`
-    if (typeof navigator.share === 'function') {
-      try {
-        await navigator.share({ title: copy.cardTitle, text: copy.shareText, url })
-      } catch {
-        // Cancelled by the visitor.
-      }
-      return
-    }
-    try {
-      await navigator.clipboard.writeText(url)
-      setCopied(true)
-    } catch {
-      // No clipboard either: nothing to do.
-    }
+    const result = await shareSite({ locale, title: copy.cardTitle, text: copy.shareText })
+    if (result === 'copied') setCopied(true)
   }
 
   if (!open) return null
@@ -350,7 +324,11 @@ export function SnowGlobe({ open, onClose, locale }: SnowGlobeProps) {
         <button type="button" onClick={share} className="natal-globe-button">
           {copy.share}
         </button>
-        <SoundToggle label={copy.sound} className="natal-globe-button natal-globe-sound" />
+        <SoundToggle
+          label={copy.sound}
+          className="natal-globe-button natal-globe-sound"
+          icon={(on) => <BellIcon on={on} />}
+        />
         <button type="button" onClick={onClose} className="natal-globe-button">
           {copy.close}
         </button>

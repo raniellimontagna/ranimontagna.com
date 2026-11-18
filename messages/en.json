@@ -28,7 +28,8 @@
       "accent": "Accent color",
       "season": "Season",
       "seasons": {
-        "natal": "Christmas"
+        "natal": "Christmas",
+        "reveillon": "New Year"
       }
     },
     "footer": {
@@ -559,6 +560,10 @@
       "natal": {
         "greeting": "Hi, I'm Vega. Happy holidays!",
         "suggestion": "What did Ranielli ship in {year}?"
+      },
+      "reveillon": {
+        "greeting": "Hi, I'm Vega. Happy New Year!",
+        "suggestion": "What was Ranielli's biggest delivery in {year}?"
       }
     }
   }

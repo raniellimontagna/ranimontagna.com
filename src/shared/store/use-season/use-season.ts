@@ -5,8 +5,9 @@ import {
   parseSeason,
   SEASON_PREVIEW_KEY,
   type SeasonId,
+  seasonEdition,
   seasonOffKey,
-  seasonOn,
+  seasonWindowOn,
 } from '@/shared/lib/seasons/seasons'
 
 interface SeasonStore {
@@ -14,6 +15,8 @@ interface SeasonStore {
   active: SeasonId | null
   /** The season the date or a preview offers, even when the visitor turned it off. */
   current: SeasonId | null
+  /** The year `current` started in (1 January 2027 is still the 2026 New Year's). */
+  edition: number | null
   init: () => void
   setEnabled: (enabled: boolean) => void
 }
@@ -32,9 +35,9 @@ function readPreview(): string | null {
   }
 }
 
-function isTurnedOff(season: SeasonId): boolean {
+function isTurnedOff(season: SeasonId, edition: number): boolean {
   try {
-    return localStorage.getItem(seasonOffKey(season, new Date().getFullYear())) === '1'
+    return localStorage.getItem(seasonOffKey(season, edition)) === '1'
   } catch {
     return false
   }
@@ -43,18 +46,23 @@ function isTurnedOff(season: SeasonId): boolean {
 export const useSeason = create<SeasonStore>((set, get) => ({
   active: null,
   current: null,
+  edition: null,
   init: () => {
+    const now = new Date()
     const preview = readPreview()
     const forced = parseSeason(preview)
-    const current = preview === 'off' ? null : (forced ?? seasonOn(new Date()))
-    const active = current && (forced || !isTurnedOff(current)) ? current : null
+    const dated = preview === 'off' || forced ? null : seasonWindowOn(now)
+    const current = forced ?? dated?.id ?? null
+    const edition = forced ? seasonEdition(forced, now) : (dated?.edition ?? null)
+    const active =
+      current && edition !== null && (forced || !isTurnedOff(current, edition)) ? current : null
     applySeason(active)
-    set({ active, current })
+    set({ active, current, edition })
   },
   setEnabled: (enabled) => {
-    const { current } = get()
-    if (!current) return
-    const key = seasonOffKey(current, new Date().getFullYear())
+    const { current, edition } = get()
+    if (!current || edition === null) return
+    const key = seasonOffKey(current, edition)
     let previewing = false
     try {
       const preview = sessionStorage.getItem(SEASON_PREVIEW_KEY)

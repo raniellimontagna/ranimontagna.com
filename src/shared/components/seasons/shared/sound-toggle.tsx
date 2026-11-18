@@ -1,11 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { BellIcon } from './natal-icons'
+import { type ReactNode, useEffect, useState } from 'react'
 import { isSeasonSoundOn, onSeasonSoundChange, setSeasonSound } from './season-sound'
 
-/** The Christmas sound switch: one name, its state in aria-pressed. */
-export function SoundToggle({ label, className }: { label: string; className: string }) {
+type SoundToggleProps = {
+  label: string
+  className: string
+  /** The season's own picture of the switch, drawn on or off. */
+  icon: (on: boolean) => ReactNode
+}
+
+/** A season's sound switch: one name, its state in aria-pressed. */
+export function SoundToggle({ label, className, icon }: SoundToggleProps) {
   const [on, setOn] = useState(isSeasonSoundOn)
 
   useEffect(() => onSeasonSoundChange(setOn), [])
@@ -18,7 +24,7 @@ export function SoundToggle({ label, className }: { label: string; className: st
       onClick={() => setSeasonSound(!on)}
       className={className}
     >
-      <BellIcon on={on} />
+      {icon(on)}
     </button>
   )
 }

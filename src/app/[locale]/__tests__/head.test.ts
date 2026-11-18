@@ -1,5 +1,5 @@
-import { seasonOn } from '@/shared/lib/seasons/seasons'
-import { THEME_INIT_SCRIPT } from '../theme-init-script'
+import { seasonOn, seasonWindowOn } from '@/shared/lib/seasons/seasons'
+import { buildThemeInitScript, THEME_INIT_SCRIPT } from '../theme-init-script'
 
 const runThemeInitScript = () => {
   Function(THEME_INIT_SCRIPT)()
@@ -159,5 +159,64 @@ describe('locale head season', () => {
     runThemeInitScript()
     const expected = seasonOn(new Date(2026, month - 1, day, hour, minute))
     expect(root.getAttribute('data-season')).toBe(expected)
+  })
+
+  it('agrees with the calendar on every day from 2026 to 2040', () => {
+    const misses: string[] = []
+    for (
+      let day = new Date(2026, 0, 1, 12);
+      day.getFullYear() <= 2040;
+      day.setDate(day.getDate() + 1)
+    ) {
+      vi.setSystemTime(day)
+      root.removeAttribute('data-season')
+      runThemeInitScript()
+      const expected = seasonWindowOn(day)?.id ?? null
+      if (root.getAttribute('data-season') !== expected) misses.push(day.toDateString())
+    }
+    expect(misses).toEqual([])
+  })
+
+  it('starts the white-shirt photo early on the home page at New Year', () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2026, 11, 28, 12))
+    visit('/')
+    runThemeInitScript()
+    const links = document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/reveillon-v"]')
+    expect(links).toHaveLength(1)
+  })
+
+  it('places Easter-based windows like the calendar does, every day to 2040', () => {
+    // Easter rules under the ids at hand, so the script's Easter maths runs too.
+    const rules = [
+      { id: 'natal', from: { easter: -57 }, to: { easter: -46 } },
+      { id: 'reveillon', from: { easter: -7 }, to: { easter: 1 } },
+    ] as const
+    const script = buildThemeInitScript(rules)
+    const misses: string[] = []
+    for (
+      let day = new Date(2026, 0, 1, 12);
+      day.getFullYear() <= 2040;
+      day.setDate(day.getDate() + 1)
+    ) {
+      vi.setSystemTime(day)
+      root.removeAttribute('data-season')
+      Function(script)()
+      const expected = seasonWindowOn(day, rules)?.id ?? null
+      if (root.getAttribute('data-season') !== expected) misses.push(day.toDateString())
+    }
+    expect(misses).toEqual([])
+  })
+
+  it('reads a New Year turn-off by the edition the season started in', () => {
+    vi.setSystemTime(new Date(2027, 0, 2, 12))
+    window.localStorage.setItem('season-off:reveillon-2026', '1')
+    runThemeInitScript()
+    expect(root).not.toHaveAttribute('data-season')
+
+    window.localStorage.clear()
+    window.localStorage.setItem('season-off:reveillon-2027', '1')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'reveillon')
   })
 })

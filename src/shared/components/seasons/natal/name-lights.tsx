@@ -3,7 +3,8 @@
 import { type CSSProperties, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { prefersReducedMotion } from '@/shared/components/motion'
-import { useSlots } from './use-slots'
+import { textBox } from '../shared/text-box'
+import { useSlots } from '../shared/use-slots'
 import './natal.css'
 
 const PATTERNS = ['chase', 'twinkle', 'steady'] as const
@@ -17,15 +18,6 @@ const SETTLE_MS = 1400
 type Bulb = { x: number; y: number; up: boolean }
 type Wire = { path: string; bulbs: Bulb[] }
 type Strand = { width: number; height: number; wires: Wire[] }
-
-/** The text's own box, not the full-width line block (jsdom has no Range rects). */
-function textBox(line: Element) {
-  const range = document.createRange()
-  range.selectNodeContents(line)
-  return typeof range.getBoundingClientRect === 'function'
-    ? range.getBoundingClientRect()
-    : line.getBoundingClientRect()
-}
 
 /**
  * Frames the name with two strands, measured from the text itself: one arching

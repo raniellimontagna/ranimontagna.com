@@ -63,19 +63,21 @@ export function VegaScreen() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
 
-  // Christmas stays out of the retro worlds.
+  // The seasons stay out of the retro worlds.
   const season = useSeason((state) => state.active)
+  const edition = useSeason((state) => state.edition)
   const retro = useRetroMode((state) => state.active)
-  const festive = season === 'natal' && !retro
+  const festive = season && !retro ? season : null
 
   const conversation = messages.length > 0
   const baseSuggestions = t.raw('suggestions') as string[]
-  // At Christmas Vega greets for the season and offers its question first, still four in all.
+  // In season Vega greets for it and offers its question first, still four in all. The year
+  // is the season's edition: on 1 January the New Year's question is still about last year.
   const suggestions = festive
-    ? [t('season.natal.suggestion', { year: new Date().getFullYear() }), ...baseSuggestions].slice(
-        0,
-        baseSuggestions.length,
-      )
+    ? [
+        t(`season.${festive}.suggestion`, { year: edition ?? new Date().getFullYear() }),
+        ...baseSuggestions,
+      ].slice(0, baseSuggestions.length)
     : baseSuggestions
 
   const close = useCallback(() => setOpen(false), [setOpen])
@@ -267,7 +269,7 @@ export function VegaScreen() {
             <VegaMark size={170} thinking={thinking} className="hidden sm:block" />
           </div>
           <h2 className="text-center text-2xl font-medium tracking-tight sm:text-3xl">
-            {festive ? t('season.natal.greeting') : t('greeting')}{' '}
+            {festive ? t(`season.${festive}.greeting`) : t('greeting')}{' '}
             <span className="text-muted">{t('greetingAsk')}</span>
           </h2>
           {thinking ? (

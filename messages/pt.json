@@ -28,7 +28,8 @@
       "accent": "Cor de destaque",
       "season": "Época",
       "seasons": {
-        "natal": "Natal"
+        "natal": "Natal",
+        "reveillon": "Réveillon"
       }
     },
     "footer": {
@@ -559,6 +560,10 @@
       "natal": {
         "greeting": "Oi, eu sou a Vega. Boas festas!",
         "suggestion": "O que o Ranielli entregou em {year}?"
+      },
+      "reveillon": {
+        "greeting": "Oi, eu sou a Vega. Feliz Ano Novo!",
+        "suggestion": "Qual foi a maior entrega do Ranielli em {year}?"
       }
     }
   }

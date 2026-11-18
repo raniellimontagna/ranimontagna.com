@@ -37,7 +37,8 @@ function readColors(canvas: HTMLCanvasElement) {
   const foreground =
     root.getPropertyValue('--foreground').trim() || getComputedStyle(canvas).color || 'white'
   const accent = root.getPropertyValue('--accent').trim() || foreground
-  const festive = ['--season-red', '--season-green', '--season-gold'].map((name) =>
+  // Every season names the trio its glyphs light up in (seasons.css).
+  const festive = ['--season-1', '--season-2', '--season-3'].map((name) =>
     root.getPropertyValue(name).trim(),
   )
   return { accent, foreground, festive: festive.every(Boolean) ? festive : null }

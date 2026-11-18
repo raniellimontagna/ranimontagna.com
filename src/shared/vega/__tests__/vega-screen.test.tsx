@@ -113,6 +113,18 @@ describe('VegaScreen', () => {
     vi.useRealTimers()
   })
 
+  it('greets for the New Year and asks about the year that just ended', () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2027, 0, 2, 12))
+    useSeason.setState({ active: 'reveillon', current: 'reveillon', edition: 2026 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Oi, eu sou a Vega. Feliz Ano Novo!')).toBeInTheDocument()
+    expect(screen.getByText('Qual foi a maior entrega do Ranielli em 2026?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+    vi.useRealTimers()
+  })
+
   it('keeps the usual greeting inside a retro world', () => {
     useSeason.setState({ active: 'natal', current: 'natal' })
     useRetroMode.setState({ active: true, mode: 'dos' })

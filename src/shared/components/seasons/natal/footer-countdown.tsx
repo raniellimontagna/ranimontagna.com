@@ -1,23 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useSlots } from '../shared/use-slots'
+import { useToday } from '../shared/use-today'
 import { christmasCountdown } from './countdown'
 import { getNatalCopy } from './natal-copy'
-import { useSlots } from './use-slots'
 
 /** The footer counts down to the 25th, on every page. */
 export function FooterCountdown({ locale }: { locale: string }) {
   const [slot] = useSlots('[data-season-slot="footer"]')
-  const [today, setToday] = useState(() => new Date())
-
-  // A page left open overnight turns the day at local midnight.
-  useEffect(() => {
-    const midnight = new Date(today)
-    midnight.setHours(24, 0, 0, 0)
-    const timer = window.setTimeout(() => setToday(new Date()), midnight.getTime() - Date.now())
-    return () => window.clearTimeout(timer)
-  }, [today])
+  const today = useToday()
 
   if (!slot) return null
 
