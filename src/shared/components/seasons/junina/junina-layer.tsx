@@ -22,7 +22,7 @@ export function JuninaLayer({ locale }: { locale: string }) {
     <>
       <SparksCanvas />
       <Bunting />
-      <FooterCountdown locale={locale} />
+      <FooterCountdown locale={locale} edition={edition} />
       <PescariaGame locale={locale} edition={edition} onComplete={openCard} onReopen={openCard} />
       <ArraiaCard open={cardOpen} onClose={closeCard} locale={locale} />
     </>

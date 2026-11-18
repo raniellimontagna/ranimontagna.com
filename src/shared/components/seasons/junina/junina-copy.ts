@@ -12,12 +12,12 @@ export type JuninaCopy = {
   intro: string
   /** `{n}` and `{total}`: every fish has its own name for screen readers. */
   fish: string
-  /** `{n}`, `{total}` and `{prize}`. */
-  caught: string
   /** `{prize}` just won. */
   won: string
   prizesLabel: string
+  /** `{n}` of `{total}`. */
   progress: string
+  stopFish: string
   openCard: string
   cardTitle: string
   cardBody: string
@@ -39,10 +39,10 @@ const COPY: Record<'pt' | 'en' | 'es', JuninaCopy> = {
     title: 'Pescaria',
     intro: 'Fisgue os peixinhos do laguinho: cada um traz uma prenda.',
     fish: 'Peixinho {n} de {total}',
-    caught: 'Peixinho {n} de {total}, fisgado: {prize}',
     won: 'Fisgou! Prenda: {prize}',
     prizesLabel: 'Suas prendas',
-    progress: '{n} de 5 fisgados',
+    progress: '{n} de {total} fisgados',
+    stopFish: 'Parar os peixinhos',
     openCard: 'Ver suas prendas',
     cardTitle: 'Arraiá do Ranielli',
     cardBody: 'Você fisgou os 5 peixinhos. As prendas são coisas que ele colocou no ar:',
@@ -67,13 +67,13 @@ const COPY: Record<'pt' | 'en' | 'es', JuninaCopy> = {
     title: 'Fishing booth',
     intro: 'A Festa Junina classic: hook the little fish in the pond, each one brings a prize.',
     fish: 'Little fish {n} of {total}',
-    caught: 'Little fish {n} of {total}, hooked: {prize}',
     won: 'Hooked! Prize: {prize}',
     prizesLabel: 'Your prizes',
-    progress: '{n} of 5 hooked',
+    progress: '{n} of {total} hooked',
+    stopFish: 'Stop the fish',
     openCard: 'See your prizes',
     cardTitle: "Ranielli's Arraiá",
-    cardBody: 'You hooked all 5 little fish. The prizes are things he put live:',
+    cardBody: 'You hooked all 5 little fish. The prizes are things he has shipped:',
     shareText: "I hooked all 5 fish at the June festival on Ranielli's site. Arraiá!",
     share: 'Share',
     linkCopied: 'Link copied',
@@ -96,10 +96,10 @@ const COPY: Record<'pt' | 'en' | 'es', JuninaCopy> = {
     intro:
       'Un clásico de la fiesta junina: pesca los pececitos del estanque, cada uno trae un premio.',
     fish: 'Pececito {n} de {total}',
-    caught: 'Pececito {n} de {total}, pescado: {prize}',
     won: '¡Pescado! Premio: {prize}',
     prizesLabel: 'Tus premios',
-    progress: '{n} de 5 pescados',
+    progress: '{n} de {total} pescados',
+    stopFish: 'Parar los pececitos',
     openCard: 'Ver tus premios',
     cardTitle: 'La fiesta de Ranielli',
     cardBody: 'Pescaste los 5 pececitos. Los premios son cosas que él puso en línea:',

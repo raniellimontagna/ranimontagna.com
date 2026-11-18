@@ -55,14 +55,44 @@ it('hooks a fish once: the prize, the sound, the record and the save', async () 
   expect(localStorage.getItem('season-pesca:junina-2027')).toBe('[0]')
 })
 
-it('opens the card at the fifth catch and keeps the catch after a reload', async () => {
-  const onComplete = vi.fn()
+it('opens the card at the fifth catch, from the prizes button, and records it once', async () => {
+  const onComplete = vi.fn(() => {
+    expect(screen.getByRole('button', { name: 'Ver suas prendas' })).toHaveFocus()
+  })
   await renderGame({ onComplete })
-  for (let n = 1; n <= 5; n++)
+  for (let n = 1; n <= 5; n++) {
     fireEvent.click(screen.getByRole('button', { name: `Peixinho ${n} de 5` }))
+  }
   expect(onComplete).toHaveBeenCalledTimes(1)
   expect(fish()).toHaveLength(0)
-  expect(screen.getByRole('button', { name: 'Ver suas prendas' })).toBeInTheDocument()
+  expect(vi.mocked(track).mock.calls.filter(([event]) => event === 'season-hunt-complete')).toEqual(
+    [['season-hunt-complete', { season: 'junina' }]],
+  )
+})
+
+it('keeps each fish on its own side when another is caught', async () => {
+  await renderGame()
+  expect(document.querySelector('[data-fish="1"]')).toHaveAttribute('data-side', 'right')
+  fireEvent.click(screen.getByRole('button', { name: 'Peixinho 1 de 5' }))
+  expect(document.querySelector('[data-fish="1"]')).toHaveAttribute('data-side', 'right')
+  expect(document.querySelector('[data-fish="2"]')).toHaveAttribute('data-side', 'left')
+})
+
+it('moves keyboard focus to the next fish after a catch', async () => {
+  await renderGame()
+  const first = screen.getByRole('button', { name: 'Peixinho 1 de 5' })
+  first.focus()
+  fireEvent.click(first)
+  expect(screen.getByRole('button', { name: 'Peixinho 2 de 5' })).toHaveFocus()
+})
+
+it('has a switch that stops all the fish', async () => {
+  await renderGame()
+  const stop = screen.getByRole('button', { name: 'Parar os peixinhos' })
+  expect(stop).toHaveAttribute('aria-pressed', 'false')
+  fireEvent.click(stop)
+  expect(stop).toHaveAttribute('aria-pressed', 'true')
+  expect(document.querySelector('[data-pescaria]')).toHaveAttribute('data-stopped')
 })
 
 it('picks up the catch saved in this edition', async () => {
@@ -72,13 +102,20 @@ it('picks up the catch saved in this edition', async () => {
   expect(screen.getByText('2 de 5 fisgados')).toBeInTheDocument()
 })
 
-it('lets a hooked fish leap out before it lands in the prizes', async () => {
+it('lets each hooked fish leap out before it lands, even two at once', async () => {
   mockMatchMedia({})
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
   await renderGame()
   fireEvent.click(screen.getByRole('button', { name: 'Peixinho 2 de 5' }))
+  act(() => vi.advanceTimersByTime(300))
+  fireEvent.click(screen.getByRole('button', { name: 'Peixinho 4 de 5' }))
   expect(document.querySelector('[data-fish="1"]')).toHaveAttribute('data-leaping')
-  act(() => vi.advanceTimersByTime(700))
+  expect(document.querySelector('[data-fish="3"]')).toHaveAttribute('data-leaping')
+  expect(document.querySelector('[data-fish="3"]')).toHaveAttribute('aria-disabled', 'true')
+  act(() => vi.advanceTimersByTime(400))
   expect(document.querySelector('[data-fish="1"]')).toBeNull()
-  expect(screen.getByText('1 de 5 fisgados')).toBeInTheDocument()
+  expect(document.querySelector('[data-fish="3"]')).toHaveAttribute('data-leaping')
+  act(() => vi.advanceTimersByTime(300))
+  expect(document.querySelector('[data-fish="3"]')).toBeNull()
+  expect(screen.getByText('2 de 5 fisgados')).toBeInTheDocument()
 })

@@ -36,6 +36,20 @@ it('holds the play slot at the same heights as the game', () => {
     global,
     /\[data-season="junina"\]:not\(\[data-retro\]\) \[data-season-slot="play"\]/,
   )
-  expect(slot).toEqual(['34rem', '30rem'])
+  expect(slot).toEqual(['34rem', '32rem'])
   expect(heights(css, /\.junina-pescaria/)).toEqual(slot)
+})
+
+// Only inside the no-preference query does anything swim, sway or leap.
+it('moves nothing for visitors who prefer reduced motion', () => {
+  const outside = css.replace(
+    /@media \(prefers-reduced-motion: no-preference\)\s*\{[\s\S]*?\n\}/g,
+    '',
+  )
+  expect(outside).not.toMatch(/animation\s*:/)
+})
+
+it('puts each fish on the side its index gives it, not its place among siblings', () => {
+  expect(css).toMatch(/\.junina-fish\[data-side="right"\]/)
+  expect(css).not.toMatch(/\.junina-fish:nth-child/)
 })

@@ -283,6 +283,6 @@
 }
 @media (min-width: 640px) {
   :root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
-    min-height: 30rem;
+    min-height: 32rem;
   }
 }

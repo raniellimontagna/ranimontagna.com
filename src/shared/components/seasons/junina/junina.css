@@ -97,7 +97,7 @@
 }
 @media (min-width: 640px) {
   .junina-pescaria {
-    min-height: 30rem;
+    min-height: 32rem;
     padding-inline: 2rem;
   }
 }
@@ -124,9 +124,9 @@
 .junina-pond {
   position: relative;
   container-type: inline-size;
-  height: 12rem;
+  height: 14.5rem;
   overflow: hidden;
-  border-radius: 999px / 40%;
+  border-radius: 2rem;
   background: radial-gradient(
     ellipse at 50% 40%,
     color-mix(in srgb, var(--season-blue) 28%, transparent),
@@ -136,7 +136,8 @@
 }
 .junina-fish {
   position: absolute;
-  top: calc(1.25rem + var(--row) * 1.85rem);
+  /* Rows far enough apart that two fish never overlap when they cross. */
+  top: calc(1.25rem + var(--row) * 2.4rem);
   left: 1.5rem;
   width: 4rem;
   height: 2.25rem;
@@ -146,12 +147,13 @@
   color: var(--foreground);
   cursor: pointer;
 }
-.junina-fish:nth-child(even) {
+.junina-fish[data-side="right"] {
   left: auto;
   right: 1.5rem;
 }
 .junina-fish:focus-visible,
 .junina-pescaria-button:focus-visible,
+.junina-pescaria-stop:focus-visible,
 .junina-pescaria-sound:focus-visible,
 .junina-card-button:focus-visible {
   outline: 3px solid var(--focus-ring);
@@ -196,15 +198,23 @@
     animation: junina-swim var(--swim) linear infinite;
     animation-delay: calc(var(--row) * -1.7s);
   }
-  .junina-fish:nth-child(even) {
+  .junina-fish[data-side="right"] {
     animation-name: junina-swim-back;
   }
-  /* A fish someone points at or tabs to waits to be hooked. */
+  /* A fish someone points at or tabs to waits to be hooked; the switch stops them all,
+     and they rest while the pond is off screen. */
   .junina-fish:hover,
-  .junina-fish:focus-visible {
+  .junina-fish:focus-visible,
+  .junina-pescaria[data-stopped] .junina-fish,
+  .junina-pescaria[data-season-idle] .junina-fish {
     animation-play-state: paused;
   }
+  /* A hooked fish stops where it is and leaps out from there. */
   .junina-fish[data-leaping] {
+    animation-play-state: paused;
+    pointer-events: none;
+  }
+  .junina-fish[data-leaping] .junina-fish-shape {
     animation: junina-leap 0.65s cubic-bezier(0.3, 0, 0.6, 1) both;
   }
 }
@@ -275,6 +285,20 @@
   color: var(--on-accent);
   font-weight: 600;
   cursor: pointer;
+}
+.junina-pescaria-stop {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.junina-pescaria-stop[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--season-blue) 14%, transparent);
 }
 .junina-pescaria-progress {
   color: var(--foreground);

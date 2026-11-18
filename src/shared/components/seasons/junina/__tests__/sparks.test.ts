@@ -8,6 +8,11 @@ it('keeps it light: fewer on phones, within bounds', () => {
 })
 
 it('rises, and is born again at the bottom before reaching the top quarter', () => {
+  const [one] = createSparks(1, 800, 600, () => 0.5)
+  const before = one.y
+  stepSparks([one], 16, 800, 600, null, () => 0.5)
+  expect(one.y).toBeLessThan(before)
+
   const sparks = createSparks(30, 800, 600, Math.random)
   for (let i = 0; i < 3000; i++) {
     stepSparks(sparks, 16, 800, 600, null, Math.random)

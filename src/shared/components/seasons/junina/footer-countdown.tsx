@@ -8,14 +8,14 @@ import { juninaCountdown } from './countdown'
 import { getJuninaCopy } from './junina-copy'
 
 /** The footer counts down to São João, on every page. */
-export function FooterCountdown({ locale }: { locale: string }) {
+export function FooterCountdown({ locale, edition }: { locale: string; edition: number }) {
   const [slot] = useSlots('[data-season-slot="footer"]')
   const today = useToday()
 
   if (!slot) return null
 
   const copy = getJuninaCopy(locale)
-  const countdown = juninaCountdown(today)
+  const countdown = juninaCountdown(today, edition)
   const text =
     countdown.kind === 'sao-joao'
       ? copy.saoJoao
