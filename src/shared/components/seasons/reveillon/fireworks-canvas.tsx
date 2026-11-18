@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from 'react'
 import { prefersReducedMotion } from '@/shared/components/motion'
+import { isEmptySpot } from '../shared/empty-spot'
 import {
   ambientTarget,
   burst,
   createFireworks,
   type Fireworks,
-  isEmptySpot,
   isIdle,
   launch,
   rocketAt,
