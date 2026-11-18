@@ -60,3 +60,89 @@
     0 0;
   background-size: 0.2em 0.2em;
 }
+
+/* The bunny: a strip along the bottom edge, never in the way of a click. */
+.pascoa-bunny-strip {
+  position: fixed;
+  right: 0;
+  bottom: 0.4rem;
+  left: 0;
+  z-index: 30;
+  height: 3.5rem;
+  pointer-events: none;
+  animation: pascoa-strip 11.5s linear both;
+}
+.pascoa-bunny-strip[data-direction="rtl"] {
+  scale: -1 1;
+}
+.pascoa-bunny {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: pascoa-cross 9s linear both;
+}
+.pascoa-bunny-hop {
+  display: block;
+  animation: pascoa-hop 0.5s ease-in-out infinite;
+}
+.pascoa-bunny-body,
+.pascoa-bunny-ear {
+  fill: var(--season-lilac);
+}
+.pascoa-bunny-tail {
+  fill: var(--season-butter);
+}
+.pascoa-bunny-eye {
+  fill: var(--season-chocolate);
+}
+.pascoa-footprint {
+  position: absolute;
+  bottom: 0.2rem;
+  width: 0.45rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--season-lilac) 60%, transparent);
+  opacity: 0;
+  animation: pascoa-footprint 3s ease-out both;
+}
+@keyframes pascoa-strip {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pascoa-cross {
+  from {
+    translate: -4rem 0;
+  }
+  to {
+    translate: calc(100vw + 4rem) 0;
+  }
+}
+@keyframes pascoa-hop {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -1rem;
+  }
+}
+@keyframes pascoa-footprint {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pascoa-bunny-strip {
+    display: none;
+  }
+}
