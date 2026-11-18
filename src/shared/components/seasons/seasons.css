@@ -47,13 +47,15 @@
 :root:not([data-season="reveillon"]) [data-season-only="reveillon"],
 :root:not([data-season="carnaval"]) [data-season-only="carnaval"],
 :root:not([data-season="pascoa"]) [data-season-only="pascoa"],
+:root:not([data-season="junina"]) [data-season-only="junina"],
 :root[data-retro] [data-season-only] {
   display: none;
 }
 :root[data-season="natal"]:not([data-retro]) [data-season-hide~="natal"],
 :root[data-season="reveillon"]:not([data-retro]) [data-season-hide~="reveillon"],
 :root[data-season="carnaval"]:not([data-retro]) [data-season-hide~="carnaval"],
-:root[data-season="pascoa"]:not([data-retro]) [data-season-hide~="pascoa"] {
+:root[data-season="pascoa"]:not([data-retro]) [data-season-hide~="pascoa"],
+:root[data-season="junina"]:not([data-retro]) [data-season-hide~="junina"] {
   display: none;
 }
 
@@ -231,4 +233,56 @@
     var(--season-paint-4) 0.22em 0.33em,
     var(--season-paint-2) 0.33em 0.44em
   );
+}
+
+/* Festa Junina: bunting colours and the bonfire. */
+:root[data-season="junina"]:not([data-retro]) {
+  --season-red: #b3261e;
+  --season-yellow: #8a5a00;
+  --season-blue: #1d4ed8;
+  --season-green: #15803d;
+  --season-fire: #c2410c;
+  --season-1: var(--season-red);
+  --season-2: var(--season-yellow);
+  --season-3: var(--season-blue);
+}
+:root[data-season="junina"]:not([data-retro]).dark {
+  --season-red: #ff6b5b;
+  --season-yellow: #ffd23f;
+  --season-blue: #60a5fa;
+  --season-green: #4ade80;
+  --season-fire: #fb923c;
+}
+:root[data-season="junina"]:not([data-retro]):not([data-color-theme]) {
+  --accent: #c2410c;
+  --accent-strong: #9a3412;
+  --accent-ice: #1d4ed8;
+  --on-accent: #ffffff;
+  --focus-ring: #9a3412;
+  --ring: rgb(194 65 12 / 50%);
+  --ambient-lime: rgb(194 65 12 / 9%);
+  --ambient-ice: rgb(29 78 216 / 8%);
+}
+:root[data-season="junina"]:not([data-retro]):not([data-color-theme]).dark {
+  --accent: #fb923c;
+  --accent-strong: #fdba74;
+  --accent-ice: #60a5fa;
+  --on-accent: #091113;
+  --focus-ring: #fdba74;
+  --ring: rgb(251 146 60 / 48%);
+  --ambient-lime: rgb(251 146 60 / 10%);
+  --ambient-ice: rgb(96 165 250 / 8%);
+}
+/* Room for the bunting above the hero name (set before paint: no shift). */
+:root[data-season="junina"]:not([data-retro]) [data-hero-title] {
+  margin-top: 0.42em;
+}
+:root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
+  display: block;
+  min-height: 34rem;
+}
+@media (min-width: 640px) {
+  :root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
+    min-height: 32rem;
+  }
 }

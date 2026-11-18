@@ -145,6 +145,15 @@ describe('VegaScreen', () => {
     useSeason.setState({ active: null, current: null, edition: null })
   })
 
+  it('greets for the Festa Junina with its own question', () => {
+    useSeason.setState({ active: 'junina', current: 'junina', edition: 2027 })
+    render(<VegaScreen />)
+    openScreen()
+    expect(screen.getByText('Arraiá! Eu sou a Vega.')).toBeInTheDocument()
+    expect(screen.getByText('Quais tecnologias o Ranielli mais usa?')).toBeInTheDocument()
+    useSeason.setState({ active: null, current: null, edition: null })
+  })
+
   it('keeps the usual greeting inside a retro world', () => {
     useSeason.setState({ active: 'natal', current: 'natal' })
     useRetroMode.setState({ active: true, mode: 'dos' })

@@ -24,6 +24,11 @@ vi.mock('../pascoa/pascoa-layer', () => ({
     <div data-testid="pascoa-layer" data-locale={locale} />
   ),
 }))
+vi.mock('../junina/junina-layer', () => ({
+  JuninaLayer: ({ locale }: { locale: string }) => (
+    <div data-testid="junina-layer" data-locale={locale} />
+  ),
+}))
 
 beforeEach(() => {
   useRetroMode.setState({ active: false, mode: null })
@@ -64,6 +69,7 @@ it('loads only the season that is on', async () => {
 it.each([
   ['carnaval', 'en'],
   ['pascoa', 'es'],
+  ['junina', 'pt'],
 ] as const)('loads the %s layer in its season', async (season, locale) => {
   useSeason.setState({ active: season, current: season, init: () => {} })
   render(<SeasonLayer locale={locale} />)

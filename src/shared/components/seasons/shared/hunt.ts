@@ -1,3 +1,4 @@
+import { track } from '@/shared/lib/analytics/track'
 import type { SeasonId } from '@/shared/lib/seasons/seasons'
 
 /**
@@ -40,4 +41,22 @@ export function isComplete(found: HuntSpot[]): boolean {
 
 export function asHuntSpot(value: string | null): HuntSpot | null {
   return HUNT_SPOTS.includes(value as HuntSpot) ? (value as HuntSpot) : null
+}
+
+const recorded = new Set<string>()
+
+/**
+ * A finished hunt (or game) is counted once per edition and visitor, not on every reopening. The
+ * key is Christmas's own since 2026 (season-gifts-done:natal-<year>).
+ */
+export function recordCompleteOnce(season: SeasonId, edition: number) {
+  const key = `season-gifts-done:${season}-${edition}`
+  try {
+    if (localStorage.getItem(key) === '1') return
+    localStorage.setItem(key, '1')
+  } catch {
+    if (recorded.has(key)) return
+  }
+  recorded.add(key)
+  track('season-hunt-complete', { season })
 }

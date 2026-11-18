@@ -31,7 +31,8 @@
         "natal": "Christmas",
         "reveillon": "New Year",
         "carnaval": "Carnival",
-        "pascoa": "Easter"
+        "pascoa": "Easter",
+        "junina": "Festa Junina"
       }
     },
     "footer": {
@@ -574,6 +575,10 @@
       "pascoa": {
         "greeting": "Hi, I'm Vega. Happy Easter!",
         "suggestion": "What's the latest from Ranielli?"
+      },
+      "junina": {
+        "greeting": "Arraiá! I'm Vega, at the June festival.",
+        "suggestion": "Which technologies does Ranielli use the most?"
       }
     }
   }
