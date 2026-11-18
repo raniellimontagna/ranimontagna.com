@@ -97,3 +97,178 @@
   color: var(--foreground);
   white-space: nowrap;
 }
+
+/* "Name your bloco": a strip at the end of the home page (slot held in seasons.css). */
+.carnaval-bloco {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  min-height: 24rem;
+  padding: 3.5rem 1rem 3rem;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 640px) {
+  .carnaval-bloco {
+    padding-inline: 2rem;
+  }
+}
+@media (min-width: 768px) {
+  .carnaval-bloco {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+  }
+}
+@media (min-width: 1024px) {
+  .carnaval-bloco {
+    padding-inline: 3rem;
+  }
+}
+.carnaval-bloco-text {
+  display: grid;
+  gap: 0.75rem;
+  align-content: center;
+}
+.carnaval-bloco-title {
+  color: var(--foreground);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.carnaval-bloco-intro {
+  max-width: 40ch;
+  color: var(--foreground);
+  font-size: 1.15rem;
+}
+.carnaval-bloco-waiting,
+.carnaval-bloco-copied {
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.carnaval-bloco-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.carnaval-bloco-button {
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.carnaval-bloco-button[data-primary] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: none;
+}
+.carnaval-bloco-sound {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.carnaval-bloco-sound[aria-pressed="true"] {
+  color: var(--season-magenta);
+}
+.carnaval-bloco-button:focus-visible,
+.carnaval-bloco-sound:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The banner: cloth in one of the bloco colours, gold trim and fringe. */
+.carnaval-estandarte {
+  position: relative;
+  justify-self: center;
+  width: min(15rem, 70vw);
+  aspect-ratio: 240 / 300;
+  transform-origin: 50% 0;
+  animation: carnaval-swing 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.carnaval-estandarte[data-color="magenta"] {
+  --cloth: var(--season-magenta);
+}
+.carnaval-estandarte[data-color="cyan"] {
+  --cloth: var(--season-cyan);
+}
+.carnaval-estandarte[data-color="green"] {
+  --cloth: var(--season-green);
+}
+.carnaval-estandarte[data-color="yellow"] {
+  --cloth: var(--season-yellow);
+}
+.carnaval-estandarte-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.carnaval-estandarte-cloth {
+  fill: var(--cloth);
+}
+.carnaval-estandarte-pole,
+.carnaval-estandarte-fringe {
+  fill: var(--season-yellow);
+}
+.carnaval-estandarte[data-color="yellow"] .carnaval-estandarte-fringe {
+  fill: var(--season-magenta);
+}
+.carnaval-estandarte-trim {
+  stroke: var(--season-on-color);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  opacity: 0.7;
+}
+.carnaval-estandarte-text {
+  position: absolute;
+  inset: 16% 16% 26%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.4rem;
+  color: var(--season-on-color);
+  text-align: center;
+}
+.carnaval-estandarte-founded {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.carnaval-estandarte-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+@keyframes carnaval-swing {
+  0% {
+    rotate: -5deg;
+  }
+  45% {
+    rotate: 3deg;
+  }
+  75% {
+    rotate: -1.5deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carnaval-estandarte {
+    animation: none;
+  }
+}

@@ -23,7 +23,9 @@ it('gates every rule on page elements outside the layer by the season attribute'
 
 // The letters rise in with `transform`; a dance on `transform` would cancel the rise.
 it('dances with translate and rotate, never transform', () => {
-  const dances = Array.from(css.matchAll(/@keyframes carnaval-[\w-]+\s*\{([\s\S]*?)\n\}/g))
+  const dances = Array.from(
+    css.matchAll(/@keyframes carnaval-(?:samba|frevo|marchinha)\s*\{([\s\S]*?)\n\}/g),
+  )
   expect(dances).toHaveLength(3)
   for (const [, body] of dances) expect(body).not.toMatch(/transform\s*:/)
 })

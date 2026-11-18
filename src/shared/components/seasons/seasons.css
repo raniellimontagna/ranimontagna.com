@@ -113,6 +113,8 @@
   --season-yellow: #8a5a00;
   --season-cyan: #0b6e80;
   --season-green: #15803d;
+  /* Text on any of the four colours, AA on each. */
+  --season-on-color: #ffffff;
   --season-1: var(--season-magenta);
   --season-2: var(--season-yellow);
   --season-3: var(--season-cyan);
@@ -122,6 +124,7 @@
   --season-yellow: #ffd23f;
   --season-cyan: #22d3ee;
   --season-green: #4ade80;
+  --season-on-color: #091113;
 }
 :root[data-season="carnaval"]:not([data-retro]):not([data-color-theme]) {
   --accent: #b0125a;
