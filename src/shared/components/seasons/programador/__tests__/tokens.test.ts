@@ -56,9 +56,12 @@ it('throws eight tokens out from a point, which fade and are dropped', () => {
 
 it('never holds more than the cap, dropping the oldest thrown tokens first', () => {
   let tokens = createTokens(18, 1280, 800, Math.random)
-  for (let i = 0; i < 6; i++) tokens = burstTokens(tokens, 10, 10, Math.random)
+  for (let i = 0; i < 6; i++) tokens = burstTokens(tokens, i * 100, 10, Math.random)
   expect(tokens).toHaveLength(MAX_TOKENS)
   expect(tokens.filter((t) => !t.burst)).toHaveLength(18)
+  // 22 thrown tokens fit: the last two bursts whole, six of the fourth, none of the first three.
+  const fromBurst = (i: number) => tokens.filter((t) => t.burst && t.x === i * 100).length
+  expect([0, 1, 2, 3, 4, 5].map(fromBurst)).toEqual([0, 0, 0, 6, 8, 8])
 })
 
 it('fades in from the bottom and out towards the top', () => {

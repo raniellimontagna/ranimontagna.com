@@ -59,6 +59,21 @@ it('switches the colour scheme on each click and throws tokens from there', asyn
   expect(title).toHaveAttribute('data-scheme', '0')
 })
 
+it('leaves a double click (selecting the name) at one change', async () => {
+  const burst = vi.spyOn(tokensBus, 'burstAt')
+  render(<Hero />)
+  await act(async () => {})
+  const title = document.querySelector('[data-hero-title]') as HTMLElement
+  fireEvent.click(title, { clientX: 120, clientY: 260, detail: 1 })
+  fireEvent.click(title, { clientX: 120, clientY: 260, detail: 2 })
+  expect(title).toHaveAttribute('data-scheme', '1')
+  expect(burst).toHaveBeenCalledTimes(1)
+  vi.spyOn(window, 'getSelection').mockReturnValue({ toString: () => 'Ranielli' } as Selection)
+  fireEvent.click(title, { clientX: 120, clientY: 260, detail: 1 })
+  expect(title).toHaveAttribute('data-scheme', '1')
+  expect(playKey).toHaveBeenCalledTimes(1)
+})
+
 it('throws from the middle of the name when the click has no point (keyboard)', async () => {
   const burst = vi.spyOn(tokensBus, 'burstAt')
   render(<Hero />)

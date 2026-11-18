@@ -18,9 +18,9 @@ export const SEASONS = [
   { id: 'pascoa', from: { easter: -7 }, to: { easter: 1 } },
   // The month of the arraiás, with São João (24) and São Pedro (29).
   { id: 'junina', from: { month: 6, day: 1 }, to: { month: 6, day: 30 } },
-  // The week of Halloween and Saci Day (31/10), to All Saints' Day.
   // Programmer's Day is the 256th day of the year (0x100): the five days before it to the day after.
   { id: 'programador', from: { yearDay: 251 }, to: { yearDay: 257 } },
+  // The week of Halloween and Saci Day (31/10), to All Saints' Day.
   { id: 'halloween', from: { month: 10, day: 24 }, to: { month: 11, day: 1 } },
   { id: 'natal', from: { month: 11, day: 25 }, to: { month: 12, day: 26 } },
 ] as const satisfies readonly { id: string; from: SeasonEdge; to: SeasonEdge }[]

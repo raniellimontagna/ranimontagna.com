@@ -21,10 +21,17 @@ export type ProgramadorCopy = {
   sound: string
   title: string
   intro: string
+  /** Replaces the intro once the five PRs are reviewed. */
+  doneIntro: string
   /** `{n}`, `{total}` and `{title}`. */
   prHeading: string
   /** `{n}` and `{code}`: every line has its own name for screen readers. */
   line: string
+  /** The same, for a line already checked and fine. */
+  lineOk: string
+  /** The same, for the line with the bug, once found. */
+  lineBug: string
+  /** `{n}`: the line just checked. */
   clean: string
   /** `{n}`: the line with the bug. */
   found: string
@@ -82,9 +89,12 @@ const COPY: Record<'pt' | 'en' | 'es', ProgramadorCopy> = {
     sound: 'Som de teclado',
     title: 'Code review',
     intro: 'Hoje é dia de revisar código. Cada PR tem uma linha com bug: toque nela.',
+    doneIntro: 'Os 5 PRs estão revisados. Bom trabalho!',
     prHeading: 'PR {n} de {total}: {title}',
     line: 'Linha {n}: {code}',
-    clean: 'Essa linha está ok. Procure o bug.',
+    lineOk: 'Linha {n}, ok: {code}',
+    lineBug: 'Linha {n}, bug: {code}',
+    clean: 'A linha {n} está ok. Procure o bug.',
     found: 'Bug achado na linha {n}.',
     next: 'Próximo PR',
     approve: 'Ver aprovação',
@@ -141,9 +151,12 @@ const COPY: Record<'pt' | 'en' | 'es', ProgramadorCopy> = {
     sound: 'Keyboard sound',
     title: 'Code review',
     intro: 'Today is a day for reviewing code. Each PR has one line with a bug: tap it.',
+    doneIntro: 'All 5 PRs are reviewed. Nice work!',
     prHeading: 'PR {n} of {total}: {title}',
     line: 'Line {n}: {code}',
-    clean: 'That line is fine. Look for the bug.',
+    lineOk: 'Line {n}, fine: {code}',
+    lineBug: 'Line {n}, bug: {code}',
+    clean: 'Line {n} is fine. Look for the bug.',
     found: 'Bug found on line {n}.',
     next: 'Next PR',
     approve: 'See the approval',
@@ -200,9 +213,12 @@ const COPY: Record<'pt' | 'en' | 'es', ProgramadorCopy> = {
     sound: 'Sonido de teclado',
     title: 'Code review',
     intro: 'Hoy es día de revisar código. Cada PR tiene una línea con un bug: tócala.',
+    doneIntro: 'Los 5 PRs están revisados. ¡Buen trabajo!',
     prHeading: 'PR {n} de {total}: {title}',
     line: 'Línea {n}: {code}',
-    clean: 'Esa línea está bien. Busca el bug.',
+    lineOk: 'Línea {n}, bien: {code}',
+    lineBug: 'Línea {n}, bug: {code}',
+    clean: 'La línea {n} está bien. Busca el bug.',
     found: 'Bug encontrado en la línea {n}.',
     next: 'Siguiente PR',
     approve: 'Ver la aprobación',

@@ -35,7 +35,9 @@ export function HighlightName() {
       setSpot({ left: line.right - box.left, top: line.top - box.top, height: line.height })
     }
     const onClick = (event: Event) => {
-      const { clientX, clientY } = event as MouseEvent
+      const { clientX, clientY, detail } = event as MouseEvent
+      // A double click selects the name: only the first click of it counts.
+      if (detail > 1 || window.getSelection()?.toString().trim()) return
       scheme = (scheme + 1) % NAME_SCHEMES
       title.setAttribute('data-scheme', String(scheme))
       const box = title.getBoundingClientRect()

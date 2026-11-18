@@ -62,15 +62,19 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
     if (!pr || found) return
     if (line !== pr.bug) {
       setCleared((list) => (list.includes(line) ? list : [...list, line]))
-      setMessage(copy.clean)
+      setMessage(fill(copy.clean, { n: line + 1 }))
       playKey()
       return
     }
     const next = current + 1
-    saveApproved(edition, next)
+    // Another tab may be further on: never move the saved progress back, nor count a PR twice.
+    const saved = loadApproved(edition)
+    if (next > saved) {
+      saveApproved(edition, next)
+      track('season-gift', { season: 'programador', gift: `pr-${next}`, found: next })
+    }
     setMessage(fill(copy.found, { n: line + 1 }))
     playHit()
-    track('season-gift', { season: 'programador', gift: `pr-${next}`, found: next })
     const finished = next === PR_COUNT
     if (finished) recordCompleteOnce('programador', edition)
     refocus.current = { to: 'next', finished }
@@ -82,10 +86,14 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
       onReopen()
       return
     }
+    const upcoming = current + 1
     setCleared([])
-    setMessage('')
+    // Focus lands on the first line: the status names the new PR.
+    setMessage(
+      fill(copy.prHeading, { n: upcoming + 1, total: PR_COUNT, title: copy.prs[upcoming].title }),
+    )
     refocus.current = { to: 'line', finished: false }
-    setCurrent(current + 1)
+    setCurrent(upcoming)
   }
 
   if (!slot) return null
@@ -102,7 +110,7 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
         <h2 id="programador-review-title" className="programador-review-title">
           {copy.title}
         </h2>
-        <p className="programador-review-intro">{copy.intro}</p>
+        <p className="programador-review-intro">{done ? copy.doneIntro : copy.intro}</p>
       </div>
       {pr ? (
         <div className="programador-pr" data-found={found || undefined}>
@@ -120,7 +128,10 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
                     data-line={index}
                     data-state={state}
                     aria-disabled={found || undefined}
-                    aria-label={fill(copy.line, { n: index + 1, code: code.trim() })}
+                    aria-label={fill(
+                      state === 'bug' ? copy.lineBug : state === 'ok' ? copy.lineOk : copy.line,
+                      { n: index + 1, code: code.trim() },
+                    )}
                     onClick={() => review(index)}
                     className="programador-line"
                   >
@@ -133,7 +144,11 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
               )
             })}
           </ol>
-          {found ? <p className="programador-why">{pr.why}</p> : null}
+          {found ? (
+            <p id="programador-why" className="programador-why">
+              {pr.why}
+            </p>
+          ) : null}
         </div>
       ) : null}
       <div className="programador-review-controls">
@@ -141,6 +156,7 @@ export function ReviewGame({ locale, edition, onComplete, onReopen }: ReviewGame
           <button
             type="button"
             data-review-next
+            aria-describedby={found ? 'programador-why' : undefined}
             onClick={done ? onReopen : goNext}
             className="programador-review-button"
           >

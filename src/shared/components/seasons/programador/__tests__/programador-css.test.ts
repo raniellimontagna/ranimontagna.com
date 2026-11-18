@@ -68,7 +68,17 @@ it('keeps its dialog centered despite the CSS reset', () => {
 it('keeps the code as typed and lets a long listing scroll inside itself', () => {
   expect(/\.programador-line-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/white-space:\s*pre/)
   expect(/\.programador-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/overflow-x:\s*auto/)
-  expect(/\.programador-line\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/min-height:\s*44px/)
+  const line = /\.programador-line\s*\{([^}]*)\}/.exec(css)?.[1]
+  expect(line).toMatch(/min-height:\s*44px/)
+  // The ok/bug tag never sits over the code: the line grows and the listing scrolls.
+  expect(line).toMatch(/min-width:\s*max-content/)
+  expect(line).toMatch(/grid-template-columns:[^;]*max-content/)
+  expect(line).not.toMatch(/minmax\(0,/)
+})
+
+// The listing scrolls, so it clips on both axes: it keeps room for the 3 px ring at 2 px.
+it('leaves room inside the listing for the focus ring', () => {
+  expect(/\.programador-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/padding:\s*5px/)
 })
 
 // seasons.css paints scheme 0 before the layer loads; a later scheme has to win over it

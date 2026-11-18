@@ -129,8 +129,10 @@
 .programador-code {
   display: grid;
   overflow-x: auto;
+  /* Room for the focus ring: the scroll box clips on both axes. */
+  padding: 5px;
   font-family: var(--font-mono), monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 @media (min-width: 640px) {
   .programador-code {
@@ -139,10 +141,12 @@
 }
 .programador-line {
   display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  /* The code never shrinks under its tag: a long line scrolls the listing instead. */
+  grid-template-columns: 1.25rem max-content minmax(max-content, 1fr);
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: 100%;
+  min-width: max-content;
   min-height: 44px;
   padding: 0 0.5rem;
   border: 0;
@@ -171,6 +175,7 @@
 }
 .programador-line[data-state="ok"]::after,
 .programador-line[data-state="bug"]::after {
+  justify-self: end;
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
   font-size: 0.7rem;
