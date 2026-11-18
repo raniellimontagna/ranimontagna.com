@@ -88,3 +88,12 @@
     color: var(--season-green);
   }
 }
+
+.carnaval-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  color: var(--foreground);
+  white-space: nowrap;
+}
