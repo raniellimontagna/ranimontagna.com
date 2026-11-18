@@ -53,6 +53,7 @@ const CODE = {
   ],
   load: [
     'async function load(id) {',
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: this is code shown on screen.
     '  const res = fetch(`/api/${id}`)',
     '  if (!res.ok) throw Error(id)',
     '  return res.json()',

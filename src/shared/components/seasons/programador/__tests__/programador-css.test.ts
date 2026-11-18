@@ -41,3 +41,15 @@ it('moves nothing for visitors who prefer reduced motion', () => {
   expect(outside).not.toMatch(/animation\s*:/)
   expect(outside).not.toMatch(/transition\s*:/)
 })
+
+it('keeps its dialog centered despite the CSS reset', () => {
+  const rule = /\.programador-card-dialog\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
+  expect(rule).toMatch(/margin:\s*auto/)
+})
+
+// Each code line keeps its spaces and scrolls inside its own box, never the page.
+it('keeps the code as typed and lets a long listing scroll inside itself', () => {
+  expect(/\.programador-line-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/white-space:\s*pre/)
+  expect(/\.programador-code\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/overflow-x:\s*auto/)
+  expect(/\.programador-line\s*\{([^}]*)\}/.exec(css)?.[1]).toMatch(/min-height:\s*44px/)
+})
