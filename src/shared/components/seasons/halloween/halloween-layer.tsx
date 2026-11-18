@@ -22,7 +22,7 @@ export function HalloweenLayer({ locale }: { locale: string }) {
     <>
       <BatsCanvas />
       <CandleName />
-      <FooterCountdown locale={locale} />
+      <FooterCountdown locale={locale} edition={edition} />
       <BugHunt locale={locale} edition={edition} onComplete={openCard} onReopen={openCard} />
       <ReportCard open={cardOpen} onClose={closeCard} locale={locale} />
     </>

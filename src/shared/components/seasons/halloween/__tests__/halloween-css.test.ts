@@ -27,3 +27,17 @@ it('flickers with color and text-shadow only', () => {
   expect(body).toMatch(/color:/)
   expect(body).not.toMatch(/transform\s*:/)
 })
+
+// Only inside the no-preference queries does anything crawl, dangle or flicker.
+it('moves nothing for visitors who prefer reduced motion', () => {
+  const outside = css.replace(
+    /@media \(prefers-reduced-motion: no-preference\)\s*\{[\s\S]*?\n\}/g,
+    '',
+  )
+  expect(outside).not.toMatch(/animation\s*:/)
+})
+
+it('keeps its dialog centered despite the CSS reset', () => {
+  const rule = /\.halloween-card-dialog\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
+  expect(rule).toMatch(/margin:\s*auto/)
+})

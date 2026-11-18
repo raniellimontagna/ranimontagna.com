@@ -121,6 +121,11 @@
   .halloween-bug:not([data-fixed]) {
     animation: halloween-crawl 7s ease-in-out infinite;
   }
+  /* A bug someone points at or tabs to holds still to be squashed. */
+  .halloween-bug:hover,
+  .halloween-bug:focus-visible {
+    animation-play-state: paused;
+  }
   .halloween-bug[data-fixed] .halloween-bug-icon {
     animation: halloween-squash 0.35s ease-out both;
   }

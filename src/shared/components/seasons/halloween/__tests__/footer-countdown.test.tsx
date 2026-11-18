@@ -11,7 +11,7 @@ async function renderAt(date: Date, locale = 'pt') {
           <span data-season-slot="footer" />
         </p>
       </footer>
-      <FooterCountdown locale={locale} />
+      <FooterCountdown locale={locale} edition={2027} />
     </>,
   )
   await act(async () => {})

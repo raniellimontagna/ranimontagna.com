@@ -9,14 +9,14 @@ import { getHalloweenCopy } from './halloween-copy'
 import { PumpkinIcon } from './halloween-icons'
 
 /** The footer counts down to Halloween night, on every page. */
-export function FooterCountdown({ locale }: { locale: string }) {
+export function FooterCountdown({ locale, edition }: { locale: string; edition: number }) {
   const [slot] = useSlots('[data-season-slot="footer"]')
   const today = useToday()
 
   if (!slot) return null
 
   const copy = getHalloweenCopy(locale)
-  const countdown = halloweenCountdown(today)
+  const countdown = halloweenCountdown(today, edition)
   const text =
     countdown.kind === 'halloween'
       ? copy.halloween
