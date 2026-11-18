@@ -1,3 +1,4 @@
+import { blockStorage } from '@/tests/mocks/storage'
 import { useSeason } from '../use-season'
 
 const root = document.documentElement
@@ -72,21 +73,16 @@ it('ends a preview for the tab when the visitor turns it off', () => {
 it('still turns off when storage is blocked', () => {
   today(12, 10)
   useSeason.getState().init()
-  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
+  blockStorage()
+  blockStorage(sessionStorage)
   expect(() => useSeason.getState().setEnabled(false)).not.toThrow()
   expect(root).not.toHaveAttribute('data-season')
 })
 
 it('follows the date when storage is blocked at start', () => {
   today(12, 10)
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
-    throw new Error('blocked')
-  })
+  blockStorage()
+  blockStorage(sessionStorage)
   useSeason.getState().init()
   expect(useSeason.getState().active).toBe('natal')
 })
