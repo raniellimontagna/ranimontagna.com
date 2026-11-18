@@ -241,6 +241,17 @@ describe('locale head season', () => {
     ).toHaveLength(1)
   })
 
+  it('starts the vampire-cape photo early on the home page at Halloween', () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2027, 9, 30, 12))
+    visit('/')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'halloween')
+    expect(
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/halloween-v"]'),
+    ).toHaveLength(1)
+  })
+
   it('reads a New Year turn-off by the edition the season started in', () => {
     vi.setSystemTime(new Date(2027, 0, 2, 12))
     window.localStorage.setItem('season-off:reveillon-2026', '1')

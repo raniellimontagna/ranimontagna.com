@@ -81,5 +81,6 @@ describe('glyphSetFor', () => {
     expect(glyphSetFor('carnaval')).toBe('•◦*+✦·')
     expect(glyphSetFor('pascoa')).toBe('o°·*✿+')
     expect(glyphSetFor('junina')).toBe('▲▼*·✦+')
+    expect(glyphSetFor('halloween')).toBe('^v~*·+')
   })
 })
