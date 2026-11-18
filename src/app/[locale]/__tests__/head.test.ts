@@ -230,6 +230,17 @@ describe('locale head season', () => {
     ).toHaveLength(1)
   })
 
+  it('starts the straw-hat photo early on the home page in June', () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2027, 5, 10, 12))
+    visit('/')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'junina')
+    expect(
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/junina-v"]'),
+    ).toHaveLength(1)
+  })
+
   it('reads a New Year turn-off by the edition the season started in', () => {
     vi.setSystemTime(new Date(2027, 0, 2, 12))
     window.localStorage.setItem('season-off:reveillon-2026', '1')

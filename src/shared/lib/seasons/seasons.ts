@@ -13,6 +13,8 @@ export const SEASONS = [
   { id: 'carnaval', from: { easter: -57 }, to: { easter: -46 } },
   // Holy Week, from Palm Sunday to the Monday after Easter.
   { id: 'pascoa', from: { easter: -7 }, to: { easter: 1 } },
+  // The month of the arraiás, with São João (24) and São Pedro (29).
+  { id: 'junina', from: { month: 6, day: 1 }, to: { month: 6, day: 30 } },
   { id: 'natal', from: { month: 11, day: 25 }, to: { month: 12, day: 26 } },
 ] as const satisfies readonly { id: string; from: SeasonEdge; to: SeasonEdge }[]
 
