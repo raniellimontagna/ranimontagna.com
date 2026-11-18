@@ -277,3 +277,12 @@
 :root[data-season="junina"]:not([data-retro]) [data-hero-title] {
   margin-top: 0.42em;
 }
+:root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
+  display: block;
+  min-height: 34rem;
+}
+@media (min-width: 640px) {
+  :root[data-season="junina"]:not([data-retro]) [data-season-slot="play"] {
+    min-height: 30rem;
+  }
+}
