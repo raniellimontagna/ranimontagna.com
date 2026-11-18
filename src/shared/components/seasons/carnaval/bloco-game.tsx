@@ -91,7 +91,7 @@ export function BlocoGame({ locale, edition }: { locale: string; edition: number
         <h2 id="carnaval-bloco-title" className="carnaval-bloco-title">
           {copy.title}
         </h2>
-        <p className="carnaval-bloco-intro">{index === null ? copy.intro : copy.names[index]}</p>
+        <p className="carnaval-bloco-intro">{copy.intro}</p>
         {index === null ? <p className="carnaval-bloco-waiting">{copy.waiting}</p> : null}
         <div className="carnaval-bloco-actions">
           <button type="button" onClick={draw} className="carnaval-bloco-button" data-primary>
