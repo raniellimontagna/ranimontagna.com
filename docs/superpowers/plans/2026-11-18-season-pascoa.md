@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** The Easter season: painted-egg name, a hopping bunny, the bunny-ears portrait, a countdown and an egg hunt that ends in a chocolate egg.
+**Goal:** The Easter season: painted-egg name, a hopping bunny, the portrait in a lilac t-shirt with painted eggs behind, a countdown and an egg hunt that ends in a chocolate egg.
 
 **Architecture:** As Réveillon and Carnaval. The hidden hunt leaves `natal/` for `seasons/shared/` (storage, hook and slot portals), so Christmas, Easter and Halloween share it; Christmas keeps its storage key and behaviour.
 

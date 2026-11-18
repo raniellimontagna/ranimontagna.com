@@ -135,7 +135,8 @@ Novas:
   a aba escondida.
 - **Nome:** as letras ganham pintura de ovo (listras, bolinhas, zigue-zague) em pastel,
   num degradê que mantém o contraste. Clicar troca a pintura.
-- **Foto:** tiara de orelhas de coelho.
+- **Foto:** camiseta lilás e ovos pintados em tons pastel no fundo (escolha do dono em
+  18/11/2026; a tiara de orelhas de coelho foi recusada).
 - **Contagem:** "Faltam N dias para a Páscoa"; no domingo, "Feliz Páscoa".
 - **Brincadeira: caça aos ovos.** 5 ovos pintados escondidos nos mesmos 5 pontos dos
   presentes do Natal. Achados os 5, um ovo de chocolate grande abre com o cartão de Feliz
