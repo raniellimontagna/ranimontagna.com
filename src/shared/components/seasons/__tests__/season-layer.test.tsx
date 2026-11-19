@@ -34,6 +34,11 @@ vi.mock('../halloween/halloween-layer', () => ({
     <div data-testid="halloween-layer" data-locale={locale} />
   ),
 }))
+vi.mock('../programador/programador-layer', () => ({
+  ProgramadorLayer: ({ locale }: { locale: string }) => (
+    <div data-testid="programador-layer" data-locale={locale} />
+  ),
+}))
 
 beforeEach(() => {
   useRetroMode.setState({ active: false, mode: null })
@@ -76,6 +81,7 @@ it.each([
   ['pascoa', 'es'],
   ['junina', 'pt'],
   ['halloween', 'en'],
+  ['programador', 'es'],
 ] as const)('loads the %s layer in its season', async (season, locale) => {
   useSeason.setState({ active: season, current: season, init: () => {} })
   render(<SeasonLayer locale={locale} />)

@@ -39,7 +39,8 @@ export function buildThemeInitScript(seasons: readonly SeasonRule[] = SEASONS): 
     } catch {}
 
     // Windows by edition (the year a season starts): an end before the start is next
-    // year's; { easter: n } is n days from Easter Sunday (Meeus/Jones/Butcher).
+    // year's; { easter: n } is n days from Easter Sunday (Meeus/Jones/Butcher) and
+    // { yearDay: n } the nth day of the year.
     const easter = (y) => {
       const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
       const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
@@ -50,6 +51,7 @@ export function buildThemeInitScript(seasons: readonly SeasonRule[] = SEASONS): 
     };
     const key = (date) => date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
     const edge = (rule, y) => {
+      if (rule.yearDay !== undefined) return key(new Date(y, 0, rule.yearDay));
       if (rule.easter === undefined) return key(new Date(y, rule.month - 1, rule.day));
       const sunday = easter(y);
       return key(new Date(y, sunday.getMonth(), sunday.getDate() + rule.easter));

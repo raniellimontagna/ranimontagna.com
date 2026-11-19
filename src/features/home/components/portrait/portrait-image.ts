@@ -34,6 +34,7 @@ const SEASON_PORTRAIT_DIRS: Record<SeasonId, string> = {
   carnaval: '/redesign/portrait/carnaval-v1',
   pascoa: '/redesign/portrait/pascoa-v1',
   junina: '/redesign/portrait/junina-v1',
+  programador: '/redesign/portrait/programador-v1',
   halloween: '/redesign/portrait/halloween-v1',
 }
 

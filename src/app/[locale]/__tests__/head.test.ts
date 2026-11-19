@@ -238,6 +238,17 @@ describe('locale head season', () => {
     ).toHaveLength(1)
   })
 
+  it("starts the rubber-duck photo early on the home page on Programmer's Day", () => {
+    for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
+    vi.setSystemTime(new Date(2028, 8, 12, 12))
+    visit('/')
+    runThemeInitScript()
+    expect(root).toHaveAttribute('data-season', 'programador')
+    expect(
+      document.head.querySelectorAll('link[rel="preload"][imagesrcset*="/programador-v"]'),
+    ).toHaveLength(1)
+  })
+
   it('starts the vampire-cape photo early on the home page at Halloween', () => {
     for (const link of document.head.querySelectorAll('link[rel="preload"]')) link.remove()
     vi.setSystemTime(new Date(2027, 9, 30, 12))

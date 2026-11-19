@@ -40,6 +40,15 @@ describe('seasonOn', () => {
     [at(6, 24, 12, 0, 2027), 'junina'],
     [at(6, 30, 23, 59, 2027), 'junina'],
     [at(7, 1, 0, 0, 2027), null],
+    [at(9, 7, 23, 59, 2027), null],
+    [at(9, 8, 0, 0, 2027), 'programador'],
+    [at(9, 13, 12, 0, 2027), 'programador'],
+    [at(9, 14, 23, 59, 2027), 'programador'],
+    [at(9, 15, 0, 0, 2027), null],
+    [at(9, 6, 23, 59, 2028), null],
+    [at(9, 7, 0, 0, 2028), 'programador'],
+    [at(9, 13, 23, 59, 2028), 'programador'],
+    [at(9, 14, 0, 0, 2028), null],
     [at(10, 23, 23, 59, 2027), null],
     [at(10, 24, 0, 0, 2027), 'halloween'],
     [at(10, 31, 12, 0, 2027), 'halloween'],
@@ -77,6 +86,16 @@ describe('seasonWindows', () => {
     expect(seasonWindows(2027, rules)).toEqual([
       { id: 'natal', edition: 2027, from: 20270130, to: 20270210 },
       { id: 'reveillon', edition: 2027, from: 20270321, to: 20270329 },
+    ])
+  })
+
+  it('counts day-of-year edges from 1 January, so day 256 moves a day in leap years', () => {
+    const rules: SeasonRule[] = [{ id: 'natal', from: { yearDay: 256 }, to: { yearDay: 256 } }]
+    expect(seasonWindows(2027, rules)).toEqual([
+      { id: 'natal', edition: 2027, from: 20270913, to: 20270913 },
+    ])
+    expect(seasonWindows(2028, rules)).toEqual([
+      { id: 'natal', edition: 2028, from: 20280912, to: 20280912 },
     ])
   })
 

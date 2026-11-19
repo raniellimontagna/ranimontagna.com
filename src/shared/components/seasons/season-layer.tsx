@@ -21,6 +21,9 @@ const SEASON_LAYERS: Record<SeasonId, LazyExoticComponent<ComponentType<LayerPro
   halloween: lazy(() =>
     import('./halloween/halloween-layer').then((m) => ({ default: m.HalloweenLayer })),
   ),
+  programador: lazy(() =>
+    import('./programador/programador-layer').then((m) => ({ default: m.ProgramadorLayer })),
+  ),
 }
 
 /** Loads a season's effects only while it is on, like the retro worlds load. */

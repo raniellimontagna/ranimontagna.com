@@ -33,7 +33,8 @@
         "carnaval": "Carnaval",
         "pascoa": "Pascua",
         "junina": "Fiesta Junina",
-        "halloween": "Halloween"
+        "halloween": "Halloween",
+        "programador": "Día del Programador"
       }
     },
     "footer": {
@@ -584,6 +585,10 @@
       "halloween": {
         "greeting": "¡Bu! Soy Vega.",
         "suggestion": "¿Cómo evita Ranielli los bugs en producción?"
+      },
+      "programador": {
+        "greeting": "Hola, soy Vega. ¡Feliz Día del Programador!",
+        "suggestion": "¿Cómo empezó Ranielli a programar?"
       }
     }
   }
