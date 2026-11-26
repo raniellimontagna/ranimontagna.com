@@ -358,10 +358,15 @@ export function SiteMenu({ labels }: { labels: SiteMenuLabels }) {
                   <ul className="flex flex-col gap-1 lg:gap-2">
                     {SITE_NAV.map((item, index) => (
                       <li key={item.id}>
+                        {/* The link is the mask the label rises out of. At this tight
+                            leading the room under the baseline depends on the system
+                            font (Segoe UI on Windows leaves about half of SF's), so the
+                            mask gets extra room in em for the descenders, given back
+                            with the negative margin to keep the rhythm. */}
                         <Link
                           href={item.href}
                           onClick={() => requestClose({ returnFocus: false, viaLink: true })}
-                          className="press group flex items-baseline gap-4 overflow-hidden py-1 text-[clamp(40px,min(9vw,8.5svh),96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
+                          className="press group -mb-[0.15em] flex items-baseline gap-4 overflow-hidden pt-1 pb-[calc(0.25rem+0.15em)] text-[clamp(40px,min(9vw,8.5svh),96px)] leading-[1.02] font-semibold tracking-[-0.04em] text-foreground"
                         >
                           <span
                             aria-hidden="true"
